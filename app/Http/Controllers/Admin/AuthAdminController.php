@@ -33,11 +33,11 @@ class AuthAdminController extends Controller
     public function showLogin()
     {
         // try {
-            if (!Auth::guard('admin')->check()) {
-                return view('admin.auth.login');
-            } else {
-                return redirect()->route('dashboard.show');
-            }
+        if (!Auth::guard('admin')->check()) {
+            return view('admin.auth.login');
+        } else {
+            return redirect()->route('dashboard.show');
+        }
         // } catch (Exception $e) {
         //     abort(500);
         // }
