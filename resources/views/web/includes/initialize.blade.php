@@ -1,0 +1,1 @@
+<p>Common Page</p>
