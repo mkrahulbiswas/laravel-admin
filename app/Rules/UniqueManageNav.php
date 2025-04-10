@@ -2,24 +2,24 @@
 
 namespace App\Rules;
 
-use App\Models\AdminSetting\Nav\NavMain;
-use App\Models\AdminSetting\Nav\NavNested;
-use App\Models\AdminSetting\Nav\NavSub;
-use App\Models\AdminSetting\Nav\NavType;
+use App\Models\ManagePanel\ManageNav\NavMain;
+use App\Models\ManagePanel\ManageNav\NavNested;
+use App\Models\ManagePanel\ManageNav\NavSub;
+use App\Models\ManagePanel\ManageNav\NavType;
 
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\DB;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class UniqueManageNav implements Rule
+class UniqueManageNav implements ValidationRule
 {
     private $data;
 
-    public function __construct($data)
+    public function __construct($data, public string $message = 'The :attribute is already taken.')
     {
         $this->data = $data;
     }
 
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail, array $parameters = []): void
     {
         if ($this->data['type'] == 'navType') {
             if ($this->data['targetId'] == '') {
@@ -31,9 +31,7 @@ class UniqueManageNav implements Rule
                 ])->get();
             }
             if ($isExist->count() > 0) {
-                return false;
-            } else {
-                return true;
+                $fail($this->message);
             }
         }
 
@@ -51,9 +49,7 @@ class UniqueManageNav implements Rule
                 ])->get();
             }
             if ($isExist->count() > 0) {
-                return false;
-            } else {
-                return true;
+                $fail($this->message);
             }
         }
 
@@ -73,9 +69,7 @@ class UniqueManageNav implements Rule
                 ])->get();
             }
             if ($isExist->count() > 0) {
-                return false;
-            } else {
-                return true;
+                $fail($this->message);
             }
         }
 
@@ -97,26 +91,8 @@ class UniqueManageNav implements Rule
                 ])->get();
             }
             if ($isExist->count() > 0) {
-                return false;
-            } else {
-                return true;
+                $fail($this->message);
             }
-        }
-    }
-
-    public function message()
-    {
-        if ($this->data['type'] == 'navType') {
-            return 'Nav type :attribute is already taken';
-        }
-        if ($this->data['type'] == 'navMain') {
-            return 'Nav main :attribute is already taken';
-        }
-        if ($this->data['type'] == 'navSub') {
-            return 'Nav sub :attribute is already taken';
-        }
-        if ($this->data['type'] == 'navNested') {
-            return 'Nav nested :attribute is already taken';
         }
     }
 }

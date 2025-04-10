@@ -4,8 +4,8 @@ namespace app\Traits;
 
 use App\Rules\UniquePhone;
 use App\Rules\UniqueEmail;
+use App\Rules\UniqueManageAccess;
 use App\Rules\UniqueManageNav;
-// use Validator;
 use Illuminate\Support\Facades\Validator;
 
 trait ValidationTrait
@@ -38,7 +38,7 @@ trait ValidationTrait
 
         switch ($data['for']) {
 
-                //AuthController
+            //AuthController
             case 'checkLogin':
                 $rules = [
                     'password' => 'required',
@@ -80,23 +80,29 @@ trait ValidationTrait
                 break;
 
 
-                /*------ ( Manage Panel Start ) ------*/
-                //-------Role
-            case 'saveRole':
+            /*------ ( Manage Panel Start ) ------*/
+            //-------Role Main
+            case 'saveRoleMain':
                 $rules = [
-                    'role' => 'required|max:255',
+                    'name' => ['required', 'max:20', new UniqueManageAccess([
+                        'targetId' => $data['id'],
+                        'type' => 'roleMain',
+                    ])],
                     'description' => 'required',
                 ];
                 break;
 
-            case 'updateRole':
+            case 'updateRoleMain':
                 $rules = [
-                    'role' => 'required|max:255',
+                    'name' => ['required', 'max:20', new UniqueManageAccess([
+                        'targetId' => $data['id'],
+                        'type' => 'roleMain',
+                    ])],
                     'description' => 'required',
                 ];
                 break;
 
-                //-------Nav Type
+            //-------Nav Type
             case 'saveNavType':
                 $rules = [
                     'icon' => 'required|max:150',
@@ -119,7 +125,7 @@ trait ValidationTrait
                 ];
                 break;
 
-                //-------Nav Main
+            //-------Nav Main
             case 'saveNavMain':
                 $rules = [
                     'navType' => 'required',
@@ -146,7 +152,7 @@ trait ValidationTrait
                 ];
                 break;
 
-                //-------Nav Sub
+            //-------Nav Sub
             case 'saveNavSub':
                 $rules = [
                     'navType' => 'required',
@@ -177,7 +183,7 @@ trait ValidationTrait
                 ];
                 break;
 
-                //-------Nav Nested
+            //-------Nav Nested
             case 'saveNavNested':
                 $rules = [
                     'navType' => 'required',
@@ -211,11 +217,11 @@ trait ValidationTrait
                     'description' => 'max:500',
                 ];
                 break;
-                /*------ ( Manage Panel End ) ------*/
+            /*------ ( Manage Panel End ) ------*/
 
 
-                /*------ ( Users Start ) ------*/
-                // ---- Admin
+            /*------ ( Users Start ) ------*/
+            // ---- Admin
             case 'saveAdmin':
                 $rules = [
                     'file' => 'image|mimes:jpeg,jpg,png',
@@ -242,7 +248,7 @@ trait ValidationTrait
                 ];
                 break;
 
-                // ---- updateClient
+            // ---- updateClient
             case 'saveClient':
                 $rules = [
                     'name' => 'required',
@@ -270,11 +276,11 @@ trait ValidationTrait
                     'file' => 'image|mimes:jpeg,jpg,png',
                 ];
                 break;
-                /*------ ( Users End ) ------*/
+            /*------ ( Users End ) ------*/
 
 
-                /*------ ( CMS Start ) ------*/
-                //---Logo
+            /*------ ( CMS Start ) ------*/
+            //---Logo
             case 'saveLogo':
                 $rules = [
                     'bigLogo' => 'required|mimes:jpeg,jpg,png,ico',
@@ -290,7 +296,7 @@ trait ValidationTrait
                     'favIcon' => 'mimes:jpeg,jpg,png,ico',
                 ];
                 break;
-                /*------ ( CMS End ) ------*/
+            /*------ ( CMS End ) ------*/
 
             case 'emailLogin':
             default:

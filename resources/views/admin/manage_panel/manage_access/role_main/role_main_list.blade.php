@@ -4,12 +4,12 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-sm-0">
-                    <h4>Main Role</h4>
+                    <h4>Role Main</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Panel</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Access</a></li>
-                            <li class="breadcrumb-item active">Main Role</li>
+                            <li class="breadcrumb-item active">Role Main</li>
                         </ol>
                     </div>
                 </div>
@@ -66,8 +66,8 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="filter-table-form p-3">
-                                            <form id="filterMainRoleForm" method="POST"
-                                                action="{{ route('admin.get.mainRole') }}" class="m-b-20">
+                                            <form id="filterRoleMainForm" method="POST"
+                                                action="{{ route('admin.get.roleMain') }}" class="m-b-20">
                                                 @csrf
                                                 <div class="row">
 
@@ -89,12 +89,12 @@
                                                     <div class="col-md-2 m-t-5">
                                                         <div class="form-group d-flex flex-row justify-content-around">
                                                             <button type="button"
-                                                                class="btn btn-info btn-label waves-effect waves-light filterMainRoleBtn"
+                                                                class="btn btn-info btn-label waves-effect waves-light filterRoleMainBtn"
                                                                 title="Search"><i
                                                                     class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
                                                                 Search</button>
                                                             <button type="button"
-                                                                class="btn btn-danger btn-label waves-effect waves-light filterMainRoleBtn"
+                                                                class="btn btn-danger btn-label waves-effect waves-light filterRoleMainBtn"
                                                                 title="Reload"><i
                                                                     class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
                                                                 Reset</button>
@@ -110,17 +110,16 @@
                         </div>
                         <div class="col-md-12 table-data-main">
                             <div class="table-data">
-                                <table id="managePanel-manageNav-mainRole"
+                                <table id="managePanel-manageAccess-roleMain"
                                     class="table table-bordered dt-responsive nowrap table-striped align-middle"
                                     cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <td>Unique Id</td>
-                                            <td>Nav Type</td>
-                                            <td>Nav Main</td>
-                                            <td>Nav Icon</td>
-                                            <td>Status</td>
+                                            <th>Unique Id</th>
+                                            <th>Role Name</th>
+                                            <th>Description</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -128,11 +127,10 @@
                                     <tfoot>
                                         <tr>
                                             <th>#</th>
-                                            <td>Unique Id</td>
-                                            <td>Nav Type</td>
-                                            <td>Nav Main</td>
-                                            <td>Nav Icon</td>
-                                            <td>Status</td>
+                                            <th>Unique Id</th>
+                                            <th>Role Name</th>
+                                            <th>Description</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </tfoot>
@@ -149,11 +147,11 @@
         aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="saveMainRoleForm" action="{{ route('admin.save.mainRole') }}" method="POST"
+                <form id="saveRoleMainForm" action="{{ route('admin.save.roleMain') }}" method="POST"
                     enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Add Main Role</h5>
+                        <h5 class="modal-title" id="myModalLabel">Add Role Main</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -163,7 +161,7 @@
                                         class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <input type="text" name="name" class="form-control form-control-icon"
-                                        id="name" placeholder="Main role type" required>
+                                        id="name" placeholder="Role Name" required>
                                     <i class="bx bx-message-edit"></i>
                                 </div>
                                 <div class="validation-error" id="nameErr"></div>
@@ -186,7 +184,7 @@
                             data-bs-dismiss="modal"><i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
                             Close</button>
                         <button type="submit" class="btn btn-primary btn-label waves-effect waves-light"
-                            id="saveMainRoleBtn"><i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                            id="saveRoleMainBtn"><i class="las la-save label-icon align-middle fs-16 me-2"></i>
                             <span>Save</span></button>
                     </div>
                 </form>
@@ -198,12 +196,12 @@
         aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="updateMainRoleForm" action="{{ route('admin.update.mainRole') }}" method="POST"
+                <form id="updateRoleMainForm" action="{{ route('admin.update.roleMain') }}" method="POST"
                     enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Edit Main Role</h5>
+                        <h5 class="modal-title" id="myModalLabel">Edit Role Main</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -213,7 +211,7 @@
                                         class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <input type="text" name="name" class="form-control form-control-icon"
-                                        id="name" placeholder="Main role type" required>
+                                        id="name" placeholder="Role Name" required>
                                     <i class="bx bx-message-edit"></i>
                                 </div>
                                 <div class="validation-error" id="nameErr"></div>
@@ -236,7 +234,7 @@
                             data-bs-dismiss="modal"><i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
                             Close</button>
                         <button type="submit" class="btn btn-primary btn-label waves-effect waves-light"
-                            id="updateMainRoleBtn"><i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                            id="updateRoleMainBtn"><i class="las la-save label-icon align-middle fs-16 me-2"></i>
                             <span>Update</span></button>
                     </div>
                 </form>
@@ -249,7 +247,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Details Main Role</h5>
+                    <h5 class="modal-title" id="myModalLabel">Details Role Main</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
