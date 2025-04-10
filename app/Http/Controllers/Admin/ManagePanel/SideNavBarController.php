@@ -479,12 +479,12 @@ class SideNavBarController extends Controller
         try {
             foreach ($values['mainMenuOrder'] as $key => $temp) {
                 MainMenu::where('id', $temp)->update([
-                    'orders' => ($key+1)
+                    'orders' => ($key + 1)
                 ]);
             }
             foreach ($values['subMenuOrder'] as $key => $temp) {
                 SubMenu::where('id', $temp)->update([
-                    'orders' => ($key+1)
+                    'orders' => ($key + 1)
                 ]);
             }
             return response()->json(['status' => 1, 'type' => "success", 'title' => "Update Sub Menu", 'msg' => $values], config('constants.ok'));

@@ -88,6 +88,13 @@ Route::middleware(['checkAdmin', CheckPermission::class])->group(function () {
             Route::post('role-main/edit/update', [ManageAccessAdminController::class, 'updateRoleMain'])->name('admin.update.roleMain');
             Route::get('role-main/change-status/{id?}', [ManageAccessAdminController::class, 'statusRoleMain'])->name('admin.status.roleMain');
             Route::get('role-main/delete/{id?}', [ManageAccessAdminController::class, 'deleteRoleMain'])->name('admin.delete.roleMain');
+
+            Route::get('role-sub', [ManageAccessAdminController::class, 'showRoleSub'])->name('admin.show.roleSub');
+            Route::get('role-sub/ajaxGetList', [ManageAccessAdminController::class, 'getRoleSub'])->name('admin.get.roleSub');
+            Route::post('role-sub/add/save', [ManageAccessAdminController::class, 'saveRoleSub'])->name('admin.save.roleSub');
+            Route::post('role-sub/edit/update', [ManageAccessAdminController::class, 'updateRoleSub'])->name('admin.update.roleSub');
+            Route::get('role-sub/change-status/{id?}', [ManageAccessAdminController::class, 'statusRoleSub'])->name('admin.status.roleSub');
+            Route::get('role-sub/delete/{id?}', [ManageAccessAdminController::class, 'deleteRoleSub'])->name('admin.delete.roleSub');
         });
 
         Route::group(['prefix' => 'manage-nav'], function () {

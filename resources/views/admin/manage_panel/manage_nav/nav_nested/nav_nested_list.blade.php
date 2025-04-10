@@ -29,10 +29,10 @@
                             <h5 class="card-title mb-0">Basic Datatables</h5>
                         </div>
                         <div class="d-sm-flex align-items-center justify-content-between">
-                            <button type="button" class="btn btn-success btn-label waves-effect waves-light"
-                                data-bs-toggle="modal" data-bs-target="#con-add-modal"><i
-                                    class="las la-plus-circle label-icon align-middle fs-16 me-2"></i> Add Nav
-                                Nested</button>
+                            <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">
+                                <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
+                                <span>Add Nav Nested</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -40,9 +40,7 @@
                     <div class="row">
                         <div class="col-md-12 table-data-main">
                             <div class="table-data">
-                                <table id="managePanel-manageNav-navNested"
-                                    class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                                    cellspacing="0" width="100%">
+                                <table id="managePanel-manageNav-navNested" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>#</th>
@@ -79,12 +77,10 @@
         </div>
     </div>
 
-    <div id="con-add-modal" class="modal fade con-add-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel"
-        aria-hidden="true" style="display: none;">
+    <div id="con-add-modal" class="modal fade con-add-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="saveNavNestedForm" action="{{ route('admin.save.navNested') }}" method="POST"
-                    enctype="multipart/form-data" novalidate class="common-form">
+                <form id="saveNavNestedForm" action="{{ route('admin.save.navNested') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalLabel">Add Nav Nested</h5>
@@ -93,12 +89,9 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-element col-12 mb-3">
-                                <label for="navType" class="form-label">Nav Type <span
-                                        class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="navType" id="navType"
-                                        class="selectTwo select2-navType-addModal navTypeDDD"
-                                        data-action="{{ route('admin.get.navMainDDD') }}">
+                                    <select name="navType" id="navType" class="selectTwo select2-navType-addModal navTypeDDD" data-action="{{ route('admin.get.navMainDDD') }}">
                                         <option value="">Select Nav Type</option>
                                         @foreach ($data['navType']['navType'] as $item)
                                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -109,42 +102,33 @@
                                 <div class="validation-error" id="navTypeErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
-                                <label for="navMain" class="form-label">Nav Main <span
-                                        class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="navMain" class="form-label">Nav Main <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="navMain" id="navMain"
-                                        class="selectTwo select2-navMain-addModal navMainDDD"
-                                        data-action="{{ route('admin.get.navSubDDD') }}"></select>
+                                    <select name="navMain" id="navMain" class="selectTwo select2-navMain-addModal navMainDDD" data-action="{{ route('admin.get.navSubDDD') }}"></select>
                                     <i class="bx bx-bar-chart-square"></i>
                                 </div>
                                 <div class="validation-error" id="navMainErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
-                                <label for="navSub" class="form-label">Nav Sub <span
-                                        class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="navSub" class="form-label">Nav Sub <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="navSub" id="navSub"
-                                        class="selectTwo select2-navSub-addModal navSubDDD"></select>
+                                    <select name="navSub" id="navSub" class="selectTwo select2-navSub-addModal navSubDDD"></select>
                                     <i class="bx bx-list-ul"></i>
                                 </div>
                                 <div class="validation-error" id="navSubErr"></div>
                             </div>
                             <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6 mb-3">
-                                <label for="name" class="form-label">Name <span
-                                        class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <input type="text" name="name" class="form-control form-control-icon"
-                                        id="name" placeholder="Nav type" required>
+                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Nav type" required>
                                     <i class="bx bx-message-edit"></i>
                                 </div>
                                 <div class="validation-error" id="nameErr"></div>
                             </div>
                             <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6">
-                                <label for="icon" class="form-label">Icon <span
-                                        class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="icon" class="form-label">Icon <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <input type="text" name="icon" class="form-control form-control-icon"
-                                        id="icon" placeholder="Class of icon">
+                                    <input type="text" name="icon" class="form-control form-control-icon" id="icon" placeholder="Class of icon">
                                     <i class="bx bx-library"></i>
                                 </div>
                                 <div class="validation-error" id="iconErr"></div>
@@ -155,32 +139,31 @@
                                     <span class="input-group-text">
                                         <i class="bx bx-detail"></i>
                                     </span>
-                                    <textarea name="description" class="form-control" aria-label="With textarea" id="description" role="3"
-                                        placeholder="Give any description if you want"></textarea>
+                                    <textarea name="description" class="form-control" aria-label="With textarea" id="description" role="3" placeholder="Give any description if you want"></textarea>
                                 </div>
                                 <div class="validation-error" id="descriptionErr"></div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light"
-                            data-bs-dismiss="modal"><i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                            Close</button>
-                        <button type="submit" class="btn btn-primary btn-label waves-effect waves-light"
-                            id="saveNavNestedBtn"><i class="las la-save label-icon align-middle fs-16 me-2"></i>
-                            <span>Save</span></button>
+                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
+                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
+                            <span>Close</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="saveNavNestedBtn">
+                            <i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                            <span>Save</span>
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <div id="con-edit-modal" class="modal fade con-edit-modal con-common-modal" tabindex="-1"
-        aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div id="con-edit-modal" class="modal fade con-edit-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="updateNavNestedForm" action="{{ route('admin.update.navNested') }}" method="POST"
-                    enctype="multipart/form-data" novalidate class="common-form">
+                <form id="updateNavNestedForm" action="{{ route('admin.update.navNested') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
@@ -190,12 +173,9 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-element col-12 mb-3">
-                                <label for="navType" class="form-label">Nav Type <span
-                                        class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="navType" id="navType2"
-                                        class="selectTwo select2-navType-editModal navTypeDDD"
-                                        data-action="{{ route('admin.get.navMainDDD') }}">
+                                    <select name="navType" id="navType2" class="selectTwo select2-navType-editModal navTypeDDD" data-action="{{ route('admin.get.navMainDDD') }}">
                                         <option value="">Select Nav Type</option>
                                         @foreach ($data['navType']['navType'] as $item)
                                             <option value="{{ $item['id'] }}" data-name="{{ $item['name'] }}">
@@ -207,42 +187,33 @@
                                 <div class="validation-error" id="navTypeErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
-                                <label for="navMain" class="form-label">Nav Main <span
-                                        class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="navMain" class="form-label">Nav Main <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="navMain" id="navMain2"
-                                        class="selectTwo select2-navMain-editModal navMainDDD"
-                                        data-action="{{ route('admin.get.navSubDDD') }}"></select>
+                                    <select name="navMain" id="navMain2" class="selectTwo select2-navMain-editModal navMainDDD" data-action="{{ route('admin.get.navSubDDD') }}"></select>
                                     <i class="bx bx-bar-chart-square"></i>
                                 </div>
                                 <div class="validation-error" id="navMainErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
-                                <label for="navSub" class="form-label">Nav Sub <span
-                                        class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="navSub" class="form-label">Nav Sub <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="navSub" id="navSub2"
-                                        class="selectTwo select2-navSub-editModal navSubDDD"></select>
+                                    <select name="navSub" id="navSub2" class="selectTwo select2-navSub-editModal navSubDDD"></select>
                                     <i class="bx bx-list-ul"></i>
                                 </div>
                                 <div class="validation-error" id="navSubErr"></div>
                             </div>
                             <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6 mb-3">
-                                <label for="name" class="form-label">Name <span
-                                        class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <input type="text" name="name" class="form-control form-control-icon"
-                                        id="name" placeholder="Nav type" required>
+                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Nav type" required>
                                     <i class="bx bx-message-edit"></i>
                                 </div>
                                 <div class="validation-error" id="nameErr"></div>
                             </div>
                             <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6">
-                                <label for="icon" class="form-label">Icon <span
-                                        class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="icon" class="form-label">Icon <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <input type="text" name="icon" class="form-control form-control-icon"
-                                        id="icon" placeholder="Class of icon">
+                                    <input type="text" name="icon" class="form-control form-control-icon" id="icon" placeholder="Class of icon">
                                     <i class="bx bx-library"></i>
                                 </div>
                                 <div class="validation-error" id="iconErr"></div>
@@ -253,28 +224,28 @@
                                     <span class="input-group-text">
                                         <i class="bx bx-detail"></i>
                                     </span>
-                                    <textarea name="description" class="form-control" aria-label="With textarea" id="description" role="3"
-                                        placeholder="Give any description if you want"></textarea>
+                                    <textarea name="description" class="form-control" aria-label="With textarea" id="description" role="3" placeholder="Give any description if you want"></textarea>
                                 </div>
                                 <div class="validation-error" id="descriptionErr"></div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light"
-                            data-bs-dismiss="modal"><i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                            Close</button>
-                        <button type="submit" class="btn btn-primary btn-label waves-effect waves-light"
-                            id="updateNavNestedBtn"><i class="las la-save label-icon align-middle fs-16 me-2"></i>
-                            <span>Update</span></button>
+                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
+                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
+                            <span>Close</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateNavNestedBtn">
+                            <i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                            <span>Update</span>
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <div id="con-detail-modal" class="modal fade con-detail-modal con-common-modal" tabindex="-1"
-        aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div id="con-detail-modal" class="modal fade con-detail-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -371,9 +342,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-label waves-effect waves-light"
-                        data-bs-dismiss="modal"><i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                        Close</button>
+                    <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
+                        <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
+                        <span>Close</span>
+                    </button>
                 </div>
             </div>
         </div>

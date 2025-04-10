@@ -1694,7 +1694,7 @@
             });
         });
 
-        //---- ( Nav Nested Status, Edit, Detail ) ----//
+        //---- ( Role Main Status, Edit, Detail ) ----//
         $('body').delegate('#managePanel-manageAccess-roleMain .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
@@ -1733,24 +1733,230 @@
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#id').val(data.id);
                 id.find('#name').val(data.name);
-                id.find('#icon').val(data.icon);
                 id.find('#description').val(data.description);
-                id.find("#navType2 option[data-name='" + data.navType + "']").prop("selected", true).trigger('change');
-                setTimeout(() => {
-                    id.find("#navMain2 option[data-name='" + data.navMain + "']").prop("selected", true).trigger('change');
-                }, 1000);
-                setTimeout(() => {
-                    id.find("#navSub2 option[data-name='" + data.navSub + "']").prop("selected", true).trigger('change');
-                }, 2000);
             } else {
                 id = $('#con-detail-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
-                id.find('#navType').text(data.navType);
-                id.find('#navMain').text(data.navMain);
-                id.find('#navSub').text(data.navSub);
-                id.find('#icon').html('<i class="' + data.icon + '"></i>');
+                id.find('#description').text(data.description);
+            }
+        });
+
+
+        //---- ( Role Sub Save ) ----//
+        $("#saveRoleSubForm").submit(function (event) {
+
+            submitForm = $(this);
+            submitBtn = $(this).find('#saveRoleSubBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Save',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.name, function (i) {
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.description, function (i) {
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else if (msg.status == 1) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#managePanel-manageAccess-roleSub')
+                                }
+                            }
+                        })
+                    }
+                }
+            });
+        });
+
+        //---- ( Role Sub Update ) ----//
+        $("#updateRoleSubForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#updateRoleSubBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Update',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.name, function (i) {
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.description, function (i) {
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#managePanel-manageAccess-roleSub')
+                                }
+                            }
+                        })
+                    }
+                }
+            });
+        });
+
+        //---- ( Role Sub Status, Edit, Detail ) ----//
+        $('body').delegate('#managePanel-manageAccess-roleSub .actionDatatable', 'click', function () {
+            var type = $(this).attr('data-type'),
+                action = $(this).attr('data-action'),
+                targetTableId = $('#managePanel-manageAccess-roleSub'),
+                data = '';
+
+            if (type == 'status') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action the status wil change!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'delete') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action data will be deleted permanently!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'edit') {
+                id = $('#con-edit-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                id.find('#id').val(data.id);
+                id.find('#name').val(data.name);
+                id.find('#description').val(data.description);
+            } else {
+                id = $('#con-detail-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                id.find('#name').text(data.name);
                 id.find('#description').text(data.description);
             }
         });
