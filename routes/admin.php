@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SetupAdmin\SideNavBarController;
 use App\Http\Controllers\Admin\DDDAdminController;
 use App\Http\Controllers\Admin\ManageProductAdminController;
 use App\Http\Controllers\Admin\ManageOrdersAdminController;
+use App\Http\Controllers\Admin\ManagePanel\ManageAccessAdminController;
 use App\Http\Controllers\Admin\SettingAdminController;
 use App\Http\Middleware\CheckPermission;
 
@@ -79,6 +80,15 @@ Route::middleware(['checkAdmin', CheckPermission::class])->group(function () {
         Route::get('permissions/edit/ajaxGetList', [RolePermissionController::class, 'getPermissions']);
         Route::get('permissions/edit/{id?}', [RolePermissionController::class, 'editPermission'])->name('admin.edit.permissions');
         Route::post('permissions/edit/update', [RolePermissionController::class, 'updatePermission'])->name('admin.update.permissions');
+
+        Route::group(['prefix' => 'mange-access'], function () {
+            Route::get('main-role', [ManageAccessAdminController::class, 'showMainRole'])->name('admin.show.mainRole');
+            Route::get('main-role/ajaxGetList', [ManageAccessAdminController::class, 'getMainRole'])->name('admin.get.mainRole');
+            Route::post('main-role/add/save', [ManageAccessAdminController::class, 'saveMainRole'])->name('admin.save.mainRole');
+            Route::post('main-role/edit/update', [ManageAccessAdminController::class, 'updateMainRole'])->name('admin.update.mainRole');
+            Route::get('main-role/change-status/{id?}', [ManageAccessAdminController::class, 'statusMainRole'])->name('admin.status.mainRole');
+            Route::get('main-role/delete/{id?}', [ManageAccessAdminController::class, 'deleteMainRole'])->name('admin.delete.mainRole');
+        });
 
         Route::group(['prefix' => 'manage-nav'], function () {
             Route::get('nav-type', [ManageNavAdminController::class, 'showNavType'])->name('admin.show.navType');

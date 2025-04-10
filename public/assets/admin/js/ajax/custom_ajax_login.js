@@ -2,7 +2,7 @@ $('document').ready(function () {
     var pathArray = window.location.pathname.split('/'),
         submitForm, submitBtn;
 
-        loader()
+    loader()
 
     function loader($type) {
         if ($type == 1) {
@@ -67,6 +67,9 @@ $('document').ready(function () {
                         timer: 2000,
                         timerProgressBar: true,
                         allowOutsideClick: false,
+                        showCloseButton: false,
+                        showCancelButton: false,
+                        showConfirmButton: false,
                         onBeforeOpen: () => {
                             Swal.showLoading()
                             timerInterval = setInterval(() => {
