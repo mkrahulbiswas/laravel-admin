@@ -2,13 +2,13 @@
 
 namespace App\Helpers;
 
-use App\Models\AdminSetting\Nav\NavMain;
-use App\Models\AdminSetting\Nav\NavNested;
-use App\Models\AdminSetting\Nav\NavSub;
-use App\Models\AdminSetting\Nav\NavType;
-
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
+
+use App\Models\ManagePanel\ManageNav\NavMain;
+use App\Models\ManagePanel\ManageNav\NavNested;
+use App\Models\ManagePanel\ManageNav\NavSub;
+use App\Models\ManagePanel\ManageNav\NavType;
 
 use Illuminate\Support\Facades\Auth;
 use Exception;

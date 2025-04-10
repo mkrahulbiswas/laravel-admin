@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models\AdminSetting\Nav;
+namespace App\Models\ManageAccess\ManageNav;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class NavType extends Model
+class MainRole extends Model
 {
     use SoftDeletes;
-    protected $table = 'nav_type';
+    protected $table = 'main_role';
     protected $fillable = array(
         'status',
     );
