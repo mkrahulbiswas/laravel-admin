@@ -4,12 +4,7 @@ namespace App\Providers;
 
 use App\Helpers\GetManageNavHelper;
 
-use App\Models\AdminSetting\Nav\NavMain;
-use App\Models\AdminSetting\Nav\NavNested;
-use App\Models\AdminSetting\Nav\NavSub;
-use App\Models\AdminSetting\Nav\NavType;
 use App\Models\Contact;
-use App\Models\SetupAdmin\SubMenu;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;

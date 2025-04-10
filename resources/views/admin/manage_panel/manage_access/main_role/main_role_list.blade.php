@@ -66,25 +66,10 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="filter-table-form p-3">
-                                            <form id="filterNavMainForm" method="POST"
-                                                action="{{ route('admin.get.navMain') }}" class="m-b-20">
+                                            <form id="filterMainRoleForm" method="POST"
+                                                action="{{ route('admin.get.mainRole') }}" class="m-b-20">
                                                 @csrf
                                                 <div class="row">
-
-                                                    <div class="form-element col-md-2 m-t-5">
-                                                        {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
-                                                        <div class="form-icon set-validation">
-                                                            <select name="navType" id="navTypeFilter"
-                                                                class="selectTwo select2-navType">
-                                                                <option value="">Select Nav Type</option>
-                                                                @foreach ($data['navType']['navType'] as $item)
-                                                                    <option value="{{ $item['id'] }}">{{ $item['name'] }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                            <i class="bx bx-receipt"></i>
-                                                        </div>
-                                                    </div>
 
                                                     <div class="form-element col-md-2 m-t-5">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
@@ -104,12 +89,12 @@
                                                     <div class="col-md-2 m-t-5">
                                                         <div class="form-group d-flex flex-row justify-content-around">
                                                             <button type="button"
-                                                                class="btn btn-info btn-label waves-effect waves-light filterNavMainBtn"
+                                                                class="btn btn-info btn-label waves-effect waves-light filterMainRoleBtn"
                                                                 title="Search"><i
                                                                     class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
                                                                 Search</button>
                                                             <button type="button"
-                                                                class="btn btn-danger btn-label waves-effect waves-light filterNavMainBtn"
+                                                                class="btn btn-danger btn-label waves-effect waves-light filterMainRoleBtn"
                                                                 title="Reload"><i
                                                                     class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
                                                                 Reset</button>
@@ -125,7 +110,7 @@
                         </div>
                         <div class="col-md-12 table-data-main">
                             <div class="table-data">
-                                <table id="managePanel-manageNav-navMain"
+                                <table id="managePanel-manageNav-mainRole"
                                     class="table table-bordered dt-responsive nowrap table-striped align-middle"
                                     cellspacing="0" width="100%">
                                     <thead>
@@ -164,7 +149,7 @@
         aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="saveNavMainForm" action="{{ route('admin.save.navMain') }}" method="POST"
+                <form id="saveMainRoleForm" action="{{ route('admin.save.mainRole') }}" method="POST"
                     enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
@@ -173,40 +158,15 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="form-element col-12 mb-3">
-                                <label for="navType" class="form-label">Nav Type <span
-                                        class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                                <div class="form-icon set-validation">
-                                    <select name="navType" id="navType" class="selectTwo select2-navType-addModal">
-                                        <option value="">Select Nav Type</option>
-                                        @foreach ($data['navType']['navType'] as $item)
-                                            <option value="{{ $item['id'] }}" data-name="{{ $item['name'] }}">
-                                                {{ $item['name'] }}</option>
-                                        @endforeach
-                                    </select>
-                                    <i class="bx bx-receipt"></i>
-                                </div>
-                                <div class="validation-error" id="navTypeErr"></div>
-                            </div>
-                            <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6 mb-3">
-                                <label for="name" class="form-label">Name <span
+                            <div class="form-element col-sm-12 col-md-12 col-xl-12 col-lg-12 mb-3">
+                                <label for="name" class="form-label">Role type <span
                                         class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <input type="text" name="name" class="form-control form-control-icon"
-                                        id="name" placeholder="Nav type" required>
+                                        id="name" placeholder="Main role type" required>
                                     <i class="bx bx-message-edit"></i>
                                 </div>
                                 <div class="validation-error" id="nameErr"></div>
-                            </div>
-                            <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6">
-                                <label for="icon" class="form-label">Icon <span
-                                        class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                                <div class="form-icon set-validation">
-                                    <input type="text" name="icon" class="form-control form-control-icon"
-                                        id="icon" placeholder="Class of icon">
-                                    <i class="bx bx-library"></i>
-                                </div>
-                                <div class="validation-error" id="iconErr"></div>
                             </div>
                             <div class="form-element col-12">
                                 <label for="description" class="form-label">Description</label>
@@ -226,7 +186,7 @@
                             data-bs-dismiss="modal"><i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
                             Close</button>
                         <button type="submit" class="btn btn-primary btn-label waves-effect waves-light"
-                            id="saveNavMainBtn"><i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                            id="saveMainRoleBtn"><i class="las la-save label-icon align-middle fs-16 me-2"></i>
                             <span>Save</span></button>
                     </div>
                 </form>
@@ -238,7 +198,7 @@
         aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="updateNavMainForm" action="{{ route('admin.update.navMain') }}" method="POST"
+                <form id="updateMainRoleForm" action="{{ route('admin.update.mainRole') }}" method="POST"
                     enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
@@ -248,40 +208,15 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="form-element col-12 mb-3">
-                                <label for="navType" class="form-label">Nav Type <span
-                                        class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                                <div class="form-icon set-validation">
-                                    <select name="navType" id="navType2" class="selectTwo select2-navType-editModal">
-                                        <option value="">Select Nav Type</option>
-                                        @foreach ($data['navType']['navType'] as $item)
-                                            <option value="{{ $item['id'] }}" data-name="{{ $item['name'] }}">
-                                                {{ $item['name'] }}</option>
-                                        @endforeach
-                                    </select>
-                                    <i class="bx bx-receipt"></i>
-                                </div>
-                                <div class="validation-error" id="navTypeErr"></div>
-                            </div>
-                            <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6 mb-3">
-                                <label for="name" class="form-label">Name <span
+                            <div class="form-element col-sm-12 col-md-12 col-xl-12 col-lg-12 mb-3">
+                                <label for="name" class="form-label">Role type <span
                                         class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <input type="text" name="name" class="form-control form-control-icon"
-                                        id="name" placeholder="Nav type" required>
+                                        id="name" placeholder="Main role type" required>
                                     <i class="bx bx-message-edit"></i>
                                 </div>
                                 <div class="validation-error" id="nameErr"></div>
-                            </div>
-                            <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6">
-                                <label for="icon" class="form-label">Icon <span
-                                        class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                                <div class="form-icon set-validation">
-                                    <input type="text" name="icon" class="form-control form-control-icon"
-                                        id="icon" placeholder="Class of icon">
-                                    <i class="bx bx-library"></i>
-                                </div>
-                                <div class="validation-error" id="iconErr"></div>
                             </div>
                             <div class="form-element col-12">
                                 <label for="description" class="form-label">Description</label>
@@ -301,7 +236,7 @@
                             data-bs-dismiss="modal"><i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
                             Close</button>
                         <button type="submit" class="btn btn-primary btn-label waves-effect waves-light"
-                            id="updateNavMainBtn"><i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                            id="updateMainRoleBtn"><i class="las la-save label-icon align-middle fs-16 me-2"></i>
                             <span>Update</span></button>
                     </div>
                 </form>

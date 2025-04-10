@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class MainRole extends Model
 {
     use SoftDeletes;
-    protected $table = 'nav_main';
+    protected $table = 'main_role';
     protected $fillable = array(
         'status',
     );
