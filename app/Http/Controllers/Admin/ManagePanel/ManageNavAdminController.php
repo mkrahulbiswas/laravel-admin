@@ -15,6 +15,7 @@ use App\Models\ManagePanel\ManageNav\NavSub;
 use App\Models\ManagePanel\ManageNav\NavNested;
 
 use App\Helpers\GetManageNavHelper;
+
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Config;
@@ -284,7 +285,7 @@ class ManageNavAdminController extends Controller
     {
         try {
             $navType = GetManageNavHelper::getList([
-                'type' => ['navType'],
+                'type' => [Config::get('constants.typeCheck.manageNav.navType.type')],
                 'otherDataPasses' => [
                     'filterData' => [
                         'status' => Config::get('constants.status')['active']
@@ -550,7 +551,7 @@ class ManageNavAdminController extends Controller
     {
         try {
             $navType = GetManageNavHelper::getList([
-                'type' => ['navType'],
+                'type' => [Config::get('constants.typeCheck.manageNav.navType.type')],
                 'otherDataPasses' => [
                     'filterData' => [
                         'status' => Config::get('constants.status')['active']
@@ -817,7 +818,7 @@ class ManageNavAdminController extends Controller
     {
         try {
             $navType = GetManageNavHelper::getList([
-                'type' => ['navType'],
+                'type' => [Config::get('constants.typeCheck.manageNav.navType.type')],
                 'otherDataPasses' => [
                     'filterData' => [
                         'status' => Config::get('constants.status')['active']

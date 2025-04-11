@@ -70,4 +70,19 @@ function callSelect2() {
         placeholder: "Select Nav Sub",
         dropdownParent: $('#con-edit-modal')
     });
+
+    $('.select2-roleMain').select2({
+        tags: false,
+        placeholder: "Select Role Main"
+    });
+    $('.select2-roleMain-addModal').select2({
+        tags: false,
+        placeholder: "Select Role Main",
+        dropdownParent: $('#con-add-modal')
+    });
+    $('.select2-roleMain-editModal').select2({
+        tags: false,
+        placeholder: "Select Role Main",
+        dropdownParent: $('#con-edit-modal')
+    });
 }

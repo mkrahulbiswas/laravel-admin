@@ -82,12 +82,19 @@ Route::middleware(['checkAdmin', CheckPermission::class])->group(function () {
         Route::post('permissions/edit/update', [RolePermissionController::class, 'updatePermission'])->name('admin.update.permissions');
 
         Route::group(['prefix' => 'mange-access'], function () {
-            Route::get('main-role', [ManageAccessAdminController::class, 'showMainRole'])->name('admin.show.mainRole');
-            Route::get('main-role/ajaxGetList', [ManageAccessAdminController::class, 'getMainRole'])->name('admin.get.mainRole');
-            Route::post('main-role/add/save', [ManageAccessAdminController::class, 'saveMainRole'])->name('admin.save.mainRole');
-            Route::post('main-role/edit/update', [ManageAccessAdminController::class, 'updateMainRole'])->name('admin.update.mainRole');
-            Route::get('main-role/change-status/{id?}', [ManageAccessAdminController::class, 'statusMainRole'])->name('admin.status.mainRole');
-            Route::get('main-role/delete/{id?}', [ManageAccessAdminController::class, 'deleteMainRole'])->name('admin.delete.mainRole');
+            Route::get('role-main', [ManageAccessAdminController::class, 'showRoleMain'])->name('admin.show.roleMain');
+            Route::get('role-main/ajaxGetList', [ManageAccessAdminController::class, 'getRoleMain'])->name('admin.get.roleMain');
+            Route::post('role-main/add/save', [ManageAccessAdminController::class, 'saveRoleMain'])->name('admin.save.roleMain');
+            Route::post('role-main/edit/update', [ManageAccessAdminController::class, 'updateRoleMain'])->name('admin.update.roleMain');
+            Route::get('role-main/change-status/{id?}', [ManageAccessAdminController::class, 'statusRoleMain'])->name('admin.status.roleMain');
+            Route::get('role-main/delete/{id?}', [ManageAccessAdminController::class, 'deleteRoleMain'])->name('admin.delete.roleMain');
+
+            Route::get('role-sub', [ManageAccessAdminController::class, 'showRoleSub'])->name('admin.show.roleSub');
+            Route::get('role-sub/ajaxGetList', [ManageAccessAdminController::class, 'getRoleSub'])->name('admin.get.roleSub');
+            Route::post('role-sub/add/save', [ManageAccessAdminController::class, 'saveRoleSub'])->name('admin.save.roleSub');
+            Route::post('role-sub/edit/update', [ManageAccessAdminController::class, 'updateRoleSub'])->name('admin.update.roleSub');
+            Route::get('role-sub/change-status/{id?}', [ManageAccessAdminController::class, 'statusRoleSub'])->name('admin.status.roleSub');
+            Route::get('role-sub/delete/{id?}', [ManageAccessAdminController::class, 'deleteRoleSub'])->name('admin.delete.roleSub');
         });
 
         Route::group(['prefix' => 'manage-nav'], function () {

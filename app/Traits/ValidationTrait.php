@@ -4,8 +4,9 @@ namespace app\Traits;
 
 use App\Rules\UniquePhone;
 use App\Rules\UniqueEmail;
+use App\Rules\UniqueManageAccess;
 use App\Rules\UniqueManageNav;
-// use Validator;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
 trait ValidationTrait
@@ -38,7 +39,7 @@ trait ValidationTrait
 
         switch ($data['for']) {
 
-                //AuthController
+            //AuthController
             case 'checkLogin':
                 $rules = [
                     'password' => 'required',
@@ -80,29 +81,60 @@ trait ValidationTrait
                 break;
 
 
-                /*------ ( Manage Panel Start ) ------*/
-                //-------Role
-            case 'saveRole':
+            /*------ ( Manage Panel Start ) ------*/
+            //-------Role Main
+            case 'saveRoleMain':
                 $rules = [
-                    'role' => 'required|max:255',
+                    'name' => ['required', 'max:20', new UniqueManageAccess([
+                        'targetId' => $data['id'],
+                        'type' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                    ])],
                     'description' => 'required',
                 ];
                 break;
 
-            case 'updateRole':
+            case 'updateRoleMain':
                 $rules = [
-                    'role' => 'required|max:255',
+                    'name' => ['required', 'max:20', new UniqueManageAccess([
+                        'targetId' => $data['id'],
+                        'type' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                    ])],
                     'description' => 'required',
                 ];
                 break;
 
-                //-------Nav Type
+            //-------Role Sub
+            case 'saveRoleSub':
+                $rules = [
+                    'name' => ['required', 'max:20', new UniqueManageAccess([
+                        'targetId' => $data['id'],
+                        'type' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                        'roleMainId' => $data['input']['roleMain']
+                    ])],
+                    'roleMain' => 'required',
+                    'description' => 'required',
+                ];
+                break;
+
+            case 'updateRoleSub':
+                $rules = [
+                    'name' => ['required', 'max:20', new UniqueManageAccess([
+                        'targetId' => $data['id'],
+                        'type' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                        'roleMainId' => $data['input']['roleMain']
+                    ])],
+                    'roleMain' => 'required',
+                    'description' => 'required',
+                ];
+                break;
+
+            //-------Nav Type
             case 'saveNavType':
                 $rules = [
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navType',
+                        'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
                     ])],
                     'description' => 'max:500',
                 ];
@@ -113,20 +145,20 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navType',
+                        'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
                     ])],
                     'description' => 'max:500',
                 ];
                 break;
 
-                //-------Nav Main
+            //-------Nav Main
             case 'saveNavMain':
                 $rules = [
                     'navType' => 'required',
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navMain',
+                        'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
                         'navTypeId' => $data['input']['navType']
                     ])],
                     'description' => 'max:500',
@@ -139,14 +171,14 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navMain',
+                        'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
                         'navTypeId' => $data['input']['navType']
                     ])],
                     'description' => 'max:500',
                 ];
                 break;
 
-                //-------Nav Sub
+            //-------Nav Sub
             case 'saveNavSub':
                 $rules = [
                     'navType' => 'required',
@@ -154,7 +186,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navSub',
+                        'type' => Config::get('constants.typeCheck.manageNav.navSub.type'),
                         'navTypeId' => $data['input']['navType'],
                         'navMainId' => $data['input']['navMain']
                     ])],
@@ -169,7 +201,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navSub',
+                        'type' => Config::get('constants.typeCheck.manageNav.navSub.type'),
                         'navTypeId' => $data['input']['navType'],
                         'navMainId' => $data['input']['navMain']
                     ])],
@@ -177,7 +209,7 @@ trait ValidationTrait
                 ];
                 break;
 
-                //-------Nav Nested
+            //-------Nav Nested
             case 'saveNavNested':
                 $rules = [
                     'navType' => 'required',
@@ -186,7 +218,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navNested',
+                        'type' => Config::get('constants.typeCheck.manageNav.navNested.type'),
                         'navTypeId' => $data['input']['navType'],
                         'navMainId' => $data['input']['navMain'],
                         'navSubId' => $data['input']['navSub'],
@@ -203,7 +235,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navNested',
+                        'type' => Config::get('constants.typeCheck.manageNav.navNested.type'),
                         'navTypeId' => $data['input']['navType'],
                         'navMainId' => $data['input']['navMain'],
                         'navSubId' => $data['input']['navSub'],
@@ -211,11 +243,11 @@ trait ValidationTrait
                     'description' => 'max:500',
                 ];
                 break;
-                /*------ ( Manage Panel End ) ------*/
+            /*------ ( Manage Panel End ) ------*/
 
 
-                /*------ ( Users Start ) ------*/
-                // ---- Admin
+            /*------ ( Users Start ) ------*/
+            // ---- Admin
             case 'saveAdmin':
                 $rules = [
                     'file' => 'image|mimes:jpeg,jpg,png',
@@ -242,7 +274,7 @@ trait ValidationTrait
                 ];
                 break;
 
-                // ---- updateClient
+            // ---- updateClient
             case 'saveClient':
                 $rules = [
                     'name' => 'required',
@@ -270,11 +302,11 @@ trait ValidationTrait
                     'file' => 'image|mimes:jpeg,jpg,png',
                 ];
                 break;
-                /*------ ( Users End ) ------*/
+            /*------ ( Users End ) ------*/
 
 
-                /*------ ( CMS Start ) ------*/
-                //---Logo
+            /*------ ( CMS Start ) ------*/
+            //---Logo
             case 'saveLogo':
                 $rules = [
                     'bigLogo' => 'required|mimes:jpeg,jpg,png,ico',
@@ -290,7 +322,7 @@ trait ValidationTrait
                     'favIcon' => 'mimes:jpeg,jpg,png,ico',
                 ];
                 break;
-                /*------ ( CMS End ) ------*/
+            /*------ ( CMS End ) ------*/
 
             case 'emailLogin':
             default:

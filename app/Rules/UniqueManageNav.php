@@ -2,26 +2,27 @@
 
 namespace App\Rules;
 
-use App\Models\AdminSetting\Nav\NavMain;
-use App\Models\AdminSetting\Nav\NavNested;
-use App\Models\AdminSetting\Nav\NavSub;
-use App\Models\AdminSetting\Nav\NavType;
+use App\Models\ManagePanel\ManageNav\NavMain;
+use App\Models\ManagePanel\ManageNav\NavNested;
+use App\Models\ManagePanel\ManageNav\NavSub;
+use App\Models\ManagePanel\ManageNav\NavType;
 
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\DB;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\Config;
 
-class UniqueManageNav implements Rule
+class UniqueManageNav implements ValidationRule
 {
     private $data;
 
-    public function __construct($data)
+    public function __construct($data, public string $message = 'The :attribute is already taken.')
     {
         $this->data = $data;
     }
 
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail, array $parameters = []): void
     {
-        if ($this->data['type'] == 'navType') {
+        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navType.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = NavType::where('name', $value)->get();
             } else {
@@ -31,13 +32,11 @@ class UniqueManageNav implements Rule
                 ])->get();
             }
             if ($isExist->count() > 0) {
-                return false;
-            } else {
-                return true;
+                $fail($this->message);
             }
         }
 
-        if ($this->data['type'] == 'navMain') {
+        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navMain.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = NavMain::where([
                     ['name', $value],
@@ -51,13 +50,11 @@ class UniqueManageNav implements Rule
                 ])->get();
             }
             if ($isExist->count() > 0) {
-                return false;
-            } else {
-                return true;
+                $fail($this->message);
             }
         }
 
-        if ($this->data['type'] == 'navSub') {
+        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navSub.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = NavSub::where([
                     ['name', $value],
@@ -73,13 +70,11 @@ class UniqueManageNav implements Rule
                 ])->get();
             }
             if ($isExist->count() > 0) {
-                return false;
-            } else {
-                return true;
+                $fail($this->message);
             }
         }
 
-        if ($this->data['type'] == 'navNested') {
+        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navNested.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = NavNested::where([
                     ['name', $value],
@@ -97,26 +92,8 @@ class UniqueManageNav implements Rule
                 ])->get();
             }
             if ($isExist->count() > 0) {
-                return false;
-            } else {
-                return true;
+                $fail($this->message);
             }
-        }
-    }
-
-    public function message()
-    {
-        if ($this->data['type'] == 'navType') {
-            return 'Nav type :attribute is already taken';
-        }
-        if ($this->data['type'] == 'navMain') {
-            return 'Nav main :attribute is already taken';
-        }
-        if ($this->data['type'] == 'navSub') {
-            return 'Nav sub :attribute is already taken';
-        }
-        if ($this->data['type'] == 'navNested') {
-            return 'Nav nested :attribute is already taken';
         }
     }
 }

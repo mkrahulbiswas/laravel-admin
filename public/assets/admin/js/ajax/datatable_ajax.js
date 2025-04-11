@@ -336,6 +336,78 @@
                 }
             ]
         });
+
+
+        /*------( Role Main Listing )--------*/
+        $('#managePanel-manageAccess-roleMain').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "role-main/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "description",
+                },
+                {
+                    data: "status",
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        /*------( Role Sub Listing )--------*/
+        $('#managePanel-manageAccess-roleSub').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "role-sub/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "roleMain"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "description",
+                },
+                {
+                    data: "status",
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
         /*--========================= ( SETUP ADMIN END ) =========================--*/
 
 

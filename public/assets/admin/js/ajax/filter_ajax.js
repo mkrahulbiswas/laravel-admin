@@ -187,6 +187,79 @@
                 filterApply: {}
             })
         });
+
+        //------ ( Role Main )
+        $('#filterRoleMainForm').find('#statusFilter, .filterRoleMainBtn').on('change click', function () {
+            var formId = $(this).closest('form'),
+                dataTableId = $('#managePanel-manageAccess-roleMain'),
+
+                status = formId.find("#statusFilter").val(),
+
+                action = $(this).closest('form').attr('action').split('/'),
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status;
+            if ($(this).attr('title') == 'Reload') {
+                commonAction({
+                    targetId: {
+                        submitForm: formId,
+                    },
+                    resetFormFields: {
+                        selectPicker: {},
+                        selectTwo: {},
+                    }
+                })
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
+            }
+            commonAction({
+                targetId: {
+                    submitForm: formId,
+                    actionType: $(this).attr('title'),
+                },
+                dataTable: {
+                    load: {
+                        targetId: dataTableId,
+                        url: newUrl,
+                    }
+                },
+                filterApply: {}
+            })
+        });
+
+        //------ ( Role Sub )
+        $('#filterRoleSubForm').find('#statusFilter, #roleMainFilter, .filterRoleSubBtn').on('change click', function () {
+            var formId = $(this).closest('form'),
+                dataTableId = $('#managePanel-manageAccess-roleSub'),
+
+                status = formId.find("#statusFilter").val(),
+                roleMain = (formId.find("#roleMainFilter").val() == '' || formId.find("#roleMainFilter").val() == null) ? '' : formId.find("#roleMainFilter").val(),
+
+                action = $(this).closest('form').attr('action').split('/'),
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&roleMain=" + roleMain;
+            if ($(this).attr('title') == 'Reload') {
+                commonAction({
+                    targetId: {
+                        submitForm: formId,
+                    },
+                    resetFormFields: {
+                        selectPicker: {},
+                        selectTwo: {},
+                    }
+                })
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&roleMain=" + '';
+            }
+            commonAction({
+                targetId: {
+                    submitForm: formId,
+                    actionType: $(this).attr('title'),
+                },
+                dataTable: {
+                    load: {
+                        targetId: dataTableId,
+                        url: newUrl,
+                    }
+                },
+                filterApply: {}
+            })
+        });
         /*--========================= ( Manage Nav START ) =========================--*/
 
     });

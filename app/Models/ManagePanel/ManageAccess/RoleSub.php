@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models\ManageAccess\ManageNav;
+namespace App\Models\ManagePanel\ManageAccess;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class MainRole extends Model
+class RoleSub extends Model
 {
     use SoftDeletes;
-    protected $table = 'main_role';
+    protected $table = 'role_sub';
     protected $fillable = array(
         'status',
     );
