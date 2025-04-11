@@ -27,7 +27,7 @@ class GetManageNavHelper
         try {
             $finalData = array();
 
-            if (in_array('navType', $params['type'])) {
+            if (in_array(Config::get('constants.typeCheck.manageNav.navType.type'), $params['type'])) {
                 $navType = array();
 
                 $whereRaw = "`created_at` is not null";
@@ -74,7 +74,7 @@ class GetManageNavHelper
                 $finalData['navType'] = $data;
             }
 
-            if (in_array('navMain', $params['type'])) {
+            if (in_array(Config::get('constants.typeCheck.manageNav.navMain.type'), $params['type'])) {
                 $navMain = array();
 
                 $whereRaw = "`created_at` is not null";
@@ -135,7 +135,7 @@ class GetManageNavHelper
                 $finalData['navMain'] = $data;
             }
 
-            if (in_array('navSub', $params['type'])) {
+            if (in_array(Config::get('constants.typeCheck.manageNav.navSub.type'), $params['type'])) {
                 $navSub = array();
 
                 $whereRaw = "`created_at` is not null";
@@ -202,7 +202,7 @@ class GetManageNavHelper
                 $finalData['navSub'] = $data;
             }
 
-            if (in_array('navNested', $params['type'])) {
+            if (in_array(Config::get('constants.typeCheck.manageNav.navNested.type'), $params['type'])) {
                 $navNested = array();
 
                 $whereRaw = "`created_at` is not null";
@@ -405,7 +405,7 @@ class GetManageNavHelper
             if (in_array('all', $params['type'])) {
                 $navList = $nav1 = $nav2 = $nav3 = [];
                 $navType = GetManageNavHelper::getList([
-                    'type' => ['navType'],
+                    'type' => [Config::get('constants.typeCheck.manageNav.navType.type')],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $params['otherDataPasses']['filterData']['status']
@@ -417,7 +417,7 @@ class GetManageNavHelper
                 ])['navType']['navType'];
                 foreach ($navType as $keyOne => $tempOne) {
                     $navMain = GetManageNavHelper::getList([
-                        'type' => ['navMain'],
+                        'type' => [Config::get('constants.typeCheck.manageNav.navMain.type')],
                         'otherDataPasses' => [
                             'filterData' => [
                                 'status' => $params['otherDataPasses']['filterData']['status'],
@@ -431,7 +431,7 @@ class GetManageNavHelper
                     if (sizeof($navMain) > 0) {
                         foreach ($navMain as $keyTwo => $tempTwo) {
                             $navSub = GetManageNavHelper::getList([
-                                'type' => ['navSub'],
+                                'type' => [Config::get('constants.typeCheck.manageNav.navSub.type')],
                                 'otherDataPasses' => [
                                     'filterData' => [
                                         'status' => $params['otherDataPasses']['filterData']['status'],
@@ -445,7 +445,7 @@ class GetManageNavHelper
                             if (sizeof($navSub) > 0) {
                                 foreach ($navSub as $keyThree => $tempThree) {
                                     $navNested = GetManageNavHelper::getList([
-                                        'type' => ['navNested'],
+                                        'type' => [Config::get('constants.typeCheck.manageNav.navNested.type')],
                                         'otherDataPasses' => [
                                             'filterData' => [
                                                 'status' => $params['otherDataPasses']['filterData']['status'],

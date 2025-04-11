@@ -285,7 +285,7 @@ class ManageNavAdminController extends Controller
     {
         try {
             $navType = GetManageNavHelper::getList([
-                'type' => ['navType'],
+                'type' => [Config::get('constants.typeCheck.manageNav.navType.type')],
                 'otherDataPasses' => [
                     'filterData' => [
                         'status' => Config::get('constants.status')['active']
@@ -551,7 +551,7 @@ class ManageNavAdminController extends Controller
     {
         try {
             $navType = GetManageNavHelper::getList([
-                'type' => ['navType'],
+                'type' => [Config::get('constants.typeCheck.manageNav.navType.type')],
                 'otherDataPasses' => [
                     'filterData' => [
                         'status' => Config::get('constants.status')['active']
@@ -818,7 +818,7 @@ class ManageNavAdminController extends Controller
     {
         try {
             $navType = GetManageNavHelper::getList([
-                'type' => ['navType'],
+                'type' => [Config::get('constants.typeCheck.manageNav.navType.type')],
                 'otherDataPasses' => [
                     'filterData' => [
                         'status' => Config::get('constants.status')['active']

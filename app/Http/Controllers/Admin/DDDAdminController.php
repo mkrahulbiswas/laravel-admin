@@ -25,25 +25,25 @@ class DDDAdminController extends Controller
     public function getNavMain($navTypeId)
     {
         // try {
-            $navMain = GetManageNavHelper::getList([
-                'type' => ['navMain'],
-                'otherDataPasses' => [
-                    'filterData' => [
-                        'status' => Config::get('constants.status')['active'],
-                        'navTypeId' => $navTypeId,
-                    ]
-                ],
-            ]);
+        $navMain = GetManageNavHelper::getList([
+            'type' => [Config::get('constants.typeCheck.manageNav.navMain.type')],
+            'otherDataPasses' => [
+                'filterData' => [
+                    'status' => Config::get('constants.status')['active'],
+                    'navTypeId' => $navTypeId,
+                ]
+            ],
+        ]);
 
-            $data = [
-                'navMain' => $navMain['navMain']
-            ];
+        $data = [
+            'navMain' => $navMain['navMain']
+        ];
 
-            if ($data) {
-                return Response()->Json(['status' => 1, 'msg' => 'Nav main is found.', 'data' => $data], config('constants.ok'));
-            } else {
-                return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
-            }
+        if ($data) {
+            return Response()->Json(['status' => 1, 'msg' => 'Nav main is found.', 'data' => $data], config('constants.ok'));
+        } else {
+            return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+        }
         // } catch (Exception $e) {
         //     return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         // }
@@ -54,7 +54,7 @@ class DDDAdminController extends Controller
     {
         try {
             $navSub = GetManageNavHelper::getList([
-                'type' => ['navSub'],
+                'type' => [Config::get('constants.typeCheck.manageNav.navSub.type')],
                 'otherDataPasses' => [
                     'filterData' => [
                         'status' => Config::get('constants.status')['active'],

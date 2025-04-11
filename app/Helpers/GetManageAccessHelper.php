@@ -204,7 +204,7 @@ class GetManageAccessHelper
             if (in_array('all', $params['type'])) {
                 $navList = $nav1 = $nav2 = $nav3 = [];
                 $navType = GetManageNavHelper::getList([
-                    'type' => ['navType'],
+                    'type' => [Config::get('constants.typeCheck.manageNav.navType.type')],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $params['otherDataPasses']['filterData']['status']
@@ -216,7 +216,7 @@ class GetManageAccessHelper
                 ])['navType']['navType'];
                 foreach ($navType as $keyOne => $tempOne) {
                     $navMain = GetManageNavHelper::getList([
-                        'type' => ['navMain'],
+                        'type' => [Config::get('constants.typeCheck.manageNav.navMain.type')],
                         'otherDataPasses' => [
                             'filterData' => [
                                 'status' => $params['otherDataPasses']['filterData']['status'],
@@ -230,7 +230,7 @@ class GetManageAccessHelper
                     if (sizeof($navMain) > 0) {
                         foreach ($navMain as $keyTwo => $tempTwo) {
                             $navSub = GetManageNavHelper::getList([
-                                'type' => ['navSub'],
+                                'type' => [Config::get('constants.typeCheck.manageNav.navSub.type')],
                                 'otherDataPasses' => [
                                     'filterData' => [
                                         'status' => $params['otherDataPasses']['filterData']['status'],
@@ -244,7 +244,7 @@ class GetManageAccessHelper
                             if (sizeof($navSub) > 0) {
                                 foreach ($navSub as $keyThree => $tempThree) {
                                     $navNested = GetManageNavHelper::getList([
-                                        'type' => ['navNested'],
+                                        'type' => [Config::get('constants.typeCheck.manageNav.navNested.type')],
                                         'otherDataPasses' => [
                                             'filterData' => [
                                                 'status' => $params['otherDataPasses']['filterData']['status'],

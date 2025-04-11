@@ -9,6 +9,7 @@ use App\Models\ManagePanel\ManageNav\NavType;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\Config;
 
 class UniqueManageNav implements ValidationRule
 {
@@ -21,7 +22,7 @@ class UniqueManageNav implements ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail, array $parameters = []): void
     {
-        if ($this->data['type'] == 'navType') {
+        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navType.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = NavType::where('name', $value)->get();
             } else {
@@ -35,7 +36,7 @@ class UniqueManageNav implements ValidationRule
             }
         }
 
-        if ($this->data['type'] == 'navMain') {
+        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navMain.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = NavMain::where([
                     ['name', $value],
@@ -53,7 +54,7 @@ class UniqueManageNav implements ValidationRule
             }
         }
 
-        if ($this->data['type'] == 'navSub') {
+        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navSub.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = NavSub::where([
                     ['name', $value],
@@ -73,7 +74,7 @@ class UniqueManageNav implements ValidationRule
             }
         }
 
-        if ($this->data['type'] == 'navNested') {
+        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navNested.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = NavNested::where([
                     ['name', $value],

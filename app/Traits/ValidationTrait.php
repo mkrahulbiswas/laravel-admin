@@ -6,6 +6,7 @@ use App\Rules\UniquePhone;
 use App\Rules\UniqueEmail;
 use App\Rules\UniqueManageAccess;
 use App\Rules\UniqueManageNav;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
 trait ValidationTrait
@@ -133,7 +134,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navType',
+                        'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
                     ])],
                     'description' => 'max:500',
                 ];
@@ -144,7 +145,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navType',
+                        'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
                     ])],
                     'description' => 'max:500',
                 ];
@@ -157,7 +158,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navMain',
+                        'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
                         'navTypeId' => $data['input']['navType']
                     ])],
                     'description' => 'max:500',
@@ -170,7 +171,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navMain',
+                        'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
                         'navTypeId' => $data['input']['navType']
                     ])],
                     'description' => 'max:500',
@@ -185,7 +186,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navSub',
+                        'type' => Config::get('constants.typeCheck.manageNav.navSub.type'),
                         'navTypeId' => $data['input']['navType'],
                         'navMainId' => $data['input']['navMain']
                     ])],
@@ -200,7 +201,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navSub',
+                        'type' => Config::get('constants.typeCheck.manageNav.navSub.type'),
                         'navTypeId' => $data['input']['navType'],
                         'navMainId' => $data['input']['navMain']
                     ])],
@@ -217,7 +218,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navNested',
+                        'type' => Config::get('constants.typeCheck.manageNav.navNested.type'),
                         'navTypeId' => $data['input']['navType'],
                         'navMainId' => $data['input']['navMain'],
                         'navSubId' => $data['input']['navSub'],
@@ -234,7 +235,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => 'navNested',
+                        'type' => Config::get('constants.typeCheck.manageNav.navNested.type'),
                         'navTypeId' => $data['input']['navType'],
                         'navMainId' => $data['input']['navMain'],
                         'navSubId' => $data['input']['navSub'],
