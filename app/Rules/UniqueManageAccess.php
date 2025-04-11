@@ -7,6 +7,7 @@ use App\Models\ManagePanel\ManageAccess\RoleSub;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\Config;
 
 class UniqueManageAccess implements ValidationRule
 {
@@ -19,7 +20,7 @@ class UniqueManageAccess implements ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail, array $parameters = []): void
     {
-        if ($this->data['type'] == 'roleMain') {
+        if ($this->data['type'] == Config::get('constants.typeCheck.manageAccess.roleMain.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = RoleMain::where('name', $value)->get();
             } else {
@@ -33,7 +34,7 @@ class UniqueManageAccess implements ValidationRule
             }
         }
 
-        if ($this->data['type'] == 'roleSub') {
+        if ($this->data['type'] == Config::get('constants.typeCheck.manageAccess.roleSub.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = RoleSub::where('name', $value)->get();
             } else {

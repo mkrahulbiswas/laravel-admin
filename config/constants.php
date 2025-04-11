@@ -51,7 +51,14 @@ return [
                 'type' => 'navNested'
             ],
         ],
-        'manageAccess' => [],
+        'manageAccess' => [
+            'roleMain' => [
+                'type' => 'roleMain'
+            ],
+            'roleSub' => [
+                'type' => 'roleSub'
+            ],
+        ],
     ],
 
     //--Action Type

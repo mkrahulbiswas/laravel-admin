@@ -87,7 +87,7 @@ trait ValidationTrait
                 $rules = [
                     'name' => ['required', 'max:20', new UniqueManageAccess([
                         'targetId' => $data['id'],
-                        'type' => 'roleMain',
+                        'type' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
                     ])],
                     'description' => 'required',
                 ];
@@ -97,7 +97,7 @@ trait ValidationTrait
                 $rules = [
                     'name' => ['required', 'max:20', new UniqueManageAccess([
                         'targetId' => $data['id'],
-                        'type' => 'roleMain',
+                        'type' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
                     ])],
                     'description' => 'required',
                 ];
@@ -108,7 +108,7 @@ trait ValidationTrait
                 $rules = [
                     'name' => ['required', 'max:20', new UniqueManageAccess([
                         'targetId' => $data['id'],
-                        'type' => 'roleSub',
+                        'type' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
                         'roleMainId' => $data['input']['roleMain']
                     ])],
                     'roleMain' => 'required',
@@ -120,7 +120,7 @@ trait ValidationTrait
                 $rules = [
                     'name' => ['required', 'max:20', new UniqueManageAccess([
                         'targetId' => $data['id'],
-                        'type' => 'roleSub',
+                        'type' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
                         'roleMainId' => $data['input']['roleMain']
                     ])],
                     'roleMain' => 'required',

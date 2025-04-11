@@ -255,17 +255,8 @@ class ManageAccessAdminController extends Controller
                 ],
             ]);
 
-            $roleMain = array();
-
-            foreach (RoleMain::all() as $key => $value) {
-                $roleMain[] = [
-                    'id' => encrypt($value->id),
-                    'name' => $value->name
-                ];
-            }
-
             $data = [
-                'roleMain' => $roleMain,
+                'roleMain' => $roleMain['roleMain'],
             ];
 
             return view('admin.manage_panel.manage_access.role_sub.role_sub_list', ['data' => $data]);
@@ -285,7 +276,15 @@ class ManageAccessAdminController extends Controller
                 $query .= " and `status` = '" . $status . "'";
             }
 
-            $roleSub = RoleSub::orderBy('id', 'desc')->whereRaw($query)->get();
+            $roleSub = GetManageAccessHelper::getList([
+                'type' => ['roleSub'],
+                'otherDataPasses' => [
+                    'filterData' => [
+                        'status' => Config::get('constants.status')['active']
+                    ]
+                ],
+            ]);
+            // $roleSub = RoleSub::orderBy('id', 'desc')->whereRaw($query)->get();
 
             return Datatables::of($roleSub)
                 ->addIndexColumn()

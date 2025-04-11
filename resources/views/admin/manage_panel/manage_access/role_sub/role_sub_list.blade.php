@@ -81,7 +81,7 @@
                                                         <div class="form-icon set-validation">
                                                             <select class="form-control form-control-icon select2-roleMain" name="roleMain" id="roleMainFilter">
                                                                 <option value="">Select One</option>
-                                                                @foreach ($data['roleMain'] as $key)
+                                                                @foreach ($data['roleMain']['roleMain'] as $key)
                                                                     <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
                                                                 @endforeach
                                                             </select>
@@ -160,7 +160,7 @@
                                 <div class="form-icon set-validation">
                                     <select class="form-control form-control-icon select2-roleMain-addModal" name="roleMain" id="roleMain">
                                         <option value="">Select One</option>
-                                        @foreach ($data['roleMain'] as $key)
+                                        @foreach ($data['roleMain']['roleMain'] as $key)
                                             <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
                                         @endforeach
                                     </select>
@@ -219,7 +219,7 @@
                                 <label for="name" class="form-label">Role Main Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <select class="form-control form-control-icon select2-roleMain-editModal" name="roleMain" id="roleMain">
-                                        @foreach ($data['roleMain'] as $key)
+                                        @foreach ($data['roleMain']['roleMain'] as $key)
                                             <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
                                         @endforeach
                                     </select>
