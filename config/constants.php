@@ -36,6 +36,25 @@ return [
     ],
 
     //--Action Type
+    'typeCheck' => [
+        'manageNav' => [
+            'navType' => [
+                'type' => 'navType'
+            ],
+            'navMain' => [
+                'type' => 'navMain'
+            ],
+            'navSub' => [
+                'type' => 'navSub'
+            ],
+            'navNested' => [
+                'type' => 'navNested'
+            ],
+        ],
+        'manageAccess' => [],
+    ],
+
+    //--Action Type
     'actionFor' => [
         'statusType' => [
             'smsf' => 'SINGLE_MODEL_SINGLE_FIELD',

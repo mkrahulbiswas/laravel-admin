@@ -1805,6 +1805,9 @@
                         $.each(msg.errors.name, function (i) {
                             submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
+                        $.each(msg.errors.roleMain, function (i) {
+                            submitForm.find("#roleMainErr").text(msg.errors.roleMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
                         $.each(msg.errors.description, function (i) {
                             submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
@@ -1887,6 +1890,9 @@
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
                             submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.roleMain, function (i) {
+                            submitForm.find("#roleMainErr").text(msg.errors.roleMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
                             submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');

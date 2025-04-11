@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\ManagePanel\ManageAccess\RoleMain;
+use App\Models\ManagePanel\ManageAccess\RoleSub;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -24,6 +25,21 @@ class UniqueManageAccess implements ValidationRule
             } else {
                 $isExist = RoleMain::where([
                     ['name', $value],
+                    ['id', '!=', $this->data['targetId']]
+                ])->get();
+            }
+            if ($isExist->count() > 0) {
+                $fail($this->message);
+            }
+        }
+
+        if ($this->data['type'] == 'roleSub') {
+            if ($this->data['targetId'] == '') {
+                $isExist = RoleSub::where('name', $value)->get();
+            } else {
+                $isExist = RoleSub::where([
+                    ['name', $value],
+                    ['roleMainId', decrypt($this->data['roleMainId'])],
                     ['id', '!=', $this->data['targetId']]
                 ])->get();
             }

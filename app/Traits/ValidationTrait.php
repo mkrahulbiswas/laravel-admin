@@ -102,6 +102,31 @@ trait ValidationTrait
                 ];
                 break;
 
+            //-------Role Sub
+            case 'saveRoleSub':
+                $rules = [
+                    'name' => ['required', 'max:20', new UniqueManageAccess([
+                        'targetId' => $data['id'],
+                        'type' => 'roleSub',
+                        'roleMainId' => $data['input']['roleMain']
+                    ])],
+                    'roleMain' => 'required',
+                    'description' => 'required',
+                ];
+                break;
+
+            case 'updateRoleSub':
+                $rules = [
+                    'name' => ['required', 'max:20', new UniqueManageAccess([
+                        'targetId' => $data['id'],
+                        'type' => 'roleSub',
+                        'roleMainId' => $data['input']['roleMain']
+                    ])],
+                    'roleMain' => 'required',
+                    'description' => 'required',
+                ];
+                break;
+
             //-------Nav Type
             case 'saveNavType':
                 $rules = [

@@ -79,7 +79,7 @@
 
                                                     <div class="form-element col-md-2 m-t-5">
                                                         <div class="form-icon set-validation">
-                                                            <select class="form-control form-control-icon select2-roleMain" name="roleMain" id="roleMain">
+                                                            <select class="form-control form-control-icon select2-roleMain" name="roleMain" id="roleMainFilter">
                                                                 <option value="">Select One</option>
                                                                 @foreach ($data['roleMain'] as $key)
                                                                     <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
