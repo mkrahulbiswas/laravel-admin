@@ -169,11 +169,11 @@ class AppServiceProvider extends ServiceProvider
 
                     // $subModuleGroup = SubMenu::groupBy('module_id')->select(DB::raw('count(name) as count,module_id'))->get();
 
-                    $adminDetails = DB::table('admins')
-                        ->join('role', 'role.id', '=', 'admins.role_id')
-                        ->select('admins.*', 'role.role')
-                        ->where('admins.id', Auth::guard('admin')->user()->id)
-                        ->first();
+                    // $adminDetails = DB::table('admins')
+                    //     ->join('role', 'role.id', '=', 'admins.role_id')
+                    //     ->select('admins.*', 'role.role')
+                    //     ->where('admins.id', Auth::guard('admin')->user()->id)
+                    //     ->first();
 
 
                     // $itemPermission = DB::table('role_permission')
@@ -214,7 +214,7 @@ class AppServiceProvider extends ServiceProvider
                     // View::share('mainMenu', $mainMenu);
                     // View::share('subMenu', $subMenu);
                     // View::share('subModuleGroup', $subModuleGroup);
-                    View::share('adminDetails', $adminDetails);
+                    // View::share('adminDetails', $adminDetails);
                     // View::share('itemPermission', $permission);
                 }
             } else {

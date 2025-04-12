@@ -9,8 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 
 use App\Traits\ValidationTrait;
-
-use League\Flysystem\Exception;
+use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
