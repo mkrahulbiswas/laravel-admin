@@ -168,3 +168,76 @@
 #container-fluid-inside .tableActionContent .dropdown-menu .actionDatatable span {
     padding-left: 15px;
 }
+
+
+
+
+
+.tableActionButton {
+    padding: 5px;
+    background-image: linear-gradient(175deg, #dee8f8 0%, #a4b4cf 100%);
+    border-radius: 0.25rem;
+}
+
+.tableActionButton .actionButtonOpen {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.tableActionButton .actionButtonOpen .buttonOpenCommon {}
+
+.tableActionButton .actionButtonOpen .buttonOpenCommon a {
+    border-radius: 10%;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.tableActionButton .actionButtonOpen .buttonOpenCommon a i {
+    font-size: 18px;
+    align-self: center;
+}
+
+.tableActionButton .actionButtonOpen .buttonOpenStatus {}
+
+.tableActionButton .actionButtonOpen .buttonOpenStatus a {}
+
+.tableActionButton .actionButtonOpen .buttonOpenStatus a i {}
+
+.tableActionButton .actionButtonOpen .buttonOpenEdit {}
+
+.tableActionButton .actionButtonOpen .buttonOpenEdit a {}
+
+.tableActionButton .actionButtonOpen .buttonOpenEdit a i {}
+
+.tableActionButton .actionButtonOpen .buttonOpenDelete {}
+
+.tableActionButton .actionButtonOpen .buttonOpenDelete a {}
+
+.tableActionButton .actionButtonOpen .buttonOpenDelete a i {}
+
+.tableActionButton .actionButtonOpen .buttonOpenDetails {}
+
+.tableActionButton .actionButtonOpen .buttonOpenDetails a {}
+
+.tableActionButton .actionButtonOpen .buttonOpenDetails a i {}
+
+.tableActionButton .actionButtonOpen .buttonOpenToggle {}
+
+.tableActionButton .actionButtonOpen .buttonOpenToggle a {}
+
+.tableActionButton .actionButtonOpen .buttonOpenToggle a i {}
+
+.tableActionButton .actionButtonInner {}
+
+.tableActionButton .actionButtonInner .innerContentCommon {}
+
+.tableActionButton .actionButtonInner .innerContentCommon a {}
+
+.tableActionButton .actionButtonInner .innerContentCommon a i {}
+
+.tableActionButton .actionButtonInner .innerContentCommon a span {}

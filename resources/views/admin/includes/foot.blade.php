@@ -12,7 +12,7 @@
 
 @if (in_array('pdf', $data) || in_array('print', $data))
 @else
-    <?php /* ?> ?>
+    <?php /* ?> ?> ?> ?> ?> ?>
 
     <!-- ( Bootstrap CDN ) -->
     {{-- <script src="{{ asset('assets/plugins/bootstrap/v4/js/bootstrap.min.js') }}"></script> --}}
@@ -74,8 +74,7 @@
     <script type="text/javascript" src="{{ asset('assets/plugins/isotope/js/isotope.pkgd.min.js') }}"></script>
 
     <!-- ( Bootstrap Select Dropdown ) -->
-    <script src="{{ asset('assets/plugins/bootstrap-select/js/bootstrap-select.min.js') }}" type="text/javascript">
-    </script>
+    <script src="{{ asset('assets/plugins/bootstrap-select/js/bootstrap-select.min.js') }}" type="text/javascript"></script>
 
     <!-- ( Jquery UI ) -->
     <script src="{{ asset('assets/plugins/jquery-ui/js/jquery-ui.min.js') }}" type="text/javascript"></script>
@@ -145,12 +144,10 @@
     <script src="{{ asset('assets/admin/ajax/common_ajax.js') }}"></script>
 
     <!--for show image gallary-->
-    <script type="text/javascript"
-        src="{{ asset('assets/admin/plugins/magnific-popup/js/jquery.magnific-popup.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/admin/plugins/magnific-popup/js/jquery.magnific-popup.min.js') }}"></script>
 
     <!-- XEditable Plugin used in booking details page -->
-    <script type="text/javascript" src="{{ asset('assets/admin/plugins/x-editable/js/bootstrap-editable.min.js') }}">
-    </script>
+    <script type="text/javascript" src="{{ asset('assets/admin/plugins/x-editable/js/bootstrap-editable.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/admin/pages/jquery.xeditable.js') }}"></script>
 
     <?pgp */ ?>
@@ -247,7 +244,7 @@
 
         <!-- Custom Ajax -->
         <script src="{{ asset('assets/admin/js/ajax/datatable_ajax.js') }}"></script>
-        <script src="{{ asset('assets/admin/js/ajax/custom_ajax.js') }}"></script>
+        <script src="{{ asset('assets/admin/js/ajax/custom_ajax.js') }}" type="module"></script>
         <script src="{{ asset('assets/admin/js/ajax/filter_ajax.js') }}"></script>
         <script src="{{ asset('assets/admin/js/ajax/ddd_ajax.js') }}"></script>
 

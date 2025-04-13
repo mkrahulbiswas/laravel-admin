@@ -5,7 +5,6 @@
             submitForm, submitBtn, id = '',
             errorClassList = '.form-control, .select2-container--default .select2-selection--single';
 
-
         function commonAction(data) {
             let targetForm = (data.targetId != undefined) ? data.targetId.submitForm : '',
                 targetBtn = (data.targetId != undefined) ? data.targetId.submitBtn : '';
