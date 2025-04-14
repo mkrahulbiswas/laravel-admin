@@ -62,6 +62,54 @@
             $('.filter-table-data-btn').trigger('click')
         })
 
+
+
+        $('body').delegate('.tableActionButton .actionButtonOpen .buttonOpenToggle', 'click', function () {
+            let targetId = $(this)
+            $('.tableActionButton .actionButtonOpen .buttonOpenToggle')
+                .not(targetId)
+                .closest('.tableActionButton')
+                .attr('data-isOpen', false)
+                .css({
+                    'border-bottom-left-radius': '0.25rem',
+                    'border-bottom-right-radius': '0.25rem'
+                })
+                .find('.actionButtonInner')
+                .css({
+                    'top': '60px',
+                    'opacity': '0',
+                    'pointer-events': 'none',
+                })
+
+            if ($(targetId).closest('.tableActionButton').attr('data-isOpen') === "true") {
+                $(targetId).closest('.tableActionButton')
+                    .attr('data-isOpen', false)
+                    .css({
+                        'border-bottom-left-radius': '0.25rem',
+                        'border-bottom-right-radius': '0.25rem'
+                    })
+                    .find('.actionButtonInner')
+                    .css({
+                        'top': '60px',
+                        'opacity': '0',
+                        'pointer-events': 'none',
+                    })
+            } else {
+                $(targetId).closest('.tableActionButton')
+                    .attr('data-isOpen', true)
+                    .css({
+                        'border-bottom-left-radius': '0px',
+                        'border-bottom-right-radius': '0px'
+                    })
+                    .find('.actionButtonInner')
+                    .css({
+                        'top': '40px',
+                        'opacity': '1',
+                        'pointer-events': 'click',
+                    })
+            }
+        })
+
     });
 
 })(jQuery);

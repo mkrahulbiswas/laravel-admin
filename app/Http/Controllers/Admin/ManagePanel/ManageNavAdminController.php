@@ -122,8 +122,8 @@ class ManageNavAdminController extends Controller
                                 <div class="buttonOpenCommon buttonOpenDelete">' . $delete . '</div>
                                 <div class="buttonOpenCommon buttonOpenDetails">' . $details . '</div>
                                 <div class="buttonOpenCommon buttonOpenToggle">
-                                    <a type="button" class="btn btn-sm btn-primary">
-                                        <i class="las la-info-circle"></i>
+                                    <a type="button" class="btn btn-sm btn-ghost-dark">
+                                        <i class="mdi mdi-menu-open"></i>
                                     </a>
                                 </div>
                             </div>
