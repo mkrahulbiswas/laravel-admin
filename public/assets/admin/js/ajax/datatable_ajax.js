@@ -17,7 +17,6 @@
         });
 
 
-
         /*--========================= ( USER START ) =========================--*/
         /*------( Users Admin Listing )--------*/
         $('#users-admin-listing').DataTable({

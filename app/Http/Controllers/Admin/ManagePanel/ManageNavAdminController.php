@@ -79,42 +79,44 @@ class ManageNavAdminController extends Controller
 
                     // if ($itemPermission['status_item'] == '1') {
                     if ($data->status == Config::get('constants.status')['inactive']) {
-                        $status = '<li><a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navType') . '/' . $dataArray['id'] . '" class="dropdown-item actionDatatable" title="Unblock"><i class="las la-lock-open align-bottom me-2 text-muted"></i> <span>Change status</span></a></li>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navType') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
-                        $status = '<li><a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navType') . '/' . $dataArray['id'] . '" class="dropdown-item actionDatatable" title="Block"><i class="las la-lock align-bottom me-2 text-muted"></i> <span>Change status</span></a></li>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navType') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                     }
                     // } else {
                     //     $status = '';
                     // }
 
                     // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<li><a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="dropdown-item actionDatatable" title="Update"><i class="las la-edit align-bottom me-2 text-muted"></i> <span>Edit nav type</span></a></li>';
+                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
                     // } else {
                     //     $edit = '';
                     // }
 
                     // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<li><a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navType') . '/' . $dataArray['id'] . '" class="dropdown-item actionDatatable" title="Delete"><i class="las la-trash align-bottom me-2 text-muted"></i> <span>Delete item</span></a></li>';
+                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navType') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     // } else {
                     //     $delete = '';
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $details = '<li><a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="dropdown-item actionDatatable"><i class="las la-info-circle align-bottom me-2 text-muted"></i> <span>Quick view</span></a></li>';
+                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
                     // } else {
                     //     $details = '';
                     // }
 
-                    $action = '<td>
-                    <div class="dropdown d-inline-block tableActionContent">
-                    <button class="btn btn-soft-info btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="ri-equalizer-fill"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">' . $status . $edit . $delete . $details . '</ul>
-                    </div>
-                    </td>';
+                    // if ($itemPermission['details_item'] == '1') {
+                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
+                    // } else {
+                    //     $details = '';
+                    // }
 
-                    return $action;
+                    return $this->dataTableHtmlPurse([
+                        'action' => [
+                            'primary' => [$status, $edit, $delete, $details],
+                            'secondary' => [$access],
+                        ]
+                    ]);
                 })
                 ->rawColumns(['description', 'status', 'icon', 'action'])
                 ->make(true);
@@ -350,42 +352,44 @@ class ManageNavAdminController extends Controller
 
                     // if ($itemPermission['status_item'] == '1') {
                     if ($data->status == Config::get('constants.status')['inactive']) {
-                        $status = '<li><a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navMain') . '/' . $dataArray['id'] . '" class="dropdown-item actionDatatable" title="Unblock"><i class="las la-lock-open align-bottom me-2 text-muted"></i> <span>Change status</span></a></li>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navMain') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
-                        $status = '<li><a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navMain') . '/' . $dataArray['id'] . '" class="dropdown-item actionDatatable" title="Block"><i class="las la-lock align-bottom me-2 text-muted"></i> <span>Change status</span></a></li>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navMain') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                     }
                     // } else {
                     //     $status = '';
                     // }
 
                     // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<li><a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="dropdown-item actionDatatable" title="Update"><i class="las la-edit align-bottom me-2 text-muted"></i> <span>Edit nav type</span></a></li>';
+                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
                     // } else {
                     //     $edit = '';
                     // }
 
                     // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<li><a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navMain') . '/' . $dataArray['id'] . '" class="dropdown-item actionDatatable" title="Delete"><i class="las la-trash align-bottom me-2 text-muted"></i> <span>Delete item</span></a></li>';
+                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navMain') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     // } else {
                     //     $delete = '';
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $details = '<li><a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="dropdown-item actionDatatable"><i class="las la-info-circle align-bottom me-2 text-muted"></i> <span>Quick view</span></a></li>';
+                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
                     // } else {
                     //     $details = '';
                     // }
 
-                    $action = '<td>
-                    <div class="dropdown d-inline-block tableActionContent">
-                    <button class="btn btn-soft-info btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="ri-equalizer-fill"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">' . $status . $edit . $delete . $details . '</ul>
-                    </div>
-                    </td>';
+                    // if ($itemPermission['details_item'] == '1') {
+                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
+                    // } else {
+                    //     $details = '';
+                    // }
 
-                    return $action;
+                    return $this->dataTableHtmlPurse([
+                        'action' => [
+                            'primary' => [$status, $edit, $delete, $details],
+                            'secondary' => [$access],
+                        ]
+                    ]);
                 })
                 ->rawColumns(['navType', 'status', 'icon', 'action'])
                 ->make(true);
@@ -626,42 +630,44 @@ class ManageNavAdminController extends Controller
 
                     // if ($itemPermission['status_item'] == '1') {
                     if ($data->status == Config::get('constants.status')['inactive']) {
-                        $status = '<li><a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navSub') . '/' . $dataArray['id'] . '" class="dropdown-item actionDatatable" title="Unblock"><i class="las la-lock-open align-bottom me-2 text-muted"></i> <span>Change status</span></a></li>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navSub') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
-                        $status = '<li><a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navSub') . '/' . $dataArray['id'] . '" class="dropdown-item actionDatatable" title="Block"><i class="las la-lock align-bottom me-2 text-muted"></i> <span>Change status</span></a></li>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navSub') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                     }
                     // } else {
                     //     $status = '';
                     // }
 
                     // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<li><a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="dropdown-item actionDatatable" title="Update"><i class="las la-edit align-bottom me-2 text-muted"></i> <span>Edit nav type</span></a></li>';
+                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
                     // } else {
                     //     $edit = '';
                     // }
 
                     // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<li><a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navSub') . '/' . $dataArray['id'] . '" class="dropdown-item actionDatatable" title="Delete"><i class="las la-trash align-bottom me-2 text-muted"></i> <span>Delete item</span></a></li>';
+                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navSub') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     // } else {
                     //     $delete = '';
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $details = '<li><a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="dropdown-item actionDatatable"><i class="las la-info-circle align-bottom me-2 text-muted"></i> <span>Quick view</span></a></li>';
+                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
                     // } else {
                     //     $details = '';
                     // }
 
-                    $action = '<td>
-                    <div class="dropdown d-inline-block tableActionContent">
-                    <button class="btn btn-soft-info btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="ri-equalizer-fill"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">' . $status . $edit . $delete . $details . '</ul>
-                    </div>
-                    </td>';
+                    // if ($itemPermission['details_item'] == '1') {
+                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
+                    // } else {
+                    //     $details = '';
+                    // }
 
-                    return $action;
+                    return $this->dataTableHtmlPurse([
+                        'action' => [
+                            'primary' => [$status, $edit, $delete, $details],
+                            'secondary' => [$access],
+                        ]
+                    ]);
                 })
                 ->rawColumns(['navType', 'navMain', 'status', 'icon', 'action'])
                 ->make(true);
@@ -903,42 +909,44 @@ class ManageNavAdminController extends Controller
 
                     // if ($itemPermission['status_item'] == '1') {
                     if ($data->status == Config::get('constants.status')['inactive']) {
-                        $status = '<li><a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navNested') . '/' . $dataArray['id'] . '" class="dropdown-item actionDatatable" title="Unblock"><i class="las la-lock-open align-bottom me-2 text-muted"></i> <span>Change status</span></a></li>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navNested') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
-                        $status = '<li><a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navNested') . '/' . $dataArray['id'] . '" class="dropdown-item actionDatatable" title="Block"><i class="las la-lock align-bottom me-2 text-muted"></i> <span>Change status</span></a></li>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navNested') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                     }
                     // } else {
                     //     $status = '';
                     // }
 
                     // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<li><a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="dropdown-item actionDatatable" title="Update"><i class="las la-edit align-bottom me-2 text-muted"></i> <span>Edit nav type</span></a></li>';
+                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
                     // } else {
                     //     $edit = '';
                     // }
 
                     // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<li><a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navNested') . '/' . $dataArray['id'] . '" class="dropdown-item actionDatatable" title="Delete"><i class="las la-trash align-bottom me-2 text-muted"></i> <span>Delete item</span></a></li>';
+                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navNested') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     // } else {
                     //     $delete = '';
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $details = '<li><a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="dropdown-item actionDatatable"><i class="las la-info-circle align-bottom me-2 text-muted"></i> <span>Quick view</span></a></li>';
+                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
                     // } else {
                     //     $details = '';
                     // }
 
-                    $action = '<td>
-                    <div class="dropdown d-inline-block tableActionContent">
-                    <button class="btn btn-soft-info btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="ri-equalizer-fill"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">' . $status . $edit . $delete . $details . '</ul>
-                    </div>
-                    </td>';
+                    // if ($itemPermission['details_item'] == '1') {
+                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
+                    // } else {
+                    //     $details = '';
+                    // }
 
-                    return $action;
+                    return $this->dataTableHtmlPurse([
+                        'action' => [
+                            'primary' => [$status, $edit, $delete, $details],
+                            'secondary' => [$access],
+                        ]
+                    ]);
                 })
                 ->rawColumns(['navType', 'navMain', 'navSub', 'status', 'icon', 'action'])
                 ->make(true);
