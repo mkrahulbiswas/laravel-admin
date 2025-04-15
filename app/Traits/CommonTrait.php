@@ -175,6 +175,45 @@ trait CommonTrait
         }
     }
 
+    public static function dataTableHtmlPurse($params)
+    {
+        $primaryAction = $secondaryAction = '';
+        foreach ($params['action']['primary'] as $temp) {
+            if (Str::contains($temp, 'status')) {
+                $primaryAction .= '<div class="buttonOpenCommon buttonOpenStatus">' . $temp . '</div>';
+            }
+            if (Str::contains($temp, 'edit')) {
+                $primaryAction .= '<div class="buttonOpenCommon buttonOpenEdit">' . $temp . '</div>';
+            }
+            if (Str::contains($temp, 'delete')) {
+                $primaryAction .= '<div class="buttonOpenCommon buttonOpenDelete">' . $temp . '</div>';
+            }
+            if (Str::contains($temp, 'details')) {
+                $primaryAction .= '<div class="buttonOpenCommon buttonOpenDetails">' . $temp . '</div>';
+            }
+            if (Str::contains($temp, 'access')) {
+                $primaryAction .= '<div class="buttonOpenCommon buttonOpenAccess">' . $temp . '</div>';
+            }
+        }
+        foreach ($params['action']['secondary'] as $temp) {
+            $secondaryAction .= '<div class="innerContentCommon">' . $temp . '</div>';
+        }
+        $html = '<div class="tableActionButton">
+            <div class="actionButtonOpen">
+            ' . $primaryAction . '
+                <div class="buttonOpenCommon buttonOpenToggle">
+                    <a type="button" class="btn btn-sm">
+                        <i class="mdi mdi-menu-open"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="actionButtonInner">
+                ' . $secondaryAction . '
+            </div>
+        </div>';
+        return $html;
+    }
+
     public static function customizeInText($params)
     {
         $status = '';

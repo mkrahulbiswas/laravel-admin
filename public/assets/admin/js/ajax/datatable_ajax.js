@@ -17,7 +17,6 @@
         });
 
 
-
         /*--========================= ( USER START ) =========================--*/
         /*------( Users Admin Listing )--------*/
         $('#users-admin-listing').DataTable({
@@ -194,12 +193,6 @@
                     searchable: false
                 },
                 {
-                    data: 'action',
-                    name: 'actions',
-                    orderable: false,
-                    searchable: false
-                },
-                {
                     data: "uniqueId"
                 },
                 {
@@ -213,6 +206,12 @@
                 },
                 {
                     data: "status",
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
                 }
             ]
         });

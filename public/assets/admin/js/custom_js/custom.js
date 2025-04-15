@@ -80,9 +80,13 @@
                     'opacity': '0',
                     'pointer-events': 'none',
                 })
+                .closest('.tableActionButton')
+                .find('.buttonOpenToggle a i').attr('class', 'mdi mdi mdi-menu-open')
 
             if ($(targetId).closest('.tableActionButton').attr('data-isOpen') === "true") {
-                $(targetId).closest('.tableActionButton')
+                $(targetId).find('a i')
+                    .attr('class', 'mdi mdi mdi-menu-open')
+                    .closest('.tableActionButton')
                     .attr('data-isOpen', false)
                     .css({
                         'border-bottom-left-radius': '0.25rem',
@@ -95,7 +99,9 @@
                         'pointer-events': 'none',
                     })
             } else {
-                $(targetId).closest('.tableActionButton')
+                $(targetId).find('a i')
+                    .attr('class', 'mdi mdi-close-box-multiple')
+                    .closest('.tableActionButton')
                     .attr('data-isOpen', true)
                     .css({
                         'border-bottom-left-radius': '0px',
@@ -105,7 +111,7 @@
                     .css({
                         'top': '40px',
                         'opacity': '1',
-                        'pointer-events': 'click',
+                        'pointer-events': 'auto',
                     })
             }
         })
