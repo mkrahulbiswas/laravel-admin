@@ -708,6 +708,85 @@
             });
         });
 
+        //---- ( Nav Type Access ) ----//
+        $("#accessNavTypeForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#accessNavTypeBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        // loader: {
+                        //     isSet: true
+                        // },
+                        resetValidation: {},
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Please wait...',
+                        //         disabled: true
+                        //     }
+                        // }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        // loader: {
+                        //     isSet: false
+                        // },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Set Access',
+                        //         disabled: false
+                        //     }
+                        // }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.name, function (i) {
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#managePanel-manageNav-navType')
+                                }
+                            }
+                        })
+                    }
+                }
+            });
+        });
+
         //---- ( Nav Type Status, Edit, Detail ) ----//
         $('body').delegate('#managePanel-manageNav-navType .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
@@ -749,6 +828,12 @@
                 id.find('#name').val(data.name);
                 id.find('#icon').val(data.icon);
                 id.find('#description').val(data.description);
+            } else if (type == 'access') {
+                id = $('#con-access-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                id.find('#id').val(data.id);
+                id.find('#name').val(data.name);
             } else {
                 id = $('#con-detail-modal');
                 id.modal('show');

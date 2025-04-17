@@ -8,7 +8,7 @@
 
 
 function callOnModalClose() {
-    $('.con-add-modal, .con-edit-modal').on("hidden.bs.modal", function () {
+    $('.con-add-modal, .con-edit-modal, .con-access-modal').on("hidden.bs.modal", function () {
         $(this).find('form')[0].reset();
         $(this).find('.dropify-clear').trigger('click');
         $(this).find('.selectTwo').val('').trigger('change');

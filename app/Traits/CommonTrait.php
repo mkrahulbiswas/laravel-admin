@@ -179,19 +179,19 @@ trait CommonTrait
     {
         $primaryAction = $secondaryAction = '';
         foreach ($params['action']['primary'] as $temp) {
-            if (Str::contains($temp, 'status')) {
+            if (Str::contains($temp, 'data-type="status"')) {
                 $primaryAction .= '<div class="buttonOpenCommon buttonOpenStatus">' . $temp . '</div>';
             }
-            if (Str::contains($temp, 'edit')) {
+            if (Str::contains($temp, 'data-type="edit"')) {
                 $primaryAction .= '<div class="buttonOpenCommon buttonOpenEdit">' . $temp . '</div>';
             }
-            if (Str::contains($temp, 'delete')) {
+            if (Str::contains($temp, 'data-type="delete"')) {
                 $primaryAction .= '<div class="buttonOpenCommon buttonOpenDelete">' . $temp . '</div>';
             }
-            if (Str::contains($temp, 'details')) {
+            if (Str::contains($temp, 'data-type="details"')) {
                 $primaryAction .= '<div class="buttonOpenCommon buttonOpenDetails">' . $temp . '</div>';
             }
-            if (Str::contains($temp, 'access')) {
+            if (Str::contains($temp, 'data-type="access"')) {
                 $primaryAction .= '<div class="buttonOpenCommon buttonOpenAccess">' . $temp . '</div>';
             }
         }

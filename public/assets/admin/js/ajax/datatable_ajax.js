@@ -193,7 +193,7 @@
                     searchable: false
                 },
                 {
-                    data: "uniqueId"
+                    data: "uniqueId",
                 },
                 {
                     data: "name"

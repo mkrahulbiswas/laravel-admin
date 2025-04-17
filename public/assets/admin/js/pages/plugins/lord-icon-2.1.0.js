@@ -8017,7 +8017,7 @@
                 }
             }
             refresh() {
-                this._lottie ? .renderer.renderFrame(null), this.triggerEvent("refresh")
+                this._lottie.renderer.renderFrame(null), this.triggerEvent("refresh")
             }
             play() {
                 this._lottie.play()
@@ -8113,7 +8113,7 @@
                 return null
             }
             set speed(t) {
-                this._speed = t, this._lottie ? .setSpeed(t)
+                this._speed = t, this._lottie.setSpeed(t)
             }
             get speed() {
                 return this._speed
@@ -8162,7 +8162,7 @@
                         } = e;
                     return t && t.layers ? (t.layers.forEach(((t, e) => {
                         t.nm && t.ef && t.nm.toLowerCase().includes("change") && t.ef.forEach(((t, s) => {
-                            const a = t ? .ef ? . [0] ? .v ? .k;
+                            const a = t.ef[0].v.k;
                             if (void 0 === a) return;
                             let n, o;
                             if (n = i ? `renderer.elements.${e}.effectsManager.effectElements.${s}.effectElements.0.p.v` : `layers.${e}.ef.${s}.ef.0.v.k`, "ADBE Color Control" === t.mn ? o = "color" : "ADBE Slider Control" === t.mn ? o = "slider" : "ADBE Point Control" === t.mn ? o = "point" : "ADBE Checkbox Control" === t.mn && (o = "checkbox"), !o) return;

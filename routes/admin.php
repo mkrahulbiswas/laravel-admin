@@ -102,6 +102,7 @@ Route::middleware(['checkAdmin', CheckPermission::class])->group(function () {
             Route::get('nav-type/ajaxGetList', [ManageNavAdminController::class, 'getNavType'])->name('admin.get.navType');
             Route::post('nav-type/add/save', [ManageNavAdminController::class, 'saveNavType'])->name('admin.save.navType');
             Route::post('nav-type/edit/update', [ManageNavAdminController::class, 'updateNavType'])->name('admin.update.navType');
+            Route::post('nav-type/edit/access', [ManageNavAdminController::class, 'accessNavType'])->name('admin.access.navType');
             Route::get('nav-type/change-status/{id?}', [ManageNavAdminController::class, 'statusNavType'])->name('admin.status.navType');
             Route::get('nav-type/delete/{id?}', [ManageNavAdminController::class, 'deleteNavType'])->name('admin.delete.navType');
 

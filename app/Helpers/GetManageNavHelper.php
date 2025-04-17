@@ -48,6 +48,12 @@ class GetManageNavHelper
                             $orderByRaw = "`position` " . $position;
                         }
                     }
+                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'id')) {
+                        $id = $params['otherDataPasses']['orderBy']['id'];
+                        if (!empty($id)) {
+                            $orderByRaw = "`id` " . $id;
+                        }
+                    }
                 }
 
                 foreach (NavType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
@@ -295,7 +301,9 @@ class GetManageNavHelper
                         'name' => $navType->name,
                         'icon' => $navType->icon,
                         'position' => $navType->position,
-                        'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $navType->uniqueId]),
+                        'description' => $navType->description,
+                        'access' => json_decode($navType->access, true),
+                        'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $navType->uniqueId, 'targetRoute' => 'admin.details.client', 'targetId' => $navType->id]),
                         'status' => CommonTrait::customizeInText(['type' => 'status', 'value' => $navType->status]),
                         // 'uniqueId2' => CommonTrait::hyperLinkInText(['targetId' => $navType->id, 'targetRoute' => 'admin.details.product', 'type' => 'uniqueId', 'value' => $navType->uniqueId]),
                     ]

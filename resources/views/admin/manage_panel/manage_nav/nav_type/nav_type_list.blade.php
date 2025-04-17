@@ -68,7 +68,7 @@
                                                 @csrf
                                                 <div class="row">
 
-                                                    <div class="form-element col-md-2 m-t-5">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
                                                         <div class="form-icon set-validation">
                                                             <select name="status" id="statusFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any status">
@@ -80,7 +80,7 @@
                                                         <div class="validation-error" id="navTypeErr"></div>
                                                     </div>
 
-                                                    <div class="col-md-2 m-t-5">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         <div class="form-group d-flex flex-row justify-content-around">
                                                             <button type="button" class="btn btn-info btn-label waves-effect waves-light filterNavTypeBtn" title="Search">
                                                                 <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
@@ -237,6 +237,141 @@
                         <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateNavTypeBtn">
                             <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                             <span>Update</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="con-access-modal" class="modal fade con-access-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="accessNavTypeForm" action="{{ route('admin.access.navType') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                    @csrf
+                    <input type="hidden" name="id" id="id" value="">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel">Set Nav Type Access</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-element col-12 mb-3">
+                                <label for="name" class="form-label">Nav Type Name</label>
+                                <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Nav type" readonly>
+                            </div>
+                            <div class="form-element col-12">
+                                <label for="name" class="form-label">Set Access <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                            </div>
+                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                <div class="form-icon set-validation">
+                                    <div class="form-check form-switch form-switch-success">
+                                        <label class="fw-normal form-check-label" for="switchCheck1">Add Access</label>
+                                        <input class="form-check-input" name="access[add]" type="checkbox" role="switch" id="switchCheck1">
+                                    </div>
+                                </div>
+                                <div class="validation-error" id="nameErr"></div>
+                            </div>
+                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                <div class="form-icon set-validation">
+                                    <div class="form-check form-switch form-switch-success">
+                                        <label class="fw-normal form-check-label" for="switchCheck2">Edit Access</label>
+                                        <input class="form-check-input" name="access[edit]" type="checkbox" role="switch" id="switchCheck2">
+                                    </div>
+                                </div>
+                                <div class="validation-error" id="nameErr"></div>
+                            </div>
+                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                <div class="form-icon set-validation">
+                                    <div class="form-check form-switch form-switch-success">
+                                        <label class="fw-normal form-check-label" for="switchCheck3">Status Access</label>
+                                        <input class="form-check-input" name="access[status]" type="checkbox" role="switch" id="switchCheck3">
+                                    </div>
+                                </div>
+                                <div class="validation-error" id="nameErr"></div>
+                            </div>
+                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                <div class="form-icon set-validation">
+                                    <div class="form-check form-switch form-switch-success">
+                                        <label class="fw-normal form-check-label" for="switchCheck4">Delete Access</label>
+                                        <input class="form-check-input" name="access[delete]" type="checkbox" role="switch" id="switchCheck4">
+                                    </div>
+                                </div>
+                                <div class="validation-error" id="nameErr"></div>
+                            </div>
+                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                <div class="form-icon set-validation">
+                                    <div class="form-check form-switch form-switch-success">
+                                        <label class="fw-normal form-check-label" for="switchCheck5">Filter Access</label>
+                                        <input class="form-check-input" name="access[filter]" type="checkbox" role="switch" id="switchCheck5">
+                                    </div>
+                                </div>
+                                <div class="validation-error" id="nameErr"></div>
+                            </div>
+                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                <div class="form-icon set-validation">
+                                    <div class="form-check form-switch form-switch-success">
+                                        <label class="fw-normal form-check-label" for="switchCheck6">Reload Access</label>
+                                        <input class="form-check-input" name="access[reload]" type="checkbox" role="switch" id="switchCheck6">
+                                    </div>
+                                </div>
+                                <div class="validation-error" id="nameErr"></div>
+                            </div>
+                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                <div class="form-icon set-validation">
+                                    <div class="form-check form-switch form-switch-success">
+                                        <label class="fw-normal form-check-label" for="switchCheck7">Reset Access</label>
+                                        <input class="form-check-input" name="access[reset]" type="checkbox" role="switch" id="switchCheck7">
+                                    </div>
+                                </div>
+                                <div class="validation-error" id="nameErr"></div>
+                            </div>
+                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                <div class="form-icon set-validation">
+                                    <div class="form-check form-switch form-switch-success">
+                                        <label class="fw-normal form-check-label" for="switchCheck8">Search Access</label>
+                                        <input class="form-check-input" name="access[search]" type="checkbox" role="switch" id="switchCheck8">
+                                    </div>
+                                </div>
+                                <div class="validation-error" id="nameErr"></div>
+                            </div>
+                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                <div class="form-icon set-validation">
+                                    <div class="form-check form-switch form-switch-success">
+                                        <label class="fw-normal form-check-label" for="switchCheck9">Other Access</label>
+                                        <input class="form-check-input" name="access[other]" type="checkbox" role="switch" id="switchCheck9">
+                                    </div>
+                                </div>
+                                <div class="validation-error" id="nameErr"></div>
+                            </div>
+                            <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                                <div class="form-icon set-validation">
+                                    <div class="form-check form-switch form-switch-success">
+                                        <label class="fw-normal form-check-label" for="switchCheck10">Permission Access</label>
+                                        <input class="form-check-input" name="access[permission]" type="checkbox" role="switch" id="switchCheck10">
+                                    </div>
+                                </div>
+                                <div class="validation-error" id="nameErr"></div>
+                            </div>
+                            <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                                <div class="form-icon set-validation">
+                                    <div class="form-check form-switch form-switch-success">
+                                        <label class="fw-normal form-check-label" for="switchCheck11">Access Of Access</label>
+                                        <input class="form-check-input" name="access[access]" type="checkbox" role="switch" id="switchCheck11">
+                                    </div>
+                                </div>
+                                <div class="validation-error" id="nameErr"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
+                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
+                            <span>Close</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="accessNavTypeBtn">
+                            <i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                            <span>Set Access</span>
                         </button>
                     </div>
                 </form>
