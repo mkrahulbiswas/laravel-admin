@@ -208,12 +208,16 @@ class ManageNavAdminController extends Controller
         try {
             $navType = NavType::find($id);
 
-            $navType->access = $values['access'];
+            if (isset($values['access'])) {
+                $navType->access = $values['access'];
+            } else {
+                $navType->access = null;
+            }
 
             if ($navType->update()) {
-                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Type", 'msg' => __('messages.updateMsg', ['type' => 'Nav type'])['success']], config('constants.ok'));
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Type", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
             } else {
-                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Type", 'msg' => __('messages.updateMsg', ['type' => 'Nav type'])['failed']], config('constants.ok'));
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Type", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
             }
         } catch (Exception $e) {
             return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Type", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
@@ -331,78 +335,71 @@ class ManageNavAdminController extends Controller
     public function getNavMain(Request $request)
     {
         try {
-            $status = $request->status;
-            $navType = $request->navType;
+            $navMain = GetManageNavHelper::getList([
+                'type' => [Config::get('constants.typeCheck.manageNav.navMain.type')],
+                'otherDataPasses' => [
+                    'filterData' => [
+                        'status' => $request->status,
+                        'navTypeId' => $request->navType
+                    ],
+                    'orderBy' => [
+                        'id' => 'desc'
+                    ]
+                ],
+            ]);
 
-            $query = "`created_at` is not null";
-
-            if (!empty($status)) {
-                $query .= " and `status` = '" . $status . "'";
-            }
-
-            if (!empty($navType)) {
-                $query .= " and `navTypeId` = " . decrypt($navType);
-            }
-
-            $navMain = NavMain::orderBy('id', 'desc')->whereRaw($query)->get();
-
-            return Datatables::of($navMain)
+            return Datatables::of($navMain['navMain']['navMain'])
                 ->addIndexColumn()
                 ->addColumn('navType', function ($data) {
-                    $navType = NavType::where('id', $data->navTypeId)->first()->name;
+                    $navType = $data['navType']['name'];
                     return $navType;
                 })
+                ->addColumn('uniqueId', function ($data) {
+                    $uniqueId = $data['uniqueId']['raw'];
+                    return $uniqueId;
+                })
                 ->addColumn('status', function ($data) {
-                    $status = CommonTrait::customizeInText(['type' => 'status', 'value' => $data->status])['status'];
+                    $status = $data['status']['status'];
                     return $status;
                 })
                 ->addColumn('icon', function ($data) {
-                    $icon = '<i class="' . $data->icon . '"></i>';
+                    $icon = '<i class="' . $data['icon'] . '"></i>';
                     return $icon;
                 })
                 ->addColumn('action', function ($data) {
 
                     // $itemPermission = $this->itemPermission();
 
-                    $dataArray = [
-                        'id' => encrypt($data->id),
-                        'navType' => NavType::where('id', $data->navTypeId)->first()->name,
-                        'name' => $data->name,
-                        'icon' => $data->icon,
-                        'description' => $data->description,
-                    ];
-
-
                     // if ($itemPermission['status_item'] == '1') {
-                    if ($data->status == Config::get('constants.status')['inactive']) {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navMain') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                    if ($data['status']['status'] == Config::get('constants.status')['inactive']) {
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navMain') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                     }
                     // } else {
                     //     $status = '';
                     // }
 
                     // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
                     // } else {
                     //     $edit = '';
                     // }
 
                     // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navMain') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     // } else {
                     //     $delete = '';
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
+                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
                     // } else {
                     //     $details = '';
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
+                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
                     // } else {
                     //     $details = '';
                     // }
@@ -414,7 +411,7 @@ class ManageNavAdminController extends Controller
                         ]
                     ]);
                 })
-                ->rawColumns(['navType', 'status', 'icon', 'action'])
+                ->rawColumns(['navType', 'uniqueId', 'status', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -493,6 +490,35 @@ class ManageNavAdminController extends Controller
                 } else {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.updateMsg', ['type' => 'Nav main'])['failed']], config('constants.ok'));
                 }
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Main", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+        }
+    }
+
+    public function accessNavMain(Request $request)
+    {
+        $values = $request->only('id', 'name', 'access');
+
+        try {
+            $id = decrypt($values['id']);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Nav Main", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
+        }
+
+        try {
+            $navMain = NavMain::find($id);
+
+            if (isset($values['access'])) {
+                $navMain->access = $values['access'];
+            } else {
+                $navMain->access = null;
+            }
+
+            if ($navMain->update()) {
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
+            } else {
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
             }
         } catch (Exception $e) {
             return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Main", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
@@ -599,88 +625,76 @@ class ManageNavAdminController extends Controller
     public function getNavSub(Request $request)
     {
         try {
-            $status = $request->status;
-            $navType = $request->navType;
-            $navMain = $request->navMain;
+            $navSub = GetManageNavHelper::getList([
+                'type' => [Config::get('constants.typeCheck.manageNav.navSub.type')],
+                'otherDataPasses' => [
+                    'filterData' => [
+                        'status' => $request->status,
+                        'navTypeId' => $request->navType,
+                        'navMainId' => $request->navMain
+                    ],
+                    'orderBy' => [
+                        'id' => 'desc'
+                    ]
+                ],
+            ]);
 
-            $query = "`created_at` is not null";
-
-            if (!empty($status)) {
-                $query .= " and `status` = '" . $status . "'";
-            }
-
-            if (!empty($navType)) {
-                $query .= " and `navTypeId` = " . decrypt($navType);
-            }
-
-            if (!empty($navMain)) {
-                $query .= " and `navMainId` = " . decrypt($navMain);
-            }
-
-            $navSub = NavSub::orderBy('id', 'desc')->whereRaw($query)->get();
-
-            return Datatables::of($navSub)
+            return Datatables::of($navSub['navSub']['navSub'])
                 ->addIndexColumn()
                 ->addColumn('navType', function ($data) {
-                    $navType = NavType::where('id', $data->navTypeId)->first()->name;
+                    $navType = $data['navType']['name'];
                     return $navType;
                 })
                 ->addColumn('navMain', function ($data) {
-                    $navMain = NavMain::where('id', $data->navMainId)->first()->name;
+                    $navMain = $data['navMain']['name'];
                     return $navMain;
                 })
+                ->addColumn('uniqueId', function ($data) {
+                    $uniqueId = $data['uniqueId']['raw'];
+                    return $uniqueId;
+                })
                 ->addColumn('status', function ($data) {
-                    $status = CommonTrait::customizeInText(['type' => 'status', 'value' => $data->status])['status'];
+                    $status = $data['status']['status'];
                     return $status;
                 })
                 ->addColumn('icon', function ($data) {
-                    $icon = '<i class="' . $data->icon . '"></i>';
+                    $icon = '<i class="' . $data['icon'] . '"></i>';
                     return $icon;
                 })
                 ->addColumn('action', function ($data) {
 
                     // $itemPermission = $this->itemPermission();
 
-                    $dataArray = [
-                        'id' => encrypt($data->id),
-                        'navType' => NavType::where('id', $data->navTypeId)->first()->name,
-                        'navMain' => NavMain::where('id', $data->navMainId)->first()->name,
-                        'name' => $data->name,
-                        'icon' => $data->icon,
-                        'description' => $data->description,
-                    ];
-
-
                     // if ($itemPermission['status_item'] == '1') {
-                    if ($data->status == Config::get('constants.status')['inactive']) {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navSub') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                    if ($data['status']['status'] == Config::get('constants.status')['inactive']) {
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navSub') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                     }
                     // } else {
                     //     $status = '';
                     // }
 
                     // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
                     // } else {
                     //     $edit = '';
                     // }
 
                     // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navSub') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     // } else {
                     //     $delete = '';
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
+                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
                     // } else {
                     //     $details = '';
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
+                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
                     // } else {
                     //     $details = '';
                     // }
@@ -692,7 +706,7 @@ class ManageNavAdminController extends Controller
                         ]
                     ]);
                 })
-                ->rawColumns(['navType', 'navMain', 'status', 'icon', 'action'])
+                ->rawColumns(['navType', 'navMain', 'uniqueId', 'status', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -773,6 +787,35 @@ class ManageNavAdminController extends Controller
                 } else {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Sub", 'msg' =>  __('messages.updateMsg', ['type' => 'Nav sub'])['failed']], config('constants.ok'));
                 }
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Sub", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+        }
+    }
+
+    public function accessNavSub(Request $request)
+    {
+        $values = $request->only('id', 'name', 'access');
+
+        try {
+            $id = decrypt($values['id']);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Nav Sub", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
+        }
+
+        try {
+            $navSub = NavSub::find($id);
+
+            if (isset($values['access'])) {
+                $navSub->access = $values['access'];
+            } else {
+                $navSub->access = null;
+            }
+
+            if ($navSub->update()) {
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
+            } else {
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
             }
         } catch (Exception $e) {
             return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Sub", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
@@ -868,98 +911,81 @@ class ManageNavAdminController extends Controller
     public function getNavNested(Request $request)
     {
         try {
-            $status = $request->status;
-            $navSub = $request->navSub;
-            $navMain = $request->navMain;
-            $navType = $request->navType;
+            $navNested = GetManageNavHelper::getList([
+                'type' => [Config::get('constants.typeCheck.manageNav.navNested.type')],
+                'otherDataPasses' => [
+                    'filterData' => [
+                        'status' => $request->status,
+                        'navTypeId' => $request->navType,
+                        'navMainId' => $request->navMain,
+                        'navSubId' => $request->navSub,
+                    ],
+                    'orderBy' => [
+                        'id' => 'desc'
+                    ]
+                ],
+            ]);
 
-            $query = "`created_at` is not null";
-
-            if (!empty($status)) {
-                $query .= " and `status` = '" . $status . "'";
-            }
-
-            if (!empty($navType)) {
-                $query .= " and `navTypeId` = " . decrypt($navType);
-            }
-
-            if (!empty($navMain)) {
-                $query .= " and `navMainId` = " . decrypt($navMain);
-            }
-
-            if (!empty($navSub)) {
-                $query .= " and `navSubId` = " . decrypt($navSub);
-            }
-
-            $navNested = NavNested::orderBy('id', 'desc')->whereRaw($query)->get();
-
-            return Datatables::of($navNested)
+            return Datatables::of($navNested['navNested']['navNested'])
                 ->addIndexColumn()
                 ->addColumn('navType', function ($data) {
-                    $navType = NavType::where('id', $data->navTypeId)->first()->name;
+                    $navType = $data['navType']['name'];
                     return $navType;
                 })
                 ->addColumn('navMain', function ($data) {
-                    $navMain = NavMain::where('id', $data->navMainId)->first()->name;
+                    $navMain = $data['navMain']['name'];
                     return $navMain;
                 })
                 ->addColumn('navSub', function ($data) {
-                    $navSub = NavSub::where('id', $data->navSubId)->first()->name;
+                    $navSub = $data['navSub']['name'];
                     return $navSub;
                 })
+                ->addColumn('uniqueId', function ($data) {
+                    $uniqueId = $data['uniqueId']['raw'];
+                    return $uniqueId;
+                })
                 ->addColumn('status', function ($data) {
-                    $status = CommonTrait::customizeInText(['type' => 'status', 'value' => $data->status])['status'];
+                    $status = $data['status']['status'];
                     return $status;
                 })
                 ->addColumn('icon', function ($data) {
-                    $icon = '<i class="' . $data->icon . '"></i>';
+                    $icon = '<i class="' . $data['icon'] . '"></i>';
                     return $icon;
                 })
                 ->addColumn('action', function ($data) {
 
                     // $itemPermission = $this->itemPermission();
 
-                    $dataArray = [
-                        'id' => encrypt($data->id),
-                        'navType' => NavType::where('id', $data->navTypeId)->first()->name,
-                        'navMain' => NavMain::where('id', $data->navMainId)->first()->name,
-                        'navSub' => NavSub::where('id', $data->navSubId)->first()->name,
-                        'name' => $data->name,
-                        'icon' => $data->icon,
-                        'description' => $data->description,
-                    ];
-
-
                     // if ($itemPermission['status_item'] == '1') {
-                    if ($data->status == Config::get('constants.status')['inactive']) {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navNested') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                    if ($data['status']['status'] == Config::get('constants.status')['inactive']) {
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navNested') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navNested') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navNested') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                     }
                     // } else {
                     //     $status = '';
                     // }
 
                     // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
                     // } else {
                     //     $edit = '';
                     // }
 
                     // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navNested') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navNested') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     // } else {
                     //     $delete = '';
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
+                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
                     // } else {
                     //     $details = '';
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
+                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
                     // } else {
                     //     $details = '';
                     // }
@@ -971,7 +997,7 @@ class ManageNavAdminController extends Controller
                         ]
                     ]);
                 })
-                ->rawColumns(['navType', 'navMain', 'navSub', 'status', 'icon', 'action'])
+                ->rawColumns(['navType', 'navMain', 'navSub', 'uniqueId', 'status', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -1054,6 +1080,35 @@ class ManageNavAdminController extends Controller
                 } else {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Nested", 'msg' => __('messages.updateMsg', ['type' => 'Nav nested'])['failed']], config('constants.ok'));
                 }
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Nested", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+        }
+    }
+
+    public function accessNavNested(Request $request)
+    {
+        $values = $request->only('id', 'name', 'access');
+
+        try {
+            $id = decrypt($values['id']);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Nav Nested", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
+        }
+
+        try {
+            $navNested = NavNested::find($id);
+
+            if (isset($values['access'])) {
+                $navNested->access = $values['access'];
+            } else {
+                $navNested->access = null;
+            }
+
+            if ($navNested->update()) {
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Nested", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
+            } else {
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Nested", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
             }
         } catch (Exception $e) {
             return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Nested", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));

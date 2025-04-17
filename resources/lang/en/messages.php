@@ -18,6 +18,10 @@ return [
         'success' => ':type successfully updated.',
         'failed' => ':type failed to updated.',
     ],
+    'setAccessMsg' => [
+        'success' => ':type successfully set.',
+        'failed' => ':type failed to set.',
+    ],
     'statusMsg' => [
         'success' => ':type status successfully changed.',
         'failed' => ':type status failed to change.',

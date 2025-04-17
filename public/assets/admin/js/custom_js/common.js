@@ -10,6 +10,7 @@
 function callOnModalClose() {
     $('.con-add-modal, .con-edit-modal, .con-access-modal').on("hidden.bs.modal", function () {
         $(this).find('form')[0].reset();
+        $(this).find('[type="checkbox"]').attr('checked', false);
         $(this).find('.dropify-clear').trigger('click');
         $(this).find('.selectTwo').val('').trigger('change');
         $(this).find('.selectPicker').selectpicker('val', '');
@@ -68,6 +69,21 @@ function callSelect2() {
     $('.select2-navSub-editModal').select2({
         tags: false,
         placeholder: "Select Nav Sub",
+        dropdownParent: $('#con-edit-modal')
+    });
+
+    $('.select2-navNested').select2({
+        tags: false,
+        placeholder: "Select Nav Nested"
+    });
+    $('.select2-navNested-addModal').select2({
+        tags: false,
+        placeholder: "Select Nav Nested",
+        dropdownParent: $('#con-add-modal')
+    });
+    $('.select2-navNested-editModal').select2({
+        tags: false,
+        placeholder: "Select Nav Nested",
         dropdownParent: $('#con-edit-modal')
     });
 
