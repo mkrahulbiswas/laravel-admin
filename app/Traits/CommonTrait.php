@@ -175,81 +175,127 @@ trait CommonTrait
         }
     }
 
-    public static function dataTableHtmlPurse($params)
+    public static function dynamicHtmlPurse($params)
     {
-        $primaryAction = $secondaryAction = '';
-        foreach ($params['action']['primary'] as $temp) {
-            if (Str::contains($temp, 'data-type="status"')) {
-                $primaryAction .= '<div class="buttonOpenCommon buttonOpenStatus">' . $temp . '</div>';
+        $return = array();
+        foreach ($params as $tempOne) {
+            if ($tempOne['type'] == 'dtMultiData') {
+                // foreach ($tempOne['data'] as $tempTwo) {
+                //     if ($tempTwo['type'] == 'access') {
+                //     }
+                //     if ($tempTwo['type'] == 'access') {
+                //     }
+                // }
+
+                $status = '<div class="dtMultiDataCommon">
+                    <label>Status:</label>
+                    ' . $tempOne['data']['status']['custom'] . '
+                </div>';
+
+                $access = '<div class="dtMultiDataCommon">
+                    <label>Access:</label>
+                    ' . $tempOne['data']['access']['custom'] . '
+                </div>';
+
+                $html = '<div class="dtMultiData">
+                    <div class="dtMultiDataMain">
+                        <div class="dtMultiDataSub">
+                            ' . $status . $access . '
+                        </div>
+                    </div>
+                </div>';
+
+                $return['dtMultiData'] = [
+                    'custom' => $html,
+                    'raw' => $tempOne['data']
+                ];
             }
-            if (Str::contains($temp, 'data-type="edit"')) {
-                $primaryAction .= '<div class="buttonOpenCommon buttonOpenEdit">' . $temp . '</div>';
-            }
-            if (Str::contains($temp, 'data-type="delete"')) {
-                $primaryAction .= '<div class="buttonOpenCommon buttonOpenDelete">' . $temp . '</div>';
-            }
-            if (Str::contains($temp, 'data-type="details"')) {
-                $primaryAction .= '<div class="buttonOpenCommon buttonOpenDetails">' . $temp . '</div>';
-            }
-            if (Str::contains($temp, 'data-type="access"')) {
-                $primaryAction .= '<div class="buttonOpenCommon buttonOpenAccess">' . $temp . '</div>';
+
+            if ($tempOne['type'] == 'dtAction') {
+                $primaryAction = $secondaryAction = '';
+
+                foreach ($tempOne['data']['primary'] as $tempTwo) {
+                    if (Str::contains($tempTwo, 'data-type="status"')) {
+                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonStatus">' . $tempTwo . '</div>';
+                    }
+                    if (Str::contains($tempTwo, 'data-type="edit"')) {
+                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonEdit">' . $tempTwo . '</div>';
+                    }
+                    if (Str::contains($tempTwo, 'data-type="delete"')) {
+                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonDelete">' . $tempTwo . '</div>';
+                    }
+                    if (Str::contains($tempTwo, 'data-type="details"')) {
+                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonDetails">' . $tempTwo . '</div>';
+                    }
+                    if (Str::contains($tempTwo, 'data-type="access"')) {
+                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonAccess">' . $tempTwo . '</div>';
+                    }
+                }
+
+                foreach ($tempOne['data']['secondary'] as $tempTwo) {
+                    $secondaryAction .= '<div class="tdActionInnerCommon">' . $tempTwo . '</div>';
+                }
+
+                $html = '<div class="tdAction">
+                    <div class="tdActionButton">
+                    ' . $primaryAction . '
+                        <div class="tdActionButtonCommon tdActionButtonToggle">
+                            <a type="button" class="btn btn-sm">
+                                <i class="mdi mdi-menu-open"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="tdActionInner">
+                        ' . $secondaryAction . '
+                    </div>
+                </div>';
+
+                $return['dtAction'] = [
+                    'custom' => $html,
+                    'raw' => $tempOne['data']
+                ];
             }
         }
-        foreach ($params['action']['secondary'] as $temp) {
-            $secondaryAction .= '<div class="innerContentCommon">' . $temp . '</div>';
-        }
-        $html = '<div class="tableActionButton">
-            <div class="actionButtonOpen">
-            ' . $primaryAction . '
-                <div class="buttonOpenCommon buttonOpenToggle">
-                    <a type="button" class="btn btn-sm">
-                        <i class="mdi mdi-menu-open"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="actionButtonInner">
-                ' . $secondaryAction . '
-            </div>
-        </div>';
-        return $html;
+        return $return;
     }
 
     public static function customizeInText($params)
     {
-        $status = '';
-        $statusFormatted = '';
-        $color = '';
-        $bgColor = '';
-        $class = '';
-        $raw = $params['value'];
+        $return = array();
 
-        if ($params['type'] == 'status') {
-            if ($params['value'] == Config::get('constants.status')['active']) {
-                $status = '<span class="badge bg-success">Active</span>';
-                $statusFormatted = 'Active';
-            } else {
-                $status = '<span class="badge bg-danger">In Active</span>';
-                $statusFormatted = 'In Active';
+        foreach ($params as $temp) {
+            if ($temp['type'] == 'status') {
+                if ($temp['value'] == Config::get('constants.status')['active']) {
+                    $custom = '<span class="badge bg-success">Active</span>';
+                    $formatted = 'Active';
+                    $raw = $temp['value'];
+                } else {
+                    $custom = '<span class="badge bg-danger">In Active</span>';
+                    $formatted = 'In Active';
+                    $raw = $temp['value'];
+                }
+                $return['status'] = [
+                    'custom' => $custom,
+                    'formatted' => $formatted,
+                    'raw' => $raw,
+                    'type' => $temp['type'],
+                ];
             }
-        } else {
-            $status = 'NA';
-            $statusFormatted = 'NA';
-            $color = 'NA';
-            $bgColor = 'NA';
-            $class = 'NA';
-            $raw = $params['value'];
+            if ($temp['type'] == 'access') {
+                if ($temp['value'] == null) {
+                    $custom = '<span class="badge bg-danger">No Access Found</span>';
+                } else {
+                    $custom = '<span class="badge bg-success"data-access="' . json_encode($temp['value']) . '">Access Found</span>';
+                }
+                $return['access'] = [
+                    'custom' => $custom,
+                    'raw' => $temp['value'],
+                    'type' => $temp['type'],
+                ];
+            }
         }
 
-        return [
-            'status' => $status,
-            'statusFormatted' => $statusFormatted,
-            'color' => [
-                'text' => $color,
-                'background' => $bgColor
-            ],
-            'class' => $class,
-            'raw' => $raw,
-        ];
+        return $return;
     }
 
     public static function hyperLinkInText($params)

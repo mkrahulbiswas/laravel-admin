@@ -337,9 +337,19 @@ class GetManageNavHelper
                         'icon' => $navType->icon,
                         'position' => $navType->position,
                         'description' => $navType->description,
+                        'status' => $navType->status,
                         'access' => json_decode($navType->access, true),
                         'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $navType->uniqueId]),
-                        'status' => CommonTrait::customizeInText(['type' => 'status', 'value' => $navType->status]),
+                        'customizeInText' => CommonTrait::customizeInText([
+                            [
+                                'type' => 'status',
+                                'value' => $navType->status
+                            ],
+                            [
+                                'type' => 'access',
+                                'value' => json_decode($navType->access, true)
+                            ]
+                        ]),
                         // 'uniqueId2' => CommonTrait::hyperLinkInText(['targetId' => $navType->id, 'targetRoute' => 'admin.details.product', 'type' => 'uniqueId', 'value' => $navType->uniqueId]),
                     ]
                 ];
@@ -368,9 +378,19 @@ class GetManageNavHelper
                         'route' => $navMain->route,
                         'position' => $navMain->position,
                         'description' => $navMain->description,
+                        'status' => $navMain->status,
                         'access' => json_decode($navMain->access, true),
                         'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $navMain->uniqueId]),
-                        'status' => CommonTrait::customizeInText(['type' => 'status', 'value' => $navMain->status]),
+                        'customizeInText' => CommonTrait::customizeInText([
+                            [
+                                'type' => 'status',
+                                'value' => $navMain->status
+                            ],
+                            [
+                                'type' => 'access',
+                                'value' => json_decode($navMain->access, true)
+                            ]
+                        ]),
                     ]
                 ];
 
@@ -398,9 +418,19 @@ class GetManageNavHelper
                         'route' => $navSub->route,
                         'position' => $navSub->position,
                         'description' => $navSub->description,
+                        'status' => $navSub->status,
                         'access' => json_decode($navSub->access, true),
                         'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $navSub->uniqueId]),
-                        'status' => CommonTrait::customizeInText(['type' => 'status', 'value' => $navSub->status]),
+                        'customizeInText' => CommonTrait::customizeInText([
+                            [
+                                'type' => 'status',
+                                'value' => $navSub->status
+                            ],
+                            [
+                                'type' => 'access',
+                                'value' => json_decode($navSub->access, true)
+                            ]
+                        ]),
                     ]
                 ];
 
@@ -428,9 +458,19 @@ class GetManageNavHelper
                         'route' => $navNested->route,
                         'position' => $navNested->position,
                         'description' => $navNested->description,
+                        'status' => $navNested->status,
                         'access' => json_decode($navNested->access, true),
                         'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $navNested->uniqueId]),
-                        'status' => CommonTrait::customizeInText(['type' => 'status', 'value' => $navNested->status]),
+                        'customizeInText' => CommonTrait::customizeInText([
+                            [
+                                'type' => 'status',
+                                'value' => $navNested->status
+                            ],
+                            [
+                                'type' => 'access',
+                                'value' => json_decode($navNested->access, true)
+                            ]
+                        ]),
                     ]
                 ];
 

@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="d-sm-flex align-items-center justify-content-between">
-                
+
             </div>
         </div>
     </div>
@@ -38,8 +38,8 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12 mb-4"></div>
-                    <div class="col-md-12 table-data-main">
-                        <div class="table-data">
+                    <div class="col-md-12 tdContentMain">
+                        <div class="tdContentSub">
                             <div class="all-nav-list" id="toNavType">
                                 @foreach ($navList as $itemOne)
                                 <div class="nav-type-list list-group-item" id="">
@@ -90,7 +90,7 @@
             </div>
             <div class="modal-body">
                 <div class="row detail-page-data">
-                    
+
                     <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
                         <div class="d-flex mb-4 each-detail-box">
                             <div class="flex-shrink-0 avatar-xs align-self-center me-3">

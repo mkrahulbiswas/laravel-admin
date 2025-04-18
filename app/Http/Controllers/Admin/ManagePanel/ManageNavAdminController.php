@@ -63,9 +63,14 @@ class ManageNavAdminController extends Controller
                     $uniqueId = $data['uniqueId']['raw'];
                     return $uniqueId;
                 })
-                ->addColumn('status', function ($data) {
-                    $status = $data['status']['status'];
-                    return $status;
+                ->addColumn('statInfo', function ($data) {
+                    $statInfo = $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'dtMultiData',
+                            'data' => $data['customizeInText']
+                        ]
+                    ])['dtMultiData']['custom'];
+                    return $statInfo;
                 })
                 ->addColumn('icon', function ($data) {
                     $icon = '<i class="' . $data['icon'] . '"></i>';
@@ -76,7 +81,7 @@ class ManageNavAdminController extends Controller
                     // $itemPermission = $this->itemPermission();
 
                     // if ($itemPermission['status_item'] == '1') {
-                    if ($data['status']['status'] == Config::get('constants.status')['inactive']) {
+                    if ($data['customizeInText']['status']['raw'] == Config::get('constants.status')['inactive']) {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navType') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navType') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
@@ -109,14 +114,17 @@ class ManageNavAdminController extends Controller
                     //     $details = '';
                     // }
 
-                    return $this->dataTableHtmlPurse([
-                        'action' => [
-                            'primary' => [$status, $edit, $delete, $details],
-                            'secondary' => [$access],
+                    return $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'dtAction',
+                            'data' => [
+                                'primary' => [$status, $edit, $delete, $details],
+                                'secondary' => [$access],
+                            ]
                         ]
-                    ]);
+                    ])['dtAction']['custom'];
                 })
-                ->rawColumns(['description', 'uniqueId', 'status', 'icon', 'action'])
+                ->rawColumns(['description', 'uniqueId', 'statInfo', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -359,7 +367,7 @@ class ManageNavAdminController extends Controller
                     return $uniqueId;
                 })
                 ->addColumn('status', function ($data) {
-                    $status = $data['status']['status'];
+                    $status = $data['customizeInText']['status']['custom'];
                     return $status;
                 })
                 ->addColumn('icon', function ($data) {
@@ -371,7 +379,7 @@ class ManageNavAdminController extends Controller
                     // $itemPermission = $this->itemPermission();
 
                     // if ($itemPermission['status_item'] == '1') {
-                    if ($data['status']['status'] == Config::get('constants.status')['inactive']) {
+                    if ($data['customizeInText']['status']['raw'] == Config::get('constants.status')['inactive']) {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
@@ -404,14 +412,17 @@ class ManageNavAdminController extends Controller
                     //     $details = '';
                     // }
 
-                    return $this->dataTableHtmlPurse([
-                        'action' => [
-                            'primary' => [$status, $edit, $delete, $details],
-                            'secondary' => [$access],
+                    return $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'dtAction',
+                            'data' => [
+                                'primary' => [$status, $edit, $delete, $details],
+                                'secondary' => [$access],
+                            ]
                         ]
-                    ]);
+                    ])['dtAction']['custom'];
                 })
-                ->rawColumns(['navType', 'uniqueId', 'status', 'icon', 'action'])
+                ->rawColumns(['navType', 'uniqueId', 'statInfo', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -654,7 +665,7 @@ class ManageNavAdminController extends Controller
                     return $uniqueId;
                 })
                 ->addColumn('status', function ($data) {
-                    $status = $data['status']['status'];
+                    $status = $data['customizeInText']['status']['custom'];
                     return $status;
                 })
                 ->addColumn('icon', function ($data) {
@@ -666,7 +677,7 @@ class ManageNavAdminController extends Controller
                     // $itemPermission = $this->itemPermission();
 
                     // if ($itemPermission['status_item'] == '1') {
-                    if ($data['status']['status'] == Config::get('constants.status')['inactive']) {
+                    if ($data['customizeInText']['status']['raw'] == Config::get('constants.status')['inactive']) {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
@@ -699,14 +710,17 @@ class ManageNavAdminController extends Controller
                     //     $details = '';
                     // }
 
-                    return $this->dataTableHtmlPurse([
-                        'action' => [
-                            'primary' => [$status, $edit, $delete, $details],
-                            'secondary' => [$access],
+                    return $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'dtAction',
+                            'data' => [
+                                'primary' => [$status, $edit, $delete, $details],
+                                'secondary' => [$access],
+                            ]
                         ]
-                    ]);
+                    ])['dtAction']['custom'];
                 })
-                ->rawColumns(['navType', 'navMain', 'uniqueId', 'status', 'icon', 'action'])
+                ->rawColumns(['navType', 'navMain', 'uniqueId', 'statInfo', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -945,7 +959,7 @@ class ManageNavAdminController extends Controller
                     return $uniqueId;
                 })
                 ->addColumn('status', function ($data) {
-                    $status = $data['status']['status'];
+                    $status = $data['customizeInText']['status']['custom'];
                     return $status;
                 })
                 ->addColumn('icon', function ($data) {
@@ -957,7 +971,7 @@ class ManageNavAdminController extends Controller
                     // $itemPermission = $this->itemPermission();
 
                     // if ($itemPermission['status_item'] == '1') {
-                    if ($data['status']['status'] == Config::get('constants.status')['inactive']) {
+                    if ($data['customizeInText']['status']['raw'] == Config::get('constants.status')['inactive']) {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navNested') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navNested') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
@@ -990,14 +1004,17 @@ class ManageNavAdminController extends Controller
                     //     $details = '';
                     // }
 
-                    return $this->dataTableHtmlPurse([
-                        'action' => [
-                            'primary' => [$status, $edit, $delete, $details],
-                            'secondary' => [$access],
+                    return $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'dtAction',
+                            'data' => [
+                                'primary' => [$status, $edit, $delete, $details],
+                                'secondary' => [$access],
+                            ]
                         ]
-                    ]);
+                    ])['dtAction']['custom'];
                 })
-                ->rawColumns(['navType', 'navMain', 'navSub', 'uniqueId', 'status', 'icon', 'action'])
+                ->rawColumns(['navType', 'navMain', 'navSub', 'uniqueId', 'statInfo', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');

@@ -205,7 +205,7 @@
                     data: "description",
                 },
                 {
-                    data: "status",
+                    data: "statInfo",
                 },
                 {
                     data: 'action',
@@ -242,7 +242,7 @@
                     data: "icon"
                 },
                 {
-                    data: "status",
+                    data: "statInfo",
                 },
                 {
                     data: 'action',
@@ -282,7 +282,7 @@
                     data: "icon"
                 },
                 {
-                    data: "status",
+                    data: "statInfo",
                 },
                 {
                     data: 'action',
@@ -325,7 +325,7 @@
                     data: "icon"
                 },
                 {
-                    data: "status",
+                    data: "statInfo",
                 },
                 {
                     data: 'action',
