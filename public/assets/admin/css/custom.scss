@@ -210,12 +210,13 @@
 
                             .tdActionInnerCommon {
                                 a {
-                                    display: block;
+                                    display: flex;
+                                    flex-direction: row;
                                     padding: 5px;
                                     transition: 0.30s ease-in-out;
                                     border-radius: 0.25rem;
-                                    position: relative;
                                     text-align: left;
+                                    gap: 8px;
 
                                     &:hover {
                                         cursor: pointer;
@@ -224,16 +225,50 @@
 
                                     i {
                                         font-size: 16px;
-                                        position: absolute;
-                                        top: 6.8px;
-                                        left: 6px;
                                     }
 
                                     span {
                                         font-size: 13px;
-                                        margin-left: 22px;
+                                        align-self: center;
                                     }
                                 }
+                            }
+                        }
+                    }
+
+                    .tdMultiData {
+                        .tdMultiDataContent {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            gap: 5px;
+
+                            .tdMultiDataCommon {
+                                display: flex;
+                                flex-direction: row;
+
+                                label {
+                                    font-weight: bold;
+                                    padding: 0;
+                                    margin: 0;
+                                }
+
+                                span {
+                                    margin-left: 5px;
+                                    line-height: 12px;
+                                }
+                            }
+
+                            .tdMultiDataStatus {
+                                label {}
+
+                                span {}
+                            }
+
+                            .tdMultiDataAccess {
+                                label {}
+
+                                span {}
                             }
                         }
                     }

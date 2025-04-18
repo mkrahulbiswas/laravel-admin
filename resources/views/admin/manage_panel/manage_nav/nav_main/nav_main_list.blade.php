@@ -485,6 +485,24 @@
                             </div>
                         </div>
 
+                        <div class="col-12">
+                            <hr>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="d-flex each-detail-box">
+                                <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                                    <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
+                                        <i class="mdi mdi-access-point"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <label class="details-label form-label mb-1">Access set :</label>
+                                    <span class="detail-span d-block mb-0" id="access"></span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div class="modal-footer">

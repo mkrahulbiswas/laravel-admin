@@ -19,6 +19,7 @@ use App\Helpers\GetManageNavHelper;
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
 class ManageNavAdminController extends Controller
@@ -66,10 +67,10 @@ class ManageNavAdminController extends Controller
                 ->addColumn('statInfo', function ($data) {
                     $statInfo = $this->dynamicHtmlPurse([
                         [
-                            'type' => 'dtMultiData',
+                            'type' => 'tdMultiData',
                             'data' => $data['customizeInText']
                         ]
-                    ])['dtMultiData']['custom'];
+                    ])['tdMultiData']['custom'];
                     return $statInfo;
                 })
                 ->addColumn('icon', function ($data) {
@@ -109,7 +110,7 @@ class ManageNavAdminController extends Controller
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
+                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
                     // } else {
                     //     $details = '';
                     // }
@@ -215,7 +216,6 @@ class ManageNavAdminController extends Controller
 
         try {
             $navType = NavType::find($id);
-
             if (isset($values['access'])) {
                 $navType->access = $values['access'];
             } else {
@@ -366,9 +366,14 @@ class ManageNavAdminController extends Controller
                     $uniqueId = $data['uniqueId']['raw'];
                     return $uniqueId;
                 })
-                ->addColumn('status', function ($data) {
-                    $status = $data['customizeInText']['status']['custom'];
-                    return $status;
+                ->addColumn('statInfo', function ($data) {
+                    $statInfo = $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'tdMultiData',
+                            'data' => $data['customizeInText']
+                        ]
+                    ])['tdMultiData']['custom'];
+                    return $statInfo;
                 })
                 ->addColumn('icon', function ($data) {
                     $icon = '<i class="' . $data['icon'] . '"></i>';
@@ -407,7 +412,7 @@ class ManageNavAdminController extends Controller
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
+                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
                     // } else {
                     //     $details = '';
                     // }
@@ -664,9 +669,14 @@ class ManageNavAdminController extends Controller
                     $uniqueId = $data['uniqueId']['raw'];
                     return $uniqueId;
                 })
-                ->addColumn('status', function ($data) {
-                    $status = $data['customizeInText']['status']['custom'];
-                    return $status;
+                ->addColumn('statInfo', function ($data) {
+                    $statInfo = $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'tdMultiData',
+                            'data' => $data['customizeInText']
+                        ]
+                    ])['tdMultiData']['custom'];
+                    return $statInfo;
                 })
                 ->addColumn('icon', function ($data) {
                     $icon = '<i class="' . $data['icon'] . '"></i>';
@@ -705,7 +715,7 @@ class ManageNavAdminController extends Controller
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
+                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
                     // } else {
                     //     $details = '';
                     // }
@@ -958,9 +968,14 @@ class ManageNavAdminController extends Controller
                     $uniqueId = $data['uniqueId']['raw'];
                     return $uniqueId;
                 })
-                ->addColumn('status', function ($data) {
-                    $status = $data['customizeInText']['status']['custom'];
-                    return $status;
+                ->addColumn('statInfo', function ($data) {
+                    $statInfo = $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'tdMultiData',
+                            'data' => $data['customizeInText']
+                        ]
+                    ])['tdMultiData']['custom'];
+                    return $statInfo;
                 })
                 ->addColumn('icon', function ($data) {
                     $icon = '<i class="' . $data['icon'] . '"></i>';
@@ -999,7 +1014,7 @@ class ManageNavAdminController extends Controller
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
+                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
                     // } else {
                     //     $details = '';
                     // }

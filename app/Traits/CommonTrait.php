@@ -179,7 +179,7 @@ trait CommonTrait
     {
         $return = array();
         foreach ($params as $tempOne) {
-            if ($tempOne['type'] == 'dtMultiData') {
+            if ($tempOne['type'] == 'tdMultiData') {
                 // foreach ($tempOne['data'] as $tempTwo) {
                 //     if ($tempTwo['type'] == 'access') {
                 //     }
@@ -187,25 +187,23 @@ trait CommonTrait
                 //     }
                 // }
 
-                $status = '<div class="dtMultiDataCommon">
+                $status = '<div class="tdMultiDataCommon tdMultiDataStatus">
                     <label>Status:</label>
                     ' . $tempOne['data']['status']['custom'] . '
                 </div>';
 
-                $access = '<div class="dtMultiDataCommon">
+                $access = '<div class="tdMultiDataCommon tdMultiDataAccess">
                     <label>Access:</label>
                     ' . $tempOne['data']['access']['custom'] . '
                 </div>';
 
-                $html = '<div class="dtMultiData">
-                    <div class="dtMultiDataMain">
-                        <div class="dtMultiDataSub">
+                $html = '<div class="tdMultiData">
+                        <div class="tdMultiDataContent">
                             ' . $status . $access . '
                         </div>
-                    </div>
                 </div>';
 
-                $return['dtMultiData'] = [
+                $return['tdMultiData'] = [
                     'custom' => $html,
                     'raw' => $tempOne['data']
                 ];

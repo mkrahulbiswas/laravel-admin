@@ -847,6 +847,7 @@
                 id.find('#name').text(data.name);
                 id.find('#icon').html('<i class="' + data.icon + '"></i>');
                 id.find('#description').text(data.description);
+                id.find('#access').text(data.access.add);
             }
         });
 
