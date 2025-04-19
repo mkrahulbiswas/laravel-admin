@@ -110,7 +110,7 @@
                                             <th>Nav Type</th>
                                             <th>Nav Icon</th>
                                             <th>Description</th>
-                                            <th>Stat Info</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -122,7 +122,7 @@
                                             <th>Nav Type</th>
                                             <th>Nav Icon</th>
                                             <th>Description</th>
-                                            <th>Stat Info</th>
+                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </tfoot>
@@ -244,53 +244,6 @@
         </div>
     </div>
 
-    <div id="con-access-modal" class="modal fade con-access-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="accessNavTypeForm" action="{{ route('admin.access.navType') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
-                    @csrf
-                    <input type="hidden" name="id" id="id" value="">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Set Nav Type Access</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="form-element col-12 mb-3">
-                                <label for="name" class="form-label">Nav Type Name</label>
-                                <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Nav type" readonly>
-                            </div>
-                            <div class="form-element col-12">
-                                <label for="name" class="form-label">Set Access <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                            </div>
-                            @foreach (Config::get('constants.rolePermission.accessType') as $item)
-                                <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
-                                    <div class="form-icon set-validation">
-                                        <div class="form-check form-switch form-switch-success">
-                                            <label class="fw-normal form-check-label" for="switchCheck{{ $item }}">{{ $item }}</label>
-                                            <input class="form-check-input" name="access[{{ $item }}]" type="checkbox" role="switch" id="switchCheck{{ $item }}">
-                                        </div>
-                                    </div>
-                                    <div class="validation-error" id="nameErr"></div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
-                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                            <span>Close</span>
-                        </button>
-                        <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="accessNavTypeBtn">
-                            <i class="las la-save label-icon align-middle fs-16 me-2"></i>
-                            <span>Set Access</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <div id="con-detail-modal" class="modal fade con-detail-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -339,24 +292,6 @@
                                 <div class="flex-grow-1 overflow-hidden">
                                     <label class="details-label form-label mb-1">Description :</label>
                                     <span class="detail-span d-block mb-0" id="description"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <hr>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="d-flex each-detail-box">
-                                <div class="flex-shrink-0 avatar-xs align-self-center me-3">
-                                    <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
-                                        <i class="mdi mdi-access-point"></i>
-                                    </div>
-                                </div>
-                                <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Access set :</label>
-                                    <span class="detail-span mb-0" id="access"></span>
                                 </div>
                             </div>
                         </div>

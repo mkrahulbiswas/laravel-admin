@@ -65,14 +65,9 @@ class ManageNavAdminController extends Controller
                     $uniqueId = $data['uniqueId']['raw'];
                     return $uniqueId;
                 })
-                ->addColumn('statInfo', function ($data) {
-                    $statInfo = $this->dynamicHtmlPurse([
-                        [
-                            'type' => 'tdMultiData',
-                            'data' => $data['customizeInText']
-                        ]
-                    ])['tdMultiData']['custom'];
-                    return $statInfo;
+                ->addColumn('status', function ($data) {
+                    $status = $data['customizeInText']['status']['custom'];
+                    return $status;
                 })
                 ->addColumn('icon', function ($data) {
                     $icon = '<i class="' . $data['icon'] . '"></i>';
@@ -110,23 +105,17 @@ class ManageNavAdminController extends Controller
                     //     $details = '';
                     // }
 
-                    // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
-                    // } else {
-                    //     $details = '';
-                    // }
-
                     return $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtAction',
                             'data' => [
                                 'primary' => [$status, $edit, $delete, $details],
-                                'secondary' => [$access],
+                                'secondary' => [],
                             ]
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['description', 'uniqueId', 'statInfo', 'icon', 'action'])
+                ->rawColumns(['description', 'uniqueId', 'status', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -139,12 +128,7 @@ class ManageNavAdminController extends Controller
             $values = $request->only('name', 'icon', 'description');
             //--Checking The Validation--//
 
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'saveNavType',
-                'id' => 0,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveNavType', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
@@ -179,12 +163,7 @@ class ManageNavAdminController extends Controller
         }
 
         try {
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'updateNavType',
-                'id' => $id,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateNavType', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
@@ -199,35 +178,6 @@ class ManageNavAdminController extends Controller
                 } else {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Type", 'msg' => __('messages.updateMsg', ['type' => 'Nav type'])['failed']], config('constants.ok'));
                 }
-            }
-        } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Type", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
-        }
-    }
-
-    public function accessNavType(Request $request)
-    {
-        $values = $request->only('id', 'name', 'access');
-
-        try {
-            $id = decrypt($values['id']);
-        } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Nav Type", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
-        }
-
-        try {
-            if (isset($values['access'])) {
-                $navType = NavType::find($id);
-
-                $navType->access = $this->getNavAccessList($values['access']);
-
-                if ($navType->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Type", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
-                } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Type", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
-                }
-            } else {
-                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Validation", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['validation']], config('constants.ok'));
             }
         } catch (Exception $e) {
             return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Type", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
@@ -442,12 +392,7 @@ class ManageNavAdminController extends Controller
             $values = $request->only('name', 'icon', 'navType', 'description');
             //--Checking The Validation--//
 
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'saveNavMain',
-                'id' => 0,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveNavMain', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
@@ -485,12 +430,7 @@ class ManageNavAdminController extends Controller
         }
 
         try {
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'updateNavMain',
-                'id' => $id,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateNavMain', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
@@ -741,12 +681,7 @@ class ManageNavAdminController extends Controller
             $values = $request->only('name', 'icon', 'navType', 'navMain', 'description');
             //--Checking The Validation--//
 
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'saveNavSub',
-                'id' => 0,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveNavSub', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
@@ -785,12 +720,7 @@ class ManageNavAdminController extends Controller
         }
 
         try {
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'updateNavSub',
-                'id' => $id,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateNavSub', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
@@ -1036,12 +966,7 @@ class ManageNavAdminController extends Controller
             $values = $request->only('name', 'icon', 'navType', 'navMain', 'navSub', 'description');
             //--Checking The Validation--//
 
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'saveNavNested',
-                'id' => 0,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveNavNested', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
@@ -1081,12 +1006,7 @@ class ManageNavAdminController extends Controller
         }
 
         try {
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'updateNavNested',
-                'id' => $id,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateNavNested', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {

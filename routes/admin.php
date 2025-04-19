@@ -79,7 +79,6 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::get('nav-type/ajaxGetList', 'getNavType')->name('admin.get.navType');
                 Route::post('nav-type/add/save', 'saveNavType')->name('admin.save.navType');
                 Route::post('nav-type/edit/update', 'updateNavType')->name('admin.update.navType');
-                Route::post('nav-type/edit/access', 'accessNavType')->name('admin.access.navType');
                 Route::get('nav-type/status/{id?}', 'statusNavType')->name('admin.status.navType');
                 Route::get('nav-type/delete/{id?}', 'deleteNavType')->name('admin.delete.navType');
 

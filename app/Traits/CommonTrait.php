@@ -181,28 +181,18 @@ trait CommonTrait
             $return = array();
             foreach ($params as $tempOne) {
                 if ($tempOne['type'] == 'tdMultiData') {
-                    // foreach ($tempOne['data'] as $tempTwo) {
-                    //     if ($tempTwo['type'] == 'access') {
-                    //     }
-                    //     if ($tempTwo['type'] == 'access') {
-                    //     }
-                    // }
+                    $appendHtml = '';
+                    foreach ($tempOne['data'] as $tempTwo) {
+                        if ($tempTwo['type'] == 'status') {
+                            $appendHtml .= '<div class="tdMultiDataCommon tdMultiDataStatus"><label>Status:</label>' . $tempOne['data']['status']['custom'] . '</div>';
+                        }
 
-                    $status = '<div class="tdMultiDataCommon tdMultiDataStatus">
-                    <label>Status:</label>
-                    ' . $tempOne['data']['status']['custom'] . '
-                </div>';
+                        if ($tempTwo['type'] == 'access') {
+                            $appendHtml .= '<div class="tdMultiDataCommon tdMultiDataAccess"><label>Access:</label>' . $tempOne['data']['access']['custom'] . '</div>';
+                        }
+                    }
 
-                    $access = '<div class="tdMultiDataCommon tdMultiDataAccess">
-                    <label>Access:</label>
-                    ' . $tempOne['data']['access']['custom'] . '
-                </div>';
-
-                    $html = '<div class="tdMultiData">
-                        <div class="tdMultiDataContent">
-                            ' . $status . $access . '
-                        </div>
-                </div>';
+                    $html = '<div class="tdMultiData"><div class="tdMultiDataContent">' . $appendHtml . '</div></div>';
 
                     $return['tdMultiData'] = [
                         'custom' => $html,
@@ -231,23 +221,18 @@ trait CommonTrait
                         }
                     }
 
+
                     foreach ($tempOne['data']['secondary'] as $tempTwo) {
                         $secondaryAction .= '<div class="tdActionInnerCommon">' . $tempTwo . '</div>';
                     }
 
-                    $html = '<div class="tdAction">
-                    <div class="tdActionButton">
-                    ' . $primaryAction . '
-                        <div class="tdActionButtonCommon tdActionButtonToggle">
-                            <a type="button" class="btn btn-sm">
-                                <i class="mdi mdi-menu-open"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="tdActionInner">
-                        ' . $secondaryAction . '
-                    </div>
-                </div>';
+                    if (sizeof($tempOne['data']['secondary']) > 0) {
+                        $toggleButton = '<div class="tdActionButtonCommon tdActionButtonToggle"><a type="button" class="btn btn-sm"><i class="mdi mdi-menu-open"></i></a></div>';
+                    } else {
+                        $toggleButton = '';
+                    }
+
+                    $html = '<div class="tdAction"><div class="tdActionButton">' . $primaryAction . $toggleButton . '</div><div class="tdActionInner">' . $secondaryAction . '</div></div>';
 
                     $return['dtAction'] = [
                         'custom' => $html,

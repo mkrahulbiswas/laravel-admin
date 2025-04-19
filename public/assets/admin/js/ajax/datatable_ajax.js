@@ -205,7 +205,7 @@
                     data: "description",
                 },
                 {
-                    data: "statInfo",
+                    data: "status",
                 },
                 {
                     data: 'action',

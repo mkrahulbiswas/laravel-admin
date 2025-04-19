@@ -338,16 +338,11 @@ class GetManageNavHelper
                         'position' => $navType->position,
                         'description' => $navType->description,
                         'status' => $navType->status,
-                        'access' => json_decode($navType->access, true),
                         'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $navType->uniqueId]),
                         'customizeInText' => CommonTrait::customizeInText([
                             [
                                 'type' => 'status',
                                 'value' => $navType->status
-                            ],
-                            [
-                                'type' => 'access',
-                                'value' => json_decode($navType->access, true)
                             ]
                         ]),
                         // 'uniqueId2' => CommonTrait::hyperLinkInText(['targetId' => $navType->id, 'targetRoute' => 'admin.details.product', 'type' => 'uniqueId', 'value' => $navType->uniqueId]),
