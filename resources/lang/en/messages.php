@@ -21,6 +21,7 @@ return [
     'setAccessMsg' => [
         'success' => ':type successfully set.',
         'failed' => ':type failed to set.',
+        'validation' => ':type you must select one access type.',
     ],
     'statusMsg' => [
         'success' => ':type status successfully changed.',

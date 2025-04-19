@@ -833,8 +833,8 @@
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 if (data.access != null) {
-                    Object.keys(data.access).forEach((element) => {
-                        id.find('[name="access[' + element + ']"]').attr('checked', true)
+                    Object.entries(data.access).forEach((element) => {
+                        id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
                     });
                 }
                 id.find('#id').val(data.id);
@@ -843,10 +843,21 @@
                 id = $('#con-detail-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
-                console.log(data);
                 id.find('#name').text(data.name);
                 id.find('#icon').html('<i class="' + data.icon + '"></i>');
                 id.find('#description').text(data.description);
+                if (data.access != null) {
+                    setTimeout(() => {
+                        id.find('#access').html('');
+                        Object.entries(data.access).forEach((element) => {
+                            if (element[1]) {
+                                id.find('#access').append('<div class="accessSet">' + element[0] + '</div>');
+                            }
+                        });
+                    }, 1000)
+                } else {
+                    id.find('#access').text('No access set yet, please set now. Its impotent because without access you cannot controls action buttons.');
+                }
                 id.find('#access').text(data.access.add);
             }
         });
@@ -1158,8 +1169,8 @@
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 if (data.access != null) {
-                    Object.keys(data.access).forEach((element) => {
-                        id.find('[name="access[' + element + ']"]').attr('checked', true)
+                    Object.entries(data.access).forEach((element) => {
+                        id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
                     });
                 }
                 id.find('#id').val(data.id);
@@ -1172,6 +1183,18 @@
                 id.find('#navType').text(data.navType.name);
                 id.find('#icon').html('<i class="' + data.icon + '"></i>');
                 id.find('#description').text(data.description);
+                if (data.access != null) {
+                    setTimeout(() => {
+                        id.find('#access').html('');
+                        Object.entries(data.access).forEach((element) => {
+                            if (element[1]) {
+                                id.find('#access').append('<div class="accessSet">' + element[0] + '</div>');
+                            }
+                        });
+                    }, 1000)
+                } else {
+                    id.find('#access').text('No access set yet, please set now. Its impotent because without access you cannot controls action buttons.');
+                }
             }
         });
 
@@ -1491,8 +1514,8 @@
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 if (data.access != null) {
-                    Object.keys(data.access).forEach((element) => {
-                        id.find('[name="access[' + element + ']"]').attr('checked', true)
+                    Object.entries(data.access).forEach((element) => {
+                        id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
                     });
                 }
                 id.find('#id').val(data.id);
@@ -1506,6 +1529,18 @@
                 id.find('#navMain').text(data.navMain.name);
                 id.find('#icon').html('<i class="' + data.icon + '"></i>');
                 id.find('#description').text(data.description);
+                if (data.access != null) {
+                    setTimeout(() => {
+                        id.find('#access').html('');
+                        Object.entries(data.access).forEach((element) => {
+                            if (element[1]) {
+                                id.find('#access').append('<div class="accessSet">' + element[0] + '</div>');
+                            }
+                        });
+                    }, 1000)
+                } else {
+                    id.find('#access').text('No access set yet, please set now. Its impotent because without access you cannot controls action buttons.');
+                }
             }
         });
 
@@ -1834,8 +1869,8 @@
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 if (data.access != null) {
-                    Object.keys(data.access).forEach((element) => {
-                        id.find('[name="access[' + element + ']"]').attr('checked', true)
+                    Object.entries(data.access).forEach((element) => {
+                        id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
                     });
                 }
                 id.find('#id').val(data.id);
@@ -1850,6 +1885,18 @@
                 id.find('#navSub').text(data.navSub.name);
                 id.find('#icon').html('<i class="' + data.icon + '"></i>');
                 id.find('#description').text(data.description);
+                if (data.access != null) {
+                    setTimeout(() => {
+                        id.find('#access').html('');
+                        Object.entries(data.access).forEach((element) => {
+                            if (element[1]) {
+                                id.find('#access').append('<div class="accessSet">' + element[0] + '</div>');
+                            }
+                        });
+                    }, 1000)
+                } else {
+                    id.find('#access').text('No access set yet, please set now. Its impotent because without access you cannot controls action buttons.');
+                }
             }
         });
 

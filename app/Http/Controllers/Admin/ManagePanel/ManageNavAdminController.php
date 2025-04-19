@@ -18,6 +18,7 @@ use App\Helpers\GetManageNavHelper;
 
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
@@ -215,17 +216,18 @@ class ManageNavAdminController extends Controller
         }
 
         try {
-            $navType = NavType::find($id);
             if (isset($values['access'])) {
-                $navType->access = $values['access'];
-            } else {
-                $navType->access = null;
-            }
+                $navType = NavType::find($id);
 
-            if ($navType->update()) {
-                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Type", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
+                $navType->access = $this->getNavAccessList($values['access']);
+
+                if ($navType->update()) {
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Type", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
+                } else {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Type", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
+                }
             } else {
-                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Type", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Validation", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['validation']], config('constants.ok'));
             }
         } catch (Exception $e) {
             return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Type", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
@@ -525,11 +527,7 @@ class ManageNavAdminController extends Controller
         try {
             $navMain = NavMain::find($id);
 
-            if (isset($values['access'])) {
-                $navMain->access = $values['access'];
-            } else {
-                $navMain->access = null;
-            }
+            $navMain->access = $this->getNavAccessList($values['access']);
 
             if ($navMain->update()) {
                 return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
@@ -830,11 +828,7 @@ class ManageNavAdminController extends Controller
         try {
             $navSub = NavSub::find($id);
 
-            if (isset($values['access'])) {
-                $navSub->access = $values['access'];
-            } else {
-                $navSub->access = null;
-            }
+            $navSub->access = $this->getNavAccessList($values['access']);
 
             if ($navSub->update()) {
                 return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
@@ -1131,11 +1125,7 @@ class ManageNavAdminController extends Controller
         try {
             $navNested = NavNested::find($id);
 
-            if (isset($values['access'])) {
-                $navNested->access = $values['access'];
-            } else {
-                $navNested->access = null;
-            }
+            $navNested->access = $this->getNavAccessList($values['access']);
 
             if ($navNested->update()) {
                 return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Nested", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));

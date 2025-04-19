@@ -330,105 +330,17 @@
                             <div class="form-element col-12">
                                 <label for="name" class="form-label">Set Access <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                             </div>
-                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
-                                <div class="form-icon set-validation">
-                                    <div class="form-check form-switch form-switch-success">
-                                        <label class="fw-normal form-check-label" for="switchCheck1">Add Access</label>
-                                        <input class="form-check-input" name="access[add]" type="checkbox" role="switch" id="switchCheck1">
+                            @foreach (Config::get('constants.rolePermission.accessType') as $item)
+                                <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                                    <div class="form-icon set-validation">
+                                        <div class="form-check form-switch form-switch-success">
+                                            <label class="fw-normal form-check-label" for="switchCheck{{ $item }}">{{ $item }}</label>
+                                            <input class="form-check-input" name="access[{{ $item }}]" type="checkbox" role="switch" id="switchCheck{{ $item }}">
+                                        </div>
                                     </div>
+                                    <div class="validation-error" id="nameErr"></div>
                                 </div>
-                                <div class="validation-error" id="nameErr"></div>
-                            </div>
-                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
-                                <div class="form-icon set-validation">
-                                    <div class="form-check form-switch form-switch-success">
-                                        <label class="fw-normal form-check-label" for="switchCheck2">Edit Access</label>
-                                        <input class="form-check-input" name="access[edit]" type="checkbox" role="switch" id="switchCheck2">
-                                    </div>
-                                </div>
-                                <div class="validation-error" id="nameErr"></div>
-                            </div>
-                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
-                                <div class="form-icon set-validation">
-                                    <div class="form-check form-switch form-switch-success">
-                                        <label class="fw-normal form-check-label" for="switchCheck3">Status Access</label>
-                                        <input class="form-check-input" name="access[status]" type="checkbox" role="switch" id="switchCheck3">
-                                    </div>
-                                </div>
-                                <div class="validation-error" id="nameErr"></div>
-                            </div>
-                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
-                                <div class="form-icon set-validation">
-                                    <div class="form-check form-switch form-switch-success">
-                                        <label class="fw-normal form-check-label" for="switchCheck4">Delete Access</label>
-                                        <input class="form-check-input" name="access[delete]" type="checkbox" role="switch" id="switchCheck4">
-                                    </div>
-                                </div>
-                                <div class="validation-error" id="nameErr"></div>
-                            </div>
-                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
-                                <div class="form-icon set-validation">
-                                    <div class="form-check form-switch form-switch-success">
-                                        <label class="fw-normal form-check-label" for="switchCheck5">Filter Access</label>
-                                        <input class="form-check-input" name="access[filter]" type="checkbox" role="switch" id="switchCheck5">
-                                    </div>
-                                </div>
-                                <div class="validation-error" id="nameErr"></div>
-                            </div>
-                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
-                                <div class="form-icon set-validation">
-                                    <div class="form-check form-switch form-switch-success">
-                                        <label class="fw-normal form-check-label" for="switchCheck6">Reload Access</label>
-                                        <input class="form-check-input" name="access[reload]" type="checkbox" role="switch" id="switchCheck6">
-                                    </div>
-                                </div>
-                                <div class="validation-error" id="nameErr"></div>
-                            </div>
-                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
-                                <div class="form-icon set-validation">
-                                    <div class="form-check form-switch form-switch-success">
-                                        <label class="fw-normal form-check-label" for="switchCheck7">Reset Access</label>
-                                        <input class="form-check-input" name="access[reset]" type="checkbox" role="switch" id="switchCheck7">
-                                    </div>
-                                </div>
-                                <div class="validation-error" id="nameErr"></div>
-                            </div>
-                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
-                                <div class="form-icon set-validation">
-                                    <div class="form-check form-switch form-switch-success">
-                                        <label class="fw-normal form-check-label" for="switchCheck8">Search Access</label>
-                                        <input class="form-check-input" name="access[search]" type="checkbox" role="switch" id="switchCheck8">
-                                    </div>
-                                </div>
-                                <div class="validation-error" id="nameErr"></div>
-                            </div>
-                            <div class="form-element col-sm-4 col-md-4 col-xl-4 col-lg-4">
-                                <div class="form-icon set-validation">
-                                    <div class="form-check form-switch form-switch-success">
-                                        <label class="fw-normal form-check-label" for="switchCheck9">Other Access</label>
-                                        <input class="form-check-input" name="access[other]" type="checkbox" role="switch" id="switchCheck9">
-                                    </div>
-                                </div>
-                                <div class="validation-error" id="nameErr"></div>
-                            </div>
-                            <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6">
-                                <div class="form-icon set-validation">
-                                    <div class="form-check form-switch form-switch-success">
-                                        <label class="fw-normal form-check-label" for="switchCheck10">Permission Access</label>
-                                        <input class="form-check-input" name="access[permission]" type="checkbox" role="switch" id="switchCheck10">
-                                    </div>
-                                </div>
-                                <div class="validation-error" id="nameErr"></div>
-                            </div>
-                            <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6">
-                                <div class="form-icon set-validation">
-                                    <div class="form-check form-switch form-switch-success">
-                                        <label class="fw-normal form-check-label" for="switchCheck11">Access Of Access</label>
-                                        <input class="form-check-input" name="access[access]" type="checkbox" role="switch" id="switchCheck11">
-                                    </div>
-                                </div>
-                                <div class="validation-error" id="nameErr"></div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -539,7 +451,7 @@
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
                                     <label class="details-label form-label mb-1">Access set :</label>
-                                    <span class="detail-span d-block mb-0" id="access"></span>
+                                    <span class="detail-span mb-0" id="access"></span>
                                 </div>
                             </div>
                         </div>

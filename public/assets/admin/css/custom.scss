@@ -289,6 +289,26 @@
 
             .detail-span {
                 font-size: 12px;
+                display: flex;
+                flex-direction: row;
+                gap: 5px;
+                flex-wrap: wrap;
+
+                .accessSet {
+                    padding: 5px;
+                    background-color: #eeeeee;
+                    max-width: fit-content;
+                    border-radius: 5px;
+                    text-transform: capitalize;
+                }
+            }
+        }
+    }
+
+    .con-access-modal {
+        .form-element {
+            .form-check-label {
+                text-transform: capitalize;
             }
         }
     }

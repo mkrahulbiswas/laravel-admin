@@ -177,64 +177,65 @@ trait CommonTrait
 
     public static function dynamicHtmlPurse($params)
     {
-        $return = array();
-        foreach ($params as $tempOne) {
-            if ($tempOne['type'] == 'tdMultiData') {
-                // foreach ($tempOne['data'] as $tempTwo) {
-                //     if ($tempTwo['type'] == 'access') {
-                //     }
-                //     if ($tempTwo['type'] == 'access') {
-                //     }
-                // }
+        try {
+            $return = array();
+            foreach ($params as $tempOne) {
+                if ($tempOne['type'] == 'tdMultiData') {
+                    // foreach ($tempOne['data'] as $tempTwo) {
+                    //     if ($tempTwo['type'] == 'access') {
+                    //     }
+                    //     if ($tempTwo['type'] == 'access') {
+                    //     }
+                    // }
 
-                $status = '<div class="tdMultiDataCommon tdMultiDataStatus">
+                    $status = '<div class="tdMultiDataCommon tdMultiDataStatus">
                     <label>Status:</label>
                     ' . $tempOne['data']['status']['custom'] . '
                 </div>';
 
-                $access = '<div class="tdMultiDataCommon tdMultiDataAccess">
+                    $access = '<div class="tdMultiDataCommon tdMultiDataAccess">
                     <label>Access:</label>
                     ' . $tempOne['data']['access']['custom'] . '
                 </div>';
 
-                $html = '<div class="tdMultiData">
+                    $html = '<div class="tdMultiData">
                         <div class="tdMultiDataContent">
                             ' . $status . $access . '
                         </div>
                 </div>';
 
-                $return['tdMultiData'] = [
-                    'custom' => $html,
-                    'raw' => $tempOne['data']
-                ];
-            }
-
-            if ($tempOne['type'] == 'dtAction') {
-                $primaryAction = $secondaryAction = '';
-
-                foreach ($tempOne['data']['primary'] as $tempTwo) {
-                    if (Str::contains($tempTwo, 'data-type="status"')) {
-                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonStatus">' . $tempTwo . '</div>';
-                    }
-                    if (Str::contains($tempTwo, 'data-type="edit"')) {
-                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonEdit">' . $tempTwo . '</div>';
-                    }
-                    if (Str::contains($tempTwo, 'data-type="delete"')) {
-                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonDelete">' . $tempTwo . '</div>';
-                    }
-                    if (Str::contains($tempTwo, 'data-type="details"')) {
-                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonDetails">' . $tempTwo . '</div>';
-                    }
-                    if (Str::contains($tempTwo, 'data-type="access"')) {
-                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonAccess">' . $tempTwo . '</div>';
-                    }
+                    $return['tdMultiData'] = [
+                        'custom' => $html,
+                        'raw' => $tempOne['data']
+                    ];
                 }
 
-                foreach ($tempOne['data']['secondary'] as $tempTwo) {
-                    $secondaryAction .= '<div class="tdActionInnerCommon">' . $tempTwo . '</div>';
-                }
+                if ($tempOne['type'] == 'dtAction') {
+                    $primaryAction = $secondaryAction = '';
 
-                $html = '<div class="tdAction">
+                    foreach ($tempOne['data']['primary'] as $tempTwo) {
+                        if (Str::contains($tempTwo, 'data-type="status"')) {
+                            $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonStatus">' . $tempTwo . '</div>';
+                        }
+                        if (Str::contains($tempTwo, 'data-type="edit"')) {
+                            $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonEdit">' . $tempTwo . '</div>';
+                        }
+                        if (Str::contains($tempTwo, 'data-type="delete"')) {
+                            $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonDelete">' . $tempTwo . '</div>';
+                        }
+                        if (Str::contains($tempTwo, 'data-type="details"')) {
+                            $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonDetails">' . $tempTwo . '</div>';
+                        }
+                        if (Str::contains($tempTwo, 'data-type="access"')) {
+                            $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonAccess">' . $tempTwo . '</div>';
+                        }
+                    }
+
+                    foreach ($tempOne['data']['secondary'] as $tempTwo) {
+                        $secondaryAction .= '<div class="tdActionInnerCommon">' . $tempTwo . '</div>';
+                    }
+
+                    $html = '<div class="tdAction">
                     <div class="tdActionButton">
                     ' . $primaryAction . '
                         <div class="tdActionButtonCommon tdActionButtonToggle">
@@ -248,71 +249,104 @@ trait CommonTrait
                     </div>
                 </div>';
 
-                $return['dtAction'] = [
-                    'custom' => $html,
-                    'raw' => $tempOne['data']
-                ];
+                    $return['dtAction'] = [
+                        'custom' => $html,
+                        'raw' => $tempOne['data']
+                    ];
+                }
             }
+            return $return;
+        } catch (Exception $e) {
+            return false;
         }
-        return $return;
     }
 
     public static function customizeInText($params)
     {
-        $return = array();
+        try {
+            $return = array();
 
-        foreach ($params as $temp) {
-            if ($temp['type'] == 'status') {
-                if ($temp['value'] == Config::get('constants.status')['active']) {
-                    $custom = '<span class="badge bg-success">Active</span>';
-                    $formatted = 'Active';
-                    $raw = $temp['value'];
-                } else {
-                    $custom = '<span class="badge bg-danger">In Active</span>';
-                    $formatted = 'In Active';
-                    $raw = $temp['value'];
+            foreach ($params as $temp) {
+                if ($temp['type'] == 'status') {
+                    if ($temp['value'] == Config::get('constants.status')['active']) {
+                        $custom = '<span class="badge bg-success">Active</span>';
+                        $formatted = 'Active';
+                        $raw = $temp['value'];
+                    } else {
+                        $custom = '<span class="badge bg-danger">In Active</span>';
+                        $formatted = 'In Active';
+                        $raw = $temp['value'];
+                    }
+                    $return['status'] = [
+                        'custom' => $custom,
+                        'formatted' => $formatted,
+                        'raw' => $raw,
+                        'type' => $temp['type'],
+                    ];
                 }
-                $return['status'] = [
-                    'custom' => $custom,
-                    'formatted' => $formatted,
-                    'raw' => $raw,
-                    'type' => $temp['type'],
-                ];
-            }
-            if ($temp['type'] == 'access') {
-                if ($temp['value'] == null) {
-                    $custom = '<span class="badge bg-danger">No Access Found</span>';
-                } else {
-                    $custom = '<span class="badge bg-success"data-access="' . json_encode($temp['value']) . '">Access Found</span>';
+                if ($temp['type'] == 'access') {
+                    if ($temp['value'] == null) {
+                        $custom = '<span class="badge bg-danger">No Access Found</span>';
+                    } else {
+                        $custom = '<span class="badge bg-success"data-access="' . json_encode($temp['value']) . '">Access Found</span>';
+                    }
+                    $return['access'] = [
+                        'custom' => $custom,
+                        'raw' => $temp['value'],
+                        'type' => $temp['type'],
+                    ];
                 }
-                $return['access'] = [
-                    'custom' => $custom,
-                    'raw' => $temp['value'],
-                    'type' => $temp['type'],
-                ];
             }
+
+            return $return;
+        } catch (Exception $e) {
+            return false;
         }
-
-        return $return;
     }
 
     public static function hyperLinkInText($params)
     {
-        $custom = '';
-        $raw = $params['value'];
+        try {
+            $custom = '';
+            $raw = $params['value'];
 
-        if (Arr::exists($params, 'targetRoute') && Arr::exists($params, 'targetId')) {
-            $custom = '<a href="' . route($params['targetRoute'], encrypt($params['targetId'])) . '" target="_blank">' . $params['value'] . '</a>';
-        } else {
-            $custom = "NA";
+            if (Arr::exists($params, 'targetRoute') && Arr::exists($params, 'targetId')) {
+                $custom = '<a href="' . route($params['targetRoute'], encrypt($params['targetId'])) . '" target="_blank">' . $params['value'] . '</a>';
+            } else {
+                $custom = "NA";
+            }
+
+            return [
+                'custom' => $custom,
+                'raw' => $raw,
+            ];
+        } catch (Exception $e) {
+            return false;
         }
-
-        return [
-            'custom' => $custom,
-            'raw' => $raw,
-        ];
     }
 
+    public function getNavAccessList($params = null)
+    {
+        try {
+            $access = array();
+            if ($params == null) {
+                foreach (Config::get('constants.rolePermission.accessType') as $temp) {
+                    $access = Arr::prepend($access, false, $temp);
+                }
+            } else {
+                foreach (Config::get('constants.rolePermission.accessType') as $temp) {
+                    if (Arr::only($params, [$temp])) {
+                        $access = Arr::prepend($access, true, $temp);
+                    } else {
+                        $access = Arr::prepend($access, false, $temp);
+                    }
+                }
+            }
+            return $access;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 
     public function getCommaSeparatedString($string, $model)
     {
