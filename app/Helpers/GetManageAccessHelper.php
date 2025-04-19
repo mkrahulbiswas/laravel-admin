@@ -83,6 +83,12 @@ class GetManageAccessHelper
                             $whereRaw .= " and `status` = '" . $status . "'";
                         }
                     }
+                    if (Arr::exists($params['otherDataPasses']['filterData'], 'roleMainId')) {
+                        $roleMainId = $params['otherDataPasses']['filterData']['roleMainId'];
+                        if (!empty($roleMainId)) {
+                            $whereRaw .= " and `roleMainId` = " . decrypt($roleMainId);
+                        }
+                    }
                 }
 
                 if (Arr::exists($params['otherDataPasses'], 'orderBy')) {
@@ -95,7 +101,7 @@ class GetManageAccessHelper
                 }
 
                 foreach (RoleSub::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
-                    $roleSub[] = GetManageAccessHelper::getRoleMainDetail([
+                    $roleSub[] = GetManageAccessHelper::getRoleSubDetail([
                         'type' => ['basic'],
                         'otherDataPasses' => [
                             'id' => $temp->id
@@ -136,8 +142,14 @@ class GetManageAccessHelper
                         'id' => encrypt($roleMain->id),
                         'uniqueId' => $roleMain->uniqueId,
                         'name' => $roleMain->name,
+                        'status' =>  $roleMain->status,
                         'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $roleMain->uniqueId]),
-                        'status' => CommonTrait::customizeInText(['type' => 'status', 'value' => $roleMain->status]),
+                        'customizeInText' => CommonTrait::customizeInText([
+                            [
+                                'type' => 'status',
+                                'value' => $roleMain->status
+                            ]
+                        ]),
                     ]
                 ];
 
@@ -150,7 +162,7 @@ class GetManageAccessHelper
         }
     }
 
-    public static function getNavSubDetail($params, $platform = '')
+    public static function getRoleSubDetail($params, $platform = '')
     {
         try {
             $finalData = array();
@@ -158,12 +170,18 @@ class GetManageAccessHelper
             if (in_array('basic', $params['type'])) {
                 $roleSub = RoleSub::where('id', $params['otherDataPasses']['id'])->first();
                 $data = [
-                    'navMainDetail' => [
+                    'roleSubDetail' => [
                         'id' => encrypt($roleSub->id),
                         'uniqueId' => $roleSub->uniqueId,
                         'name' => $roleSub->name,
+                        'status' =>  $roleSub->status,
                         'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $roleSub->uniqueId]),
-                        'status' => CommonTrait::customizeInText(['type' => 'status', 'value' => $roleSub->status]),
+                        'customizeInText' => CommonTrait::customizeInText([
+                            [
+                                'type' => 'status',
+                                'value' => $roleSub->status
+                            ]
+                        ]),
                     ]
                 ];
 

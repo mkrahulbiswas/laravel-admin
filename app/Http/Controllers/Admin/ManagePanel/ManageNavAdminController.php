@@ -13,8 +13,12 @@ use App\Models\ManagePanel\ManageNav\NavType;
 use App\Models\ManagePanel\ManageNav\NavMain;
 use App\Models\ManagePanel\ManageNav\NavSub;
 use App\Models\ManagePanel\ManageNav\NavNested;
+use App\Models\ManagePanel\ManageAccess\RoleMain;
+use App\Models\ManagePanel\ManageAccess\RoleSub;
+use App\Models\ManagePanel\ManageAccess\Permission;
 
 use App\Helpers\GetManageNavHelper;
+use App\Helpers\GetManageAccessHelper;
 
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -135,7 +139,7 @@ class ManageNavAdminController extends Controller
                 $navType = new NavType;
                 $navType->name = $values['name'];
                 $navType->icon = $values['icon'];
-                $navType->description = $values['description'];
+                $navType->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $navType->uniqueId = $this->generateCode(['preString' => 'NT', 'length' => 6, 'model' => NavType::class, 'field' => '']);
                 $navType->status = Config::get('constants.status')['active'];
                 $navType->position = NavType::max('position') + 1;
@@ -170,7 +174,7 @@ class ManageNavAdminController extends Controller
 
                 $navType->name = $values['name'];
                 $navType->icon = $values['icon'];
-                $navType->description = $values['description'];
+                $navType->description = ($values['description'] == '') ? 'NA' : $values['description'];;
 
                 if ($navType->update()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Type", 'msg' => __('messages.updateMsg', ['type' => 'Nav type'])['success']], config('constants.ok'));
@@ -400,7 +404,7 @@ class ManageNavAdminController extends Controller
                 $navMain->name = $values['name'];
                 $navMain->icon = $values['icon'];
                 $navMain->navTypeId = decrypt($values['navType']);
-                $navMain->description = $values['description'];
+                $navMain->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $navMain->uniqueId = $this->generateCode(['preString' => 'NM', 'length' => 6, 'model' => NavMain::class, 'field' => '']);
                 $navMain->status = Config::get('constants.status')['active'];
                 $navMain->position = NavMain::max('position') + 1;
@@ -438,7 +442,7 @@ class ManageNavAdminController extends Controller
                 $navMain->name = $values['name'];
                 $navMain->icon = $values['icon'];
                 $navMain->navTypeId = decrypt($values['navType']);
-                $navMain->description = $values['description'];
+                $navMain->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $navMain->route = strtolower(str_replace(" ", "-", $values['name']));
                 $navMain->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
 
@@ -463,23 +467,61 @@ class ManageNavAdminController extends Controller
             return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Nav Main", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
         }
 
-        try {
-            if (isset($values['access'])) {
-                $navMain = NavMain::find($id);
+        // try {
+        if (isset($values['access'])) {
+            $navMain = NavMain::find($id);
 
-                $navMain->access = $this->getNavAccessList($values['access']);
-
-                if ($navMain->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
+            $navMain->access = $this->getNavAccessList($values['access']);
+            $roleMain = GetManageAccessHelper::getList([
+                'type' => ['roleMain'],
+                'otherDataPasses' => [
+                    'filterData' => [
+                        'status' => Config::get('constants.status')['active']
+                    ]
+                ],
+            ]);
+            Permission::where('navMainId', $navMain->id)->delete();
+            foreach ($roleMain['roleMain']['roleMain'] as $tempOne) {
+                $permission = new Permission();
+                $permission->navTypeId = $navMain->navTypeId;
+                $permission->navMainId = $navMain->id;
+                $permission->roleMainId = decrypt($tempOne['id']);
+                if ($permission->save()) {
+                    $roleSub = GetManageAccessHelper::getList([
+                        'type' => ['roleSub'],
+                        'otherDataPasses' => [
+                            'filterData' => [
+                                'status' => Config::get('constants.status')['active'],
+                                'roleMainId' => $tempOne['id']
+                            ]
+                        ],
+                    ]);
+                    foreach ($roleSub['roleSub']['roleSub'] as $tempTwo) {
+                        $permission = new Permission();
+                        $permission->navTypeId = $navMain->navTypeId;
+                        $permission->navMainId = $navMain->id;
+                        $permission->roleMainId = decrypt($tempOne['id']);
+                        $permission->roleSubId = decrypt($tempTwo['id']);
+                        if ($permission->save()) {
+                        } else {
+                        }
+                    }
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
                 }
-            } else {
-                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Validation", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['validation']], config('constants.ok'));
+                echo '<hr>';
             }
-        } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Main", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            dd();
+            if ($navMain->update()) {
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
+            } else {
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
+            }
+        } else {
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Validation", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['validation']], config('constants.ok'));
         }
+        // } catch (Exception $e) {
+        //     return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Main", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+        // }
     }
 
     public function statusNavMain($id)
@@ -694,7 +736,7 @@ class ManageNavAdminController extends Controller
                 $navSub->icon = $values['icon'];
                 $navSub->navTypeId = decrypt($values['navType']);
                 $navSub->navMainId = decrypt($values['navMain']);
-                $navSub->description = $values['description'];
+                $navSub->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $navSub->uniqueId = $this->generateCode(['preString' => 'NS', 'length' => 6, 'model' => NavSub::class, 'field' => '']);
                 $navSub->status = Config::get('constants.status')['active'];
                 $navSub->position = NavSub::max('position') + 1;
@@ -733,7 +775,7 @@ class ManageNavAdminController extends Controller
                 $navSub->icon = $values['icon'];
                 $navSub->navTypeId = decrypt($values['navType']);
                 $navSub->navMainId = decrypt($values['navMain']);
-                $navSub->description = $values['description'];
+                $navSub->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $navSub->route = strtolower(str_replace(" ", "-", NavMain::where('id', decrypt($values['navMain']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
                 $navSub->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
 
@@ -984,7 +1026,7 @@ class ManageNavAdminController extends Controller
                 $navNested->navTypeId = decrypt($values['navType']);
                 $navNested->navMainId = decrypt($values['navMain']);
                 $navNested->navSubId = decrypt($values['navSub']);
-                $navNested->description = $values['description'];
+                $navNested->description = ($values['description'] == '') ? 'NA' : $values['description'];
                 $navNested->uniqueId = $this->generateCode(['preString' => 'NN', 'length' => 6, 'model' => NavNested::class, 'field' => '']);
                 $navNested->status = Config::get('constants.status')['active'];
                 $navNested->position = NavNested::max('position') + 1;
@@ -1024,7 +1066,7 @@ class ManageNavAdminController extends Controller
                 $navNested->navTypeId = decrypt($values['navType']);
                 $navNested->navMainId = decrypt($values['navMain']);
                 $navNested->navSubId = decrypt($values['navSub']);
-                $navNested->description = $values['description'];
+                $navNested->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $navNested->route = strtolower(str_replace(" ", "-", NavMain::where('id', decrypt($values['navMain']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", NavSub::where('id', decrypt($values['navSub']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
                 $navNested->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
 
@@ -1173,7 +1215,7 @@ class ManageNavAdminController extends Controller
                 $navNested->navTypeId = decrypt($values['navType']);
                 $navNested->navMainId = decrypt($values['navMain']);
                 $navNested->navSubId = decrypt($values['navSub']);
-                $navNested->description = $values['description'];
+                $navNested->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $navNested->route = strtolower(str_replace(" ", "-", NavMain::where('id', decrypt($values['navMain']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", NavSub::where('id', decrypt($values['navSub']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
                 $navNested->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
 

@@ -960,16 +960,16 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        loader: {
-                            isSet: true
-                        },
+                        // loader: {
+                        //     isSet: true
+                        // },
                         resetValidation: {},
-                        submitBtnState: {
-                            dataPass: {
-                                text: 'Please wait...',
-                                disabled: true
-                            }
-                        }
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Please wait...',
+                        //         disabled: true
+                        //     }
+                        // }
                     })
                 },
                 success: function (msg) {
@@ -978,9 +978,9 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        loader: {
-                            isSet: false
-                        },
+                        // loader: {
+                        //     isSet: false
+                        // },
                         toaster: {
                             dataPass: {
                                 title: msg.title,
@@ -988,12 +988,12 @@
                                 type: msg.type
                             }
                         },
-                        submitBtnState: {
-                            dataPass: {
-                                text: 'Set Access',
-                                disabled: false
-                            }
-                        }
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Set Access',
+                        //         disabled: false
+                        //     }
+                        // }
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
