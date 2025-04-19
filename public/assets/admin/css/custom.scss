@@ -1,0 +1,315 @@
+.invalid-input:focus,
+.invalid-input {
+    border-color: var(--vz-form-invalid-border-color) !important;
+    padding-right: calc(1.5em + 1rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23f06548'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23f06548' stroke='none'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(.375em + .25rem) center;
+    background-size: calc(.75em + .5rem) calc(.75em + .5rem);
+}
+
+.valid-input:focus,
+.valid-input {
+    border-color: var(--vz-form-valid-border-color) !important;
+    padding-right: calc(1.5em + 1rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%230ab39c' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(.375em + .25rem) center;
+    background-size: calc(.75em + .5rem) calc(.75em + .5rem);
+}
+
+.validation-error {
+    width: 100%;
+    margin-top: .25rem;
+    font-size: .875em;
+    color: var(--vz-form-invalid-color);
+}
+
+
+.common-form {}
+
+.common-form .form-label {
+    margin-bottom: .2rem;
+}
+
+.modal-dialog .modal-content {
+    border-color: black;
+    box-shadow: 0px 11px 21px -5px #424242;
+}
+
+.modal-dialog .modal-content .modal-header {
+    background-color: #c8fcff;
+}
+
+.modal-dialog .modal-content .modal-header .btn-outline-danger {
+    border-radius: 100%;
+}
+
+.modal-dialog .modal-content .modal-body {
+    background-color: #ececec;
+}
+
+.modal-dialog .modal-content .modal-footer {
+    background-color: #ffd1fc;
+}
+
+
+
+
+
+
+
+
+
+
+#container-fluid-inside {
+    .main-page-content {
+        .card-body {
+            .tdFilterMain {
+                display: none;
+
+                .tdFilterSub {
+                    box-shadow: 0 5px 10px #bfbfbf;
+                    padding: 10px;
+                    border-radius: 5px;
+
+                    .row {}
+                }
+            }
+
+            .tdFilterForm {
+                border-radius: 5px;
+                background-color: #00000036;
+            }
+
+            .tdContentMain {
+                .tdContentSub {
+                    background-color: #f9f9f9;
+                    padding: 10px 0;
+                    border-radius: 5px;
+
+                    .all-nav-list {
+                        .nav-type-list {
+                            display: flex;
+                            flex-direction: column;
+                            background-color: red;
+                            padding: 10px;
+                            margin: 10px;
+
+                            .nav-type-heading {}
+
+                            .nav-main-list {
+                                display: flex;
+                                flex-direction: column;
+                                background-color: green;
+                                padding: 10px;
+                                margin: 10px;
+
+                                .nav-main-heading {}
+
+                                .nav-sub-list {
+                                    display: flex;
+                                    flex-direction: column;
+                                    background-color: yellow;
+                                    padding: 10px;
+                                    margin: 10px;
+
+                                    .nav-sub-heading {}
+
+                                    .nav-nested-list {
+                                        display: flex;
+                                        flex-direction: column;
+                                        background-color: blueviolet;
+                                        padding: 10px;
+                                        margin: 10px;
+
+                                        .nav-nested-heading {}
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .tdAction {
+                        padding: 5px;
+                        background-image: linear-gradient(0deg, #defbff 0%, #dde7f8 100%);
+                        border-radius: 0.25rem;
+                        max-width: max-content;
+                        position: relative;
+                        transition: 0.30s ease-in-out;
+
+                        .tdActionButton {
+                            display: flex;
+                            flex-direction: row;
+                            gap: 7px;
+
+                            .tdActionButtonCommon {
+                                a {
+                                    border-radius: 10%;
+                                    width: 30px;
+                                    height: 30px;
+                                    padding: 0;
+                                    display: flex;
+                                    justify-content: center;
+
+                                    i {
+                                        font-size: 18px;
+                                        align-self: center;
+                                    }
+                                }
+                            }
+
+                            .tdActionButtonStatus {
+                                a {
+                                    i {}
+                                }
+                            }
+
+                            .tdActionButtonEdit {
+                                a {
+                                    i {}
+                                }
+                            }
+
+                            .tdActionButtonDelete {
+                                a {
+                                    i {}
+                                }
+                            }
+
+                            .tdActionButtonDetails {
+                                a {
+                                    i {}
+                                }
+                            }
+
+                            .tdActionButtonToggle {
+                                a {
+                                    i {}
+                                }
+                            }
+                        }
+
+                        .tdActionInner {
+                            position: absolute;
+                            top: 60px;
+                            left: 0;
+                            opacity: 0;
+                            width: 100%;
+                            height: auto;
+                            z-index: 4;
+                            background-color: #defbff;
+                            transition: 0.30s ease-in-out;
+                            pointer-events: none;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 7px;
+                            padding: 10px;
+                            border-bottom-left-radius: 0.25rem;
+                            border-bottom-right-radius: 0.25rem;
+
+                            .tdActionInnerCommon {
+                                a {
+                                    display: flex;
+                                    flex-direction: row;
+                                    padding: 5px;
+                                    transition: 0.30s ease-in-out;
+                                    border-radius: 0.25rem;
+                                    text-align: left;
+                                    gap: 8px;
+
+                                    &:hover {
+                                        cursor: pointer;
+                                        background-color: #d3ec76;
+                                    }
+
+                                    i {
+                                        font-size: 16px;
+                                    }
+
+                                    span {
+                                        font-size: 13px;
+                                        align-self: center;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .tdMultiData {
+                        .tdMultiDataContent {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            gap: 5px;
+
+                            .tdMultiDataCommon {
+                                display: flex;
+                                flex-direction: row;
+
+                                label {
+                                    font-weight: bold;
+                                    padding: 0;
+                                    margin: 0;
+                                }
+
+                                span {
+                                    margin-left: 5px;
+                                    line-height: 12px;
+                                }
+                            }
+
+                            .tdMultiDataStatus {
+                                label {}
+
+                                span {}
+                            }
+
+                            .tdMultiDataAccess {
+                                label {}
+
+                                span {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .detail-page-data {
+        .each-detail-box {
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+
+            .details-label {
+                font-size: 15px;
+            }
+
+            .detail-span {
+                font-size: 12px;
+                display: flex;
+                flex-direction: row;
+                gap: 5px;
+                flex-wrap: wrap;
+
+                .accessSet {
+                    padding: 5px;
+                    background-color: #eeeeee;
+                    max-width: fit-content;
+                    border-radius: 5px;
+                    text-transform: capitalize;
+                }
+            }
+        }
+    }
+
+    .con-access-modal {
+        .form-element {
+            .form-check-label {
+                text-transform: capitalize;
+            }
+        }
+    }
+}

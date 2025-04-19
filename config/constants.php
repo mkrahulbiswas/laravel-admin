@@ -61,6 +61,22 @@ return [
         ],
     ],
 
+    'rolePermission' => [
+        'accessType' => [
+            'add',
+            'edit',
+            'status',
+            'delete',
+            'filter',
+            'reload',
+            'reset',
+            'search',
+            'other',
+            'permission',
+            'access',
+        ]
+    ],
+
     //--Action Type
     'actionFor' => [
         'statusType' => [

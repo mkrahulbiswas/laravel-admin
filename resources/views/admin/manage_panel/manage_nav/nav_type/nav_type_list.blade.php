@@ -33,7 +33,7 @@
                                 <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
                                 <span>Add Nav Type</span>
                             </button>
-                            <button type="button" class="btn btn-warning custom-toggle ms-2 filter-table-data-btn d-flex" data-bs-toggle="button">
+                            <button type="button" class="btn btn-warning custom-toggle ms-2 tdFilterBtn d-flex" data-bs-toggle="button">
                                 <span class="icon-on">
                                     <i class="mdi mdi-filter-outline align-bottom"></i>
                                 </span>
@@ -47,8 +47,8 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-12 mb-4 filter-table-data-main" data-filterStatus="0">
-                            <div class="filter-table-data">
+                        <div class="col-md-12 mb-4 tdFilterMain" data-filterStatus="0">
+                            <div class="tdFilterSub">
                                 <div class="row">
                                     <div class="col-12 mb-4">
                                         <div class="d-sm-flex align-items-center justify-content-between">
@@ -56,19 +56,19 @@
                                                 <h5 class="m-0">Filter bellow table data:</h5>
                                             </div>
                                             <div class="d-sm-flex align-items-center justify-content-between">
-                                                <button type="button" class="btn btn-outline-danger btn-sm btn-icon waves-effect waves-light filter-table-data-close-btn">
+                                                <button type="button" class="btn btn-outline-danger btn-sm btn-icon waves-effect waves-light tdFilterCloseBtn">
                                                     <i class="mdi mdi-close-box fs-5"></i>
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <div class="filter-table-form p-3">
+                                        <div class="tdFilterForm p-3">
                                             <form id="filterNavTypeForm" method="POST" action="{{ route('admin.get.navType') }}" class="m-b-20">
                                                 @csrf
                                                 <div class="row">
 
-                                                    <div class="form-element col-md-2 m-t-5">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
                                                         <div class="form-icon set-validation">
                                                             <select name="status" id="statusFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any status">
@@ -80,7 +80,7 @@
                                                         <div class="validation-error" id="navTypeErr"></div>
                                                     </div>
 
-                                                    <div class="col-md-2 m-t-5">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         <div class="form-group d-flex flex-row justify-content-around">
                                                             <button type="button" class="btn btn-info btn-label waves-effect waves-light filterNavTypeBtn" title="Search">
                                                                 <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
@@ -100,8 +100,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 table-data-main">
-                            <div class="table-data">
+                        <div class="col-md-12 tdContentMain">
+                            <div class="tdContentSub">
                                 <table id="managePanel-manageNav-navType" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>

@@ -109,7 +109,7 @@ class ManageAccessAdminController extends Controller
                     //     $details = '';
                     // }
 
-                    return $this->dataTableHtmlPurse([
+                    return $this->dynamicHtmlPurse([
                         'action' => [
                             'primary' => [$status, $edit, $delete, $details],
                             'secondary' => [$access],
@@ -348,7 +348,7 @@ class ManageAccessAdminController extends Controller
                     //     $details = '';
                     // }
 
-                    return $this->dataTableHtmlPurse([
+                    return $this->dynamicHtmlPurse([
                         'action' => [
                             'primary' => [$status, $edit, $delete, $details],
                             'secondary' => [$access],

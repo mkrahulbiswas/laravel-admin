@@ -48,6 +48,12 @@ class GetManageNavHelper
                             $orderByRaw = "`position` " . $position;
                         }
                     }
+                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'id')) {
+                        $id = $params['otherDataPasses']['orderBy']['id'];
+                        if (!empty($id)) {
+                            $orderByRaw = "`id` " . $id;
+                        }
+                    }
                 }
 
                 foreach (NavType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
@@ -101,6 +107,12 @@ class GetManageNavHelper
                             $orderByRaw = "`position` " . $position;
                         }
                     }
+                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'id')) {
+                        $id = $params['otherDataPasses']['orderBy']['id'];
+                        if (!empty($id)) {
+                            $orderByRaw = "`id` " . $id;
+                        }
+                    }
                 }
 
                 foreach (NavMain::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
@@ -147,6 +159,12 @@ class GetManageNavHelper
                             $whereRaw .= " and `status` = '" . $status . "'";
                         }
                     }
+                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navTypeId')) {
+                        $navTypeId = $params['otherDataPasses']['filterData']['navTypeId'];
+                        if (!empty($navTypeId)) {
+                            $whereRaw .= " and `navTypeId` = '" . decrypt($navTypeId) . "'";
+                        }
+                    }
                     if (Arr::exists($params['otherDataPasses']['filterData'], 'navMainId')) {
                         $navMainId = $params['otherDataPasses']['filterData']['navMainId'];
                         if (!empty($navMainId)) {
@@ -160,6 +178,12 @@ class GetManageNavHelper
                         $position = $params['otherDataPasses']['orderBy']['position'];
                         if (!empty($position)) {
                             $orderByRaw = "`position` " . $position;
+                        }
+                    }
+                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'id')) {
+                        $id = $params['otherDataPasses']['orderBy']['id'];
+                        if (!empty($id)) {
+                            $orderByRaw = "`id` " . $id;
                         }
                     }
                 }
@@ -214,6 +238,18 @@ class GetManageNavHelper
                             $whereRaw .= " and `status` = '" . $status . "'";
                         }
                     }
+                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navTypeId')) {
+                        $navTypeId = $params['otherDataPasses']['filterData']['navTypeId'];
+                        if (!empty($navTypeId)) {
+                            $whereRaw .= " and `navTypeId` = '" . decrypt($navTypeId) . "'";
+                        }
+                    }
+                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navMainId')) {
+                        $navMainId = $params['otherDataPasses']['filterData']['navMainId'];
+                        if (!empty($navMainId)) {
+                            $whereRaw .= " and `navMainId` = '" . decrypt($navMainId) . "'";
+                        }
+                    }
                     if (Arr::exists($params['otherDataPasses']['filterData'], 'navSubId')) {
                         $navSubId = $params['otherDataPasses']['filterData']['navSubId'];
                         if (!empty($navSubId)) {
@@ -227,6 +263,12 @@ class GetManageNavHelper
                         $position = $params['otherDataPasses']['orderBy']['position'];
                         if (!empty($position)) {
                             $orderByRaw = "`position` " . $position;
+                        }
+                    }
+                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'id')) {
+                        $id = $params['otherDataPasses']['orderBy']['id'];
+                        if (!empty($id)) {
+                            $orderByRaw = "`id` " . $id;
                         }
                     }
                 }
@@ -291,12 +333,18 @@ class GetManageNavHelper
                 $data = [
                     'navTypeDetail' => [
                         'id' => encrypt($navType->id),
-                        'uniqueId' => $navType->uniqueId,
                         'name' => $navType->name,
                         'icon' => $navType->icon,
                         'position' => $navType->position,
+                        'description' => $navType->description,
+                        'status' => $navType->status,
                         'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $navType->uniqueId]),
-                        'status' => CommonTrait::customizeInText(['type' => 'status', 'value' => $navType->status]),
+                        'customizeInText' => CommonTrait::customizeInText([
+                            [
+                                'type' => 'status',
+                                'value' => $navType->status
+                            ]
+                        ]),
                         // 'uniqueId2' => CommonTrait::hyperLinkInText(['targetId' => $navType->id, 'targetRoute' => 'admin.details.product', 'type' => 'uniqueId', 'value' => $navType->uniqueId]),
                     ]
                 ];
@@ -320,13 +368,24 @@ class GetManageNavHelper
                 $data = [
                     'navMainDetail' => [
                         'id' => encrypt($navMain->id),
-                        'uniqueId' => $navMain->uniqueId,
                         'name' => $navMain->name,
                         'icon' => $navMain->icon,
                         'route' => $navMain->route,
                         'position' => $navMain->position,
+                        'description' => $navMain->description,
+                        'status' => $navMain->status,
+                        'access' => json_decode($navMain->access, true),
                         'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $navMain->uniqueId]),
-                        'status' => CommonTrait::customizeInText(['type' => 'status', 'value' => $navMain->status]),
+                        'customizeInText' => CommonTrait::customizeInText([
+                            [
+                                'type' => 'status',
+                                'value' => $navMain->status
+                            ],
+                            [
+                                'type' => 'access',
+                                'value' => json_decode($navMain->access, true)
+                            ]
+                        ]),
                     ]
                 ];
 
@@ -349,13 +408,24 @@ class GetManageNavHelper
                 $data = [
                     'navSubDetail' => [
                         'id' => encrypt($navSub->id),
-                        'uniqueId' => $navSub->uniqueId,
                         'name' => $navSub->name,
                         'icon' => $navSub->icon,
                         'route' => $navSub->route,
                         'position' => $navSub->position,
+                        'description' => $navSub->description,
+                        'status' => $navSub->status,
+                        'access' => json_decode($navSub->access, true),
                         'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $navSub->uniqueId]),
-                        'status' => CommonTrait::customizeInText(['type' => 'status', 'value' => $navSub->status]),
+                        'customizeInText' => CommonTrait::customizeInText([
+                            [
+                                'type' => 'status',
+                                'value' => $navSub->status
+                            ],
+                            [
+                                'type' => 'access',
+                                'value' => json_decode($navSub->access, true)
+                            ]
+                        ]),
                     ]
                 ];
 
@@ -378,13 +448,24 @@ class GetManageNavHelper
                 $data = [
                     'navNestedDetail' => [
                         'id' => encrypt($navNested->id),
-                        'uniqueId' => $navNested->uniqueId,
                         'name' => $navNested->name,
                         'icon' => $navNested->icon,
                         'route' => $navNested->route,
                         'position' => $navNested->position,
+                        'description' => $navNested->description,
+                        'status' => $navNested->status,
+                        'access' => json_decode($navNested->access, true),
                         'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $navNested->uniqueId]),
-                        'status' => CommonTrait::customizeInText(['type' => 'status', 'value' => $navNested->status]),
+                        'customizeInText' => CommonTrait::customizeInText([
+                            [
+                                'type' => 'status',
+                                'value' => $navNested->status
+                            ],
+                            [
+                                'type' => 'access',
+                                'value' => json_decode($navNested->access, true)
+                            ]
+                        ]),
                     ]
                 ];
 

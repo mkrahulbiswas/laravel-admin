@@ -940,6 +940,85 @@
             });
         });
 
+        //---- ( Nav Main Access ) ----//
+        $("#accessNavMainForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#accessNavMainBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Set Access',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.name, function (i) {
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#managePanel-manageNav-navMain')
+                                }
+                            }
+                        })
+                    }
+                }
+            });
+        });
+
         //---- ( Nav Main Status, Edit, Detail ) ----//
         $('body').delegate('#managePanel-manageNav-navMain .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
@@ -978,18 +1057,41 @@
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#id').val(data.id);
-                id.find("#navType2 option[data-name='" + data.navType + "']").prop("selected", true).trigger('change');
+                id.find("#navType2 option[data-name='" + data.navType.name + "']").prop("selected", true).trigger('change');
                 id.find('#name').val(data.name);
                 id.find('#icon').val(data.icon);
                 id.find('#description').val(data.description);
+            } else if (type == 'access') {
+                id = $('#con-access-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                if (data.access != null) {
+                    Object.entries(data.access).forEach((element) => {
+                        id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
+                    });
+                }
+                id.find('#id').val(data.id);
+                id.find('#name').val(data.name);
             } else {
                 id = $('#con-detail-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
-                id.find('#navType').text(data.navType);
+                id.find('#navType').text(data.navType.name);
                 id.find('#icon').html('<i class="' + data.icon + '"></i>');
                 id.find('#description').text(data.description);
+                if (data.access != null) {
+                    setTimeout(() => {
+                        id.find('#access').html('');
+                        Object.entries(data.access).forEach((element) => {
+                            if (element[1]) {
+                                id.find('#access').append('<div class="accessSet">' + element[0] + '</div>');
+                            }
+                        });
+                    }, 1000)
+                } else {
+                    id.find('#access').text('No access set yet, please set now. Its impotent because without access you cannot controls action buttons.');
+                }
             }
         });
 
@@ -1180,6 +1282,85 @@
             });
         });
 
+        //---- ( Nav Sub Access ) ----//
+        $("#accessNavSubForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#accessNavSubBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Set Access',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.name, function (i) {
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#managePanel-manageNav-navSub')
+                                }
+                            }
+                        })
+                    }
+                }
+            });
+        });
+
         //---- ( Nav Sub Status, Edit, Detail ) ----//
         $('body').delegate('#managePanel-manageNav-navSub .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
@@ -1221,19 +1402,42 @@
                 id.find('#name').val(data.name);
                 id.find('#icon').val(data.icon);
                 id.find('#description').val(data.description);
-                id.find("#navType2 option[data-name='" + data.navType + "']").prop("selected", true).trigger('change');
+                id.find("#navType2 option[data-name='" + data.navType.name + "']").prop("selected", true).trigger('change');
                 setTimeout(() => {
-                    id.find("#navMain2 option[data-name='" + data.navMain + "']").prop("selected", true).trigger('change');
+                    id.find("#navMain2 option[data-name='" + data.navMain.name + "']").prop("selected", true).trigger('change');
                 }, 1000);
+            } else if (type == 'access') {
+                id = $('#con-access-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                if (data.access != null) {
+                    Object.entries(data.access).forEach((element) => {
+                        id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
+                    });
+                }
+                id.find('#id').val(data.id);
+                id.find('#name').val(data.name);
             } else {
                 id = $('#con-detail-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
-                id.find('#navType').text(data.navType);
-                id.find('#navMain').text(data.navMain);
+                id.find('#navType').text(data.navType.name);
+                id.find('#navMain').text(data.navMain.name);
                 id.find('#icon').html('<i class="' + data.icon + '"></i>');
                 id.find('#description').text(data.description);
+                if (data.access != null) {
+                    setTimeout(() => {
+                        id.find('#access').html('');
+                        Object.entries(data.access).forEach((element) => {
+                            if (element[1]) {
+                                id.find('#access').append('<div class="accessSet">' + element[0] + '</div>');
+                            }
+                        });
+                    }, 1000)
+                } else {
+                    id.find('#access').text('No access set yet, please set now. Its impotent because without access you cannot controls action buttons.');
+                }
             }
         });
 
@@ -1430,6 +1634,85 @@
             });
         });
 
+        //---- ( Nav Nested Access ) ----//
+        $("#accessNavNestedForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#accessNavNestedBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Set Access',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.name, function (i) {
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#managePanel-manageNav-navNested')
+                                }
+                            }
+                        })
+                    }
+                }
+            });
+        });
+
         //---- ( Nav Nested Status, Edit, Detail ) ----//
         $('body').delegate('#managePanel-manageNav-navNested .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
@@ -1471,23 +1754,46 @@
                 id.find('#name').val(data.name);
                 id.find('#icon').val(data.icon);
                 id.find('#description').val(data.description);
-                id.find("#navType2 option[data-name='" + data.navType + "']").prop("selected", true).trigger('change');
+                id.find("#navType2 option[data-name='" + data.navType.name + "']").prop("selected", true).trigger('change');
                 setTimeout(() => {
-                    id.find("#navMain2 option[data-name='" + data.navMain + "']").prop("selected", true).trigger('change');
+                    id.find("#navMain2 option[data-name='" + data.navMain.name + "']").prop("selected", true).trigger('change');
                 }, 1000);
                 setTimeout(() => {
-                    id.find("#navSub2 option[data-name='" + data.navSub + "']").prop("selected", true).trigger('change');
+                    id.find("#navSub2 option[data-name='" + data.navSub.name + "']").prop("selected", true).trigger('change');
                 }, 2000);
+            } else if (type == 'access') {
+                id = $('#con-access-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                if (data.access != null) {
+                    Object.entries(data.access).forEach((element) => {
+                        id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
+                    });
+                }
+                id.find('#id').val(data.id);
+                id.find('#name').val(data.name);
             } else {
                 id = $('#con-detail-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
-                id.find('#navType').text(data.navType);
-                id.find('#navMain').text(data.navMain);
-                id.find('#navSub').text(data.navSub);
+                id.find('#navType').text(data.navType.name);
+                id.find('#navMain').text(data.navMain.name);
+                id.find('#navSub').text(data.navSub.name);
                 id.find('#icon').html('<i class="' + data.icon + '"></i>');
                 id.find('#description').text(data.description);
+                if (data.access != null) {
+                    setTimeout(() => {
+                        id.find('#access').html('');
+                        Object.entries(data.access).forEach((element) => {
+                            if (element[1]) {
+                                id.find('#access').append('<div class="accessSet">' + element[0] + '</div>');
+                            }
+                        });
+                    }, 1000)
+                } else {
+                    id.find('#access').text('No access set yet, please set now. Its impotent because without access you cannot controls action buttons.');
+                }
             }
         });
 

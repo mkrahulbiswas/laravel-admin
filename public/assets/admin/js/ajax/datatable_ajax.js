@@ -193,7 +193,7 @@
                     searchable: false
                 },
                 {
-                    data: "uniqueId"
+                    data: "uniqueId",
                 },
                 {
                     data: "name"
@@ -242,7 +242,7 @@
                     data: "icon"
                 },
                 {
-                    data: "status",
+                    data: "statInfo",
                 },
                 {
                     data: 'action',
@@ -282,7 +282,7 @@
                     data: "icon"
                 },
                 {
-                    data: "status",
+                    data: "statInfo",
                 },
                 {
                     data: 'action',
@@ -325,7 +325,7 @@
                     data: "icon"
                 },
                 {
-                    data: "status",
+                    data: "statInfo",
                 },
                 {
                     data: 'action',

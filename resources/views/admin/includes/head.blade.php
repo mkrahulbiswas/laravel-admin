@@ -21,9 +21,9 @@
 
 
 @if (in_array('pdf', $data) || in_array('print', $data))
-    <link href="{{ asset('assets/admin/css/custom.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/admin/css/custom.scss') }}" rel="stylesheet" type="text/css" />
 @else
-    <?php /* ?>
+    <?php /* ?> ?> ?> ?> ?> ?>
     <!-- ( Bootstrap CDN ) -->
     {{-- <link href="{{ asset('assets/plugins/bootstrap/v4/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" /> --}}
     <link href="{{ asset('assets/plugins/bootstrap/v4.1/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
@@ -138,7 +138,7 @@
     <link href="{{ asset('assets/admin/css/app.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- custom Css-->
-    <link href="{{ asset('assets/admin/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/admin/css/custom.scss') }}" rel="stylesheet" type="text/css" />
 
 
     <!-- ( Sweet Alart 2 ) -->
@@ -153,8 +153,7 @@
     @if ($checkOne == 'loginPage')
     @else
         <!-- jsvectormap css -->
-        <link href="{{ asset('assets/plugins/jsvectormap/css/jsvectormap.min.css') }}" rel="stylesheet"
-            type="text/css" />
+        <link href="{{ asset('assets/plugins/jsvectormap/css/jsvectormap.min.css') }}" rel="stylesheet" type="text/css" />
 
         <!--Swiper slider css-->
         <link href="{{ asset('assets/plugins/swiper/swiper-bundle.min.css') }}" rel="stylesheet" type="text/css" />
