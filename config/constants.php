@@ -67,6 +67,8 @@ return [
             'edit',
             'status',
             'delete',
+            'info',
+            'detail',
             'filter',
             'reload',
             'reset',

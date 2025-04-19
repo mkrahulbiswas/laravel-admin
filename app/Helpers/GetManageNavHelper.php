@@ -98,6 +98,12 @@ class GetManageNavHelper
                             $whereRaw .= " and `navTypeId` = '" . decrypt($navTypeId) . "'";
                         }
                     }
+                    if (Arr::exists($params['otherDataPasses']['filterData'], 'access')) {
+                        $access = $params['otherDataPasses']['filterData']['access'];
+                        if (!empty($access)) {
+                            $whereRaw .= " and `access` is not null";
+                        }
+                    }
                 }
 
                 if (Arr::exists($params['otherDataPasses'], 'orderBy')) {
@@ -169,6 +175,12 @@ class GetManageNavHelper
                         $navMainId = $params['otherDataPasses']['filterData']['navMainId'];
                         if (!empty($navMainId)) {
                             $whereRaw .= " and `navMainId` = '" . decrypt($navMainId) . "'";
+                        }
+                    }
+                    if (Arr::exists($params['otherDataPasses']['filterData'], 'access')) {
+                        $access = $params['otherDataPasses']['filterData']['access'];
+                        if (!empty($access)) {
+                            $whereRaw .= " and `access` is not null";
                         }
                     }
                 }
@@ -254,6 +266,12 @@ class GetManageNavHelper
                         $navSubId = $params['otherDataPasses']['filterData']['navSubId'];
                         if (!empty($navSubId)) {
                             $whereRaw .= " and `navSubId` = '" . decrypt($navSubId) . "'";
+                        }
+                    }
+                    if (Arr::exists($params['otherDataPasses']['filterData'], 'access')) {
+                        $access = $params['otherDataPasses']['filterData']['access'];
+                        if (!empty($access)) {
+                            $whereRaw .= " and `access` is not null";
                         }
                     }
                 }
@@ -503,6 +521,7 @@ class GetManageNavHelper
                             'filterData' => [
                                 'status' => $params['otherDataPasses']['filterData']['status'],
                                 'navTypeId' => $tempOne['id'],
+                                'access' => $tempOne['id']
                             ],
                             'orderBy' => [
                                 'position' => $params['otherDataPasses']['orderBy']['position']
@@ -517,6 +536,7 @@ class GetManageNavHelper
                                     'filterData' => [
                                         'status' => $params['otherDataPasses']['filterData']['status'],
                                         'navMainId' => $tempTwo['id'],
+                                        'access' => $tempOne['id']
                                     ],
                                     'orderBy' => [
                                         'position' => $params['otherDataPasses']['orderBy']['position']
@@ -531,6 +551,7 @@ class GetManageNavHelper
                                             'filterData' => [
                                                 'status' => $params['otherDataPasses']['filterData']['status'],
                                                 'navSubId' => $tempThree['id'],
+                                                'access' => $tempOne['id']
                                             ],
                                             'orderBy' => [
                                                 'position' => $params['otherDataPasses']['orderBy']['position']
