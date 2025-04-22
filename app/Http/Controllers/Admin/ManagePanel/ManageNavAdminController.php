@@ -50,7 +50,7 @@ class ManageNavAdminController extends Controller
             $navType = GetManageNavHelper::getList([
                 [
                     'getList' => [
-                        'type' => ['basicWithoutFilter', 'basicWithFilter'],
+                        'type' => ['basicWithFilter'],
                         'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
                     ],
                     'otherDataPasses' => [
@@ -62,51 +62,9 @@ class ManageNavAdminController extends Controller
                         ]
                     ],
                 ],
-                [
-                    'getList' => [
-                        'type' => ['basicWithoutFilter', 'basicWithFilter'],
-                        'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
-                    ],
-                    'otherDataPasses' => [
-                        'filterData' => [
-                            'status' => $request->status
-                        ],
-                        'orderBy' => [
-                            'id' => 'desc'
-                        ]
-                    ],
-                ],
-                [
-                    'getList' => [
-                        'type' => ['basicWithoutFilter', 'basicWithFilter'],
-                        'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
-                    ],
-                    'otherDataPasses' => [
-                        'filterData' => [
-                            'status' => $request->status
-                        ],
-                        'orderBy' => [
-                            'id' => 'desc'
-                        ]
-                    ],
-                ],
-                [
-                    'getList' => [
-                        'type' => ['basicWithoutFilter', 'basicWithFilter'],
-                        'for' => Config::get('constants.typeCheck.manageNav.navNested.type'),
-                    ],
-                    'otherDataPasses' => [
-                        'filterData' => [
-                            'status' => $request->status
-                        ],
-                        'orderBy' => [
-                            'id' => 'desc'
-                        ]
-                    ],
-                ]
             ]);
-            dd($navType);
-            return Datatables::of($navType['navType']['navType'])
+
+            return Datatables::of($navType['navType']['basicWithFilter']['list'])
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -127,9 +85,8 @@ class ManageNavAdminController extends Controller
                 ->addColumn('action', function ($data) {
 
                     // $itemPermission = $this->itemPermission();
-
                     // if ($itemPermission['status_item'] == '1') {
-                    if ($data['customizeInText']['status']['raw'] == Config::get('constants.status')['inactive']) {
+                    if ($data['status'] == Config::get('constants.status')['inactive']) {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navType') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navType') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
@@ -161,6 +118,7 @@ class ManageNavAdminController extends Controller
                             'type' => 'dtAction',
                             'data' => [
                                 'primary' => [$status, $edit, $delete, $details],
+                                'secondary' => []
                             ]
                         ]
                     ])['dtAction']['custom'];
@@ -324,16 +282,24 @@ class ManageNavAdminController extends Controller
     {
         try {
             $navType = GetManageNavHelper::getList([
-                'type' => [Config::get('constants.typeCheck.manageNav.navType.type')],
-                'otherDataPasses' => [
-                    'filterData' => [
-                        'status' => Config::get('constants.status')['active']
-                    ]
+                [
+                    'getList' => [
+                        'type' => ['basicWithFilter'],
+                        'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status')['active']
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ]
+                    ],
                 ],
             ]);
 
             $data = [
-                'navType' => $navType['navType'],
+                'navType' => $navType['navType']['basicWithFilter']['list'],
             ];
 
             return view('admin.manage_panel.manage_nav.nav_main.nav_main_list', ['data' => $data]);
@@ -346,19 +312,24 @@ class ManageNavAdminController extends Controller
     {
         try {
             $navMain = GetManageNavHelper::getList([
-                'type' => [Config::get('constants.typeCheck.manageNav.navMain.type')],
-                'otherDataPasses' => [
-                    'filterData' => [
-                        'status' => $request->status,
-                        'navTypeId' => $request->navType
+                [
+                    'getList' => [
+                        'type' => ['basicWithFilter'],
+                        'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
                     ],
-                    'orderBy' => [
-                        'id' => 'desc'
-                    ]
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => $request->status,
+                            'navTypeId' => $request->navType
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ]
+                    ],
                 ],
             ]);
 
-            return Datatables::of($navMain['navMain']['navMain'])
+            return Datatables::of($navMain['navMain']['basicWithFilter']['list'])
                 ->addIndexColumn()
                 ->addColumn('navType', function ($data) {
                     $navType = $data['navType']['name'];
@@ -386,7 +357,7 @@ class ManageNavAdminController extends Controller
                     // $itemPermission = $this->itemPermission();
 
                     // if ($itemPermission['status_item'] == '1') {
-                    if ($data['customizeInText']['status']['raw'] == Config::get('constants.status')['inactive']) {
+                    if ($data['status'] == Config::get('constants.status')['inactive']) {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
@@ -621,16 +592,24 @@ class ManageNavAdminController extends Controller
     {
         try {
             $navType = GetManageNavHelper::getList([
-                'type' => [Config::get('constants.typeCheck.manageNav.navType.type')],
-                'otherDataPasses' => [
-                    'filterData' => [
-                        'status' => Config::get('constants.status')['active']
-                    ]
+                [
+                    'getList' => [
+                        'type' => ['basicWithFilter'],
+                        'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status')['active']
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ]
+                    ],
                 ],
             ]);
 
             $data = [
-                'navType' => $navType['navType'],
+                'navType' => $navType['navType']['basicWithFilter']['list'],
             ];
 
             return view('admin.manage_panel.manage_nav.nav_sub.nav_sub_list', ['data' => $data]);
@@ -643,20 +622,25 @@ class ManageNavAdminController extends Controller
     {
         try {
             $navSub = GetManageNavHelper::getList([
-                'type' => [Config::get('constants.typeCheck.manageNav.navSub.type')],
-                'otherDataPasses' => [
-                    'filterData' => [
-                        'status' => $request->status,
-                        'navTypeId' => $request->navType,
-                        'navMainId' => $request->navMain
+                [
+                    'getList' => [
+                        'type' => ['basicWithFilter'],
+                        'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
                     ],
-                    'orderBy' => [
-                        'id' => 'desc'
-                    ]
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => $request->status,
+                            'navTypeId' => $request->navType,
+                            'navMainId' => $request->navMain
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ]
+                    ],
                 ],
             ]);
 
-            return Datatables::of($navSub['navSub']['navSub'])
+            return Datatables::of($navSub['navSub']['basicWithFilter']['list'])
                 ->addIndexColumn()
                 ->addColumn('navType', function ($data) {
                     $navType = $data['navType']['name'];
@@ -688,7 +672,7 @@ class ManageNavAdminController extends Controller
                     // $itemPermission = $this->itemPermission();
 
                     // if ($itemPermission['status_item'] == '1') {
-                    if ($data['customizeInText']['status']['raw'] == Config::get('constants.status')['inactive']) {
+                    if ($data['status'] == Config::get('constants.status')['inactive']) {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
@@ -905,16 +889,24 @@ class ManageNavAdminController extends Controller
     {
         try {
             $navType = GetManageNavHelper::getList([
-                'type' => [Config::get('constants.typeCheck.manageNav.navType.type')],
-                'otherDataPasses' => [
-                    'filterData' => [
-                        'status' => Config::get('constants.status')['active']
-                    ]
+                [
+                    'getList' => [
+                        'type' => ['basicWithFilter'],
+                        'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status')['active']
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ]
+                    ],
                 ],
             ]);
 
             $data = [
-                'navType' => $navType['navType'],
+                'navType' => $navType['navType']['basicWithFilter']['list'],
             ];
 
             return view('admin.manage_panel.manage_nav.nav_nested.nav_nested_list', ['data' => $data]);
@@ -927,21 +919,26 @@ class ManageNavAdminController extends Controller
     {
         try {
             $navNested = GetManageNavHelper::getList([
-                'type' => [Config::get('constants.typeCheck.manageNav.navNested.type')],
-                'otherDataPasses' => [
-                    'filterData' => [
-                        'status' => $request->status,
-                        'navTypeId' => $request->navType,
-                        'navMainId' => $request->navMain,
-                        'navSubId' => $request->navSub,
+                [
+                    'getList' => [
+                        'type' => ['basicWithFilter'],
+                        'for' => Config::get('constants.typeCheck.manageNav.navNested.type'),
                     ],
-                    'orderBy' => [
-                        'id' => 'desc'
-                    ]
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => $request->status,
+                            'navTypeId' => $request->navType,
+                            'navMainId' => $request->navMain,
+                            'navSubId' => $request->navSub,
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ]
+                    ],
                 ],
             ]);
 
-            return Datatables::of($navNested['navNested']['navNested'])
+            return Datatables::of($navNested['navNested']['basicWithFilter']['list'])
                 ->addIndexColumn()
                 ->addColumn('navType', function ($data) {
                     $navType = $data['navType']['name'];
@@ -977,7 +974,7 @@ class ManageNavAdminController extends Controller
                     // $itemPermission = $this->itemPermission();
 
                     // if ($itemPermission['status_item'] == '1') {
-                    if ($data['customizeInText']['status']['raw'] == Config::get('constants.status')['inactive']) {
+                    if ($data['status'] == Config::get('constants.status')['inactive']) {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navNested') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
                         $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navNested') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';

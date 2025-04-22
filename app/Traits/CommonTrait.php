@@ -221,7 +221,6 @@ trait CommonTrait
                         }
                     }
 
-
                     foreach ($tempOne['data']['secondary'] as $tempTwo) {
                         $secondaryAction .= '<div class="tdActionInnerCommon">' . $tempTwo . '</div>';
                     }

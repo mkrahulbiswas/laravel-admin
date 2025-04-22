@@ -26,103 +26,6 @@ class AppServiceProvider extends ServiceProvider
                 if (Auth::guard('admin')->check()) {
                     // $role_id = Auth::guard('admin')->user()->role_id;
 
-                    // $navList = $nav1 = $nav2 = $nav3 = [];
-                    // $navType = GetManageNavHelper::getList([
-                    //     'type' => [Config::get('constants.typeCheck.manageNav.navType.type')],
-                    //     'otherDataPasses' => [
-                    //         'filterData' => [
-                    //             'status' => Config::get('constants.status')['active']
-                    //         ],
-                    //         'orderBy' => [
-                    //             'position' => 'asc'
-                    //         ]
-                    //     ],
-                    // ])['navType']['navType'];
-                    // foreach ($navType as $keyOne => $tempOne) {
-                    //     $navMain = GetManageNavHelper::getList([
-                    //         'type' => [Config::get('constants.typeCheck.manageNav.navMain.type')],
-                    //         'otherDataPasses' => [
-                    //             'filterData' => [
-                    //                 'status' => Config::get('constants.status')['active'],
-                    //                 'navTypeId' => $tempOne['id'],
-                    //             ],
-                    //             'orderBy' => [
-                    //                 'position' => 'asc'
-                    //             ]
-                    //         ],
-                    //     ])['navMain']['navMain'];
-                    //     if (sizeof($navMain) > 0) {
-                    //         foreach ($navMain as $keyTwo => $tempTwo) {
-                    //             $navSub = GetManageNavHelper::getList([
-                    //                 'type' => [Config::get('constants.typeCheck.manageNav.navSub.type')],
-                    //                 'otherDataPasses' => [
-                    //                     'filterData' => [
-                    //                         'status' => Config::get('constants.status')['active'],
-                    //                         'navMainId' => $tempTwo['id'],
-                    //                     ],
-                    //                     'orderBy' => [
-                    //                         'position' => 'asc'
-                    //                     ]
-                    //                 ],
-                    //             ])['navSub']['navSub'];
-                    //             if (sizeof($navSub) > 0) {
-                    //                 foreach ($navSub as $keyThree => $tempThree) {
-                    //                     $navNested = GetManageNavHelper::getList([
-                    //                         'type' => [Config::get('constants.typeCheck.manageNav.navNested.type')],
-                    //                         'otherDataPasses' => [
-                    //                             'filterData' => [
-                    //                                 'status' => Config::get('constants.status')['active'],
-                    //                                 'navSubId' => $tempThree['id'],
-                    //                             ],
-                    //                             'orderBy' => [
-                    //                                 'position' => 'asc'
-                    //                             ]
-                    //                         ],
-                    //                     ])['navNested']['navNested'];
-                    //                     if (sizeof($navNested) > 0) {
-                    //                         foreach ($navNested as $keyFour => $tempFour) {
-                    //                             $nav3[] = [
-                    //                                 'name' => $tempFour['name'],
-                    //                                 'icon' => $tempFour['icon'],
-                    //                                 'route' => $tempFour['route'],
-                    //                                 'uniqueId' => $tempFour['uniqueId']['raw'],
-                    //                             ];
-                    //                         }
-                    //                     } else {
-                    //                         $nav3 = [];
-                    //                     }
-                    //                     $nav2[] = [
-                    //                         'name' => $tempThree['name'],
-                    //                         'icon' => $tempThree['icon'],
-                    //                         'route' => $tempThree['route'],
-                    //                         'uniqueId' => $tempThree['uniqueId']['raw'],
-                    //                         'navNested' => $nav3,
-                    //                     ];
-                    //                     $nav3 = [];
-                    //                 }
-                    //             } else {
-                    //                 $nav2 = [];
-                    //             }
-                    //             $nav1[] = [
-                    //                 'name' => $tempTwo['name'],
-                    //                 'icon' => $tempTwo['icon'],
-                    //                 'route' => $tempTwo['route'],
-                    //                 'uniqueId' => $tempTwo['uniqueId']['raw'],
-                    //                 'navSub' => $nav2,
-                    //             ];
-                    //             $nav2 = [];
-                    //         }
-                    //     } else {
-                    //         $nav1 = [];
-                    //     }
-                    //     $navList[] = [
-                    //         'name' => $tempOne['name'],
-                    //         'icon' => $tempOne['icon'],
-                    //         'uniqueId' => $tempOne['uniqueId']['raw'],
-                    //         'navMain' => $nav1
-                    //     ];
-                    //     $nav1 = [];
-                    // }
 
                     $navList = GetManageNavHelper::getNav([
                         'type' => ['all'],
@@ -136,13 +39,6 @@ class AppServiceProvider extends ServiceProvider
                         ],
                     ])['all'];
                     // dd($navList);
-
-
-
-
-
-
-
 
 
 

@@ -21,7 +21,6 @@ class GetManageNavHelper
     use FileTrait, CommonTrait;
     public $platform = 'backend';
 
-
     public static function getList($params, $platform = '')
     {
         try {
@@ -615,60 +614,80 @@ class GetManageNavHelper
             if (in_array('all', $params['type'])) {
                 $navList = $nav1 = $nav2 = $nav3 = [];
                 $navType = GetManageNavHelper::getList([
-                    'type' => [Config::get('constants.typeCheck.manageNav.navType.type')],
-                    'otherDataPasses' => [
-                        'filterData' => [
-                            'status' => $params['otherDataPasses']['filterData']['status']
+                    [
+                        'getList' => [
+                            'type' => ['basicWithFilter'],
+                            'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
                         ],
-                        'orderBy' => [
-                            'position' => $params['otherDataPasses']['orderBy']['position']
-                        ]
-                    ],
-                ])['navType']['navType'];
-                foreach ($navType as $keyOne => $tempOne) {
-                    $navMain = GetManageNavHelper::getList([
-                        'type' => [Config::get('constants.typeCheck.manageNav.navMain.type')],
                         'otherDataPasses' => [
                             'filterData' => [
-                                'status' => $params['otherDataPasses']['filterData']['status'],
-                                'navTypeId' => $tempOne['id'],
-                                'access' => $tempOne['id']
+                                'status' => $params['otherDataPasses']['filterData']['status']
                             ],
                             'orderBy' => [
                                 'position' => $params['otherDataPasses']['orderBy']['position']
                             ]
                         ],
-                    ])['navMain']['navMain'];
+                    ],
+                ])['navType']['basicWithFilter']['list'];
+                foreach ($navType as $keyOne => $tempOne) {
+                    $navMain = GetManageNavHelper::getList([
+                        [
+                            'getList' => [
+                                'type' => ['basicWithFilter'],
+                                'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
+                            ],
+                            'otherDataPasses' => [
+                                'filterData' => [
+                                    'status' => $params['otherDataPasses']['filterData']['status'],
+                                    'navTypeId' => $tempOne['id'],
+                                    'access' => $tempOne['id']
+                                ],
+                                'orderBy' => [
+                                    'position' => $params['otherDataPasses']['orderBy']['position']
+                                ]
+                            ],
+                        ],
+                    ])['navMain']['basicWithFilter']['list'];
                     if (sizeof($navMain) > 0) {
                         foreach ($navMain as $keyTwo => $tempTwo) {
                             $navSub = GetManageNavHelper::getList([
-                                'type' => [Config::get('constants.typeCheck.manageNav.navSub.type')],
-                                'otherDataPasses' => [
-                                    'filterData' => [
-                                        'status' => $params['otherDataPasses']['filterData']['status'],
-                                        'navMainId' => $tempTwo['id'],
-                                        'access' => $tempOne['id']
+                                [
+                                    'getList' => [
+                                        'type' => ['basicWithFilter'],
+                                        'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
                                     ],
-                                    'orderBy' => [
-                                        'position' => $params['otherDataPasses']['orderBy']['position']
-                                    ]
+                                    'otherDataPasses' => [
+                                        'filterData' => [
+                                            'status' => $params['otherDataPasses']['filterData']['status'],
+                                            'navMainId' => $tempTwo['id'],
+                                            'access' => $tempOne['id']
+                                        ],
+                                        'orderBy' => [
+                                            'position' => $params['otherDataPasses']['orderBy']['position']
+                                        ]
+                                    ],
                                 ],
-                            ])['navSub']['navSub'];
+                            ])['navSub']['basicWithFilter']['list'];
                             if (sizeof($navSub) > 0) {
                                 foreach ($navSub as $keyThree => $tempThree) {
                                     $navNested = GetManageNavHelper::getList([
-                                        'type' => [Config::get('constants.typeCheck.manageNav.navNested.type')],
-                                        'otherDataPasses' => [
-                                            'filterData' => [
-                                                'status' => $params['otherDataPasses']['filterData']['status'],
-                                                'navSubId' => $tempThree['id'],
-                                                'access' => $tempOne['id']
+                                        [
+                                            'getList' => [
+                                                'type' => ['basicWithFilter'],
+                                                'for' => Config::get('constants.typeCheck.manageNav.navNested.type'),
                                             ],
-                                            'orderBy' => [
-                                                'position' => $params['otherDataPasses']['orderBy']['position']
-                                            ]
+                                            'otherDataPasses' => [
+                                                'filterData' => [
+                                                    'status' => $params['otherDataPasses']['filterData']['status'],
+                                                    'navSubId' => $tempThree['id'],
+                                                    'access' => $tempOne['id']
+                                                ],
+                                                'orderBy' => [
+                                                    'position' => $params['otherDataPasses']['orderBy']['position']
+                                                ]
+                                            ],
                                         ],
-                                    ])['navNested']['navNested'];
+                                    ])['navNested']['basicWithFilter']['list'];
                                     if (sizeof($navNested) > 0) {
                                         foreach ($navNested as $keyFour => $tempFour) {
                                             $nav3[] = [
