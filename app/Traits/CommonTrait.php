@@ -313,21 +313,48 @@ trait CommonTrait
     public function getNavAccessList($params = null)
     {
         try {
-            $access = array();
+            $access = $privilege = array();
             if ($params == null) {
                 foreach (Config::get('constants.rolePermission.accessType') as $temp) {
                     $access = Arr::prepend($access, false, $temp);
+                    $privilege = Arr::prepend(
+                        $privilege,
+                        [
+                            'access' => false,
+                            'privilege' => false
+                        ],
+                        $temp
+                    );
                 }
             } else {
                 foreach (Config::get('constants.rolePermission.accessType') as $temp) {
                     if (Arr::only($params, [$temp])) {
                         $access = Arr::prepend($access, true, $temp);
+                        $privilege = Arr::prepend(
+                            $privilege,
+                            [
+                                'access' => true,
+                                'privilege' => false
+                            ],
+                            $temp
+                        );
                     } else {
                         $access = Arr::prepend($access, false, $temp);
+                        $privilege = Arr::prepend(
+                            $privilege,
+                            [
+                                'access' => false,
+                                'privilege' => false
+                            ],
+                            $temp
+                        );
                     }
                 }
             }
-            return $access;
+            return [
+                'access' => $access,
+                'privilege' => $privilege,
+            ];
         } catch (Exception $e) {
             return false;
         }

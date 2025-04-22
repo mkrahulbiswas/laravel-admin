@@ -410,6 +410,41 @@ class GetManageNavHelper
                 $finalData['basic'] = $data;
             }
 
+            if (in_array('withDepended', $params['type'])) {
+                $navMain = NavMain::where('id', $params['otherDataPasses']['id'])->first();
+                $data = [
+                    'navMainDetail' => [
+                        'id' => encrypt($navMain->id),
+                        'name' => $navMain->name,
+                        'icon' => $navMain->icon,
+                        'route' => $navMain->route,
+                        'position' => $navMain->position,
+                        'description' => $navMain->description,
+                        'status' => $navMain->status,
+                        'access' => json_decode($navMain->access, true),
+                        'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $navMain->uniqueId]),
+                        'customizeInText' => CommonTrait::customizeInText([
+                            [
+                                'type' => 'status',
+                                'value' => $navMain->status
+                            ],
+                            [
+                                'type' => 'access',
+                                'value' => json_decode($navMain->access, true)
+                            ]
+                        ]),
+                        'navType' => GetManageNavHelper::getNavTypeDetail([
+                            'type' => ['basic'],
+                            'otherDataPasses' => [
+                                'id' => $navMain->navTypeId
+                            ]
+                        ])['basic']['navTypeDetail']
+                    ]
+                ];
+
+                $finalData['withDepended'] = $data;
+            }
+
             return $finalData;
         } catch (Exception $e) {
             return false;

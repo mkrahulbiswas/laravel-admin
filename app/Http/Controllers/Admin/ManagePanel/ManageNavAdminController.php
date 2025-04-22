@@ -469,49 +469,20 @@ class ManageNavAdminController extends Controller
 
         // try {
         if (isset($values['access'])) {
+            $getNavAccessList = $this->getNavAccessList($values['access']);
             $navMain = NavMain::find($id);
-
-            $navMain->access = $this->getNavAccessList($values['access']);
-            $roleMain = GetManageAccessHelper::getList([
-                'type' => ['roleMain'],
-                'otherDataPasses' => [
-                    'filterData' => [
-                        'status' => Config::get('constants.status')['active']
-                    ]
-                ],
-            ]);
-            Permission::where('navMainId', $navMain->id)->delete();
-            foreach ($roleMain['roleMain']['roleMain'] as $tempOne) {
-                $permission = new Permission();
-                $permission->navTypeId = $navMain->navTypeId;
-                $permission->navMainId = $navMain->id;
-                $permission->roleMainId = decrypt($tempOne['id']);
-                if ($permission->save()) {
-                    $roleSub = GetManageAccessHelper::getList([
-                        'type' => ['roleSub'],
-                        'otherDataPasses' => [
-                            'filterData' => [
-                                'status' => Config::get('constants.status')['active'],
-                                'roleMainId' => $tempOne['id']
-                            ]
-                        ],
-                    ]);
-                    foreach ($roleSub['roleSub']['roleSub'] as $tempTwo) {
-                        $permission = new Permission();
-                        $permission->navTypeId = $navMain->navTypeId;
-                        $permission->navMainId = $navMain->id;
-                        $permission->roleMainId = decrypt($tempOne['id']);
-                        $permission->roleSubId = decrypt($tempTwo['id']);
-                        if ($permission->save()) {
-                        } else {
-                        }
-                    }
-                } else {
-                }
-                echo '<hr>';
-            }
-            dd();
+            $navMain->access = $getNavAccessList['access'];
             if ($navMain->update()) {
+                $setPrivilege = GetManageAccessHelper::setPrivilege([
+                    'type' => [
+                        Config::get('constants.typeCheck.manageNav.navMain.type')
+                    ],
+                    'otherDataPasses' => [
+                        'getNavAccessList' => $getNavAccessList,
+                        'id' => $id
+                    ]
+                ]);
+                dd($setPrivilege);
                 return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
             } else {
                 return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));

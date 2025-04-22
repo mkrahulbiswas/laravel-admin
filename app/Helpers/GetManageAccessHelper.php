@@ -5,13 +5,13 @@ namespace App\Helpers;
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 
+use App\Models\ManagePanel\ManageAccess\Permission;
 use App\Models\ManagePanel\ManageAccess\RoleMain;
 use App\Models\ManagePanel\ManageAccess\RoleSub;
-use Illuminate\Support\Facades\Auth;
+
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Str;
 
 class GetManageAccessHelper
 {
@@ -186,6 +186,68 @@ class GetManageAccessHelper
                 ];
 
                 $finalData['basic'] = $data;
+            }
+
+            return $finalData;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public static function setPrivilege($params, $platform = '')
+    {
+        try {
+            $finalData = array();
+
+            if (in_array(Config::get('constants.typeCheck.manageNav.navMain.type'), $params['type'])) {
+                $getNavMainDetail = GetManageNavHelper::getNavMainDetail([
+                    'type' => ['withDepended'],
+                    'otherDataPasses' => [
+                        'id' => $params['otherDataPasses']['id']
+                    ]
+                ])['withDepended']['navMainDetail'];
+                $roleMain = GetManageAccessHelper::getList([
+                    'type' => ['roleMain'],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status')['active']
+                        ]
+                    ],
+                ]);
+                dd($roleMain);
+                Permission::where('navMainId', $navMain->id)->delete();
+                foreach ($roleMain['roleMain']['roleMain'] as $tempOne) {
+                    $permission = new Permission();
+                    $permission->navTypeId = $navMain->navTypeId;
+                    $permission->navMainId = $navMain->id;
+                    $permission->roleMainId = decrypt($tempOne['id']);
+                    $permission->privilege = json_encode($getNavAccessList['privilege']);
+                    if ($permission->save()) {
+                        $roleSub = GetManageAccessHelper::getList([
+                            'type' => ['roleSub'],
+                            'otherDataPasses' => [
+                                'filterData' => [
+                                    'status' => Config::get('constants.status')['active'],
+                                    'roleMainId' => $tempOne['id']
+                                ]
+                            ],
+                        ]);
+                        foreach ($roleSub['roleSub']['roleSub'] as $tempTwo) {
+                            $permission = new Permission();
+                            $permission->navTypeId = $navMain->navTypeId;
+                            $permission->navMainId = $navMain->id;
+                            $permission->roleMainId = decrypt($tempOne['id']);
+                            $permission->roleSubId = decrypt($tempTwo['id']);
+                            $permission->privilege = json_encode($getNavAccessList['privilege']);
+                            if ($permission->save()) {
+                            } else {
+                            }
+                        }
+                    } else {
+                    }
+                }
+
+                $finalData['basic'] = [];
             }
 
             return $finalData;
