@@ -48,17 +48,64 @@ class ManageNavAdminController extends Controller
     {
         try {
             $navType = GetManageNavHelper::getList([
-                'type' => [Config::get('constants.typeCheck.manageNav.navType.type')],
-                'otherDataPasses' => [
-                    'filterData' => [
-                        'status' => $request->status
+                [
+                    'getList' => [
+                        'type' => ['basicWithoutFilter', 'basicWithFilter'],
+                        'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
                     ],
-                    'orderBy' => [
-                        'id' => 'desc'
-                    ]
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => $request->status
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ]
+                    ],
                 ],
+                [
+                    'getList' => [
+                        'type' => ['basicWithoutFilter', 'basicWithFilter'],
+                        'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => $request->status
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ]
+                    ],
+                ],
+                [
+                    'getList' => [
+                        'type' => ['basicWithoutFilter', 'basicWithFilter'],
+                        'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => $request->status
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ]
+                    ],
+                ],
+                [
+                    'getList' => [
+                        'type' => ['basicWithoutFilter', 'basicWithFilter'],
+                        'for' => Config::get('constants.typeCheck.manageNav.navNested.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => $request->status
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ]
+                    ],
+                ]
             ]);
-
+            dd($navType);
             return Datatables::of($navType['navType']['navType'])
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {

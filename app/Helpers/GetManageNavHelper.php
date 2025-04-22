@@ -26,315 +26,391 @@ class GetManageNavHelper
     {
         try {
             $finalData = array();
+            foreach ($params as $tempOne) {
+                if (Config::get('constants.typeCheck.manageNav.navType.type') == $tempOne['getList']['for']) {
+                    $data = array();
 
-            if (in_array(Config::get('constants.typeCheck.manageNav.navType.type'), $params['type'])) {
-                $navType = array();
+                    if (in_array('basicWithoutFilter', $tempOne['getList']['type'])) {
+                        $navType = array();
 
-                $whereRaw = "`created_at` is not null";
-                $orderByRaw = "`id` DESC";
-                if (Arr::exists($params['otherDataPasses'], 'filterData')) {
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'status')) {
-                        $status = $params['otherDataPasses']['filterData']['status'];
-                        if (!empty($status)) {
-                            $whereRaw .= " and `status` = '" . $status . "'";
+                        foreach (NavType::get() as $temp) {
+                            $navType[] = [
+                                'id' => $temp->id,
+                                'name' => $temp->name
+                            ];
+                        }
+
+                        $data['basicWithoutFilter'] = [
+                            'list' => $navType
+                        ];
+                    }
+
+                    if (in_array('basicWithFilter', $tempOne['getList']['type'])) {
+                        $navType = array();
+                        $whereRaw = "`created_at` is not null";
+                        $orderByRaw = "`id` DESC";
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
+                                $status = $tempOne['otherDataPasses']['filterData']['status'];
+                                if (!empty($status)) {
+                                    $whereRaw .= " and `status` = '" . $status . "'";
+                                }
+                            }
+                        }
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'position')) {
+                                $position = $tempOne['otherDataPasses']['orderBy']['position'];
+                                if (!empty($position)) {
+                                    $orderByRaw = "`position` " . $position;
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'id')) {
+                                $id = $tempOne['otherDataPasses']['orderBy']['id'];
+                                if (!empty($id)) {
+                                    $orderByRaw = "`id` " . $id;
+                                }
+                            }
+                        }
+
+                        foreach (NavType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
+                            $navType[] = GetManageNavHelper::getNavTypeDetail([
+                                'type' => ['basic'],
+                                'otherDataPasses' => [
+                                    'id' => $temp->id
+                                ]
+                            ])['basic']['navTypeDetail'];
+                        }
+
+                        $data['basicWithFilter'] = [
+                            'list' => $navType
+                        ];
+
+                        if (isset($tempOne['otherDataPasses']['filterData'])) {
+                            $data['basicWithFilter']['filterData'] = $tempOne['otherDataPasses']['filterData'];
+                        }
+
+                        if (isset($tempOne['otherDataPasses']['orderBy'])) {
+                            $data['basicWithFilter']['orderBy'] = $tempOne['otherDataPasses']['orderBy'];
                         }
                     }
+
+                    $finalData['navType'] = $data;
                 }
 
-                if (Arr::exists($params['otherDataPasses'], 'orderBy')) {
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'position')) {
-                        $position = $params['otherDataPasses']['orderBy']['position'];
-                        if (!empty($position)) {
-                            $orderByRaw = "`position` " . $position;
+                if (Config::get('constants.typeCheck.manageNav.navMain.type') == $tempOne['getList']['for']) {
+                    $data = array();
+
+                    if (in_array('basicWithoutFilter', $tempOne['getList']['type'])) {
+                        $navMain = array();
+
+                        foreach (NavMain::get() as $temp) {
+                            $navMain[] = [
+                                'id' => $temp->id,
+                                'name' => $temp->name
+                            ];
+                        }
+
+                        $data['basicWithoutFilter'] = [
+                            'list' => $navMain
+                        ];
+                    }
+
+                    if (in_array('basicWithFilter', $tempOne['getList']['type'])) {
+                        $navMain = array();
+                        $whereRaw = "`created_at` is not null";
+                        $orderByRaw = "`id` DESC";
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
+                                $status = $tempOne['otherDataPasses']['filterData']['status'];
+                                if (!empty($status)) {
+                                    $whereRaw .= " and `status` = '" . $status . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navTypeId')) {
+                                $navTypeId = $tempOne['otherDataPasses']['filterData']['navTypeId'];
+                                if (!empty($navTypeId)) {
+                                    $whereRaw .= " and `navTypeId` = '" . decrypt($navTypeId) . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'access')) {
+                                $access = $tempOne['otherDataPasses']['filterData']['access'];
+                                if (!empty($access)) {
+                                    $whereRaw .= " and `access` is not null";
+                                }
+                            }
+                        }
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'position')) {
+                                $position = $tempOne['otherDataPasses']['orderBy']['position'];
+                                if (!empty($position)) {
+                                    $orderByRaw = "`position` " . $position;
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'id')) {
+                                $id = $tempOne['otherDataPasses']['orderBy']['id'];
+                                if (!empty($id)) {
+                                    $orderByRaw = "`id` " . $id;
+                                }
+                            }
+                        }
+
+                        foreach (NavMain::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
+                            $navMain[] = [
+                                ...GetManageNavHelper::getNavMainDetail([
+                                    'type' => ['basic'],
+                                    'otherDataPasses' => [
+                                        'id' => $temp->id
+                                    ]
+                                ])['basic']['navMainDetail'],
+                                'navType' => GetManageNavHelper::getNavTypeDetail([
+                                    'type' => ['basic'],
+                                    'otherDataPasses' => [
+                                        'id' => $temp->navTypeId
+                                    ]
+                                ])['basic']['navTypeDetail'],
+                            ];
+                        }
+
+                        $data['basicWithFilter'] = [
+                            'list' => $navMain
+                        ];
+
+                        if (isset($tempOne['otherDataPasses']['filterData'])) {
+                            $data['basicWithFilter']['filterData'] = $tempOne['otherDataPasses']['filterData'];
+                        }
+
+                        if (isset($tempOne['otherDataPasses']['orderBy'])) {
+                            $data['basicWithFilter']['orderBy'] = $tempOne['otherDataPasses']['orderBy'];
                         }
                     }
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'id')) {
-                        $id = $params['otherDataPasses']['orderBy']['id'];
-                        if (!empty($id)) {
-                            $orderByRaw = "`id` " . $id;
+
+                    $finalData['navMain'] = $data;
+                }
+
+                if (Config::get('constants.typeCheck.manageNav.navSub.type') == $tempOne['getList']['for']) {
+                    $data = array();
+
+                    if (in_array('basicWithoutFilter', $tempOne['getList']['type'])) {
+                        $navSub = array();
+
+                        foreach (NavSub::get() as $temp) {
+                            $navSub[] = [
+                                'id' => $temp->id,
+                                'name' => $temp->name
+                            ];
+                        }
+
+                        $data['basicWithoutFilter'] = [
+                            'list' => $navSub
+                        ];
+                    }
+
+                    if (in_array('basicWithFilter', $tempOne['getList']['type'])) {
+                        $navSub = array();
+                        $whereRaw = "`created_at` is not null";
+                        $orderByRaw = "`id` DESC";
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
+                                $status = $tempOne['otherDataPasses']['filterData']['status'];
+                                if (!empty($status)) {
+                                    $whereRaw .= " and `status` = '" . $status . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navTypeId')) {
+                                $navTypeId = $tempOne['otherDataPasses']['filterData']['navTypeId'];
+                                if (!empty($navTypeId)) {
+                                    $whereRaw .= " and `navTypeId` = '" . decrypt($navTypeId) . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navMainId')) {
+                                $navMainId = $tempOne['otherDataPasses']['filterData']['navMainId'];
+                                if (!empty($navMainId)) {
+                                    $whereRaw .= " and `navMainId` = '" . decrypt($navMainId) . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'access')) {
+                                $access = $tempOne['otherDataPasses']['filterData']['access'];
+                                if (!empty($access)) {
+                                    $whereRaw .= " and `access` is not null";
+                                }
+                            }
+                        }
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'position')) {
+                                $position = $tempOne['otherDataPasses']['orderBy']['position'];
+                                if (!empty($position)) {
+                                    $orderByRaw = "`position` " . $position;
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'id')) {
+                                $id = $tempOne['otherDataPasses']['orderBy']['id'];
+                                if (!empty($id)) {
+                                    $orderByRaw = "`id` " . $id;
+                                }
+                            }
+                        }
+
+                        foreach (NavSub::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
+                            $navSub[] = [
+                                ...GetManageNavHelper::getNavSubDetail([
+                                    'type' => ['basic'],
+                                    'otherDataPasses' => [
+                                        'id' => $temp->id
+                                    ]
+                                ])['basic']['navSubDetail'],
+                                'navMain' => GetManageNavHelper::getNavMainDetail([
+                                    'type' => ['basic'],
+                                    'otherDataPasses' => [
+                                        'id' => $temp->navMainId
+                                    ]
+                                ])['basic']['navMainDetail'],
+                                'navType' => GetManageNavHelper::getNavTypeDetail([
+                                    'type' => ['basic'],
+                                    'otherDataPasses' => [
+                                        'id' => $temp->navTypeId
+                                    ]
+                                ])['basic']['navTypeDetail'],
+                            ];
+                        }
+
+                        $data['basicWithFilter'] = [
+                            'list' => $navSub
+                        ];
+
+                        if (isset($tempOne['otherDataPasses']['filterData'])) {
+                            $data['basicWithFilter']['filterData'] = $tempOne['otherDataPasses']['filterData'];
+                        }
+
+                        if (isset($tempOne['otherDataPasses']['orderBy'])) {
+                            $data['basicWithFilter']['orderBy'] = $tempOne['otherDataPasses']['orderBy'];
                         }
                     }
+
+                    $finalData['navSub'] = $data;
                 }
 
-                foreach (NavType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
-                    $navType[] = GetManageNavHelper::getNavTypeDetail([
-                        'type' => ['basic'],
-                        'otherDataPasses' => [
-                            'id' => $temp->id
-                        ]
-                    ])['basic']['navTypeDetail'];
+                if (Config::get('constants.typeCheck.manageNav.navNested.type') == $tempOne['getList']['for']) {
+                    $data = array();
+
+                    if (in_array('basicWithoutFilter', $tempOne['getList']['type'])) {
+                        $navNested = array();
+
+                        foreach (NavNested::get() as $temp) {
+                            $navNested[] = [
+                                'id' => $temp->id,
+                                'name' => $temp->name
+                            ];
+                        }
+
+                        $data['basicWithoutFilter'] = [
+                            'list' => $navNested
+                        ];
+                    }
+
+                    if (in_array('basicWithFilter', $tempOne['getList']['type'])) {
+                        $navNested = array();
+                        $whereRaw = "`created_at` is not null";
+                        $orderByRaw = "`id` DESC";
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
+                                $status = $tempOne['otherDataPasses']['filterData']['status'];
+                                if (!empty($status)) {
+                                    $whereRaw .= " and `status` = '" . $status . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navTypeId')) {
+                                $navTypeId = $tempOne['otherDataPasses']['filterData']['navTypeId'];
+                                if (!empty($navTypeId)) {
+                                    $whereRaw .= " and `navTypeId` = '" . decrypt($navTypeId) . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navMainId')) {
+                                $navMainId = $tempOne['otherDataPasses']['filterData']['navMainId'];
+                                if (!empty($navMainId)) {
+                                    $whereRaw .= " and `navMainId` = '" . decrypt($navMainId) . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navSubId')) {
+                                $navSubId = $tempOne['otherDataPasses']['filterData']['navSubId'];
+                                if (!empty($navSubId)) {
+                                    $whereRaw .= " and `navSubId` = '" . decrypt($navSubId) . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'access')) {
+                                $access = $tempOne['otherDataPasses']['filterData']['access'];
+                                if (!empty($access)) {
+                                    $whereRaw .= " and `access` is not null";
+                                }
+                            }
+                        }
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'position')) {
+                                $position = $tempOne['otherDataPasses']['orderBy']['position'];
+                                if (!empty($position)) {
+                                    $orderByRaw = "`position` " . $position;
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'id')) {
+                                $id = $tempOne['otherDataPasses']['orderBy']['id'];
+                                if (!empty($id)) {
+                                    $orderByRaw = "`id` " . $id;
+                                }
+                            }
+                        }
+
+                        foreach (NavNested::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
+                            $navNested[] = [
+                                ...GetManageNavHelper::getNavNestedDetail([
+                                    'type' => ['basic'],
+                                    'otherDataPasses' => [
+                                        'id' => $temp->id
+                                    ]
+                                ])['basic']['navNestedDetail'],
+                                'navSub' => GetManageNavHelper::getNavSubDetail([
+                                    'type' => ['basic'],
+                                    'otherDataPasses' => [
+                                        'id' => $temp->navSubId
+                                    ]
+                                ])['basic']['navSubDetail'],
+                                'navMain' => GetManageNavHelper::getNavMainDetail([
+                                    'type' => ['basic'],
+                                    'otherDataPasses' => [
+                                        'id' => $temp->navMainId
+                                    ]
+                                ])['basic']['navMainDetail'],
+                                'navType' => GetManageNavHelper::getNavTypeDetail([
+                                    'type' => ['basic'],
+                                    'otherDataPasses' => [
+                                        'id' => $temp->navTypeId
+                                    ]
+                                ])['basic']['navTypeDetail'],
+                            ];
+                        }
+
+                        $data['basicWithFilter'] = [
+                            'list' => $navNested
+                        ];
+
+                        if (isset($tempOne['otherDataPasses']['filterData'])) {
+                            $data['basicWithFilter']['filterData'] = $tempOne['otherDataPasses']['filterData'];
+                        }
+
+                        if (isset($tempOne['otherDataPasses']['orderBy'])) {
+                            $data['basicWithFilter']['orderBy'] = $tempOne['otherDataPasses']['orderBy'];
+                        }
+                    }
+
+                    $finalData['navNested'] = $data;
                 }
-
-                $data = [
-                    'navType' => $navType
-                ];
-
-                if (isset($params['otherDataPasses']['filterData'])) {
-                    $data['filterData'] = $params['otherDataPasses']['filterData'];
-                }
-
-                if (isset($params['otherDataPasses']['orderBy'])) {
-                    $data['orderBy'] = $params['otherDataPasses']['orderBy'];
-                }
-
-                $finalData['navType'] = $data;
             }
-
-            if (in_array(Config::get('constants.typeCheck.manageNav.navMain.type'), $params['type'])) {
-                $navMain = array();
-
-                $whereRaw = "`created_at` is not null";
-                $orderByRaw = "`id` DESC";
-                if (Arr::exists($params['otherDataPasses'], 'filterData')) {
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'status')) {
-                        $status = $params['otherDataPasses']['filterData']['status'];
-                        if (!empty($status)) {
-                            $whereRaw .= " and `status` = '" . $status . "'";
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navTypeId')) {
-                        $navTypeId = $params['otherDataPasses']['filterData']['navTypeId'];
-                        if (!empty($navTypeId)) {
-                            $whereRaw .= " and `navTypeId` = '" . decrypt($navTypeId) . "'";
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'access')) {
-                        $access = $params['otherDataPasses']['filterData']['access'];
-                        if (!empty($access)) {
-                            $whereRaw .= " and `access` is not null";
-                        }
-                    }
-                }
-
-                if (Arr::exists($params['otherDataPasses'], 'orderBy')) {
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'position')) {
-                        $position = $params['otherDataPasses']['orderBy']['position'];
-                        if (!empty($position)) {
-                            $orderByRaw = "`position` " . $position;
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'id')) {
-                        $id = $params['otherDataPasses']['orderBy']['id'];
-                        if (!empty($id)) {
-                            $orderByRaw = "`id` " . $id;
-                        }
-                    }
-                }
-
-                foreach (NavMain::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
-                    $navMain[] = [
-                        ...GetManageNavHelper::getNavMainDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->id
-                            ]
-                        ])['basic']['navMainDetail'],
-                        'navType' => GetManageNavHelper::getNavTypeDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->navTypeId
-                            ]
-                        ])['basic']['navTypeDetail'],
-                    ];
-                }
-
-                $data = [
-                    'navMain' => $navMain
-                ];
-
-                if (isset($params['otherDataPasses']['filterData'])) {
-                    $data['filterData'] = $params['otherDataPasses']['filterData'];
-                }
-
-                if (isset($params['otherDataPasses']['orderBy'])) {
-                    $data['orderBy'] = $params['otherDataPasses']['orderBy'];
-                }
-
-                $finalData['navMain'] = $data;
-            }
-
-            if (in_array(Config::get('constants.typeCheck.manageNav.navSub.type'), $params['type'])) {
-                $navSub = array();
-
-                $whereRaw = "`created_at` is not null";
-                $orderByRaw = "`id` DESC";
-                if (Arr::exists($params['otherDataPasses'], 'filterData')) {
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'status')) {
-                        $status = $params['otherDataPasses']['filterData']['status'];
-                        if (!empty($status)) {
-                            $whereRaw .= " and `status` = '" . $status . "'";
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navTypeId')) {
-                        $navTypeId = $params['otherDataPasses']['filterData']['navTypeId'];
-                        if (!empty($navTypeId)) {
-                            $whereRaw .= " and `navTypeId` = '" . decrypt($navTypeId) . "'";
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navMainId')) {
-                        $navMainId = $params['otherDataPasses']['filterData']['navMainId'];
-                        if (!empty($navMainId)) {
-                            $whereRaw .= " and `navMainId` = '" . decrypt($navMainId) . "'";
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'access')) {
-                        $access = $params['otherDataPasses']['filterData']['access'];
-                        if (!empty($access)) {
-                            $whereRaw .= " and `access` is not null";
-                        }
-                    }
-                }
-
-                if (Arr::exists($params['otherDataPasses'], 'orderBy')) {
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'position')) {
-                        $position = $params['otherDataPasses']['orderBy']['position'];
-                        if (!empty($position)) {
-                            $orderByRaw = "`position` " . $position;
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'id')) {
-                        $id = $params['otherDataPasses']['orderBy']['id'];
-                        if (!empty($id)) {
-                            $orderByRaw = "`id` " . $id;
-                        }
-                    }
-                }
-
-                foreach (NavSub::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
-                    $navSub[] = [
-                        ...GetManageNavHelper::getNavSubDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->id
-                            ]
-                        ])['basic']['navSubDetail'],
-                        'navMain' => GetManageNavHelper::getNavMainDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->navMainId
-                            ]
-                        ])['basic']['navMainDetail'],
-                        'navType' => GetManageNavHelper::getNavTypeDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->navTypeId
-                            ]
-                        ])['basic']['navTypeDetail'],
-                    ];
-                }
-
-                $data = [
-                    'navSub' => $navSub
-                ];
-
-                if (isset($params['otherDataPasses']['filterData'])) {
-                    $data['filterData'] = $params['otherDataPasses']['filterData'];
-                }
-
-                if (isset($params['otherDataPasses']['orderBy'])) {
-                    $data['orderBy'] = $params['otherDataPasses']['orderBy'];
-                }
-
-                $finalData['navSub'] = $data;
-            }
-
-            if (in_array(Config::get('constants.typeCheck.manageNav.navNested.type'), $params['type'])) {
-                $navNested = array();
-
-                $whereRaw = "`created_at` is not null";
-                $orderByRaw = "`id` DESC";
-                if (Arr::exists($params['otherDataPasses'], 'filterData')) {
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'status')) {
-                        $status = $params['otherDataPasses']['filterData']['status'];
-                        if (!empty($status)) {
-                            $whereRaw .= " and `status` = '" . $status . "'";
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navTypeId')) {
-                        $navTypeId = $params['otherDataPasses']['filterData']['navTypeId'];
-                        if (!empty($navTypeId)) {
-                            $whereRaw .= " and `navTypeId` = '" . decrypt($navTypeId) . "'";
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navMainId')) {
-                        $navMainId = $params['otherDataPasses']['filterData']['navMainId'];
-                        if (!empty($navMainId)) {
-                            $whereRaw .= " and `navMainId` = '" . decrypt($navMainId) . "'";
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navSubId')) {
-                        $navSubId = $params['otherDataPasses']['filterData']['navSubId'];
-                        if (!empty($navSubId)) {
-                            $whereRaw .= " and `navSubId` = '" . decrypt($navSubId) . "'";
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'access')) {
-                        $access = $params['otherDataPasses']['filterData']['access'];
-                        if (!empty($access)) {
-                            $whereRaw .= " and `access` is not null";
-                        }
-                    }
-                }
-
-                if (Arr::exists($params['otherDataPasses'], 'orderBy')) {
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'position')) {
-                        $position = $params['otherDataPasses']['orderBy']['position'];
-                        if (!empty($position)) {
-                            $orderByRaw = "`position` " . $position;
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'id')) {
-                        $id = $params['otherDataPasses']['orderBy']['id'];
-                        if (!empty($id)) {
-                            $orderByRaw = "`id` " . $id;
-                        }
-                    }
-                }
-
-                foreach (NavNested::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
-                    $navNested[] = [
-                        ...GetManageNavHelper::getNavNestedDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->id
-                            ]
-                        ])['basic']['navNestedDetail'],
-                        'navSub' => GetManageNavHelper::getNavSubDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->navSubId
-                            ]
-                        ])['basic']['navSubDetail'],
-                        'navMain' => GetManageNavHelper::getNavMainDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->navMainId
-                            ]
-                        ])['basic']['navMainDetail'],
-                        'navType' => GetManageNavHelper::getNavTypeDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->navTypeId
-                            ]
-                        ])['basic']['navTypeDetail'],
-                    ];
-                }
-
-                $data = [
-                    'navNested' => $navNested
-                ];
-
-                if (isset($params['otherDataPasses']['filterData'])) {
-                    $data['filterData'] = $params['otherDataPasses']['filterData'];
-                }
-
-                if (isset($params['otherDataPasses']['orderBy'])) {
-                    $data['orderBy'] = $params['otherDataPasses']['orderBy'];
-                }
-
-                $finalData['navNested'] = $data;
-            }
-
             return $finalData;
         } catch (Exception $e) {
             return false;
