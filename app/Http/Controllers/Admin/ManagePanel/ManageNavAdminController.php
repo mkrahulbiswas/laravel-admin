@@ -342,10 +342,10 @@ class ManageNavAdminController extends Controller
                 ->addColumn('statInfo', function ($data) {
                     $statInfo = $this->dynamicHtmlPurse([
                         [
-                            'type' => 'tdMultiData',
+                            'type' => 'dtMultiData',
                             'data' => $data['customizeInText']
                         ]
-                    ])['tdMultiData']['custom'];
+                    ])['dtMultiData']['custom'];
                     return $statInfo;
                 })
                 ->addColumn('icon', function ($data) {
@@ -657,10 +657,10 @@ class ManageNavAdminController extends Controller
                 ->addColumn('statInfo', function ($data) {
                     $statInfo = $this->dynamicHtmlPurse([
                         [
-                            'type' => 'tdMultiData',
+                            'type' => 'dtMultiData',
                             'data' => $data['customizeInText']
                         ]
-                    ])['tdMultiData']['custom'];
+                    ])['dtMultiData']['custom'];
                     return $statInfo;
                 })
                 ->addColumn('icon', function ($data) {
@@ -959,10 +959,10 @@ class ManageNavAdminController extends Controller
                 ->addColumn('statInfo', function ($data) {
                     $statInfo = $this->dynamicHtmlPurse([
                         [
-                            'type' => 'tdMultiData',
+                            'type' => 'dtMultiData',
                             'data' => $data['customizeInText']
                         ]
-                    ])['tdMultiData']['custom'];
+                    ])['dtMultiData']['custom'];
                     return $statInfo;
                 })
                 ->addColumn('icon', function ($data) {

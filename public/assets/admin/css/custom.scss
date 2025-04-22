@@ -236,14 +236,14 @@
                         }
                     }
 
-                    .tdMultiData {
-                        .tdMultiDataContent {
+                    .dtMultiData {
+                        .dtMultiDataContent {
                             display: flex;
                             flex-direction: column;
                             justify-content: space-between;
                             gap: 5px;
 
-                            .tdMultiDataCommon {
+                            .dtMultiDataCommon {
                                 display: flex;
                                 flex-direction: row;
 
@@ -259,13 +259,13 @@
                                 }
                             }
 
-                            .tdMultiDataStatus {
+                            .dtMultiDataStatus {
                                 label {}
 
                                 span {}
                             }
 
-                            .tdMultiDataAccess {
+                            .dtMultiDataAccess {
                                 label {}
 
                                 span {}

@@ -180,21 +180,21 @@ trait CommonTrait
         try {
             $return = array();
             foreach ($params as $tempOne) {
-                if ($tempOne['type'] == 'tdMultiData') {
+                if ($tempOne['type'] == 'dtMultiData') {
                     $appendHtml = '';
                     foreach ($tempOne['data'] as $tempTwo) {
                         if ($tempTwo['type'] == 'status') {
-                            $appendHtml .= '<div class="tdMultiDataCommon tdMultiDataStatus"><label>Status:</label>' . $tempOne['data']['status']['custom'] . '</div>';
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataStatus"><label>Status:</label>' . $tempOne['data']['status']['custom'] . '</div>';
                         }
 
                         if ($tempTwo['type'] == 'access') {
-                            $appendHtml .= '<div class="tdMultiDataCommon tdMultiDataAccess"><label>Access:</label>' . $tempOne['data']['access']['custom'] . '</div>';
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Access:</label>' . $tempOne['data']['access']['custom'] . '</div>';
                         }
                     }
 
-                    $html = '<div class="tdMultiData"><div class="tdMultiDataContent">' . $appendHtml . '</div></div>';
+                    $html = '<div class="dtMultiData"><div class="dtMultiDataContent">' . $appendHtml . '</div></div>';
 
-                    $return['tdMultiData'] = [
+                    $return['dtMultiData'] = [
                         'custom' => $html,
                         'raw' => $tempOne['data']
                     ];
