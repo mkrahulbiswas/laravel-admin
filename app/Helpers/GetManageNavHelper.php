@@ -32,10 +32,10 @@ class GetManageNavHelper
                     if (in_array('basicWithoutFilter', $tempOne['getList']['type'])) {
                         $navType = array();
 
-                        foreach (NavType::get() as $temp) {
+                        foreach (NavType::get() as $tempTwo) {
                             $navType[] = [
-                                'id' => $temp->id,
-                                'name' => $temp->name
+                                'id' => $tempTwo->id,
+                                'name' => $tempTwo->name
                             ];
                         }
 
@@ -73,11 +73,11 @@ class GetManageNavHelper
                             }
                         }
 
-                        foreach (NavType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
+                        foreach (NavType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $navType[] = GetManageNavHelper::getNavTypeDetail([
                                 'type' => ['basic'],
                                 'otherDataPasses' => [
-                                    'id' => $temp->id
+                                    'id' => $tempTwo->id
                                 ]
                             ])['basic']['navTypeDetail'];
                         }
@@ -104,10 +104,10 @@ class GetManageNavHelper
                     if (in_array('basicWithoutFilter', $tempOne['getList']['type'])) {
                         $navMain = array();
 
-                        foreach (NavMain::get() as $temp) {
+                        foreach (NavMain::get() as $tempTwo) {
                             $navMain[] = [
-                                'id' => $temp->id,
-                                'name' => $temp->name
+                                'id' => $tempTwo->id,
+                                'name' => $tempTwo->name
                             ];
                         }
 
@@ -157,18 +157,18 @@ class GetManageNavHelper
                             }
                         }
 
-                        foreach (NavMain::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
+                        foreach (NavMain::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $navMain[] = [
                                 ...GetManageNavHelper::getNavMainDetail([
                                     'type' => ['basic'],
                                     'otherDataPasses' => [
-                                        'id' => $temp->id
+                                        'id' => $tempTwo->id
                                     ]
                                 ])['basic']['navMainDetail'],
                                 'navType' => GetManageNavHelper::getNavTypeDetail([
                                     'type' => ['basic'],
                                     'otherDataPasses' => [
-                                        'id' => $temp->navTypeId
+                                        'id' => $tempTwo->navTypeId
                                     ]
                                 ])['basic']['navTypeDetail'],
                             ];
@@ -196,10 +196,10 @@ class GetManageNavHelper
                     if (in_array('basicWithoutFilter', $tempOne['getList']['type'])) {
                         $navSub = array();
 
-                        foreach (NavSub::get() as $temp) {
+                        foreach (NavSub::get() as $tempTwo) {
                             $navSub[] = [
-                                'id' => $temp->id,
-                                'name' => $temp->name
+                                'id' => $tempTwo->id,
+                                'name' => $tempTwo->name
                             ];
                         }
 
@@ -255,24 +255,24 @@ class GetManageNavHelper
                             }
                         }
 
-                        foreach (NavSub::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
+                        foreach (NavSub::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $navSub[] = [
                                 ...GetManageNavHelper::getNavSubDetail([
                                     'type' => ['basic'],
                                     'otherDataPasses' => [
-                                        'id' => $temp->id
+                                        'id' => $tempTwo->id
                                     ]
                                 ])['basic']['navSubDetail'],
                                 'navMain' => GetManageNavHelper::getNavMainDetail([
                                     'type' => ['basic'],
                                     'otherDataPasses' => [
-                                        'id' => $temp->navMainId
+                                        'id' => $tempTwo->navMainId
                                     ]
                                 ])['basic']['navMainDetail'],
                                 'navType' => GetManageNavHelper::getNavTypeDetail([
                                     'type' => ['basic'],
                                     'otherDataPasses' => [
-                                        'id' => $temp->navTypeId
+                                        'id' => $tempTwo->navTypeId
                                     ]
                                 ])['basic']['navTypeDetail'],
                             ];
@@ -300,10 +300,10 @@ class GetManageNavHelper
                     if (in_array('basicWithoutFilter', $tempOne['getList']['type'])) {
                         $navNested = array();
 
-                        foreach (NavNested::get() as $temp) {
+                        foreach (NavNested::get() as $tempTwo) {
                             $navNested[] = [
-                                'id' => $temp->id,
-                                'name' => $temp->name
+                                'id' => $tempTwo->id,
+                                'name' => $tempTwo->name
                             ];
                         }
 
@@ -365,30 +365,30 @@ class GetManageNavHelper
                             }
                         }
 
-                        foreach (NavNested::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
+                        foreach (NavNested::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $navNested[] = [
                                 ...GetManageNavHelper::getNavNestedDetail([
                                     'type' => ['basic'],
                                     'otherDataPasses' => [
-                                        'id' => $temp->id
+                                        'id' => $tempTwo->id
                                     ]
                                 ])['basic']['navNestedDetail'],
                                 'navSub' => GetManageNavHelper::getNavSubDetail([
                                     'type' => ['basic'],
                                     'otherDataPasses' => [
-                                        'id' => $temp->navSubId
+                                        'id' => $tempTwo->navSubId
                                     ]
                                 ])['basic']['navSubDetail'],
                                 'navMain' => GetManageNavHelper::getNavMainDetail([
                                     'type' => ['basic'],
                                     'otherDataPasses' => [
-                                        'id' => $temp->navMainId
+                                        'id' => $tempTwo->navMainId
                                     ]
                                 ])['basic']['navMainDetail'],
                                 'navType' => GetManageNavHelper::getNavTypeDetail([
                                     'type' => ['basic'],
                                     'otherDataPasses' => [
-                                        'id' => $temp->navTypeId
+                                        'id' => $tempTwo->navTypeId
                                     ]
                                 ])['basic']['navTypeDetail'],
                             ];

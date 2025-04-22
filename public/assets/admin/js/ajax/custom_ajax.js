@@ -2263,6 +2263,7 @@
                 id.find('#id').val(data.id);
                 id.find('#name').val(data.name);
                 id.find('#description').val(data.description);
+                id.find("#roleMain option[data-name='" + data.roleMain.name + "']").prop("selected", true).trigger('change');
             } else {
                 id = $('#con-detail-modal');
                 id.modal('show');

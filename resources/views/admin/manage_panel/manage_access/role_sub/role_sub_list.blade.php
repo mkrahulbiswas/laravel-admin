@@ -81,7 +81,7 @@
                                                         <div class="form-icon set-validation">
                                                             <select class="form-control form-control-icon select2-roleMain" name="roleMain" id="roleMainFilter">
                                                                 <option value="">Select One</option>
-                                                                @foreach ($data['roleMain']['roleMain'] as $key)
+                                                                @foreach ($data['roleMain']['basicWithFilter']['list'] as $key)
                                                                     <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
                                                                 @endforeach
                                                             </select>
@@ -160,7 +160,7 @@
                                 <div class="form-icon set-validation">
                                     <select class="form-control form-control-icon select2-roleMain-addModal" name="roleMain" id="roleMain">
                                         <option value="">Select One</option>
-                                        @foreach ($data['roleMain']['roleMain'] as $key)
+                                        @foreach ($data['roleMain']['basicWithFilter']['list'] as $key)
                                             <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
                                         @endforeach
                                     </select>
@@ -219,8 +219,8 @@
                                 <label for="name" class="form-label">Role Main Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <select class="form-control form-control-icon select2-roleMain-editModal" name="roleMain" id="roleMain">
-                                        @foreach ($data['roleMain']['roleMain'] as $key)
-                                            <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
+                                        @foreach ($data['roleMain']['basicWithFilter']['list'] as $key)
+                                            <option value="{{ $key['id'] }}" data-name="{{ $key['name'] }}">{{ $key['name'] }}</option>
                                         @endforeach
                                     </select>
                                     <i class="bx bx-receipt"></i>

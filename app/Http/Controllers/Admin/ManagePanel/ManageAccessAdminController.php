@@ -39,84 +39,86 @@ class ManageAccessAdminController extends Controller
     public function getRoleMain(Request $request)
     {
         try {
-            $status = $request->status;
-            $roleMain = $request->roleMain;
+            $roleMain = GetManageAccessHelper::getList([
+                [
+                    'getList' => [
+                        'type' => ['basicWithFilter'],
+                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => $request->status
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ]
+                    ],
+                ],
+            ]);
 
-            $query = "`created_at` is not null";
-
-            if (!empty($status)) {
-                $query .= " and `status` = '" . $status . "'";
-            }
-
-            if (!empty($roleMain)) {
-                $query .= " and `roleMainId` = " . decrypt($roleMain);
-            }
-
-            $roleMain = RoleMain::orderBy('id', 'desc')->whereRaw($query)->get();
-
-            return Datatables::of($roleMain)
+            return Datatables::of($roleMain['roleMain']['basicWithFilter']['list'])
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
-                    $description = $this->subStrString(40, $data->description, '....');
+                    $description = $this->subStrString(40, $data['description'], '....');
                     return $description;
                 })
+                ->addColumn('uniqueId', function ($data) {
+                    $uniqueId = $data['uniqueId']['raw'];
+                    return $uniqueId;
+                })
                 ->addColumn('status', function ($data) {
-                    $status = CommonTrait::customizeInText(['type' => 'status', 'value' => $data->status])['status'];
+                    $status = $data['customizeInText']['status']['custom'];
                     return $status;
                 })
                 ->addColumn('action', function ($data) {
 
                     // $itemPermission = $this->itemPermission();
 
-                    $dataArray = [
-                        'id' => encrypt($data->id),
-                        'name' => $data->name,
-                        'description' => $data->description,
-                    ];
-
-
                     // if ($itemPermission['status_item'] == '1') {
-                    if ($data->status == Config::get('constants.status')['inactive']) {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleMain') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open align-bottom me-2 text-muted"></i></a>';
+                    if ($data['status'] == Config::get('constants.status')['inactive']) {
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleMain') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock align-bottom me-2 text-muted"></i></a>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                     }
                     // } else {
                     //     $status = '';
                     // }
 
                     // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit align-bottom me-2 text-muted"></i> <span>Edit Role Main</span></a>';
+                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
                     // } else {
                     //     $edit = '';
                     // }
 
                     // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleMain') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash align-bottom me-2 text-muted"></i></a>';
+                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     // } else {
                     //     $delete = '';
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle align-bottom me-2 text-muted"></i></a>';
+                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
                     // } else {
                     //     $details = '';
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light btn-soft-info actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
+                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
                     // } else {
                     //     $details = '';
                     // }
 
                     return $this->dynamicHtmlPurse([
-                        'action' => [
-                            'primary' => [$status, $edit, $delete, $details],
-                            'secondary' => [$access],
+                        [
+                            'type' => 'dtAction',
+                            'data' => [
+                                'primary' => [$status, $edit, $delete, $details],
+                                'secondary' => [$access],
+                            ]
                         ]
-                    ]);
+                    ])['dtAction']['custom'];
                 })
-                ->rawColumns(['description', 'status', 'action'])
+                ->rawColumns(['description', 'uniqueId', 'status', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -249,11 +251,16 @@ class ManageAccessAdminController extends Controller
     {
         try {
             $roleMain = GetManageAccessHelper::getList([
-                'type' => ['roleMain'],
-                'otherDataPasses' => [
-                    'filterData' => [
-                        'status' => Config::get('constants.status')['active']
-                    ]
+                [
+                    'getList' => [
+                        'type' => ['basicWithFilter'],
+                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status')['active']
+                        ],
+                    ],
                 ],
             ]);
 
@@ -270,92 +277,91 @@ class ManageAccessAdminController extends Controller
     public function getRoleSub(Request $request)
     {
         try {
-            $status = $request->status;
+            $roleSub = GetManageAccessHelper::getList([
+                [
+                    'getList' => [
+                        'type' => ['basicWithFilter'],
+                        'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => $request->status,
+                            'roleMainId' => $request->roleMain
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ]
+                    ],
+                ],
+            ]);
 
-            $query = "`created_at` is not null";
-
-            if (!empty($status)) {
-                $query .= " and `status` = '" . $status . "'";
-            }
-
-            // $roleSub = GetManageAccessHelper::getList([
-            //     'type' => ['roleSub'],
-            //     'otherDataPasses' => [
-            //         'filterData' => [
-            //             'status' => Config::get('constants.status')['active']
-            //         ]
-            //     ],
-            // ]);
-            $roleSub = RoleSub::orderBy('id', 'desc')->whereRaw($query)->get();
-
-            return Datatables::of($roleSub)
+            return Datatables::of($roleSub['roleSub']['basicWithFilter']['list'])
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
-                    $description = $this->subStrString(40, $data->description, '....');
+                    $description = $this->subStrString(40, $data['description'], '....');
                     return $description;
                 })
+                ->addColumn('uniqueId', function ($data) {
+                    $uniqueId = $data['uniqueId']['raw'];
+                    return $uniqueId;
+                })
                 ->addColumn('status', function ($data) {
-                    $status = CommonTrait::customizeInText(['type' => 'status', 'value' => $data->status])['status'];
+                    $status = $data['customizeInText']['status']['custom'];
                     return $status;
                 })
                 ->addColumn('roleMain', function ($data) {
-                    $roleMain = RoleMain::where('id', $data->roleMainId)->first()->name;
+                    $roleMain = $data['roleMain']['name'];
                     return $roleMain;
                 })
                 ->addColumn('action', function ($data) {
 
                     // $itemPermission = $this->itemPermission();
 
-                    $dataArray = [
-                        'id' => encrypt($data->id),
-                        'roleMain' => RoleMain::where('id', $data->roleMainId)->first()->name,
-                        'name' => $data->name,
-                        'description' => $data->description,
-                    ];
-
-
                     // if ($itemPermission['status_item'] == '1') {
-                    if ($data->status == Config::get('constants.status')['inactive']) {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleSub') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open align-bottom me-2 text-muted"></i></a>';
+                    if ($data['status'] == Config::get('constants.status')['inactive']) {
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleSub') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock align-bottom me-2 text-muted"></i></a>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                     }
                     // } else {
                     //     $status = '';
                     // }
 
                     // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit align-bottom me-2 text-muted"></i> <span>Edit Role Sub</span></a>';
+                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
                     // } else {
                     //     $edit = '';
                     // }
 
                     // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleSub') . '/' . $dataArray['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash align-bottom me-2 text-muted"></i></a>';
+                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     // } else {
                     //     $delete = '';
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle align-bottom me-2 text-muted"></i></a>';
+                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
                     // } else {
                     //     $details = '';
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($dataArray, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light btn-soft-info actionDatatable"><i class="las la-info-circle"></i><span>Change Access</span></a>';
+                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
                     // } else {
                     //     $details = '';
                     // }
 
                     return $this->dynamicHtmlPurse([
-                        'action' => [
-                            'primary' => [$status, $edit, $delete, $details],
-                            'secondary' => [$access],
+                        [
+                            'type' => 'dtAction',
+                            'data' => [
+                                'primary' => [$status, $edit, $delete, $details],
+                                'secondary' => [$access],
+                            ]
                         ]
-                    ]);
+                    ])['dtAction']['custom'];
                 })
-                ->rawColumns(['description', 'roleMain', 'status', 'action'])
+                ->rawColumns(['description', 'roleMain', 'uniqueId', 'status', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
