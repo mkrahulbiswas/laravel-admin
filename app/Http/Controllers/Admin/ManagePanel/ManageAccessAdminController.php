@@ -371,7 +371,7 @@ class ManageAccessAdminController extends Controller
     public function saveRoleSub(Request $request)
     {
         try {
-            $values = $request->only('name', Config::get('constants.typeCheck.manageAccess.roleMain.type'), 'description');
+            $values = $request->only('name', 'roleMain', 'description');
             //--Checking The Validation--//
 
             $validator = $this->isValid([
@@ -386,7 +386,7 @@ class ManageAccessAdminController extends Controller
 
                 $roleSub = new RoleSub();
                 $roleSub->name = $values['name'];
-                $roleSub->roleMainId = decrypt($values[Config::get('constants.typeCheck.manageAccess.roleMain.type')]);
+                $roleSub->roleMainId = decrypt($values['roleMain']);
                 $roleSub->description = $values['description'];
                 $roleSub->uniqueId = $this->generateCode(['preString' => 'RS', 'length' => 6, 'model' => RoleSub::class, 'field' => '']);
                 $roleSub->status = Config::get('constants.status')['active'];
@@ -404,7 +404,7 @@ class ManageAccessAdminController extends Controller
 
     public function updateRoleSub(Request $request)
     {
-        $values = $request->only('id', 'name', Config::get('constants.typeCheck.manageAccess.roleMain.type'), 'description');
+        $values = $request->only('id', 'name', 'roleMain', 'description');
 
         try {
             $id = decrypt($values['id']);
@@ -425,7 +425,7 @@ class ManageAccessAdminController extends Controller
                 $roleSub = RoleSub::find($id);
 
                 $roleSub->name = $values['name'];
-                $roleSub->roleMainId = decrypt($values[Config::get('constants.typeCheck.manageAccess.roleMain.type')]);
+                $roleSub->roleMainId = decrypt($values['roleMain']);
                 $roleSub->description = $values['description'];
 
                 if ($roleSub->update()) {

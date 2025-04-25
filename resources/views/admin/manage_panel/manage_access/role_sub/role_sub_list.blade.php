@@ -171,7 +171,7 @@
                             <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="name" class="form-label">Sub Role Name<span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Role Name" required>
+                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Role Name">
                                     <i class="bx bx-message-edit"></i>
                                 </div>
                                 <div class="validation-error" id="nameErr"></div>
@@ -230,7 +230,7 @@
                             <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="name" class="form-label">Sub Role Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Role Name" required>
+                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Role Name">
                                     <i class="bx bx-message-edit"></i>
                                 </div>
                                 <div class="validation-error" id="nameErr"></div>
