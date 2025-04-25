@@ -75,6 +75,39 @@ Route::controller(AuthAdminController::class)->group(function () {
             });
 
             Route::controller(ManageNavAdminController::class)->prefix('manage-nav')->group(function () {
+                // Route::prefix('prepare-nav')->group(function () {
+                //     Route::get('nav-type', 'showNavType')->name('admin.show.navType');
+                //     Route::get('nav-type/ajaxGetList', 'getNavType')->name('admin.get.navType');
+                //     Route::post('nav-type/add/save', 'saveNavType')->name('admin.save.navType');
+                //     Route::post('nav-type/edit/update', 'updateNavType')->name('admin.update.navType');
+                //     Route::get('nav-type/status/{id?}', 'statusNavType')->name('admin.status.navType');
+                //     Route::get('nav-type/delete/{id?}', 'deleteNavType')->name('admin.delete.navType');
+
+                //     Route::get('nav-main', 'showNavMain')->name('admin.show.navMain');
+                //     Route::get('nav-main/ajaxGetList', 'getNavMain')->name('admin.get.navMain');
+                //     Route::post('nav-main/add/save', 'saveNavMain')->name('admin.save.navMain');
+                //     Route::post('nav-main/edit/update', 'updateNavMain')->name('admin.update.navMain');
+                //     Route::post('nav-main/edit/access', 'accessNavMain')->name('admin.access.navMain');
+                //     Route::get('nav-main/status/{id?}', 'statusNavMain')->name('admin.status.navMain');
+                //     Route::get('nav-main/delete/{id?}', 'deleteNavMain')->name('admin.delete.navMain');
+
+                //     Route::get('nav-sub', 'showNavSub')->name('admin.show.navSub');
+                //     Route::get('nav-sub/ajaxGetList', 'getNavSub')->name('admin.get.navSub');
+                //     Route::post('nav-sub/add/save', 'saveNavSub')->name('admin.save.navSub');
+                //     Route::post('nav-sub/edit/update', 'updateNavSub')->name('admin.update.navSub');
+                //     Route::post('nav-sub/edit/access', 'accessNavSub')->name('admin.access.navSub');
+                //     Route::get('nav-sub/status/{id?}', 'statusNavSub')->name('admin.status.navSub');
+                //     Route::get('nav-sub/delete/{id?}', 'deleteNavSub')->name('admin.delete.navSub');
+
+                //     Route::get('nav-nested', 'showNavNested')->name('admin.show.navNested');
+                //     Route::get('nav-nested/ajaxGetList', 'getNavNested')->name('admin.get.navNested');
+                //     Route::post('nav-nested/add/save', 'saveNavNested')->name('admin.save.navNested');
+                //     Route::post('nav-nested/edit/update', 'updateNavNested')->name('admin.update.navNested');
+                //     Route::post('nav-nested/edit/access', 'accessNavNested')->name('admin.access.navNested');
+                //     Route::get('nav-nested/status/{id?}', 'statusNavNested')->name('admin.status.navNested');
+                //     Route::get('nav-nested/delete/{id?}', 'deleteNavNested')->name('admin.delete.navNested');
+                // });
+
                 Route::get('nav-type', 'showNavType')->name('admin.show.navType');
                 Route::get('nav-type/ajaxGetList', 'getNavType')->name('admin.get.navType');
                 Route::post('nav-type/add/save', 'saveNavType')->name('admin.save.navType');

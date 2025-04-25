@@ -46,7 +46,7 @@
                             if (msg.status == 0) {
                                 $('.navMainDDD').append(html);
                             } else {
-                                $.each(msg.data.navMain.navMain, function (key, value) {
+                                $.each(msg.data.navMain, function (key, value) {
                                     html += '<option value="' + value['id'] + '" data-name="' + value['name'] + '">' + value['name'] + '</option>'
                                 });
                                 $('.navMainDDD').append(html);
@@ -84,7 +84,7 @@
                             if (msg.status == 0) {
                                 $('.navSubDDD').append(html);
                             } else {
-                                $.each(msg.data.navSub.navSub, function (key, value) {
+                                $.each(msg.data.navSub, function (key, value) {
                                     html += '<option value="' + value['id'] + '" data-name="' + value['name'] + '">' + value['name'] + '</option>'
                                 });
                                 $('.navSubDDD').append(html);

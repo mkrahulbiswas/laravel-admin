@@ -26,17 +26,25 @@ class DDDAdminController extends Controller
     {
         // try {
         $navMain = GetManageNavHelper::getList([
-            'type' => [Config::get('constants.typeCheck.manageNav.navMain.type')],
-            'otherDataPasses' => [
-                'filterData' => [
-                    'status' => Config::get('constants.status')['active'],
-                    'navTypeId' => $navTypeId,
-                ]
+            [
+                'getList' => [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                    'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
+                ],
+                'otherDataPasses' => [
+                    'filterData' => [
+                        'status' => Config::get('constants.status')['active'],
+                        'navTypeId' => $navTypeId,
+                    ],
+                    'orderBy' => [
+                        'id' => 'desc'
+                    ]
+                ],
             ],
         ]);
 
         $data = [
-            'navMain' => $navMain['navMain']
+            Config::get('constants.typeCheck.manageNav.navMain.type') => $navMain[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
         ];
 
         if ($data) {
@@ -54,17 +62,25 @@ class DDDAdminController extends Controller
     {
         try {
             $navSub = GetManageNavHelper::getList([
-                'type' => [Config::get('constants.typeCheck.manageNav.navSub.type')],
-                'otherDataPasses' => [
-                    'filterData' => [
-                        'status' => Config::get('constants.status')['active'],
-                        'navMainId' => $navMainId,
-                    ]
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                        'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status')['active'],
+                            'navMainId' => $navMainId,
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ]
+                    ],
                 ],
             ]);
 
             $data = [
-                'navSub' => $navSub['navSub']
+                Config::get('constants.typeCheck.manageNav.navSub.type') => $navSub[Config::get('constants.typeCheck.manageNav.navSub.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
             ];
 
             if ($data) {

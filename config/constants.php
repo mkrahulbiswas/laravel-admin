@@ -59,6 +59,17 @@ return [
                 'type' => 'roleSub'
             ],
         ],
+        'helperCommon' => [
+            'get' => [
+                'bnf' => 'basicNoFilter',
+                'byf' => 'basicYesFilter',
+                'dyf' => 'dependedYesFilter',
+            ],
+            'detail' => [
+                'yd' => 'yesDepended',
+                'nd' => 'noDepended',
+            ],
+        ]
     ],
 
     'rolePermission' => [
@@ -67,6 +78,8 @@ return [
             'edit',
             'status',
             'delete',
+            'info',
+            'detail',
             'filter',
             'reload',
             'reset',

@@ -21,302 +21,395 @@ class GetManageNavHelper
     use FileTrait, CommonTrait;
     public $platform = 'backend';
 
-
     public static function getList($params, $platform = '')
     {
         try {
             $finalData = array();
+            foreach ($params as $tempOne) {
+                if (Config::get('constants.typeCheck.manageNav.navType.type') == $tempOne['getList']['for']) {
+                    $data = array();
 
-            if (in_array(Config::get('constants.typeCheck.manageNav.navType.type'), $params['type'])) {
-                $navType = array();
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.bnf'), $tempOne['getList']['type'])) {
+                        $navType = array();
 
-                $whereRaw = "`created_at` is not null";
-                $orderByRaw = "`id` DESC";
-                if (Arr::exists($params['otherDataPasses'], 'filterData')) {
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'status')) {
-                        $status = $params['otherDataPasses']['filterData']['status'];
-                        if (!empty($status)) {
-                            $whereRaw .= " and `status` = '" . $status . "'";
+                        foreach (NavType::get() as $tempTwo) {
+                            $navType[] = [
+                                'id' => $tempTwo->id,
+                                'name' => $tempTwo->name
+                            ];
+                        }
+
+                        $data[Config::get('constants.typeCheck.helperCommon.get.bnf')] = [
+                            'list' => $navType
+                        ];
+                    }
+
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.byf'), $tempOne['getList']['type'])) {
+                        $navType = array();
+                        $whereRaw = "`created_at` is not null";
+                        $orderByRaw = "`id` DESC";
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
+                                $status = $tempOne['otherDataPasses']['filterData']['status'];
+                                if (!empty($status)) {
+                                    $whereRaw .= " and `status` = '" . $status . "'";
+                                }
+                            }
+                        }
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'position')) {
+                                $position = $tempOne['otherDataPasses']['orderBy']['position'];
+                                if (!empty($position)) {
+                                    $orderByRaw = "`position` " . $position;
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'id')) {
+                                $id = $tempOne['otherDataPasses']['orderBy']['id'];
+                                if (!empty($id)) {
+                                    $orderByRaw = "`id` " . $id;
+                                }
+                            }
+                        }
+
+                        foreach (NavType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
+                            $navType[] = GetManageNavHelper::getNavTypeDetail([
+                                'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                'otherDataPasses' => [
+                                    'id' => $tempTwo->id
+                                ]
+                            ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navTypeDetail'];
+                        }
+
+                        $data[Config::get('constants.typeCheck.helperCommon.get.byf')] = [
+                            'list' => $navType
+                        ];
+
+                        if (isset($tempOne['otherDataPasses']['filterData'])) {
+                            $data[Config::get('constants.typeCheck.helperCommon.get.byf')]['filterData'] = $tempOne['otherDataPasses']['filterData'];
+                        }
+
+                        if (isset($tempOne['otherDataPasses']['orderBy'])) {
+                            $data[Config::get('constants.typeCheck.helperCommon.get.byf')]['orderBy'] = $tempOne['otherDataPasses']['orderBy'];
                         }
                     }
+
+                    $finalData[Config::get('constants.typeCheck.manageNav.navType.type')] = $data;
                 }
 
-                if (Arr::exists($params['otherDataPasses'], 'orderBy')) {
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'position')) {
-                        $position = $params['otherDataPasses']['orderBy']['position'];
-                        if (!empty($position)) {
-                            $orderByRaw = "`position` " . $position;
+                if (Config::get('constants.typeCheck.manageNav.navMain.type') == $tempOne['getList']['for']) {
+                    $data = array();
+
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.bnf'), $tempOne['getList']['type'])) {
+                        $navMain = array();
+
+                        foreach (NavMain::get() as $tempTwo) {
+                            $navMain[] = [
+                                'id' => $tempTwo->id,
+                                'name' => $tempTwo->name
+                            ];
+                        }
+
+                        $data[Config::get('constants.typeCheck.helperCommon.get.bnf')] = [
+                            'list' => $navMain
+                        ];
+                    }
+
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.byf'), $tempOne['getList']['type'])) {
+                        $navMain = array();
+                        $whereRaw = "`created_at` is not null";
+                        $orderByRaw = "`id` DESC";
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
+                                $status = $tempOne['otherDataPasses']['filterData']['status'];
+                                if (!empty($status)) {
+                                    $whereRaw .= " and `status` = '" . $status . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navTypeId')) {
+                                $navTypeId = $tempOne['otherDataPasses']['filterData']['navTypeId'];
+                                if (!empty($navTypeId)) {
+                                    $whereRaw .= " and `navTypeId` = '" . decrypt($navTypeId) . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'access')) {
+                                $access = $tempOne['otherDataPasses']['filterData']['access'];
+                                if (!empty($access)) {
+                                    $whereRaw .= " and `access` is not null";
+                                }
+                            }
+                        }
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'position')) {
+                                $position = $tempOne['otherDataPasses']['orderBy']['position'];
+                                if (!empty($position)) {
+                                    $orderByRaw = "`position` " . $position;
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'id')) {
+                                $id = $tempOne['otherDataPasses']['orderBy']['id'];
+                                if (!empty($id)) {
+                                    $orderByRaw = "`id` " . $id;
+                                }
+                            }
+                        }
+
+                        foreach (NavMain::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
+                            $navMain[] = [
+                                ...GetManageNavHelper::getNavMainDetail([
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                    'otherDataPasses' => [
+                                        'id' => $tempTwo->id
+                                    ]
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navMainDetail'],
+                                Config::get('constants.typeCheck.manageNav.navType.type') => GetManageNavHelper::getNavTypeDetail([
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                    'otherDataPasses' => [
+                                        'id' => $tempTwo->navTypeId
+                                    ]
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navTypeDetail'],
+                            ];
+                        }
+
+                        $data[Config::get('constants.typeCheck.helperCommon.get.byf')] = [
+                            'list' => $navMain
+                        ];
+
+                        if (isset($tempOne['otherDataPasses']['filterData'])) {
+                            $data[Config::get('constants.typeCheck.helperCommon.get.byf')]['filterData'] = $tempOne['otherDataPasses']['filterData'];
+                        }
+
+                        if (isset($tempOne['otherDataPasses']['orderBy'])) {
+                            $data[Config::get('constants.typeCheck.helperCommon.get.byf')]['orderBy'] = $tempOne['otherDataPasses']['orderBy'];
                         }
                     }
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'id')) {
-                        $id = $params['otherDataPasses']['orderBy']['id'];
-                        if (!empty($id)) {
-                            $orderByRaw = "`id` " . $id;
+
+                    $finalData[Config::get('constants.typeCheck.manageNav.navMain.type')] = $data;
+                }
+
+                if (Config::get('constants.typeCheck.manageNav.navSub.type') == $tempOne['getList']['for']) {
+                    $data = array();
+
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.bnf'), $tempOne['getList']['type'])) {
+                        $navSub = array();
+
+                        foreach (NavSub::get() as $tempTwo) {
+                            $navSub[] = [
+                                'id' => $tempTwo->id,
+                                'name' => $tempTwo->name
+                            ];
+                        }
+
+                        $data[Config::get('constants.typeCheck.helperCommon.get.bnf')] = [
+                            'list' => $navSub
+                        ];
+                    }
+
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.byf'), $tempOne['getList']['type'])) {
+                        $navSub = array();
+                        $whereRaw = "`created_at` is not null";
+                        $orderByRaw = "`id` DESC";
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
+                                $status = $tempOne['otherDataPasses']['filterData']['status'];
+                                if (!empty($status)) {
+                                    $whereRaw .= " and `status` = '" . $status . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navTypeId')) {
+                                $navTypeId = $tempOne['otherDataPasses']['filterData']['navTypeId'];
+                                if (!empty($navTypeId)) {
+                                    $whereRaw .= " and `navTypeId` = '" . decrypt($navTypeId) . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navMainId')) {
+                                $navMainId = $tempOne['otherDataPasses']['filterData']['navMainId'];
+                                if (!empty($navMainId)) {
+                                    $whereRaw .= " and `navMainId` = '" . decrypt($navMainId) . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'access')) {
+                                $access = $tempOne['otherDataPasses']['filterData']['access'];
+                                if (!empty($access)) {
+                                    $whereRaw .= " and `access` is not null";
+                                }
+                            }
+                        }
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'position')) {
+                                $position = $tempOne['otherDataPasses']['orderBy']['position'];
+                                if (!empty($position)) {
+                                    $orderByRaw = "`position` " . $position;
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'id')) {
+                                $id = $tempOne['otherDataPasses']['orderBy']['id'];
+                                if (!empty($id)) {
+                                    $orderByRaw = "`id` " . $id;
+                                }
+                            }
+                        }
+
+                        foreach (NavSub::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
+                            $navSub[] = [
+                                ...GetManageNavHelper::getNavSubDetail([
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                    'otherDataPasses' => [
+                                        'id' => $tempTwo->id
+                                    ]
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navSubDetail'],
+                                Config::get('constants.typeCheck.manageNav.navMain.type') => GetManageNavHelper::getNavMainDetail([
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                    'otherDataPasses' => [
+                                        'id' => $tempTwo->navMainId
+                                    ]
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navMainDetail'],
+                                Config::get('constants.typeCheck.manageNav.navType.type') => GetManageNavHelper::getNavTypeDetail([
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                    'otherDataPasses' => [
+                                        'id' => $tempTwo->navTypeId
+                                    ]
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navTypeDetail'],
+                            ];
+                        }
+
+                        $data[Config::get('constants.typeCheck.helperCommon.get.byf')] = [
+                            'list' => $navSub
+                        ];
+
+                        if (isset($tempOne['otherDataPasses']['filterData'])) {
+                            $data[Config::get('constants.typeCheck.helperCommon.get.byf')]['filterData'] = $tempOne['otherDataPasses']['filterData'];
+                        }
+
+                        if (isset($tempOne['otherDataPasses']['orderBy'])) {
+                            $data[Config::get('constants.typeCheck.helperCommon.get.byf')]['orderBy'] = $tempOne['otherDataPasses']['orderBy'];
                         }
                     }
+
+                    $finalData[Config::get('constants.typeCheck.manageNav.navSub.type')] = $data;
                 }
 
-                foreach (NavType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
-                    $navType[] = GetManageNavHelper::getNavTypeDetail([
-                        'type' => ['basic'],
-                        'otherDataPasses' => [
-                            'id' => $temp->id
-                        ]
-                    ])['basic']['navTypeDetail'];
+                if (Config::get('constants.typeCheck.manageNav.navNested.type') == $tempOne['getList']['for']) {
+                    $data = array();
+
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.bnf'), $tempOne['getList']['type'])) {
+                        $navNested = array();
+
+                        foreach (NavNested::get() as $tempTwo) {
+                            $navNested[] = [
+                                'id' => $tempTwo->id,
+                                'name' => $tempTwo->name
+                            ];
+                        }
+
+                        $data[Config::get('constants.typeCheck.helperCommon.get.bnf')] = [
+                            'list' => $navNested
+                        ];
+                    }
+
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.byf'), $tempOne['getList']['type'])) {
+                        $navNested = array();
+                        $whereRaw = "`created_at` is not null";
+                        $orderByRaw = "`id` DESC";
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
+                                $status = $tempOne['otherDataPasses']['filterData']['status'];
+                                if (!empty($status)) {
+                                    $whereRaw .= " and `status` = '" . $status . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navTypeId')) {
+                                $navTypeId = $tempOne['otherDataPasses']['filterData']['navTypeId'];
+                                if (!empty($navTypeId)) {
+                                    $whereRaw .= " and `navTypeId` = '" . decrypt($navTypeId) . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navMainId')) {
+                                $navMainId = $tempOne['otherDataPasses']['filterData']['navMainId'];
+                                if (!empty($navMainId)) {
+                                    $whereRaw .= " and `navMainId` = '" . decrypt($navMainId) . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navSubId')) {
+                                $navSubId = $tempOne['otherDataPasses']['filterData']['navSubId'];
+                                if (!empty($navSubId)) {
+                                    $whereRaw .= " and `navSubId` = '" . decrypt($navSubId) . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'access')) {
+                                $access = $tempOne['otherDataPasses']['filterData']['access'];
+                                if (!empty($access)) {
+                                    $whereRaw .= " and `access` is not null";
+                                }
+                            }
+                        }
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'position')) {
+                                $position = $tempOne['otherDataPasses']['orderBy']['position'];
+                                if (!empty($position)) {
+                                    $orderByRaw = "`position` " . $position;
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'id')) {
+                                $id = $tempOne['otherDataPasses']['orderBy']['id'];
+                                if (!empty($id)) {
+                                    $orderByRaw = "`id` " . $id;
+                                }
+                            }
+                        }
+
+                        foreach (NavNested::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
+                            $navNested[] = [
+                                ...GetManageNavHelper::getNavNestedDetail([
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                    'otherDataPasses' => [
+                                        'id' => $tempTwo->id
+                                    ]
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navNestedDetail'],
+                                Config::get('constants.typeCheck.manageNav.navSub.type') => GetManageNavHelper::getNavSubDetail([
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                    'otherDataPasses' => [
+                                        'id' => $tempTwo->navSubId
+                                    ]
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navSubDetail'],
+                                Config::get('constants.typeCheck.manageNav.navMain.type') => GetManageNavHelper::getNavMainDetail([
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                    'otherDataPasses' => [
+                                        'id' => $tempTwo->navMainId
+                                    ]
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navMainDetail'],
+                                Config::get('constants.typeCheck.manageNav.navType.type') => GetManageNavHelper::getNavTypeDetail([
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                    'otherDataPasses' => [
+                                        'id' => $tempTwo->navTypeId
+                                    ]
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navTypeDetail'],
+                            ];
+                        }
+
+                        $data[Config::get('constants.typeCheck.helperCommon.get.byf')] = [
+                            'list' => $navNested
+                        ];
+
+                        if (isset($tempOne['otherDataPasses']['filterData'])) {
+                            $data[Config::get('constants.typeCheck.helperCommon.get.byf')]['filterData'] = $tempOne['otherDataPasses']['filterData'];
+                        }
+
+                        if (isset($tempOne['otherDataPasses']['orderBy'])) {
+                            $data[Config::get('constants.typeCheck.helperCommon.get.byf')]['orderBy'] = $tempOne['otherDataPasses']['orderBy'];
+                        }
+                    }
+
+                    $finalData[Config::get('constants.typeCheck.manageNav.navNested.type')] = $data;
                 }
-
-                $data = [
-                    'navType' => $navType
-                ];
-
-                if (isset($params['otherDataPasses']['filterData'])) {
-                    $data['filterData'] = $params['otherDataPasses']['filterData'];
-                }
-
-                if (isset($params['otherDataPasses']['orderBy'])) {
-                    $data['orderBy'] = $params['otherDataPasses']['orderBy'];
-                }
-
-                $finalData['navType'] = $data;
             }
-
-            if (in_array(Config::get('constants.typeCheck.manageNav.navMain.type'), $params['type'])) {
-                $navMain = array();
-
-                $whereRaw = "`created_at` is not null";
-                $orderByRaw = "`id` DESC";
-                if (Arr::exists($params['otherDataPasses'], 'filterData')) {
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'status')) {
-                        $status = $params['otherDataPasses']['filterData']['status'];
-                        if (!empty($status)) {
-                            $whereRaw .= " and `status` = '" . $status . "'";
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navTypeId')) {
-                        $navTypeId = $params['otherDataPasses']['filterData']['navTypeId'];
-                        if (!empty($navTypeId)) {
-                            $whereRaw .= " and `navTypeId` = '" . decrypt($navTypeId) . "'";
-                        }
-                    }
-                }
-
-                if (Arr::exists($params['otherDataPasses'], 'orderBy')) {
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'position')) {
-                        $position = $params['otherDataPasses']['orderBy']['position'];
-                        if (!empty($position)) {
-                            $orderByRaw = "`position` " . $position;
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'id')) {
-                        $id = $params['otherDataPasses']['orderBy']['id'];
-                        if (!empty($id)) {
-                            $orderByRaw = "`id` " . $id;
-                        }
-                    }
-                }
-
-                foreach (NavMain::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
-                    $navMain[] = [
-                        ...GetManageNavHelper::getNavMainDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->id
-                            ]
-                        ])['basic']['navMainDetail'],
-                        'navType' => GetManageNavHelper::getNavTypeDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->navTypeId
-                            ]
-                        ])['basic']['navTypeDetail'],
-                    ];
-                }
-
-                $data = [
-                    'navMain' => $navMain
-                ];
-
-                if (isset($params['otherDataPasses']['filterData'])) {
-                    $data['filterData'] = $params['otherDataPasses']['filterData'];
-                }
-
-                if (isset($params['otherDataPasses']['orderBy'])) {
-                    $data['orderBy'] = $params['otherDataPasses']['orderBy'];
-                }
-
-                $finalData['navMain'] = $data;
-            }
-
-            if (in_array(Config::get('constants.typeCheck.manageNav.navSub.type'), $params['type'])) {
-                $navSub = array();
-
-                $whereRaw = "`created_at` is not null";
-                $orderByRaw = "`id` DESC";
-                if (Arr::exists($params['otherDataPasses'], 'filterData')) {
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'status')) {
-                        $status = $params['otherDataPasses']['filterData']['status'];
-                        if (!empty($status)) {
-                            $whereRaw .= " and `status` = '" . $status . "'";
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navTypeId')) {
-                        $navTypeId = $params['otherDataPasses']['filterData']['navTypeId'];
-                        if (!empty($navTypeId)) {
-                            $whereRaw .= " and `navTypeId` = '" . decrypt($navTypeId) . "'";
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navMainId')) {
-                        $navMainId = $params['otherDataPasses']['filterData']['navMainId'];
-                        if (!empty($navMainId)) {
-                            $whereRaw .= " and `navMainId` = '" . decrypt($navMainId) . "'";
-                        }
-                    }
-                }
-
-                if (Arr::exists($params['otherDataPasses'], 'orderBy')) {
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'position')) {
-                        $position = $params['otherDataPasses']['orderBy']['position'];
-                        if (!empty($position)) {
-                            $orderByRaw = "`position` " . $position;
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'id')) {
-                        $id = $params['otherDataPasses']['orderBy']['id'];
-                        if (!empty($id)) {
-                            $orderByRaw = "`id` " . $id;
-                        }
-                    }
-                }
-
-                foreach (NavSub::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
-                    $navSub[] = [
-                        ...GetManageNavHelper::getNavSubDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->id
-                            ]
-                        ])['basic']['navSubDetail'],
-                        'navMain' => GetManageNavHelper::getNavMainDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->navMainId
-                            ]
-                        ])['basic']['navMainDetail'],
-                        'navType' => GetManageNavHelper::getNavTypeDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->navTypeId
-                            ]
-                        ])['basic']['navTypeDetail'],
-                    ];
-                }
-
-                $data = [
-                    'navSub' => $navSub
-                ];
-
-                if (isset($params['otherDataPasses']['filterData'])) {
-                    $data['filterData'] = $params['otherDataPasses']['filterData'];
-                }
-
-                if (isset($params['otherDataPasses']['orderBy'])) {
-                    $data['orderBy'] = $params['otherDataPasses']['orderBy'];
-                }
-
-                $finalData['navSub'] = $data;
-            }
-
-            if (in_array(Config::get('constants.typeCheck.manageNav.navNested.type'), $params['type'])) {
-                $navNested = array();
-
-                $whereRaw = "`created_at` is not null";
-                $orderByRaw = "`id` DESC";
-                if (Arr::exists($params['otherDataPasses'], 'filterData')) {
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'status')) {
-                        $status = $params['otherDataPasses']['filterData']['status'];
-                        if (!empty($status)) {
-                            $whereRaw .= " and `status` = '" . $status . "'";
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navTypeId')) {
-                        $navTypeId = $params['otherDataPasses']['filterData']['navTypeId'];
-                        if (!empty($navTypeId)) {
-                            $whereRaw .= " and `navTypeId` = '" . decrypt($navTypeId) . "'";
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navMainId')) {
-                        $navMainId = $params['otherDataPasses']['filterData']['navMainId'];
-                        if (!empty($navMainId)) {
-                            $whereRaw .= " and `navMainId` = '" . decrypt($navMainId) . "'";
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navSubId')) {
-                        $navSubId = $params['otherDataPasses']['filterData']['navSubId'];
-                        if (!empty($navSubId)) {
-                            $whereRaw .= " and `navSubId` = '" . decrypt($navSubId) . "'";
-                        }
-                    }
-                }
-
-                if (Arr::exists($params['otherDataPasses'], 'orderBy')) {
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'position')) {
-                        $position = $params['otherDataPasses']['orderBy']['position'];
-                        if (!empty($position)) {
-                            $orderByRaw = "`position` " . $position;
-                        }
-                    }
-                    if (Arr::exists($params['otherDataPasses']['orderBy'], 'id')) {
-                        $id = $params['otherDataPasses']['orderBy']['id'];
-                        if (!empty($id)) {
-                            $orderByRaw = "`id` " . $id;
-                        }
-                    }
-                }
-
-                foreach (NavNested::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $temp) {
-                    $navNested[] = [
-                        ...GetManageNavHelper::getNavNestedDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->id
-                            ]
-                        ])['basic']['navNestedDetail'],
-                        'navSub' => GetManageNavHelper::getNavSubDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->navSubId
-                            ]
-                        ])['basic']['navSubDetail'],
-                        'navMain' => GetManageNavHelper::getNavMainDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->navMainId
-                            ]
-                        ])['basic']['navMainDetail'],
-                        'navType' => GetManageNavHelper::getNavTypeDetail([
-                            'type' => ['basic'],
-                            'otherDataPasses' => [
-                                'id' => $temp->navTypeId
-                            ]
-                        ])['basic']['navTypeDetail'],
-                    ];
-                }
-
-                $data = [
-                    'navNested' => $navNested
-                ];
-
-                if (isset($params['otherDataPasses']['filterData'])) {
-                    $data['filterData'] = $params['otherDataPasses']['filterData'];
-                }
-
-                if (isset($params['otherDataPasses']['orderBy'])) {
-                    $data['orderBy'] = $params['otherDataPasses']['orderBy'];
-                }
-
-                $finalData['navNested'] = $data;
-            }
-
             return $finalData;
         } catch (Exception $e) {
             return false;
@@ -328,7 +421,7 @@ class GetManageNavHelper
         try {
             $finalData = array();
 
-            if (in_array('basic', $params['type'])) {
+            if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $params['type'])) {
                 $navType = NavType::where('id', $params['otherDataPasses']['id'])->first();
                 $data = [
                     'navTypeDetail' => [
@@ -349,7 +442,7 @@ class GetManageNavHelper
                     ]
                 ];
 
-                $finalData['basic'] = $data;
+                $finalData[Config::get('constants.typeCheck.helperCommon.detail.nd')] = $data;
             }
 
             return $finalData;
@@ -363,7 +456,7 @@ class GetManageNavHelper
         try {
             $finalData = array();
 
-            if (in_array('basic', $params['type'])) {
+            if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $params['type'])) {
                 $navMain = NavMain::where('id', $params['otherDataPasses']['id'])->first();
                 $data = [
                     'navMainDetail' => [
@@ -389,7 +482,42 @@ class GetManageNavHelper
                     ]
                 ];
 
-                $finalData['basic'] = $data;
+                $finalData[Config::get('constants.typeCheck.helperCommon.detail.nd')] = $data;
+            }
+
+            if (in_array(Config::get('constants.typeCheck.helperCommon.detail.yd'), $params['type'])) {
+                $navMain = NavMain::where('id', $params['otherDataPasses']['id'])->first();
+                $data = [
+                    'navMainDetail' => [
+                        'id' => encrypt($navMain->id),
+                        'name' => $navMain->name,
+                        'icon' => $navMain->icon,
+                        'route' => $navMain->route,
+                        'position' => $navMain->position,
+                        'description' => $navMain->description,
+                        'status' => $navMain->status,
+                        'access' => json_decode($navMain->access, true),
+                        'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $navMain->uniqueId]),
+                        'customizeInText' => CommonTrait::customizeInText([
+                            [
+                                'type' => 'status',
+                                'value' => $navMain->status
+                            ],
+                            [
+                                'type' => 'access',
+                                'value' => json_decode($navMain->access, true)
+                            ]
+                        ]),
+                        Config::get('constants.typeCheck.manageNav.navType.type') => GetManageNavHelper::getNavTypeDetail([
+                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                            'otherDataPasses' => [
+                                'id' => $navMain->navTypeId
+                            ]
+                        ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navTypeDetail']
+                    ]
+                ];
+
+                $finalData[Config::get('constants.typeCheck.helperCommon.detail.yd')] = $data;
             }
 
             return $finalData;
@@ -403,7 +531,7 @@ class GetManageNavHelper
         try {
             $finalData = array();
 
-            if (in_array('basic', $params['type'])) {
+            if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $params['type'])) {
                 $navSub = NavSub::where('id', $params['otherDataPasses']['id'])->first();
                 $data = [
                     'navSubDetail' => [
@@ -429,7 +557,7 @@ class GetManageNavHelper
                     ]
                 ];
 
-                $finalData['basic'] = $data;
+                $finalData[Config::get('constants.typeCheck.helperCommon.detail.nd')] = $data;
             }
 
             return $finalData;
@@ -443,7 +571,7 @@ class GetManageNavHelper
         try {
             $finalData = array();
 
-            if (in_array('basic', $params['type'])) {
+            if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $params['type'])) {
                 $navNested = NavNested::where('id', $params['otherDataPasses']['id'])->first();
                 $data = [
                     'navNestedDetail' => [
@@ -469,7 +597,7 @@ class GetManageNavHelper
                     ]
                 ];
 
-                $finalData['basic'] = $data;
+                $finalData[Config::get('constants.typeCheck.helperCommon.detail.nd')] = $data;
             }
 
             return $finalData;
@@ -486,57 +614,80 @@ class GetManageNavHelper
             if (in_array('all', $params['type'])) {
                 $navList = $nav1 = $nav2 = $nav3 = [];
                 $navType = GetManageNavHelper::getList([
-                    'type' => [Config::get('constants.typeCheck.manageNav.navType.type')],
-                    'otherDataPasses' => [
-                        'filterData' => [
-                            'status' => $params['otherDataPasses']['filterData']['status']
+                    [
+                        'getList' => [
+                            'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                            'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
                         ],
-                        'orderBy' => [
-                            'position' => $params['otherDataPasses']['orderBy']['position']
-                        ]
-                    ],
-                ])['navType']['navType'];
-                foreach ($navType as $keyOne => $tempOne) {
-                    $navMain = GetManageNavHelper::getList([
-                        'type' => [Config::get('constants.typeCheck.manageNav.navMain.type')],
                         'otherDataPasses' => [
                             'filterData' => [
-                                'status' => $params['otherDataPasses']['filterData']['status'],
-                                'navTypeId' => $tempOne['id'],
+                                'status' => $params['otherDataPasses']['filterData']['status']
                             ],
                             'orderBy' => [
                                 'position' => $params['otherDataPasses']['orderBy']['position']
                             ]
                         ],
-                    ])['navMain']['navMain'];
+                    ],
+                ])[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+                foreach ($navType as $keyOne => $tempOne) {
+                    $navMain = GetManageNavHelper::getList([
+                        [
+                            'getList' => [
+                                'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                                'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
+                            ],
+                            'otherDataPasses' => [
+                                'filterData' => [
+                                    'status' => $params['otherDataPasses']['filterData']['status'],
+                                    'navTypeId' => $tempOne['id'],
+                                    'access' => $tempOne['id']
+                                ],
+                                'orderBy' => [
+                                    'position' => $params['otherDataPasses']['orderBy']['position']
+                                ]
+                            ],
+                        ],
+                    ])[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
                     if (sizeof($navMain) > 0) {
                         foreach ($navMain as $keyTwo => $tempTwo) {
                             $navSub = GetManageNavHelper::getList([
-                                'type' => [Config::get('constants.typeCheck.manageNav.navSub.type')],
-                                'otherDataPasses' => [
-                                    'filterData' => [
-                                        'status' => $params['otherDataPasses']['filterData']['status'],
-                                        'navMainId' => $tempTwo['id'],
+                                [
+                                    'getList' => [
+                                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                                        'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
                                     ],
-                                    'orderBy' => [
-                                        'position' => $params['otherDataPasses']['orderBy']['position']
-                                    ]
+                                    'otherDataPasses' => [
+                                        'filterData' => [
+                                            'status' => $params['otherDataPasses']['filterData']['status'],
+                                            'navMainId' => $tempTwo['id'],
+                                            'access' => $tempOne['id']
+                                        ],
+                                        'orderBy' => [
+                                            'position' => $params['otherDataPasses']['orderBy']['position']
+                                        ]
+                                    ],
                                 ],
-                            ])['navSub']['navSub'];
+                            ])[Config::get('constants.typeCheck.manageNav.navSub.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
                             if (sizeof($navSub) > 0) {
                                 foreach ($navSub as $keyThree => $tempThree) {
                                     $navNested = GetManageNavHelper::getList([
-                                        'type' => [Config::get('constants.typeCheck.manageNav.navNested.type')],
-                                        'otherDataPasses' => [
-                                            'filterData' => [
-                                                'status' => $params['otherDataPasses']['filterData']['status'],
-                                                'navSubId' => $tempThree['id'],
+                                        [
+                                            'getList' => [
+                                                'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                                                'for' => Config::get('constants.typeCheck.manageNav.navNested.type'),
                                             ],
-                                            'orderBy' => [
-                                                'position' => $params['otherDataPasses']['orderBy']['position']
-                                            ]
+                                            'otherDataPasses' => [
+                                                'filterData' => [
+                                                    'status' => $params['otherDataPasses']['filterData']['status'],
+                                                    'navSubId' => $tempThree['id'],
+                                                    'access' => $tempOne['id']
+                                                ],
+                                                'orderBy' => [
+                                                    'position' => $params['otherDataPasses']['orderBy']['position']
+                                                ]
+                                            ],
                                         ],
-                                    ])['navNested']['navNested'];
+                                    ])[Config::get('constants.typeCheck.manageNav.navNested.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
                                     if (sizeof($navNested) > 0) {
                                         foreach ($navNested as $keyFour => $tempFour) {
                                             $nav3[] = [
@@ -554,7 +705,7 @@ class GetManageNavHelper
                                         'icon' => $tempThree['icon'],
                                         'route' => $tempThree['route'],
                                         'uniqueId' => $tempThree['uniqueId']['raw'],
-                                        'navNested' => $nav3,
+                                        Config::get('constants.typeCheck.manageNav.navNested.type') => $nav3,
                                     ];
                                     $nav3 = [];
                                 }
@@ -566,7 +717,7 @@ class GetManageNavHelper
                                 'icon' => $tempTwo['icon'],
                                 'route' => $tempTwo['route'],
                                 'uniqueId' => $tempTwo['uniqueId']['raw'],
-                                'navSub' => $nav2,
+                                Config::get('constants.typeCheck.manageNav.navSub.type') => $nav2,
                             ];
                             $nav2 = [];
                         }
@@ -577,7 +728,7 @@ class GetManageNavHelper
                         'name' => $tempOne['name'],
                         'icon' => $tempOne['icon'],
                         'uniqueId' => $tempOne['uniqueId']['raw'],
-                        'navMain' => $nav1
+                        Config::get('constants.typeCheck.manageNav.navMain.type') => $nav1
                     ];
                     $nav1 = [];
                 }

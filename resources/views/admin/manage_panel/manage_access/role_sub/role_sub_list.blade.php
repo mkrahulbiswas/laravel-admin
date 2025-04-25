@@ -64,9 +64,9 @@
                                         <div class="tdFilterForm p-3">
                                             <form id="filterRoleSubForm" method="POST" action="{{ route('admin.get.roleSub') }}" class="m-b-20">
                                                 @csrf
-                                                <div class="row">
+                                                <div class="row gap-2">
 
-                                                    <div class="form-element col-md-2 m-t-5">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
                                                         <div class="form-icon set-validation">
                                                             <select name="status" id="statusFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any status">
@@ -77,11 +77,11 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-element col-md-2 m-t-5">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         <div class="form-icon set-validation">
                                                             <select class="form-control form-control-icon select2-roleMain" name="roleMain" id="roleMainFilter">
                                                                 <option value="">Select One</option>
-                                                                @foreach ($data['roleMain']['roleMain'] as $key)
+                                                                @foreach ($data[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $key)
                                                                     <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
                                                                 @endforeach
                                                             </select>
@@ -89,13 +89,13 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-2 m-t-5">
-                                                        <div class="form-group d-flex flex-row justify-content-around">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
+                                                        <div class="form-group d-flex flex-row justify-content-start">
                                                             <button type="button" class="btn btn-info btn-label waves-effect waves-light filterRoleSubBtn" title="Search">
                                                                 <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
                                                                 <span>Search</span>
                                                             </button>
-                                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterRoleSubBtn" title="Reload">
+                                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterRoleSubBtn ms-2" title="Reload">
                                                                 <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
                                                                 <span>Reset</span>
                                                             </button>
@@ -160,7 +160,7 @@
                                 <div class="form-icon set-validation">
                                     <select class="form-control form-control-icon select2-roleMain-addModal" name="roleMain" id="roleMain">
                                         <option value="">Select One</option>
-                                        @foreach ($data['roleMain']['roleMain'] as $key)
+                                        @foreach ($data[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $key)
                                             <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
                                         @endforeach
                                     </select>
@@ -171,7 +171,7 @@
                             <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="name" class="form-label">Sub Role Name<span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Role Name" required>
+                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Role Name">
                                     <i class="bx bx-message-edit"></i>
                                 </div>
                                 <div class="validation-error" id="nameErr"></div>
@@ -219,8 +219,8 @@
                                 <label for="name" class="form-label">Role Main Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <select class="form-control form-control-icon select2-roleMain-editModal" name="roleMain" id="roleMain">
-                                        @foreach ($data['roleMain']['roleMain'] as $key)
-                                            <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
+                                        @foreach ($data[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $key)
+                                            <option value="{{ $key['id'] }}" data-name="{{ $key['name'] }}">{{ $key['name'] }}</option>
                                         @endforeach
                                     </select>
                                     <i class="bx bx-receipt"></i>
@@ -230,7 +230,7 @@
                             <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="name" class="form-label">Sub Role Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Role Name" required>
+                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Role Name">
                                     <i class="bx bx-message-edit"></i>
                                 </div>
                                 <div class="validation-error" id="nameErr"></div>
@@ -280,8 +280,8 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Nav Type :</label>
-                                    <span class="detail-span d-block mb-0" id="navType"></span>
+                                    <label class="details-label form-label mb-1">Role Main :</label>
+                                    <span class="detail-span d-block mb-0" id="roleMain"></span>
                                 </div>
                             </div>
                         </div>
@@ -294,22 +294,8 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Name :</label>
+                                    <label class="details-label form-label mb-1">Role Sub :</label>
                                     <span class="detail-span d-block mb-0" id="name"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
-                            <div class="d-flex mb-4 each-detail-box">
-                                <div class="flex-shrink-0 avatar-xs align-self-center me-3">
-                                    <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
-                                        <i class="bx bx-library"></i>
-                                    </div>
-                                </div>
-                                <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Icon :</label>
-                                    <span class="detail-span d-block mb-0" id="icon"></span>
                                 </div>
                             </div>
                         </div>

@@ -180,21 +180,21 @@ trait CommonTrait
         try {
             $return = array();
             foreach ($params as $tempOne) {
-                if ($tempOne['type'] == 'tdMultiData') {
+                if ($tempOne['type'] == 'dtMultiData') {
                     $appendHtml = '';
                     foreach ($tempOne['data'] as $tempTwo) {
                         if ($tempTwo['type'] == 'status') {
-                            $appendHtml .= '<div class="tdMultiDataCommon tdMultiDataStatus"><label>Status:</label>' . $tempOne['data']['status']['custom'] . '</div>';
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataStatus"><label>Status:</label>' . $tempOne['data']['status']['custom'] . '</div>';
                         }
 
                         if ($tempTwo['type'] == 'access') {
-                            $appendHtml .= '<div class="tdMultiDataCommon tdMultiDataAccess"><label>Access:</label>' . $tempOne['data']['access']['custom'] . '</div>';
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Access:</label>' . $tempOne['data']['access']['custom'] . '</div>';
                         }
                     }
 
-                    $html = '<div class="tdMultiData"><div class="tdMultiDataContent">' . $appendHtml . '</div></div>';
+                    $html = '<div class="dtMultiData"><div class="dtMultiDataContent">' . $appendHtml . '</div></div>';
 
-                    $return['tdMultiData'] = [
+                    $return['dtMultiData'] = [
                         'custom' => $html,
                         'raw' => $tempOne['data']
                     ];
@@ -220,7 +220,6 @@ trait CommonTrait
                             $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonAccess">' . $tempTwo . '</div>';
                         }
                     }
-
 
                     foreach ($tempOne['data']['secondary'] as $tempTwo) {
                         $secondaryAction .= '<div class="tdActionInnerCommon">' . $tempTwo . '</div>';
@@ -313,21 +312,48 @@ trait CommonTrait
     public function getNavAccessList($params = null)
     {
         try {
-            $access = array();
+            $access = $privilege = array();
             if ($params == null) {
                 foreach (Config::get('constants.rolePermission.accessType') as $temp) {
                     $access = Arr::prepend($access, false, $temp);
+                    $privilege = Arr::prepend(
+                        $privilege,
+                        [
+                            'access' => false,
+                            'privilege' => false
+                        ],
+                        $temp
+                    );
                 }
             } else {
                 foreach (Config::get('constants.rolePermission.accessType') as $temp) {
                     if (Arr::only($params, [$temp])) {
                         $access = Arr::prepend($access, true, $temp);
+                        $privilege = Arr::prepend(
+                            $privilege,
+                            [
+                                'access' => true,
+                                'privilege' => false
+                            ],
+                            $temp
+                        );
                     } else {
                         $access = Arr::prepend($access, false, $temp);
+                        $privilege = Arr::prepend(
+                            $privilege,
+                            [
+                                'access' => false,
+                                'privilege' => false
+                            ],
+                            $temp
+                        );
                     }
                 }
             }
-            return $access;
+            return [
+                'access' => $access,
+                'privilege' => $privilege,
+            ];
         } catch (Exception $e) {
             return false;
         }

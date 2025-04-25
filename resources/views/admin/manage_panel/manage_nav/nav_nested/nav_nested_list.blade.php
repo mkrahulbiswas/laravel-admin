@@ -66,14 +66,14 @@
                                         <div class="tdFilterForm p-3">
                                             <form id="filterNavNestedForm" method="POST" action="{{ route('admin.get.navNested') }}" class="m-b-20">
                                                 @csrf
-                                                <div class="row">
+                                                <div class="row gap-2">
 
-                                                    <div class="form-element col-md-2 m-t-5">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
                                                         <div class="form-icon set-validation">
                                                             <select name="navType" id="navTypeFilter" class="selectTwo select2-navType navTypeDDD" data-action="{{ route('admin.get.navMainDDD') }}">
                                                                 <option value="">Select Nav Type</option>
-                                                                @foreach ($data['navType']['navType'] as $item)
+                                                                @foreach ($data[Config::get('constants.typeCheck.manageNav.navType.type')] as $item)
                                                                     <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                                                                 @endforeach
                                                             </select>
@@ -81,7 +81,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-element col-md-2 m-t-5">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
                                                         <div class="form-icon set-validation">
                                                             <select name="navMain" id="navMainFilter" class="selectTwo select2-navMain navMainDDD" data-action="{{ route('admin.get.navSubDDD') }}"></select>
@@ -89,7 +89,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-element col-md-2 m-t-5">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
                                                         <div class="form-icon set-validation">
                                                             <select name="navSub" id="navSubFilter" class="selectTwo select2-navSub navSubDDD"></select>
@@ -97,7 +97,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-element col-md-2 m-t-5">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
                                                         <div class="form-icon set-validation">
                                                             <select name="status" id="statusFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any status">
@@ -108,13 +108,13 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-2 m-t-5">
-                                                        <div class="form-group d-flex flex-row justify-content-around">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
+                                                        <div class="form-group d-flex flex-row justify-content-start">
                                                             <button type="button" class="btn btn-info btn-label waves-effect waves-light filterNavNestedBtn" title="Search">
                                                                 <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
                                                                 <span>Search</span>
                                                             </button>
-                                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterNavNestedBtn" title="Reload">
+                                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterNavNestedBtn ms-2" title="Reload">
                                                                 <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
                                                                 <span>Reset</span>
                                                             </button>
@@ -183,7 +183,7 @@
                                 <div class="form-icon set-validation">
                                     <select name="navType" id="navType" class="selectTwo select2-navType-addModal navTypeDDD" data-action="{{ route('admin.get.navMainDDD') }}">
                                         <option value="">Select Nav Type</option>
-                                        @foreach ($data['navType']['navType'] as $item)
+                                        @foreach ($data[Config::get('constants.typeCheck.manageNav.navType.type')] as $item)
                                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                                         @endforeach
                                     </select>
@@ -210,7 +210,7 @@
                             <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Nav type" required>
+                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Nav type">
                                     <i class="bx bx-message-edit"></i>
                                 </div>
                                 <div class="validation-error" id="nameErr"></div>
@@ -267,7 +267,7 @@
                                 <div class="form-icon set-validation">
                                     <select name="navType" id="navType2" class="selectTwo select2-navType-editModal navTypeDDD" data-action="{{ route('admin.get.navMainDDD') }}">
                                         <option value="">Select Nav Type</option>
-                                        @foreach ($data['navType']['navType'] as $item)
+                                        @foreach ($data[Config::get('constants.typeCheck.manageNav.navType.type')] as $item)
                                             <option value="{{ $item['id'] }}" data-name="{{ $item['name'] }}">
                                                 {{ $item['name'] }}</option>
                                         @endforeach
@@ -295,7 +295,7 @@
                             <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Nav type" required>
+                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Nav type">
                                     <i class="bx bx-message-edit"></i>
                                 </div>
                                 <div class="validation-error" id="nameErr"></div>
