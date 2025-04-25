@@ -500,7 +500,6 @@ class ManageNavAdminController extends Controller
                             'id' => $id
                         ]
                     ]);
-                    dd($setPrivilege);
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
                 } else {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));

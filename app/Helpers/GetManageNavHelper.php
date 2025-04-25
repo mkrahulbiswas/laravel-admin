@@ -75,11 +75,11 @@ class GetManageNavHelper
 
                         foreach (NavType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $navType[] = GetManageNavHelper::getNavTypeDetail([
-                                'type' => ['basic'],
+                                'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                                 'otherDataPasses' => [
                                     'id' => $tempTwo->id
                                 ]
-                            ])['basic']['navTypeDetail'];
+                            ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navTypeDetail'];
                         }
 
                         $data[Config::get('constants.typeCheck.helperCommon.get.byf')] = [
@@ -160,17 +160,17 @@ class GetManageNavHelper
                         foreach (NavMain::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $navMain[] = [
                                 ...GetManageNavHelper::getNavMainDetail([
-                                    'type' => ['basic'],
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                                     'otherDataPasses' => [
                                         'id' => $tempTwo->id
                                     ]
-                                ])['basic']['navMainDetail'],
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navMainDetail'],
                                 Config::get('constants.typeCheck.manageNav.navType.type') => GetManageNavHelper::getNavTypeDetail([
-                                    'type' => ['basic'],
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                                     'otherDataPasses' => [
                                         'id' => $tempTwo->navTypeId
                                     ]
-                                ])['basic']['navTypeDetail'],
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navTypeDetail'],
                             ];
                         }
 
@@ -258,23 +258,23 @@ class GetManageNavHelper
                         foreach (NavSub::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $navSub[] = [
                                 ...GetManageNavHelper::getNavSubDetail([
-                                    'type' => ['basic'],
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                                     'otherDataPasses' => [
                                         'id' => $tempTwo->id
                                     ]
-                                ])['basic']['navSubDetail'],
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navSubDetail'],
                                 Config::get('constants.typeCheck.manageNav.navMain.type') => GetManageNavHelper::getNavMainDetail([
-                                    'type' => ['basic'],
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                                     'otherDataPasses' => [
                                         'id' => $tempTwo->navMainId
                                     ]
-                                ])['basic']['navMainDetail'],
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navMainDetail'],
                                 Config::get('constants.typeCheck.manageNav.navType.type') => GetManageNavHelper::getNavTypeDetail([
-                                    'type' => ['basic'],
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                                     'otherDataPasses' => [
                                         'id' => $tempTwo->navTypeId
                                     ]
-                                ])['basic']['navTypeDetail'],
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navTypeDetail'],
                             ];
                         }
 
@@ -368,29 +368,29 @@ class GetManageNavHelper
                         foreach (NavNested::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $navNested[] = [
                                 ...GetManageNavHelper::getNavNestedDetail([
-                                    'type' => ['basic'],
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                                     'otherDataPasses' => [
                                         'id' => $tempTwo->id
                                     ]
-                                ])['basic']['navNestedDetail'],
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navNestedDetail'],
                                 Config::get('constants.typeCheck.manageNav.navSub.type') => GetManageNavHelper::getNavSubDetail([
-                                    'type' => ['basic'],
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                                     'otherDataPasses' => [
                                         'id' => $tempTwo->navSubId
                                     ]
-                                ])['basic']['navSubDetail'],
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navSubDetail'],
                                 Config::get('constants.typeCheck.manageNav.navMain.type') => GetManageNavHelper::getNavMainDetail([
-                                    'type' => ['basic'],
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                                     'otherDataPasses' => [
                                         'id' => $tempTwo->navMainId
                                     ]
-                                ])['basic']['navMainDetail'],
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navMainDetail'],
                                 Config::get('constants.typeCheck.manageNav.navType.type') => GetManageNavHelper::getNavTypeDetail([
-                                    'type' => ['basic'],
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                                     'otherDataPasses' => [
                                         'id' => $tempTwo->navTypeId
                                     ]
-                                ])['basic']['navTypeDetail'],
+                                ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navTypeDetail'],
                             ];
                         }
 
@@ -421,7 +421,7 @@ class GetManageNavHelper
         try {
             $finalData = array();
 
-            if (in_array('basic', $params['type'])) {
+            if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $params['type'])) {
                 $navType = NavType::where('id', $params['otherDataPasses']['id'])->first();
                 $data = [
                     'navTypeDetail' => [
@@ -442,7 +442,7 @@ class GetManageNavHelper
                     ]
                 ];
 
-                $finalData['basic'] = $data;
+                $finalData[Config::get('constants.typeCheck.helperCommon.detail.nd')] = $data;
             }
 
             return $finalData;
@@ -456,7 +456,7 @@ class GetManageNavHelper
         try {
             $finalData = array();
 
-            if (in_array('basic', $params['type'])) {
+            if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $params['type'])) {
                 $navMain = NavMain::where('id', $params['otherDataPasses']['id'])->first();
                 $data = [
                     'navMainDetail' => [
@@ -482,7 +482,7 @@ class GetManageNavHelper
                     ]
                 ];
 
-                $finalData['basic'] = $data;
+                $finalData[Config::get('constants.typeCheck.helperCommon.detail.nd')] = $data;
             }
 
             if (in_array(Config::get('constants.typeCheck.helperCommon.detail.yd'), $params['type'])) {
@@ -509,11 +509,11 @@ class GetManageNavHelper
                             ]
                         ]),
                         Config::get('constants.typeCheck.manageNav.navType.type') => GetManageNavHelper::getNavTypeDetail([
-                            'type' => ['basic'],
+                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                             'otherDataPasses' => [
                                 'id' => $navMain->navTypeId
                             ]
-                        ])['basic']['navTypeDetail']
+                        ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['navTypeDetail']
                     ]
                 ];
 
@@ -531,7 +531,7 @@ class GetManageNavHelper
         try {
             $finalData = array();
 
-            if (in_array('basic', $params['type'])) {
+            if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $params['type'])) {
                 $navSub = NavSub::where('id', $params['otherDataPasses']['id'])->first();
                 $data = [
                     'navSubDetail' => [
@@ -557,7 +557,7 @@ class GetManageNavHelper
                     ]
                 ];
 
-                $finalData['basic'] = $data;
+                $finalData[Config::get('constants.typeCheck.helperCommon.detail.nd')] = $data;
             }
 
             return $finalData;
@@ -571,7 +571,7 @@ class GetManageNavHelper
         try {
             $finalData = array();
 
-            if (in_array('basic', $params['type'])) {
+            if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $params['type'])) {
                 $navNested = NavNested::where('id', $params['otherDataPasses']['id'])->first();
                 $data = [
                     'navNestedDetail' => [
@@ -597,7 +597,7 @@ class GetManageNavHelper
                     ]
                 ];
 
-                $finalData['basic'] = $data;
+                $finalData[Config::get('constants.typeCheck.helperCommon.detail.nd')] = $data;
             }
 
             return $finalData;

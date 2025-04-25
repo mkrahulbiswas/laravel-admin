@@ -67,6 +67,7 @@ return [
             ],
             'detail' => [
                 'yd' => 'yesDepended',
+                'nd' => 'noDepended',
             ],
         ]
     ],

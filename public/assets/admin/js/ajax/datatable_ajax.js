@@ -1,6 +1,7 @@
 (function ($) {
 
     $(function () {
+
         // Responsive Datatable
         $('#responsive-datatable-one, #stockManagement-mainStock-listing, #responsive-datatable').DataTable();
         $('.responsive-datatable-custom').DataTable({
