@@ -280,32 +280,53 @@ class ManageNavAdminController extends Controller
     /*---- ( Nav Main ) ----*/
     public function showNavMain()
     {
-        try {
-            $navType = GetManageNavHelper::getList([
-                [
-                    'getList' => [
-                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
-                    ],
-                    'otherDataPasses' => [
-                        'filterData' => [
-                            'status' => Config::get('constants.status')['active']
-                        ],
-                        'orderBy' => [
-                            'id' => 'desc'
-                        ]
-                    ],
+        // try {
+        dd(GetManageAccessHelper::getDetail([
+            [
+                'getDetail' => [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                    'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
                 ],
-            ]);
+                'otherDataPasses' => [
+                    'id' => encrypt(4)
+                ]
+            ],
+            [
+                'getDetail' => [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd'), Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                    'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                ],
+                'otherDataPasses' => [
+                    'id' => encrypt(3)
+                ]
+            ]
+        ]));
 
-            $data = [
-                Config::get('constants.typeCheck.manageNav.navType.type') => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
-            ];
+        $navType = GetManageNavHelper::getList([
+            [
+                'getList' => [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                    'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
+                ],
+                'otherDataPasses' => [
+                    'filterData' => [
+                        'status' => Config::get('constants.status')['active']
+                    ],
+                    'orderBy' => [
+                        'id' => 'desc'
+                    ]
+                ],
+            ],
+        ]);
 
-            return view('admin.manage_panel.manage_nav.nav_main.nav_main_list', ['data' => $data]);
-        } catch (Exception $e) {
-            abort(500);
-        }
+        $data = [
+            Config::get('constants.typeCheck.manageNav.navType.type') => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
+        ];
+
+        return view('admin.manage_panel.manage_nav.nav_main.nav_main_list', ['data' => $data]);
+        // } catch (Exception $e) {
+        //     abort(500);
+        // }
     }
 
     public function getNavMain(Request $request)
