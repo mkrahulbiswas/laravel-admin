@@ -27,7 +27,7 @@ class GetManageAccessHelper
                 if (Config::get('constants.typeCheck.manageAccess.roleMain.type') == $tempOne['getList']['for']) {
                     $data = array();
 
-                    if (in_array('basicWithFilter', $tempOne['getList']['type'])) {
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.byf'), $tempOne['getList']['type'])) {
                         $roleMain = array();
                         $whereRaw = "`created_at` is not null";
                         $orderByRaw = "`id` DESC";

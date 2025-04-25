@@ -44,7 +44,7 @@ class GetManageNavHelper
                         ];
                     }
 
-                    if (in_array('basicWithFilter', $tempOne['getList']['type'])) {
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.byf'), $tempOne['getList']['type'])) {
                         $navType = array();
                         $whereRaw = "`created_at` is not null";
                         $orderByRaw = "`id` DESC";
@@ -116,7 +116,7 @@ class GetManageNavHelper
                         ];
                     }
 
-                    if (in_array('basicWithFilter', $tempOne['getList']['type'])) {
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.byf'), $tempOne['getList']['type'])) {
                         $navMain = array();
                         $whereRaw = "`created_at` is not null";
                         $orderByRaw = "`id` DESC";
@@ -208,7 +208,7 @@ class GetManageNavHelper
                         ];
                     }
 
-                    if (in_array('basicWithFilter', $tempOne['getList']['type'])) {
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.byf'), $tempOne['getList']['type'])) {
                         $navSub = array();
                         $whereRaw = "`created_at` is not null";
                         $orderByRaw = "`id` DESC";
@@ -312,7 +312,7 @@ class GetManageNavHelper
                         ];
                     }
 
-                    if (in_array('basicWithFilter', $tempOne['getList']['type'])) {
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.byf'), $tempOne['getList']['type'])) {
                         $navNested = array();
                         $whereRaw = "`created_at` is not null";
                         $orderByRaw = "`id` DESC";
@@ -616,7 +616,7 @@ class GetManageNavHelper
                 $navType = GetManageNavHelper::getList([
                     [
                         'getList' => [
-                            'type' => ['basicWithFilter'],
+                            'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
                             'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
                         ],
                         'otherDataPasses' => [

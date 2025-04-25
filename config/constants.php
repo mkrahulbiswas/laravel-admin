@@ -62,7 +62,8 @@ return [
         'helperCommon' => [
             'get' => [
                 'bnf' => 'basicNoFilter',
-                'byf' => 'basicYesFilter',
+                'byf' => 'basicWithFilter',
+                // 'byf' => 'basicYesFilter',
                 'dyf' => 'dependedYesFilter',
             ],
             'detail' => [

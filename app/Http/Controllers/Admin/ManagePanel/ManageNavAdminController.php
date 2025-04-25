@@ -50,7 +50,7 @@ class ManageNavAdminController extends Controller
             $navType = GetManageNavHelper::getList([
                 [
                     'getList' => [
-                        'type' => ['basicWithFilter'],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
                         'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
                     ],
                     'otherDataPasses' => [
@@ -284,7 +284,7 @@ class ManageNavAdminController extends Controller
             $navType = GetManageNavHelper::getList([
                 [
                     'getList' => [
-                        'type' => ['basicWithFilter'],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
                         'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
                     ],
                     'otherDataPasses' => [
@@ -314,7 +314,7 @@ class ManageNavAdminController extends Controller
             $navMain = GetManageNavHelper::getList([
                 [
                     'getList' => [
-                        'type' => ['basicWithFilter'],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
                         'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
                     ],
                     'otherDataPasses' => [
@@ -594,7 +594,7 @@ class ManageNavAdminController extends Controller
             $navType = GetManageNavHelper::getList([
                 [
                     'getList' => [
-                        'type' => ['basicWithFilter'],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
                         'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
                     ],
                     'otherDataPasses' => [
@@ -624,7 +624,7 @@ class ManageNavAdminController extends Controller
             $navSub = GetManageNavHelper::getList([
                 [
                     'getList' => [
-                        'type' => ['basicWithFilter'],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
                         'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
                     ],
                     'otherDataPasses' => [
@@ -891,7 +891,7 @@ class ManageNavAdminController extends Controller
             $navType = GetManageNavHelper::getList([
                 [
                     'getList' => [
-                        'type' => ['basicWithFilter'],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
                         'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
                     ],
                     'otherDataPasses' => [
@@ -921,7 +921,7 @@ class ManageNavAdminController extends Controller
             $navNested = GetManageNavHelper::getList([
                 [
                     'getList' => [
-                        'type' => ['basicWithFilter'],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
                         'for' => Config::get('constants.typeCheck.manageNav.navNested.type'),
                     ],
                     'otherDataPasses' => [

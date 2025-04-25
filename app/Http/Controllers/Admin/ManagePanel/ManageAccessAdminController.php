@@ -42,7 +42,7 @@ class ManageAccessAdminController extends Controller
             $roleMain = GetManageAccessHelper::getList([
                 [
                     'getList' => [
-                        'type' => ['basicWithFilter'],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
                         'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
                     ],
                     'otherDataPasses' => [
@@ -253,7 +253,7 @@ class ManageAccessAdminController extends Controller
             $roleMain = GetManageAccessHelper::getList([
                 [
                     'getList' => [
-                        'type' => ['basicWithFilter'],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
                         'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
                     ],
                     'otherDataPasses' => [
