@@ -2268,6 +2268,7 @@
                 id = $('#con-detail-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
+                id.find('#roleMain').text(data.roleMain.name);
                 id.find('#name').text(data.name);
                 id.find('#description').text(data.description);
             }

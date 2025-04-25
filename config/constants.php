@@ -59,6 +59,16 @@ return [
                 'type' => 'roleSub'
             ],
         ],
+        'helperCommon' => [
+            'get' => [
+                'bnf' => 'basicNoFilter',
+                'byf' => 'basicYesFilter',
+                'dyf' => 'dependedYesFilter',
+            ],
+            'detail' => [
+                'yd' => 'yesDepended',
+            ],
+        ]
     ],
 
     'rolePermission' => [

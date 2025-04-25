@@ -66,7 +66,7 @@
                                         <div class="tdFilterForm p-3">
                                             <form id="filterNavTypeForm" method="POST" action="{{ route('admin.get.navType') }}" class="m-b-20">
                                                 @csrf
-                                                <div class="row">
+                                                <div class="row gap-2">
 
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
@@ -81,12 +81,12 @@
                                                     </div>
 
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
-                                                        <div class="form-group d-flex flex-row justify-content-around">
+                                                        <div class="form-group d-flex flex-row justify-content-start">
                                                             <button type="button" class="btn btn-info btn-label waves-effect waves-light filterNavTypeBtn" title="Search">
                                                                 <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
                                                                 <span>Search</span>
                                                             </button>
-                                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterNavTypeBtn" title="Reload">
+                                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterNavTypeBtn ms-2" title="Reload">
                                                                 <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
                                                                 <span>Reset</span>
                                                             </button>

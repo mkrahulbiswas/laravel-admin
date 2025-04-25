@@ -485,32 +485,32 @@ class ManageNavAdminController extends Controller
             return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Nav Main", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
         }
 
-        // try {
-        if (isset($values['access'])) {
-            $getNavAccessList = $this->getNavAccessList($values['access']);
-            $navMain = NavMain::find($id);
-            $navMain->access = $getNavAccessList['access'];
-            if ($navMain->update()) {
-                $setPrivilege = GetManageAccessHelper::setPrivilege([
-                    'type' => [
-                        Config::get('constants.typeCheck.manageNav.navMain.type')
-                    ],
-                    'otherDataPasses' => [
-                        'getNavAccessList' => $getNavAccessList,
-                        'id' => $id
-                    ]
-                ]);
-                dd($setPrivilege);
-                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
+        try {
+            if (isset($values['access'])) {
+                $getNavAccessList = $this->getNavAccessList($values['access']);
+                $navMain = NavMain::find($id);
+                $navMain->access = $getNavAccessList['access'];
+                if ($navMain->update()) {
+                    $setPrivilege = GetManageAccessHelper::setPrivilege([
+                        'type' => [
+                            Config::get('constants.typeCheck.manageNav.navMain.type')
+                        ],
+                        'otherDataPasses' => [
+                            'getNavAccessList' => $getNavAccessList,
+                            'id' => $id
+                        ]
+                    ]);
+                    dd($setPrivilege);
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
+                } else {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
+                }
             } else {
-                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Validation", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['validation']], config('constants.ok'));
             }
-        } else {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Validation", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['validation']], config('constants.ok'));
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Main", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
-        // } catch (Exception $e) {
-        //     return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Main", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
-        // }
     }
 
     public function statusNavMain($id)

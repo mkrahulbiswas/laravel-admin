@@ -71,13 +71,14 @@ class GetManageAccessHelper
                             $data['basicWithFilter']['orderBy'] = $tempOne['otherDataPasses']['orderBy'];
                         }
                     }
+
                     $finalData['roleMain'] = $data;
                 }
 
                 if (Config::get('constants.typeCheck.manageAccess.roleSub.type') == $tempOne['getList']['for']) {
                     $data = array();
 
-                    if (in_array('basicWithFilter', $tempOne['getList']['type'])) {
+                    if (in_array('dependedWithFilter', $tempOne['getList']['type'])) {
                         $roleSub = array();
                         $whereRaw = "`created_at` is not null";
                         $orderByRaw = "`id` DESC";
@@ -108,7 +109,7 @@ class GetManageAccessHelper
 
                         foreach (RoleSub::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $roleSub[] = GetManageAccessHelper::getRoleSubDetail([
-                                'type' => ['withDepended'],
+                                'type' => ['detailWithDepended'],
                                 'otherDataPasses' => [
                                     'id' => $tempTwo->id
                                 ]
@@ -196,7 +197,7 @@ class GetManageAccessHelper
                 $finalData['basic'] = $data;
             }
 
-            if (in_array('withDepended', $params['type'])) {
+            if (in_array('detailWithDepended', $params['type'])) {
                 $roleSub = RoleSub::where('id', $params['otherDataPasses']['id'])->first();
                 $data = [
                     'roleSubDetail' => [
@@ -236,11 +237,11 @@ class GetManageAccessHelper
 
             if (in_array(Config::get('constants.typeCheck.manageNav.navMain.type'), $params['type'])) {
                 $getNavMainDetail = GetManageNavHelper::getNavMainDetail([
-                    'type' => ['withDepended'],
+                    'type' => ['detailWithDepended'],
                     'otherDataPasses' => [
                         'id' => $params['otherDataPasses']['id']
                     ]
-                ])['withDepended']['navMainDetail'];
+                ])['detailWithDepended']['navMainDetail'];
                 $roleMain = GetManageAccessHelper::getList([
                     'type' => ['roleMain'],
                     'otherDataPasses' => [

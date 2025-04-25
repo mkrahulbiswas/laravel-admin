@@ -485,7 +485,7 @@ class GetManageNavHelper
                 $finalData['basic'] = $data;
             }
 
-            if (in_array('withDepended', $params['type'])) {
+            if (in_array('detailWithDepended', $params['type'])) {
                 $navMain = NavMain::where('id', $params['otherDataPasses']['id'])->first();
                 $data = [
                     'navMainDetail' => [
@@ -517,7 +517,7 @@ class GetManageNavHelper
                     ]
                 ];
 
-                $finalData['withDepended'] = $data;
+                $finalData['detailWithDepended'] = $data;
             }
 
             return $finalData;

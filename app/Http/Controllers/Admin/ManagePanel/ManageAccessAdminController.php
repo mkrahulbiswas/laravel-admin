@@ -280,7 +280,7 @@ class ManageAccessAdminController extends Controller
             $roleSub = GetManageAccessHelper::getList([
                 [
                     'getList' => [
-                        'type' => ['basicWithFilter'],
+                        'type' => ['dependedWithFilter'],
                         'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
                     ],
                     'otherDataPasses' => [
