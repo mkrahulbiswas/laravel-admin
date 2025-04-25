@@ -28,7 +28,7 @@ class DDDAdminController extends Controller
         $navMain = GetManageNavHelper::getList([
             [
                 'getList' => [
-                    'type' => ['basicWithFilter'],
+                    'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
                     'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
                 ],
                 'otherDataPasses' => [
@@ -44,7 +44,7 @@ class DDDAdminController extends Controller
         ]);
 
         $data = [
-            'navMain' => $navMain['navMain']['basicWithFilter']['list']
+            Config::get('constants.typeCheck.manageNav.navMain.type') => $navMain[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
         ];
 
         if ($data) {
@@ -64,7 +64,7 @@ class DDDAdminController extends Controller
             $navSub = GetManageNavHelper::getList([
                 [
                     'getList' => [
-                        'type' => ['basicWithFilter'],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
                         'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
                     ],
                     'otherDataPasses' => [
@@ -80,7 +80,7 @@ class DDDAdminController extends Controller
             ]);
 
             $data = [
-                'navSub' => $navSub['navSub']['basicWithFilter']['list']
+                Config::get('constants.typeCheck.manageNav.navSub.type') => $navSub[Config::get('constants.typeCheck.manageNav.navSub.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
             ];
 
             if ($data) {

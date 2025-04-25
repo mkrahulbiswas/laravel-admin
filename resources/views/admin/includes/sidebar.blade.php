@@ -51,23 +51,23 @@
                         <i class="{{ $itemOne['icon'] }}"></i>
                         <span data-key="{{ $itemOne['uniqueId'] }}">{{ $itemOne['name'] }}</span>
                     </li>
-                    @if (sizeof($itemOne['navMain']) > 0)
-                        @foreach ($itemOne['navMain'] as $itemTwo)
+                    @if (sizeof($itemOne[Config::get('constants.typeCheck.manageNav.navMain.type')]) > 0)
+                        @foreach ($itemOne[Config::get('constants.typeCheck.manageNav.navMain.type')] as $itemTwo)
                             <li class="nav-item">
-                                @if (sizeof($itemTwo['navSub']) > 0)
+                                @if (sizeof($itemTwo[Config::get('constants.typeCheck.manageNav.navSub.type')]) > 0)
                                     <a class="nav-link menu-link" href="#{{ $itemTwo['uniqueId'] }}" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="{{ $itemTwo['uniqueId'] }}">
                                         <i class="{{ $itemTwo['icon'] }}"></i>
                                         <span data-key="{{ $itemTwo['uniqueId'] }}">{{ $itemTwo['name'] }}</span>
                                     </a>
                                     <div class="collapse menu-dropdown" id="{{ $itemTwo['uniqueId'] }}">
                                         <ul class="nav nav-sm flex-column">
-                                            @foreach ($itemTwo['navSub'] as $itemThree)
-                                                @if (sizeof($itemThree['navNested']) > 0)
+                                            @foreach ($itemTwo[Config::get('constants.typeCheck.manageNav.navSub.type')] as $itemThree)
+                                                @if (sizeof($itemThree[Config::get('constants.typeCheck.manageNav.navNested.type')]) > 0)
                                                     <li class="nav-item">
                                                         <a href="#{{ $itemThree['uniqueId'] }}" class="nav-link" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="{{ $itemThree['uniqueId'] }}" data-key="{{ $itemThree['uniqueId'] }}">{{ $itemThree['name'] }}</a>
                                                         <div class="collapse menu-dropdown" id="{{ $itemThree['uniqueId'] }}">
                                                             <ul class="nav nav-sm flex-column">
-                                                                @foreach ($itemThree['navNested'] as $itemFour)
+                                                                @foreach ($itemThree[Config::get('constants.typeCheck.manageNav.navNested.type')] as $itemFour)
                                                                     <li class="nav-item">
                                                                         <a href="{{ url('admin/' . $itemFour['route']) }}" class="nav-link" data-key="{{ $itemFour['uniqueId'] }}">{{ $itemFour['name'] }}</a>
                                                                     </li>

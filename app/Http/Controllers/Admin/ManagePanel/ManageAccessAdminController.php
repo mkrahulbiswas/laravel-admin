@@ -56,7 +56,7 @@ class ManageAccessAdminController extends Controller
                 ],
             ]);
 
-            return Datatables::of($roleMain['roleMain']['basicWithFilter']['list'])
+            return Datatables::of($roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'])
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -265,7 +265,7 @@ class ManageAccessAdminController extends Controller
             ]);
 
             $data = [
-                'roleMain' => $roleMain['roleMain'],
+                Config::get('constants.typeCheck.manageAccess.roleMain.type') => $roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')],
             ];
 
             return view('admin.manage_panel.manage_access.role_sub.role_sub_list', ['data' => $data]);
@@ -280,7 +280,7 @@ class ManageAccessAdminController extends Controller
             $roleSub = GetManageAccessHelper::getList([
                 [
                     'getList' => [
-                        'type' => ['dependedWithFilter'],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
                         'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
                     ],
                     'otherDataPasses' => [
@@ -295,7 +295,7 @@ class ManageAccessAdminController extends Controller
                 ],
             ]);
 
-            return Datatables::of($roleSub['roleSub']['basicWithFilter']['list'])
+            return Datatables::of($roleSub[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'])
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -309,8 +309,8 @@ class ManageAccessAdminController extends Controller
                     $status = $data['customizeInText']['status']['custom'];
                     return $status;
                 })
-                ->addColumn('roleMain', function ($data) {
-                    $roleMain = $data['roleMain']['name'];
+                ->addColumn(Config::get('constants.typeCheck.manageAccess.roleMain.type'), function ($data) {
+                    $roleMain = $data[Config::get('constants.typeCheck.manageAccess.roleMain.type')]['name'];
                     return $roleMain;
                 })
                 ->addColumn('action', function ($data) {
@@ -361,7 +361,7 @@ class ManageAccessAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['description', 'roleMain', 'uniqueId', 'status', 'action'])
+                ->rawColumns(['description', Config::get('constants.typeCheck.manageAccess.roleMain.type'), 'uniqueId', 'status', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -371,7 +371,7 @@ class ManageAccessAdminController extends Controller
     public function saveRoleSub(Request $request)
     {
         try {
-            $values = $request->only('name', 'roleMain', 'description');
+            $values = $request->only('name', Config::get('constants.typeCheck.manageAccess.roleMain.type'), 'description');
             //--Checking The Validation--//
 
             $validator = $this->isValid([
@@ -386,7 +386,7 @@ class ManageAccessAdminController extends Controller
 
                 $roleSub = new RoleSub();
                 $roleSub->name = $values['name'];
-                $roleSub->roleMainId = decrypt($values['roleMain']);
+                $roleSub->roleMainId = decrypt($values[Config::get('constants.typeCheck.manageAccess.roleMain.type')]);
                 $roleSub->description = $values['description'];
                 $roleSub->uniqueId = $this->generateCode(['preString' => 'RS', 'length' => 6, 'model' => RoleSub::class, 'field' => '']);
                 $roleSub->status = Config::get('constants.status')['active'];
@@ -404,7 +404,7 @@ class ManageAccessAdminController extends Controller
 
     public function updateRoleSub(Request $request)
     {
-        $values = $request->only('id', 'name', 'roleMain', 'description');
+        $values = $request->only('id', 'name', Config::get('constants.typeCheck.manageAccess.roleMain.type'), 'description');
 
         try {
             $id = decrypt($values['id']);
@@ -425,7 +425,7 @@ class ManageAccessAdminController extends Controller
                 $roleSub = RoleSub::find($id);
 
                 $roleSub->name = $values['name'];
-                $roleSub->roleMainId = decrypt($values['roleMain']);
+                $roleSub->roleMainId = decrypt($values[Config::get('constants.typeCheck.manageAccess.roleMain.type')]);
                 $roleSub->description = $values['description'];
 
                 if ($roleSub->update()) {

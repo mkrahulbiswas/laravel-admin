@@ -109,9 +109,9 @@ trait ValidationTrait
                     'name' => ['required', 'max:20', new UniqueManageAccess([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
-                        'roleMainId' => $data['input']['roleMain']
+                        'roleMainId' => $data['input'][Config::get('constants.typeCheck.manageAccess.roleMain.type')]
                     ])],
-                    'roleMain' => 'required',
+                    Config::get('constants.typeCheck.manageAccess.roleMain.type') => 'required',
                     'description' => 'required',
                 ];
                 break;
@@ -121,9 +121,9 @@ trait ValidationTrait
                     'name' => ['required', 'max:20', new UniqueManageAccess([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
-                        'roleMainId' => $data['input']['roleMain']
+                        'roleMainId' => $data['input'][Config::get('constants.typeCheck.manageAccess.roleMain.type')]
                     ])],
-                    'roleMain' => 'required',
+                    Config::get('constants.typeCheck.manageAccess.roleMain.type') => 'required',
                     'description' => 'required',
                 ];
                 break;
@@ -154,12 +154,12 @@ trait ValidationTrait
             //-------Nav Main
             case 'saveNavMain':
                 $rules = [
-                    'navType' => 'required',
+                    Config::get('constants.typeCheck.manageNav.navType.type') => 'required',
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
-                        'navTypeId' => $data['input']['navType']
+                        'navTypeId' => $data['input'][Config::get('constants.typeCheck.manageNav.navType.type')]
                     ])],
                     'description' => 'max:500',
                 ];
@@ -167,12 +167,12 @@ trait ValidationTrait
 
             case 'updateNavMain':
                 $rules = [
-                    'navType' => 'required',
+                    Config::get('constants.typeCheck.manageNav.navType.type') => 'required',
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
-                        'navTypeId' => $data['input']['navType']
+                        'navTypeId' => $data['input'][Config::get('constants.typeCheck.manageNav.navType.type')]
                     ])],
                     'description' => 'max:500',
                 ];
@@ -181,14 +181,14 @@ trait ValidationTrait
             //-------Nav Sub
             case 'saveNavSub':
                 $rules = [
-                    'navType' => 'required',
-                    'navMain' => 'required',
+                    Config::get('constants.typeCheck.manageNav.navType.type') => 'required',
+                    Config::get('constants.typeCheck.manageNav.navMain.type') => 'required',
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageNav.navSub.type'),
-                        'navTypeId' => $data['input']['navType'],
-                        'navMainId' => $data['input']['navMain']
+                        'navTypeId' => $data['input'][Config::get('constants.typeCheck.manageNav.navType.type')],
+                        'navMainId' => $data['input'][Config::get('constants.typeCheck.manageNav.navMain.type')]
                     ])],
                     'description' => 'max:500',
                 ];
@@ -196,14 +196,14 @@ trait ValidationTrait
 
             case 'updateNavSub':
                 $rules = [
-                    'navType' => 'required',
-                    'navMain' => 'required',
+                    Config::get('constants.typeCheck.manageNav.navType.type') => 'required',
+                    Config::get('constants.typeCheck.manageNav.navMain.type') => 'required',
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageNav.navSub.type'),
-                        'navTypeId' => $data['input']['navType'],
-                        'navMainId' => $data['input']['navMain']
+                        'navTypeId' => $data['input'][Config::get('constants.typeCheck.manageNav.navType.type')],
+                        'navMainId' => $data['input'][Config::get('constants.typeCheck.manageNav.navMain.type')]
                     ])],
                     'description' => 'max:500',
                 ];
@@ -212,16 +212,16 @@ trait ValidationTrait
             //-------Nav Nested
             case 'saveNavNested':
                 $rules = [
-                    'navType' => 'required',
-                    'navMain' => 'required',
-                    'navSub' => 'required',
+                    Config::get('constants.typeCheck.manageNav.navType.type') => 'required',
+                    Config::get('constants.typeCheck.manageNav.navMain.type') => 'required',
+                    Config::get('constants.typeCheck.manageNav.navSub.type') => 'required',
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageNav.navNested.type'),
-                        'navTypeId' => $data['input']['navType'],
-                        'navMainId' => $data['input']['navMain'],
-                        'navSubId' => $data['input']['navSub'],
+                        'navTypeId' => $data['input'][Config::get('constants.typeCheck.manageNav.navType.type')],
+                        'navMainId' => $data['input'][Config::get('constants.typeCheck.manageNav.navMain.type')],
+                        'navSubId' => $data['input'][Config::get('constants.typeCheck.manageNav.navSub.type')],
                     ])],
                     'description' => 'max:500',
                 ];
@@ -229,16 +229,16 @@ trait ValidationTrait
 
             case 'updateNavNested':
                 $rules = [
-                    'navType' => 'required',
-                    'navMain' => 'required',
-                    'navSub' => 'required',
+                    Config::get('constants.typeCheck.manageNav.navType.type') => 'required',
+                    Config::get('constants.typeCheck.manageNav.navMain.type') => 'required',
+                    Config::get('constants.typeCheck.manageNav.navSub.type') => 'required',
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageNav.navNested.type'),
-                        'navTypeId' => $data['input']['navType'],
-                        'navMainId' => $data['input']['navMain'],
-                        'navSubId' => $data['input']['navSub'],
+                        'navTypeId' => $data['input'][Config::get('constants.typeCheck.manageNav.navType.type')],
+                        'navMainId' => $data['input'][Config::get('constants.typeCheck.manageNav.navMain.type')],
+                        'navSubId' => $data['input'][Config::get('constants.typeCheck.manageNav.navSub.type')],
                     ])],
                     'description' => 'max:500',
                 ];

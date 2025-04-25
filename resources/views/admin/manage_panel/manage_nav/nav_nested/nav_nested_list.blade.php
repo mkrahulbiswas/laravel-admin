@@ -73,7 +73,7 @@
                                                         <div class="form-icon set-validation">
                                                             <select name="navType" id="navTypeFilter" class="selectTwo select2-navType navTypeDDD" data-action="{{ route('admin.get.navMainDDD') }}">
                                                                 <option value="">Select Nav Type</option>
-                                                                @foreach ($data['navType'] as $item)
+                                                                @foreach ($data[Config::get('constants.typeCheck.manageNav.navType.type')] as $item)
                                                                     <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                                                                 @endforeach
                                                             </select>
@@ -183,7 +183,7 @@
                                 <div class="form-icon set-validation">
                                     <select name="navType" id="navType" class="selectTwo select2-navType-addModal navTypeDDD" data-action="{{ route('admin.get.navMainDDD') }}">
                                         <option value="">Select Nav Type</option>
-                                        @foreach ($data['navType'] as $item)
+                                        @foreach ($data[Config::get('constants.typeCheck.manageNav.navType.type')] as $item)
                                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                                         @endforeach
                                     </select>
@@ -267,7 +267,7 @@
                                 <div class="form-icon set-validation">
                                     <select name="navType" id="navType2" class="selectTwo select2-navType-editModal navTypeDDD" data-action="{{ route('admin.get.navMainDDD') }}">
                                         <option value="">Select Nav Type</option>
-                                        @foreach ($data['navType'] as $item)
+                                        @foreach ($data[Config::get('constants.typeCheck.manageNav.navType.type')] as $item)
                                             <option value="{{ $item['id'] }}" data-name="{{ $item['name'] }}">
                                                 {{ $item['name'] }}</option>
                                         @endforeach

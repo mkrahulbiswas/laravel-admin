@@ -64,7 +64,7 @@ class ManageNavAdminController extends Controller
                 ],
             ]);
 
-            return Datatables::of($navType['navType']['basicWithFilter']['list'])
+            return Datatables::of($navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'])
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -299,7 +299,7 @@ class ManageNavAdminController extends Controller
             ]);
 
             $data = [
-                'navType' => $navType['navType']['basicWithFilter']['list'],
+                Config::get('constants.typeCheck.manageNav.navType.type') => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
             ];
 
             return view('admin.manage_panel.manage_nav.nav_main.nav_main_list', ['data' => $data]);
@@ -329,10 +329,10 @@ class ManageNavAdminController extends Controller
                 ],
             ]);
 
-            return Datatables::of($navMain['navMain']['basicWithFilter']['list'])
+            return Datatables::of($navMain[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'])
                 ->addIndexColumn()
-                ->addColumn('navType', function ($data) {
-                    $navType = $data['navType']['name'];
+                ->addColumn(Config::get('constants.typeCheck.manageNav.navType.type'), function ($data) {
+                    $navType = $data[Config::get('constants.typeCheck.manageNav.navType.type')]['name'];
                     return $navType;
                 })
                 ->addColumn('uniqueId', function ($data) {
@@ -400,7 +400,7 @@ class ManageNavAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['navType', 'uniqueId', 'statInfo', 'icon', 'action'])
+                ->rawColumns([Config::get('constants.typeCheck.manageNav.navType.type'), 'uniqueId', 'statInfo', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -410,7 +410,7 @@ class ManageNavAdminController extends Controller
     public function saveNavMain(Request $request)
     {
         try {
-            $values = $request->only('name', 'icon', 'navType', 'description');
+            $values = $request->only('name', 'icon', Config::get('constants.typeCheck.manageNav.navType.type'), 'description');
             //--Checking The Validation--//
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveNavMain', 'id' => 0, 'platform' => $this->platform]);
@@ -421,7 +421,7 @@ class ManageNavAdminController extends Controller
                 $navMain = new NavMain();
                 $navMain->name = $values['name'];
                 $navMain->icon = $values['icon'];
-                $navMain->navTypeId = decrypt($values['navType']);
+                $navMain->navTypeId = decrypt($values[Config::get('constants.typeCheck.manageNav.navType.type')]);
                 $navMain->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $navMain->uniqueId = $this->generateCode(['preString' => 'NM', 'length' => 6, 'model' => NavMain::class, 'field' => '']);
                 $navMain->status = Config::get('constants.status')['active'];
@@ -442,7 +442,7 @@ class ManageNavAdminController extends Controller
 
     public function updateNavMain(Request $request)
     {
-        $values = $request->only('id', 'name', 'icon', 'navType', 'description');
+        $values = $request->only('id', 'name', 'icon', Config::get('constants.typeCheck.manageNav.navType.type'), 'description');
 
         try {
             $id = decrypt($values['id']);
@@ -459,7 +459,7 @@ class ManageNavAdminController extends Controller
 
                 $navMain->name = $values['name'];
                 $navMain->icon = $values['icon'];
-                $navMain->navTypeId = decrypt($values['navType']);
+                $navMain->navTypeId = decrypt($values[Config::get('constants.typeCheck.manageNav.navType.type')]);
                 $navMain->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $navMain->route = strtolower(str_replace(" ", "-", $values['name']));
                 $navMain->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
@@ -609,7 +609,7 @@ class ManageNavAdminController extends Controller
             ]);
 
             $data = [
-                'navType' => $navType['navType']['basicWithFilter']['list'],
+                Config::get('constants.typeCheck.manageNav.navType.type') => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
             ];
 
             return view('admin.manage_panel.manage_nav.nav_sub.nav_sub_list', ['data' => $data]);
@@ -640,14 +640,14 @@ class ManageNavAdminController extends Controller
                 ],
             ]);
 
-            return Datatables::of($navSub['navSub']['basicWithFilter']['list'])
+            return Datatables::of($navSub[Config::get('constants.typeCheck.manageNav.navSub.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'])
                 ->addIndexColumn()
-                ->addColumn('navType', function ($data) {
-                    $navType = $data['navType']['name'];
+                ->addColumn(Config::get('constants.typeCheck.manageNav.navType.type'), function ($data) {
+                    $navType = $data[Config::get('constants.typeCheck.manageNav.navType.type')]['name'];
                     return $navType;
                 })
-                ->addColumn('navMain', function ($data) {
-                    $navMain = $data['navMain']['name'];
+                ->addColumn(Config::get('constants.typeCheck.manageNav.navMain.type'), function ($data) {
+                    $navMain = $data[Config::get('constants.typeCheck.manageNav.navMain.type')]['name'];
                     return $navMain;
                 })
                 ->addColumn('uniqueId', function ($data) {
@@ -715,7 +715,7 @@ class ManageNavAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['navType', 'navMain', 'uniqueId', 'statInfo', 'icon', 'action'])
+                ->rawColumns([Config::get('constants.typeCheck.manageNav.navType.type'), Config::get('constants.typeCheck.manageNav.navMain.type'), 'uniqueId', 'statInfo', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -725,7 +725,7 @@ class ManageNavAdminController extends Controller
     public function saveNavSub(Request $request)
     {
         try {
-            $values = $request->only('name', 'icon', 'navType', 'navMain', 'description');
+            $values = $request->only('name', 'icon', Config::get('constants.typeCheck.manageNav.navType.type'), Config::get('constants.typeCheck.manageNav.navMain.type'), 'description');
             //--Checking The Validation--//
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveNavSub', 'id' => 0, 'platform' => $this->platform]);
@@ -736,13 +736,13 @@ class ManageNavAdminController extends Controller
                 $navSub = new NavSub();
                 $navSub->name = $values['name'];
                 $navSub->icon = $values['icon'];
-                $navSub->navTypeId = decrypt($values['navType']);
-                $navSub->navMainId = decrypt($values['navMain']);
+                $navSub->navTypeId = decrypt($values[Config::get('constants.typeCheck.manageNav.navType.type')]);
+                $navSub->navMainId = decrypt($values[Config::get('constants.typeCheck.manageNav.navMain.type')]);
                 $navSub->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $navSub->uniqueId = $this->generateCode(['preString' => 'NS', 'length' => 6, 'model' => NavSub::class, 'field' => '']);
                 $navSub->status = Config::get('constants.status')['active'];
                 $navSub->position = NavSub::max('position') + 1;
-                $navSub->route = strtolower(str_replace(" ", "-", NavMain::where('id', decrypt($values['navMain']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
+                $navSub->route = strtolower(str_replace(" ", "-", NavMain::where('id', decrypt($values[Config::get('constants.typeCheck.manageNav.navMain.type')]))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
                 $navSub->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
 
                 if ($navSub->save()) {
@@ -758,7 +758,7 @@ class ManageNavAdminController extends Controller
 
     public function updateNavSub(Request $request)
     {
-        $values = $request->only('id', 'name', 'icon', 'navType', 'navMain', 'description');
+        $values = $request->only('id', 'name', 'icon', Config::get('constants.typeCheck.manageNav.navType.type'), Config::get('constants.typeCheck.manageNav.navMain.type'), 'description');
 
         try {
             $id = decrypt($values['id']);
@@ -775,10 +775,10 @@ class ManageNavAdminController extends Controller
 
                 $navSub->name = $values['name'];
                 $navSub->icon = $values['icon'];
-                $navSub->navTypeId = decrypt($values['navType']);
-                $navSub->navMainId = decrypt($values['navMain']);
+                $navSub->navTypeId = decrypt($values[Config::get('constants.typeCheck.manageNav.navType.type')]);
+                $navSub->navMainId = decrypt($values[Config::get('constants.typeCheck.manageNav.navMain.type')]);
                 $navSub->description = ($values['description'] == '') ? 'NA' : $values['description'];;
-                $navSub->route = strtolower(str_replace(" ", "-", NavMain::where('id', decrypt($values['navMain']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
+                $navSub->route = strtolower(str_replace(" ", "-", NavMain::where('id', decrypt($values[Config::get('constants.typeCheck.manageNav.navMain.type')]))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
                 $navSub->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
 
                 if ($navSub->update()) {
@@ -906,7 +906,7 @@ class ManageNavAdminController extends Controller
             ]);
 
             $data = [
-                'navType' => $navType['navType']['basicWithFilter']['list'],
+                Config::get('constants.typeCheck.manageNav.navType.type') => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
             ];
 
             return view('admin.manage_panel.manage_nav.nav_nested.nav_nested_list', ['data' => $data]);
@@ -938,18 +938,18 @@ class ManageNavAdminController extends Controller
                 ],
             ]);
 
-            return Datatables::of($navNested['navNested']['basicWithFilter']['list'])
+            return Datatables::of($navNested[Config::get('constants.typeCheck.manageNav.navNested.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'])
                 ->addIndexColumn()
-                ->addColumn('navType', function ($data) {
-                    $navType = $data['navType']['name'];
+                ->addColumn(Config::get('constants.typeCheck.manageNav.navType.type'), function ($data) {
+                    $navType = $data[Config::get('constants.typeCheck.manageNav.navType.type')]['name'];
                     return $navType;
                 })
-                ->addColumn('navMain', function ($data) {
-                    $navMain = $data['navMain']['name'];
+                ->addColumn(Config::get('constants.typeCheck.manageNav.navMain.type'), function ($data) {
+                    $navMain = $data[Config::get('constants.typeCheck.manageNav.navMain.type')]['name'];
                     return $navMain;
                 })
-                ->addColumn('navSub', function ($data) {
-                    $navSub = $data['navSub']['name'];
+                ->addColumn(Config::get('constants.typeCheck.manageNav.navSub.type'), function ($data) {
+                    $navSub = $data[Config::get('constants.typeCheck.manageNav.navSub.type')]['name'];
                     return $navSub;
                 })
                 ->addColumn('uniqueId', function ($data) {
@@ -1017,7 +1017,7 @@ class ManageNavAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['navType', 'navMain', 'navSub', 'uniqueId', 'statInfo', 'icon', 'action'])
+                ->rawColumns([Config::get('constants.typeCheck.manageNav.navType.type'), Config::get('constants.typeCheck.manageNav.navMain.type'), Config::get('constants.typeCheck.manageNav.navSub.type'), 'uniqueId', 'statInfo', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -1027,7 +1027,7 @@ class ManageNavAdminController extends Controller
     public function saveNavNested(Request $request)
     {
         try {
-            $values = $request->only('name', 'icon', 'navType', 'navMain', 'navSub', 'description');
+            $values = $request->only('name', 'icon', Config::get('constants.typeCheck.manageNav.navType.type'), Config::get('constants.typeCheck.manageNav.navMain.type'), Config::get('constants.typeCheck.manageNav.navSub.type'), 'description');
             //--Checking The Validation--//
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveNavNested', 'id' => 0, 'platform' => $this->platform]);
@@ -1038,14 +1038,14 @@ class ManageNavAdminController extends Controller
                 $navNested = new NavNested;
                 $navNested->name = $values['name'];
                 $navNested->icon = $values['icon'];
-                $navNested->navTypeId = decrypt($values['navType']);
-                $navNested->navMainId = decrypt($values['navMain']);
-                $navNested->navSubId = decrypt($values['navSub']);
+                $navNested->navTypeId = decrypt($values[Config::get('constants.typeCheck.manageNav.navType.type')]);
+                $navNested->navMainId = decrypt($values[Config::get('constants.typeCheck.manageNav.navMain.type')]);
+                $navNested->navSubId = decrypt($values[Config::get('constants.typeCheck.manageNav.navSub.type')]);
                 $navNested->description = ($values['description'] == '') ? 'NA' : $values['description'];
                 $navNested->uniqueId = $this->generateCode(['preString' => 'NN', 'length' => 6, 'model' => NavNested::class, 'field' => '']);
                 $navNested->status = Config::get('constants.status')['active'];
                 $navNested->position = NavNested::max('position') + 1;
-                $navNested->route = strtolower(str_replace(" ", "-", NavMain::where('id', decrypt($values['navMain']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", NavSub::where('id', decrypt($values['navSub']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
+                $navNested->route = strtolower(str_replace(" ", "-", NavMain::where('id', decrypt($values[Config::get('constants.typeCheck.manageNav.navMain.type')]))->value('name'))) . '/' . strtolower(str_replace(" ", "-", NavSub::where('id', decrypt($values[Config::get('constants.typeCheck.manageNav.navSub.type')]))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
                 $navNested->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
 
                 if ($navNested->save()) {
@@ -1061,7 +1061,7 @@ class ManageNavAdminController extends Controller
 
     public function updateNavNested(Request $request)
     {
-        $values = $request->only('id', 'name', 'icon', 'navType', 'navMain', 'navSub', 'description');
+        $values = $request->only('id', 'name', 'icon', Config::get('constants.typeCheck.manageNav.navType.type'), Config::get('constants.typeCheck.manageNav.navMain.type'), Config::get('constants.typeCheck.manageNav.navSub.type'), 'description');
 
         try {
             $id = decrypt($values['id']);
@@ -1078,11 +1078,11 @@ class ManageNavAdminController extends Controller
 
                 $navNested->name = $values['name'];
                 $navNested->icon = $values['icon'];
-                $navNested->navTypeId = decrypt($values['navType']);
-                $navNested->navMainId = decrypt($values['navMain']);
-                $navNested->navSubId = decrypt($values['navSub']);
+                $navNested->navTypeId = decrypt($values[Config::get('constants.typeCheck.manageNav.navType.type')]);
+                $navNested->navMainId = decrypt($values[Config::get('constants.typeCheck.manageNav.navMain.type')]);
+                $navNested->navSubId = decrypt($values[Config::get('constants.typeCheck.manageNav.navSub.type')]);
                 $navNested->description = ($values['description'] == '') ? 'NA' : $values['description'];;
-                $navNested->route = strtolower(str_replace(" ", "-", NavMain::where('id', decrypt($values['navMain']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", NavSub::where('id', decrypt($values['navSub']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
+                $navNested->route = strtolower(str_replace(" ", "-", NavMain::where('id', decrypt($values[Config::get('constants.typeCheck.manageNav.navMain.type')]))->value('name'))) . '/' . strtolower(str_replace(" ", "-", NavSub::where('id', decrypt($values[Config::get('constants.typeCheck.manageNav.navSub.type')]))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
                 $navNested->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
 
                 if ($navNested->update()) {
@@ -1205,7 +1205,7 @@ class ManageNavAdminController extends Controller
 
     public function updateArrangeNav(Request $request)
     {
-        $values = $request->only('id', 'name', 'icon', 'navType', 'navMain', 'navSub', 'description');
+        $values = $request->only('id', 'name', 'icon', Config::get('constants.typeCheck.manageNav.navType.type'), Config::get('constants.typeCheck.manageNav.navMain.type'), Config::get('constants.typeCheck.manageNav.navSub.type'), 'description');
 
         try {
             $id = decrypt($values['id']);
@@ -1227,11 +1227,11 @@ class ManageNavAdminController extends Controller
 
                 $navNested->name = $values['name'];
                 $navNested->icon = $values['icon'];
-                $navNested->navTypeId = decrypt($values['navType']);
-                $navNested->navMainId = decrypt($values['navMain']);
-                $navNested->navSubId = decrypt($values['navSub']);
+                $navNested->navTypeId = decrypt($values[Config::get('constants.typeCheck.manageNav.navType.type')]);
+                $navNested->navMainId = decrypt($values[Config::get('constants.typeCheck.manageNav.navMain.type')]);
+                $navNested->navSubId = decrypt($values[Config::get('constants.typeCheck.manageNav.navSub.type')]);
                 $navNested->description = ($values['description'] == '') ? 'NA' : $values['description'];;
-                $navNested->route = strtolower(str_replace(" ", "-", NavMain::where('id', decrypt($values['navMain']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", NavSub::where('id', decrypt($values['navSub']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
+                $navNested->route = strtolower(str_replace(" ", "-", NavMain::where('id', decrypt($values[Config::get('constants.typeCheck.manageNav.navMain.type')]))->value('name'))) . '/' . strtolower(str_replace(" ", "-", NavSub::where('id', decrypt($values[Config::get('constants.typeCheck.manageNav.navSub.type')]))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
                 $navNested->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
 
                 if ($navNested->update()) {
