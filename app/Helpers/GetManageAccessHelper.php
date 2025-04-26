@@ -50,12 +50,17 @@ class GetManageAccessHelper
                         }
 
                         foreach (RoleMain::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $roleMain[] = GetManageAccessHelper::getRoleMainDetail([
-                                'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                'otherDataPasses' => [
-                                    'id' => $tempTwo->id
-                                ]
-                            ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['roleMainDetail'];
+                            $roleMain[] = GetManageAccessHelper::getDetail([
+                                [
+                                    'getDetail' => [
+                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                                    ],
+                                    'otherDataPasses' => [
+                                        'id' => encrypt($tempTwo->id)
+                                    ]
+                                ],
+                            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                         }
 
                         $data[Config::get('constants.typeCheck.helperCommon.get.byf')] = [
@@ -106,12 +111,17 @@ class GetManageAccessHelper
                         }
 
                         foreach (RoleSub::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $roleSub[] = GetManageAccessHelper::getRoleSubDetail([
-                                'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                'otherDataPasses' => [
-                                    'id' => $tempTwo->id
-                                ]
-                            ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['roleSubDetail'];
+                            $roleSub[] = GetManageAccessHelper::getDetail([
+                                [
+                                    'getDetail' => [
+                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                        'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                                    ],
+                                    'otherDataPasses' => [
+                                        'id' => encrypt($tempTwo->id)
+                                    ]
+                                ],
+                            ])[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                         }
 
                         $data[Config::get('constants.typeCheck.helperCommon.get.byf')] = [
@@ -157,12 +167,17 @@ class GetManageAccessHelper
                         }
 
                         foreach (RoleSub::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $roleSub[] = GetManageAccessHelper::getRoleSubDetail([
-                                'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
-                                'otherDataPasses' => [
-                                    'id' => $tempTwo->id
-                                ]
-                            ])[Config::get('constants.typeCheck.helperCommon.detail.yd')]['roleSubDetail'];
+                            $roleSub[] = GetManageAccessHelper::getDetail([
+                                [
+                                    'getDetail' => [
+                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                                        'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                                    ],
+                                    'otherDataPasses' => [
+                                        'id' => encrypt($tempTwo->id)
+                                    ]
+                                ],
+                            ])[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
                         }
 
                         $data[Config::get('constants.typeCheck.helperCommon.get.dyf')] = [
@@ -213,7 +228,7 @@ class GetManageAccessHelper
                             'id' => encrypt($roleMain->id),
                             'name' => $roleMain->name,
                             'status' =>  $roleMain->status,
-                            'description' =>  $roleMain->description,
+                            'description' =>  'lol',
                             'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $roleMain->uniqueId]),
                             'customizeInText' => CommonTrait::customizeInText([
                                 [
@@ -261,108 +276,22 @@ class GetManageAccessHelper
                                     'value' => $roleSub->status
                                 ]
                             ]),
-                            Config::get('constants.typeCheck.manageAccess.roleMain.type') => GetManageAccessHelper::getRoleMainDetail([
-                                'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                'otherDataPasses' => [
-                                    'id' => $roleSub->roleMainId
+                            Config::get('constants.typeCheck.manageAccess.roleMain.type') => GetManageAccessHelper::getDetail([
+                                [
+                                    'getDetail' => [
+                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                                    ],
+                                    'otherDataPasses' => [
+                                        'id' => encrypt($roleSub->roleMainId)
+                                    ]
                                 ]
-                            ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['roleMainDetail']
+                            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail']
                         ];
                     }
 
                     $finalData[Config::get('constants.typeCheck.manageAccess.roleSub.type')] = $data;
                 }
-            }
-
-            return $finalData;
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-    public static function getRoleMainDetail($params, $platform = '')
-    {
-        try {
-            $finalData = array();
-
-            if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $params['type'])) {
-                $roleMain = RoleMain::where('id', $params['otherDataPasses']['id'])->first();
-                $data = [
-                    'roleMainDetail' => [
-                        'id' => encrypt($roleMain->id),
-                        'name' => $roleMain->name,
-                        'status' =>  $roleMain->status,
-                        'description' =>  $roleMain->description,
-                        'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $roleMain->uniqueId]),
-                        'customizeInText' => CommonTrait::customizeInText([
-                            [
-                                'type' => 'status',
-                                'value' => $roleMain->status
-                            ]
-                        ]),
-                    ]
-                ];
-
-                $finalData[Config::get('constants.typeCheck.helperCommon.detail.nd')] = $data;
-            }
-
-            return $finalData;
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-    public static function getRoleSubDetail($params, $platform = '')
-    {
-        try {
-            $finalData = array();
-
-            if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $params['type'])) {
-                $roleSub = RoleSub::where('id', $params['otherDataPasses']['id'])->first();
-                $data = [
-                    'roleSubDetail' => [
-                        'id' => encrypt($roleSub->id),
-                        'name' => $roleSub->name,
-                        'status' =>  $roleSub->status,
-                        'description' =>  $roleSub->description,
-                        'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $roleSub->uniqueId]),
-                        'customizeInText' => CommonTrait::customizeInText([
-                            [
-                                'type' => 'status',
-                                'value' => $roleSub->status
-                            ]
-                        ]),
-                    ]
-                ];
-
-                $finalData[Config::get('constants.typeCheck.helperCommon.detail.nd')] = $data;
-            }
-
-            if (in_array(Config::get('constants.typeCheck.helperCommon.detail.yd'), $params['type'])) {
-                $roleSub = RoleSub::where('id', $params['otherDataPasses']['id'])->first();
-                $data = [
-                    'roleSubDetail' => [
-                        'id' => encrypt($roleSub->id),
-                        'name' => $roleSub->name,
-                        'status' =>  $roleSub->status,
-                        'description' =>  $roleSub->description,
-                        'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $roleSub->uniqueId]),
-                        'customizeInText' => CommonTrait::customizeInText([
-                            [
-                                'type' => 'status',
-                                'value' => $roleSub->status
-                            ]
-                        ]),
-                        Config::get('constants.typeCheck.manageAccess.roleMain.type') => GetManageAccessHelper::getRoleMainDetail([
-                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                            'otherDataPasses' => [
-                                'id' => $roleSub->roleMainId
-                            ]
-                        ])[Config::get('constants.typeCheck.helperCommon.detail.nd')]['roleMainDetail']
-                    ]
-                ];
-
-                $finalData[Config::get('constants.typeCheck.helperCommon.detail.yd')] = $data;
             }
 
             return $finalData;
