@@ -293,7 +293,6 @@ class GetManageAccessHelper
                     $finalData[Config::get('constants.typeCheck.manageAccess.roleSub.type')] = $data;
                 }
             }
-
             return $finalData;
         } catch (Exception $e) {
             return false;
@@ -304,6 +303,7 @@ class GetManageAccessHelper
     {
         try {
             $finalData = array();
+
             [
                 'otherDataPasses' => [
                     'getNavAccessList' => $getNavAccessList,

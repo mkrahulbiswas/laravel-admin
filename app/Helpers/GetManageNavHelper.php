@@ -967,7 +967,6 @@ class GetManageNavHelper
                     $finalData[Config::get('constants.typeCheck.manageNav.navNested.type')] = $data;
                 }
             }
-
             return $finalData;
         } catch (Exception $e) {
             return false;
