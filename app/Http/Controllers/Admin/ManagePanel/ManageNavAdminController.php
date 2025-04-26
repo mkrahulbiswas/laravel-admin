@@ -2,30 +2,25 @@
 
 namespace App\Http\Controllers\Admin\ManagePanel;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-use App\Traits\CommonTrait;
 use App\Traits\FileTrait;
+use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
+use App\Models\ManagePanel\ManageNav\NavSub;
 use App\Models\ManagePanel\ManageNav\NavType;
 use App\Models\ManagePanel\ManageNav\NavMain;
-use App\Models\ManagePanel\ManageNav\NavSub;
 use App\Models\ManagePanel\ManageNav\NavNested;
-use App\Models\ManagePanel\ManageAccess\RoleMain;
-use App\Models\ManagePanel\ManageAccess\RoleSub;
-use App\Models\ManagePanel\ManageAccess\Permission;
 
 use App\Helpers\GetManageNavHelper;
 use App\Helpers\GetManageAccessHelper;
 
 use Exception;
-use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class ManageNavAdminController extends Controller
 {
@@ -314,7 +309,7 @@ class ManageNavAdminController extends Controller
             $navMain = GetManageNavHelper::getList([
                 [
                     'getList' => [
-                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
                         'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
                     ],
                     'otherDataPasses' => [
@@ -329,9 +324,9 @@ class ManageNavAdminController extends Controller
                 ],
             ]);
 
-            return Datatables::of($navMain[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'])
+            return Datatables::of($navMain[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
                 ->addIndexColumn()
-                ->addColumn(Config::get('constants.typeCheck.manageNav.navType.type'), function ($data) {
+                ->addColumn('navType', function ($data) {
                     $navType = $data[Config::get('constants.typeCheck.manageNav.navType.type')]['name'];
                     return $navType;
                 })
@@ -400,7 +395,7 @@ class ManageNavAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns([Config::get('constants.typeCheck.manageNav.navType.type'), 'uniqueId', 'statInfo', 'icon', 'action'])
+                ->rawColumns(['navType', 'uniqueId', 'statInfo', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -623,7 +618,7 @@ class ManageNavAdminController extends Controller
             $navSub = GetManageNavHelper::getList([
                 [
                     'getList' => [
-                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
                         'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
                     ],
                     'otherDataPasses' => [
@@ -639,13 +634,13 @@ class ManageNavAdminController extends Controller
                 ],
             ]);
 
-            return Datatables::of($navSub[Config::get('constants.typeCheck.manageNav.navSub.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'])
+            return Datatables::of($navSub[Config::get('constants.typeCheck.manageNav.navSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
                 ->addIndexColumn()
-                ->addColumn(Config::get('constants.typeCheck.manageNav.navType.type'), function ($data) {
+                ->addColumn('navType', function ($data) {
                     $navType = $data[Config::get('constants.typeCheck.manageNav.navType.type')]['name'];
                     return $navType;
                 })
-                ->addColumn(Config::get('constants.typeCheck.manageNav.navMain.type'), function ($data) {
+                ->addColumn('navMain', function ($data) {
                     $navMain = $data[Config::get('constants.typeCheck.manageNav.navMain.type')]['name'];
                     return $navMain;
                 })
@@ -714,7 +709,7 @@ class ManageNavAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns([Config::get('constants.typeCheck.manageNav.navType.type'), Config::get('constants.typeCheck.manageNav.navMain.type'), 'uniqueId', 'statInfo', 'icon', 'action'])
+                ->rawColumns(['navType', 'navMain', 'uniqueId', 'statInfo', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -920,7 +915,7 @@ class ManageNavAdminController extends Controller
             $navNested = GetManageNavHelper::getList([
                 [
                     'getList' => [
-                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
                         'for' => Config::get('constants.typeCheck.manageNav.navNested.type'),
                     ],
                     'otherDataPasses' => [
@@ -937,17 +932,17 @@ class ManageNavAdminController extends Controller
                 ],
             ]);
 
-            return Datatables::of($navNested[Config::get('constants.typeCheck.manageNav.navNested.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'])
+            return Datatables::of($navNested[Config::get('constants.typeCheck.manageNav.navNested.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
                 ->addIndexColumn()
-                ->addColumn(Config::get('constants.typeCheck.manageNav.navType.type'), function ($data) {
+                ->addColumn('navType', function ($data) {
                     $navType = $data[Config::get('constants.typeCheck.manageNav.navType.type')]['name'];
                     return $navType;
                 })
-                ->addColumn(Config::get('constants.typeCheck.manageNav.navMain.type'), function ($data) {
+                ->addColumn('navMain', function ($data) {
                     $navMain = $data[Config::get('constants.typeCheck.manageNav.navMain.type')]['name'];
                     return $navMain;
                 })
-                ->addColumn(Config::get('constants.typeCheck.manageNav.navSub.type'), function ($data) {
+                ->addColumn('navSub', function ($data) {
                     $navSub = $data[Config::get('constants.typeCheck.manageNav.navSub.type')]['name'];
                     return $navSub;
                 })
@@ -1016,7 +1011,7 @@ class ManageNavAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns([Config::get('constants.typeCheck.manageNav.navType.type'), Config::get('constants.typeCheck.manageNav.navMain.type'), 'navSub', 'uniqueId', 'statInfo', 'icon', 'action'])
+                ->rawColumns(['navType', 'navMain', 'navSub', 'uniqueId', 'statInfo', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');

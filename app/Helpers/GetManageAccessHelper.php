@@ -313,12 +313,17 @@ class GetManageAccessHelper
             ] = $params;
 
             if (in_array(Config::get('constants.typeCheck.manageNav.navMain.type'), $type)) {
-                $getNavMainDetail = GetManageNavHelper::getNavMainDetail([
-                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
-                    'otherDataPasses' => [
-                        'id' => $id
-                    ]
-                ])[Config::get('constants.typeCheck.helperCommon.detail.yd')]['navMainDetail'];
+                $getNavMainDetail = GetManageNavHelper::getDetail([
+                    [
+                        'getDetail' => [
+                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                            'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
+                        ],
+                        'otherDataPasses' => [
+                            'id' => encrypt($id)
+                        ],
+                    ],
+                ])[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
                 $roleMain = GetManageAccessHelper::getList([
                     [
                         'getList' => [
