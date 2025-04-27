@@ -21,6 +21,7 @@ use Exception;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Facades\DB;
 
 class ManageNavAdminController extends Controller
 {
@@ -226,31 +227,35 @@ class ManageNavAdminController extends Controller
                 'targetModal' => NavType::class,
                 'picUrl' => '',
                 'type' => Config::get('constants.actionFor.deleteType.smsr'),
-                'idByField' => ''
+                'idByField' => '',
+                'otherDataPasses' => [],
             ]);
             if ($result === true) {
                 $result = $this->deleteItem([
                     'targetId' => $id,
                     'targetModal' => NavMain::class,
                     'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.mmmr'),
-                    'idByField' => 'navTypeId'
+                    'type' => Config::get('constants.actionFor.deleteType.smmr'),
+                    'idByField' => 'navTypeId',
+                    'otherDataPasses' => [],
                 ]);
                 if ($result === true) {
                     $result = $this->deleteItem([
                         'targetId' => $id,
                         'targetModal' => NavSub::class,
                         'picUrl' => '',
-                        'type' => Config::get('constants.actionFor.deleteType.mmmr'),
-                        'idByField' => 'navTypeId'
+                        'type' => Config::get('constants.actionFor.deleteType.smmr'),
+                        'idByField' => 'navTypeId',
+                        'otherDataPasses' => [],
                     ]);
                     if ($result === true) {
                         $result = $this->deleteItem([
                             'targetId' => $id,
                             'targetModal' => NavNested::class,
                             'picUrl' => '',
-                            'type' => Config::get('constants.actionFor.deleteType.mmmr'),
-                            'idByField' => 'navTypeId'
+                            'type' => Config::get('constants.actionFor.deleteType.smmr'),
+                            'idByField' => 'navTypeId',
+                            'otherDataPasses' => [],
                         ]);
                         if ($result === true) {
                             return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Nav type'])['success']], config('constants.ok'));
@@ -472,6 +477,7 @@ class ManageNavAdminController extends Controller
 
     public function accessNavMain(Request $request)
     {
+        DB::beginTransaction();
         $values = $request->only('id', 'name', 'access');
 
         try {
@@ -495,11 +501,19 @@ class ManageNavAdminController extends Controller
                             'id' => $id
                         ]
                     ]);
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
+                    if ($setPrivilege) {
+                        DB::commit();
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
+                    } else {
+                        DB::rollBack();
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
+                    }
                 } else {
+                    DB::rollBack();
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
                 }
             } else {
+                DB::rollBack();
                 return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Validation", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['validation']], config('constants.ok'));
             }
         } catch (Exception $e) {
@@ -546,23 +560,26 @@ class ManageNavAdminController extends Controller
                 'targetModal' => NavMain::class,
                 'picUrl' => '',
                 'type' => Config::get('constants.actionFor.deleteType.smsr'),
-                'idByField' => ''
+                'idByField' => '',
+                'otherDataPasses' => [],
             ]);
             if ($result === true) {
                 $result = $this->deleteItem([
                     'targetId' => $id,
                     'targetModal' => NavSub::class,
                     'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.mmmr'),
-                    'idByField' => 'navMainId'
+                    'type' => Config::get('constants.actionFor.deleteType.smmr'),
+                    'idByField' => 'navMainId',
+                    'otherDataPasses' => [],
                 ]);
                 if ($result === true) {
                     $result = $this->deleteItem([
                         'targetId' => $id,
                         'targetModal' => NavNested::class,
                         'picUrl' => '',
-                        'type' => Config::get('constants.actionFor.deleteType.mmmr'),
-                        'idByField' => 'navMainId'
+                        'type' => Config::get('constants.actionFor.deleteType.smmr'),
+                        'idByField' => 'navMainId',
+                        'otherDataPasses' => [],
                     ]);
                     if ($result === true) {
                         return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Nav main'])['success']], config('constants.ok'));
@@ -788,6 +805,7 @@ class ManageNavAdminController extends Controller
 
     public function accessNavSub(Request $request)
     {
+        DB::beginTransaction();
         $values = $request->only('id', 'name', 'access');
 
         try {
@@ -798,16 +816,32 @@ class ManageNavAdminController extends Controller
 
         try {
             if (isset($values['access'])) {
+                $getNavAccessList = $this->getNavAccessList($values['access']);
                 $navSub = NavSub::find($id);
-
-                $navSub->access = $this->getNavAccessList($values['access']);
-
+                $navSub->access = $getNavAccessList['access'];
                 if ($navSub->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
+                    $setPrivilege = GetManageAccessHelper::setPrivilege([
+                        'type' => [
+                            Config::get('constants.typeCheck.manageNav.navSub.type')
+                        ],
+                        'otherDataPasses' => [
+                            'getNavAccessList' => $getNavAccessList,
+                            'id' => $id
+                        ]
+                    ]);
+                    if ($setPrivilege) {
+                        DB::commit();
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
+                    } else {
+                        DB::rollBack();
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
+                    }
                 } else {
+                    DB::rollBack();
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
                 }
             } else {
+                DB::rollBack();
                 return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Validation", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['validation']], config('constants.ok'));
             }
         } catch (Exception $e) {
@@ -854,15 +888,17 @@ class ManageNavAdminController extends Controller
                 'targetModal' => NavSub::class,
                 'picUrl' => '',
                 'type' => Config::get('constants.actionFor.deleteType.smsr'),
-                'idByField' => ''
+                'idByField' => '',
+                'otherDataPasses' => [],
             ]);
             if ($result === true) {
                 $result = $this->deleteItem([
                     'targetId' => $id,
                     'targetModal' => NavNested::class,
                     'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.mmmr'),
-                    'idByField' => 'navSubId'
+                    'type' => Config::get('constants.actionFor.deleteType.smmr'),
+                    'idByField' => 'navSubId',
+                    'otherDataPasses' => [],
                 ]);
                 if ($result === true) {
                     return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Nav sub'])['success']], config('constants.ok'));
@@ -1092,6 +1128,7 @@ class ManageNavAdminController extends Controller
 
     public function accessNavNested(Request $request)
     {
+        DB::beginTransaction();
         $values = $request->only('id', 'name', 'access');
 
         try {
@@ -1102,16 +1139,32 @@ class ManageNavAdminController extends Controller
 
         try {
             if (isset($values['access'])) {
+                $getNavAccessList = $this->getNavAccessList($values['access']);
                 $navNested = NavNested::find($id);
-
-                $navNested->access = $this->getNavAccessList($values['access']);
-
+                $navNested->access = $getNavAccessList['access'];
                 if ($navNested->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Nested", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
+                    $setPrivilege = GetManageAccessHelper::setPrivilege([
+                        'type' => [
+                            Config::get('constants.typeCheck.manageNav.navNested.type')
+                        ],
+                        'otherDataPasses' => [
+                            'getNavAccessList' => $getNavAccessList,
+                            'id' => $id
+                        ]
+                    ]);
+                    if ($setPrivilege) {
+                        DB::commit();
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
+                    } else {
+                        DB::rollBack();
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
+                    }
                 } else {
+                    DB::rollBack();
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Nested", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
                 }
             } else {
+                DB::rollBack();
                 return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Validation", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['validation']], config('constants.ok'));
             }
         } catch (Exception $e) {
@@ -1158,7 +1211,8 @@ class ManageNavAdminController extends Controller
                 'targetModal' => NavNested::class,
                 'picUrl' => '',
                 'type' => Config::get('constants.actionFor.deleteType.smsr'),
-                'idByField' => ''
+                'idByField' => '',
+                'otherDataPasses' => [],
             ]);
             if ($result === true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Nav nested'])['success']], config('constants.ok'));

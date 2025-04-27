@@ -14,24 +14,29 @@ use Illuminate\Support\Str;
 
 trait CommonTrait
 {
-    public function changeStatus($params)
+    public static function changeStatus($params)
     {
         try {
+            DB::beginTransaction();
             if ($params['type'] == Config::get('constants.actionFor.statusType.smsf')) {
                 $field = ($params['targetField'] == null) ? 'status' : $params['targetField'][0];
                 $data = app($params['targetModel'])::where('id', $params['targetId'])->first();
                 if ($data->$field == config('constants.status')['inactive']) {
                     $data->$field = config('constants.status')['active'];
                     if ($data->update()) {
+                        DB::commit();
                         return true;
                     } else {
+                        DB::rollBack();
                         return false;
                     }
                 } else {
                     $data->$field = config('constants.status')['inactive'];
                     if ($data->update()) {
+                        DB::commit();
                         return true;
                     } else {
+                        DB::rollBack();
                         return false;
                     }
                 }
@@ -53,13 +58,15 @@ trait CommonTrait
                 // }
             }
         } catch (Exception $e) {
+            DB::rollBack();
             return false;
         }
     }
 
-    public function deleteItem($params)
+    public static function deleteItem($params)
     {
         try {
+            DB::beginTransaction();
             if ($params['type'] == Config::get('constants.actionFor.deleteType.smsr')) {
                 $idByField = ($params['idByField'] == '') ? 'id' : $params['idByField'];
                 $data = app($params['targetModal'])::where($idByField, $params['targetId'])->first();
@@ -68,29 +75,50 @@ trait CommonTrait
                     if ($data->image != 'NA') {
                         if (unlink($picPath . $data->image)) {
                             if ($data->delete()) {
+                                DB::commit();
                                 return true;
                             }
                         } else {
+                            DB::rollBack();
                             return false;
                         }
                     } else {
                         if ($data->delete()) {
+                            DB::commit();
                             return true;
                         } else {
+                            DB::rollBack();
                             return false;
                         }
                     }
                 } else {
                     if ($data->delete()) {
+                        DB::commit();
                         return true;
                     } else {
+                        DB::rollBack();
                         return false;
                     }
                 }
             } else {
+                $whereRaw = "`created_at` is not null";
                 $response = false;
                 $idByField = ($params['idByField'] == '') ? 'id' : $params['idByField'];
-                $data = app($params['targetModal'])::where($idByField, $params['targetId'])->get();
+                if (Arr::exists($params['otherDataPasses'], 'filterData')) {
+                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navSubId')) {
+                        $navSubId = $params['otherDataPasses']['filterData']['navSubId'];
+                        if (!empty($navSubId)) {
+                            $whereRaw .= " and `navSubId` " . $navSubId;
+                        }
+                    }
+                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navNestedId')) {
+                        $navNestedId = $params['otherDataPasses']['filterData']['navNestedId'];
+                        if (!empty($navNestedId)) {
+                            $whereRaw .= " and `navNestedId` " . $navNestedId;
+                        }
+                    }
+                }
+                $data = app($params['targetModal'])::where($idByField, $params['targetId'])->whereRaw($whereRaw)->get();
                 if (sizeof($data) > 0) {
                     foreach ($data as $temp) {
                         if ($params['picUrl'] != '') {
@@ -101,12 +129,14 @@ trait CommonTrait
                                         $response = true;
                                     }
                                 } else {
+                                    DB::rollBack();
                                     return false;
                                 }
                             } else {
                                 if ($temp->delete()) {
                                     $response = true;
                                 } else {
+                                    DB::rollBack();
                                     return false;
                                 }
                             }
@@ -114,25 +144,30 @@ trait CommonTrait
                             if ($temp->delete()) {
                                 $response = true;
                             } else {
+                                DB::rollBack();
                                 return false;
                             }
                         }
                     }
                     if ($response == true) {
+                        DB::commit();
                         return true;
                     } else {
+                        DB::rollBack();
                         return false;
                     }
                 } else {
+                    DB::commit();
                     return true;
                 }
             }
         } catch (Exception $e) {
+            DB::rollBack();
             return false;
         }
     }
 
-    public function changeDefault($id, $model, $field, $type)
+    public static function changeDefault($id, $model, $field, $type)
     {
 
         try {

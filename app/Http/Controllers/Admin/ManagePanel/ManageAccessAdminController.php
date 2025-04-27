@@ -233,7 +233,8 @@ class ManageAccessAdminController extends Controller
                 'targetModal' => RoleMain::class,
                 'picUrl' => '',
                 'type' => Config::get('constants.actionFor.deleteType.smsr'),
-                'idByField' => ''
+                'idByField' => '',
+                'otherDataPasses' => [],
             ]);
             if ($result === true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Role Main'])['success']], config('constants.ok'));
@@ -478,7 +479,8 @@ class ManageAccessAdminController extends Controller
                 'targetModal' => RoleSub::class,
                 'picUrl' => '',
                 'type' => Config::get('constants.actionFor.deleteType.smsr'),
-                'idByField' => ''
+                'idByField' => '',
+                'otherDataPasses' => [],
             ]);
             if ($result === true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Role Sub'])['success']], config('constants.ok'));
