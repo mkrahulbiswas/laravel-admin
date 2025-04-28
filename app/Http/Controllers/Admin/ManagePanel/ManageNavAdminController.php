@@ -224,37 +224,25 @@ class ManageNavAdminController extends Controller
         try {
             $result = $this->deleteItem([
                 [
-                    'targetId' => $id,
-                    'targetModel' => NavType::class,
-                    'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.smsr'),
-                    'idByField' => '',
-                    'otherDataPasses' => [],
+                    'model' => NavType::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => '']],
                 ],
                 [
-                    'targetId' => $id,
-                    'targetModel' => NavMain::class,
-                    'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.smmr'),
-                    'idByField' => 'navTypeId',
-                    'otherDataPasses' => [],
+                    'model' => NavMain::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'navTypeId']],
                 ],
                 [
-                    'targetId' => $id,
-                    'targetModel' => NavSub::class,
-                    'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.smmr'),
-                    'idByField' => 'navTypeId',
-                    'otherDataPasses' => [],
+                    'model' => NavSub::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'navTypeId']],
                 ],
                 [
-                    'targetId' => $id,
-                    'targetModel' => NavNested::class,
-                    'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.smmr'),
-                    'idByField' => 'navTypeId',
-                    'otherDataPasses' => [],
-                ]
+                    'model' => NavNested::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'navTypeId']],
+                ],
             ]);
             if ($result == true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Nav type'])['success']], config('constants.ok'));
@@ -547,29 +535,20 @@ class ManageNavAdminController extends Controller
         try {
             $result = $this->deleteItem([
                 [
-                    'targetId' => $id,
-                    'targetModel' => NavMain::class,
-                    'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.smsr'),
-                    'idByField' => '',
-                    'otherDataPasses' => [],
+                    'model' => NavMain::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => '']],
                 ],
                 [
-                    'targetId' => $id,
-                    'targetModel' => NavSub::class,
-                    'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.smmr'),
-                    'idByField' => 'navMainId',
-                    'otherDataPasses' => [],
+                    'model' => NavSub::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'navMainId']],
                 ],
                 [
-                    'targetId' => $id,
-                    'targetModel' => NavNested::class,
-                    'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.smmr'),
-                    'idByField' => 'navMainId',
-                    'otherDataPasses' => [],
-                ]
+                    'model' => NavNested::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'navMainId']],
+                ],
             ]);
 
             if ($result == true) {
@@ -870,21 +849,15 @@ class ManageNavAdminController extends Controller
         try {
             $result = $this->deleteItem([
                 [
-                    'targetId' => $id,
-                    'targetModel' => NavSub::class,
-                    'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.smsr'),
-                    'idByField' => '',
-                    'otherDataPasses' => [],
+                    'model' => NavSub::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => '']],
                 ],
                 [
-                    'targetId' => $id,
-                    'targetModel' => NavNested::class,
-                    'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.smmr'),
-                    'idByField' => 'navSubId',
-                    'otherDataPasses' => [],
-                ]
+                    'model' => NavNested::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'navSubId']],
+                ],
             ]);
             if ($result == true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Nav sub'])['success']], config('constants.ok'));
@@ -1191,13 +1164,10 @@ class ManageNavAdminController extends Controller
         try {
             $result = $this->deleteItem([
                 [
-                    'targetId' => $id,
-                    'targetModel' => NavNested::class,
-                    'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.smsr'),
-                    'idByField' => '',
-                    'otherDataPasses' => [],
-                ]
+                    'model' => NavNested::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => '']],
+                ],
             ]);
             if ($result == true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Nav nested'])['success']], config('constants.ok'));

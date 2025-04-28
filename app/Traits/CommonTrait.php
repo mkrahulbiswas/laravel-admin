@@ -12,13 +12,15 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
+use function PHPUnit\Framework\isEmpty;
+
 trait CommonTrait
 {
     public static function changeStatus($params)
     {
         try {
             DB::beginTransaction();
-            if ($params['type'] == Config::get('constants.actionFor.statusType.smsf')) {
+            if ($params['type'] == Config::get('constants.action.status.smsf')) {
                 $field = ($params['targetField'] == null) ? 'status' : $params['targetField'][0];
                 $data = app($params['targetModel'])::where('id', $params['targetId'])->first();
                 if ($data->$field == config('constants.status')['inactive']) {
@@ -40,8 +42,8 @@ trait CommonTrait
                         return false;
                     }
                 }
-            } elseif ($params['type'] == Config::get('constants.actionFor.statusType.smmf')) {
-            } elseif ($params['type'] == Config::get('constants.actionFor.statusType.mmsf')) {
+            } elseif ($params['type'] == Config::get('constants.action.status.smmf')) {
+            } elseif ($params['type'] == Config::get('constants.action.status.mmsf')) {
             } else {
                 // foreach ($field as $temp) {
                 //     if (app($model)::where($temp, '1')->update([$temp => '0'])) {
@@ -63,216 +65,68 @@ trait CommonTrait
         }
     }
 
-    // public static function deleteItem($params)
-    // {
-    //     // try {
-    //     DB::beginTransaction();
-    //     foreach ($params as $tempOne) {
-
-    //         [
-    //             'targetId' => $targetId,
-    //             'targetModel' => $targetModel,
-    //             'picUrl' => $picUrl,
-    //             'type' => $type,
-    //             'idByField' => $idByField,
-    //             'otherDataPasses' => $otherDataPasses,
-    //         ] = $tempOne;
-
-    //         if ($type == Config::get('constants.actionFor.deleteType.smsr')) {
-    //             $data = app($targetModel)::where(($idByField == '') ? 'id' : $idByField, $targetId)->first();
-    //             if ($picUrl != '') {
-    //                 $picPath = config('constants.' . $picUrl);
-    //                 if ($data->image != 'NA') {
-    //                     if (unlink($picPath . $data->image)) {
-    //                         if ($data->delete()) {
-    //                             $response = true;
-    //                         }
-    //                     } else {
-    //                         $response = false;
-    //                     }
-    //                 } else {
-    //                     if ($data->delete()) {
-    //                         $response = true;
-    //                     } else {
-    //                         $response = false;
-    //                     }
-    //                 }
-    //             } else {
-    //                 if ($data->delete()) {
-    //                     $response = true;
-    //                 } else {
-    //                     $response = false;
-    //                 }
-    //             }
-    //         }
-
-    //         if ($type == Config::get('constants.actionFor.deleteType.smmr')) {
-    //             $whereRaw = "`created_at` is not null";
-    //             if (Arr::exists($otherDataPasses, 'filterData')) {
-    //                 if (Arr::exists($otherDataPasses['filterData'], 'navSubId')) {
-    //                     $navSubId = $otherDataPasses['filterData']['navSubId'];
-    //                     if (!empty($navSubId)) {
-    //                         $whereRaw .= " and `navSubId` " . $navSubId;
-    //                     }
-    //                 }
-    //                 if (Arr::exists($otherDataPasses['filterData'], 'navNestedId')) {
-    //                     $navNestedId = $otherDataPasses['filterData']['navNestedId'];
-    //                     if (!empty($navNestedId)) {
-    //                         $whereRaw .= " and `navNestedId` " . $navNestedId;
-    //                     }
-    //                 }
-    //             }
-    //             $data = app($targetModel)::where(($idByField == '') ? 'id' : $idByField, $targetId)->whereRaw($whereRaw)->get();
-    //             if (sizeof($data) > 0) {
-    //                 foreach ($data as $tempTwo) {
-    //                     if ($picUrl != '') {
-    //                         $picPath = config('constants.' . $picUrl);
-    //                         if ($tempTwo->image != 'NA') {
-    //                             if (unlink($picPath . $tempTwo->image)) {
-    //                                 if ($tempTwo->delete()) {
-    //                                     $response = true;
-    //                                 }
-    //                             } else {
-    //                                 $response = false;
-    //                             }
-    //                         } else {
-    //                             if ($tempTwo->delete()) {
-    //                                 $response = true;
-    //                             } else {
-    //                                 $response = false;
-    //                             }
-    //                         }
-    //                     } else {
-    //                         if ($tempTwo->delete()) {
-    //                             $response = true;
-    //                         } else {
-    //                             $response = false;
-    //                         }
-    //                     }
-    //                 }
-    //             } else {
-    //                 $response = false;
-    //             }
-    //         }
-    //     }
-
-    //     if ($response == true) {
-    //         DB::commit();
-    //         return true;
-    //     } else {
-    //         DB::rollBack();
-    //         return false;
-    //     }
-    //     // } catch (Exception $e) {
-    //     //     DB::rollBack();
-    //     //     return false;
-    //     // }
-    // }
-
     public static function deleteItem($params)
     {
-        // try {
-        DB::beginTransaction();
-        foreach ($params as $tempOne) {
-
-            [
-                'targetId' => $targetId,
-                'targetModel' => $targetModel,
-                'picUrl' => $picUrl,
-                'type' => $type,
-                'idByField' => $idByField,
-                'otherDataPasses' => $otherDataPasses,
-            ] = $tempOne;
-
-            if ($type == Config::get('constants.actionFor.deleteType.smsr')) {
-                $data = app($targetModel)::where(($idByField == '') ? 'id' : $idByField, $targetId)->first();
-                if ($picUrl != '') {
-                    $picPath = config('constants.' . $picUrl);
-                    if ($data->image != 'NA') {
-                        if (unlink($picPath . $data->image)) {
-                            if ($data->delete()) {
-                                $response = true;
-                            }
-                        } else {
-                            $response = false;
+        try {
+            DB::beginTransaction();
+            foreach ($params as $tempOne) {
+                [
+                    'model' => $model,
+                    'picUrl' => $picUrl,
+                    'filter' => $filter,
+                ] = $tempOne;
+                $whereRaw = "`created_at` is not null";
+                if (!empty($filter)) {
+                    foreach ($filter as $tempTwo) {
+                        $field = ($tempTwo['field'] == '') ? 'id' : $tempTwo['field'];
+                        if (gettype($tempTwo['search']) == 'integer') {
+                            $whereRaw .= " and `" . $field . "` = " . $tempTwo['search'];
                         }
-                    } else {
-                        if ($data->delete()) {
+                        if (gettype($tempTwo['search']) == 'string') {
+                            $whereRaw .= " and `" . $field . "` = '" . $tempTwo['search'] . "'";
+                        }
+                        if (gettype($tempTwo['search']) == 'NULL') {
+                            $whereRaw .= " and `" . $field . "` is null";
+                        }
+                    }
+                }
+                $data = app($model)::whereRaw($whereRaw)->get();
+                if ($data->count() > 0) {
+                    foreach ($data->toArray() as $tempTwo) {
+                        if (sizeof($picUrl) > 0) {
+                            foreach ($picUrl as $tempThree) {
+                                $field = ($tempThree['field'] == '') ? 'image' : $tempThree['field'];
+                                $file = ($tempTwo[$field] == 'NA') ? 'NA' : $tempTwo[$field];
+                                if ($file != 'NA') {
+                                    if (unlink($tempThree['path'] . $file)) {
+                                        $response = true;
+                                    } else {
+                                        $response = false;
+                                    }
+                                }
+                            }
+                        }
+                        if (app($model)::where('id', $tempTwo['id'])->delete()) {
                             $response = true;
                         } else {
                             $response = false;
                         }
                     }
                 } else {
-                    if ($data->delete()) {
-                        $response = true;
-                    } else {
-                        $response = false;
-                    }
+                    $response = true;
                 }
             }
-
-            if ($type == Config::get('constants.actionFor.deleteType.smmr')) {
-                $whereRaw = "`created_at` is not null";
-                if (Arr::exists($otherDataPasses, 'filterData')) {
-                    if (Arr::exists($otherDataPasses['filterData'], 'navSubId')) {
-                        $navSubId = $otherDataPasses['filterData']['navSubId'];
-                        if (!empty($navSubId)) {
-                            $whereRaw .= " and `navSubId` " . $navSubId;
-                        }
-                    }
-                    if (Arr::exists($otherDataPasses['filterData'], 'navNestedId')) {
-                        $navNestedId = $otherDataPasses['filterData']['navNestedId'];
-                        if (!empty($navNestedId)) {
-                            $whereRaw .= " and `navNestedId` " . $navNestedId;
-                        }
-                    }
-                }
-                $data = app($targetModel)::where(($idByField == '') ? 'id' : $idByField, $targetId)->whereRaw($whereRaw)->get();
-                if (sizeof($data) > 0) {
-                    foreach ($data as $tempTwo) {
-                        if ($picUrl != '') {
-                            $picPath = config('constants.' . $picUrl);
-                            if ($tempTwo->image != 'NA') {
-                                if (unlink($picPath . $tempTwo->image)) {
-                                    if ($tempTwo->delete()) {
-                                        $response = true;
-                                    }
-                                } else {
-                                    $response = false;
-                                }
-                            } else {
-                                if ($tempTwo->delete()) {
-                                    $response = true;
-                                } else {
-                                    $response = false;
-                                }
-                            }
-                        } else {
-                            if ($tempTwo->delete()) {
-                                $response = true;
-                            } else {
-                                $response = false;
-                            }
-                        }
-                    }
-                } else {
-                    $response = false;
-                }
+            if ($response == true) {
+                DB::commit();
+                return true;
+            } else {
+                DB::rollBack();
+                return false;
             }
-        }
-
-        if ($response == true) {
-            DB::commit();
-            return true;
-        } else {
+        } catch (Exception $e) {
             DB::rollBack();
             return false;
         }
-        // } catch (Exception $e) {
-        //     DB::rollBack();
-        //     return false;
-        // }
     }
 
     public static function changeDefault($id, $model, $field, $type)

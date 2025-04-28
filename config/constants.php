@@ -35,7 +35,7 @@ return [
         'home' => 'HOME',
     ],
 
-    //--Action Type
+    //--Type Check
     'typeCheck' => [
         'manageNav' => [
             'navType' => [
@@ -91,17 +91,15 @@ return [
     ],
 
     //--Action Type
-    'actionFor' => [
-        'statusType' => [
+    'action' => [
+        'status' => [
             'smsf' => 'SINGLE_MODEL_SINGLE_FIELD',
             'smmf' => 'SINGLE_MODEL_MULTIPLE_FIELD',
             'mmsf' => 'MULTIPLE_MODEL_SINGLE_FIELD',
             'mmmf' => 'MULTIPLE_MODEL_MULTIPLE_FIELD',
         ],
-        'deleteType' => [
-            'smsr' => 'SINGLE_MODEL_SINGLE_ROW',
-            'smmr' => 'SINGLE_MODEL_MULTIPLE_ROW',
-        ]
+        'nn' => 'noNested',
+        'yn' => 'YesNested',
     ],
 
     //--Status For
