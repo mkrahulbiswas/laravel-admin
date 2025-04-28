@@ -12,31 +12,38 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
+use function PHPUnit\Framework\isEmpty;
+
 trait CommonTrait
 {
-    public function changeStatus($params)
+    public static function changeStatus($params)
     {
         try {
-            if ($params['type'] == Config::get('constants.actionFor.statusType.smsf')) {
+            DB::beginTransaction();
+            if ($params['type'] == Config::get('constants.action.status.smsf')) {
                 $field = ($params['targetField'] == null) ? 'status' : $params['targetField'][0];
                 $data = app($params['targetModel'])::where('id', $params['targetId'])->first();
                 if ($data->$field == config('constants.status')['inactive']) {
                     $data->$field = config('constants.status')['active'];
                     if ($data->update()) {
+                        DB::commit();
                         return true;
                     } else {
+                        DB::rollBack();
                         return false;
                     }
                 } else {
                     $data->$field = config('constants.status')['inactive'];
                     if ($data->update()) {
+                        DB::commit();
                         return true;
                     } else {
+                        DB::rollBack();
                         return false;
                     }
                 }
-            } elseif ($params['type'] == Config::get('constants.actionFor.statusType.smmf')) {
-            } elseif ($params['type'] == Config::get('constants.actionFor.statusType.mmsf')) {
+            } elseif ($params['type'] == Config::get('constants.action.status.smmf')) {
+            } elseif ($params['type'] == Config::get('constants.action.status.mmsf')) {
             } else {
                 // foreach ($field as $temp) {
                 //     if (app($model)::where($temp, '1')->update([$temp => '0'])) {
@@ -53,86 +60,76 @@ trait CommonTrait
                 // }
             }
         } catch (Exception $e) {
+            DB::rollBack();
             return false;
         }
     }
 
-    public function deleteItem($params)
+    public static function deleteItem($params)
     {
         try {
-            if ($params['type'] == Config::get('constants.actionFor.deleteType.smsr')) {
-                $idByField = ($params['idByField'] == '') ? 'id' : $params['idByField'];
-                $data = app($params['targetModal'])::where($idByField, $params['targetId'])->first();
-                if ($params['picUrl'] != '') {
-                    $picPath = config('constants.' . $params['picUrl']);
-                    if ($data->image != 'NA') {
-                        if (unlink($picPath . $data->image)) {
-                            if ($data->delete()) {
-                                return true;
-                            }
-                        } else {
-                            return false;
+            DB::beginTransaction();
+            foreach ($params as $tempOne) {
+                [
+                    'model' => $model,
+                    'picUrl' => $picUrl,
+                    'filter' => $filter,
+                ] = $tempOne;
+                $whereRaw = "`created_at` is not null";
+                if (!empty($filter)) {
+                    foreach ($filter as $tempTwo) {
+                        $field = ($tempTwo['field'] == '') ? 'id' : $tempTwo['field'];
+                        if (gettype($tempTwo['search']) == 'integer') {
+                            $whereRaw .= " and `" . $field . "` = " . $tempTwo['search'];
                         }
-                    } else {
-                        if ($data->delete()) {
-                            return true;
-                        } else {
-                            return false;
+                        if (gettype($tempTwo['search']) == 'string') {
+                            $whereRaw .= " and `" . $field . "` = '" . $tempTwo['search'] . "'";
                         }
-                    }
-                } else {
-                    if ($data->delete()) {
-                        return true;
-                    } else {
-                        return false;
+                        if (gettype($tempTwo['search']) == 'NULL') {
+                            $whereRaw .= " and `" . $field . "` is null";
+                        }
                     }
                 }
-            } else {
-                $response = false;
-                $idByField = ($params['idByField'] == '') ? 'id' : $params['idByField'];
-                $data = app($params['targetModal'])::where($idByField, $params['targetId'])->get();
-                if (sizeof($data) > 0) {
-                    foreach ($data as $temp) {
-                        if ($params['picUrl'] != '') {
-                            $picPath = config('constants.' . $params['picUrl']);
-                            if ($temp->image != 'NA') {
-                                if (unlink($picPath . $temp->image)) {
-                                    if ($temp->delete()) {
+                $data = app($model)::whereRaw($whereRaw)->get();
+                if ($data->count() > 0) {
+                    foreach ($data->toArray() as $tempTwo) {
+                        if (sizeof($picUrl) > 0) {
+                            foreach ($picUrl as $tempThree) {
+                                $field = ($tempThree['field'] == '') ? 'image' : $tempThree['field'];
+                                $file = ($tempTwo[$field] == 'NA') ? 'NA' : $tempTwo[$field];
+                                if ($file != 'NA') {
+                                    if (unlink($tempThree['path'] . $file)) {
                                         $response = true;
+                                    } else {
+                                        $response = false;
                                     }
-                                } else {
-                                    return false;
                                 }
-                            } else {
-                                if ($temp->delete()) {
-                                    $response = true;
-                                } else {
-                                    return false;
-                                }
-                            }
-                        } else {
-                            if ($temp->delete()) {
-                                $response = true;
-                            } else {
-                                return false;
                             }
                         }
-                    }
-                    if ($response == true) {
-                        return true;
-                    } else {
-                        return false;
+                        if (app($model)::where('id', $tempTwo['id'])->delete()) {
+                            $response = true;
+                        } else {
+                            $response = false;
+                        }
                     }
                 } else {
-                    return true;
+                    $response = true;
                 }
             }
+            if ($response == true) {
+                DB::commit();
+                return true;
+            } else {
+                DB::rollBack();
+                return false;
+            }
         } catch (Exception $e) {
+            DB::rollBack();
             return false;
         }
     }
 
-    public function changeDefault($id, $model, $field, $type)
+    public static function changeDefault($id, $model, $field, $type)
     {
 
         try {

@@ -229,11 +229,11 @@ class ManageAccessAdminController extends Controller
 
         try {
             $result = $this->deleteItem([
-                'targetId' => $id,
-                'targetModal' => RoleMain::class,
-                'picUrl' => '',
-                'type' => Config::get('constants.actionFor.deleteType.smsr'),
-                'idByField' => ''
+                [
+                    'model' => RoleMain::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => '']],
+                ],
             ]);
             if ($result === true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Role Main'])['success']], config('constants.ok'));
@@ -295,7 +295,7 @@ class ManageAccessAdminController extends Controller
                 ],
             ]);
 
-            return Datatables::of($roleSub[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'])
+            return Datatables::of($roleSub[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -474,11 +474,11 @@ class ManageAccessAdminController extends Controller
 
         try {
             $result = $this->deleteItem([
-                'targetId' => $id,
-                'targetModal' => RoleSub::class,
-                'picUrl' => '',
-                'type' => Config::get('constants.actionFor.deleteType.smsr'),
-                'idByField' => ''
+                [
+                    'model' => RoleSub::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => '']],
+                ],
             ]);
             if ($result === true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Role Sub'])['success']], config('constants.ok'));
