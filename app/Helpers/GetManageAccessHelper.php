@@ -341,17 +341,19 @@ class GetManageAccessHelper
                 ]);
 
                 $result = CommonTrait::deleteItem([
-                    'targetId' => decrypt($getDetail['id']),
-                    'targetModal' => Permission::class,
-                    'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.smmr'),
-                    'idByField' => 'navMainId',
-                    'otherDataPasses' => [
-                        'filterData' => [
-                            'navSubId' => 'is null',
-                            'navNestedId' => 'is null',
+                    [
+                        'targetId' => decrypt($getDetail['id']),
+                        'targetModel' => Permission::class,
+                        'picUrl' => '',
+                        'type' => Config::get('constants.actionFor.deleteType.smmr'),
+                        'idByField' => 'navMainId',
+                        'otherDataPasses' => [
+                            'filterData' => [
+                                'navSubId' => 'is null',
+                                'navNestedId' => 'is null',
+                            ],
                         ],
-                    ],
+                    ]
                 ]);
                 if ($result === true) {
                     foreach ($roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $tempOne) {
@@ -434,16 +436,18 @@ class GetManageAccessHelper
                     ],
                 ]);
                 $result = CommonTrait::deleteItem([
-                    'targetId' => decrypt($getDetail['id']),
-                    'targetModal' => Permission::class,
-                    'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.smmr'),
-                    'idByField' => 'navSubId',
-                    'otherDataPasses' => [
-                        'filterData' => [
-                            'navNestedId' => 'is null',
+                    [
+                        'targetId' => decrypt($getDetail['id']),
+                        'targetModel' => Permission::class,
+                        'picUrl' => '',
+                        'type' => Config::get('constants.actionFor.deleteType.smmr'),
+                        'idByField' => 'navSubId',
+                        'otherDataPasses' => [
+                            'filterData' => [
+                                'navNestedId' => 'is null',
+                            ],
                         ],
-                    ],
+                    ]
                 ]);
                 if ($result === true) {
                     foreach ($roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $tempOne) {
@@ -528,12 +532,14 @@ class GetManageAccessHelper
                     ],
                 ]);
                 $result = CommonTrait::deleteItem([
-                    'targetId' => decrypt($getDetail['id']),
-                    'targetModal' => Permission::class,
-                    'picUrl' => '',
-                    'type' => Config::get('constants.actionFor.deleteType.smmr'),
-                    'idByField' => 'navNestedId',
-                    'otherDataPasses' => [],
+                    [
+                        'targetId' => decrypt($getDetail['id']),
+                        'targetModel' => Permission::class,
+                        'picUrl' => '',
+                        'type' => Config::get('constants.actionFor.deleteType.smmr'),
+                        'idByField' => 'navNestedId',
+                        'otherDataPasses' => [],
+                    ]
                 ]);
                 if ($result === true) {
                     foreach ($roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $tempOne) {

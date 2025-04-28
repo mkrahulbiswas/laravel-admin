@@ -63,108 +63,216 @@ trait CommonTrait
         }
     }
 
+    // public static function deleteItem($params)
+    // {
+    //     // try {
+    //     DB::beginTransaction();
+    //     foreach ($params as $tempOne) {
+
+    //         [
+    //             'targetId' => $targetId,
+    //             'targetModel' => $targetModel,
+    //             'picUrl' => $picUrl,
+    //             'type' => $type,
+    //             'idByField' => $idByField,
+    //             'otherDataPasses' => $otherDataPasses,
+    //         ] = $tempOne;
+
+    //         if ($type == Config::get('constants.actionFor.deleteType.smsr')) {
+    //             $data = app($targetModel)::where(($idByField == '') ? 'id' : $idByField, $targetId)->first();
+    //             if ($picUrl != '') {
+    //                 $picPath = config('constants.' . $picUrl);
+    //                 if ($data->image != 'NA') {
+    //                     if (unlink($picPath . $data->image)) {
+    //                         if ($data->delete()) {
+    //                             $response = true;
+    //                         }
+    //                     } else {
+    //                         $response = false;
+    //                     }
+    //                 } else {
+    //                     if ($data->delete()) {
+    //                         $response = true;
+    //                     } else {
+    //                         $response = false;
+    //                     }
+    //                 }
+    //             } else {
+    //                 if ($data->delete()) {
+    //                     $response = true;
+    //                 } else {
+    //                     $response = false;
+    //                 }
+    //             }
+    //         }
+
+    //         if ($type == Config::get('constants.actionFor.deleteType.smmr')) {
+    //             $whereRaw = "`created_at` is not null";
+    //             if (Arr::exists($otherDataPasses, 'filterData')) {
+    //                 if (Arr::exists($otherDataPasses['filterData'], 'navSubId')) {
+    //                     $navSubId = $otherDataPasses['filterData']['navSubId'];
+    //                     if (!empty($navSubId)) {
+    //                         $whereRaw .= " and `navSubId` " . $navSubId;
+    //                     }
+    //                 }
+    //                 if (Arr::exists($otherDataPasses['filterData'], 'navNestedId')) {
+    //                     $navNestedId = $otherDataPasses['filterData']['navNestedId'];
+    //                     if (!empty($navNestedId)) {
+    //                         $whereRaw .= " and `navNestedId` " . $navNestedId;
+    //                     }
+    //                 }
+    //             }
+    //             $data = app($targetModel)::where(($idByField == '') ? 'id' : $idByField, $targetId)->whereRaw($whereRaw)->get();
+    //             if (sizeof($data) > 0) {
+    //                 foreach ($data as $tempTwo) {
+    //                     if ($picUrl != '') {
+    //                         $picPath = config('constants.' . $picUrl);
+    //                         if ($tempTwo->image != 'NA') {
+    //                             if (unlink($picPath . $tempTwo->image)) {
+    //                                 if ($tempTwo->delete()) {
+    //                                     $response = true;
+    //                                 }
+    //                             } else {
+    //                                 $response = false;
+    //                             }
+    //                         } else {
+    //                             if ($tempTwo->delete()) {
+    //                                 $response = true;
+    //                             } else {
+    //                                 $response = false;
+    //                             }
+    //                         }
+    //                     } else {
+    //                         if ($tempTwo->delete()) {
+    //                             $response = true;
+    //                         } else {
+    //                             $response = false;
+    //                         }
+    //                     }
+    //                 }
+    //             } else {
+    //                 $response = false;
+    //             }
+    //         }
+    //     }
+
+    //     if ($response == true) {
+    //         DB::commit();
+    //         return true;
+    //     } else {
+    //         DB::rollBack();
+    //         return false;
+    //     }
+    //     // } catch (Exception $e) {
+    //     //     DB::rollBack();
+    //     //     return false;
+    //     // }
+    // }
+
     public static function deleteItem($params)
     {
-        try {
-            DB::beginTransaction();
-            if ($params['type'] == Config::get('constants.actionFor.deleteType.smsr')) {
-                $idByField = ($params['idByField'] == '') ? 'id' : $params['idByField'];
-                $data = app($params['targetModal'])::where($idByField, $params['targetId'])->first();
-                if ($params['picUrl'] != '') {
-                    $picPath = config('constants.' . $params['picUrl']);
+        // try {
+        DB::beginTransaction();
+        foreach ($params as $tempOne) {
+
+            [
+                'targetId' => $targetId,
+                'targetModel' => $targetModel,
+                'picUrl' => $picUrl,
+                'type' => $type,
+                'idByField' => $idByField,
+                'otherDataPasses' => $otherDataPasses,
+            ] = $tempOne;
+
+            if ($type == Config::get('constants.actionFor.deleteType.smsr')) {
+                $data = app($targetModel)::where(($idByField == '') ? 'id' : $idByField, $targetId)->first();
+                if ($picUrl != '') {
+                    $picPath = config('constants.' . $picUrl);
                     if ($data->image != 'NA') {
                         if (unlink($picPath . $data->image)) {
                             if ($data->delete()) {
-                                DB::commit();
-                                return true;
+                                $response = true;
                             }
                         } else {
-                            DB::rollBack();
-                            return false;
+                            $response = false;
                         }
                     } else {
                         if ($data->delete()) {
-                            DB::commit();
-                            return true;
+                            $response = true;
                         } else {
-                            DB::rollBack();
-                            return false;
+                            $response = false;
                         }
                     }
                 } else {
                     if ($data->delete()) {
-                        DB::commit();
-                        return true;
+                        $response = true;
                     } else {
-                        DB::rollBack();
-                        return false;
+                        $response = false;
                     }
                 }
-            } else {
+            }
+
+            if ($type == Config::get('constants.actionFor.deleteType.smmr')) {
                 $whereRaw = "`created_at` is not null";
-                $response = false;
-                $idByField = ($params['idByField'] == '') ? 'id' : $params['idByField'];
-                if (Arr::exists($params['otherDataPasses'], 'filterData')) {
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navSubId')) {
-                        $navSubId = $params['otherDataPasses']['filterData']['navSubId'];
+                if (Arr::exists($otherDataPasses, 'filterData')) {
+                    if (Arr::exists($otherDataPasses['filterData'], 'navSubId')) {
+                        $navSubId = $otherDataPasses['filterData']['navSubId'];
                         if (!empty($navSubId)) {
                             $whereRaw .= " and `navSubId` " . $navSubId;
                         }
                     }
-                    if (Arr::exists($params['otherDataPasses']['filterData'], 'navNestedId')) {
-                        $navNestedId = $params['otherDataPasses']['filterData']['navNestedId'];
+                    if (Arr::exists($otherDataPasses['filterData'], 'navNestedId')) {
+                        $navNestedId = $otherDataPasses['filterData']['navNestedId'];
                         if (!empty($navNestedId)) {
                             $whereRaw .= " and `navNestedId` " . $navNestedId;
                         }
                     }
                 }
-                $data = app($params['targetModal'])::where($idByField, $params['targetId'])->whereRaw($whereRaw)->get();
+                $data = app($targetModel)::where(($idByField == '') ? 'id' : $idByField, $targetId)->whereRaw($whereRaw)->get();
                 if (sizeof($data) > 0) {
-                    foreach ($data as $temp) {
-                        if ($params['picUrl'] != '') {
-                            $picPath = config('constants.' . $params['picUrl']);
-                            if ($temp->image != 'NA') {
-                                if (unlink($picPath . $temp->image)) {
-                                    if ($temp->delete()) {
+                    foreach ($data as $tempTwo) {
+                        if ($picUrl != '') {
+                            $picPath = config('constants.' . $picUrl);
+                            if ($tempTwo->image != 'NA') {
+                                if (unlink($picPath . $tempTwo->image)) {
+                                    if ($tempTwo->delete()) {
                                         $response = true;
                                     }
                                 } else {
-                                    DB::rollBack();
-                                    return false;
+                                    $response = false;
                                 }
                             } else {
-                                if ($temp->delete()) {
+                                if ($tempTwo->delete()) {
                                     $response = true;
                                 } else {
-                                    DB::rollBack();
-                                    return false;
+                                    $response = false;
                                 }
                             }
                         } else {
-                            if ($temp->delete()) {
+                            if ($tempTwo->delete()) {
                                 $response = true;
                             } else {
-                                DB::rollBack();
-                                return false;
+                                $response = false;
                             }
                         }
                     }
-                    if ($response == true) {
-                        DB::commit();
-                        return true;
-                    } else {
-                        DB::rollBack();
-                        return false;
-                    }
                 } else {
-                    DB::commit();
-                    return true;
+                    $response = false;
                 }
             }
-        } catch (Exception $e) {
+        }
+
+        if ($response == true) {
+            DB::commit();
+            return true;
+        } else {
             DB::rollBack();
             return false;
         }
+        // } catch (Exception $e) {
+        //     DB::rollBack();
+        //     return false;
+        // }
     }
 
     public static function changeDefault($id, $model, $field, $type)
