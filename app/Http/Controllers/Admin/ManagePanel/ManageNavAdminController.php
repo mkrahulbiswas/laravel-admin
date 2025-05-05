@@ -16,7 +16,7 @@ use App\Models\ManagePanel\ManageNav\NavNested;
 
 use App\Helpers\GetManageNavHelper;
 use App\Helpers\GetManageAccessHelper;
-
+use App\Models\ManagePanel\ManageAccess\Permission;
 use Exception;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
@@ -549,6 +549,15 @@ class ManageNavAdminController extends Controller
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => 'navMainId']],
                 ],
+                [
+                    'model' => Permission::class,
+                    'picUrl' => [],
+                    'filter' => [
+                        ['search' => $id, 'field' => 'navMainId'],
+                        ['search' => null, 'field' => 'navSubId'],
+                        ['search' => null, 'field' => 'navNestedId'],
+                    ],
+                ],
             ]);
 
             if ($result == true) {
@@ -857,6 +866,14 @@ class ManageNavAdminController extends Controller
                     'model' => NavNested::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => 'navSubId']],
+                ],
+                [
+                    'model' => Permission::class,
+                    'picUrl' => [],
+                    'filter' => [
+                        ['search' => $id, 'field' => 'navMainId'],
+                        ['search' => null, 'field' => 'navNestedId'],
+                    ],
                 ],
             ]);
             if ($result == true) {
@@ -1167,6 +1184,11 @@ class ManageNavAdminController extends Controller
                     'model' => NavNested::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
+                ],
+                [
+                    'model' => Permission::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'navNestedId']],
                 ],
             ]);
             if ($result == true) {

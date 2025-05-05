@@ -309,6 +309,7 @@
         .form-element {
             .form-check-label {
                 text-transform: capitalize;
+                user-select: none;
             }
         }
     }

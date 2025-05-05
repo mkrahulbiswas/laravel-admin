@@ -28,18 +28,18 @@ class AppServiceProvider extends ServiceProvider
 
 
                     $navList = GetManageNavHelper::getNav([
-                        'type' => ['all'],
-                        'otherDataPasses' => [
-                            'filterData' => [
-                                'status' => Config::get('constants.status')['active']
+                        [
+                            'type' => [Config::get('constants.typeCheck.helperCommon.nav.sn')],
+                            'otherDataPasses' => [
+                                'filterData' => [
+                                    'status' => Config::get('constants.status')['active']
+                                ],
+                                'orderBy' => [
+                                    'position' => 'asc'
+                                ]
                             ],
-                            'orderBy' => [
-                                'position' => 'asc'
-                            ]
-                        ],
-                    ])['all'];
-                    // dd($navList);
-
+                        ]
+                    ])[Config::get('constants.typeCheck.helperCommon.nav.sn')];
 
 
                     // $mainMenu = DB::table('module')

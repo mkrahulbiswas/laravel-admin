@@ -5,7 +5,6 @@ use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\CmsAdminController;
-use App\Http\Controllers\Admin\SetupAdmin\RolePermissionController;
 use App\Http\Controllers\Admin\DDDAdminController;
 use App\Http\Controllers\Admin\ManagePanel\ManageAccessAdminController;
 use App\Http\Controllers\Admin\SettingAdminController;
@@ -72,6 +71,10 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::post('role-sub/edit/update', 'updateRoleSub')->name('admin.update.roleSub');
                 Route::get('role-sub/status/{id?}', 'statusRoleSub')->name('admin.status.roleSub');
                 Route::get('role-sub/delete/{id?}', 'deleteRoleSub')->name('admin.delete.roleSub');
+
+                Route::get('permissions', 'showPermissions')->name('admin.show.permissions');
+                Route::get('permissions/ajaxGetList', 'getPermissions')->name('admin.get.permissions');
+                Route::post('permissions/edit/update', 'updatePermissions')->name('admin.update.permissions');
             });
 
             Route::controller(ManageNavAdminController::class)->prefix('manage-nav')->group(function () {
