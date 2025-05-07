@@ -58,6 +58,12 @@
                     position: 'top-right',
                 });
             }
+
+            if (data.swal != undefined) {
+                Swal.fire({
+                    ...data.swal
+                });
+            }
         }
 
         function commonMethod(data) {
@@ -1062,16 +1068,29 @@
                 id.find('#icon').val(data.icon);
                 id.find('#description').val(data.description);
             } else if (type == 'access') {
-                id = $('#con-access-modal');
-                id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
-                if (data.access != null) {
-                    Object.entries(data.access).forEach((element) => {
-                        id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
-                    });
+                if (data.extraData.hasNavSub > 0) {
+                    commonAction({
+                        swal: {
+                            position: 'center-center',
+                            icon: 'warning',
+                            title: 'Oops....!',
+                            html: 'There some sub nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navSubRoute + '">sub nav</a>',
+                            showConfirmButton: false,
+                            timer: 10000
+                        },
+                    })
+                } else {
+                    id = $('#con-access-modal');
+                    id.modal('show');
+                    if (data.access != null) {
+                        Object.entries(data.access).forEach((element) => {
+                            id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
+                        });
+                    }
+                    id.find('#id').val(data.id);
+                    id.find('#name').val(data.name);
                 }
-                id.find('#id').val(data.id);
-                id.find('#name').val(data.name);
             } else {
                 id = $('#con-detail-modal');
                 id.modal('show');
@@ -1407,16 +1426,29 @@
                     id.find("#navMain2 option[data-name='" + data.navMain.name + "']").prop("selected", true).trigger('change');
                 }, 1000);
             } else if (type == 'access') {
-                id = $('#con-access-modal');
-                id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
-                if (data.access != null) {
-                    Object.entries(data.access).forEach((element) => {
-                        id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
-                    });
+                if (data.extraData.hasNavNested > 0) {
+                    commonAction({
+                        swal: {
+                            position: 'center-center',
+                            icon: 'warning',
+                            title: 'Oops....!',
+                            html: 'There some nested nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navNestedRoute + '">nested nav</a>',
+                            showConfirmButton: false,
+                            timer: 10000
+                        },
+                    })
+                } else {
+                    id = $('#con-access-modal');
+                    id.modal('show');
+                    if (data.access != null) {
+                        Object.entries(data.access).forEach((element) => {
+                            id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
+                        });
+                    }
+                    id.find('#id').val(data.id);
+                    id.find('#name').val(data.name);
                 }
-                id.find('#id').val(data.id);
-                id.find('#name').val(data.name);
             } else {
                 id = $('#con-detail-modal');
                 id.modal('show');
@@ -1762,9 +1794,9 @@
                     id.find("#navSub2 option[data-name='" + data.navSub.name + "']").prop("selected", true).trigger('change');
                 }, 2000);
             } else if (type == 'access') {
+                data = JSON.parse($(this).attr('data-array'));
                 id = $('#con-access-modal');
                 id.modal('show');
-                data = JSON.parse($(this).attr('data-array'));
                 if (data.access != null) {
                     Object.entries(data.access).forEach((element) => {
                         id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)

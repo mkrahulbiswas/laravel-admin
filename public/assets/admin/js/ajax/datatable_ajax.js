@@ -377,7 +377,7 @@
             paging: false,
             ordering: false,
             info: false,
-            // searching: false,
+            searching: false,
             serverSide: true,
             ajax: "get/ajaxGetList",
             language: {

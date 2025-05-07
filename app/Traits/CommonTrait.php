@@ -187,6 +187,10 @@ trait CommonTrait
                         if ($tempTwo['type'] == 'access') {
                             $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Access:</label>' . $tempOne['data']['access']['custom'] . '</div>';
                         }
+
+                        if ($tempTwo['type'] == 'hasChild') {
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Child:</label>' . $tempOne['data']['hasChild']['custom'] . '</div>';
+                        }
                     }
 
                     $html = '<div class="dtMultiData"><div class="dtMultiDataContent">' . $appendHtml . '</div></div>';
@@ -237,9 +241,77 @@ trait CommonTrait
                 }
 
                 if ($tempOne['type'] == 'dtNavPermission') {
-                    $html = '';
+                    $navHtml = '';
+                    foreach ($tempOne['data'] as $tempTwo) {
+                        $navHtml .= '<div class="npbType">
+                                            <div class="npbHeading">
+                                                <div class="npbhLeft">
+                                                    <span>' . $tempTwo['name'] . '</span>
+                                                </div>
+                                                <div class="npbhRight">1</div>
+                                            </div>';
+                        if (sizeof($tempTwo['navMain']) > 0) {
+                            foreach ($tempTwo['navMain'] as $tempThree) {
+                                $navHtml .= '<div class="npbMain">
+                                                    <div class="npbHeading">
+                                                        <div class="npbhLeft">
+                                                            <span>' . $tempThree['name'] . '</span>
+                                                        </div>
+                                                        <div class="npbhRight">2</div>
+                                                    </div>';
+                                if (sizeof($tempThree['navSub']) > 0) {
+                                    foreach ($tempThree['navSub'] as $tempFour) {
+                                        $navHtml .= '<div class="npbSub">
+                                                        <div class="npbHeading">
+                                                            <div class="npbhLeft">
+                                                                <span>' . $tempFour['name'] . '</span>
+                                                            </div>
+                                                            <div class="npbhRight">3</div>
+                                                        </div>';
+                                        if (sizeof($tempFour['navNested']) > 0) {
+                                            foreach ($tempFour['navNested'] as $tempFive) {
+                                                $navHtml .= '<div class="npbNested">
+                                                            <div class="npbHeading">
+                                                                <div class="npbhLeft">
+                                                                    <span>' . $tempFive['name'] . '</span>
+                                                                </div>
+                                                                <div class="npbhRight">4</div>
+                                                            </div>';
+                                                $navHtml .= '</div>';
+                                            }
+                                        }
+                                        $navHtml .= '</div>';
+                                    }
+                                }
+                                $navHtml .= '</div>';
+                            }
+                        }
+                        $navHtml .= '</div>';
+                    }
 
-                    $return['dtAction'] = [
+                    $html = '<div class="navPermissionMain">
+                        <div class="navPermissionSub">
+                            <div class="npRoleMain">
+                                <div class="npHead">
+                                    <div class="nphLeft">
+                                        <span>Set Permission</span>
+                                    </div>
+                                    <div class="nphRight">
+                                        <button>Update</button>
+                                    </div>
+                                </div>
+                                <div class="npBody">' . $navHtml . '</div>
+                                <div class="npFoot">
+                                    <div class="npfLeft"></div>
+                                    <div class="npfRight">
+                                        <button>Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>';
+
+                    $return['dtNavPermission'] = [
                         'custom' => $html,
                         'raw' => $tempOne['data']
                     ];
@@ -278,7 +350,7 @@ trait CommonTrait
                     if ($temp['value'] == null) {
                         $custom = '<span class="badge bg-danger">No Access Found</span>';
                     } else {
-                        $custom = '<span class="badge bg-success"data-access="' . json_encode($temp['value']) . '">Access Found</span>';
+                        $custom = '<span class="badge bg-success" data-access="' . json_encode($temp['value']) . '">Access Found</span>';
                     }
                     $return['access'] = [
                         'custom' => $custom,
@@ -286,8 +358,19 @@ trait CommonTrait
                         'type' => $temp['type'],
                     ];
                 }
+                if ($temp['type'] == 'hasChild') {
+                    if ($temp['value'] <= 0) {
+                        $custom = '<span class="badge bg-danger">No</span>';
+                    } else {
+                        $custom = '<span class="badge bg-success">Yes</span>';
+                    }
+                    $return['hasChild'] = [
+                        'custom' => $custom,
+                        'raw' => $temp['value'],
+                        'type' => $temp['type'],
+                    ];
+                }
             }
-
             return $return;
         } catch (Exception $e) {
             return false;

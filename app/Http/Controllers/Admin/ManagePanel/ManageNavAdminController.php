@@ -305,9 +305,9 @@ class ManageNavAdminController extends Controller
                         ]
                     ],
                 ],
-            ]);
+            ])[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            return Datatables::of($navMain[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
+            return Datatables::of($navMain)
                 ->addIndexColumn()
                 ->addColumn('navType', function ($data) {
                     $navType = $data[Config::get('constants.typeCheck.manageNav.navType.type')]['name'];
@@ -365,7 +365,7 @@ class ManageNavAdminController extends Controller
                     // if ($itemPermission['details_item'] == '1') {
                     $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
                     // } else {
-                    //     $details = '';
+                    //     $access = '';
                     // }
 
                     return $this->dynamicHtmlPurse([

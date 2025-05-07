@@ -278,121 +278,40 @@ class ManageAccessAdminController extends Controller
 
     public function getPermissionRoleMain(Request $request)
     {
-        // try {
-        $getNav = GetManageNavHelper::getNav([
-            [
-                'type' => [Config::get('constants.typeCheck.helperCommon.nav.np')],
-                'otherDataPasses' => [
-                    'filterData' => [
-                        'status' => Config::get('constants.status')['active'],
-                        'navTypeId' => $request->navType,
-                        'navMainId' => $request->navMain,
-                        'navSubId' => $request->navSub,
+        try {
+            $getNav = GetManageNavHelper::getNav([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.nav.np')],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status')['active'],
+                            'navTypeId' => $request->navType,
+                            'navMainId' => $request->navMain,
+                            'navSubId' => $request->navSub,
+                        ],
+                        'orderBy' => [
+                            'position' => 'asc'
+                        ]
                     ],
-                    'orderBy' => [
-                        'position' => 'asc'
-                    ]
-                ],
-            ]
-        ]);
+                ]
+            ]);
 
-        return Datatables::of($getNav)
-            ->addIndexColumn()
-            ->addColumn('permission', function ($data) {
-                dd($data);
-
-                $permission = $this->dynamicHtmlPurse([
-                    [
-                        'type' => 'dtNavPermission',
-                        'data' => $data
-                    ]
-                ])['dtNavPermission']['custom'];
-
-                $html = '';
-
-                foreach ($data as $tempOne) {
-                    $navMain = $tempOne;
-                    foreach ($navMain as $tempTwo) {
-                        $navSub = $tempTwo;
-                        foreach ($navSub as $tempThree) {
-                            $navNested = $tempThree;
-                            foreach ($navNested as $tempFour) {
-                                dd($tempSeven);
-                            }
-                        }
-                    }
-                }
-
-                $navMain = '<div class="navPermissionMain">
-                    <div class="navPermissionSub">
-                        <div class="npRoleMain">
-                            <div class="npHead">
-                                <div class="nphLeft">
-                                    <span>Set Permission</span>
-                                </div>
-                                <div class="nphRight">
-                                    <button>Update</button>
-                                </div>
-                            </div>
-                            <div class="npBody">
-                                <div class="npbType">
-                                    <div class="nbpHeading">
-                                        <div class="nbphLeft">
-                                            <span>Type</span>
-                                        </div>
-                                        <div class="nbphRight">
-                                            <button>All</button>
-                                        </div>
-                                    </div>
-                                    <div class="npbMain">
-                                        <div class="nbpHeading">
-                                            <div class="nbphLeft">
-                                                <span>Main</span>
-                                            </div>
-                                            <div class="nbphRight">
-                                                <button>All</button>
-                                            </div>
-                                        </div>
-                                        <div class="npbSub">
-                                            <div class="nbpHeading">
-                                                <div class="nbphLeft">
-                                                    <span>Sub</span>
-                                                </div>
-                                                <div class="nbphRight">
-                                                    <button>All</button>
-                                                </div>
-                                            </div>
-                                            <div class="npbNested">
-                                                <div class="nbpHeading">
-                                                    <div class="nbphLeft">
-                                                        <span>Nested</span>
-                                                    </div>
-                                                    <div class="nbphRight">
-                                                        <button>All</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="npFoot">
-                                <div class="npfLeft"></div>
-                                <div class="npfRight">
-                                    <button>Update</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>';
-
-                return $permission;
-            })
-            ->rawColumns(['permission'])
-            ->make(true);
-        // } catch (Exception $e) {
-        //     return redirect()->back()->with('error', 'Something went wrong.');
-        // }
+            return Datatables::of($getNav)
+                ->addIndexColumn()
+                ->addColumn('permission', function ($data) {
+                    $permission = $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'dtNavPermission',
+                            'data' => $data
+                        ]
+                    ])['dtNavPermission']['custom'];
+                    return $permission;
+                })
+                ->rawColumns(['permission'])
+                ->make(true);
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
     }
 
 

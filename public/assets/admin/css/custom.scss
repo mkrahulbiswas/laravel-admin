@@ -25,6 +25,19 @@
     color: var(--vz-form-invalid-color);
 }
 
+.linkHrefRoute {
+    color: black;
+    background-color: #f3d0f2;
+    padding: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+        background-color: #c997c7;
+    }
+}
+
 
 .common-form {}
 
@@ -287,20 +300,52 @@
                                 }
 
                                 .npBody {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 10px;
+
                                     .npbType {
+                                        display: flex;
+                                        flex-direction: column;
+                                        gap: 10px;
+                                        background-color: lightcoral;
+                                        padding: 10px;
+                                        border-radius: 5px;
+
                                         .npbMain {
+                                            display: flex;
+                                            flex-direction: column;
+                                            gap: 10px;
+                                            background-color: greenyellow;
+                                            padding: 10px;
+                                            border-radius: 5px;
+
                                             .npbSub {
-                                                .npbNested {}
+                                                display: flex;
+                                                flex-direction: column;
+                                                gap: 10px;
+                                                background-color: blueviolet;
+                                                padding: 10px;
+                                                border-radius: 5px;
+
+                                                .npbNested {
+                                                    display: flex;
+                                                    flex-direction: column;
+                                                    gap: 10px;
+                                                    background-color: pink;
+                                                    padding: 10px;
+                                                    border-radius: 5px;
+                                                }
                                             }
                                         }
                                     }
 
-                                    .nbpHeading {
-                                        .nbphLeft {
+                                    .npbHeading {
+                                        .npbhLeft {
                                             span {}
                                         }
 
-                                        .nbphRight {
+                                        .npbhRight {
                                             span {}
                                         }
                                     }
