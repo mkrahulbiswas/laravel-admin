@@ -235,6 +235,15 @@ trait CommonTrait
                         'raw' => $tempOne['data']
                     ];
                 }
+
+                if ($tempOne['type'] == 'dtNavPermission') {
+                    $html = '';
+
+                    $return['dtAction'] = [
+                        'custom' => $html,
+                        'raw' => $tempOne['data']
+                    ];
+                }
             }
             return $return;
         } catch (Exception $e) {

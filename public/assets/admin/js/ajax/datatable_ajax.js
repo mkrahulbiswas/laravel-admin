@@ -372,6 +372,23 @@
             ]
         });
 
+        /*------( Permission Role Main Listing )--------*/
+        $('#managePanel-manageAccess-permissionRoleMain').DataTable({
+            paging: false,
+            ordering: false,
+            info: false,
+            // searching: false,
+            serverSide: true,
+            ajax: "get/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                data: 'permission',
+                orderable: false,
+            }]
+        });
+
         /*------( Role Sub Listing )--------*/
         $('#managePanel-manageAccess-roleSub').DataTable({
             processing: true,

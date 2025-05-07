@@ -73,7 +73,11 @@ return [
             ],
             'nav' => [
                 'sn' => 'sideNav',
+                'np' => 'navPermission',
             ],
+            'privilege' => [
+                'np' => 'navPrivilege',
+            ]
         ]
     ],
 

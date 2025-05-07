@@ -272,6 +272,50 @@
                             }
                         }
                     }
+
+                    .navPermissionMain {
+                        .navPermissionSub {
+                            .npRoleMain {
+                                .npHead {
+                                    .nphLeft {
+                                        span {}
+                                    }
+
+                                    .nphRight {
+                                        span {}
+                                    }
+                                }
+
+                                .npBody {
+                                    .npbType {
+                                        .npbMain {
+                                            .npbSub {
+                                                .npbNested {}
+                                            }
+                                        }
+                                    }
+
+                                    .nbpHeading {
+                                        .nbphLeft {
+                                            span {}
+                                        }
+
+                                        .nbphRight {
+                                            span {}
+                                        }
+                                    }
+                                }
+
+                                .npFoot {
+                                    .npfLeft {}
+
+                                    .npfRight {
+                                        button {}
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

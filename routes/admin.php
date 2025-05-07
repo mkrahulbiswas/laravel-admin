@@ -64,9 +64,16 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::post('role-main/edit/update', 'updateRoleMain')->name('admin.update.roleMain');
                 Route::get('role-main/status/{id?}', 'statusRoleMain')->name('admin.status.roleMain');
                 Route::get('role-main/delete/{id?}', 'deleteRoleMain')->name('admin.delete.roleMain');
+                Route::group(['prefix' => 'role-main'], function () {
+                    Route::get('permission/{id?}', 'showPermissionRoleMain')->name('admin.show.permissionRoleMain');
+                    Route::get('permission/get/ajaxGetList', 'getPermissionRoleMain')->name('admin.get.permissionRoleMain');
+                    Route::post('permission/update', 'updatePermissionRoleMain')->name('admin.update.permissionRoleMain');
+                });
 
                 Route::get('role-sub', 'showRoleSub')->name('admin.show.roleSub');
                 Route::get('role-sub/ajaxGetList', 'getRoleSub')->name('admin.get.roleSub');
+                Route::get('role-sub/permission/ajaxGetList', 'getPermissionRoleSub')->name('admin.get.permission.roleSub');
+                Route::post('role-sub/permission/update', 'updatePermissionRoleSub')->name('admin.update.permission.roleSub');
                 Route::post('role-sub/add/save', 'saveRoleSub')->name('admin.save.roleSub');
                 Route::post('role-sub/edit/update', 'updateRoleSub')->name('admin.update.roleSub');
                 Route::get('role-sub/status/{id?}', 'statusRoleSub')->name('admin.status.roleSub');

@@ -2039,13 +2039,13 @@
                 id.find('#id').val(data.id);
                 id.find('#name').val(data.name);
                 id.find('#description').val(data.description);
-            } else {
+            } else if (type == 'details') {
                 id = $('#con-detail-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
                 id.find('#description').text(data.description);
-            }
+            } else {}
         });
 
 

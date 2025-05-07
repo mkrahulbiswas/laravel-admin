@@ -13,6 +13,7 @@ use App\Models\ManagePanel\ManageAccess\RoleMain;
 use App\Models\ManagePanel\ManageAccess\RoleSub;
 
 use App\Helpers\GetManageAccessHelper;
+use App\Helpers\GetManageNavHelper;
 
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -103,7 +104,7 @@ class ManageAccessAdminController extends Controller
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
+                    $access = '<a href="' .  route('admin.show.permissionRoleMain') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
                     // } else {
                     //     $details = '';
                     // }
@@ -245,6 +246,155 @@ class ManageAccessAdminController extends Controller
         }
     }
 
+    public function showPermissionRoleMain()
+    {
+        try {
+            $navType = GetManageNavHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                        'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status')['active']
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ]
+                    ],
+                ],
+            ]);
+
+            $data = [
+                Config::get('constants.typeCheck.manageNav.navType.type') => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
+            ];
+
+            return view('admin.manage_panel.manage_access.role_main.role_main_permission', ['data' => $data]);
+        } catch (Exception $e) {
+            abort(500);
+        }
+    }
+
+    public function getPermissionRoleMain(Request $request)
+    {
+        // try {
+        $getNav = GetManageNavHelper::getNav([
+            [
+                'type' => [Config::get('constants.typeCheck.helperCommon.nav.np')],
+                'otherDataPasses' => [
+                    'filterData' => [
+                        'status' => Config::get('constants.status')['active'],
+                        'navTypeId' => $request->navType,
+                        'navMainId' => $request->navMain,
+                        'navSubId' => $request->navSub,
+                    ],
+                    'orderBy' => [
+                        'position' => 'asc'
+                    ]
+                ],
+            ]
+        ]);
+
+        return Datatables::of($getNav)
+            ->addIndexColumn()
+            ->addColumn('permission', function ($data) {
+                dd($data);
+
+                $permission = $this->dynamicHtmlPurse([
+                    [
+                        'type' => 'dtNavPermission',
+                        'data' => $data
+                    ]
+                ])['dtNavPermission']['custom'];
+
+                $html = '';
+
+                foreach ($data as $tempOne) {
+                    $navMain = $tempOne;
+                    foreach ($navMain as $tempTwo) {
+                        $navSub = $tempTwo;
+                        foreach ($navSub as $tempThree) {
+                            $navNested = $tempThree;
+                            foreach ($navNested as $tempFour) {
+                                dd($tempSeven);
+                            }
+                        }
+                    }
+                }
+
+                $navMain = '<div class="navPermissionMain">
+                    <div class="navPermissionSub">
+                        <div class="npRoleMain">
+                            <div class="npHead">
+                                <div class="nphLeft">
+                                    <span>Set Permission</span>
+                                </div>
+                                <div class="nphRight">
+                                    <button>Update</button>
+                                </div>
+                            </div>
+                            <div class="npBody">
+                                <div class="npbType">
+                                    <div class="nbpHeading">
+                                        <div class="nbphLeft">
+                                            <span>Type</span>
+                                        </div>
+                                        <div class="nbphRight">
+                                            <button>All</button>
+                                        </div>
+                                    </div>
+                                    <div class="npbMain">
+                                        <div class="nbpHeading">
+                                            <div class="nbphLeft">
+                                                <span>Main</span>
+                                            </div>
+                                            <div class="nbphRight">
+                                                <button>All</button>
+                                            </div>
+                                        </div>
+                                        <div class="npbSub">
+                                            <div class="nbpHeading">
+                                                <div class="nbphLeft">
+                                                    <span>Sub</span>
+                                                </div>
+                                                <div class="nbphRight">
+                                                    <button>All</button>
+                                                </div>
+                                            </div>
+                                            <div class="npbNested">
+                                                <div class="nbpHeading">
+                                                    <div class="nbphLeft">
+                                                        <span>Nested</span>
+                                                    </div>
+                                                    <div class="nbphRight">
+                                                        <button>All</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="npFoot">
+                                <div class="npfLeft"></div>
+                                <div class="npfRight">
+                                    <button>Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+
+                return $permission;
+            })
+            ->rawColumns(['permission'])
+            ->make(true);
+        // } catch (Exception $e) {
+        //     return redirect()->back()->with('error', 'Something went wrong.');
+        // }
+    }
+
 
     /*---- ( Role Sub ) ----*/
     public function showRoleSub()
@@ -346,7 +496,7 @@ class ManageAccessAdminController extends Controller
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
+                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
                     // } else {
                     //     $details = '';
                     // }
@@ -496,9 +646,9 @@ class ManageAccessAdminController extends Controller
     {
         // try {
         $getPrivilege = GetManageAccessHelper::getPrivilege([
-            [],
-        ]);
-        // dd($getPrivilege);
+            ['type' => [Config::get('constants.typeCheck.helperCommon.privilege.np')]]
+        ])[Config::get('constants.typeCheck.helperCommon.privilege.np')];
+        dd($getPrivilege);
         return view('admin.manage_panel.manage_access.permissions.permissions_list');
         // } catch (Exception $e) {
         //     abort(500);

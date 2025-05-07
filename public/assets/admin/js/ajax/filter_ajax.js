@@ -224,6 +224,44 @@
             })
         });
 
+        //------ ( Permission Role Main )
+        $('#filterPermissionRoleMainForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, .filterPermissionRoleMainBtn').on('change click', function () {
+            var formId = $(this).closest('form'),
+                dataTableId = $('#managePanel-manageAccess-permissionRoleMain'),
+
+                navType = (formId.find("#navTypeFilter").val() == '' || formId.find("#navTypeFilter").val() == null) ? '' : formId.find("#navTypeFilter").val(),
+                navMain = (formId.find("#navMainFilter").val() == '' || formId.find("#navMainFilter").val() == null) ? '' : formId.find("#navMainFilter").val(),
+                navSub = (formId.find("#navSubFilter").val() == '' || formId.find("#navSubFilter").val() == null) ? '' : formId.find("#navSubFilter").val(),
+
+                action = $(this).closest('form').attr('action').split('/'),
+                newUrl = action[action.length - 2] + "/ajaxGetList?navType=" + navType + "&navMain=" + navMain + "&navSub=" + navSub;
+            if ($(this).attr('title') == 'Reload') {
+                commonAction({
+                    targetId: {
+                        submitForm: formId,
+                    },
+                    resetFormFields: {
+                        selectPicker: {},
+                        selectTwo: {},
+                    }
+                })
+                newUrl = action[action.length - 2] + "/ajaxGetList?navType=" + '' + "&navMain=" + '' + "&navSub=" + '';
+            }
+            commonAction({
+                targetId: {
+                    submitForm: formId,
+                    actionType: $(this).attr('title'),
+                },
+                dataTable: {
+                    load: {
+                        targetId: dataTableId,
+                        url: newUrl,
+                    }
+                },
+                filterApply: {}
+            })
+        });
+
         //------ ( Role Sub )
         $('#filterRoleSubForm').find('#statusFilter, #roleMainFilter, .filterRoleSubBtn').on('change click', function () {
             var formId = $(this).closest('form'),
