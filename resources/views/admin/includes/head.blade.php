@@ -23,7 +23,7 @@
 @if (in_array('pdf', $data) || in_array('print', $data))
     <link href="{{ asset('assets/admin/css/custom.scss') }}" rel="stylesheet" type="text/css" />
 @else
-    <?php /* ?> ?> ?> ?> ?> ?>
+    <?php /* ?> ?> ?> ?>
     <!-- ( Bootstrap CDN ) -->
     {{-- <link href="{{ asset('assets/plugins/bootstrap/v4/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" /> --}}
     <link href="{{ asset('assets/plugins/bootstrap/v4.1/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
@@ -32,9 +32,6 @@
 
     <!-- ( Select2 CDN ) -->
     <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
-
-    <!-- ( LC Switch CDN ) -->
-    <link href="{{ asset('assets/plugins/LC-switch-master/lc_switch.css') }}" rel="stylesheet" />
 
     <!-- ( Viewer JS Master ) -->
     <link href="{{ asset('assets/admin/plugins/viewerjs-master/css/viewer.css') }}" rel="stylesheet">

@@ -13,15 +13,15 @@ use App\Models\ManagePanel\ManageNav\NavSub;
 use App\Models\ManagePanel\ManageNav\NavType;
 use App\Models\ManagePanel\ManageNav\NavMain;
 use App\Models\ManagePanel\ManageNav\NavNested;
-
-use App\Helpers\GetManageNavHelper;
-use App\Helpers\GetManageAccessHelper;
 use App\Models\ManagePanel\ManageAccess\Permission;
+
 use Exception;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
+use App\Helpers\GetManageNavHelper;
+use App\Helpers\GetManageAccessHelper;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Support\Facades\DB;
 
 class ManageNavAdminController extends Controller
 {
@@ -593,7 +593,7 @@ class ManageNavAdminController extends Controller
             ]);
 
             $data = [
-                Config::get('constants.typeCheck.manageNav.navType.type') => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
+                'navType' => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
             ];
 
             return view('admin.manage_panel.manage_nav.nav_sub.nav_sub_list', ['data' => $data]);
@@ -909,7 +909,7 @@ class ManageNavAdminController extends Controller
             ]);
 
             $data = [
-                Config::get('constants.typeCheck.manageNav.navType.type') => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
+                'navType' => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
             ];
 
             return view('admin.manage_panel.manage_nav.nav_nested.nav_nested_list', ['data' => $data]);

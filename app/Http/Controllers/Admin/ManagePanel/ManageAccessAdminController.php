@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers\Admin\ManagePanel;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-use App\Traits\CommonTrait;
 use App\Traits\FileTrait;
+use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
 use App\Models\ManagePanel\ManageAccess\RoleMain;
 use App\Models\ManagePanel\ManageAccess\RoleSub;
-
-use App\Helpers\GetManageAccessHelper;
-use App\Helpers\GetManageNavHelper;
+use App\Models\ManagePanel\ManageAccess\Permission;
 
 use Exception;
-use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Support\Facades\Config;
 use Yajra\DataTables\DataTables;
+use App\Helpers\GetManageNavHelper;
+use App\Helpers\GetManageAccessHelper;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class ManageAccessAdminController extends Controller
 {
@@ -67,9 +67,14 @@ class ManageAccessAdminController extends Controller
                     $uniqueId = $data['uniqueId']['raw'];
                     return $uniqueId;
                 })
-                ->addColumn('status', function ($data) {
-                    $status = $data['customizeInText']['status']['custom'];
-                    return $status;
+                ->addColumn('statInfo', function ($data) {
+                    $statInfo = $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'dtMultiData',
+                            'data' => $data['customizeInText']
+                        ]
+                    ])['dtMultiData']['custom'];
+                    return $statInfo;
                 })
                 ->addColumn('action', function ($data) {
 
@@ -104,7 +109,11 @@ class ManageAccessAdminController extends Controller
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="' .  route('admin.show.permissionRoleMain') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                    if ($data['extraData']['hasRoleSub'] <= 0) {
+                        $access = '<a href="' .  route('admin.show.permissionRoleMain') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                    } else {
+                        $access = '<a href="JavaScript:void(0);" data-type="permission" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                    }
                     // } else {
                     //     $details = '';
                     // }
@@ -119,7 +128,7 @@ class ManageAccessAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['description', 'uniqueId', 'status', 'action'])
+                ->rawColumns(['description', 'uniqueId', 'statInfo', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -246,7 +255,7 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function showPermissionRoleMain()
+    public function showPermissionRoleMain($id)
     {
         try {
             $navType = GetManageNavHelper::getList([
@@ -267,7 +276,8 @@ class ManageAccessAdminController extends Controller
             ]);
 
             $data = [
-                Config::get('constants.typeCheck.manageNav.navType.type') => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
+                'navType' => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
+                'id' => $id
             ];
 
             return view('admin.manage_panel.manage_access.role_main.role_main_permission', ['data' => $data]);
@@ -302,7 +312,14 @@ class ManageAccessAdminController extends Controller
                     $permission = $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtNavPermission',
-                            'data' => $data
+                            'data' => $data,
+                            'otherDataPasses' => [
+                                'permission' => [
+                                    'model' => Permission::class,
+                                    'id' => 2
+                                    // 'id'=>decrypt($id)
+                                ]
+                            ]
                         ]
                     ])['dtNavPermission']['custom'];
                     return $permission;
@@ -334,7 +351,7 @@ class ManageAccessAdminController extends Controller
             ]);
 
             $data = [
-                Config::get('constants.typeCheck.manageAccess.roleMain.type') => $roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')],
+                'roleMain' => $roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')],
             ];
 
             return view('admin.manage_panel.manage_access.role_sub.role_sub_list', ['data' => $data]);

@@ -3,6 +3,7 @@
         callOnModalClose()
         callSelectPicker()
         callSelect2()
+        lcSwitch()
     });
 })(jQuery);
 
@@ -100,5 +101,11 @@ function callSelect2() {
         tags: false,
         placeholder: "Select Role Main",
         dropdownParent: $('#con-edit-modal')
+    });
+}
+
+function lcSwitch() {
+    $('body').delegate('.lcSwitch', 'click', function () {
+        lc_switch('.lcSwitch')
     });
 }

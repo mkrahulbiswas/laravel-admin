@@ -106,7 +106,7 @@
                                             <th>Unique Id</th>
                                             <th>Role Name</th>
                                             <th>Description</th>
-                                            <th>Status</th>
+                                            <th>Stat Info</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -117,7 +117,7 @@
                                             <th>Unique Id</th>
                                             <th>Role Name</th>
                                             <th>Description</th>
-                                            <th>Status</th>
+                                            <th>Stat Info</th>
                                             <th>Actions</th>
                                         </tr>
                                     </tfoot>

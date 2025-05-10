@@ -3,14 +3,14 @@
 namespace app\Traits;
 
 use Illuminate\Support\Facades\Auth;
-use Exception;
 use Illuminate\Support\Facades\DB;
-use DateTimeZone;
-use DateTime;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
+use Exception;
+use DateTimeZone;
+use DateTime;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -243,50 +243,93 @@ trait CommonTrait
                 if ($tempOne['type'] == 'dtNavPermission') {
                     $navHtml = '';
                     foreach ($tempOne['data'] as $tempTwo) {
-                        $navHtml .= '<div class="npbType">
+                        if ($tempTwo['extraData']['hasNavMain'] <= 0) {
+                            $navHtml .= '<div class="npbType">
+                                <div class="npbHeading">
+                                    <div class="npbhLeft">
+                                        <span>' . $tempTwo['name'] . '</span>
+                                    </div>
+                                    <div class="npbhRight">Nav Type (No Nav Main Found)</div>
+                                </div>
+                            </div>';
+                        } else {
+                            $navHtml .= '<div class="npbType">
                                             <div class="npbHeading">
                                                 <div class="npbhLeft">
                                                     <span>' . $tempTwo['name'] . '</span>
                                                 </div>
                                                 <div class="npbhRight">1</div>
                                             </div>';
-                        if (sizeof($tempTwo['navMain']) > 0) {
-                            foreach ($tempTwo['navMain'] as $tempThree) {
-                                $navHtml .= '<div class="npbMain">
+                            if (sizeof($tempTwo['navMain']) > 0) {
+                                foreach ($tempTwo['navMain'] as $tempThree) {
+                                    if ($tempThree['extraData']['hasNavSub'] <= 0) {
+                                        $navHtml .= '<div class="npbMain">
+                                        <div class="npbHeading">
+                                            <div class="npbhLeft">
+                                                <span>' . $tempThree['name'] . '</span>
+                                            </div>
+                                            <div class="npbhRight">Nav Main (No Nav Sub Found)</div>
+                                        </div>
+                                    </div>';
+                                    } else {
+                                        $navHtml .= '<div class="npbMain">
                                                     <div class="npbHeading">
                                                         <div class="npbhLeft">
                                                             <span>' . $tempThree['name'] . '</span>
                                                         </div>
                                                         <div class="npbhRight">2</div>
                                                     </div>';
-                                if (sizeof($tempThree['navSub']) > 0) {
-                                    foreach ($tempThree['navSub'] as $tempFour) {
-                                        $navHtml .= '<div class="npbSub">
+                                        if (sizeof($tempThree['navSub']) > 0) {
+                                            foreach ($tempThree['navSub'] as $tempFour) {
+                                                if ($tempFour['extraData']['hasNavNested'] <= 0) {
+                                                    $navHtml .= '<div class="npbSub">
+                                                    <div class="npbHeading">
+                                                        <div class="npbhLeft">
+                                                            <span>' . $tempFour['name'] . '</span>
+                                                        </div>
+                                                        <div class="npbhRight">Nav Sub (No Nav Nested Found)</div>
+                                                    </div>
+                                                </div>';
+                                                } else {
+                                                    $navHtml .= '<div class="npbSub">
                                                         <div class="npbHeading">
                                                             <div class="npbhLeft">
                                                                 <span>' . $tempFour['name'] . '</span>
                                                             </div>
                                                             <div class="npbhRight">3</div>
                                                         </div>';
-                                        if (sizeof($tempFour['navNested']) > 0) {
-                                            foreach ($tempFour['navNested'] as $tempFive) {
-                                                $navHtml .= '<div class="npbNested">
-                                                            <div class="npbHeading">
-                                                                <div class="npbhLeft">
-                                                                    <span>' . $tempFive['name'] . '</span>
-                                                                </div>
-                                                                <div class="npbhRight">4</div>
-                                                            </div>';
-                                                $navHtml .= '</div>';
+                                                    if (sizeof($tempFour['navNested']) > 0) {
+                                                        foreach ($tempFour['navNested'] as $tempFive) {
+                                                            $permission = app($tempOne['otherDataPasses']['permission']['model'])::where([
+                                                                ['roleMainId', $tempOne['otherDataPasses']['permission']['id']],
+                                                                ['navTypeId', decrypt($tempTwo['id'])],
+                                                                ['navMainId', decrypt($tempThree['id'])],
+                                                                ['navSubId', decrypt($tempFour['id'])],
+                                                                ['navNestedId', decrypt($tempFive['id'])]
+                                                            ])->first();
+                                                            $navHtml .= '<div class="npbNested"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFive['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
+                                                            if ($permission == null) {
+                                                                $navHtml .= '<div class="npbCheckButtonCommon">
+                                                                    <span>No access is set yet, please set access before set permission.</span>
+                                                                </div>';
+                                                            } else {
+                                                                $navHtml .= '<div class="npbCheckButtonCommon">
+                                                                    <input type="checkbox" name="check-1" value="1" class="lcSwitch" autocomplete="off" />
+                                                                </div>';
+                                                            }
+                                                            $navHtml .= '</div></div></div></div>';
+                                                        }
+                                                    }
+                                                    $navHtml .= '</div>';
+                                                }
                                             }
                                         }
                                         $navHtml .= '</div>';
                                     }
                                 }
-                                $navHtml .= '</div>';
                             }
+                            $navHtml .= '</div>';
                         }
-                        $navHtml .= '</div>';
                     }
 
                     $html = '<div class="navPermissionMain">

@@ -12,7 +12,7 @@
 
 @if (in_array('pdf', $data) || in_array('print', $data))
 @else
-    <?php /* ?> ?> ?> ?> ?> ?>
+    <?php /* ?> ?> ?> ?> ?> ?> ?> ?>
 
     <!-- ( Bootstrap CDN ) -->
     {{-- <script src="{{ asset('assets/plugins/bootstrap/v4/js/bootstrap.min.js') }}"></script> --}}

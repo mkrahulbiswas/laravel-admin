@@ -299,6 +299,7 @@ class GetManageAccessHelper
                 ] = $tempOne;
 
                 if (Config::get('constants.typeCheck.manageAccess.roleMain.type') == $for) {
+                    $hasRoleSub = RoleSub::where('roleMainId', decrypt($id))->count();
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
@@ -313,8 +314,16 @@ class GetManageAccessHelper
                                 [
                                     'type' => 'status',
                                     'value' => $roleMain->status
+                                ],
+                                [
+                                    'type' => 'hasChild',
+                                    'value' => $hasRoleSub
                                 ]
                             ]),
+                            'extraData' => [
+                                'hasRoleSub' => $hasRoleSub,
+                                'roleSubRoute' => route('admin.show.roleSub'),
+                            ]
                         ];
                     }
 

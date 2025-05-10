@@ -336,210 +336,6 @@
 
 
         /*--========================= ( Setup Admin START ) =========================--*/
-        //---- ( Role Add ) ----//
-        $('#saveRoleForm').submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveRoleBtn');
-
-            event.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                data: new FormData(this),
-                type: $(this).attr('method'),
-                dataType: 'json',
-                cache: false,
-                contentType: false,
-                processData: false,
-                beforeSend: function () {
-                    loader(1);
-                    submitBtn.attr("disabled", "disabled").find('span').text('Please wait...');
-                },
-                success: function (msg) {
-                    loader(0);
-                    submitBtn.attr("disabled", false).find('span').text('Save');
-                    submitForm.find("#roleErr, #descriptionErr").text('');
-
-                    if (msg.status == 0) {
-                        $.each(msg.errors.role, function (i) {
-                            submitForm.find("#roleErr").text(msg.errors.role[i]);
-                        });
-                        $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]);
-                        });
-                        toaster(msg.title, msg.msg, msg.type);
-                    } else {
-                        toaster(msg.title, msg.msg, msg.type);
-                        submitForm[0].reset();
-                        $('#setupAdmin-role-listing').DataTable().ajax.reload(null, false);
-                    }
-                }
-            });
-        });
-
-        //---- ( Role Update ) ----//
-        $("#updateRoleForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateRoleBtn');
-
-            event.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                data: new FormData(this),
-                type: $(this).attr('method'),
-                dataType: 'json',
-                cache: false,
-                contentType: false,
-                processData: false,
-                beforeSend: function () {
-                    loader(1);
-                    submitBtn.attr("disabled", "disabled").find('span').text('Please wait...');
-                },
-                success: function (msg) {
-                    loader(0);
-                    submitBtn.attr("disabled", false).find('span').text('Update');
-
-                    submitForm.find("#roleErr, #descriptionErr").text('');
-
-                    if (msg.status == 0) {
-                        toaster(msg.title, msg.msg, msg.type);
-                        $.each(msg.errors.role, function (i) {
-                            submitForm.find("#roleErr").text(msg.errors.role[i]);
-                        });
-                        $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]);
-                        });
-
-                    } else {
-                        toaster(msg.title, msg.msg, msg.type);
-                        $('#setupAdmin-role-listing').DataTable().ajax.reload(null, false);
-                    }
-                }
-            });
-        });
-
-        //---- ( Role Status, Edit, Detail ) ----//
-        $('body').delegate('#setupAdmin-role-listing .actionDatatable', 'click', function () {
-            var type = $(this).attr('data-type'),
-                res = '',
-                action = $(this).attr('data-action'),
-                reloadDatatable = $('#setupAdmin-role-listing').DataTable(),
-                data = '';
-
-            if (type == 'status') {
-
-                if ($(this).attr('data-status') == 'block') {
-                    res = confirm('Do you really want to block?');
-                    if (res === false) {
-                        return;
-                    }
-                } else {
-                    res = confirm('Do you really want to unblock?');
-                    if (res === false) {
-                        return;
-                    }
-                }
-
-                $.ajax({
-                    url: action,
-                    type: 'get',
-                    dataType: 'json',
-                    beforeSend: function () {
-                        loader(1);
-                    },
-                    success: function (msg) {
-                        loader(0);
-                        if (msg.status == 0) {
-                            toaster(msg.title, msg.msg, msg.type);
-                        } else {
-                            toaster(msg.title, msg.msg, msg.type);
-                            reloadDatatable.ajax.reload(null, false);
-                        }
-                        setTimeout(function () {
-                            $("#alert").css('display', 'none');
-                        }, 5000);
-                    }
-                });
-            } else if (type == 'delete') {
-
-                res = confirm('Do you really want to delete?');
-                if (res === false) {
-                    return;
-                }
-
-                $.ajax({
-                    url: action,
-                    type: 'get',
-                    dataType: 'json',
-                    beforeSend: function () {
-                        loader(1);
-                    },
-                    success: function (msg) {
-                        loader(0);
-                        if (msg.status == 0) {
-                            toaster(msg.title, msg.msg, msg.type);
-                        } else {
-                            toaster(msg.title, msg.msg, msg.type);
-                            reloadDatatable.ajax.reload(null, false);
-                        }
-                        setTimeout(function () {
-                            $("#alert").css('display', 'none');
-                        }, 5000);
-                    }
-                });
-            } else if (type == 'edit') {
-                id = $('#con-edit-modal');
-                id.modal('show');
-                data = JSON.parse($(this).attr('data-array'));
-                id.find('#id').val(data.id);
-                id.find('#role').val(data.role);
-                id.find('#description').val(data.description);
-            } else {
-                id = $('#con-detail-modal');
-                id.modal('show');
-                data = JSON.parse($(this).attr('data-array'));
-                id.find('#role').text(data.role);
-                id.find('#description').text(data.description);
-            }
-        });
-
-
-        //---- ( Permission Update ) ----//
-        $("#updatePermissionForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updatePermissionBtn');
-
-            event.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                data: new FormData(this),
-                type: $(this).attr('method'),
-                dataType: 'json',
-                cache: false,
-                contentType: false,
-                processData: false,
-                beforeSend: function () {
-                    loader(1);
-                    submitBtn.attr("disabled", "disabled").find('span').text('Please wait...');
-                },
-                success: function (msg) {
-                    loader(0);
-                    submitBtn.attr("disabled", false).find('span').text('Update');
-
-                    if (msg.status == 0) {
-                        toaster(msg.title, msg.msg, msg.type);
-                    } else {
-                        toaster(msg.title, msg.msg, msg.type);
-                        $('#setupAdmin-permission-listing').DataTable().ajax.reload(null, false);
-                        setTimeout(() => {
-                            $('.checkbox').lc_switch();
-                        }, 3000);
-                    }
-                }
-            });
-        });
-
-
         //---- ( Nav Type Save ) ----//
         $("#saveNavTypeForm").submit(function (event) {
 
@@ -2068,6 +1864,7 @@
                 id = $('#con-edit-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
+                console.log(data);
                 id.find('#id').val(data.id);
                 id.find('#name').val(data.name);
                 id.find('#description').val(data.description);
@@ -2077,6 +1874,18 @@
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
                 id.find('#description').text(data.description);
+            } else if (type == 'permission') {
+                data = JSON.parse($(this).attr('data-array'));
+                commonAction({
+                    swal: {
+                        position: 'center-center',
+                        icon: 'warning',
+                        title: 'Oops....!',
+                        html: 'There some sub role found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.roleSubRoute + '">sub role</a>',
+                        showConfirmButton: false,
+                        timer: 10000
+                    },
+                })
             } else {}
         });
 

@@ -361,7 +361,7 @@
                     data: "description",
                 },
                 {
-                    data: "status",
+                    data: "statInfo",
                 },
                 {
                     data: 'action',
