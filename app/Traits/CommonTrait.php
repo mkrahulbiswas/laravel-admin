@@ -264,13 +264,20 @@ trait CommonTrait
                                     if ($tempThree['extraData']['hasNavSub'] <= 0) {
                                         $navHtml .= '<div class="npbMain"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempThree['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                         if ($permission == null) {
-                                            $navHtml .= '<div class="npbCheckButtonCommon">
+                                            $navHtml .= '<div class="npbCheckNoAccess">
                                                 <span>No access is set yet for <b>nav main</b>, please set access before set permission.</span>
                                             </div>';
                                         } else {
-                                            $navHtml .= '<div class="npbCheckButtonCommon">
-                                                <input type="checkbox" name="check-1" value="1" class="lcSwitch" autocomplete="off" />
-                                            </div>';
+                                            foreach (json_decode($permission->privilege) as $keySix => $tempSix) {
+                                                $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
+                                                if ($tempSix->access == true) {
+                                                    $navHtml .= '<input type="checkbox" name="' . $keySix . '" value="1" class="lcSwitch" autocomplete="off" />';
+                                                } else {
+                                                    $navHtml .= '<span><i class=" las la-low-vision"></i></span>';
+                                                }
+                                                $navHtml .= '</div>
+                                                </div>';
+                                            }
                                         }
                                         $navHtml .= '</div></div></div></div>';
                                     } else {
@@ -286,13 +293,20 @@ trait CommonTrait
                                                 if ($tempFour['extraData']['hasNavNested'] <= 0) {
                                                     $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                                     if ($permission == null) {
-                                                        $navHtml .= '<div class="npbCheckButtonCommon">
+                                                        $navHtml .= '<div class="npbCheckNoAccess">
                                                             <span>No access is set yet for <b>nav sub</b>, please set access before set permission.</span>
                                                         </div>';
                                                     } else {
-                                                        $navHtml .= '<div class="npbCheckButtonCommon">
-                                                            <input type="checkbox" name="check-1" value="1" class="lcSwitch" autocomplete="off" />
-                                                        </div>';
+                                                        foreach (json_decode($permission->privilege) as $keySix => $tempSix) {
+                                                            $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
+                                                            if ($tempSix->access == true) {
+                                                                $navHtml .= '<input type="checkbox" name="' . $keySix . '" value="1" class="lcSwitch" autocomplete="off" />';
+                                                            } else {
+                                                                $navHtml .= '<span><i class=" las la-low-vision"></i></span>';
+                                                            }
+                                                            $navHtml .= '</div>
+                                                            </div>';
+                                                        }
                                                     }
                                                     $navHtml .= '</div></div></div></div>';
                                                 } else {
@@ -314,13 +328,20 @@ trait CommonTrait
                                                             ])->first();
                                                             $navHtml .= '<div class="npbNested"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFive['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                                             if ($permission == null) {
-                                                                $navHtml .= '<div class="npbCheckButtonCommon">
+                                                                $navHtml .= '<div class="npbCheckNoAccess">
                                                                     <span>No access is set yet for <b>nav nested</b>, please set access before set permission.</span>
                                                                 </div>';
                                                             } else {
-                                                                $navHtml .= '<div class="npbCheckButtonCommon">
-                                                                    <input type="checkbox" name="check-1" value="1" class="lcSwitch" autocomplete="off" />
-                                                                </div>';
+                                                                foreach (json_decode($permission->privilege) as $keySix => $tempSix) {
+                                                                    $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
+                                                                    if ($tempSix->access == true) {
+                                                                        $navHtml .= '<input type="checkbox" name="' . $keySix . '" value="1" class="lcSwitch" autocomplete="off" />';
+                                                                    } else {
+                                                                        $navHtml .= '<span><i class=" las la-low-vision"></i></span>';
+                                                                    }
+                                                                    $navHtml .= '</div>
+                                                                    </div>';
+                                                                }
                                                             }
                                                             $navHtml .= '</div></div></div></div>';
                                                         }
