@@ -277,7 +277,7 @@ class ManageAccessAdminController extends Controller
 
             $data = [
                 'navType' => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
-                'id' => $id
+                'roleMainId' => $id
             ];
 
             return view('admin.manage_panel.manage_access.role_main.role_main_permission', ['data' => $data]);
@@ -316,8 +316,7 @@ class ManageAccessAdminController extends Controller
                             'otherDataPasses' => [
                                 'permission' => [
                                     'model' => Permission::class,
-                                    'id' => 2
-                                    // 'id'=>decrypt($id)
+                                    'roleMainId' => request()->roleMainId
                                 ]
                             ]
                         ]

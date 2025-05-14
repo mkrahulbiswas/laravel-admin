@@ -116,6 +116,12 @@
             }
         })
 
+        $('body').delegate('.npGo span', 'click', function () {
+            let targetId = $(this)
+            $(targetId).closest('.npGo').fadeOut(500)
+            lc_switch('.lcSwitch')
+        })
+
     });
 
 })(jQuery);

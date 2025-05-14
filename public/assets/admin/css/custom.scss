@@ -289,6 +289,32 @@
                     .navPermissionMain {
                         .navPermissionSub {
                             .npRoleMain {
+                                position: relative;
+                                border-radius: 5px;
+                                overflow: hidden;
+
+                                .npGo {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    background-color: #00000087;
+                                    width: 100%;
+                                    height: 100%;
+                                    z-index: 1;
+                                    backdrop-filter: blur(2px);
+
+                                    span {
+                                        position: absolute;
+                                        top: 60px;
+                                        left: 50%;
+                                        padding: 5px 10px;
+                                        cursor: pointer;
+                                        transform: translate(-50%, -0%);
+                                        background: hsla(233, 100%, 90%, 1);
+                                        background: linear-gradient(90deg, hsla(233, 100%, 90%, 1) 0%, hsla(0, 0%, 89%, 1) 100%);
+                                    }
+                                }
+
                                 .npHead {
                                     .nphLeft {
                                         span {}
@@ -308,7 +334,7 @@
                                         display: flex;
                                         flex-direction: column;
                                         gap: 10px;
-                                        background-color: lightcoral;
+                                        background-color: rgb(247, 208, 208);
                                         padding: 10px;
                                         border-radius: 5px;
 
@@ -316,7 +342,7 @@
                                             display: flex;
                                             flex-direction: column;
                                             gap: 10px;
-                                            background-color: greenyellow;
+                                            background-color: rgb(234, 252, 207);
                                             padding: 10px;
                                             border-radius: 5px;
 
@@ -324,7 +350,7 @@
                                                 display: flex;
                                                 flex-direction: column;
                                                 gap: 10px;
-                                                background-color: blueviolet;
+                                                background-color: rgb(240, 224, 255);
                                                 padding: 10px;
                                                 border-radius: 5px;
 
@@ -332,7 +358,7 @@
                                                     display: flex;
                                                     flex-direction: column;
                                                     gap: 10px;
-                                                    background-color: pink;
+                                                    background-color: rgb(219, 219, 219);
                                                     padding: 10px;
                                                     border-radius: 5px;
                                                 }

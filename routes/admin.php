@@ -66,7 +66,7 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::get('role-main/delete/{id?}', 'deleteRoleMain')->name('admin.delete.roleMain');
                 Route::group(['prefix' => 'role-main'], function () {
                     Route::get('permission/{id?}', 'showPermissionRoleMain')->name('admin.show.permissionRoleMain');
-                    Route::get('permission/get/ajaxGetList', 'getPermissionRoleMain')->name('admin.get.permissionRoleMain');
+                    Route::get('permission/get/ajaxGetList/{roleMainId?}', 'getPermissionRoleMain')->name('admin.get.permissionRoleMain');
                     Route::post('permission/update', 'updatePermissionRoleMain')->name('admin.update.permissionRoleMain');
                 });
 

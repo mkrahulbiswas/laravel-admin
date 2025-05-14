@@ -105,7 +105,7 @@ function callSelect2() {
 }
 
 function lcSwitch() {
-    $('body').delegate('.lcSwitch', 'click', function () {
-        lc_switch('.lcSwitch')
-    });
+    // $('body').delegate('.lcSwitch', 'click', function () {
+    //     lc_switch('.lcSwitch')
+    // });
 }

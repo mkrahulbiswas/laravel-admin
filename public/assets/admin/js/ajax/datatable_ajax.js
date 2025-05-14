@@ -379,7 +379,7 @@
             info: false,
             searching: false,
             serverSide: true,
-            ajax: "get/ajaxGetList",
+            ajax: "get/ajaxGetList/?roleMainId=" + $('#managePanel-manageAccess-permissionRoleMain').attr('data-id'),
             language: {
                 searchPlaceholder: "None"
             },
