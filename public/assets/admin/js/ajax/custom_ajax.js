@@ -1827,6 +1827,86 @@
             });
         });
 
+        //---- ( Permission Role Main Update ) ----//
+        $("#updatePermissionRoleMainForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#updatePermissionRoleMainBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        // loader: {
+                        //     isSet: true
+                        // },
+                        resetValidation: {},
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Please wait...',
+                        //         disabled: true
+                        //     }
+                        // }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        // loader: {
+                        //     isSet: false
+                        // },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Update',
+                        //         disabled: false
+                        //     }
+                        // }
+                    })
+                    if (msg.status == 0) {
+                        // $.each(msg.errors.name, function (i) {
+                        //     submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        // });
+                    } else {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#managePanel-manageAccess-permissionRoleMain')
+                                }
+                            }
+                        })
+                    }
+                }
+            });
+        });
+
         //---- ( Role Main Status, Edit, Detail ) ----//
         $('body').delegate('#managePanel-manageAccess-roleMain .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),

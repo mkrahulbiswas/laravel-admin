@@ -271,13 +271,17 @@ trait CommonTrait
                                             foreach (json_decode($permission->privilege) as $keySix => $tempSix) {
                                                 $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
                                                 if ($tempSix->access == true) {
-                                                    $navHtml .= '<input type="checkbox" name="' . $keySix . '" value="1" class="lcSwitch" autocomplete="off" />';
+                                                    if ($tempSix->privilege == true) {
+                                                        $navHtml .= '<input type="checkbox" name="' . $permission->uniqueId . '[' . $keySix . ']" value="1" checked class="lcSwitch" autocomplete="off" />';
+                                                    } else {
+                                                        $navHtml .= '<input type="checkbox" name="' . $permission->uniqueId . '[' . $keySix . ']" value="0" class="lcSwitch" autocomplete="off" />';
+                                                    }
                                                 } else {
                                                     $navHtml .= '<span><i class=" las la-low-vision"></i></span>';
                                                 }
-                                                $navHtml .= '</div>
-                                                </div>';
+                                                $navHtml .= '</div></div>';
                                             }
+                                            $navHtml .= '<input type="hidden" name="id[' . $permission->uniqueId . ']" value="' . encrypt($permission->id) . '">';
                                         }
                                         $navHtml .= '</div></div></div></div>';
                                     } else {
@@ -300,13 +304,17 @@ trait CommonTrait
                                                         foreach (json_decode($permission->privilege) as $keySix => $tempSix) {
                                                             $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
                                                             if ($tempSix->access == true) {
-                                                                $navHtml .= '<input type="checkbox" name="' . $keySix . '" value="1" class="lcSwitch" autocomplete="off" />';
+                                                                if ($tempSix->privilege == true) {
+                                                                    $navHtml .= '<input type="checkbox" name="' . $permission->uniqueId . '[' . $keySix . ']" value="1" checked class="lcSwitch" autocomplete="off" />';
+                                                                } else {
+                                                                    $navHtml .= '<input type="checkbox" name="' . $permission->uniqueId . '[' . $keySix . ']" value="0" class="lcSwitch" autocomplete="off" />';
+                                                                }
                                                             } else {
                                                                 $navHtml .= '<span><i class=" las la-low-vision"></i></span>';
                                                             }
-                                                            $navHtml .= '</div>
-                                                            </div>';
+                                                            $navHtml .= '</div></div>';
                                                         }
+                                                        $navHtml .= '<input type="hidden" name="id[' . $permission->uniqueId . ']" value="' . encrypt($permission->id) . '">';
                                                     }
                                                     $navHtml .= '</div></div></div></div>';
                                                 } else {
@@ -335,13 +343,17 @@ trait CommonTrait
                                                                 foreach (json_decode($permission->privilege) as $keySix => $tempSix) {
                                                                     $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
                                                                     if ($tempSix->access == true) {
-                                                                        $navHtml .= '<input type="checkbox" name="' . $keySix . '" value="1" class="lcSwitch" autocomplete="off" />';
+                                                                        if ($tempSix->privilege == true) {
+                                                                            $navHtml .= '<input type="checkbox" name="' . $permission->uniqueId . '[' . $keySix . ']" value="1" checked class="lcSwitch" autocomplete="off" />';
+                                                                        } else {
+                                                                            $navHtml .= '<input type="checkbox" name="' . $permission->uniqueId . '[' . $keySix . ']" value="0" class="lcSwitch" autocomplete="off" />';
+                                                                        }
                                                                     } else {
                                                                         $navHtml .= '<span><i class=" las la-low-vision"></i></span>';
                                                                     }
-                                                                    $navHtml .= '</div>
-                                                                    </div>';
+                                                                    $navHtml .= '</div></div>';
                                                                 }
+                                                                $navHtml .= '<input type="hidden" name="id[' . $permission->uniqueId . ']" value="' . encrypt($permission->id) . '">';
                                                             }
                                                             $navHtml .= '</div></div></div></div>';
                                                         }
@@ -743,7 +755,7 @@ trait CommonTrait
     }
 
 
-    function generateCode($data)
+    public static function generateCode($data)
     {
         $start = '1';
         $end = '9';

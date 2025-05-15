@@ -445,6 +445,7 @@ class GetManageAccessHelper
                         $permission->navMainId = decrypt($getDetail['id']);
                         $permission->roleMainId = decrypt($tempOne['id']);
                         $permission->privilege = json_encode($getNavAccessList['privilege']);
+                        $permission->uniqueId = CommonTrait::generateCode(['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '']);
                         if ($permission->save()) {
                             $roleSub = GetManageAccessHelper::getList([
                                 [
@@ -467,6 +468,7 @@ class GetManageAccessHelper
                                 $permission->roleMainId = decrypt($tempOne['id']);
                                 $permission->roleSubId = decrypt($tempTwo['id']);
                                 $permission->privilege = json_encode($getNavAccessList['privilege']);
+                                $permission->uniqueId = CommonTrait::generateCode(['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '']);
                                 if ($permission->save()) {
                                     $response = true;
                                 } else {
@@ -536,6 +538,7 @@ class GetManageAccessHelper
                         $permission->navSubId = decrypt($getDetail['id']);
                         $permission->roleMainId = decrypt($tempOne['id']);
                         $permission->privilege = json_encode($getNavAccessList['privilege']);
+                        $permission->uniqueId = CommonTrait::generateCode(['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '']);
                         if ($permission->save()) {
                             $roleSub = GetManageAccessHelper::getList([
                                 [
@@ -559,6 +562,7 @@ class GetManageAccessHelper
                                 $permission->roleMainId = decrypt($tempOne['id']);
                                 $permission->roleSubId = decrypt($tempTwo['id']);
                                 $permission->privilege = json_encode($getNavAccessList['privilege']);
+                                $permission->uniqueId = CommonTrait::generateCode(['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '']);
                                 if ($permission->save()) {
                                     $response = true;
                                 } else {
@@ -626,6 +630,7 @@ class GetManageAccessHelper
                         $permission->navNestedId = decrypt($getDetail['id']);
                         $permission->roleMainId = decrypt($tempOne['id']);
                         $permission->privilege = json_encode($getNavAccessList['privilege']);
+                        $permission->uniqueId = CommonTrait::generateCode(['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '']);
                         if ($permission->save()) {
                             $roleSub = GetManageAccessHelper::getList([
                                 [
@@ -650,6 +655,7 @@ class GetManageAccessHelper
                                 $permission->roleMainId = decrypt($tempOne['id']);
                                 $permission->roleSubId = decrypt($tempTwo['id']);
                                 $permission->privilege = json_encode($getNavAccessList['privilege']);
+                                $permission->uniqueId = CommonTrait::generateCode(['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '']);
                                 if ($permission->save()) {
                                     $response = true;
                                 } else {

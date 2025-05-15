@@ -330,6 +330,41 @@ class ManageAccessAdminController extends Controller
         }
     }
 
+    public function updatePermissionRoleMain(Request $request)
+    {
+        try {
+            // dd($request);
+            foreach ($request->get('id') as $keyOne => $tempOne) {
+                // dd($tempOne);
+                // dd($keyOne);
+                $permission = Permission::where('id', decrypt($tempOne))->first();
+
+                $arr = json_decode($permission->privilege);
+                $indexToReplace = 'privilege';
+                $newValue = $request->get($keyOne);
+
+                $ff = array_map(function ($value, $key) use ($indexToReplace, $newValue) {
+                    dd($value, $key);
+                    return ($key === $indexToReplace) ? $newValue : $value;
+                }, $arr);
+
+                dd($ff);
+                echo '<pre>';
+                print_r($request->get($keyOne));
+                echo '</pre>';
+                echo '<br><pre>';
+                print_r(json_decode($permission->privilege));
+                echo '</pre>';
+                die;
+                // foreach (json_decode($permission->privilege) as $keyTwo => $tempTwo) {
+                // }
+            }
+            return response()->json(['status' => 1, 'type' => "success", 'title' => "Update Permission", 'msg' => 'Permissions are successfully updated.'], config('constants.ok'));
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+        }
+    }
+
 
     /*---- ( Role Sub ) ----*/
     public function showRoleSub()
