@@ -66,7 +66,7 @@
                                                 @csrf
                                                 <div class="row gap-2">
 
-                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
                                                         <div class="form-icon set-validation">
                                                             <select name="status" id="statusFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any status">
@@ -77,7 +77,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <div class="form-icon set-validation">
                                                             <select class="form-control form-control-icon select2-roleMain" name="roleMain" id="roleMainFilter">
                                                                 <option value="">Select One</option>
@@ -89,7 +89,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <div class="form-group d-flex flex-row justify-content-start">
                                                             <button type="button" class="btn btn-info btn-label waves-effect waves-light filterRoleSubBtn" title="Search">
                                                                 <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>

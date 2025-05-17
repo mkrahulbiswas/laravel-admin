@@ -1847,16 +1847,16 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        // loader: {
-                        //     isSet: true
-                        // },
+                        loader: {
+                            isSet: true
+                        },
                         resetValidation: {},
-                        // submitBtnState: {
-                        //     dataPass: {
-                        //         text: 'Please wait...',
-                        //         disabled: true
-                        //     }
-                        // }
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
                     })
                 },
                 success: function (msg) {
@@ -1865,9 +1865,9 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        // loader: {
-                        //     isSet: false
-                        // },
+                        loader: {
+                            isSet: false
+                        },
                         toaster: {
                             dataPass: {
                                 title: msg.title,
@@ -1875,12 +1875,12 @@
                                 type: msg.type
                             }
                         },
-                        // submitBtnState: {
-                        //     dataPass: {
-                        //         text: 'Update',
-                        //         disabled: false
-                        //     }
-                        // }
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Update',
+                                disabled: false
+                            }
+                        }
                     })
                     if (msg.status == 0) {
                         // $.each(msg.errors.name, function (i) {
@@ -2144,6 +2144,86 @@
             });
         });
 
+        //---- ( Permission Role Sub Update ) ----//
+        $("#updatePermissionRoleSubForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#updatePermissionRoleSubBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        // loader: {
+                        //     isSet: true
+                        // },
+                        resetValidation: {},
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Please wait...',
+                        //         disabled: true
+                        //     }
+                        // }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        // loader: {
+                        //     isSet: false
+                        // },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Update',
+                        //         disabled: false
+                        //     }
+                        // }
+                    })
+                    if (msg.status == 0) {
+                        // $.each(msg.errors.name, function (i) {
+                        //     submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        // });
+                    } else {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#managePanel-manageAccess-permissionRoleMain')
+                                }
+                            }
+                        })
+                    }
+                }
+            });
+        });
+
         //---- ( Role Sub Status, Edit, Detail ) ----//
         $('body').delegate('#managePanel-manageAccess-roleSub .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
@@ -2185,14 +2265,14 @@
                 id.find('#name').val(data.name);
                 id.find('#description').val(data.description);
                 id.find("#roleMain option[data-name='" + data.roleMain.name + "']").prop("selected", true).trigger('change');
-            } else {
+            } else if (type == 'detail') {
                 id = $('#con-detail-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#roleMain').text(data.roleMain.name);
                 id.find('#name').text(data.name);
                 id.find('#description').text(data.description);
-            }
+            } else {}
         });
         /*--========================= ( Setup Admin END ) =========================--*/
 

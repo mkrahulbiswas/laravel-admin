@@ -65,19 +65,22 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::get('role-main/status/{id?}', 'statusRoleMain')->name('admin.status.roleMain');
                 Route::get('role-main/delete/{id?}', 'deleteRoleMain')->name('admin.delete.roleMain');
                 Route::group(['prefix' => 'role-main'], function () {
-                    Route::get('permission/{id?}', 'showPermissionRoleMain')->name('admin.show.permissionRoleMain');
-                    Route::get('permission/get/ajaxGetList/{roleMainId?}', 'getPermissionRoleMain')->name('admin.get.permissionRoleMain');
+                    Route::get('permission/{roleMainId?}', 'showPermissionRoleMain')->name('admin.show.permissionRoleMain');
+                    Route::get('permission/role-main/ajaxGetList/{roleMainId?}', 'getPermissionRoleMain')->name('admin.get.permissionRoleMain');
                     Route::post('permission/update', 'updatePermissionRoleMain')->name('admin.update.permissionRoleMain');
                 });
 
                 Route::get('role-sub', 'showRoleSub')->name('admin.show.roleSub');
                 Route::get('role-sub/ajaxGetList', 'getRoleSub')->name('admin.get.roleSub');
-                Route::get('role-sub/permission/ajaxGetList', 'getPermissionRoleSub')->name('admin.get.permission.roleSub');
-                Route::post('role-sub/permission/update', 'updatePermissionRoleSub')->name('admin.update.permission.roleSub');
                 Route::post('role-sub/add/save', 'saveRoleSub')->name('admin.save.roleSub');
                 Route::post('role-sub/edit/update', 'updateRoleSub')->name('admin.update.roleSub');
                 Route::get('role-sub/status/{id?}', 'statusRoleSub')->name('admin.status.roleSub');
                 Route::get('role-sub/delete/{id?}', 'deleteRoleSub')->name('admin.delete.roleSub');
+                Route::group(['prefix' => 'role-sub'], function () {
+                    Route::get('permission/{roleSubId?}', 'showPermissionRoleSub')->name('admin.show.permissionRoleSub');
+                    Route::get('permission/role-sub/ajaxGetList/{roleSubId?}', 'getPermissionRoleSub')->name('admin.get.permissionRoleSub');
+                    Route::post('permission/update', 'updatePermissionRoleSub')->name('admin.update.permissionRoleSub');
+                });
 
                 Route::get('permissions', 'showPermissions')->name('admin.show.permissions');
                 Route::get('permissions/ajaxGetList', 'getPermissions')->name('admin.get.permissions');
