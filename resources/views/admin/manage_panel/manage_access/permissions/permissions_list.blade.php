@@ -4,12 +4,12 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-sm-0">
-                    <h4>Role Sub</h4>
+                    <h4>Permissions</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Panel</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Access</a></li>
-                            <li class="breadcrumb-item active">Role Sub</li>
+                            <li class="breadcrumb-item active">Permissions</li>
                         </ol>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                                                 @csrf
                                                 <div class="row gap-2">
 
-                                                    <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
                                                         <div class="form-icon set-validation">
                                                             <select name="status" id="statusFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any status">
@@ -77,7 +77,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
+                                                    {{-- <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         <div class="form-icon set-validation">
                                                             <select class="form-control form-control-icon select2-roleMain" name="roleMain" id="roleMainFilter">
                                                                 <option value="">Select One</option>
@@ -87,9 +87,9 @@
                                                             </select>
                                                             <i class="mdi mdi-list-status"></i>
                                                         </div>
-                                                    </div>
+                                                    </div> --}}
 
-                                                    <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         <div class="form-group d-flex flex-row justify-content-start">
                                                             <button type="button" class="btn btn-info btn-label waves-effect waves-light filterRoleSubBtn" title="Search">
                                                                 <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
@@ -140,124 +140,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="con-add-modal" class="modal fade con-add-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="saveRoleSubForm" action="{{ route('admin.save.roleSub') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
-                    @csrf
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Add Role Sub</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
-                                <label for="name" class="form-label">Role Main Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                                <div class="form-icon set-validation">
-                                    <select class="form-control form-control-icon select2-roleMain-addModal" name="roleMain" id="roleMain">
-                                        <option value="">Select One</option>
-                                        @foreach ($data[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $key)
-                                            <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
-                                        @endforeach
-                                    </select>
-                                    <i class="bx bx-receipt"></i>
-                                </div>
-                                <div class="validation-error" id="roleMainErr"></div>
-                            </div>
-                            <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
-                                <label for="name" class="form-label">Sub Role Name<span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                                <div class="form-icon set-validation">
-                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Role Name">
-                                    <i class="bx bx-message-edit"></i>
-                                </div>
-                                <div class="validation-error" id="nameErr"></div>
-                            </div>
-                            <div class="form-element col-12">
-                                <label for="description" class="form-label">Description</label>
-                                <div class="input-group set-validation">
-                                    <span class="input-group-text">
-                                        <i class="bx bx-detail"></i>
-                                    </span>
-                                    <textarea name="description" class="form-control" aria-label="With textarea" id="description" role="3" placeholder="Give any description if you want"></textarea>
-                                </div>
-                                <div class="validation-error" id="descriptionErr"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
-                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                            <span>Close</span>
-                        </button>
-                        <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="saveRoleSubBtn">
-                            <i class="las la-save label-icon align-middle fs-16 me-2"></i>
-                            <span>Save</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div id="con-edit-modal" class="modal fade con-edit-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="updateRoleSubForm" action="{{ route('admin.update.roleSub') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
-                    @csrf
-                    <input type="hidden" name="id" id="id" value="">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Edit Role Sub</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
-                                <label for="name" class="form-label">Role Main Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                                <div class="form-icon set-validation">
-                                    <select class="form-control form-control-icon select2-roleMain-editModal" name="roleMain" id="roleMain">
-                                        @foreach ($data[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $key)
-                                            <option value="{{ $key['id'] }}" data-name="{{ $key['name'] }}">{{ $key['name'] }}</option>
-                                        @endforeach
-                                    </select>
-                                    <i class="bx bx-receipt"></i>
-                                </div>
-                                <div class="validation-error" id="roleMainErr"></div>
-                            </div>
-                            <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
-                                <label for="name" class="form-label">Sub Role Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                                <div class="form-icon set-validation">
-                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Role Name">
-                                    <i class="bx bx-message-edit"></i>
-                                </div>
-                                <div class="validation-error" id="nameErr"></div>
-                            </div>
-                            <div class="form-element col-12">
-                                <label for="description" class="form-label">Description</label>
-                                <div class="input-group set-validation">
-                                    <span class="input-group-text">
-                                        <i class="bx bx-detail"></i>
-                                    </span>
-                                    <textarea name="description" class="form-control" aria-label="With textarea" id="description" role="3" placeholder="Give any description if you want"></textarea>
-                                </div>
-                                <div class="validation-error" id="descriptionErr"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
-                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                            <span>Close</span>
-                        </button>
-                        <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateRoleSubBtn">
-                            <i class="las la-save label-icon align-middle fs-16 me-2"></i>
-                            <span>Update</span>
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

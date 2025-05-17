@@ -3,16 +3,14 @@
 namespace app\Traits;
 
 use Illuminate\Support\Facades\Auth;
-use Exception;
 use Illuminate\Support\Facades\DB;
-use DateTimeZone;
-use DateTime;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
-
-use function PHPUnit\Framework\isEmpty;
+use Exception;
+use DateTimeZone;
+use DateTime;
 
 trait CommonTrait
 {
@@ -187,6 +185,10 @@ trait CommonTrait
                         if ($tempTwo['type'] == 'access') {
                             $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Access:</label>' . $tempOne['data']['access']['custom'] . '</div>';
                         }
+
+                        if ($tempTwo['type'] == 'hasChild') {
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Child:</label>' . $tempOne['data']['hasChild']['custom'] . '</div>';
+                        }
                     }
 
                     $html = '<div class="dtMultiData"><div class="dtMultiDataContent">' . $appendHtml . '</div></div>';
@@ -235,6 +237,142 @@ trait CommonTrait
                         'raw' => $tempOne['data']
                     ];
                 }
+
+                if ($tempOne['type'] == 'dtNavPermission') {
+                    $navHtml = '';
+                    foreach ($tempOne['data'] as $tempTwo) {
+                        if ($tempTwo['extraData']['hasNavMain'] <= 0) {
+                            $navHtml .= '<div class="npbType"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempTwo['name'] . '</span></div><div class="npbhRight">Nav Type (No Nav Main Found)</div></div></div>';
+                        } else {
+                            $navHtml .= '<div class="npbType"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempTwo['name'] . '</span></div></div>';
+                            foreach ($tempTwo['navMain'] as $tempThree) {
+                                $permission = app($tempOne['otherDataPasses']['permission']['model'])::where([
+                                    ['roleMainId', decrypt($tempOne['otherDataPasses']['permission']['roleMainId'])],
+                                    ['navTypeId', decrypt($tempTwo['id'])],
+                                    ['navMainId', decrypt($tempThree['id'])],
+                                ])->first();
+                                if ($tempThree['extraData']['hasNavSub'] <= 0) {
+                                    $navHtml .= '<div class="npbMain"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempThree['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
+                                    if ($permission == null) {
+                                        $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>nav main</b>, please set access before set permission.</span></div>';
+                                    } else {
+                                        foreach (json_decode($permission->privilege) as $keySix => $tempSix) {
+                                            $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
+                                            if ($tempSix->allowed == true) {
+                                                if ($tempSix->permission == true) {
+                                                    $navHtml .= '<input type="checkbox" name="' . $permission->uniqueId . '[' . $keySix . ']" value="1" checked class="lcSwitch" autocomplete="off" />';
+                                                } else {
+                                                    $navHtml .= '<input type="checkbox" name="' . $permission->uniqueId . '[' . $keySix . ']" value="0" class="lcSwitch" autocomplete="off" />';
+                                                }
+                                            } else {
+                                                $navHtml .= '<span><i class=" las la-low-vision"></i></span>';
+                                            }
+                                            $navHtml .= '</div></div>';
+                                        }
+                                        $navHtml .= '<input type="hidden" name="id[' . $permission->uniqueId . ']" value="' . encrypt($permission->id) . '">';
+                                    }
+                                    $navHtml .= '</div></div></div></div>';
+                                } else {
+                                    $navHtml .= '<div class="npbMain"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempThree['name'] . '</span></div></div>';
+                                    foreach ($tempThree['navSub'] as $tempFour) {
+                                        $permission = app($tempOne['otherDataPasses']['permission']['model'])::where([
+                                            ['roleMainId', decrypt($tempOne['otherDataPasses']['permission']['roleMainId'])],
+                                            ['navTypeId', decrypt($tempTwo['id'])],
+                                            ['navMainId', decrypt($tempThree['id'])],
+                                            ['navSubId', decrypt($tempFour['id'])],
+                                        ])->first();
+                                        if ($tempFour['extraData']['hasNavNested'] <= 0) {
+                                            $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
+                                            if ($permission == null) {
+                                                $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>nav sub</b>, please set access before set permission.</span></div>';
+                                            } else {
+                                                foreach (json_decode($permission->privilege) as $keySix => $tempSix) {
+                                                    $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
+                                                    if ($tempSix->allowed == true) {
+                                                        if ($tempSix->permission == true) {
+                                                            $navHtml .= '<input type="checkbox" name="' . $permission->uniqueId . '[' . $keySix . ']" value="1" checked class="lcSwitch" autocomplete="off" />';
+                                                        } else {
+                                                            $navHtml .= '<input type="checkbox" name="' . $permission->uniqueId . '[' . $keySix . ']" value="0" class="lcSwitch" autocomplete="off" />';
+                                                        }
+                                                    } else {
+                                                        $navHtml .= '<span><i class=" las la-low-vision"></i></span>';
+                                                    }
+                                                    $navHtml .= '</div></div>';
+                                                }
+                                                $navHtml .= '<input type="hidden" name="id[' . $permission->uniqueId . ']" value="' . encrypt($permission->id) . '">';
+                                            }
+                                            $navHtml .= '</div></div></div></div>';
+                                        } else {
+                                            $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight">There some nav nested found.....</div></div>';
+                                            foreach ($tempFour['navNested'] as $tempFive) {
+                                                $permission = app($tempOne['otherDataPasses']['permission']['model'])::where([
+                                                    ['roleMainId', decrypt($tempOne['otherDataPasses']['permission']['roleMainId'])],
+                                                    ['navTypeId', decrypt($tempTwo['id'])],
+                                                    ['navMainId', decrypt($tempThree['id'])],
+                                                    ['navSubId', decrypt($tempFour['id'])],
+                                                    ['navNestedId', decrypt($tempFive['id'])]
+                                                ])->first();
+                                                $navHtml .= '<div class="npbNested"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFive['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
+                                                if ($permission == null) {
+                                                    $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>nav nested</b>, please set access before set permission.</span></div>';
+                                                } else {
+                                                    foreach (json_decode($permission->privilege) as $keySix => $tempSix) {
+                                                        $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
+                                                        if ($tempSix->allowed == true) {
+                                                            if ($tempSix->permission == true) {
+                                                                $navHtml .= '<input type="checkbox" name="' . $permission->uniqueId . '[' . $keySix . ']" value="1" checked class="lcSwitch" autocomplete="off" />';
+                                                            } else {
+                                                                $navHtml .= '<input type="checkbox" name="' . $permission->uniqueId . '[' . $keySix . ']" value="0" class="lcSwitch" autocomplete="off" />';
+                                                            }
+                                                        } else {
+                                                            $navHtml .= '<span><i class=" las la-low-vision"></i></span>';
+                                                        }
+                                                        $navHtml .= '</div></div>';
+                                                    }
+                                                    $navHtml .= '<input type="hidden" name="id[' . $permission->uniqueId . ']" value="' . encrypt($permission->id) . '">';
+                                                }
+                                                $navHtml .= '</div></div></div></div>';
+                                            }
+                                            $navHtml .= '</div>';
+                                        }
+                                    }
+                                    $navHtml .= '</div>';
+                                }
+                            }
+                            $navHtml .= '</div>';
+                        }
+                    }
+
+                    $html = '<div class="navPermissionMain">
+                        <div class="navPermissionSub">
+                            <div class="npRoleMain">
+                                <div class="npGo">
+                                    <span>Click for set permission</span>
+                                </div>
+                                <div class="npHead">
+                                    <div class="nphLeft">
+                                        <span>Set Permission</span>
+                                    </div>
+                                    <div class="nphRight">
+                                        <button>Update</button>
+                                    </div>
+                                </div>
+                                <div class="npBody">' . $navHtml . '</div>
+                                <div class="npFoot">
+                                    <div class="npfLeft"></div>
+                                    <div class="npfRight">
+                                        <button>Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>';
+
+                    $return['dtNavPermission'] = [
+                        'custom' => $html,
+                        'raw' => $tempOne['data']
+                    ];
+                }
             }
             return $return;
         } catch (Exception $e) {
@@ -269,7 +407,7 @@ trait CommonTrait
                     if ($temp['value'] == null) {
                         $custom = '<span class="badge bg-danger">No Access Found</span>';
                     } else {
-                        $custom = '<span class="badge bg-success"data-access="' . json_encode($temp['value']) . '">Access Found</span>';
+                        $custom = '<span class="badge bg-success" data-access="' . json_encode($temp['value']) . '">Access Found</span>';
                     }
                     $return['access'] = [
                         'custom' => $custom,
@@ -277,8 +415,19 @@ trait CommonTrait
                         'type' => $temp['type'],
                     ];
                 }
+                if ($temp['type'] == 'hasChild') {
+                    if ($temp['value'] <= 0) {
+                        $custom = '<span class="badge bg-danger">No</span>';
+                    } else {
+                        $custom = '<span class="badge bg-success">Yes</span>';
+                    }
+                    $return['hasChild'] = [
+                        'custom' => $custom,
+                        'raw' => $temp['value'],
+                        'type' => $temp['type'],
+                    ];
+                }
             }
-
             return $return;
         } catch (Exception $e) {
             return false;
@@ -316,8 +465,8 @@ trait CommonTrait
                     $privilege = Arr::prepend(
                         $privilege,
                         [
-                            'access' => false,
-                            'privilege' => false
+                            'allowed' => false,
+                            'permission' => false
                         ],
                         $temp
                     );
@@ -329,8 +478,8 @@ trait CommonTrait
                         $privilege = Arr::prepend(
                             $privilege,
                             [
-                                'access' => true,
-                                'privilege' => false
+                                'allowed' => true,
+                                'permission' => false
                             ],
                             $temp
                         );
@@ -339,8 +488,8 @@ trait CommonTrait
                         $privilege = Arr::prepend(
                             $privilege,
                             [
-                                'access' => false,
-                                'privilege' => false
+                                'allowed' => false,
+                                'permission' => false
                             ],
                             $temp
                         );
@@ -579,7 +728,7 @@ trait CommonTrait
     }
 
 
-    function generateCode($data)
+    public static function generateCode($data)
     {
         $start = '1';
         $end = '9';

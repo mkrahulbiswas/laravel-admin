@@ -58,6 +58,12 @@
                     position: 'top-right',
                 });
             }
+
+            if (data.swal != undefined) {
+                Swal.fire({
+                    ...data.swal
+                });
+            }
         }
 
         function commonMethod(data) {
@@ -330,210 +336,6 @@
 
 
         /*--========================= ( Setup Admin START ) =========================--*/
-        //---- ( Role Add ) ----//
-        $('#saveRoleForm').submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveRoleBtn');
-
-            event.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                data: new FormData(this),
-                type: $(this).attr('method'),
-                dataType: 'json',
-                cache: false,
-                contentType: false,
-                processData: false,
-                beforeSend: function () {
-                    loader(1);
-                    submitBtn.attr("disabled", "disabled").find('span').text('Please wait...');
-                },
-                success: function (msg) {
-                    loader(0);
-                    submitBtn.attr("disabled", false).find('span').text('Save');
-                    submitForm.find("#roleErr, #descriptionErr").text('');
-
-                    if (msg.status == 0) {
-                        $.each(msg.errors.role, function (i) {
-                            submitForm.find("#roleErr").text(msg.errors.role[i]);
-                        });
-                        $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]);
-                        });
-                        toaster(msg.title, msg.msg, msg.type);
-                    } else {
-                        toaster(msg.title, msg.msg, msg.type);
-                        submitForm[0].reset();
-                        $('#setupAdmin-role-listing').DataTable().ajax.reload(null, false);
-                    }
-                }
-            });
-        });
-
-        //---- ( Role Update ) ----//
-        $("#updateRoleForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateRoleBtn');
-
-            event.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                data: new FormData(this),
-                type: $(this).attr('method'),
-                dataType: 'json',
-                cache: false,
-                contentType: false,
-                processData: false,
-                beforeSend: function () {
-                    loader(1);
-                    submitBtn.attr("disabled", "disabled").find('span').text('Please wait...');
-                },
-                success: function (msg) {
-                    loader(0);
-                    submitBtn.attr("disabled", false).find('span').text('Update');
-
-                    submitForm.find("#roleErr, #descriptionErr").text('');
-
-                    if (msg.status == 0) {
-                        toaster(msg.title, msg.msg, msg.type);
-                        $.each(msg.errors.role, function (i) {
-                            submitForm.find("#roleErr").text(msg.errors.role[i]);
-                        });
-                        $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]);
-                        });
-
-                    } else {
-                        toaster(msg.title, msg.msg, msg.type);
-                        $('#setupAdmin-role-listing').DataTable().ajax.reload(null, false);
-                    }
-                }
-            });
-        });
-
-        //---- ( Role Status, Edit, Detail ) ----//
-        $('body').delegate('#setupAdmin-role-listing .actionDatatable', 'click', function () {
-            var type = $(this).attr('data-type'),
-                res = '',
-                action = $(this).attr('data-action'),
-                reloadDatatable = $('#setupAdmin-role-listing').DataTable(),
-                data = '';
-
-            if (type == 'status') {
-
-                if ($(this).attr('data-status') == 'block') {
-                    res = confirm('Do you really want to block?');
-                    if (res === false) {
-                        return;
-                    }
-                } else {
-                    res = confirm('Do you really want to unblock?');
-                    if (res === false) {
-                        return;
-                    }
-                }
-
-                $.ajax({
-                    url: action,
-                    type: 'get',
-                    dataType: 'json',
-                    beforeSend: function () {
-                        loader(1);
-                    },
-                    success: function (msg) {
-                        loader(0);
-                        if (msg.status == 0) {
-                            toaster(msg.title, msg.msg, msg.type);
-                        } else {
-                            toaster(msg.title, msg.msg, msg.type);
-                            reloadDatatable.ajax.reload(null, false);
-                        }
-                        setTimeout(function () {
-                            $("#alert").css('display', 'none');
-                        }, 5000);
-                    }
-                });
-            } else if (type == 'delete') {
-
-                res = confirm('Do you really want to delete?');
-                if (res === false) {
-                    return;
-                }
-
-                $.ajax({
-                    url: action,
-                    type: 'get',
-                    dataType: 'json',
-                    beforeSend: function () {
-                        loader(1);
-                    },
-                    success: function (msg) {
-                        loader(0);
-                        if (msg.status == 0) {
-                            toaster(msg.title, msg.msg, msg.type);
-                        } else {
-                            toaster(msg.title, msg.msg, msg.type);
-                            reloadDatatable.ajax.reload(null, false);
-                        }
-                        setTimeout(function () {
-                            $("#alert").css('display', 'none');
-                        }, 5000);
-                    }
-                });
-            } else if (type == 'edit') {
-                id = $('#con-edit-modal');
-                id.modal('show');
-                data = JSON.parse($(this).attr('data-array'));
-                id.find('#id').val(data.id);
-                id.find('#role').val(data.role);
-                id.find('#description').val(data.description);
-            } else {
-                id = $('#con-detail-modal');
-                id.modal('show');
-                data = JSON.parse($(this).attr('data-array'));
-                id.find('#role').text(data.role);
-                id.find('#description').text(data.description);
-            }
-        });
-
-
-        //---- ( Permission Update ) ----//
-        $("#updatePermissionForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updatePermissionBtn');
-
-            event.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                data: new FormData(this),
-                type: $(this).attr('method'),
-                dataType: 'json',
-                cache: false,
-                contentType: false,
-                processData: false,
-                beforeSend: function () {
-                    loader(1);
-                    submitBtn.attr("disabled", "disabled").find('span').text('Please wait...');
-                },
-                success: function (msg) {
-                    loader(0);
-                    submitBtn.attr("disabled", false).find('span').text('Update');
-
-                    if (msg.status == 0) {
-                        toaster(msg.title, msg.msg, msg.type);
-                    } else {
-                        toaster(msg.title, msg.msg, msg.type);
-                        $('#setupAdmin-permission-listing').DataTable().ajax.reload(null, false);
-                        setTimeout(() => {
-                            $('.checkbox').lc_switch();
-                        }, 3000);
-                    }
-                }
-            });
-        });
-
-
         //---- ( Nav Type Save ) ----//
         $("#saveNavTypeForm").submit(function (event) {
 
@@ -960,16 +762,16 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        // loader: {
-                        //     isSet: true
-                        // },
+                        loader: {
+                            isSet: true
+                        },
                         resetValidation: {},
-                        // submitBtnState: {
-                        //     dataPass: {
-                        //         text: 'Please wait...',
-                        //         disabled: true
-                        //     }
-                        // }
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
                     })
                 },
                 success: function (msg) {
@@ -978,9 +780,9 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        // loader: {
-                        //     isSet: false
-                        // },
+                        loader: {
+                            isSet: false
+                        },
                         toaster: {
                             dataPass: {
                                 title: msg.title,
@@ -988,12 +790,12 @@
                                 type: msg.type
                             }
                         },
-                        // submitBtnState: {
-                        //     dataPass: {
-                        //         text: 'Set Access',
-                        //         disabled: false
-                        //     }
-                        // }
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Set Access',
+                                disabled: false
+                            }
+                        }
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
@@ -1062,16 +864,29 @@
                 id.find('#icon').val(data.icon);
                 id.find('#description').val(data.description);
             } else if (type == 'access') {
-                id = $('#con-access-modal');
-                id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
-                if (data.access != null) {
-                    Object.entries(data.access).forEach((element) => {
-                        id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
-                    });
+                if (data.extraData.hasNavSub > 0) {
+                    commonAction({
+                        swal: {
+                            position: 'center-center',
+                            icon: 'warning',
+                            title: 'Oops....!',
+                            html: 'There some sub nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navSubRoute + '">sub nav</a>',
+                            showConfirmButton: false,
+                            timer: 10000
+                        },
+                    })
+                } else {
+                    id = $('#con-access-modal');
+                    id.modal('show');
+                    if (data.access != null) {
+                        Object.entries(data.access).forEach((element) => {
+                            id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
+                        });
+                    }
+                    id.find('#id').val(data.id);
+                    id.find('#name').val(data.name);
                 }
-                id.find('#id').val(data.id);
-                id.find('#name').val(data.name);
             } else {
                 id = $('#con-detail-modal');
                 id.modal('show');
@@ -1407,16 +1222,29 @@
                     id.find("#navMain2 option[data-name='" + data.navMain.name + "']").prop("selected", true).trigger('change');
                 }, 1000);
             } else if (type == 'access') {
-                id = $('#con-access-modal');
-                id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
-                if (data.access != null) {
-                    Object.entries(data.access).forEach((element) => {
-                        id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
-                    });
+                if (data.extraData.hasNavNested > 0) {
+                    commonAction({
+                        swal: {
+                            position: 'center-center',
+                            icon: 'warning',
+                            title: 'Oops....!',
+                            html: 'There some nested nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navNestedRoute + '">nested nav</a>',
+                            showConfirmButton: false,
+                            timer: 10000
+                        },
+                    })
+                } else {
+                    id = $('#con-access-modal');
+                    id.modal('show');
+                    if (data.access != null) {
+                        Object.entries(data.access).forEach((element) => {
+                            id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
+                        });
+                    }
+                    id.find('#id').val(data.id);
+                    id.find('#name').val(data.name);
                 }
-                id.find('#id').val(data.id);
-                id.find('#name').val(data.name);
             } else {
                 id = $('#con-detail-modal');
                 id.modal('show');
@@ -1762,9 +1590,9 @@
                     id.find("#navSub2 option[data-name='" + data.navSub.name + "']").prop("selected", true).trigger('change');
                 }, 2000);
             } else if (type == 'access') {
+                data = JSON.parse($(this).attr('data-array'));
                 id = $('#con-access-modal');
                 id.modal('show');
-                data = JSON.parse($(this).attr('data-array'));
                 if (data.access != null) {
                     Object.entries(data.access).forEach((element) => {
                         id.find('[name="access[' + element[0] + ']"]').attr('checked', (element[1] == true) ? true : false)
@@ -1999,6 +1827,86 @@
             });
         });
 
+        //---- ( Permission Role Main Update ) ----//
+        $("#updatePermissionRoleMainForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#updatePermissionRoleMainBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Update',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        // $.each(msg.errors.name, function (i) {
+                        //     submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        // });
+                    } else {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#managePanel-manageAccess-permissionRoleMain')
+                                }
+                            }
+                        })
+                    }
+                }
+            });
+        });
+
         //---- ( Role Main Status, Edit, Detail ) ----//
         $('body').delegate('#managePanel-manageAccess-roleMain .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
@@ -2036,16 +1944,29 @@
                 id = $('#con-edit-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
+                console.log(data);
                 id.find('#id').val(data.id);
                 id.find('#name').val(data.name);
                 id.find('#description').val(data.description);
-            } else {
+            } else if (type == 'details') {
                 id = $('#con-detail-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
                 id.find('#description').text(data.description);
-            }
+            } else if (type == 'permission') {
+                data = JSON.parse($(this).attr('data-array'));
+                commonAction({
+                    swal: {
+                        position: 'center-center',
+                        icon: 'warning',
+                        title: 'Oops....!',
+                        html: 'There some sub role found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.roleSubRoute + '">sub role</a>',
+                        showConfirmButton: false,
+                        timer: 10000
+                    },
+                })
+            } else {}
         });
 
 
@@ -2223,6 +2144,86 @@
             });
         });
 
+        //---- ( Permission Role Sub Update ) ----//
+        $("#updatePermissionRoleSubForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#updatePermissionRoleSubBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        // loader: {
+                        //     isSet: true
+                        // },
+                        resetValidation: {},
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Please wait...',
+                        //         disabled: true
+                        //     }
+                        // }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        // loader: {
+                        //     isSet: false
+                        // },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Update',
+                        //         disabled: false
+                        //     }
+                        // }
+                    })
+                    if (msg.status == 0) {
+                        // $.each(msg.errors.name, function (i) {
+                        //     submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        // });
+                    } else {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#managePanel-manageAccess-permissionRoleMain')
+                                }
+                            }
+                        })
+                    }
+                }
+            });
+        });
+
         //---- ( Role Sub Status, Edit, Detail ) ----//
         $('body').delegate('#managePanel-manageAccess-roleSub .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
@@ -2264,14 +2265,14 @@
                 id.find('#name').val(data.name);
                 id.find('#description').val(data.description);
                 id.find("#roleMain option[data-name='" + data.roleMain.name + "']").prop("selected", true).trigger('change');
-            } else {
+            } else if (type == 'detail') {
                 id = $('#con-detail-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#roleMain').text(data.roleMain.name);
                 id.find('#name').text(data.name);
                 id.find('#description').text(data.description);
-            }
+            } else {}
         });
         /*--========================= ( Setup Admin END ) =========================--*/
 

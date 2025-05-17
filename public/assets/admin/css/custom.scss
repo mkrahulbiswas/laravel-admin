@@ -25,6 +25,19 @@
     color: var(--vz-form-invalid-color);
 }
 
+.linkHrefRoute {
+    color: black;
+    background-color: #f3d0f2;
+    padding: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+        background-color: #c997c7;
+    }
+}
+
 
 .common-form {}
 
@@ -272,6 +285,154 @@
                             }
                         }
                     }
+
+                    .navPermissionMain {
+                        .navPermissionSub {
+                            .npRoleMain {
+                                position: relative;
+                                border-radius: 5px;
+                                overflow: hidden;
+
+                                .npGo {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    background-color: #00000087;
+                                    width: 100%;
+                                    height: 100%;
+                                    z-index: 1;
+                                    backdrop-filter: blur(2px);
+
+                                    span {
+                                        position: absolute;
+                                        top: 60px;
+                                        left: 50%;
+                                        padding: 5px 10px;
+                                        cursor: pointer;
+                                        transform: translate(-50%, -0%);
+                                        background: hsla(233, 100%, 90%, 1);
+                                        background: linear-gradient(90deg, hsla(233, 100%, 90%, 1) 0%, hsla(0, 0%, 89%, 1) 100%);
+                                    }
+                                }
+
+                                .npHead {
+                                    .nphLeft {
+                                        span {}
+                                    }
+
+                                    .nphRight {
+                                        span {}
+                                    }
+                                }
+
+                                .npBody {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 10px;
+
+                                    .npbType {
+                                        display: flex;
+                                        flex-direction: column;
+                                        gap: 10px;
+                                        background-color: rgb(247, 208, 208);
+                                        padding: 10px;
+                                        border-radius: 5px;
+
+                                        .npbMain {
+                                            display: flex;
+                                            flex-direction: column;
+                                            gap: 10px;
+                                            background-color: rgb(234, 252, 207);
+                                            padding: 10px;
+                                            border-radius: 5px;
+
+                                            .npbSub {
+                                                display: flex;
+                                                flex-direction: column;
+                                                gap: 10px;
+                                                background-color: rgb(240, 224, 255);
+                                                padding: 10px;
+                                                border-radius: 5px;
+
+                                                .npbNested {
+                                                    display: flex;
+                                                    flex-direction: column;
+                                                    gap: 10px;
+                                                    background-color: rgb(219, 219, 219);
+                                                    padding: 10px;
+                                                    border-radius: 5px;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    .npbHeading {
+                                        .npbhLeft {
+                                            span {}
+                                        }
+
+                                        .npbhRight {
+                                            .npbCheckCommon {
+                                                display: flex;
+                                                flex-direction: row;
+                                                gap: 17px;
+                                                justify-content: space-between;
+                                                flex-wrap: wrap;
+
+                                                .npbCheckNoAccess {
+                                                    padding: 8px;
+                                                    border-radius: 5px;
+                                                    background-color: rgb(116, 220, 238);
+
+                                                    span {}
+                                                }
+
+                                                .npbCheckYesAccess {
+                                                    display: flex;
+                                                    flex-direction: column;
+                                                    gap: 10px;
+                                                    padding: 8px;
+                                                    border-radius: 5px;
+                                                    background-color: rgb(223, 223, 223);
+                                                    box-shadow: 0 0 5px #acacac;
+                                                    max-width: 95px;
+                                                    width: 100%;
+
+                                                    .npbcHeading {
+                                                        span {
+                                                            text-align: center;
+                                                            display: block;
+                                                            text-transform: capitalize;
+                                                            font-weight: bold;
+                                                            font-size: 12px;
+                                                        }
+                                                    }
+
+                                                    .npbcbInput {
+                                                        input {}
+
+                                                        span {
+                                                            font-size: 20px;
+                                                            text-align: center;
+                                                            display: block;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                .npFoot {
+                                    .npfLeft {}
+
+                                    .npfRight {
+                                        button {}
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -309,6 +470,7 @@
         .form-element {
             .form-check-label {
                 text-transform: capitalize;
+                user-select: none;
             }
         }
     }

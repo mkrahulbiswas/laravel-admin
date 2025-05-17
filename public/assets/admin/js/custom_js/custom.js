@@ -116,6 +116,39 @@
             }
         })
 
+
+
+
+
+        $('body').delegate('.npGo span', 'click', function () {
+            let targetId = $(this)
+            $(targetId).closest('.npGo').fadeOut(500)
+            lc_switch('.lcSwitch')
+        })
+
+        $('.PermiAll').click(function () {
+            $('#CheckAll').trigger('click');
+        });
+
+        $('#CheckAll').change(function () {
+            if ($(this).prop("checked") == true) {
+                lcs_on('.lcSwitch');
+                $('.lcSwitch').val(1);
+            } else if ($(this).prop("checked") == false) {
+                $('.lcSwitch').val(0);
+                lcs_off('.lcSwitch');
+            }
+        });
+
+        $('body').delegate('.lcs_switch', 'click', function () {
+            var val = $(this).closest('.lcs_wrap').find('.lcSwitch').val();
+            if (val == 1) {
+                $(this).closest('.lcs_wrap').find('.lcSwitch').val(0);
+            } else {
+                $(this).closest('.lcs_wrap').find('.lcSwitch').val(1);
+            }
+        });
+
     });
 
 })(jQuery);

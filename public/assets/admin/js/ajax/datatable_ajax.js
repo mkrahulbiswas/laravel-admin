@@ -361,7 +361,7 @@
                     data: "description",
                 },
                 {
-                    data: "status",
+                    data: "statInfo",
                 },
                 {
                     data: 'action',
@@ -370,6 +370,23 @@
                     searchable: false
                 }
             ]
+        });
+
+        /*------( Permission Role Main Listing )--------*/
+        $('#managePanel-manageAccess-permissionRoleMain').DataTable({
+            paging: false,
+            ordering: false,
+            info: false,
+            searching: false,
+            serverSide: true,
+            ajax: "role-main/ajaxGetList/?roleMainId=" + $('#managePanel-manageAccess-permissionRoleMain').attr('data-id'),
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                data: 'permission',
+                orderable: false,
+            }]
         });
 
         /*------( Role Sub Listing )--------*/
@@ -407,6 +424,23 @@
                     searchable: false
                 }
             ]
+        });
+
+        /*------( Permission Role Sub Listing )--------*/
+        $('#managePanel-manageAccess-permissionRoleSub').DataTable({
+            paging: false,
+            ordering: false,
+            info: false,
+            searching: false,
+            serverSide: true,
+            ajax: "role-sub/ajaxGetList/?roleSubId=" + $('#managePanel-manageAccess-permissionRoleSub').attr('data-id'),
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                data: 'permission',
+                orderable: false,
+            }]
         });
         /*--========================= ( SETUP ADMIN END ) =========================--*/
 

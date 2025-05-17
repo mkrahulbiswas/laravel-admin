@@ -13,15 +13,15 @@ use App\Models\ManagePanel\ManageNav\NavSub;
 use App\Models\ManagePanel\ManageNav\NavType;
 use App\Models\ManagePanel\ManageNav\NavMain;
 use App\Models\ManagePanel\ManageNav\NavNested;
-
-use App\Helpers\GetManageNavHelper;
-use App\Helpers\GetManageAccessHelper;
+use App\Models\ManagePanel\ManageAccess\Permission;
 
 use Exception;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
+use App\Helpers\GetManageNavHelper;
+use App\Helpers\GetManageAccessHelper;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Support\Facades\DB;
 
 class ManageNavAdminController extends Controller
 {
@@ -305,9 +305,9 @@ class ManageNavAdminController extends Controller
                         ]
                     ],
                 ],
-            ]);
+            ])[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            return Datatables::of($navMain[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
+            return Datatables::of($navMain)
                 ->addIndexColumn()
                 ->addColumn('navType', function ($data) {
                     $navType = $data[Config::get('constants.typeCheck.manageNav.navType.type')]['name'];
@@ -365,7 +365,7 @@ class ManageNavAdminController extends Controller
                     // if ($itemPermission['details_item'] == '1') {
                     $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
                     // } else {
-                    //     $details = '';
+                    //     $access = '';
                     // }
 
                     return $this->dynamicHtmlPurse([
@@ -549,6 +549,15 @@ class ManageNavAdminController extends Controller
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => 'navMainId']],
                 ],
+                [
+                    'model' => Permission::class,
+                    'picUrl' => [],
+                    'filter' => [
+                        ['search' => $id, 'field' => 'navMainId'],
+                        ['search' => null, 'field' => 'navSubId'],
+                        ['search' => null, 'field' => 'navNestedId'],
+                    ],
+                ],
             ]);
 
             if ($result == true) {
@@ -584,7 +593,7 @@ class ManageNavAdminController extends Controller
             ]);
 
             $data = [
-                Config::get('constants.typeCheck.manageNav.navType.type') => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
+                'navType' => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
             ];
 
             return view('admin.manage_panel.manage_nav.nav_sub.nav_sub_list', ['data' => $data]);
@@ -858,6 +867,14 @@ class ManageNavAdminController extends Controller
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => 'navSubId']],
                 ],
+                [
+                    'model' => Permission::class,
+                    'picUrl' => [],
+                    'filter' => [
+                        ['search' => $id, 'field' => 'navMainId'],
+                        ['search' => null, 'field' => 'navNestedId'],
+                    ],
+                ],
             ]);
             if ($result == true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Nav sub'])['success']], config('constants.ok'));
@@ -892,7 +909,7 @@ class ManageNavAdminController extends Controller
             ]);
 
             $data = [
-                Config::get('constants.typeCheck.manageNav.navType.type') => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
+                'navType' => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
             ];
 
             return view('admin.manage_panel.manage_nav.nav_nested.nav_nested_list', ['data' => $data]);
@@ -1167,6 +1184,11 @@ class ManageNavAdminController extends Controller
                     'model' => NavNested::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
+                ],
+                [
+                    'model' => Permission::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'navNestedId']],
                 ],
             ]);
             if ($result == true) {

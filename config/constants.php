@@ -64,11 +64,20 @@ return [
                 'bnf' => 'basicNoFilter',
                 'byf' => 'basicYesFilter',
                 'dyf' => 'dependedYesFilter',
+                'ryf' => 'rawYesFilter',
             ],
             'detail' => [
                 'yd' => 'yesDepended',
                 'nd' => 'noDepended',
+                'rnd' => 'rawNoDepended',
             ],
+            'nav' => [
+                'sn' => 'sideNav',
+                'np' => 'navPermission',
+            ],
+            'privilege' => [
+                'np' => 'navPrivilege',
+            ]
         ]
     ],
 

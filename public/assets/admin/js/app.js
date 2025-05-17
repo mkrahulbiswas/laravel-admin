@@ -200,7 +200,7 @@
                 document.getElementById("two-column-menu").querySelector('[href="#' + t + '"]') &&
                 document.getElementById("two-column-menu").querySelector('[href="#' + t + '"]').classList.add("active")) :
             document.body.classList.add("twocolumn-panel"))
-            console.log(t)
+        console.log('----->', t)
     }
 
     function g() {
