@@ -334,11 +334,27 @@ class ManageAccessAdminController extends Controller
 
     public function updatePermissionRoleMain(Request $request)
     {
-        try {
-            foreach ($request->get('id') as $keyOne => $tempOne) {
-                $permission = Permission::where('id', decrypt($tempOne))->first();
-                $finalArray = [];
-                foreach (json_decode($permission->privilege, true) as $keyTwo => $tempTwo) {
+        // try {
+        foreach ($request->get('id') as $keyOne => $tempOne) {
+            $permission = GetManageAccessHelper::getDetail([
+                [
+                    'getDetail' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                        'for' => Config::get('constants.typeCheck.manageAccess.permission.type'),
+                    ],
+                    'otherDataPasses' => ['filterData' => ['id' => $tempOne]]
+                ],
+            ])[Config::get('constants.typeCheck.manageAccess.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+            $finalArray = [];
+            foreach ($permission['privilege'] as $keyTwo => $tempTwo) {
+                if ($request->get($keyOne) == []) {
+                    $tempTwo['permission'] = false;
+                    $finalArray = Arr::prepend(
+                        $finalArray,
+                        $tempTwo,
+                        $keyTwo
+                    );
+                } else {
                     if (array_key_exists($keyTwo, $request->get($keyOne))) {
                         $tempTwo['permission'] = true;
                         $finalArray = Arr::prepend(
@@ -355,13 +371,14 @@ class ManageAccessAdminController extends Controller
                         );
                     }
                 }
-                $permission->privilege = json_encode($finalArray);
-                $permission->update();
             }
-            return response()->json(['status' => 1, 'type' => "success", 'title' => "Update Permission", 'msg' => 'Permissions are successfully updated.'], config('constants.ok'));
-        } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            $permission['permission']->privilege = json_encode($finalArray);
+            $permission['permission']->update();
         }
+        return response()->json(['status' => 1, 'type' => "success", 'title' => "Update Permission", 'msg' => 'Permissions are successfully updated.'], config('constants.ok'));
+        // } catch (Exception $e) {
+        //     return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+        // }
     }
 
 
@@ -689,27 +706,44 @@ class ManageAccessAdminController extends Controller
     {
         try {
             foreach ($request->get('id') as $keyOne => $tempOne) {
-                $permission = Permission::where('id', decrypt($tempOne))->first();
+                $permission = GetManageAccessHelper::getDetail([
+                    [
+                        'getDetail' => [
+                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                            'for' => Config::get('constants.typeCheck.manageAccess.permission.type'),
+                        ],
+                        'otherDataPasses' => ['filterData' => ['id' => $tempOne]]
+                    ],
+                ])[Config::get('constants.typeCheck.manageAccess.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                 $finalArray = [];
-                foreach (json_decode($permission->privilege, true) as $keyTwo => $tempTwo) {
-                    if (array_key_exists($keyTwo, $request->get($keyOne))) {
-                        $tempTwo['permission'] = true;
-                        $finalArray = Arr::prepend(
-                            $finalArray,
-                            $tempTwo,
-                            $keyTwo
-                        );
-                    } else {
+                foreach ($permission['privilege'] as $keyTwo => $tempTwo) {
+                    if ($request->get($keyOne) == []) {
                         $tempTwo['permission'] = false;
                         $finalArray = Arr::prepend(
                             $finalArray,
                             $tempTwo,
                             $keyTwo
                         );
+                    } else {
+                        if (array_key_exists($keyTwo, $request->get($keyOne))) {
+                            $tempTwo['permission'] = true;
+                            $finalArray = Arr::prepend(
+                                $finalArray,
+                                $tempTwo,
+                                $keyTwo
+                            );
+                        } else {
+                            $tempTwo['permission'] = false;
+                            $finalArray = Arr::prepend(
+                                $finalArray,
+                                $tempTwo,
+                                $keyTwo
+                            );
+                        }
                     }
                 }
-                $permission->privilege = json_encode($finalArray);
-                $permission->update();
+                $permission['permission']->privilege = json_encode($finalArray);
+                $permission['permission']->update();
             }
             return response()->json(['status' => 1, 'type' => "success", 'title' => "Update Permission", 'msg' => 'Permissions are successfully updated.'], config('constants.ok'));
         } catch (Exception $e) {

@@ -284,107 +284,169 @@ class GetManageAccessHelper
 
     public static function getDetail($params, $platform = '')
     {
-        try {
-            $finalData = array();
-            foreach ($params as $tempOne) {
+        // try {
+        $finalData = array();
+        foreach ($params as $tempOne) {
+            [
+                'otherDataPasses' => $otherDataPasses,
+                'getDetail' => [
+                    'type' => $type,
+                    'for' => $for,
+                ]
+            ] = $tempOne;
 
-                [
-                    'otherDataPasses' => [
-                        'id' => $id,
-                    ],
-                    'getDetail' => [
-                        'type' => $type,
-                        'for' => $for,
-                    ]
-                ] = $tempOne;
+            if (Config::get('constants.typeCheck.manageAccess.roleMain.type') == $for) {
+                $hasRoleSub = RoleSub::where('roleMainId', decrypt($otherDataPasses['id']))->count();
+                $data = array();
 
-                if (Config::get('constants.typeCheck.manageAccess.roleMain.type') == $for) {
-                    $hasRoleSub = RoleSub::where('roleMainId', decrypt($id))->count();
-                    $data = array();
-
-                    if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
-                        $roleMain = RoleMain::where('id', decrypt($id))->first();
-                        $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
-                            'id' => encrypt($roleMain->id),
-                            'name' => $roleMain->name,
-                            'status' =>  $roleMain->status,
-                            'description' =>  'lol',
-                            'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $roleMain->uniqueId]),
-                            'customizeInText' => CommonTrait::customizeInText([
-                                [
-                                    'type' => 'status',
-                                    'value' => $roleMain->status
-                                ],
-                                [
-                                    'type' => 'hasChild',
-                                    'value' => $hasRoleSub
-                                ]
-                            ]),
-                            'extraData' => [
-                                'hasRoleSub' => $hasRoleSub,
-                                'roleSubRoute' => route('admin.show.roleSub'),
+                if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
+                    $roleMain = RoleMain::where('id', decrypt($otherDataPasses['id']))->first();
+                    $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
+                        'id' => encrypt($roleMain->id),
+                        'name' => $roleMain->name,
+                        'status' =>  $roleMain->status,
+                        'description' =>  'lol',
+                        'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $roleMain->uniqueId]),
+                        'customizeInText' => CommonTrait::customizeInText([
+                            [
+                                'type' => 'status',
+                                'value' => $roleMain->status
+                            ],
+                            [
+                                'type' => 'hasChild',
+                                'value' => $hasRoleSub
                             ]
-                        ];
-                    }
-
-                    $finalData[Config::get('constants.typeCheck.manageAccess.roleMain.type')] = $data;
+                        ]),
+                        'extraData' => [
+                            'hasRoleSub' => $hasRoleSub,
+                            'roleSubRoute' => route('admin.show.roleSub'),
+                        ]
+                    ];
                 }
 
-                if (Config::get('constants.typeCheck.manageAccess.roleSub.type') == $for) {
-                    $data = array();
-
-                    if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
-                        $roleSub = RoleSub::where('id', decrypt($id))->first();
-                        $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
-                            'id' => encrypt($roleSub->id),
-                            'name' => $roleSub->name,
-                            'status' =>  $roleSub->status,
-                            'description' =>  $roleSub->description,
-                            'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $roleSub->uniqueId]),
-                            'customizeInText' => CommonTrait::customizeInText([
-                                [
-                                    'type' => 'status',
-                                    'value' => $roleSub->status
-                                ]
-                            ]),
-                        ];
-                    }
-
-                    if (in_array(Config::get('constants.typeCheck.helperCommon.detail.yd'), $type)) {
-                        $roleSub = RoleSub::where('id', decrypt($id))->first();
-                        $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
-                            'id' => encrypt($roleSub->id),
-                            'name' => $roleSub->name,
-                            'status' =>  $roleSub->status,
-                            'description' =>  $roleSub->description,
-                            'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $roleSub->uniqueId]),
-                            'customizeInText' => CommonTrait::customizeInText([
-                                [
-                                    'type' => 'status',
-                                    'value' => $roleSub->status
-                                ]
-                            ]),
-                            Config::get('constants.typeCheck.manageAccess.roleMain.type') => GetManageAccessHelper::getDetail([
-                                [
-                                    'getDetail' => [
-                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
-                                    ],
-                                    'otherDataPasses' => [
-                                        'id' => encrypt($roleSub->roleMainId)
-                                    ]
-                                ]
-                            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail']
-                        ];
-                    }
-
-                    $finalData[Config::get('constants.typeCheck.manageAccess.roleSub.type')] = $data;
-                }
+                $finalData[Config::get('constants.typeCheck.manageAccess.roleMain.type')] = $data;
             }
-            return $finalData;
-        } catch (Exception $e) {
-            return false;
+
+            if (Config::get('constants.typeCheck.manageAccess.roleSub.type') == $for) {
+                $data = array();
+
+                if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
+                    $roleSub = RoleSub::where('id', decrypt($otherDataPasses['id']))->first();
+                    $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
+                        'id' => encrypt($roleSub->id),
+                        'name' => $roleSub->name,
+                        'status' =>  $roleSub->status,
+                        'description' =>  $roleSub->description,
+                        'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $roleSub->uniqueId]),
+                        'customizeInText' => CommonTrait::customizeInText([
+                            [
+                                'type' => 'status',
+                                'value' => $roleSub->status
+                            ]
+                        ]),
+                    ];
+                }
+
+                if (in_array(Config::get('constants.typeCheck.helperCommon.detail.yd'), $type)) {
+                    $roleSub = RoleSub::where('id', decrypt($otherDataPasses['id']))->first();
+                    $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
+                        'id' => encrypt($roleSub->id),
+                        'name' => $roleSub->name,
+                        'status' =>  $roleSub->status,
+                        'description' =>  $roleSub->description,
+                        'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $roleSub->uniqueId]),
+                        'customizeInText' => CommonTrait::customizeInText([
+                            [
+                                'type' => 'status',
+                                'value' => $roleSub->status
+                            ]
+                        ]),
+                        Config::get('constants.typeCheck.manageAccess.roleMain.type') => GetManageAccessHelper::getDetail([
+                            [
+                                'getDetail' => [
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                    'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                                ],
+                                'otherDataPasses' => [
+                                    'id' => encrypt($roleSub->roleMainId),
+                                ]
+                            ]
+                        ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail']
+                    ];
+                }
+
+                $finalData[Config::get('constants.typeCheck.manageAccess.roleSub.type')] = $data;
+            }
+
+            if (Config::get('constants.typeCheck.manageAccess.permission.type') == $for) {
+                $data = array();
+                $whereRaw = "`created_at` is not null";
+
+                if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
+                    if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'id')) {
+                            $id = $tempOne['otherDataPasses']['filterData']['id'];
+                            if (!empty($id)) {
+                                $whereRaw .= " and `id` = " . decrypt($id);
+                            }
+                        }
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navTypeId')) {
+                            $navTypeId = $tempOne['otherDataPasses']['filterData']['navTypeId'];
+                            if (!empty($navTypeId)) {
+                                $whereRaw .= " and `navTypeId` = " . decrypt($navTypeId);
+                            }
+                        }
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navMainId')) {
+                            $navMainId = $tempOne['otherDataPasses']['filterData']['navMainId'];
+                            if (!empty($navMainId)) {
+                                $whereRaw .= " and `navMainId` = " . decrypt($navMainId);
+                            }
+                        }
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navSubId')) {
+                            $navSubId = $tempOne['otherDataPasses']['filterData']['navSubId'];
+                            if (!empty($navSubId)) {
+                                $whereRaw .= " and `navSubId` = " . decrypt($navSubId);
+                            }
+                        }
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navNestedId')) {
+                            $navNestedId = $tempOne['otherDataPasses']['filterData']['navNestedId'];
+                            if (!empty($navNestedId)) {
+                                $whereRaw .= " and `navNestedId` = " . decrypt($navNestedId);
+                            }
+                        }
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'roleSubId')) {
+                            $roleSubId = $tempOne['otherDataPasses']['filterData']['roleSubId'];
+                            if (!empty($roleSubId)) {
+                                $whereRaw .= " and `roleSubId` = " . decrypt($roleSubId);
+                            }
+                        }
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'roleMainId')) {
+                            $roleMainId = $tempOne['otherDataPasses']['filterData']['roleMainId'];
+                            if (!empty($roleMainId)) {
+                                $whereRaw .= " and `roleMainId` = " . decrypt($roleMainId);
+                            }
+                        }
+                    }
+                    $permission = Permission::whereRaw($whereRaw)->first();
+                    if ($permission != null) {
+                        $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
+                            'id' => encrypt($permission->id),
+                            'uniqueId' => $permission->uniqueId,
+                            'privilege' => json_decode($permission->privilege, true),
+                            'permission' => $permission,
+                        ];
+                    } else {
+                        $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = null;
+                    }
+                }
+
+                $finalData[Config::get('constants.typeCheck.manageAccess.permission.type')] = $data;
+            }
         }
+        return $finalData;
+        // } catch (Exception $e) {
+        //     return false;
+        // }
     }
 
     public static function setPrivilege($params, $platform = '')
@@ -506,6 +568,7 @@ class GetManageAccessHelper
                                     $permission->navSubId = decrypt($getDetail['navSub']['id']);
                                     $permission->navMainId = decrypt($getDetail['navMain']['id']);
                                 }
+                                $permission->navTypeId = decrypt($getDetail['navType']['id']);
                                 $permission->roleMainId = decrypt($tempOne['id']);
                                 $permission->roleSubId = decrypt($tempTwo['id']);
                                 $permission->privilege = json_encode($getNavAccessList['privilege']);

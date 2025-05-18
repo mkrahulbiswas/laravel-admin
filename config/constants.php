@@ -58,6 +58,9 @@ return [
             'roleSub' => [
                 'type' => 'roleSub'
             ],
+            'permission' => [
+                'type' => 'permission'
+            ],
         ],
         'helperCommon' => [
             'get' => [
