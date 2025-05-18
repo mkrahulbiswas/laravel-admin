@@ -471,12 +471,11 @@ class ManageNavAdminController extends Controller
                 $navMain->access = $getNavAccessList['access'];
                 if ($navMain->update()) {
                     $setPrivilege = GetManageAccessHelper::setPrivilege([
-                        'type' => [
-                            Config::get('constants.typeCheck.manageNav.navMain.type')
-                        ],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.privilege.snp')],
                         'otherDataPasses' => [
                             'getNavAccessList' => $getNavAccessList,
-                            'id' => $id
+                            'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
+                            'id' => $id,
                         ]
                     ]);
                     if ($setPrivilege) {
@@ -794,12 +793,11 @@ class ManageNavAdminController extends Controller
                 $navSub->access = $getNavAccessList['access'];
                 if ($navSub->update()) {
                     $setPrivilege = GetManageAccessHelper::setPrivilege([
-                        'type' => [
-                            Config::get('constants.typeCheck.manageNav.navSub.type')
-                        ],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.privilege.snp')],
                         'otherDataPasses' => [
                             'getNavAccessList' => $getNavAccessList,
-                            'id' => $id
+                            'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
+                            'id' => $id,
                         ]
                     ]);
                     if ($setPrivilege) {
@@ -1117,12 +1115,11 @@ class ManageNavAdminController extends Controller
                 $navNested->access = $getNavAccessList['access'];
                 if ($navNested->update()) {
                     $setPrivilege = GetManageAccessHelper::setPrivilege([
-                        'type' => [
-                            Config::get('constants.typeCheck.manageNav.navNested.type')
-                        ],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.privilege.snp')],
                         'otherDataPasses' => [
                             'getNavAccessList' => $getNavAccessList,
-                            'id' => $id
+                            'for' => Config::get('constants.typeCheck.manageNav.navNested.type'),
+                            'id' => $id,
                         ]
                     ]);
                     if ($setPrivilege) {

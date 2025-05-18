@@ -77,6 +77,7 @@ return [
             ],
             'privilege' => [
                 'np' => 'navPrivilege',
+                'snp' => 'setNavPrivilege'
             ]
         ]
     ],

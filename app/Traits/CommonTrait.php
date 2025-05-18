@@ -247,10 +247,19 @@ trait CommonTrait
                             $navHtml .= '<div class="npbType"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempTwo['name'] . '</span></div></div>';
                             foreach ($tempTwo['navMain'] as $tempThree) {
                                 $permission = app($tempOne['otherDataPasses']['permission']['model'])::where([
-                                    ['roleMainId', decrypt($tempOne['otherDataPasses']['permission']['roleMainId'])],
                                     ['navTypeId', decrypt($tempTwo['id'])],
                                     ['navMainId', decrypt($tempThree['id'])],
-                                ])->first();
+                                ])->where(function ($query) use ($tempOne) {
+                                    if (isset($tempOne['otherDataPasses']['permission']['roleMainId'])) {
+                                        dd(1);
+                                        return $query->where('roleMainId', decrypt($tempOne['otherDataPasses']['permission']['roleMainId']));
+                                    }
+                                    if (isset($tempOne['otherDataPasses']['permission']['roleSubId'])) {
+                                        dd(2);
+                                        return $query->where('roleMainId', decrypt($tempOne['otherDataPasses']['permission']['roleMainId']))
+                                            ->where('roleSubId', decrypt($tempOne['otherDataPasses']['permission']['roleSubId']));
+                                    }
+                                })->first();
                                 if ($tempThree['extraData']['hasNavSub'] <= 0) {
                                     $navHtml .= '<div class="npbMain"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempThree['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                     if ($permission == null) {
@@ -276,11 +285,18 @@ trait CommonTrait
                                     $navHtml .= '<div class="npbMain"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempThree['name'] . '</span></div></div>';
                                     foreach ($tempThree['navSub'] as $tempFour) {
                                         $permission = app($tempOne['otherDataPasses']['permission']['model'])::where([
-                                            ['roleMainId', decrypt($tempOne['otherDataPasses']['permission']['roleMainId'])],
                                             ['navTypeId', decrypt($tempTwo['id'])],
                                             ['navMainId', decrypt($tempThree['id'])],
                                             ['navSubId', decrypt($tempFour['id'])],
-                                        ])->first();
+                                        ])->where(function ($query) use ($tempOne) {
+                                            if (isset($tempOne['otherDataPasses']['permission']['roleMainId'])) {
+                                                return $query->where('roleMainId', decrypt($tempOne['otherDataPasses']['permission']['roleMainId']));
+                                            }
+                                            if (isset($tempOne['otherDataPasses']['permission']['roleSubId'])) {
+                                                return $query->where('roleMainId', decrypt($tempOne['otherDataPasses']['permission']['roleMainId']))
+                                                    ->where('roleSubId', decrypt($tempOne['otherDataPasses']['permission']['roleSubId']));
+                                            }
+                                        })->first();
                                         if ($tempFour['extraData']['hasNavNested'] <= 0) {
                                             $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                             if ($permission == null) {
@@ -306,12 +322,19 @@ trait CommonTrait
                                             $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight">There some nav nested found.....</div></div>';
                                             foreach ($tempFour['navNested'] as $tempFive) {
                                                 $permission = app($tempOne['otherDataPasses']['permission']['model'])::where([
-                                                    ['roleMainId', decrypt($tempOne['otherDataPasses']['permission']['roleMainId'])],
                                                     ['navTypeId', decrypt($tempTwo['id'])],
                                                     ['navMainId', decrypt($tempThree['id'])],
                                                     ['navSubId', decrypt($tempFour['id'])],
                                                     ['navNestedId', decrypt($tempFive['id'])]
-                                                ])->first();
+                                                ])->where(function ($query) use ($tempOne) {
+                                                    if (isset($tempOne['otherDataPasses']['permission']['roleMainId'])) {
+                                                        return $query->where('roleMainId', decrypt($tempOne['otherDataPasses']['permission']['roleMainId']));
+                                                    }
+                                                    if (isset($tempOne['otherDataPasses']['permission']['roleSubId'])) {
+                                                        return $query->where('roleMainId', decrypt($tempOne['otherDataPasses']['permission']['roleMainId']))
+                                                            ->where('roleSubId', decrypt($tempOne['otherDataPasses']['permission']['roleSubId']));
+                                                    }
+                                                })->first();
                                                 $navHtml .= '<div class="npbNested"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFive['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                                 if ($permission == null) {
                                                     $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>nav nested</b>, please set access before set permission.</span></div>';
