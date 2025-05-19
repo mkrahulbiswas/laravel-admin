@@ -58,9 +58,16 @@ class ManageNavAdminController extends Controller
                         ]
                     ],
                 ],
-            ]);
+            ])[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            return Datatables::of($navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'])
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                    'otherDataPasses' => []
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+
+            return Datatables::of($navType)
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -78,42 +85,40 @@ class ManageNavAdminController extends Controller
                     $icon = '<i class="' . $data['icon'] . '"></i>';
                     return $icon;
                 })
-                ->addColumn('action', function ($data) {
-
-                    // $itemPermission = $this->itemPermission();
-                    // if ($itemPermission['status_item'] == '1') {
-                    if ($data['status'] == Config::get('constants.status')['inactive']) {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navType') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                ->addColumn('action', function ($data) use ($getPrivilege) {
+                    if ($getPrivilege['status']['permission'] == true) {
+                        if ($data['status'] == Config::get('constants.status')['inactive']) {
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navType') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                        } else {
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navType') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        }
                     } else {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navType') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        $status = '';
                     }
-                    // } else {
-                    //     $status = '';
-                    // }
 
-                    // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
-                    // } else {
-                    //     $edit = '';
-                    // }
+                    if ($getPrivilege['edit']['permission'] == true) {
+                        $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                    } else {
+                        $edit = '';
+                    }
 
-                    // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navType') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
-                    // } else {
-                    //     $delete = '';
-                    // }
+                    if ($getPrivilege['delete']['permission'] == true) {
+                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navType') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                    } else {
+                        $delete = '';
+                    }
 
-                    // if ($itemPermission['details_item'] == '1') {
-                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
-                    // } else {
-                    //     $details = '';
-                    // }
+                    if ($getPrivilege['info']['permission'] == true) {
+                        $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
+                    } else {
+                        $info = '';
+                    }
 
                     return $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtAction',
                             'data' => [
-                                'primary' => [$status, $edit, $delete, $details],
+                                'primary' => [$status, $edit, $delete, $info],
                                 'secondary' => []
                             ]
                         ]
@@ -307,6 +312,13 @@ class ManageNavAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                    'otherDataPasses' => []
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+
             return Datatables::of($navMain)
                 ->addIndexColumn()
                 ->addColumn('navType', function ($data) {
@@ -330,49 +342,46 @@ class ManageNavAdminController extends Controller
                     $icon = '<i class="' . $data['icon'] . '"></i>';
                     return $icon;
                 })
-                ->addColumn('action', function ($data) {
-
-                    // $itemPermission = $this->itemPermission();
-
-                    // if ($itemPermission['status_item'] == '1') {
-                    if ($data['status'] == Config::get('constants.status')['inactive']) {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                ->addColumn('action', function ($data) use ($getPrivilege) {
+                    if ($getPrivilege['status']['permission'] == true) {
+                        if ($data['status'] == Config::get('constants.status')['inactive']) {
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                        } else {
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        }
                     } else {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        $status = '';
                     }
-                    // } else {
-                    //     $status = '';
-                    // }
 
-                    // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
-                    // } else {
-                    //     $edit = '';
-                    // }
+                    if ($getPrivilege['edit']['permission'] == true) {
+                        $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                    } else {
+                        $edit = '';
+                    }
 
-                    // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
-                    // } else {
-                    //     $delete = '';
-                    // }
+                    if ($getPrivilege['delete']['permission'] == true) {
+                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                    } else {
+                        $delete = '';
+                    }
 
-                    // if ($itemPermission['details_item'] == '1') {
-                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
-                    // } else {
-                    //     $details = '';
-                    // }
+                    if ($getPrivilege['info']['permission'] == true) {
+                        $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
+                    } else {
+                        $info = '';
+                    }
 
-                    // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
-                    // } else {
-                    //     $access = '';
-                    // }
+                    if ($getPrivilege['access']['permission'] == true) {
+                        $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
+                    } else {
+                        $access = '';
+                    }
 
                     return $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtAction',
                             'data' => [
-                                'primary' => [$status, $edit, $delete, $details],
+                                'primary' => [$status, $edit, $delete, $info],
                                 'secondary' => [$access],
                             ]
                         ]
@@ -621,9 +630,16 @@ class ManageNavAdminController extends Controller
                         ]
                     ],
                 ],
-            ]);
+            ])[Config::get('constants.typeCheck.manageNav.navSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            return Datatables::of($navSub[Config::get('constants.typeCheck.manageNav.navSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                    'otherDataPasses' => []
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+
+            return Datatables::of($navSub)
                 ->addIndexColumn()
                 ->addColumn('navType', function ($data) {
                     $navType = $data[Config::get('constants.typeCheck.manageNav.navType.type')]['name'];
@@ -650,49 +666,46 @@ class ManageNavAdminController extends Controller
                     $icon = '<i class="' . $data['icon'] . '"></i>';
                     return $icon;
                 })
-                ->addColumn('action', function ($data) {
-
-                    // $itemPermission = $this->itemPermission();
-
-                    // if ($itemPermission['status_item'] == '1') {
-                    if ($data['status'] == Config::get('constants.status')['inactive']) {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                ->addColumn('action', function ($data) use ($getPrivilege) {
+                    if ($getPrivilege['status']['permission'] == true) {
+                        if ($data['status'] == Config::get('constants.status')['inactive']) {
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                        } else {
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        }
                     } else {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        $status = '';
                     }
-                    // } else {
-                    //     $status = '';
-                    // }
 
-                    // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
-                    // } else {
-                    //     $edit = '';
-                    // }
+                    if ($getPrivilege['edit']['permission'] == true) {
+                        $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                    } else {
+                        $edit = '';
+                    }
 
-                    // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
-                    // } else {
-                    //     $delete = '';
-                    // }
+                    if ($getPrivilege['delete']['permission'] == true) {
+                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                    } else {
+                        $delete = '';
+                    }
 
-                    // if ($itemPermission['details_item'] == '1') {
-                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
-                    // } else {
-                    //     $details = '';
-                    // }
+                    if ($getPrivilege['info']['permission'] == true) {
+                        $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
+                    } else {
+                        $info = '';
+                    }
 
-                    // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
-                    // } else {
-                    //     $details = '';
-                    // }
+                    if ($getPrivilege['access']['permission'] == true) {
+                        $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
+                    } else {
+                        $access = '';
+                    }
 
                     return $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtAction',
                             'data' => [
-                                'primary' => [$status, $edit, $delete, $details],
+                                'primary' => [$status, $edit, $delete, $info],
                                 'secondary' => [$access],
                             ]
                         ]
@@ -937,9 +950,16 @@ class ManageNavAdminController extends Controller
                         ]
                     ],
                 ],
-            ]);
+            ])[Config::get('constants.typeCheck.manageNav.navNested.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            return Datatables::of($navNested[Config::get('constants.typeCheck.manageNav.navNested.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                    'otherDataPasses' => []
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+
+            return Datatables::of($navNested)
                 ->addIndexColumn()
                 ->addColumn('navType', function ($data) {
                     $navType = $data[Config::get('constants.typeCheck.manageNav.navType.type')]['name'];
@@ -970,49 +990,46 @@ class ManageNavAdminController extends Controller
                     $icon = '<i class="' . $data['icon'] . '"></i>';
                     return $icon;
                 })
-                ->addColumn('action', function ($data) {
-
-                    // $itemPermission = $this->itemPermission();
-
-                    // if ($itemPermission['status_item'] == '1') {
-                    if ($data['status'] == Config::get('constants.status')['inactive']) {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navNested') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                ->addColumn('action', function ($data) use ($getPrivilege) {
+                    if ($getPrivilege['status']['permission'] == true) {
+                        if ($data['status'] == Config::get('constants.status')['inactive']) {
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.navNested') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                        } else {
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navNested') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        }
                     } else {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.navNested') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        $status = '';
                     }
-                    // } else {
-                    //     $status = '';
-                    // }
 
-                    // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
-                    // } else {
-                    //     $edit = '';
-                    // }
+                    if ($getPrivilege['edit']['permission'] == true) {
+                        $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                    } else {
+                        $edit = '';
+                    }
 
-                    // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navNested') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
-                    // } else {
-                    //     $delete = '';
-                    // }
+                    if ($getPrivilege['delete']['permission'] == true) {
+                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.navNested') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                    } else {
+                        $delete = '';
+                    }
 
-                    // if ($itemPermission['details_item'] == '1') {
-                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
-                    // } else {
-                    //     $details = '';
-                    // }
+                    if ($getPrivilege['info']['permission'] == true) {
+                        $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
+                    } else {
+                        $info = '';
+                    }
 
-                    // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
-                    // } else {
-                    //     $details = '';
-                    // }
+                    if ($getPrivilege['access']['permission'] == true) {
+                        $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
+                    } else {
+                        $access = '';
+                    }
 
                     return $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtAction',
                             'data' => [
-                                'primary' => [$status, $edit, $delete, $details],
+                                'primary' => [$status, $edit, $delete, $info],
                                 'secondary' => [$access],
                             ]
                         ]

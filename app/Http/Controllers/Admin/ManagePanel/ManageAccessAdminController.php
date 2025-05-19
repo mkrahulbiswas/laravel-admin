@@ -55,12 +55,19 @@ class ManageAccessAdminController extends Controller
                         ],
                         'orderBy' => [
                             'id' => 'desc'
-                        ]
+                        ],
                     ],
                 ],
-            ]);
+            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            return Datatables::of($roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'])
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                    'otherDataPasses' => []
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+
+            return Datatables::of($roleMain)
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -79,14 +86,7 @@ class ManageAccessAdminController extends Controller
                     ])['dtMultiData']['custom'];
                     return $statInfo;
                 })
-                ->addColumn('action', function ($data) {
-                    $getPrivilege = GetManageAccessHelper::getPrivilege([
-                        [
-                            'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
-                            'otherDataPasses' => []
-                        ]
-                    ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
-
+                ->addColumn('action', function ($data) use ($getPrivilege) {
                     if ($getPrivilege['status']['permission'] == true) {
                         if ($data['status'] == Config::get('constants.status')['inactive']) {
                             $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
@@ -431,12 +431,19 @@ class ManageAccessAdminController extends Controller
                         ],
                         'orderBy' => [
                             'id' => 'desc'
-                        ]
+                        ],
                     ],
                 ],
-            ]);
+            ])[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            return Datatables::of($roleSub[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                    'otherDataPasses' => []
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+
+            return Datatables::of($roleSub)
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -454,14 +461,7 @@ class ManageAccessAdminController extends Controller
                     $roleMain = $data[Config::get('constants.typeCheck.manageAccess.roleMain.type')]['name'];
                     return $roleMain;
                 })
-                ->addColumn('action', function ($data) {
-                    $getPrivilege = GetManageAccessHelper::getPrivilege([
-                        [
-                            'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
-                            'otherDataPasses' => []
-                        ]
-                    ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
-
+                ->addColumn('action', function ($data) use ($getPrivilege) {
                     if ($getPrivilege['status']['permission'] == true) {
                         if ($data['status'] == Config::get('constants.status')['inactive']) {
                             $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';

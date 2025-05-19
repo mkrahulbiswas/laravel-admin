@@ -29,19 +29,23 @@
                             <h5 class="card-title mb-0">Basic Datatables</h5>
                         </div>
                         <div class="d-sm-flex align-items-center justify-content-between">
-                            <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">
-                                <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
-                                <span>Add Nav Sub</span>
-                            </button>
-                            <button type="button" class="btn btn-warning custom-toggle ms-2 tdFilterBtn d-flex" data-bs-toggle="button">
-                                <span class="icon-on">
-                                    <i class="mdi mdi-filter-outline align-bottom"></i>
-                                </span>
-                                <span class="icon-off">
-                                    <i class="mdi mdi-filter-off-outline align-bottom"></i>
-                                </span>
-                                <span class="ps-1 d-none" id="filter-applied-count"></span>
-                            </button>
+                            @if ($permission['add']['permission'] == true)
+                                <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">
+                                    <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
+                                    <span>Add Nav Sub</span>
+                                </button>
+                            @endif
+                            @if ($permission['filter']['permission'] == true)
+                                <button type="button" class="btn btn-warning custom-toggle ms-2 tdFilterBtn d-flex" data-bs-toggle="button">
+                                    <span class="icon-on">
+                                        <i class="mdi mdi-filter-outline align-bottom"></i>
+                                    </span>
+                                    <span class="icon-off">
+                                        <i class="mdi mdi-filter-off-outline align-bottom"></i>
+                                    </span>
+                                    <span class="ps-1 d-none" id="filter-applied-count"></span>
+                                </button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -102,14 +106,18 @@
 
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
                                                         <div class="form-group d-flex flex-row justify-content-start">
-                                                            <button type="button" class="btn btn-info btn-label waves-effect waves-light filterNavSubBtn" title="Search">
-                                                                <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
-                                                                <span>Search</span>
-                                                            </button>
-                                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterNavSubBtn ms-2" title="Reload">
-                                                                <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
-                                                                <span>Reset</span>
-                                                            </button>
+                                                            @if ($permission['search']['permission'] == true)
+                                                                <button type="button" class="btn btn-info btn-label waves-effect waves-light filterNavSubBtn" title="Search">
+                                                                    <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
+                                                                    <span>Search</span>
+                                                                </button>
+                                                            @endif
+                                                            @if ($permission['reset']['permission'] == true)
+                                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterNavSubBtn ms-2" title="Reload">
+                                                                    <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
+                                                                    <span>Reset</span>
+                                                                </button>
+                                                            @endif
                                                         </div>
                                                     </div>
 
@@ -358,7 +366,7 @@
         </div>
     </div>
 
-    <div id="con-detail-modal" class="modal fade con-detail-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div id="con-info-modal" class="modal fade con-info-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

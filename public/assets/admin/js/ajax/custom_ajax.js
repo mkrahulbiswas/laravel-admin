@@ -552,7 +552,7 @@
                 id.find('#icon').val(data.icon);
                 id.find('#description').val(data.description);
             } else {
-                id = $('#con-detail-modal');
+                id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
@@ -888,7 +888,7 @@
                     id.find('#name').val(data.name);
                 }
             } else {
-                id = $('#con-detail-modal');
+                id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
@@ -1246,7 +1246,7 @@
                     id.find('#name').val(data.name);
                 }
             } else {
-                id = $('#con-detail-modal');
+                id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
@@ -1601,7 +1601,7 @@
                 id.find('#id').val(data.id);
                 id.find('#name').val(data.name);
             } else {
-                id = $('#con-detail-modal');
+                id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
@@ -2662,7 +2662,7 @@
                 id.find('img').attr('src', dataArray.image);
 
             } else {
-                id = $('#con-detail-modal');
+                id = $('#con-info-modal');
                 id.modal('show');
 
                 dataArray = JSON.parse($(this).attr('data-array'));
@@ -2706,7 +2706,7 @@
                     }
                 });
             } else {
-                id = $('#con-detail-modal');
+                id = $('#con-info-modal');
                 id.modal('show');
 
                 dataArray = JSON.parse($(this).attr('data-array'));
