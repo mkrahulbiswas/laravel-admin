@@ -239,7 +239,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row detail-page-data">
+                    <div class="row info-page-data">
 
                         <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
                             <div class="d-flex mb-4 each-detail-box">

@@ -2265,8 +2265,8 @@
                 id.find('#name').val(data.name);
                 id.find('#description').val(data.description);
                 id.find("#roleMain option[data-name='" + data.roleMain.name + "']").prop("selected", true).trigger('change');
-            } else if (type == 'details') {
-                id = $('#con-detail-modal');
+            } else if (type == 'info') {
+                id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#roleMain').text(data.roleMain.name);

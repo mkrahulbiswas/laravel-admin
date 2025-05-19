@@ -87,7 +87,7 @@ class ManageAccessAdminController extends Controller
                         ]
                     ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
 
-                    if ($getPrivilege['add']['permission'] == true) {
+                    if ($getPrivilege['status']['permission'] == true) {
                         if ($data['status'] == Config::get('constants.status')['inactive']) {
                             $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                         } else {
@@ -455,48 +455,52 @@ class ManageAccessAdminController extends Controller
                     return $roleMain;
                 })
                 ->addColumn('action', function ($data) {
+                    $getPrivilege = GetManageAccessHelper::getPrivilege([
+                        [
+                            'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                            'otherDataPasses' => []
+                        ]
+                    ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
 
-                    // $itemPermission = $this->itemPermission();
-
-                    // if ($itemPermission['status_item'] == '1') {
-                    if ($data['status'] == Config::get('constants.status')['inactive']) {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                    if ($getPrivilege['status']['permission'] == true) {
+                        if ($data['status'] == Config::get('constants.status')['inactive']) {
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                        } else {
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        }
                     } else {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        $status = '';
                     }
-                    // } else {
-                    //     $status = '';
-                    // }
 
-                    // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
-                    // } else {
-                    //     $edit = '';
-                    // }
+                    if ($getPrivilege['edit']['permission'] == true) {
+                        $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                    } else {
+                        $edit = '';
+                    }
 
-                    // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
-                    // } else {
-                    //     $delete = '';
-                    // }
+                    if ($getPrivilege['delete']['permission'] == true) {
+                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                    } else {
+                        $delete = '';
+                    }
 
-                    // if ($itemPermission['details_item'] == '1') {
-                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
-                    // } else {
-                    //     $details = '';
-                    // }
+                    if ($getPrivilege['info']['permission'] == true) {
+                        $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
+                    } else {
+                        $info = '';
+                    }
 
-                    // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="' .  route('admin.show.permissionRoleSub') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
-                    // } else {
-                    //     $details = '';
-                    // }
+                    if ($getPrivilege['permission']['permission'] == true) {
+                        $access = '<a href="' .  route('admin.show.permissionRoleSub') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                    } else {
+                        $access = '';
+                    }
 
                     return $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtAction',
                             'data' => [
-                                'primary' => [$status, $edit, $delete, $details],
+                                'primary' => [$status, $edit, $delete, $info],
                                 'secondary' => [$access],
                             ]
                         ]
