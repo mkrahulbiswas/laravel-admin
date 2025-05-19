@@ -80,7 +80,8 @@ return [
             ],
             'privilege' => [
                 'np' => 'navPrivilege',
-                'snp' => 'setNavPrivilege'
+                'sp' => 'setPermission',
+                'gp' => 'getPermission'
             ]
         ]
     ],
@@ -100,7 +101,7 @@ return [
             'other',
             'permission',
             'access',
-        ]
+        ],
     ],
 
     //--Action Type

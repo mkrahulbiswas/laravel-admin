@@ -983,7 +983,7 @@ class GetManageNavHelper
                             'icon' => $navType->icon,
                             'position' => $navType->position,
                             'status' => $navType->status,
-                            'uniqueId' => $navType->uniqueId,
+                            'uniqueId' => $navType->uniqueId
                         ];
                     }
 
@@ -1079,7 +1079,8 @@ class GetManageNavHelper
                             'position' => $navMain->position,
                             'description' => $navMain->description,
                             'status' => $navMain->status,
-                            'uniqueId' => $navMain->uniqueId
+                            'uniqueId' => $navMain->uniqueId,
+                            'lastSegment' => $navMain->lastSegment,
                         ];
                     }
 
@@ -1186,6 +1187,7 @@ class GetManageNavHelper
                             'position' => $navSub->position,
                             'description' => $navSub->description,
                             'status' => $navSub->status,
+                            'lastSegment' => $navSub->lastSegment,
                             'uniqueId' => $navSub->uniqueId
                         ];
                     }
@@ -1287,6 +1289,7 @@ class GetManageNavHelper
                             'position' => $navNested->position,
                             'description' => $navNested->description,
                             'status' => $navNested->status,
+                            'lastSegment' => $navNested->lastSegment,
                             'uniqueId' => $navNested->uniqueId
                         ];
                     }

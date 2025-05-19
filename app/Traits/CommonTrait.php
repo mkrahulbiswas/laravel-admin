@@ -213,8 +213,8 @@ trait CommonTrait
                     if (Str::contains($tempTwo, 'data-type="delete"')) {
                         $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonDelete">' . $tempTwo . '</div>';
                     }
-                    if (Str::contains($tempTwo, 'data-type="details"')) {
-                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonDetails">' . $tempTwo . '</div>';
+                    if (Str::contains($tempTwo, 'data-type="info"')) {
+                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonInfo">' . $tempTwo . '</div>';
                     }
                     if (Str::contains($tempTwo, 'data-type="access"')) {
                         $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonAccess">' . $tempTwo . '</div>';
@@ -489,7 +489,7 @@ trait CommonTrait
         }
     }
 
-    public function getNavAccessList($params = null)
+    public static function getNavAccessList($params = null)
     {
         try {
             $access = $privilege = array();
