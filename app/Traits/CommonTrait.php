@@ -499,8 +499,8 @@ trait CommonTrait
                     $privilege = Arr::prepend(
                         $privilege,
                         [
-                            'allowed' => false,
-                            'permission' => false
+                            'allowed' => true,
+                            'permission' => true
                         ],
                         $temp
                     );

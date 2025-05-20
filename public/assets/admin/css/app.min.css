@@ -413,18 +413,16 @@
 }
 
 .page-title-box {
-    padding: 10px 1.5rem;
+    padding: 10px 1rem;
     /* background-color: var(--vz-secondary-bg); */
     -webkit-box-shadow: var(--vz-page-title-box-shadow);
     box-shadow: var(--vz-page-title-box-shadow);
     border-bottom: 1px solid var(--vz-page-title-border);
     /* margin: -23px -1.5rem 1.5rem -1.5rem */
-
-
-
     background-color: var(--vz-secondary-bg);
     margin: -7px auto 1.5rem auto;
     width: 100%;
+    border-radius: 0.25rem;
 }
 
 .page-title-box .breadcrumb {
@@ -2291,10 +2289,10 @@
 
 /*!
  * Waves v0.7.6
- * http://fian.my.id/Waves 
- * 
- * Copyright 2014-2018 Alfiana E. Sibuea and other contributors 
- * Released under the MIT license 
+ * http://fian.my.id/Waves
+ *
+ * Copyright 2014-2018 Alfiana E. Sibuea and other contributors
+ * Released under the MIT license
  * https://github.com/fians/Waves/blob/master/LICENSE */
 .waves-effect {
     position: relative;

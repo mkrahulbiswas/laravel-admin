@@ -30,6 +30,8 @@ return [
     'loaderImage' => 'Image Type Loader',
     'loaderVideo' => 'Video Type Loader',
 
+    'superAdminExceptCheck' => 'RM-500077',
+
     //--Banner For
     'bannerFor' => [
         'home' => 'HOME',

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ManagePanel\ManageAccessAdminController;
 use App\Http\Controllers\Admin\SettingAdminController;
 use App\Http\Middleware\CheckPermission;
 use App\Http\Controllers\Admin\ManagePanel\ManageNavAdminController;
+use App\Http\Controllers\Admin\ManageUsers\ManageAdminAdminController;
 
 Route::controller(AuthAdminController::class)->group(function () {
     Route::get('/', 'showLogin')->name('show.login');
@@ -55,7 +56,7 @@ Route::controller(AuthAdminController::class)->group(function () {
         });
 
 
-        /*======== (-- SetupAdmin --) ========*/
+        /*======== (-- Admin Related --) ========*/
         Route::group(['prefix' => 'manage-panel'], function () {
             Route::controller(ManageAccessAdminController::class)->prefix('mange-access')->group(function () {
                 Route::get('role-main', 'showRoleMain')->name('admin.show.roleMain');
@@ -154,6 +155,18 @@ Route::controller(AuthAdminController::class)->group(function () {
 
                 Route::get('arrange-nav', 'showArrangeNav')->name('admin.show.arrangeNav');
                 Route::post('arrange-nav/edit/update', 'updateArrangeNav')->name('admin.update.arrangeNav');
+            });
+        });
+
+        /*======== (-- Users Related --) ========*/
+        Route::group(['prefix' => 'manage-users'], function () {
+            Route::controller(ManageAdminAdminController::class)->group(function () {
+                Route::get('manage-admin', 'showManageAdmin')->name('admin.show.manageAdmin');
+                Route::get('manage-admin/ajaxGetList', 'getManageAdmin')->name('admin.get.manageAdmin');
+                Route::post('manage-admin/add/save', 'saveManageAdmin')->name('admin.save.manageAdmin');
+                Route::post('manage-admin/edit/update', 'updateManageAdmin')->name('admin.update.manageAdmin');
+                Route::get('manage-admin/status/{id?}', 'statusManageAdmin')->name('admin.status.manageAdmin');
+                Route::get('manage-admin/delete/{id?}', 'deleteManageAdmin')->name('admin.delete.manageAdmin');
             });
         });
 

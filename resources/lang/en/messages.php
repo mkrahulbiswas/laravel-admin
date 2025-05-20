@@ -10,6 +10,7 @@ return [
     'successMsg' => 'Success.',
     'noDataFound' => 'Oops!! No data found',
 
+    'notAllowMsg' => 'You cannot create sub role by using super admin.',
     'saveMsg' => [
         'success' => ':type successfully saved.',
         'failed' => ':type failed to saved.',

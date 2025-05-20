@@ -13,15 +13,14 @@ use App\Models\ManagePanel\ManageAccess\RoleMain;
 use App\Models\ManagePanel\ManageAccess\RoleSub;
 use App\Models\ManagePanel\ManageAccess\Permission;
 
-use Exception;
-use Yajra\DataTables\DataTables;
 use App\Helpers\GetManageNavHelper;
 use App\Helpers\GetManageAccessHelper;
-use App\Models\SetupAdmin\Role;
+
+use Exception;
+use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 
 class ManageAccessAdminController extends Controller
 {
@@ -51,7 +50,8 @@ class ManageAccessAdminController extends Controller
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
-                            'status' => $request->status
+                            'status' => $request->status,
+                            'uniqueId' => Config::get('constants.superAdminExceptCheck'),
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -399,7 +399,8 @@ class ManageAccessAdminController extends Controller
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
-                            'status' => Config::get('constants.status')['active']
+                            'status' => Config::get('constants.status')['active'],
+                            'uniqueId' => Config::get('constants.superAdminExceptCheck'),
                         ],
                     ],
                 ],
@@ -528,18 +529,21 @@ class ManageAccessAdminController extends Controller
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
-
-                $roleSub = new RoleSub();
-                $roleSub->name = $values['name'];
-                $roleSub->roleMainId = decrypt($values['roleMain']);
-                $roleSub->description = $values['description'];
-                $roleSub->uniqueId = $this->generateCode(['preString' => 'RS', 'length' => 6, 'model' => RoleSub::class, 'field' => '']);
-                $roleSub->status = Config::get('constants.status')['active'];
-
-                if ($roleSub->save()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Role Sub", 'msg' => __('messages.saveMsg', ['type' => 'Role Sub'])['success']], config('constants.ok'));
+                if (RoleMain::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminExceptCheck')) {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Sub", 'msg' => __('messages.notAllowMsg')], config('constants.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Sub", 'msg' => __('messages.saveMsg', ['type' => 'Role Sub'])['failed']], config('constants.ok'));
+                    $roleSub = new RoleSub();
+                    $roleSub->name = $values['name'];
+                    $roleSub->roleMainId = decrypt($values['roleMain']);
+                    $roleSub->description = $values['description'];
+                    $roleSub->uniqueId = $this->generateCode(['preString' => 'RS', 'length' => 6, 'model' => RoleSub::class, 'field' => '']);
+                    $roleSub->status = Config::get('constants.status')['active'];
+
+                    if ($roleSub->save()) {
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Role Sub", 'msg' => __('messages.saveMsg', ['type' => 'Role Sub'])['success']], config('constants.ok'));
+                    } else {
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Sub", 'msg' => __('messages.saveMsg', ['type' => 'Role Sub'])['failed']], config('constants.ok'));
+                    }
                 }
             }
         } catch (Exception $e) {
