@@ -12,8 +12,8 @@ use App\Traits\CommonTrait;
 use App\Traits\FileTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\Admin;
 use App\Models\Credits;
+use App\Models\ManageUsers\Admin;
 use App\Models\SetupAdmin\Role;
 use App\Models\User;
 use App\Models\PurchaseEntry;
@@ -666,11 +666,13 @@ class UserAdminController extends Controller
             $clientPay = $clientNeverPay = 0;
 
             foreach (SalesEntry::where('clientId', $id)->get() as $tempOne) {
-                foreach (Payment::where([
-                    ['clientId', $id],
-                    ['targetId', $tempOne->id],
-                    ['paymentFor', config('constants.paymentFor')['sales']]
-                ])->get() as $tempTwo) {
+                foreach (
+                    Payment::where([
+                        ['clientId', $id],
+                        ['targetId', $tempOne->id],
+                        ['paymentFor', config('constants.paymentFor')['sales']]
+                    ])->get() as $tempTwo
+                ) {
                     if ($tempTwo->settlement == 0) {
                         $clientPay += $tempTwo->amount;
                         $settlement = '<span class="label label-success">Payed By Client</span>';

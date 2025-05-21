@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\ManagePanel\ManageAccessAdminController;
 use App\Http\Controllers\Admin\SettingAdminController;
 use App\Http\Middleware\CheckPermission;
 use App\Http\Controllers\Admin\ManagePanel\ManageNavAdminController;
-use App\Http\Controllers\Admin\ManageUsers\ManageAdminAdminController;
+use App\Http\Controllers\Admin\ManageUsers\AdminUsersAdminController;
 
 Route::controller(AuthAdminController::class)->group(function () {
     Route::get('/', 'showLogin')->name('show.login');
@@ -32,29 +32,6 @@ Route::controller(AuthAdminController::class)->group(function () {
             Route::get('dashboard', 'index')->name('dashboard.show');
             Route::post('dashboard/details/product-info', 'detailProductInfo')->name('admin.detail.productInfo');
         });
-
-        /*======== (-- UserAdminController --) ========*/
-        Route::group(['prefix' => 'user-management'], function () {
-            Route::get('sub-admins', [UserAdminController::class, 'showSubAdmins'])->name('admin.show.usersAdmin');
-            Route::get('sub-admins/ajaxGetList', [UserAdminController::class, 'getSubAdmins']);
-            Route::get('sub-admins/add', [UserAdminController::class, 'addSubAdmin'])->name('admin.add.usersAdmin');
-            Route::post('sub-admins/add/save', [UserAdminController::class, 'saveSubAdmin'])->name('admin.save.usersAdmin');
-            Route::get('sub-admins/edit/{id?}', [UserAdminController::class, 'editSubAdmin'])->name('admin.edit.usersAdmin');
-            Route::post('sub-admins/edit/update', [UserAdminController::class, 'updateSubAdmin'])->name('admin.update.usersAdmin');
-            Route::get('sub-admins/status/{id?}', [UserAdminController::class, 'statusSubAdmin'])->name('admin.status.usersAdmin');
-            Route::get('sub-admins/delete/{id?}', [UserAdminController::class, 'deleteSubAdmin'])->name('admin.delete.usersAdmin');
-            Route::get('sub-admins/details/{id?}', [UserAdminController::class, 'detailSubAdmin'])->name('admin.details.usersAdmin');
-
-            Route::get('client', [UserAdminController::class, 'showClient'])->name('admin.show.client');
-            Route::get('client/ajaxGetList', [UserAdminController::class, 'getClient']);
-            Route::get('client/add', [UserAdminController::class, 'addClient'])->name('admin.add.client');
-            Route::post('client/add/save', [UserAdminController::class, 'saveClient'])->name('admin.save.client');
-            Route::get('client/edit/{id?}', [UserAdminController::class, 'editClient'])->name('admin.edit.client');
-            Route::post('client/edit/update', [UserAdminController::class, 'updateClient'])->name('admin.update.client');
-            Route::get('client/status/{id?}', [UserAdminController::class, 'statusClient'])->name('admin.status.client');
-            Route::get('client/details/{id?}', [UserAdminController::class, 'detailClient'])->name('admin.details.client');
-        });
-
 
         /*======== (-- Admin Related --) ========*/
         Route::group(['prefix' => 'manage-panel'], function () {
@@ -160,13 +137,15 @@ Route::controller(AuthAdminController::class)->group(function () {
 
         /*======== (-- Users Related --) ========*/
         Route::group(['prefix' => 'manage-users'], function () {
-            Route::controller(ManageAdminAdminController::class)->group(function () {
-                Route::get('manage-admin', 'showManageAdmin')->name('admin.show.manageAdmin');
-                Route::get('manage-admin/ajaxGetList', 'getManageAdmin')->name('admin.get.manageAdmin');
-                Route::post('manage-admin/add/save', 'saveManageAdmin')->name('admin.save.manageAdmin');
-                Route::post('manage-admin/edit/update', 'updateManageAdmin')->name('admin.update.manageAdmin');
-                Route::get('manage-admin/status/{id?}', 'statusManageAdmin')->name('admin.status.manageAdmin');
-                Route::get('manage-admin/delete/{id?}', 'deleteManageAdmin')->name('admin.delete.manageAdmin');
+            Route::controller(AdminUsersAdminController::class)->group(function () {
+                Route::get('admin-users', 'showAdminUsers')->name('admin.show.adminUsers');
+                Route::get('admin-users/ajaxGetList', 'getAdminUsers')->name('admin.get.adminUsers');
+                Route::get('admin-users/add', 'addAdminUsers')->name('admin.add.adminUsers');
+                Route::post('admin-users/add/save', 'saveAdminUsers')->name('admin.save.adminUsers');
+                Route::get('admin-users/edit/{id?}', 'editAdminUsers')->name('admin.edit.adminUsers');
+                Route::post('admin-users/edit/update', 'updateAdminUsers')->name('admin.update.adminUsers');
+                Route::get('admin-users/status/{id?}', 'statusAdminUsers')->name('admin.status.adminUsers');
+                Route::get('admin-users/delete/{id?}', 'deleteAdminUsers')->name('admin.delete.adminUsers');
             });
         });
 
@@ -244,6 +223,7 @@ Route::controller(AuthAdminController::class)->group(function () {
         Route::controller(DDDAdminController::class)->prefix('ddd')->group(function () {
             Route::get('nav-main/{navTypeId?}', 'getNavMain')->name('admin.get.navMainDDD');
             Route::get('nav-sub/{navMainId?}', 'getNavSub')->name('admin.get.navSubDDD');
+            Route::get('role-sub/{roleMainId?}', 'getRoleSub')->name('admin.get.roleSubDDD');
         });
 
         /*======== (-- Error Page --) ========*/

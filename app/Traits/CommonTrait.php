@@ -566,35 +566,6 @@ trait CommonTrait
         }
     }
 
-    public function itemPermission()
-    {
-        $role_id = Auth::guard('admin')->user()->role_id;
-        $url = url()->current();
-        $url = explode("/", $url);
-        $itemPermission = DB::table('role_permission')
-            ->join('sub_module', 'sub_module.id', '=', 'role_permission.sub_module_id')
-            ->select('role_permission.*', 'sub_module.last_segment')
-            ->where('role_permission.role_id', $role_id)
-            ->where('role_permission.sub_module_access', '1')
-            ->get();
-        foreach ($itemPermission as $temp) {
-            if (in_array($temp->last_segment, $url)) {
-                $permission = array(
-                    "add_item" => $temp->add_item,
-                    "edit_item" => $temp->edit_item,
-                    "details_item" => $temp->details_item,
-                    "delete_item" => $temp->delete_item,
-                    "status_item" => $temp->status_item,
-                    "other_item" => $temp->other_item
-                );
-                goto a;
-            }
-        }
-        a:
-        // $permission = array("add_item" => 1, "edit_item" => 1, "details_item" => 1, "delete_item" => 1, "status_item" => 1, "other_item" => 1);
-        return $permission;
-    }
-
     public function generateSlug($title, $column_name, $table, $operation, $id)
     {
         if ($operation == 'insert') {

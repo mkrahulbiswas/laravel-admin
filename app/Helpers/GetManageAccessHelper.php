@@ -41,7 +41,7 @@ class GetManageAccessHelper
                                     $whereRaw .= " and `status` = '" . $status . "'";
                                 }
                             }
-                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'uniqueId') && (Auth::guard('admin')->user()->userType != Config::get('constants.userType.superAdmin'))) {
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'uniqueId') && (Auth::guard('admin')->user()->uniqueId != Config::get('constants.superAdminCheck')['admin'])) {
                                 $uniqueId = $tempOne['otherDataPasses']['filterData']['uniqueId'];
                                 if (!empty($uniqueId)) {
                                     $whereRaw .= " and `uniqueId` != '" . $uniqueId . "'";
@@ -96,7 +96,7 @@ class GetManageAccessHelper
                                     $whereRaw .= " and `status` = '" . $status . "'";
                                 }
                             }
-                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'uniqueId') && (Auth::guard('admin')->user()->userType != Config::get('constants.userType.superAdmin'))) {
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'uniqueId') && (Auth::guard('admin')->user()->uniqueId != Config::get('constants.superAdminCheck')['admin'])) {
                                 $uniqueId = $tempOne['otherDataPasses']['filterData']['uniqueId'];
                                 if (!empty($uniqueId)) {
                                     $whereRaw .= " and `uniqueId` != '" . $uniqueId . "'";
@@ -696,7 +696,7 @@ class GetManageAccessHelper
                     $privilege = [];
                     $url = explode("/", url()->current());
                     $auth = Auth::guard('admin')->user();
-                    if ($auth->userType == Config::get('constants.userType.superAdmin')) {
+                    if ($auth->uniqueId == Config::get('constants.superAdminCheck')['admin']) {
                         $privilege = CommonTrait::getNavAccessList()['privilege'];
                     } else {
                         $permission = Permission::where(function ($query) use ($auth) {

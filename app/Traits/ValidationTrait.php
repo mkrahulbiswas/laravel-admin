@@ -2,10 +2,9 @@
 
 namespace app\Traits;
 
-use App\Rules\UniquePhone;
-use App\Rules\UniqueEmail;
 use App\Rules\UniqueManageAccess;
 use App\Rules\UniqueManageNav;
+
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
@@ -246,63 +245,40 @@ trait ValidationTrait
             /*------ ( Manage Panel End ) ------*/
 
 
-            /*------ ( Users Start ) ------*/
+            /*------ ( Manage Users Start ) ------*/
             // ---- Admin
-            case 'saveAdmin':
+            case 'saveAdminUsers':
                 $rules = [
-                    'file' => 'image|mimes:jpeg,jpg,png',
-                    // 'email' => 'required|email|max:100|unique:admins',
+                    'file' => 'required|image|mimes:jpeg,jpg,png',
+                    'email' => 'required|email|max:100|unique:admins',
                     'phone' => 'required|max:100|unique:admins,phone|digits:10',
                     'name' => 'required|max:255',
-                    'password' => 'required|max:255',
-                    'confirmPassword' => 'required|max:255|required_with:password|same:password',
-                    'role' => 'required',
+                    'roleMain' => 'required',
+                    'roleSub' => 'required',
+                    'pinCode' => 'required',
+                    'state' => 'required',
+                    'country' => 'required',
+                    'address' => 'required',
+                    'about' => 'required',
                 ];
                 break;
 
             case 'updateAdmin':
                 $rules = [
-                    'file' => 'image|mimes:jpeg,jpg,png',
-                    // 'email' => 'required|email|max:100|unique:admins,email,' . $id,
+                    'file' => 'required|image|mimes:jpeg,jpg,png',
+                    'email' => 'required|email|max:100|unique:admins,email,' . $data['id'],
                     'phone' => 'required|max:100|digits:10|unique:admins,phone,' . $data['id'],
                     'name' => 'required|max:255',
-                    'orgName' => 'required|max:255',
-                    'orgAddress' => 'required|max:255',
-                    'password' => 'max:255',
-                    'confirmPassword' => 'max:255|required_with:password|same:password',
-                    'role' => 'required',
-                ];
-                break;
-
-            // ---- updateClient
-            case 'saveClient':
-                $rules = [
-                    'name' => 'required',
-                    'phone' => ['required', 'digits:10', new UniquePhone($data['id'], config('constants.userType')['client'], '')],
-                    'email' => [new UniqueEmail($data['id'], config('constants.userType')['client'], '')],
-                    // 'email' => ['required', 'email', new UniqueEmail($id, config('constants.userType')['client'], '')],
-                    'businessName' => 'required|max:100',
-                    'businessEmail' => 'required|email|unique:users,businessEmail',
-                    'businessAddress' => 'required',
+                    'roleMain' => 'required',
+                    'roleSub' => 'required',
+                    'pinCode' => 'required',
+                    'state' => 'required',
+                    'country' => 'required',
                     'address' => 'required',
-                    'file' => 'image|mimes:jpeg,jpg,png',
+                    'about' => 'required',
                 ];
                 break;
-
-            case 'updateClient':
-                $rules = [
-                    'name' => 'required|max:100',
-                    'phone' => ['required', 'digits:10', new UniquePhone($data['id'], config('constants.userType')['client'], '')],
-                    'email' => [new UniqueEmail($data['id'], config('constants.userType')['client'], '')],
-                    // 'email' => ['required', 'email', new UniqueEmail($id, config('constants.userType')['client'], '')],
-                    'businessName' => 'required|max:100',
-                    'businessEmail' => 'required|email|unique:users,businessEmail,' . $data['id'],
-                    'businessAddress' => 'required',
-                    'address' => 'required',
-                    'file' => 'image|mimes:jpeg,jpg,png',
-                ];
-                break;
-            /*------ ( Users End ) ------*/
+            /*------ ( Manage Users End ) ------*/
 
 
             /*------ ( CMS Start ) ------*/

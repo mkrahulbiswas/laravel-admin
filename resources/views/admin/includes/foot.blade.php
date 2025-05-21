@@ -12,7 +12,7 @@
 
 @if (in_array('pdf', $data) || in_array('print', $data))
 @else
-    <?php /* ?> ?> ?> ?> ?> ?> ?> ?>
+    <?php /* ?> ?> ?>
 
     <!-- ( Bootstrap CDN ) -->
     {{-- <script src="{{ asset('assets/plugins/bootstrap/v4/js/bootstrap.min.js') }}"></script> --}}
@@ -59,14 +59,6 @@
     <!-- ( Parsley Form Validator ) -->
     <script src="{{ asset('assets/plugins/parsleyjs/js/parsley.min.js') }}" type="text/javascript"></script>
 
-    <!-- ( Dropify File Selector ) -->
-    <script src="{{ asset('assets/plugins/dropify/js/dropify.min.js') }}" type="text/javascript"></script>
-
-    <!-- ( Summernote Editor ) -->
-    <script src="{{ asset('assets/plugins/summernote/js/summernote.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/summernote/js/summernote-bs4.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/summernote/js/summernote-lite.min.js') }}"></script>
-
     <!-- ( Anime Master ) -->
     <script src="{{ asset('assets/plugins/anime-master/js/anime.min.js') }}"></script>
 
@@ -97,7 +89,6 @@
     <script src="{{ asset('assets/admin/js/wow.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/jquery.nicescroll.js') }}"></script>
     <script src="{{ asset('assets/admin/js/jquery.scrollTo.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/dropify.js') }}"></script>
 
     <!-- ( For Dashboard ) -->
     <script src="{{ asset('assets/admin/plugins/peity/jquery.peity.min.js') }}"></script>
@@ -234,6 +225,13 @@
         <!-- Dashboard init -->
         <script src="{{ asset('assets/admin/js/pages/dashboard-ecommerce.init.js') }}"></script>
 
+        <!-- ( Dropify File Selector ) -->
+        <script src="{{ asset('assets/plugins/dropify/js/dropify.min.js') }}" type="text/javascript"></script>
+
+        <!-- ( Summernote Editor ) -->
+        <script src="{{ asset('assets/plugins/summernote/js/summernote.min.js') }}"></script>
+        {{-- <script src="{{ asset('assets/plugins/summernote/js/summernote-bs4.min.js') }}"></script> --}}
+        <script src="{{ asset('assets/plugins/summernote/js/summernote-lite.min.js') }}"></script>
 
         <!-- prismjs plugin -->
         {{-- <script src="{{ asset('assets/plugins/prismjs/prism.js') }}"></script> --}}

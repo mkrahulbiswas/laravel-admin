@@ -11,29 +11,51 @@ use App\Traits\ValidationTrait;
 
 use App\Models\ManagePanel\ManageAccess\RoleMain;
 
+use App\Helpers\GetManageAccessHelper;
+use App\Models\ManageUsers\AdminUsers;
+
 use Exception;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Facades\DB;
 
-class ManageAdminAdminController extends Controller
+class AdminUsersAdminController extends Controller
 {
 
     use ValidationTrait, FileTrait, CommonTrait;
     public $platform = 'backend';
 
 
-    /*---- ( Mange Admin ) ----*/
-    public function showManageAdmin()
+    /*---- ( Admin Users ) ----*/
+    public function showAdminUsers()
     {
-        // try {
-        return view('admin.manage_users.manage_admin.manage_admin_list');
-        // } catch (Exception $e) {
-        //     abort(500);
-        // }
+        try {
+            $roleMain = GetManageAccessHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status')['active'],
+                        ],
+                    ],
+                ],
+            ]);
+
+            $data = [
+                'roleMain' => $roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')],
+            ];
+
+            return view('admin.manage_users.admin_users.admin_users_list', ['data' => $data]);
+        } catch (Exception $e) {
+            abort(500);
+        }
     }
 
-    public function getManageAdmin(Request $request)
+    public function getAdminUsers(Request $request)
     {
         try {
             $roleMain = GetManageAccessHelper::getList([
@@ -45,7 +67,7 @@ class ManageAdminAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $request->status,
-                            'uniqueId' => Config::get('constants.superAdminExceptCheck'),
+                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -136,76 +158,195 @@ class ManageAdminAdminController extends Controller
         }
     }
 
-    public function saveManageAdmin(Request $request)
+    public function addAdminUsers()
     {
         try {
-            $values = $request->only('name', 'description');
-            //--Checking The Validation--//
+            $roleMain = GetManageAccessHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status')['active'],
+                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
+                        ],
+                    ],
+                ],
+            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'saveRoleMain',
-                'id' => 0,
-                'platform' => $this->platform
-            ]);
+            $data = [
+                'roleMain' => $roleMain,
+            ];
+
+            return view('admin.manage_users.admin_users.admin_users_add', ['data' => $data]);
+        } catch (Exception $e) {
+            abort(500);
+        }
+    }
+
+    public function saveAdminUsers(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $values = $request->only('name', 'email', 'phone', 'roleMain', 'roleSub', 'pinCode', 'state', 'country', 'address', 'about');
+            $file = $request->file('file');
+
+            //--Checking The Validation--//
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveAdminUsers', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
 
-                $roleMain = new RoleMain();
-                $roleMain->name = $values['name'];
-                $roleMain->description = $values['description'];
-                $roleMain->uniqueId = $this->generateCode(['preString' => 'RM', 'length' => 6, 'model' => RoleMain::class, 'field' => '']);
-                $roleMain->status = Config::get('constants.status')['active'];
+                // if ($file) {
+                //     $profilePic = $this->uploadPicture($file, '', $this->platform, 'adminPic');
+                //     if ($profilePic === false) {
+                //         return Response()->Json(['status' => 0, 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
+                //     }
+                // }
 
-                if ($roleMain->save()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Role Main", 'msg' => __('messages.saveMsg', ['type' => 'Role Main'])['success']], config('constants.ok'));
+                $user = new AdminUsers();
+                $user->userType = config('constants.userType')['subAdmin'];
+                $user->uniqueId = $this->generateCode('ADM', 6, User::class, 'uniqueId');
+                $user->name = $values['name'];
+                $user->email = $values['email'];
+                $user->phone = $values['phone'];
+                $user->address = ($values['address'] == '') ? 'NA' : $values['address'];
+                $user->password = Hash::make($values['password']);
+                if ($file) {
+                    $user->image = $profilePic;
+                }
+
+                if ($user->save()) {
+                    DB::commit();
+                    $admin = new Admin;
+                    $admin->id = $user->id;
+                    $admin->name = $values['name'];
+                    $admin->email = $values['email'];
+                    $admin->phone = $values['phone'];
+                    $admin->role_id = ($values['role'] == '') ? null : decrypt($values['role']);
+                    $admin->address = ($values['address'] == '') ? 'NA' : $values['address'];
+                    $admin->password = Hash::make($values['password']);
+                    if ($file) {
+                        $admin->profilePic = $profilePic;
+                    }
+                    if ($admin->save()) {
+                        DB::commit();
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Add Sub Admin", 'msg' => 'Sub Admin Successfully saved.'], config('constants.ok'));
+                    } else {
+                        DB::rollback();
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Add Sub Admin", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+                    }
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Main", 'msg' => __('messages.saveMsg', ['type' => 'Role Main'])['failed']], config('constants.ok'));
+                    DB::rollback();
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Add Sub Admin", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Main", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            DB::rollback();
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Add Sub Admin", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
     }
 
-    public function updateManageAdmin(Request $request)
+    public function editAdminUsers($id)
     {
-        $values = $request->only('id', 'name', 'description');
+        try {
+            $id = decrypt($id);
+        } catch (DecryptException $e) {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
+
+        try {
+            $data =  $role = array();
+            foreach (Role::whereNotIn('id', [1])->where('adminId', Auth::guard('admin')->user()->id)->get() as $temp) {
+                $role[] = array(
+                    'id' => encrypt($temp->id),
+                    'role' => $temp->role,
+                    'adminId' => Auth::guard('admin')->user()->id,
+                );
+            }
+            $admin = Admin::where('id', $id)->first();
+            $data = array(
+                'role' => $role,
+                'id' => encrypt($admin->id),
+                'name' => $admin->name,
+                'email' => $admin->email,
+                'phone' => $admin->phone,
+                'address' => $admin->address,
+                'roleId' => $admin->role_id,
+                'restaurantId' => $admin->restaurantId,
+                'image' => $this->picUrl($admin->profilePic, 'adminPic', $this->platform),
+            );
+            return view('admin.users.admin.edit_admin', ['data' => $data]);
+        } catch (DecryptException $e) {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
+    }
+
+    public function updateAdminUsers(Request $request)
+    {
+        $values = $request->only('id', 'name', 'email', 'phone', 'address', 'role');
+        $file = $request->file('file');
 
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Main", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update Sub Admin", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
 
         try {
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'updateRoleMain',
-                'id' => $id,
-                'platform' => $this->platform
-            ]);
+            $admin = Admin::findOrFail($id);
+            $user = User::findOrFail($id);
+
+            $validator = $this->isValid($request->all(), 'updateAdmin', $id, $this->platform);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
-                $roleMain = RoleMain::find($id);
 
-                $roleMain->name = $values['name'];
-                $roleMain->description = $values['description'];
+                if ($file) {
+                    $image = $this->uploadPicture($file, $admin->profilePic, $this->platform, 'adminPic');
+                    if ($image === false) {
+                        return Response()->Json(['status' => 0, 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
+                    }
+                }
 
-                if ($roleMain->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Role Main", 'msg' => __('messages.updateMsg', ['type' => 'Role Main'])['success']], config('constants.ok'));
+                $user->name = $values['name'];
+                $user->email = $values['email'];
+                $user->phone = $values['phone'];
+                $user->address = $values['address'];
+
+                if ($file) {
+                    $user->image = $image;
+                }
+
+                if ($user->update()) {
+                    $admin->name = $values['name'];
+                    $admin->email = $values['email'];
+                    $admin->phone = $values['phone'];
+                    $admin->address = $values['address'];
+                    $admin->role_id = decrypt($values['role']);
+                    // $admin->password = $values['address'];
+
+                    if ($file) {
+                        $admin->profilePic = $image;
+                    }
+
+                    if ($admin->update()) {
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update Sub Admin", 'msg' => 'Sub Admin successfully update.'], config('constants.ok'));
+                    } else {
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update Sub Admin", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+                    }
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Main", 'msg' => __('messages.updateMsg', ['type' => 'Role Main'])['failed']], config('constants.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update Sub Admin", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Main", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update Sub Admin", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
     }
 
-    public function statusManageAdmin($id)
+    public function statusAdminUsers($id)
     {
         try {
             $id = decrypt($id);
@@ -230,7 +371,7 @@ class ManageAdminAdminController extends Controller
         }
     }
 
-    public function deleteMangeAdmin($id)
+    public function deletAdminUsers($id)
     {
         try {
             $id = decrypt($id);

@@ -96,6 +96,46 @@
         });
         /*--========================= ( Manage Nav END ) =========================--*/
 
+        /*--========================= ( Manage Access START ) =========================--*/
+        $('.roleMainDDD').change(function () {
+            if ($(this).attr('data-action') != undefined) {
+                var html = '<option value="">Select Role Sub</option>';
+                $('.roleSubDDD').text('');
+                if ($(this).val() == '') {
+                    $('.roleSubDDD').append(html);
+                } else {
+                    $.ajax({
+                        url: $(this).attr('data-action') + '/' + $(this).val(),
+                        type: 'get',
+                        dataType: 'json',
+                        beforeSend: function () {
+                            commonAction({
+                                // loader: {
+                                //     isSet: true
+                                // }
+                            })
+                        },
+                        success: function (msg) {
+                            commonAction({
+                                // loader: {
+                                //     isSet: false
+                                // }
+                            })
+                            if (msg.status == 0) {
+                                $('.roleSubDDD').append(html);
+                            } else {
+                                $.each(msg.data.roleSub, function (key, value) {
+                                    html += '<option value="' + value['id'] + '" data-name="' + value['name'] + '">' + value['name'] + '</option>'
+                                });
+                                $('.roleSubDDD').append(html);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        /*--========================= ( Manage Access END ) =========================--*/
+
     });
 
 })(jQuery);

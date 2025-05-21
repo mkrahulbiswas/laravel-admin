@@ -23,7 +23,7 @@
 @if (in_array('pdf', $data) || in_array('print', $data))
     <link href="{{ asset('assets/admin/css/custom.scss') }}" rel="stylesheet" type="text/css" />
 @else
-    <?php /* ?> ?> ?> ?>
+    <?php /* ?> ?> ?>
     <!-- ( Bootstrap CDN ) -->
     {{-- <link href="{{ asset('assets/plugins/bootstrap/v4/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" /> --}}
     <link href="{{ asset('assets/plugins/bootstrap/v4.1/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
@@ -55,14 +55,6 @@
 
     <!-- ( Notify JS ) -->
     <link href="{{ asset('assets/plugins/notifyjs/css/notify-metro.css') }}" rel="stylesheet" type="text/css" />
-
-    <!-- ( Dropify File Selector ) -->
-    <link href="{{ asset('assets/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet" type="text/css" />
-
-    <!-- ( Summernote Editor ) -->
-    <link href="{{ asset('assets/plugins/summernote/css/summernote.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/plugins/summernote/css/summernote-bs4.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/plugins/summernote/css/summernote-lite.min.css') }}" rel="stylesheet" />
 
     <!-- ( Animate ) -->
     <link href="{{ asset('assets/plugins/animate/css/animate.min.css') }}" rel="stylesheet" />
@@ -160,6 +152,14 @@
 
         <!-- ( Jquery Toast ) -->
         <link href="{{ asset('assets/plugins/toast/jquery.toast.min.css') }}" rel="stylesheet">
+
+        <!-- ( Dropify File Selector ) -->
+        <link href="{{ asset('assets/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- ( Summernote Editor ) -->
+        <link href="{{ asset('assets/plugins/summernote/css/summernote.min.css') }}" rel="stylesheet" />
+        {{-- <link href="{{ asset('assets/plugins/summernote/css/summernote-bs4.min.css') }}" rel="stylesheet" /> --}}
+        <link href="{{ asset('assets/plugins/summernote/css/summernote-lite.min.css') }}" rel="stylesheet" />
 
         <!-- ( Datatble ) -->
         <link href="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />

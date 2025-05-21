@@ -4,11 +4,11 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-sm-0">
-                    <h4>Manage Admin</h4>
+                    <h4>Admin Users</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Users</a></li>
-                            <li class="breadcrumb-item active">Manage Admin</li>
+                            <li class="breadcrumb-item active">Admin Users</li>
                         </ol>
                     </div>
                 </div>
@@ -27,10 +27,10 @@
                         </div>
                         <div class="d-sm-flex align-items-center justify-content-between">
                             @if ($permission['add']['permission'] == true)
-                                <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">
+                                <a href="{{ route('admin.add.adminUsers') }}" class="btn btn-success btn-label waves-effect waves-light">
                                     <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
-                                    <span>Add Sub Role</span>
-                                </button>
+                                    <span>Add New Admin User</span>
+                                </a>
                             @endif
                             @if ($permission['filter']['permission'] == true)
                                 <button type="button" class="btn btn-warning custom-toggle ms-2 tdFilterBtn d-flex" data-bs-toggle="button">
@@ -106,7 +106,7 @@
                         </div>
                         <div class="col-md-12 tdContentMain">
                             <div class="tdContentSub">
-                                <table id="managePanel-manageAccess-roleSub" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
+                                <table id="manageUsers-adminUsers" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>#</th>

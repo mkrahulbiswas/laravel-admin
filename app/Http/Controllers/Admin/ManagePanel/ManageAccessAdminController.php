@@ -51,7 +51,7 @@ class ManageAccessAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $request->status,
-                            'uniqueId' => Config::get('constants.superAdminExceptCheck'),
+                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -400,14 +400,14 @@ class ManageAccessAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
-                            'uniqueId' => Config::get('constants.superAdminExceptCheck'),
+                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
                         ],
                     ],
                 ],
-            ]);
+            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $data = [
-                'roleMain' => $roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')],
+                'roleMain' => $roleMain,
             ];
 
             return view('admin.manage_panel.manage_access.role_sub.role_sub_list', ['data' => $data]);
@@ -529,7 +529,7 @@ class ManageAccessAdminController extends Controller
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
-                if (RoleMain::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminExceptCheck')) {
+                if (RoleMain::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Sub", 'msg' => __('messages.notAllowMsg')], config('constants.ok'));
                 } else {
                     $roleSub = new RoleSub();

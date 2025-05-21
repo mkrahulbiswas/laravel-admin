@@ -30,7 +30,10 @@ return [
     'loaderImage' => 'Image Type Loader',
     'loaderVideo' => 'Video Type Loader',
 
-    'superAdminExceptCheck' => 'RM-500077',
+    'superAdminCheck' => [
+        'roleMain' => 'RM-500077',
+        'admin' => 'AU-500077'
+    ],
 
     //--Banner For
     'bannerFor' => [

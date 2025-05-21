@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use App\Traits\FileTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\Admin;
 use App\Models\User;
 use App\Models\SetupAdmin\Role;
+use App\Models\ManageUsers\AdminUsers;
 
 use Validator;
 use Exception;
@@ -45,35 +45,35 @@ class AuthAdminController extends Controller
 
     public function checkLogin(Request $request)
     {
-        try {
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'checkLogin',
-                'id' => 0,
-                'platform' => $this->platform
-            ]);
-            if ($validator->fails()) {
-                return response()->json(['status' => 0, 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
+        // try {
+        $validator = $this->isValid([
+            'input' => $request->all(),
+            'for' => 'checkLogin',
+            'id' => 0,
+            'platform' => $this->platform
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['status' => 0, 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
+        } else {
+            $values = $request->only('phone', 'password');
+            $admin = AdminUsers::where('phone', $values['phone'])->first();
+            if ($admin == null) {
+                return response()->json(['status' => 0, 'msg' => __('messages.adminLoginErr')], config('constants.ok'));
             } else {
-                $values = $request->only('phone', 'password');
-                $admin = Admin::where('phone', $values['phone'])->first();
-                if ($admin == null) {
-                    return response()->json(['status' => 0, 'msg' => __('messages.adminLoginErr')], config('constants.ok'));
+                if ($admin->status == 0) {
+                    return response()->json(['status' => 0, 'msg' => 'You are blocked by admin'], config('constants.ok'));
                 } else {
-                    if ($admin->status == 0) {
-                        return response()->json(['status' => 0, 'msg' => 'You are blocked by admin'], config('constants.ok'));
+                    if (Auth::guard('admin')->attempt(['phone' => $values['phone'], 'password' => $values['password']])) {
+                        return response()->json(['status' => 1, 'msg' => __('messages.successMsg')], config('constants.ok'));
                     } else {
-                        if (Auth::guard('admin')->attempt(['phone' => $values['phone'], 'password' => $values['password']])) {
-                            return response()->json(['status' => 1, 'msg' => __('messages.successMsg')], config('constants.ok'));
-                        } else {
-                            return response()->json(['status' => 0, 'msg' => __('messages.adminLoginErr')], config('constants.ok'));
-                        }
+                        return response()->json(['status' => 0, 'msg' => __('messages.adminLoginErr')], config('constants.ok'));
                     }
                 }
             }
-        } catch (Exception $e) {
-            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
+        // } catch (Exception $e) {
+        //     return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+        // }
     }
 
     public function saveForgotPassword(Request $request)
@@ -86,7 +86,7 @@ class AuthAdminController extends Controller
                 return response()->json(['status' => 0, 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
                 $otp = rand(100000, 999999);
-                $admin = Admin::where('email', $values['email'])->first();
+                $admin = AdminUsers::where('email', $values['email'])->first();
                 if ($admin == null) {
                     return response()->json(['status' => 0, 'msg' => 'Email not found, please check it again.'], config('constants.ok'));
                 } else {
@@ -119,7 +119,7 @@ class AuthAdminController extends Controller
             if ($validator->fails()) {
                 return response()->json(['status' => 0, 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
-                $admin = Admin::where('otp', $values['otp'])->first();
+                $admin = AdminUsers::where('otp', $values['otp'])->first();
                 if ($admin == null) {
                     return response()->json(['status' => 0, 'msg' => 'OTP does\'t match.'], config('constants.ok'));
                 } else {
@@ -161,7 +161,7 @@ class AuthAdminController extends Controller
             return view('admin.auth.change_password', ['id' => $id])->withErrors($validator);
             //return redirect('/admin/changePassword')->withErrors($validator);
         } else {
-            $admin = Admin::findOrFail($id);
+            $admin = AdminUsers::findOrFail($id);
             $admin->password = Hash::make($values['password']);
             $admin->isPwChange = '1';
             if ($admin->update()) {
@@ -187,7 +187,7 @@ class AuthAdminController extends Controller
         }
 
         if (Hash::check($values['currentPassword'], Auth::guard('admin')->user()->password)) {
-            $user = Admin::find(Auth::guard('admin')->user()->id);
+            $user = AdminUsers::find(Auth::guard('admin')->user()->id);
             $user->password = Hash::make($values['password']);
             if ($user->update()) {
                 return redirect()->back()->with('success', 'Password successfully changed.');
@@ -209,7 +209,7 @@ class AuthAdminController extends Controller
     public function showProfile()
     {
         try {
-            $admin = Admin::where('id', Auth::guard('admin')->user()->id)->first();
+            $admin = AdminUsers::where('id', Auth::guard('admin')->user()->id)->first();
             $data = array(
                 'id' => encrypt($admin->id),
                 'name' => $admin->name,
@@ -235,7 +235,7 @@ class AuthAdminController extends Controller
             $values = $request->only('address', 'name', 'email', 'phone', 'orgName', 'orgAddress', 'orgEmail', 'orgPhone');
             $file = $request->file('file');
 
-            $admin = Admin::find(Auth::guard('admin')->id());
+            $admin = AdminUsers::find(Auth::guard('admin')->id());
 
             $validator = $this->isValid($request->all(), 'updateProfile', $admin->id, $this->platform);
             if ($validator->fails()) {
