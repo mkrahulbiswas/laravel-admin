@@ -1,119 +1,202 @@
 @extends('admin.layouts.app')
 @section('content')
-        
-
-<div class="row">
-    <div class="col-sm-12">
-        <div class="btn-group pull-right m-t-15">
-            <a href="{{ route('admin.show.usersAdmin') }}" class="btn backBtn waves-effect waves-light"><i class=" ti-arrow-left"></i> Back</a>
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <div class="mb-3 mb-sm-0">
+                    <h4>Edit Admin Users</h4>
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Users</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.show.adminUsers') }}">Admin Users</a></li>
+                            <li class="breadcrumb-item active">Edit Admin Users</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="d-sm-flex align-items-center justify-content-between">
+                    <a href="{{ route('admin.show.adminUsers') }}" class="btn btn-warning btn-label waves-effect waves-light">
+                        <i class="las la-backward label-icon align-middle fs-16 me-2"></i>
+                        <span>Back</span>
+                    </a>
+                </div>
+            </div>
         </div>
-        <h4 class="page-title">Edit Admin</h4>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">Users</li>
-            <li class="breadcrumb-item"><a href="{{route('admin.show.usersAdmin')}}">Sub Admins</a></li>
-            <li class="breadcrumb-item active">Edit Admin</li>
-        </ol>
     </div>
-</div>
 
-
-
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card-box">
-            <!-- <h4 class="header-title m-t-0">Add New Admin</h4> -->
-            <p class="text-muted font-14 m-b-20">
-                
-            </p>
-            <form id="updateAdminForm" action="{{route('admin.update.usersAdmin')}}" method="POST" enctype="multipart/form-data">
-                @csrf
-                
-                <input type="hidden" name="id" value="{{ $data['id'] }}">
-
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label for="name">Name<span class="text-danger">*</span></label>
-                        <input type="text" name="name" id="name" placeholder="Name" class="form-control" value="{{ $data['name'] }}">
-                        <span role="alert" id="nameErr" style="color:red;font-size: 12px"></span>
+    <div class="row main-page-content">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-sm-flex align-items-center justify-content-between">
+                        <div class="mb-3 mb-sm-0">
+                            <h5 class="card-title mb-0">Form to update an existing admin user</h5>
+                        </div>
                     </div>
-
-                    <div class="form-group col-md-12" style="display: none;">
-                        <label for="email">Email<span class="text-danger"></span></label>
-                        <input type="text" name="email" id="email" placeholder="Email" class="form-control" value="{{ $data['email'] }}">
-                        <span role="alert" id="emailErr" style="color:red;font-size: 12px"></span>
-                    </div>
-    
-                    <div class="form-group col-md-6">
-                        <label for="phone">Phone<span class="text-danger">*</span></label>
-                        <input type="text" name="phone" id="phone" placeholder="Phone" class="form-control" value="{{ $data['phone'] }}">
-                       <span role="alert" id="phoneErr" style="color:red;font-size: 12px"></span>
-                    </div>
-    
-                    <div class="form-group col-md-4">
-                        <label for="password">Password<span class="text-danger">*</span></label>
-                        <input type="password" name="password" id="password" placeholder="Password" class="form-control" value="">
-                       <span role="alert" id="passwordErr" style="color:red;font-size: 12px"></span>
-                    </div>
-    
-                    <div class="form-group col-md-4">
-                        <label for="confirmPassword">Confirm Password<span class="text-danger">*</span></label>
-                        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" class="form-control" value="">
-                       <span role="alert" id="confirmPasswordErr" style="color:red;font-size: 12px"></span>
-                    </div>
-    
-                    <div class="form-group col-md-4">
-                        <label for="role">Role<span class="text-danger"></span></label>
-                        <select name="role" id="role" class="selectpicker" data-style="btn-primary btn-custom">
-                            <option value="">Select Role Type</option>
-                            @foreach ($data['role'] as $item)
-                            <option value="{{ $item['id'] }}" {{ (decrypt($item['id']) == $data['roleId']) ? 'selected' : '' }}>{{ $item['role'] }}</option>
-                            @endforeach
-                        </select>
-                        <span role="alert" id="roleErr" style="color:red;font-size: 12px"></span>
-                    </div>
-    
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="file">Image</label>
-                            <div class="row">
-                                <div class="col-lg-6 grid-margin stretch-card">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <input type="file" name="file" id="file" class="dropify">
-                                            
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 formElementMain">
+                            <div class="formElementSub">
+                                <form id="updateAdminUsersForm" action="{{ route('admin.update.adminUsers') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $data['adminUsers']['id'] }}">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-4">
+                                            <div class="card cardForm">
+                                                <div class="card-header bg-light">
+                                                    <h6 class="card-title mb-0">Basic Info</h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-3">
+                                                            <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Name" value="{{ $data['adminUsers']['name'] }}">
+                                                                <i class="bx bx-message-edit"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="nameErr"></div>
+                                                        </div>
+                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-3">
+                                                            <label for="email" class="form-label">Email <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="email" class="form-control form-control-icon" id="email" placeholder="Email" value="{{ $data['adminUsers']['email'] }}">
+                                                                <i class="mdi mdi-email-edit-outline"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="emailErr"></div>
+                                                        </div>
+                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-3">
+                                                            <label for="phone" class="form-label">Phone <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="phone" class="form-control form-control-icon" id="phone" placeholder="Phone" value="{{ $data['adminUsers']['phone'] }}">
+                                                                <i class="mdi mdi-phone"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="phoneErr"></div>
+                                                        </div>
+                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-3">
+                                                            <label for="roleMain" class="form-label">Role Main <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <div class="form-icon set-validation">
+                                                                <select name="roleMain" id="roleMain" class="selectTwo select2-roleMain roleMainDDD" data-action="{{ route('admin.get.roleSubDDD') }}">
+                                                                    <option value="">Select Role Main</option>
+                                                                    @foreach ($data['roleMain'] as $item)
+                                                                        <option value="{{ $item['id'] }}" data-exist="{{ $item['extraData']['hasRoleSub'] }}">{{ $item['name'] }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <i class="bx bx-receipt"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="roleMainErr"></div>
+                                                        </div>
+                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4" style="display: none;">
+                                                            <label for="roleSub" class="form-label">Role Sub <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <div class="form-icon set-validation">
+                                                                <select name="roleSub" id="roleSub" class="selectTwo select2-roleSub roleSubDDD">
+                                                                    <option value="">Select Role Sub</option>
+                                                                </select>
+                                                                <i class="bx bx-bar-chart-square"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="roleSubErr"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <span role="alert" id="fileErr" style="color:red;font-size: 12px"></span>
+                                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-4">
+                                            <div class="card cardForm">
+                                                <div class="card-header bg-light">
+                                                    <h6 class="card-title mb-0">Address Info</h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-3">
+                                                            <label for="pinCode" class="form-label">Pin Code <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="pinCode" class="form-control form-control-icon" id="pinCode" placeholder="Pin Code" value="{{ $data['adminUsers']['pinCode'] }}">
+                                                                <i class="las la-location-arrow"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="pinCodeErr"></div>
+                                                        </div>
+                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-3">
+                                                            <label for="state" class="form-label">State <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="state" class="form-control form-control-icon" id="state" placeholder="State" value="{{ $data['adminUsers']['state'] }}">
+                                                                <i class="las la-location-arrow"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="stateErr"></div>
+                                                        </div>
+                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-3">
+                                                            <label for="country" class="form-label">Country <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="country" class="form-control form-control-icon" id="country" placeholder="Country" value="{{ $data['adminUsers']['country'] }}">
+                                                                <i class="las la-location-arrow"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="countryErr"></div>
+                                                        </div>
+                                                        <div class="form-element col-12">
+                                                            <label for="address" class="form-label">Address <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <div class="input-group set-validation">
+                                                                <span class="input-group-text">
+                                                                    <i class="las la-address-card"></i>
+                                                                </span>
+                                                                <textarea name="address" class="form-control" aria-label="With textarea" id="address" role="5" cols="5" placeholder="Give your address">{{ $data['adminUsers']['address'] }}</textarea>
+                                                            </div>
+                                                            <div class="validation-error" id="addressErr"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-8 mb-4">
+                                            <div class="card cardForm">
+                                                <div class="card-header bg-light">
+                                                    <h6 class="card-title mb-0">About my self</h6>
+                                                </div>
+
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+                                                            <label for="about" class="form-label">Profile Pic</label>
+                                                            <div class="input-group set-validation">
+                                                                <div class="d-flex justify-between gap-3">
+                                                                    <div class="col-md-6">
+                                                                        <input type="file" name="file" id="file" class="dropify" data-max-file-size="1M">
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <img src="{{ $data['adminUsers']['image'] }}" class="img-responsive img-thumbnail" style="height: 200px">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="validation-error" id="fileErr"></div>
+                                                        </div>
+                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                            <label for="about" class="form-label">About</label>
+                                                            <div class="input-group set-validation">
+                                                                <textarea name="about" class="form-control sn-adminUser-about summernote" aria-label="With textarea" id="about" placeholder="Write something about you">{{ $data['adminUsers']['about'] }}</textarea>
+                                                            </div>
+                                                            <div class="validation-error" id="aboutErr"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-element col-12 mt-3">
+                                            <div class="col-md border border-1 border-bottom border-success"></div>
+                                        </div>
+                                        <div class="form-element col-12 text-center mt-3">
+                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light">
+                                                <i class="mdi mdi-reload label-icon align-middle fs-16 me-2"></i>
+                                                <span>Reload</span>
+                                            </button>
+                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light ms-2" id="updateAdminUsersBtn">
+                                                <i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                                                <span>Save</span>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 grid-margin stretch-card">
-                                    <img src="{{ $data['image'] }}" class="img-responsive img-thumbnail" style="height: 240px">
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-    
-                    <div class="form-group col-md-12">
-                        <label for="address">Address<span class="text-danger"></span></label>
-                        <textarea name="address" id="address" cols="5" rows="5" parsley-trigger="change" placeholder="Address" class="form-control">{{ $data['address'] }}</textarea>
-                        <span role="alert" id="addressErr" style="color:red;font-size: 12px"></span>
-                    </div>
                 </div>
-
-
-                <br>
-                <div class="alert alert-danger" id="alert" style="display: none">
-                    <center><strong id="validationAlert" style="font-size: 14px; font-weight: 500"></strong></center>
-                </div>
-                <div class="form-group text-right m-b-0">
-                    <button id="updateAdminBtn" class="btn updateBtn waves-effect waves-light" type="submit"><i class="ti-save"></i> 
-                        <span>Update</span>
-                    </button>
-                </div>
-            </form>
-        </div> <!-- end card-box -->
+            </div>
+        </div>
     </div>
-</div>
-
-
-
 @endsection

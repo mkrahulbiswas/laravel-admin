@@ -6,6 +6,7 @@ use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 
 use App\Models\ManageUsers\AdminUsers;
+use App\Models\ManageUsers\UsersInfo;
 
 use Exception;
 use Illuminate\Support\Arr;
@@ -111,17 +112,28 @@ class GetManageUsersHelper
 
                 if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
                     $adminUsers = AdminUsers::where('id', decrypt($otherDataPasses['id']))->first();
+                    $usersInfo = UsersInfo::where([
+                        ['userId', $adminUsers->id],
+                        ['userType', Config::get('constants.userType.admin')]
+                    ])->first();
                     $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
                         'id' => encrypt($adminUsers->id),
                         'name' => $adminUsers->name,
                         'status' =>  $adminUsers->status,
-                        'image' => $adminUsers->image,
+                        'image' => FileTrait::picUrl($adminUsers->image, 'adminUsers', 'backend'),
                         // 'image' => FileTrait::picUrl2([
                         //     'fileName' => $adminUsers->image,
                         //     'storage' => Config::get('constants.storage')['adminUsers']
                         // ]),
                         'roleMainId' =>  $adminUsers->roleMainId,
                         'roleSubId' =>  $adminUsers->roleSubId,
+                        'email' =>  $adminUsers->email,
+                        'phone' =>  $adminUsers->phone,
+                        'pinCode' =>  $usersInfo->pinCode,
+                        'state' =>  $usersInfo->state,
+                        'country' =>  $usersInfo->country,
+                        'address' =>  $usersInfo->address,
+                        'about' =>  $usersInfo->about,
                         'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $adminUsers->uniqueId]),
                         'customizeInText' => CommonTrait::customizeInText([
                             [
@@ -134,7 +146,10 @@ class GetManageUsersHelper
 
                 if (in_array(Config::get('constants.typeCheck.helperCommon.detail.yd'), $type)) {
                     $adminUsers = AdminUsers::where('id', decrypt($otherDataPasses['id']))->first();
-
+                    $usersInfo = UsersInfo::where([
+                        ['userId', $adminUsers->id],
+                        ['userType', Config::get('constants.userType.admin')]
+                    ])->first();
                     $roleMain = GetManageAccessHelper::getDetail([
                         [
                             'getDetail' => [
@@ -146,7 +161,6 @@ class GetManageUsersHelper
                             ]
                         ],
                     ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
-
                     if ($adminUsers->roleSubId != null) {
                         $roleSub = GetManageAccessHelper::getDetail([
                             [
@@ -162,14 +176,20 @@ class GetManageUsersHelper
                     } else {
                         $roleSub = [];
                     }
-
                     $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
                         'id' => encrypt($adminUsers->id),
                         'name' => $adminUsers->name,
                         'status' =>  $adminUsers->status,
-                        'image' => $adminUsers->image,
+                        'image' => FileTrait::picUrl($adminUsers->image, 'adminUsers', 'backend'),
                         'roleMain' =>  $roleMain,
                         'roleSub' =>  $roleSub,
+                        'email' =>  $adminUsers->email,
+                        'phone' =>  $adminUsers->phone,
+                        'pinCode' =>  $usersInfo->pinCode,
+                        'state' =>  $usersInfo->state,
+                        'country' =>  $usersInfo->country,
+                        'address' =>  $usersInfo->address,
+                        'about' =>  $usersInfo->about,
                         'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $adminUsers->uniqueId]),
                         'customizeInText' => CommonTrait::customizeInText([
                             [

@@ -109,7 +109,7 @@ class AdminUsersAdminController extends Controller
                     return $uniqueId;
                 })
                 ->addColumn('image', function ($data) {
-                    $image = '<img src="' . $this->picUrl($data['image'], 'adminUsers', $this->platform) . '" class="img-fluid rounded" width="100"/>';
+                    $image = '<img src="' . $data['image'] . '" class="img-fluid rounded" width="100"/>';
                     return $image;
                 })
                 ->addColumn('status', function ($data) {
@@ -128,7 +128,7 @@ class AdminUsersAdminController extends Controller
                     }
 
                     if ($getPrivilege['edit']['permission'] == true) {
-                        $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                        $edit = '<a href="' . route('admin.edit.adminUsers') . '/' . $data['id'] . '" data-type="edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Edit"><i class="las la-edit"></i></a>';
                     } else {
                         $edit = '';
                     }
@@ -273,33 +273,39 @@ class AdminUsersAdminController extends Controller
     public function editAdminUsers($id)
     {
         try {
-            $id = decrypt($id);
-        } catch (DecryptException $e) {
-            return redirect()->back()->with('error', 'Something went wrong.');
-        }
+            $roleMain = GetManageAccessHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status')['active'],
+                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
+                        ],
+                    ],
+                ],
+            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-        try {
-            $data =  $role = array();
-            foreach (Role::whereNotIn('id', [1])->where('adminId', Auth::guard('admin')->user()->id)->get() as $temp) {
-                $role[] = array(
-                    'id' => encrypt($temp->id),
-                    'role' => $temp->role,
-                    'adminId' => Auth::guard('admin')->user()->id,
-                );
-            }
-            $admin = Admin::where('id', $id)->first();
-            $data = array(
-                'role' => $role,
-                'id' => encrypt($admin->id),
-                'name' => $admin->name,
-                'email' => $admin->email,
-                'phone' => $admin->phone,
-                'address' => $admin->address,
-                'roleId' => $admin->role_id,
-                'restaurantId' => $admin->restaurantId,
-                'image' => $this->picUrl($admin->profilePic, 'adminPic', $this->platform),
-            );
-            return view('admin.users.admin.edit_admin', ['data' => $data]);
+            $adminUsers = GetManageUsersHelper::getDetail([
+                [
+                    'getDetail' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                        'for' => Config::get('constants.typeCheck.manageUsers.adminUsers.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'id' => $id
+                    ]
+                ],
+            ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+
+            $data = [
+                'roleMain' => $roleMain,
+                'adminUsers' => $adminUsers,
+            ];
+
+            return view('admin.manage_users.admin_users.admin_users_edit', ['data' => $data]);
         } catch (DecryptException $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
         }
