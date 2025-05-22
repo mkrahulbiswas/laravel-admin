@@ -141,7 +141,7 @@
                             <h4 class="modal-title">Update Banner</h4>
                             <button type="button" class="close Close" data-dismiss="modal" aria-hidden="true">×</button>
                         </div>
-                        <form id="updateBannerForm" action="{{ route('admin.update.banner') }}" method="PUT" enctype="multipart/form-data" novalidate="">
+                        <form id="updateBannerForm" action="{{ route('admin.update.banner') }}" method="POST" enctype="multipart/form-data" novalidate="">
                             @csrf
 
                             <div class="modal-body">

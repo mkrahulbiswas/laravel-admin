@@ -16,7 +16,7 @@
         <div class="col-lg-12">
             <div class="card-box">
 
-                <form action="{{ route('admin.update.aboutUs') }}" id="updateAboutUsForm" method="PUT" enctype="multipart/form-data">
+                <form action="{{ route('admin.update.aboutUs') }}" id="updateAboutUsForm" method="POST" enctype="multipart/form-data">
 
                     @csrf
 

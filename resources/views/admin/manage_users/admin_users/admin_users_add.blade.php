@@ -37,7 +37,7 @@
                     <div class="row">
                         <div class="col-md-12 formElementMain">
                             <div class="formElementSub">
-                                <form id="saveAdminUsersForm" action="{{ route('admin.save.adminUsers') }}" method="PUT" enctype="multipart/form-data" novalidate class="common-form">
+                                <form id="saveAdminUsersForm" action="{{ route('admin.save.adminUsers') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                                     @csrf
                                     <div class="row">
                                         <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-4">

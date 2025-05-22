@@ -115,6 +115,11 @@ class GetManageUsersHelper
                         'id' => encrypt($adminUsers->id),
                         'name' => $adminUsers->name,
                         'status' =>  $adminUsers->status,
+                        'image' => $adminUsers->image,
+                        // 'image' => FileTrait::picUrl2([
+                        //     'fileName' => $adminUsers->image,
+                        //     'storage' => Config::get('constants.storage')['adminUsers']
+                        // ]),
                         'roleMainId' =>  $adminUsers->roleMainId,
                         'roleSubId' =>  $adminUsers->roleSubId,
                         'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $adminUsers->uniqueId]),
@@ -162,6 +167,7 @@ class GetManageUsersHelper
                         'id' => encrypt($adminUsers->id),
                         'name' => $adminUsers->name,
                         'status' =>  $adminUsers->status,
+                        'image' => $adminUsers->image,
                         'roleMain' =>  $roleMain,
                         'roleSub' =>  $roleSub,
                         'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $adminUsers->uniqueId]),

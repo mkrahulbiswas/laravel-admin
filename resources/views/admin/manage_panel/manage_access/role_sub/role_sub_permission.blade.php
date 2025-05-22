@@ -123,7 +123,7 @@
                         </div>
                         <div class="col-md-12 tdContentMain">
                             <div class="tdContentSub">
-                                <form action="{{ route('admin.update.permissionRoleSub') }}" method="PUT" id="updatePermissionRoleSubForm">
+                                <form action="{{ route('admin.update.permissionRoleSub') }}" method="POST" id="updatePermissionRoleSubForm">
                                     <div class="col-md-12 p-r-0" style="display: flex; flex-direction: row; justify-content: flex-end;">
                                         <div class="PermiAll">
                                             <label style="padding: 1px 20px; font-size: 20px; font-weight: bold;">Permission all </label>

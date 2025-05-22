@@ -37,7 +37,47 @@
             }
         }
 
-        /*--========================= ( Manage Nav START ) =========================--*/
+        /*--========================= ( Manage Users START ) =========================--*/
+        //------ ( Admin Users )
+        $('#filterAdminUsersForm').find('#statusFilter, .filterAdminUsersBtn').on('change click', function () {
+            var formId = $(this).closest('form'),
+                dataTableId = $('#manageUsers-adminUsers'),
+
+                status = formId.find("#statusFilter").val(),
+
+                action = $(this).closest('form').attr('action').split('/'),
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status;
+            if ($(this).attr('title') == 'Reload') {
+                commonAction({
+                    targetId: {
+                        submitForm: formId,
+                    },
+                    resetFormFields: {
+                        selectPicker: {},
+                        selectTwo: {},
+                    }
+                })
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
+            }
+            commonAction({
+                targetId: {
+                    submitForm: formId,
+                    actionType: $(this).attr('title'),
+                },
+                dataTable: {
+                    load: {
+                        targetId: dataTableId,
+                        url: newUrl,
+                    }
+                },
+                filterApply: {}
+            })
+        });
+        /*--========================= ( Manage Users END ) =========================--*/
+
+
+
+        /*--========================= ( Manage Panel START ) =========================--*/
         //------ ( Nav Type )
         $('#filterNavTypeForm').find('#statusFilter, .filterNavTypeBtn').on('change click', function () {
             var formId = $(this).closest('form'),
@@ -338,7 +378,7 @@
                 filterApply: {}
             })
         });
-        /*--========================= ( Manage Nav START ) =========================--*/
+        /*--========================= ( Manage Panel START ) =========================--*/
 
     });
 

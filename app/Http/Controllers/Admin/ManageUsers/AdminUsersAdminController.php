@@ -35,6 +35,21 @@ class AdminUsersAdminController extends Controller
     /*---- ( Admin Users ) ----*/
     public function showAdminUsers()
     {
+        // $adminUsers = GetManageUsersHelper::getList([
+        //     [
+        //         'getList' => [
+        //             'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+        //             'for' => Config::get('constants.typeCheck.manageUsers.adminUsers.type'),
+        //         ],
+        //         'otherDataPasses' => [
+        //             'filterData' => [],
+        //             'orderBy' => [
+        //                 'id' => 'desc'
+        //             ],
+        //         ],
+        //     ],
+        // ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+
         try {
             $roleMain = GetManageAccessHelper::getList([
                 [
@@ -93,6 +108,10 @@ class AdminUsersAdminController extends Controller
                     $uniqueId = $data['uniqueId']['raw'];
                     return $uniqueId;
                 })
+                ->addColumn('image', function ($data) {
+                    $image = '<img src="' . $this->picUrl($data['image'], 'adminUsers', $this->platform) . '" class="img-fluid rounded" width="100"/>';
+                    return $image;
+                })
                 ->addColumn('status', function ($data) {
                     $status = $data['customizeInText']['status']['custom'];
                     return $status;
@@ -136,7 +155,7 @@ class AdminUsersAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['uniqueId', 'status', 'action'])
+                ->rawColumns(['uniqueId', 'status', 'image', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -185,16 +204,26 @@ class AdminUsersAdminController extends Controller
                 if (RoleMain::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Admin Users", 'msg' => __('messages.notAllowMsg')], config('constants.ok'));
                 } else {
+                    // if ($file) {
+                    //     $uploadPicture = $this->uploadFile([
+                    //         'file' => ['current' => $file, 'previous' => ''],
+                    //         'platform' => $this->platform,
+                    //         'storage' => Config::get('constants.storage')['adminUsers']
+                    //     ]);
+                    //     if ($uploadPicture['type'] == false) {
+                    //         return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadPicture['msg']], config('constants.ok'));
+                    //     } else {
+                    //         $fileName = $uploadPicture['name'];
+                    //     }
+                    // } else {
+                    //     $fileName = 'NA';
+                    // }
                     if ($file) {
-                        $uploadPicture = $this->uploadFile([
-                            'file' => ['current' => $file, 'previous' => ''],
-                            'platform' => $this->platform,
-                            'storage' => Config::get('constants.storage')['adminUsers']
-                        ]);
-                        if ($uploadPicture['type'] == false) {
-                            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadPicture['msg']], config('constants.ok'));
+                        $image = $this->uploadPicture($file, '', $this->platform, 'adminUsers');
+                        if ($image == false) {
+                            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => 'LOL'], config('constants.ok'));
                         } else {
-                            $fileName = $uploadPicture['name'];
+                            $fileName = $image;
                         }
                     } else {
                         $fileName = 'NA';
@@ -363,7 +392,7 @@ class AdminUsersAdminController extends Controller
         }
     }
 
-    public function deletAdminUsers($id)
+    public function deleteAdminUsers($id)
     {
         try {
             $id = decrypt($id);

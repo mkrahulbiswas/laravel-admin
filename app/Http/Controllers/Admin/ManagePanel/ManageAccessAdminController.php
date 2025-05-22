@@ -601,7 +601,7 @@ class ManageAccessAdminController extends Controller
                 'targetId' => $id,
                 "targetModel" => RoleSub::class,
                 'targetField' => [],
-                'type' => Config::get('constants.action.status.smsf')
+                'type' => Config::get('constants.actionFor.statusType.smsf')
             ]);
             if ($result === true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Role Sub'])['success']], config('constants.ok'));

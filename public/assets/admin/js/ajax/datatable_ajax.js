@@ -33,17 +33,17 @@
                     searchable: false
                 },
                 {
+                    "data": "uniqueId",
+                },
+                {
                     "data": "name",
                 },
                 {
-                    "data": "uniqueId",
+                    "data": "image",
                 },
                 {
                     "data": "status",
                 },
-                // {
-                //     "data": "image",
-                // },
                 {
                     data: 'action',
                     name: 'actions',

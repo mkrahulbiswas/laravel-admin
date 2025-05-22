@@ -23,8 +23,9 @@ return [
     'storage' => [
         'adminUsers' => [
             'type' => 'adminUsers',
-            'for' => ['public'],
-            'path' => 'media/image/admin/manage_users/admin_users/'
+            'for' => ['public', 'local'],
+            'path' => 'public/assets/media/image/admin/manage_users/admin_users/'
+            // 'path' => 'media/image/admin/manage_users/admin_users/'
         ]
     ],
 
