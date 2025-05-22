@@ -109,7 +109,7 @@
                                                             <label for="pinCode" class="form-label">Pin Code <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                             <div class="form-icon set-validation">
                                                                 <input type="text" name="pinCode" class="form-control form-control-icon" id="pinCode" placeholder="Pin Code">
-                                                                <i class="mdi mdi-phone"></i>
+                                                                <i class="las la-location-arrow"></i>
                                                             </div>
                                                             <div class="validation-error" id="pinCodeErr"></div>
                                                         </div>
@@ -117,7 +117,7 @@
                                                             <label for="state" class="form-label">State <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                             <div class="form-icon set-validation">
                                                                 <input type="text" name="state" class="form-control form-control-icon" id="state" placeholder="State">
-                                                                <i class="mdi mdi-phone"></i>
+                                                                <i class="las la-location-arrow"></i>
                                                             </div>
                                                             <div class="validation-error" id="stateErr"></div>
                                                         </div>
@@ -125,7 +125,7 @@
                                                             <label for="country" class="form-label">Country <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                             <div class="form-icon set-validation">
                                                                 <input type="text" name="country" class="form-control form-control-icon" id="country" placeholder="Country">
-                                                                <i class="mdi mdi-phone"></i>
+                                                                <i class="las la-location-arrow"></i>
                                                             </div>
                                                             <div class="validation-error" id="countryErr"></div>
                                                         </div>
@@ -154,14 +154,14 @@
                                                         <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3">
                                                             <label for="about" class="form-label">Profile Pic</label>
                                                             <div class="input-group set-validation">
-                                                                <input type="file" name="file" id="file" class="dropify">
+                                                                <input type="file" name="file" id="file" class="dropify" data-max-file-size="1M">
                                                             </div>
                                                             <div class="validation-error" id="fileErr"></div>
                                                         </div>
                                                         <div class="form-element col-sm-12 col-md-6 col-lg-8 col-xl-9">
                                                             <label for="about" class="form-label">About</label>
                                                             <div class="input-group set-validation">
-                                                                <textarea name="about" class="form-control sn-adminUser-about" aria-label="With textarea" id="about" placeholder="Write something about you"></textarea>
+                                                                <textarea name="about" class="form-control sn-adminUser-about summernote" aria-label="With textarea" id="about" placeholder="Write something about you"></textarea>
                                                             </div>
                                                             <div class="validation-error" id="aboutErr"></div>
                                                         </div>

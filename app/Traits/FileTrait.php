@@ -3,7 +3,9 @@
 namespace app\Traits;
 
 use Exception;
-use Image;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
 
 trait FileTrait
 {
@@ -70,124 +72,118 @@ trait FileTrait
         return $picture;
     }
 
-    public function uploadPicture($image, $previousImg, $platform, $imgType)
+    public function uploadFile($data)
     {
         try {
-            $image = $image;
-            // $input['imagename'] = md5($image->getClientOriginalName() . microtime()) . "." . $image->getClientOriginalExtension();
-            if ($platform == 'backend') {
-                $input['imagename'] = time() . '_' . mt_rand() . '_' . mt_rand() . '.' . $image->getClientOriginalExtension();
+            [
+                'file' => $file,
+                'platform' => $platform,
+                'storage' => $storage,
+            ] = $data;
 
-                if ($imgType == 'adminPic') {
-                    // $largeWidth = '200';
-                    // $largeHeight = '200';
-                    // $largePicPath = config('constants.adminPic');
-                    // $smallPicPath = '';
-                    // Image::make($image->getRealPath())->resize($largeWidth, $largeHeight)->save($largePicPath . $input['imagename']);
-                    $largePicPath = config('constants.adminPic');
-                    // $largePicPath = str_replace('public/', '', config('constants.adminPic'));
-                    // dd($largePicPath);
-                    $smallPicPath = '';
-                    $image->move($largePicPath, $input['imagename']);
-                } elseif ($imgType == 'bannerPic') {
-                    $largePicPath = config('constants.bannerPic');
-                    $smallPicPath = '';
-                    $image->move($largePicPath, $input['imagename']);
-                } elseif ($imgType == 'bigLogoPic') {
-                    $largePicPath = config('constants.bigLogoPic');
-                    $smallPicPath = '';
-                    $image->move($largePicPath, $input['imagename']);
-                } elseif ($imgType == 'smallLogoPic') {
-                    $largePicPath = config('constants.smallLogoPic');
-                    $smallPicPath = '';
-                    $image->move($largePicPath, $input['imagename']);
-                } elseif ($imgType == 'favIconPic') {
-                    $largePicPath = config('constants.favIconPic');
-                    $smallPicPath = '';
-                    $image->move($largePicPath, $input['imagename']);
-                } elseif ($imgType == 'productPic') {
-                    // $largePicPath = config('constants.productPic');
-                    // $smallPicPath = '';
-                    // $image->move($largePicPath, $input['imagename']);
+            if (!empty($storage['path'])) {
+                $image = $file['current'];
+                foreach ($storage['for'] as $tempOne) {
+                    if (Storage::disk($tempOne)->makeDirectory($storage['path'], 0775, true)) {
+                        reCreateFileName:
+                        $fileName = time() . '_' . mt_rand() . '_' . mt_rand() . '.' . $image->getClientOriginalExtension();
+                        if (Storage::disk($tempOne)->exists($storage['path'] . $fileName)) {
+                            goto reCreateFileName;
+                        } else {
+                            if ($platform == 'backend') {
+                                if ($storage['type'] == Config::get('constants.storage')['adminUsers']['type']) {
+                                    // $largeWidth = '200';
+                                    // $largeHeight = '200';
+                                    // $storage = str_replace('public/', '', $storage['path']);
+                                    // $storage = $storage['path'];
+                                    // Image::make($image->getRealPath())->resize($largeWidth, $largeHeight)->save($storage . $fileName);
 
-                    $largeWidth = '400';
-                    $largeHeight = '450';
-                    $largePicPath = config('constants.productPic');
-                    $smallPicPath = '';
-                    Image::make($image->getRealPath())->resize($largeWidth, $largeHeight)->save($largePicPath . $input['imagename']);
-                } elseif ($imgType == 'clientPic') {
-                    $largePicPath = config('constants.clientPic');
-                    $smallPicPath = '';
-                    $image->move($largePicPath, $input['imagename']);
-                } elseif ($imgType == 'cmsPagesPic') {
-                    $largePicPath = config('constants.cmsPagesPic');
-                    $smallPicPath = '';
-                    $image->move($largePicPath, $input['imagename']);
-                } elseif ($imgType == 'aboutPic') {
-                    $largePicPath = config('constants.aboutPic');
-                    $smallPicPath = '';
-                    $image->move($largePicPath, $input['imagename']);
-                } else {
-                }
-            } elseif ($platform == 'web') {
-                $input['imagename'] = time() . '_' . mt_rand() . '_' . mt_rand() . '.' . $image->getClientOriginalExtension();
+                                    // $image = ImageManager::imagick()->read($image);
+                                    // $image->resize(200, 200);
+                                    // dd($image);
 
-                if ($imgType == 'customerPic') {
-                    $largeWidth = '300';
-                    $largeHeight = '300';
-                    $largePicPath = config('constants.customerPic');
-                    $smallPicPath = '';
-                    Image::make($image->getRealPath())->resize($largeWidth, $largeHeight)->save($largePicPath . $input['imagename']);
-                } elseif ($imgType == 'clientPic') {
-                    $largePicPath = config('constants.clientPic');
-                    $smallPicPath = '';
-                    $image->move($largePicPath, $input['imagename']);
-                }
-            } elseif ($platform == 'app') {
-                $input['imagename'] = time() . '_' . mt_rand() . '_' . mt_rand() . '.png';
+                                    // Storage::disk('public')->putFileAs($storage['path'], $image, $fileName);
 
-                if ($imgType == 'customersPic') {
-                    // $largePicPath = config('constants.employeePic');
-                    $largePicPath = str_replace('public/', '', config('constants.customersPic'));
-                    $smallPicPath = '';
-                } else if ($imgType == 'degreeImagePic') {
-                    $largePicPath = str_replace('public/', '', config('constants.degreeImagePic'));
-                    $smallPicPath = '';
-                }
+                                    // $uploadedFile = $request->file('avatar');
+                                    // $path = Storage::disk($disk)->putFileAs('avatars', $uploadedFile, 'custom_avatar.jpg');
 
-                file_put_contents(($largePicPath . $input['imagename']), base64_decode(str_replace(' ', '+', $image)));
-            }
+                                    // $storage = $storage['path'];
+                                    // $image->move($storage, $fileName);
+                                } else {
+                                }
+                            } elseif ($platform == 'web') {
+                                // if ($imgType == 'customerPic') {
+                                //     $largeWidth = '300';
+                                //     $largeHeight = '300';
+                                //     $storage = config('constants.customerPic');
+                                //     Image::make($image->getRealPath())->resize($largeWidth, $largeHeight)->save($storage . $fileName);
+                                // } elseif ($imgType == 'clientPic') {
+                                //     $storage = config('constants.clientPic');
+                                //     $image->move($storage, $fileName);
+                                // }
+                            } elseif ($platform == 'app') {
+                                // $fileName = time() . '_' . mt_rand() . '_' . mt_rand() . '.png';
+                                // if ($imgType == 'customersPic') {
+                                //     // $storage = config('constants.employeePic');
+                                //     $storage = str_replace('public/', '', config('constants.customersPic'));
+                                // } else if ($imgType == 'degreeImagePic') {
+                                //     $storage = str_replace('public/', '', config('constants.degreeImagePic'));
+                                // }
+                                // file_put_contents(($storage . $fileName), base64_decode(str_replace(' ', '+', $image)));
+                            }
 
-            if (!empty($largePicPath)) {
-                if (!file_exists($largePicPath . $input['imagename'])) {
-                    return false;
-                }
-            }
-
-            if (!empty($smallPicPath)) {
-                if (!file_exists($largePicPath . $input['imagename'])) {
-                    return false;
-                }
-            }
-
-            if (!empty($previousImg)) {
-                if ($previousImg == 'NA') {
-                    return $input['imagename'];
-                } else {
-                    if (unlink($largePicPath . $previousImg)) {
-                        if ($smallPicPath != '') {
-                            unlink($smallPicPath . $previousImg);
+                            if (Storage::disk($tempOne)->putFileAs($storage['path'], $image, $fileName)) {
+                                if (!empty($file['previous'])) {
+                                    if ($file['previous'] == 'NA') {
+                                        $response = [
+                                            'type' => true,
+                                            'name' => $fileName
+                                        ];
+                                    } else {
+                                        if (Storage::disk($tempOne)->delete($file['previous'])) {
+                                            $response = [
+                                                'type' => true,
+                                                'name' => $fileName
+                                            ];
+                                        } else {
+                                            $response = [
+                                                'type' => false,
+                                                'msg' => __('messages.fileUploadMsg.fileDelete.failed'),
+                                            ];
+                                        }
+                                    }
+                                } else {
+                                    $response = [
+                                        'type' => true,
+                                        'name' => $fileName
+                                    ];
+                                }
+                            } else {
+                                $response = [
+                                    'type' => false,
+                                    'msg' => __('messages.fileUploadMsg.fileSave.failed'),
+                                ];
+                            }
                         }
-                        return $input['imagename'];
                     } else {
-                        return false;
+                        $response = [
+                            'type' => false,
+                            'msg' => __('messages.fileUploadMsg.createFolder.failed'),
+                        ];
                     }
                 }
             } else {
-                return $input['imagename'];
+                $response = [
+                    'type' => false,
+                    'msg' => __('messages.fileUploadMsg.folderPath.failed'),
+                ];
             }
+            return $response;
         } catch (Exception $e) {
-            return false;
+            return [
+                'type' => false,
+                'msg' => __('messages.serverErrMsg'),
+            ];
         }
     }
 }

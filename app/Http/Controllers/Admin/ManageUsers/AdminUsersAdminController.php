@@ -13,12 +13,15 @@ use App\Models\ManagePanel\ManageAccess\RoleMain;
 
 use App\Helpers\GetManageAccessHelper;
 use App\Models\ManageUsers\AdminUsers;
+use App\Models\ManageUsers\UsersInfo;
 
 use Exception;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AdminUsersAdminController extends Controller
 {
@@ -193,45 +196,48 @@ class AdminUsersAdminController extends Controller
             $values = $request->only('name', 'email', 'phone', 'roleMain', 'roleSub', 'pinCode', 'state', 'country', 'address', 'about');
             $file = $request->file('file');
 
-            //--Checking The Validation--//
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveAdminUsers', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
-
-                // if ($file) {
-                //     $profilePic = $this->uploadPicture($file, '', $this->platform, 'adminPic');
-                //     if ($profilePic === false) {
-                //         return Response()->Json(['status' => 0, 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
-                //     }
-                // }
-
-                $user = new AdminUsers();
-                $user->userType = config('constants.userType')['subAdmin'];
-                $user->uniqueId = $this->generateCode('ADM', 6, User::class, 'uniqueId');
-                $user->name = $values['name'];
-                $user->email = $values['email'];
-                $user->phone = $values['phone'];
-                $user->address = ($values['address'] == '') ? 'NA' : $values['address'];
-                $user->password = Hash::make($values['password']);
                 if ($file) {
-                    $user->image = $profilePic;
-                }
-
-                if ($user->save()) {
-                    DB::commit();
-                    $admin = new Admin;
-                    $admin->id = $user->id;
-                    $admin->name = $values['name'];
-                    $admin->email = $values['email'];
-                    $admin->phone = $values['phone'];
-                    $admin->role_id = ($values['role'] == '') ? null : decrypt($values['role']);
-                    $admin->address = ($values['address'] == '') ? 'NA' : $values['address'];
-                    $admin->password = Hash::make($values['password']);
-                    if ($file) {
-                        $admin->profilePic = $profilePic;
+                    $uploadPicture = $this->uploadFile([
+                        'file' => ['current' => $file, 'previous' => ''],
+                        'platform' => $this->platform,
+                        'storage' => Config::get('constants.storage')['adminUsers']
+                    ]);
+                    if ($uploadPicture['type'] == false) {
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadPicture['msg']], config('constants.ok'));
+                    } else {
+                        $fileName = $uploadPicture['name'];
                     }
-                    if ($admin->save()) {
+                } else {
+                    $fileName = 'NA';
+                }
+                $adminUsers = new AdminUsers();
+                $adminUsers->uniqueId = $this->generateCode(['preString' => 'AU', 'length' => 6, 'model' => AdminUsers::class, 'field' => '']);;
+                $adminUsers->name = $values['name'];
+                $adminUsers->email = $values['email'];
+                $adminUsers->phone = $values['phone'];
+                $adminUsers->status = Config::get('constants.status')['active'];
+                $adminUsers->roleMainId = decrypt($values['roleMain']);
+                if ($values['roleSub'] != '') {
+                    $adminUsers->roleSubId = decrypt($values['roleSub']);
+                }
+                $adminUsers->password = Hash::make(123456);
+                if ($file) {
+                    $adminUsers->image = $fileName;
+                }
+                if ($adminUsers->save()) {
+                    $usersInfo = new UsersInfo();
+                    $usersInfo->userId = $adminUsers->id;
+                    $usersInfo->pinCode = $values['pinCode'];
+                    $usersInfo->state = $values['state'];
+                    $usersInfo->country = $values['country'];
+                    $usersInfo->address = $values['address'];
+                    $usersInfo->userType = config('constants.userType')['admin'];
+                    $usersInfo->about = ($values['about'] == '') ? 'NA' : $values['about'];
+                    if ($usersInfo->save()) {
                         DB::commit();
                         return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Add Sub Admin", 'msg' => 'Sub Admin Successfully saved.'], config('constants.ok'));
                     } else {

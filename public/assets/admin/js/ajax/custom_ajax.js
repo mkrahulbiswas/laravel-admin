@@ -12,6 +12,8 @@
             if (data.afterSuccess != undefined) {
                 if (data.afterSuccess.resetForm == true) {
                     targetForm[0].reset();
+                    targetForm.find('.dropify-clear').trigger('click')
+                    targetForm.find('.summernote').summernote('reset');
                 }
                 if (data.afterSuccess.hideModal == true) {
                     targetForm.closest('.con-common-modal').modal('hide');

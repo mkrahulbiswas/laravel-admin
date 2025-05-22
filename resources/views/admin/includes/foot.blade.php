@@ -12,7 +12,7 @@
 
 @if (in_array('pdf', $data) || in_array('print', $data))
 @else
-    <?php /* ?> ?> ?>
+    <?php /* ?> ?> ?> ?>
 
     <!-- ( Bootstrap CDN ) -->
     {{-- <script src="{{ asset('assets/plugins/bootstrap/v4/js/bootstrap.min.js') }}"></script> --}}
@@ -249,7 +249,6 @@
         <!-- Custom JS -->
         <script src="{{ asset('assets/admin/js/custom_js/common.js') }}"></script>
         {{-- <script src="{{asset('assets/admin/custom_js/color_picker.js')}}"></script> --}}
-        {{-- <script src="{{ asset('assets/admin/js/custom_js/editor.js') }}"></script> --}}
         <script src="{{ asset('assets/admin/js/custom_js/sortable.js') }}"></script>
         <script src="{{ asset('assets/admin/js/custom_js/custom.js') }}"></script>
     @endif

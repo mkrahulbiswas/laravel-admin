@@ -20,6 +20,14 @@ return [
     'cmsPagesPic' => 'public/assets/media/image/admin/cms_pages/',
     'aboutPic' => 'public/assets/media/image/admin/about_us/',
 
+    'storage' => [
+        'adminUsers' => [
+            'type' => 'adminUsers',
+            'for' => ['public'],
+            'path' => 'media/image/admin/manage_users/admin_users/'
+        ]
+    ],
+
     //Status Type
     'statusAll' => 3,
     'statusMultiple' => 2,
@@ -131,8 +139,7 @@ return [
 
     //--User Type
     'userType' => [
-        'superAdmin' => 'SUPER_ADMIN',
-        'subAdmin' => 'SUB_ADMIN',
+        'admin' => 'ADMIN',
         'na' => 'NA'
     ],
 

@@ -10,6 +10,25 @@ return [
     'successMsg' => 'Success.',
     'noDataFound' => 'Oops!! No data found',
 
+    'fileUploadMsg' => [
+        'fileDelete' => [
+            'success' => 'Successfully file deleted.',
+            'failed' => 'Sorry, we are unable to delete the file.',
+        ],
+        'fileSave' => [
+            'success' => 'Successfully file saved.',
+            'failed' => 'Sorry, we are unable to save the file.',
+        ],
+        'createFolder' => [
+            'success' => 'Successfully folder created.',
+            'failed' => 'Sorry, we are unable to create the folder.',
+        ],
+        'folderPath' => [
+            'success' => 'Folder path is found.',
+            'failed' => 'Sorry, there no folder path is mentioned in constant file.',
+        ]
+    ],
+
     'notAllowMsg' => 'You cannot create sub role by using super admin.',
     'saveMsg' => [
         'success' => ':type successfully saved.',

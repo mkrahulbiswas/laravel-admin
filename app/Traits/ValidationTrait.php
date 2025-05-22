@@ -249,7 +249,7 @@ trait ValidationTrait
             // ---- Admin
             case 'saveAdminUsers':
                 $rules = [
-                    'file' => 'required|image|mimes:jpeg,jpg,png',
+                    'file' => 'image|mimes:jpeg,jpg,png',
                     'email' => 'required|email|max:100|unique:admins',
                     'phone' => 'required|max:100|unique:admins,phone|digits:10',
                     'name' => 'required|max:255',
@@ -265,7 +265,7 @@ trait ValidationTrait
 
             case 'updateAdmin':
                 $rules = [
-                    'file' => 'required|image|mimes:jpeg,jpg,png',
+                    'file' => 'image|mimes:jpeg,jpg,png',
                     'email' => 'required|email|max:100|unique:admins,email,' . $data['id'],
                     'phone' => 'required|max:100|digits:10|unique:admins,phone,' . $data['id'],
                     'name' => 'required|max:255',
