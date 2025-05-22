@@ -37,7 +37,7 @@
                     <div class="row">
                         <div class="col-md-12 formElementMain">
                             <div class="formElementSub">
-                                <form id="saveAdminUsersForm" action="{{ route('admin.save.adminUsers') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                                <form id="saveAdminUsersForm" action="{{ route('admin.save.adminUsers') }}" method="PUT" enctype="multipart/form-data" novalidate class="common-form">
                                     @csrf
                                     <div class="row">
                                         <div class="col col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-4">
@@ -77,14 +77,14 @@
                                                                 <select name="roleMain" id="roleMain" class="selectTwo select2-roleMain roleMainDDD" data-action="{{ route('admin.get.roleSubDDD') }}">
                                                                     <option value="">Select Role Main</option>
                                                                     @foreach ($data['roleMain'] as $item)
-                                                                        <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                                                        <option value="{{ $item['id'] }}" data-exist="{{ $item['extraData']['hasRoleSub'] }}">{{ $item['name'] }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 <i class="bx bx-receipt"></i>
                                                             </div>
                                                             <div class="validation-error" id="roleMainErr"></div>
                                                         </div>
-                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4" style="display: none;">
                                                             <label for="roleSub" class="form-label">Role Sub <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                             <div class="form-icon set-validation">
                                                                 <select name="roleSub" id="roleSub" class="selectTwo select2-roleSub roleSubDDD">

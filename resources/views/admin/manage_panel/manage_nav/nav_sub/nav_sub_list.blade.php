@@ -245,7 +245,7 @@
     <div id="con-edit-modal" class="modal fade con-edit-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="updateNavSubForm" action="{{ route('admin.update.navSub') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="updateNavSubForm" action="{{ route('admin.update.navSub') }}" method="PUT" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">

@@ -5,6 +5,8 @@ namespace app\Traits;
 use App\Rules\UniqueManageAccess;
 use App\Rules\UniqueManageNav;
 
+use App\Helpers\GetManageAccessHelper;
+
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
@@ -254,13 +256,28 @@ trait ValidationTrait
                     'phone' => 'required|max:100|unique:admins,phone|digits:10',
                     'name' => 'required|max:255',
                     'roleMain' => 'required',
-                    'roleSub' => 'required',
-                    'pinCode' => 'required',
-                    'state' => 'required',
-                    'country' => 'required',
-                    'address' => 'required',
-                    'about' => 'required',
+                    'pinCode' => 'required|max:7',
+                    'state' => 'required|max:50',
+                    'country' => 'required|max:50',
+                    'address' => 'required|max:150',
+                    'about' => 'required|max:500',
                 ];
+                if ($data['input']['roleMain'] != '') {
+                    $getDetail = GetManageAccessHelper::getDetail([
+                        [
+                            'getDetail' => [
+                                'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                            ],
+                            'otherDataPasses' => [
+                                'id' => $data['input']['roleMain']
+                            ]
+                        ],
+                    ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                    if ($getDetail['extraData']['hasRoleSub'] > 0) {
+                        $rules['roleSub'] = 'required';
+                    }
+                }
                 break;
 
             case 'updateAdmin':
@@ -270,13 +287,28 @@ trait ValidationTrait
                     'phone' => 'required|max:100|digits:10|unique:admins,phone,' . $data['id'],
                     'name' => 'required|max:255',
                     'roleMain' => 'required',
-                    'roleSub' => 'required',
-                    'pinCode' => 'required',
-                    'state' => 'required',
-                    'country' => 'required',
-                    'address' => 'required',
-                    'about' => 'required',
+                    'pinCode' => 'required|max:7',
+                    'state' => 'required|max:50',
+                    'country' => 'required|max:50',
+                    'address' => 'required|max:150',
+                    'about' => 'required|max:500',
                 ];
+                if ($data['input']['roleMain'] != '') {
+                    $getDetail = GetManageAccessHelper::getDetail([
+                        [
+                            'getDetail' => [
+                                'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                            ],
+                            'otherDataPasses' => [
+                                'id' => $data['input']['roleMain']
+                            ]
+                        ],
+                    ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                    if ($getDetail['extraData']['hasRoleSub'] > 0) {
+                        $rules['roleSub'] = 'required';
+                    }
+                }
                 break;
             /*------ ( Manage Users End ) ------*/
 

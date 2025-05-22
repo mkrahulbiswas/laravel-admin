@@ -81,7 +81,7 @@
                     if (result.value) {
                         $.ajax({
                             url: data.action,
-                            type: 'get',
+                            type: data.method,
                             dataType: 'json',
                             beforeSend: function () {
                                 commonAction({
@@ -344,6 +344,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'get',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -357,6 +358,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'delete',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -574,6 +576,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'get',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -587,6 +590,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'delete',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -885,6 +889,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'get',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -898,6 +903,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'delete',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -1240,6 +1246,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'get',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -1253,6 +1260,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'delete',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -1605,6 +1613,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'get',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -1618,6 +1627,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'delete',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -1971,6 +1981,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'get',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -1984,6 +1995,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'delete',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -2288,6 +2300,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'get',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -2301,6 +2314,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'delete',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',

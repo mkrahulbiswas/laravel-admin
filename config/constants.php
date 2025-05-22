@@ -75,6 +75,11 @@ return [
                 'type' => 'permission'
             ],
         ],
+        'manageUsers' => [
+            'adminUsers' => [
+                'type' => 'adminUsers'
+            ],
+        ],
         'helperCommon' => [
             'get' => [
                 'bnf' => 'basicNoFilter',

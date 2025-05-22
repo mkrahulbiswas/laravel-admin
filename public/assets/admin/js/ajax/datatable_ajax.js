@@ -18,12 +18,12 @@
         });
 
 
-        /*--========================= ( USER START ) =========================--*/
+        /*--========================= ( Manage Users START ) =========================--*/
         /*------( Users Admin Listing )--------*/
-        $('#users-admin-listing').DataTable({
+        $('#manageUsers-adminUsers').DataTable({
             "processing": true,
             "serverSide": true,
-            "ajax": "sub-admins/ajaxGetList",
+            "ajax": "admin-users/ajaxGetList",
             "language": {
                 "searchPlaceholder": "None"
             },
@@ -31,61 +31,19 @@
                     "data": "DT_RowIndex",
                     orderable: false,
                     searchable: false
-                }, {
+                },
+                {
                     "data": "name",
                 },
                 {
-                    "data": "email"
-                },
-                {
-                    "data": "phone"
-                },
-                {
-                    "data": "role"
+                    "data": "uniqueId",
                 },
                 {
                     "data": "status",
                 },
-                {
-                    "data": "image",
-                },
-                {
-                    data: 'action',
-                    name: 'actions',
-                    orderable: false,
-                    searchable: false
-                }
-            ]
-        });
-
-        /*------( Client )--------*/
-        $('#users-client-listing').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "ajax": "client/ajaxGetList",
-            "language": {
-                "searchPlaceholder": "None"
-            },
-            "columns": [{
-                    "data": "DT_RowIndex",
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    "data": "image",
-                },
-                {
-                    "data": "name",
-                },
-                {
-                    "data": "phone"
-                },
-                {
-                    "data": "email"
-                },
-                {
-                    "data": "status"
-                },
+                // {
+                //     "data": "image",
+                // },
                 {
                     data: 'action',
                     name: 'actions',
@@ -94,11 +52,11 @@
                 }
             ]
         });
-        /*--========================= ( USER END ) =========================--*/
+        /*--========================= ( Manage Users END ) =========================--*/
 
 
 
-        /*--========================= ( SETUP ADMIN START ) =========================--*/
+        /*--========================= ( Manage Panel START ) =========================--*/
         /*------( Role Listing )--------*/
         $('#setupAdmin-role-listing').DataTable({
             "processing": true,
@@ -442,7 +400,7 @@
                 orderable: false,
             }]
         });
-        /*--========================= ( SETUP ADMIN END ) =========================--*/
+        /*--========================= ( Manage Panel END ) =========================--*/
 
 
 

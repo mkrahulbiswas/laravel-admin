@@ -12,6 +12,8 @@ use App\Traits\ValidationTrait;
 use App\Models\ManagePanel\ManageAccess\RoleMain;
 
 use App\Helpers\GetManageAccessHelper;
+use App\Helpers\GetManageUsersHelper;
+
 use App\Models\ManageUsers\AdminUsers;
 use App\Models\ManageUsers\UsersInfo;
 
@@ -61,23 +63,22 @@ class AdminUsersAdminController extends Controller
     public function getAdminUsers(Request $request)
     {
         try {
-            $roleMain = GetManageAccessHelper::getList([
+            $adminUsers = GetManageUsersHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                        'for' => Config::get('constants.typeCheck.manageUsers.adminUsers.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $request->status,
-                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
                         ],
                         'orderBy' => [
                             'id' => 'desc'
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $getPrivilege = GetManageAccessHelper::getPrivilege([
                 [
@@ -86,31 +87,22 @@ class AdminUsersAdminController extends Controller
                 ]
             ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
 
-            return Datatables::of($roleMain)
+            return Datatables::of($adminUsers)
                 ->addIndexColumn()
-                ->addColumn('description', function ($data) {
-                    $description = $this->subStrString(40, $data['description'], '....');
-                    return $description;
-                })
                 ->addColumn('uniqueId', function ($data) {
                     $uniqueId = $data['uniqueId']['raw'];
                     return $uniqueId;
                 })
-                ->addColumn('statInfo', function ($data) {
-                    $statInfo = $this->dynamicHtmlPurse([
-                        [
-                            'type' => 'dtMultiData',
-                            'data' => $data['customizeInText']
-                        ]
-                    ])['dtMultiData']['custom'];
-                    return $statInfo;
+                ->addColumn('status', function ($data) {
+                    $status = $data['customizeInText']['status']['custom'];
+                    return $status;
                 })
                 ->addColumn('action', function ($data) use ($getPrivilege) {
                     if ($getPrivilege['status']['permission'] == true) {
                         if ($data['status'] == Config::get('constants.status')['inactive']) {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.adminUsers') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                         } else {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.adminUsers') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                         }
                     } else {
                         $status = '';
@@ -123,7 +115,7 @@ class AdminUsersAdminController extends Controller
                     }
 
                     if ($getPrivilege['delete']['permission'] == true) {
-                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.adminUsers') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     } else {
                         $delete = '';
                     }
@@ -134,27 +126,17 @@ class AdminUsersAdminController extends Controller
                         $info = '';
                     }
 
-                    if ($getPrivilege['permission']['permission'] == true) {
-                        if ($data['extraData']['hasRoleSub'] <= 0) {
-                            $access = '<a href="' .  route('admin.show.permissionRoleMain') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
-                        } else {
-                            $access = '<a href="JavaScript:void(0);" data-type="permission" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
-                        }
-                    } else {
-                        $access = '';
-                    }
-
                     return $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtAction',
                             'data' => [
                                 'primary' => [$status, $edit, $delete, $info],
-                                'secondary' => [$access],
+                                'secondary' => [],
                             ]
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['description', 'uniqueId', 'statInfo', 'action'])
+                ->rawColumns(['uniqueId', 'status', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -200,58 +182,62 @@ class AdminUsersAdminController extends Controller
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
-                if ($file) {
-                    $uploadPicture = $this->uploadFile([
-                        'file' => ['current' => $file, 'previous' => ''],
-                        'platform' => $this->platform,
-                        'storage' => Config::get('constants.storage')['adminUsers']
-                    ]);
-                    if ($uploadPicture['type'] == false) {
-                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadPicture['msg']], config('constants.ok'));
-                    } else {
-                        $fileName = $uploadPicture['name'];
-                    }
+                if (RoleMain::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Admin Users", 'msg' => __('messages.notAllowMsg')], config('constants.ok'));
                 } else {
-                    $fileName = 'NA';
-                }
-                $adminUsers = new AdminUsers();
-                $adminUsers->uniqueId = $this->generateCode(['preString' => 'AU', 'length' => 6, 'model' => AdminUsers::class, 'field' => '']);;
-                $adminUsers->name = $values['name'];
-                $adminUsers->email = $values['email'];
-                $adminUsers->phone = $values['phone'];
-                $adminUsers->status = Config::get('constants.status')['active'];
-                $adminUsers->roleMainId = decrypt($values['roleMain']);
-                if ($values['roleSub'] != '') {
-                    $adminUsers->roleSubId = decrypt($values['roleSub']);
-                }
-                $adminUsers->password = Hash::make(123456);
-                if ($file) {
-                    $adminUsers->image = $fileName;
-                }
-                if ($adminUsers->save()) {
-                    $usersInfo = new UsersInfo();
-                    $usersInfo->userId = $adminUsers->id;
-                    $usersInfo->pinCode = $values['pinCode'];
-                    $usersInfo->state = $values['state'];
-                    $usersInfo->country = $values['country'];
-                    $usersInfo->address = $values['address'];
-                    $usersInfo->userType = config('constants.userType')['admin'];
-                    $usersInfo->about = ($values['about'] == '') ? 'NA' : $values['about'];
-                    if ($usersInfo->save()) {
-                        DB::commit();
-                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Add Sub Admin", 'msg' => 'Sub Admin Successfully saved.'], config('constants.ok'));
+                    if ($file) {
+                        $uploadPicture = $this->uploadFile([
+                            'file' => ['current' => $file, 'previous' => ''],
+                            'platform' => $this->platform,
+                            'storage' => Config::get('constants.storage')['adminUsers']
+                        ]);
+                        if ($uploadPicture['type'] == false) {
+                            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadPicture['msg']], config('constants.ok'));
+                        } else {
+                            $fileName = $uploadPicture['name'];
+                        }
+                    } else {
+                        $fileName = 'NA';
+                    }
+                    $adminUsers = new AdminUsers();
+                    $adminUsers->uniqueId = $this->generateCode(['preString' => 'AU', 'length' => 6, 'model' => AdminUsers::class, 'field' => '']);;
+                    $adminUsers->name = $values['name'];
+                    $adminUsers->email = $values['email'];
+                    $adminUsers->phone = $values['phone'];
+                    $adminUsers->status = Config::get('constants.status')['active'];
+                    $adminUsers->roleMainId = decrypt($values['roleMain']);
+                    if ($values['roleSub'] != '') {
+                        $adminUsers->roleSubId = decrypt($values['roleSub']);
+                    }
+                    $adminUsers->password = Hash::make(123456);
+                    if ($file) {
+                        $adminUsers->image = $fileName;
+                    }
+                    if ($adminUsers->save()) {
+                        $usersInfo = new UsersInfo();
+                        $usersInfo->userId = $adminUsers->id;
+                        $usersInfo->pinCode = $values['pinCode'];
+                        $usersInfo->state = $values['state'];
+                        $usersInfo->country = $values['country'];
+                        $usersInfo->address = $values['address'];
+                        $usersInfo->userType = Config::get('constants.userType')['admin'];
+                        $usersInfo->about = ($values['about'] == '') ? 'NA' : $values['about'];
+                        if ($usersInfo->save()) {
+                            DB::commit();
+                            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Admin Users", 'msg' => __('messages.saveMsg', ['type' => 'Nav type'])['success']], config('constants.ok'));
+                        } else {
+                            DB::rollback();
+                            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Admin Users", 'msg' => __('messages.saveMsg', ['type' => 'Nav type'])['failed']], config('constants.ok'));
+                        }
                     } else {
                         DB::rollback();
-                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Add Sub Admin", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Admin Users", 'msg' => __('messages.saveMsg', ['type' => 'Nav type'])['failed']], config('constants.ok'));
                     }
-                } else {
-                    DB::rollback();
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Add Sub Admin", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
                 }
             }
         } catch (Exception $e) {
             DB::rollback();
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Add Sub Admin", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Admin Users", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
     }
 
@@ -363,14 +349,14 @@ class AdminUsersAdminController extends Controller
         try {
             $result = $this->changeStatus([
                 'targetId' => $id,
-                "targetModel" => RoleMain::class,
+                "targetModel" => AdminUsers::class,
                 'targetField' => [],
-                'type' => Config::get('constants.actionFor.statusType.smsf')
+                'type' => Config::get('constants.action.status.smsf')
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Role Main'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Admin Users'])['success']], config('constants.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Role Main'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Admin Users'])['failed']], config('constants.ok'));
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
@@ -388,9 +374,14 @@ class AdminUsersAdminController extends Controller
         try {
             $result = $this->deleteItem([
                 [
-                    'model' => RoleMain::class,
+                    'model' => AdminUsers::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
+                ],
+                [
+                    'model' => UsersInfo::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'userId'], ['search' => Config::get('constants.userType.admin'), 'field' => 'userType']],
                 ],
             ]);
             if ($result === true) {

@@ -110,10 +110,8 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>Name</th>
                                             <th>Unique Id</th>
-                                            <th>Role Main Name</th>
-                                            <th>Role Sub Name</th>
-                                            <th>Description</th>
                                             <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
@@ -122,10 +120,8 @@
                                     <tfoot>
                                         <tr>
                                             <th>#</th>
+                                            <th>Name</th>
                                             <th>Unique Id</th>
-                                            <th>Role Main Name</th>
-                                            <th>Role Sub Name</th>
-                                            <th>Description</th>
                                             <th>Status</th>
                                             <th>Actions</th>
                                         </tr>

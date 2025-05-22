@@ -207,7 +207,7 @@ class ManageNavAdminController extends Controller
                 'targetId' => $id,
                 "targetModel" => NavType::class,
                 'targetField' => [],
-                'type' => Config::get('constants.actionFor.statusType.smsf')
+                'type' => Config::get('constants.action.status.smsf')
             ]);
             if ($result === true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Nav type'])['success']], config('constants.ok'));
@@ -521,7 +521,7 @@ class ManageNavAdminController extends Controller
                 'targetId' => $id,
                 "targetModel" => NavMain::class,
                 'targetField' => [],
-                'type' => Config::get('constants.actionFor.statusType.smsf')
+                'type' => Config::get('constants.action.status.smsf')
             ]);
             if ($result === true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Nav main'])['success']], config('constants.ok'));
@@ -847,7 +847,7 @@ class ManageNavAdminController extends Controller
                 'targetId' => $id,
                 "targetModel" => NavSub::class,
                 'targetField' => [],
-                'type' => Config::get('constants.actionFor.statusType.smsf')
+                'type' => Config::get('constants.action.status.smsf')
             ]);
             if ($result === true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Nav sub'])['success']], config('constants.ok'));
@@ -1173,7 +1173,7 @@ class ManageNavAdminController extends Controller
                 'targetId' => $id,
                 "targetModel" => NavNested::class,
                 'targetField' => [],
-                'type' => Config::get('constants.actionFor.statusType.smsf')
+                'type' => Config::get('constants.action.status.smsf')
             ]);
             if ($result === true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Nav nested'])['success']], config('constants.ok'));
