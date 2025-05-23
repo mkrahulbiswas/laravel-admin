@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: May 21, 2025 at 02:55 PM
+-- Generation Time: May 23, 2025 at 04:42 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.4.0
 
@@ -54,7 +54,7 @@ INSERT INTO `about_us` (`id`, `title`, `image`, `content`, `created_at`, `update
 DROP TABLE IF EXISTS `admins`;
 CREATE TABLE IF NOT EXISTS `admins` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `uniqueId` varchar(255) COLLATE utf16_unicode_ci NOT NULL DEFAULT 'NA',
+  `uniqueId` varchar(255) CHARACTER SET utf16 COLLATE utf16_unicode_ci NOT NULL DEFAULT 'NA',
   `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'NA',
   `phone` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'NA',
@@ -67,17 +67,18 @@ CREATE TABLE IF NOT EXISTS `admins` (
   `status` enum('ACTIVE','INACTIVE','NA') CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'NA',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf16 COLLATE=utf16_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf16 COLLATE=utf16_unicode_ci;
 
 --
 -- Dumping data for table `admins`
 --
 
 INSERT INTO `admins` (`id`, `uniqueId`, `name`, `email`, `phone`, `image`, `otp`, `password`, `roleMainId`, `roleSubId`, `remember_token`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'AU-500077', 'Aamit', 'info@unicorngroups.co.in', '9088341606', '1695720734_285609968_1941691482.jpg', 409731, '$2y$12$6jIOozUG74nKUFPvQzFvuumpNgiJRvnV09OEAxZ4ft3tL7Ai4UO/i', 2, NULL, NULL, 'ACTIVE', '2020-04-01 23:44:52', '2024-03-23 21:53:57', NULL),
-(2, 'AU-500078', 'Rahul', 'rahul@gmail.com', '8436191135', '1695720734_285609968_1941691482.jpg', 409731, '$2y$12$6jIOozUG74nKUFPvQzFvuumpNgiJRvnV09OEAxZ4ft3tL7Ai4UO/i', 3, 2, NULL, 'ACTIVE', '2020-04-01 23:44:52', '2024-03-23 21:53:57', NULL);
+(1, 'AU-500077', 'Aamit', 'info@unicorngroups.co.in', '9088341606', 'NA', 409731, '$2y$12$6jIOozUG74nKUFPvQzFvuumpNgiJRvnV09OEAxZ4ft3tL7Ai4UO/i', 2, NULL, NULL, 'ACTIVE', '2020-04-01 23:44:52', '2024-03-23 21:53:57', NULL),
+(2, 'AU-354298', 'Rahul', 'rahul@gmail.com', '8436191135', '1748018359_1747958400_1635304235.jpg', 409731, '$2y$12$h4vVcZiSvCVpV8AD1dmPQOQWf0DzmR3uau.RjrKngqB0gjmEaSN9.', 3, 2, NULL, 'ACTIVE', '2020-04-01 23:44:52', '2025-05-23 11:09:19', NULL),
+(15, 'AU-126171', 'Rohim Nath', 'rohimnath@gmail.com', '9876543210', '1748000572_1747958400_49579259.jpg', NULL, '$2y$12$wqFnUOIOHjy8hGLgPZE4eO0KCqAd/osd1OSYAtUM.c49Q4TPBTpZ6', 3, 2, NULL, 'ACTIVE', '2025-05-22 10:08:34', '2025-05-23 06:12:52', NULL);
 
 -- --------------------------------------------------------
 
@@ -2413,7 +2414,7 @@ CREATE TABLE IF NOT EXISTS `nav_type` (
 INSERT INTO `nav_type` (`id`, `uniqueId`, `name`, `icon`, `description`, `status`, `position`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'NT-841206', 'Dashboard', 'ri-dashboard-2-line', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'ACTIVE', 2, '2024-08-07 04:21:05', '2025-04-28 07:42:03', NULL),
 (2, 'NT-549934', 'Admin Related', 'las la-hat-cowboy-side', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently', 'ACTIVE', 1, '2024-08-07 04:21:10', '2025-04-28 07:48:06', NULL),
-(35, 'NT-162469', 'Users Releted', 'las la-user-tie', 'NA', 'ACTIVE', 3, '2025-05-09 08:24:38', '2025-05-19 21:07:33', NULL);
+(35, 'NT-162469', 'Users Releted', 'las la-user-tie', 'NA', 'ACTIVE', 3, '2025-05-09 08:24:38', '2025-05-22 06:55:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -2612,7 +2613,7 @@ CREATE TABLE IF NOT EXISTS `role_main` (
 INSERT INTO `role_main` (`id`, `uniqueId`, `name`, `description`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (2, 'RM-500077', 'Super Admin', 'This is super admin which access only have to dveloper', 'ACTIVE', '2025-04-10 03:01:35', '2025-04-10 07:32:11', NULL),
 (3, 'RM-417362', 'Admin', 'NA', 'ACTIVE', '2025-04-10 03:01:50', '2025-04-10 07:32:07', NULL),
-(4, 'RM-842521', 'Sub Admin', 'na', 'ACTIVE', '2025-04-10 05:15:49', '2025-04-10 07:35:57', NULL);
+(4, 'RM-842521', 'Sub Admin', 'lol', 'ACTIVE', '2025-04-10 05:15:49', '2025-05-22 07:50:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -2667,9 +2668,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('bqRkiy3dI7BddWGPgxgUJH93y4yE3UQfAbLq8aAF', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRzN4Q1lnV1VPU1BLNW5TVUh4SlB5NGJZRlJjOHdSeGhFd0lyU2FLTyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NzA6Imh0dHA6Ly9sb2NhbGhvc3QvTEFSQVZFTC9BZG1pblNldHVwL2FkbWluL21hbmFnZS11c2Vycy9hZG1pbi11c2Vycy9hZGQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUyOiJsb2dpbl9hZG1pbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1747830982),
-('ookdHNDZYkdLN6eAmCFJwtSv7MrcP758hxiCvHRh', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoieDJBaGF5aVZkY09kT3JkY2hEaFF4SFRBOHdrY1JtSlRGeGI4c25LeSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NzA6Imh0dHA6Ly9sb2NhbGhvc3QvTEFSQVZFTC9BZG1pblNldHVwL2FkbWluL21hbmFnZS11c2Vycy9hZG1pbi11c2Vycy9hZGQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUyOiJsb2dpbl9hZG1pbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjI7fQ==', 1747824262),
-('eGnmn1Uqea7ZPdTlWdcAY5qLlScSTi9y0DBpGFHb', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiak9EZkFuYjZCRzFaYlllNmhPY0VkdVR5Mnc1ZjdWb3pBWm5IZGE2biI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NzA6Imh0dHA6Ly9sb2NhbGhvc3QvTEFSQVZFTC9BZG1pblNldHVwL2FkbWluL21hbmFnZS11c2Vycy9hZG1pbi11c2Vycy9hZGQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUyOiJsb2dpbl9hZG1pbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1747839128);
+('YTE0fk3Fv0pdgxOIfW6izlYwxaMlr3FuOajYLODu', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiMGJBN3ZST3h2eE1sNlQ3bFNSNEZWemxrTm9NYVpFOU4waDJHb0NMUiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NjY6Imh0dHA6Ly9sb2NhbGhvc3QvTEFSQVZFTC9BZG1pblNldHVwL2FkbWluL21hbmFnZS11c2Vycy9hZG1pbi11c2VycyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTI6ImxvZ2luX2FkbWluXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1748018538);
 
 -- --------------------------------------------------------
 
@@ -2784,14 +2783,26 @@ DROP TABLE IF EXISTS `users_info`;
 CREATE TABLE IF NOT EXISTS `users_info` (
   `id` int NOT NULL AUTO_INCREMENT,
   `userId` bigint DEFAULT NULL,
+  `pinCode` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'NA',
+  `state` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'NA',
+  `country` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'NA',
   `address` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'NA',
   `about` text COLLATE utf8mb3_unicode_ci,
-  `userType` enum('SUB_ADMIN','SUPER_ADMIN','NA') CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'NA',
+  `userType` enum('ADMIN','NA') CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'NA',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
+--
+-- Dumping data for table `users_info`
+--
+
+INSERT INTO `users_info` (`id`, `userId`, `pinCode`, `state`, `country`, `address`, `about`, `userType`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'NA', 'NA', 'NA', 'NA', NULL, 'ADMIN', '2025-05-02 06:05:09', '2025-05-23 04:11:42', NULL),
+(2, 2, '123456', 'NA', 'NA', 'NA', 'NA', 'ADMIN', '2025-05-01 06:05:06', '2025-05-23 11:09:19', NULL),
+(13, 15, '987654', 'West Bengal', 'India', 'Nadia', 'I like programming', 'ADMIN', '2025-05-22 10:08:34', '2025-05-23 00:34:55', NULL);
 
 -- --------------------------------------------------------
 

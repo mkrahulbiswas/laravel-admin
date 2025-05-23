@@ -9,58 +9,69 @@ use Intervention\Image\ImageManager;
 
 trait FileTrait
 {
-    public static function picUrl2($data)
+    public static function getFile($data)
     {
-        [
-            'fileName' => $fileName,
-            'storage' => $storage,
-        ] = $data;
+        try {
+            [
+                'fileName' => $fileName,
+                'storage' => $storage,
+            ] = $data;
 
-        $finalData = [];
+            $finalData = $filePath = [];
 
-        if ($fileName == '' || $fileName == 'NA') {
-            $picture = config('constants.baseUrl') . config('constants.avatar') . 'no_image.png';
-        } else {
-        }
+            foreach ($storage['for'] as $tempOne) {
+                if ($fileName == '' || $fileName == 'NA') {
+                    $filePath = [
+                        'asset' => config('constants.baseUrl') . config('constants.avatar') . 'no_image.png',
+                        'get' => '',
+                        'url' => '',
+                    ];
+                } else {
+                    if (Storage::disk($tempOne)->exists($storage['path'] . $fileName)) {
+                        if ($tempOne == 'public') {
+                            if ($storage['type'] == Config::get('constants.storage')['adminUsers']['type']) {
+                            }
+                        } elseif ($tempOne == 'local') {
+                            if ($storage['type'] == Config::get('constants.storage')['adminUsers']['type']) {
+                            }
+                        } else {
+                            if ($storage['type'] == Config::get('constants.storage')['adminUsers']['type']) {
+                            }
+                        }
 
-        foreach ($storage['for'] as $tempOne) {
-            if ($tempOne == 'public') {
-                $filePath = asset("storage") . '/' . $storage['path'] . $fileName;
-                // $filePath = Storage::disk($tempOne)->url($storage['path'] . $fileName);
+                        $filePath = [
+                            'asset' => asset("storage") . '/' . $storage['path'] . $fileName,
+                            'get' => Storage::disk($tempOne)->get($storage['path'] . $fileName),
+                            'url' => Storage::disk($tempOne)->url($storage['path'] . $fileName),
+                        ];
+                    } else {
+                        $filePath = [
+                            'asset' => config('constants.baseUrl') . config('constants.avatar') . 'no_image.png',
+                            'get' => '',
+                            'url' => '',
+                        ];
+                    }
+                }
+
+                $finalData[$tempOne] = [
+                    'fullPath' => $filePath,
+                    'fileName' => $fileName
+                ];
+
+                $filePath = [];
             }
 
-            if ($tempOne == 'local') {
-                $filePath = Storage::disk($tempOne)->path($storage['path'] . $fileName);
-            }
-
-            if ($tempOne == 'others') {
-                $filePath = 'NULL';
-                // $filePath = asset("storage") . '/' . $storage['path'] . $fileName;
-            }
-
-            $finalData[$tempOne] = [
-                'fullPath' => $filePath,
+            return $finalData;
+        } catch (Exception $e) {
+            return [
+                'fullPath' => [
+                    'asset' => config('constants.baseUrl') . config('constants.avatar') . 'no_image.png',
+                    'get' => '',
+                    'url' => '',
+                ],
                 'fileName' => $fileName
             ];
         }
-
-        dd($finalData);
-
-        // if ($imgType == 'adminPic') {
-        //     $url = config('constants.baseUrl') . config('constants.adminPic');
-        // } else {
-        //     return false;
-        // }
-
-        // if ($pic != 'NA') {
-        //     if (strpos($pic, 'https') !== false) {
-        //         $picture = $pic;
-        //     } else {
-        //         $picture = $url . $pic;
-        //     }
-        // }
-
-        return $picture;
     }
 
     public static function uploadFile($data)

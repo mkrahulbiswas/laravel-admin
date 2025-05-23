@@ -7,24 +7,18 @@ return [
 
     //Image
     'image' => 'public/assets/media/image/admin',
-
-    'adminPic' => 'public/assets/media/image/admin/users/admin/',
-    'clientPic' => 'public/assets/media/image/admin/users/client/',
     'bannerPic' => 'public/assets/media/image/admin/banner/',
     'bigLogoPic' => 'public/assets/media/image/admin/logo/big_logo/',
     'smallLogoPic' => 'public/assets/media/image/admin/logo/small_logo/',
     'favIconPic' => 'public/assets/media/image/admin/logo/fav_icon/',
     'avatar' => 'public/assets/media/image/admin/avatar/',
     'webIcon' => 'public/assets/media/image/admin/webIcon/',
-    'productPic' => 'public/assets/media/image/admin/product/',
     'cmsPagesPic' => 'public/assets/media/image/admin/cms_pages/',
-    'aboutPic' => 'public/assets/media/image/admin/about_us/',
 
     'storage' => [
         'adminUsers' => [
             'type' => 'adminUsers',
-            'for' => ['public', 'local', 'others'],
-            // 'path' => 'public/assets/media/image/admin/manage_users/admin_users/'
+            'for' => ['public'],
             'path' => 'media/image/admin/manage_users/admin_users/'
         ]
     ],

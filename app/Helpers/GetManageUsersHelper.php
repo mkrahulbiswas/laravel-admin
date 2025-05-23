@@ -120,12 +120,10 @@ class GetManageUsersHelper
                         'id' => encrypt($adminUsers->id),
                         'name' => $adminUsers->name,
                         'status' =>  $adminUsers->status,
-                        'imageR' => $adminUsers->image,
-                        'image' => FileTrait::picUrl($adminUsers->image, 'adminUsers', 'backend'),
-                        // 'image' => FileTrait::picUrl2([
-                        //     'fileName' => $adminUsers->image,
-                        //     'storage' => Config::get('constants.storage')['adminUsers']
-                        // ]),
+                        'getFile' => FileTrait::getFile([
+                            'fileName' => $adminUsers->image,
+                            'storage' => Config::get('constants.storage')['adminUsers']
+                        ]),
                         'roleMainId' =>  $adminUsers->roleMainId,
                         'roleSubId' =>  $adminUsers->roleSubId,
                         'email' =>  $adminUsers->email,
@@ -181,8 +179,10 @@ class GetManageUsersHelper
                         'id' => encrypt($adminUsers->id),
                         'name' => $adminUsers->name,
                         'status' =>  $adminUsers->status,
-                        'imageR' => $adminUsers->image,
-                        'image' => FileTrait::picUrl($adminUsers->image, 'adminUsers', 'backend'),
+                        'getFile' => FileTrait::getFile([
+                            'fileName' => $adminUsers->image,
+                            'storage' => Config::get('constants.storage')['adminUsers']
+                        ]),
                         'roleMain' =>  $roleMain,
                         'roleSub' =>  $roleSub,
                         'email' =>  $adminUsers->email,

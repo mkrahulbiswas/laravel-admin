@@ -260,7 +260,7 @@ trait ValidationTrait
                     'state' => 'required|max:50',
                     'country' => 'required|max:50',
                     'address' => 'required|max:150',
-                    'about' => 'required|max:500',
+                    'about' => 'max:500',
                 ];
                 if ($data['input']['roleMain'] != '') {
                     $getDetail = GetManageAccessHelper::getDetail([
@@ -291,7 +291,7 @@ trait ValidationTrait
                     'state' => 'required|max:50',
                     'country' => 'required|max:50',
                     'address' => 'required|max:150',
-                    'about' => 'required|max:500',
+                    'about' => 'max:500',
                 ];
                 if ($data['input']['roleMain'] != '') {
                     $getDetail = GetManageAccessHelper::getDetail([

@@ -26,6 +26,10 @@ return [
         'folderPath' => [
             'success' => 'Folder path is found.',
             'failed' => 'Sorry, there no folder path is mentioned in constant file.',
+        ],
+        'fileAvailable' => [
+            'success' => 'File found.',
+            'failed' => 'Sorry, there no file found in :type storage folder in path of ":path"',
         ]
     ],
 

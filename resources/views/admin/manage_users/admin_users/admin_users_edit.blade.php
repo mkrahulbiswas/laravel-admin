@@ -163,7 +163,7 @@
                                                                         <input type="file" name="file" id="file" class="dropify" data-max-file-size="1M">
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <img src="{{ $data['adminUsers']['image'] }}" class="img-responsive img-thumbnail" style="height: 200px">
+                                                                        <img src="{{ $data['adminUsers']['getFile']['public']['fullPath']['asset'] }}" class="img-responsive img-thumbnail" style="height: 200px">
                                                                     </div>
                                                                 </div>
                                                             </div>

@@ -109,7 +109,7 @@ class AdminUsersAdminController extends Controller
                     return $uniqueId;
                 })
                 ->addColumn('image', function ($data) {
-                    $image = '<img src="' . $data['image'] . '" class="img-fluid rounded" width="100"/>';
+                    $image = '<img src="' . $data['getFile']['public']['fullPath']['asset'] . '" class="img-fluid rounded" width="100"/>';
                     return $image;
                 })
                 ->addColumn('status', function ($data) {
@@ -299,11 +299,6 @@ class AdminUsersAdminController extends Controller
                     ]
                 ],
             ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
-
-            dd($this->picUrl2([
-                'fileName' => $adminUsers['imageR'],
-                'storage' => Config::get('constants.storage')['adminUsers']
-            ]));
 
             $roleSub = GetManageAccessHelper::getList([
                 [
