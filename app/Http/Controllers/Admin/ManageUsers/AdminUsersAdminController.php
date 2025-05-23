@@ -202,7 +202,7 @@ class AdminUsersAdminController extends Controller
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
                 if (RoleMain::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Admin Users", 'msg' => __('messages.notAllowMsg')], config('constants.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save", 'msg' => __('messages.notAllowMsg')], config('constants.ok'));
                 } else {
                     // if ($file) {
                     //     $uploadPicture = $this->uploadFile([
@@ -253,20 +253,20 @@ class AdminUsersAdminController extends Controller
                         $usersInfo->about = ($values['about'] == '') ? 'NA' : $values['about'];
                         if ($usersInfo->save()) {
                             DB::commit();
-                            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Admin Users", 'msg' => __('messages.saveMsg', ['type' => 'Nav type'])['success']], config('constants.ok'));
+                            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save", 'msg' => __('messages.saveMsg', ['type' => 'Admin Users'])['success']], config('constants.ok'));
                         } else {
                             DB::rollback();
-                            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Admin Users", 'msg' => __('messages.saveMsg', ['type' => 'Nav type'])['failed']], config('constants.ok'));
+                            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save", 'msg' => __('messages.saveMsg', ['type' => 'Admin Users'])['failed']], config('constants.ok'));
                         }
                     } else {
                         DB::rollback();
-                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Admin Users", 'msg' => __('messages.saveMsg', ['type' => 'Nav type'])['failed']], config('constants.ok'));
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save", 'msg' => __('messages.saveMsg', ['type' => 'Admin Users'])['failed']], config('constants.ok'));
                     }
                 }
             }
         } catch (Exception $e) {
             DB::rollback();
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Admin Users", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
     }
 
@@ -300,8 +300,29 @@ class AdminUsersAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
 
+            dd($this->picUrl2([
+                'fileName' => $adminUsers['imageR'],
+                'storage' => Config::get('constants.storage')['adminUsers']
+            ]));
+
+            $roleSub = GetManageAccessHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                        'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status')['active'],
+                            'roleMainId' => $adminUsers['roleMain']['id']
+                        ],
+                    ],
+                ],
+            ])[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+
             $data = [
                 'roleMain' => $roleMain,
+                'roleSub' => $roleSub,
                 'adminUsers' => $adminUsers,
             ];
 
@@ -313,7 +334,7 @@ class AdminUsersAdminController extends Controller
 
     public function updateAdminUsers(Request $request)
     {
-        $values = $request->only('id', 'name', 'email', 'phone', 'address', 'role');
+        $values = $request->only('id', 'name', 'email', 'phone', 'roleMain', 'roleSub', 'pinCode', 'state', 'country', 'address', 'about');
         $file = $request->file('file');
 
         try {
@@ -323,53 +344,74 @@ class AdminUsersAdminController extends Controller
         }
 
         try {
-            $admin = Admin::findOrFail($id);
-            $user = User::findOrFail($id);
+            DB::beginTransaction();
+            $values = $request->only('name', 'email', 'phone', 'roleMain', 'roleSub', 'pinCode', 'state', 'country', 'address', 'about');
+            $file = $request->file('file');
 
-            $validator = $this->isValid($request->all(), 'updateAdmin', $id, $this->platform);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateAdminUsers', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
-
-                if ($file) {
-                    $image = $this->uploadPicture($file, $admin->profilePic, $this->platform, 'adminPic');
-                    if ($image === false) {
-                        return Response()->Json(['status' => 0, 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
-                    }
-                }
-
-                $user->name = $values['name'];
-                $user->email = $values['email'];
-                $user->phone = $values['phone'];
-                $user->address = $values['address'];
-
-                if ($file) {
-                    $user->image = $image;
-                }
-
-                if ($user->update()) {
-                    $admin->name = $values['name'];
-                    $admin->email = $values['email'];
-                    $admin->phone = $values['phone'];
-                    $admin->address = $values['address'];
-                    $admin->role_id = decrypt($values['role']);
-                    // $admin->password = $values['address'];
-
-                    if ($file) {
-                        $admin->profilePic = $image;
-                    }
-
-                    if ($admin->update()) {
-                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update Sub Admin", 'msg' => 'Sub Admin successfully update.'], config('constants.ok'));
-                    } else {
-                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update Sub Admin", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
-                    }
+                if (RoleMain::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update", 'msg' => __('messages.notAllowMsg')], config('constants.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update Sub Admin", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+                    $adminUsers = AdminUsers::findOrFail($id);
+                    if ($file) {
+                        $uploadPicture = $this->uploadFile([
+                            'file' => ['current' => $file, 'previous' => $adminUsers->image],
+                            'platform' => $this->platform,
+                            'storage' => Config::get('constants.storage')['adminUsers']
+                        ]);
+                        if ($uploadPicture['type'] == false) {
+                            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadPicture['msg']], config('constants.ok'));
+                        } else {
+                            $adminUsers->image = $uploadPicture['name'];
+                        }
+                    }
+                    // if ($file) {
+                    //     $image = $this->uploadPicture($file, $adminUsers->image, $this->platform, 'adminUsers');
+                    //     if ($image == false) {
+                    //         return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => 'LOL'], config('constants.ok'));
+                    //     } else {
+                    //         $adminUsers->image = $image;
+                    //     }
+                    // }
+                    $adminUsers->uniqueId = $this->generateCode(['preString' => 'AU', 'length' => 6, 'model' => AdminUsers::class, 'field' => '']);;
+                    $adminUsers->name = $values['name'];
+                    $adminUsers->email = $values['email'];
+                    $adminUsers->phone = $values['phone'];
+                    $adminUsers->status = Config::get('constants.status')['active'];
+                    $adminUsers->roleMainId = decrypt($values['roleMain']);
+                    if ($values['roleSub'] != '') {
+                        $adminUsers->roleSubId = decrypt($values['roleSub']);
+                    }
+                    $adminUsers->password = Hash::make(123456);
+                    if ($adminUsers->update()) {
+                        $usersInfo = UsersInfo::where([
+                            ['userId', $adminUsers->id],
+                            ['userType', Config::get('constants.userType.admin')],
+                        ])->first();
+                        $usersInfo->pinCode = $values['pinCode'];
+                        $usersInfo->state = $values['state'];
+                        $usersInfo->country = $values['country'];
+                        $usersInfo->address = $values['address'];
+                        $usersInfo->about = ($values['about'] == '') ? 'NA' : $values['about'];
+                        if ($usersInfo->update()) {
+                            DB::commit();
+                            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update", 'msg' => __('messages.updateMsg', ['type' => 'Admin Users'])['success']], config('constants.ok'));
+                        } else {
+                            DB::rollback();
+                            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update", 'msg' => __('messages.updateMsg', ['type' => 'Admin Users'])['failed']], config('constants.ok'));
+                        }
+                    } else {
+                        DB::rollback();
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update", 'msg' => __('messages.updateMsg', ['type' => 'Admin Users'])['failed']], config('constants.ok'));
+                    }
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update Sub Admin", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            DB::rollback();
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
     }
 
@@ -420,9 +462,9 @@ class AdminUsersAdminController extends Controller
                 ],
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Role Main'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Admin Users'])['success']], config('constants.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Role Main'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Admin Users'])['failed']], config('constants.ok'));
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));

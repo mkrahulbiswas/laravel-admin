@@ -112,6 +112,21 @@
                                         }
                                     })
                                 }
+                            },
+                            error: function (xhr, textStatus, error) {
+                                commonAction({
+                                    targetId: {
+                                        submitForm: submitForm,
+                                        submitBtn: submitBtn,
+                                    },
+                                    toaster: {
+                                        dataPass: {
+                                            title: textStatus,
+                                            msg: error,
+                                            type: textStatus
+                                        }
+                                    },
+                                })
                             }
                         });
                     } else if (result.dismiss === Swal.DismissReason.cancel) {}
@@ -143,16 +158,16 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        // loader: {
-                        //     isSet: true
-                        // },
+                        loader: {
+                            isSet: true
+                        },
                         resetValidation: {},
-                        // submitBtnState: {
-                        //     dataPass: {
-                        //         text: 'Please wait...',
-                        //         disabled: true
-                        //     }
-                        // }
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
                     })
                 },
                 success: function (msg) {
@@ -161,9 +176,9 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        // loader: {
-                        //     isSet: false
-                        // },
+                        loader: {
+                            isSet: false
+                        },
                         toaster: {
                             dataPass: {
                                 title: msg.title,
@@ -171,12 +186,12 @@
                                 type: msg.type
                             }
                         },
-                        // submitBtnState: {
-                        //     dataPass: {
-                        //         text: 'Save',
-                        //         disabled: false
-                        //     }
-                        // }
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Save',
+                                disabled: false
+                            }
+                        }
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
@@ -224,6 +239,21 @@
                             },
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -236,8 +266,8 @@
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
                 type: $(this).attr('method'),
+                data: new FormData(this),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
@@ -317,18 +347,22 @@
                         $.each(msg.errors.about, function (i) {
                             submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                    } else {
-                        commonAction({
-                            targetId: {
-                                submitForm: submitForm,
-                                submitBtn: submitBtn,
-                            },
-                            afterSuccess: {
-                                hideModal: true,
-                                resetForm: true,
-                            },
-                        })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -475,6 +509,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -561,6 +610,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -706,6 +770,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -795,6 +874,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -874,6 +968,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1060,6 +1169,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1152,6 +1276,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1231,6 +1370,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1424,6 +1578,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1519,6 +1688,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1598,6 +1782,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1717,6 +1916,21 @@
                         toaster(msg.title, msg.msg, msg.type);
                         // console.log(msg.msg);
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1803,6 +2017,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1886,6 +2115,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1966,6 +2210,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2119,6 +2378,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2205,6 +2479,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2285,6 +2574,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2403,6 +2707,21 @@
                             $('#cms-logo-listing').DataTable().ajax.reload(null, false);
                         }, 1000);
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2461,6 +2780,21 @@
                             $('#cms-logo-listing').DataTable().ajax.reload(null, false);
                         }, 1000);
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2508,6 +2842,21 @@
                         setTimeout(function () {
                             $("#alert").css('display', 'none');
                         }, 5000);
+                    },
+                    error: function (xhr, textStatus, error) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            toaster: {
+                                dataPass: {
+                                    title: textStatus,
+                                    msg: error,
+                                    type: textStatus
+                                }
+                            },
+                        })
                     }
                 });
             } else if (type == 'delete') {
@@ -2547,6 +2896,21 @@
                         setTimeout(function () {
                             $("#alert").css('display', 'none');
                         }, 5000);
+                    },
+                    error: function (xhr, textStatus, error) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            toaster: {
+                                dataPass: {
+                                    title: textStatus,
+                                    msg: error,
+                                    type: textStatus
+                                }
+                            },
+                        })
                     }
                 });
             } else if (type == 'edit') {
@@ -2607,6 +2971,21 @@
                         submitForm.find('.dropify-clear').trigger('click');
                         $('#cms-banner-listing').DataTable().ajax.reload(null, false);
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2649,6 +3028,21 @@
                         toaster(msg.title, msg.msg, msg.type);
                         $('#cms-banner-listing').DataTable().ajax.reload(null, false);
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2690,6 +3084,21 @@
                         setTimeout(function () {
                             $("#alert").css('display', 'none');
                         }, 5000);
+                    },
+                    error: function (xhr, textStatus, error) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            toaster: {
+                                dataPass: {
+                                    title: textStatus,
+                                    msg: error,
+                                    type: textStatus
+                                }
+                            },
+                        })
                     }
                 });
             } else if (type == 'delete') {
@@ -2716,6 +3125,21 @@
                         setTimeout(function () {
                             $("#alert").css('display', 'none');
                         }, 5000);
+                    },
+                    error: function (xhr, textStatus, error) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            toaster: {
+                                dataPass: {
+                                    title: textStatus,
+                                    msg: error,
+                                    type: textStatus
+                                }
+                            },
+                        })
                     }
                 });
             } else if (type == 'edit') {
@@ -2770,6 +3194,21 @@
                         setTimeout(function () {
                             $("#alert").css('display', 'none');
                         }, 5000);
+                    },
+                    error: function (xhr, textStatus, error) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            toaster: {
+                                dataPass: {
+                                    title: textStatus,
+                                    msg: error,
+                                    type: textStatus
+                                }
+                            },
+                        })
                     }
                 });
             } else {
@@ -2828,6 +3267,21 @@
                     } else if (msg.status == 1) {
                         toaster(msg.title, msg.msg, msg.type);
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2876,6 +3330,21 @@
                     } else if (msg.status == 1) {
                         toaster(msg.title, msg.msg, msg.type);
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });

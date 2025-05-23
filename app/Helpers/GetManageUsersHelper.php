@@ -120,6 +120,7 @@ class GetManageUsersHelper
                         'id' => encrypt($adminUsers->id),
                         'name' => $adminUsers->name,
                         'status' =>  $adminUsers->status,
+                        'imageR' => $adminUsers->image,
                         'image' => FileTrait::picUrl($adminUsers->image, 'adminUsers', 'backend'),
                         // 'image' => FileTrait::picUrl2([
                         //     'fileName' => $adminUsers->image,
@@ -180,6 +181,7 @@ class GetManageUsersHelper
                         'id' => encrypt($adminUsers->id),
                         'name' => $adminUsers->name,
                         'status' =>  $adminUsers->status,
+                        'imageR' => $adminUsers->image,
                         'image' => FileTrait::picUrl($adminUsers->image, 'adminUsers', 'backend'),
                         'roleMain' =>  $roleMain,
                         'roleSub' =>  $roleSub,

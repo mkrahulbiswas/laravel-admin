@@ -173,7 +173,7 @@
                                             <div class="col-md border border-1 border-bottom border-success"></div>
                                         </div>
                                         <div class="form-element col-12 text-center mt-3">
-                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light">
+                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light" onclick="window.location.reload()">
                                                 <i class="mdi mdi-reload label-icon align-middle fs-16 me-2"></i>
                                                 <span>Reload</span>
                                             </button>

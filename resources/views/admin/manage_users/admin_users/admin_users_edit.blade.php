@@ -78,18 +78,21 @@
                                                                 <select name="roleMain" id="roleMain" class="selectTwo select2-roleMain roleMainDDD" data-action="{{ route('admin.get.roleSubDDD') }}">
                                                                     <option value="">Select Role Main</option>
                                                                     @foreach ($data['roleMain'] as $item)
-                                                                        <option value="{{ $item['id'] }}" data-exist="{{ $item['extraData']['hasRoleSub'] }}">{{ $item['name'] }}</option>
+                                                                        <option value="{{ $item['id'] }}" {{ decrypt($data['adminUsers']['roleMain']['id']) == decrypt($item['id']) ? 'selected' : '' }} data-exist="{{ $item['extraData']['hasRoleSub'] }}">{{ $item['name'] }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 <i class="bx bx-receipt"></i>
                                                             </div>
                                                             <div class="validation-error" id="roleMainErr"></div>
                                                         </div>
-                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4" style="display: none;">
+                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4" style="display: {{ $data['adminUsers']['roleMain']['extraData']['hasRoleSub'] > 0 ? 'block' : 'none' }};">
                                                             <label for="roleSub" class="form-label">Role Sub <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                             <div class="form-icon set-validation">
                                                                 <select name="roleSub" id="roleSub" class="selectTwo select2-roleSub roleSubDDD">
                                                                     <option value="">Select Role Sub</option>
+                                                                    @foreach ($data['roleSub'] as $item)
+                                                                        <option value="{{ $item['id'] }}" {{ decrypt($data['adminUsers']['roleSub']['id']) == decrypt($item['id']) ? 'selected' : '' }}>{{ $item['name'] }}</option>
+                                                                    @endforeach
                                                                 </select>
                                                                 <i class="bx bx-bar-chart-square"></i>
                                                             </div>
@@ -181,13 +184,13 @@
                                             <div class="col-md border border-1 border-bottom border-success"></div>
                                         </div>
                                         <div class="form-element col-12 text-center mt-3">
-                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light">
+                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light" onclick="window.location.reload()">
                                                 <i class="mdi mdi-reload label-icon align-middle fs-16 me-2"></i>
                                                 <span>Reload</span>
                                             </button>
                                             <button type="submit" class="btn btn-primary btn-label waves-effect waves-light ms-2" id="updateAdminUsersBtn">
                                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
-                                                <span>Save</span>
+                                                <span>Update</span>
                                             </button>
                                         </div>
                                     </div>

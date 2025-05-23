@@ -280,7 +280,7 @@ trait ValidationTrait
                 }
                 break;
 
-            case 'updateAdmin':
+            case 'updateAdminUsers':
                 $rules = [
                     'file' => 'image|mimes:jpeg,jpg,png',
                     'email' => 'required|email|max:100|unique:admins,email,' . $data['id'],

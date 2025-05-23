@@ -144,6 +144,7 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::post('admin-users/add/save', 'saveAdminUsers')->name('admin.save.adminUsers');
                 Route::get('admin-users/edit/{id?}', 'editAdminUsers')->name('admin.edit.adminUsers');
                 Route::post('admin-users/edit/update', 'updateAdminUsers')->name('admin.update.adminUsers');
+                // Route::post('admin-users/edit/update', 'updateAdminUsers')->name('admin.update.adminUsers');
                 Route::get('admin-users/status/{id?}', 'statusAdminUsers')->name('admin.status.adminUsers');
                 Route::delete('admin-users/delete/{id?}', 'deleteAdminUsers')->name('admin.delete.adminUsers');
             });

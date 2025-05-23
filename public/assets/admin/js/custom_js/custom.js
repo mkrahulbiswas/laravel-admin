@@ -116,7 +116,7 @@
             }
         })
 
-        $('body').delegate('#saveAdminUsersForm #roleMain', 'change', function () {
+        $('body').delegate('#updateAdminUsersForm #roleMain, #saveAdminUsersForm #roleMain', 'change', function () {
             let targetId = $(this);
             if (targetId.find(':selected').attr('data-exist') > 0) {
                 targetId.closest('form').find('#roleSub').closest('.form-element').fadeIn(500);
