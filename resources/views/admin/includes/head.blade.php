@@ -96,7 +96,6 @@
     <!-- custom Css-->
     <link href="{{ asset('assets/admin/css/custom.scss') }}" rel="stylesheet" type="text/css" />
 
-
     <!-- ( Sweet Alart 2 ) -->
     <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
 

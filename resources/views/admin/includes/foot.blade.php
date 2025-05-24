@@ -74,7 +74,6 @@
 
     <script src="{{ asset('assets/admin/plugins/jquery-knob/jquery.knob.js') }}"></script>
 
-    {{-- <script src="{{ asset('assets/admin/pages/jquery.dashboard.js') }}"></script> --}}
 
     <script src="https://kit.fontawesome.com/328756d9d2.js" crossorigin="anonymous"></script>
     <!--End-->
@@ -96,7 +95,7 @@
     <script src="{{ asset('assets/admin/js/jquery.app.js') }}"></script>
 
     <!-- Date Time Picker Init -->
-    <script src="{{ asset('assets/admin/pages/jquery.form-pickers.init.js') }}"></script>
+    <script src="{{ asset('assets/admin/paages/jquery.form-pickers.init.js') }}"></script>
 
     <!-- Custom Ajax -->
     <script src="{{ asset('assets/admin/ajax/common_ajax.js') }}"></script>
@@ -106,11 +105,13 @@
 
     <!-- XEditable Plugin used in booking details page -->
     <script type="text/javascript" src="{{ asset('assets/admin/plugins/x-editable/js/bootstrap-editable.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/admin/pages/jquery.xeditable.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/admin/paages/jquery.xeditable.js') }}"></script>
 
     */
     ?>
 
+    <!-- ( bootstrap ) -->
+    <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- ( Jquery CDN ) -->
     <script src="{{ asset('assets/plugins/jquery/js/jquery.min.js') }}"></script>
@@ -121,12 +122,13 @@
     <!-- ( Jquery Toast ) -->
     <script src="{{ asset('assets/plugins/toast/jquery.toast.min.js') }}"></script>
 
-    <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/admin/js/plugins.js') }}"></script>
-    <script src="{{ asset('assets/plugins/simplebar/simplebar.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/node-waves/waves.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/lord-icon-2.1.0.js') }}"></script>
+
+    <!-- ( Waves ) -->
+    <script src="{{ asset('assets/plugins/waves/js/waves.min.js') }}"></script>
+
     <script src="{{ asset('assets/plugins/feather-icons/feather.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
 
     <!-- ( Bootstrap Select Dropdown ) -->
     <script src="{{ asset('assets/plugins/bootstrap-select/js/bootstrap-select.min.js') }}" type="text/javascript"></script>
@@ -145,12 +147,6 @@
 
         <!-- particles js -->
         <script src="{{ asset('assets/plugins/particles/particles.js') }}"></script>
-
-        <!-- particles app js -->
-        <script src="{{ asset('assets/admin/js/pages/particles.app.js') }}"></script>
-
-        <!-- password-addon init -->
-        <script src="{{ asset('assets/admin/js/pages/password-addon.init.js') }}"></script>
     @else
         <!-- ( Datatble ) -->
         <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
@@ -191,7 +187,7 @@
         <script src="{{ asset('assets/plugins/flatpickr/flatpickr.min.js') }}"></script>
 
         <!-- Dashboard init -->
-        <script src="{{ asset('assets/admin/js/pages/dashboard-ecommerce.init.js') }}"></script>
+        {{-- <script src="{{ asset('assets/admin/js/pages/dashboard-ecommerce.init.js') }}"></script> --}}
 
         <!-- ( Dropify File Selector ) -->
         <script src="{{ asset('assets/plugins/dropify/js/dropify.min.js') }}" type="text/javascript"></script>

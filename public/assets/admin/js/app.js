@@ -142,7 +142,7 @@
                     a.checked ? (t.classList.add("d-none"), e.classList.remove("d-none")) : (t.classList.remove("d-none"), e.classList.add("d-none"))
                 })
             }), feather.replace()
-        }), window.addEventListener("resize", m), m(), Waves.init(), document.addEventListener("scroll", function () {
+        }), window.addEventListener("resize", m), m(), document.addEventListener("scroll", function () {
             var e;
             (e = document.getElementById("page-topbar")) && (50 <= document.body.scrollTop || 50 <= document.documentElement.scrollTop ? e.classList.add("topbar-shadow") : e.classList.remove("topbar-shadow"))
         }), window.addEventListener("load", function () {

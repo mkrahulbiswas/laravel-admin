@@ -6,6 +6,7 @@
         lcSwitch()
         dropify()
         summernote()
+        waves()
     });
 })(jQuery);
 
@@ -159,4 +160,8 @@ function summernote() {
             ['color', ['color']],
         ]
     });
+}
+
+function waves() {
+    Waves.init()
 }
