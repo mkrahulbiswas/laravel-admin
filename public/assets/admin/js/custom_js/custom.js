@@ -8,31 +8,22 @@
         var pathArray = window.location.pathname.split('/'),
             date = new Date();
 
-        // $('.date-picker-month').datepicker({
-        //     format: "mm-yyyy",
-        //     viewMode: "months",
-        //     minViewMode: "months",
-        //     autoclose: true,
-        // });
 
-        // $('.date-picker-year').datepicker({
-        //     format: "yyyy",
-        //     viewMode: "years",
-        //     minViewMode: "years",
-        //     autoclose: true,
-        // });
+        $('.date-picker').datepicker({
+            format: 'dd/mm/yyyy',
+            // defaultViewDate: {
+            //     year: moment().format('YYYY'),
+            //     month: moment().format('MM'),
+            //     day: moment().format('DD')
+            // },
+            autoclose: true,
+        });
 
-        // $('.date-picker').datepicker({
-        //     // format: 'M dd, yyyy',
-        //     format: 'dd-mm-yyyy',
-        //     autoclose: true,
-        // });
-
-        // $('.date-range-picker').daterangepicker({
-        //     autoclose: true,
-        //     format: 'dd-mm-yyyy',
-        //     defaultViewDate: 'today'
-        // });
+        $('.date-range-picker').daterangepicker({
+            locale: {
+                format: 'DD/MM/YYYY'
+            },
+        });
 
         // $('.time-picker').timepicker({
         //     autoclose: true,

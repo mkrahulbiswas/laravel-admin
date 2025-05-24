@@ -61,13 +61,6 @@
     <link href="{{ asset('assets/admin/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css') }}" rel="stylesheet" />
 
 
-    <!--Date Range Picker-->
-    <link href="{{ asset('assets/admin/plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
-
-    <!--Date Picker-->
-    <link href="{{ asset('assets/admin/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
-
     <!--venobox lightbox for show gallery pics-->
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/magnific-popup/css/magnific-popup.css') }}" />
 
@@ -121,6 +114,12 @@
 
         <!-- ( Dropify File Selector ) -->
         <link href="{{ asset('assets/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- ( Date Range Picker ) -->
+        <link href="{{ asset('assets/plugins/daterangepicker/css/daterangepicker.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- ( Bootstrap Date picker ) -->
+        <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
 
         <!-- ( Summernote Editor ) -->
         <link href="{{ asset('assets/plugins/summernote/css/summernote.min.css') }}" rel="stylesheet" />

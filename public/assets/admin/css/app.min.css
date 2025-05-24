@@ -3182,7 +3182,7 @@ code {
 
 .layout-rightside {
     width: 280px;
-    margin-right: calc(1.5rem * -1);
+    margin-right: calc(0.78rem * -1);
     margin-top: calc(1px - 1.5rem * 1.1);
     height: calc(100% + 1.5rem * 1.1)
 }

@@ -82,13 +82,9 @@
     <script src="{{ asset('assets/admin/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.min.js') }}"></script>
 
     <!--Date Time Picker-->
-    <script src="{{ asset('assets/admin/plugins/moment/moment.js') }}"></script>
     <script src="{{ asset('assets/admin/plugins/timepicker/bootstrap-timepicker.js') }}"></script>
     <script src="{{ asset('assets/admin/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('assets/admin/plugins/clockpicker/js/bootstrap-clockpicker.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
 
     <!-- App js -->
     <script src="{{ asset('assets/admin/js/jquery.core.js') }}"></script>
@@ -121,14 +117,21 @@
 
     <!-- ( Jquery Toast ) -->
     <script src="{{ asset('assets/plugins/toast/jquery.toast.min.js') }}"></script>
-
-    <script src="{{ asset('assets/admin/js/plugins.js') }}"></script>
     <script src="{{ asset('assets/admin/js/lord-icon-2.1.0.js') }}"></script>
 
     <!-- ( Waves ) -->
     <script src="{{ asset('assets/plugins/waves/js/waves.min.js') }}"></script>
 
     <script src="{{ asset('assets/plugins/feather-icons/feather.min.js') }}"></script>
+
+    <!-- ( Moment ) -->
+    <script src="{{ asset('assets/plugins/moment/js/moment.min.js') }}"></script>
+
+    <!-- ( Date Range Picker ) -->
+    <script src="{{ asset('assets/plugins/daterangepicker/js/daterangepicker.js') }}"></script>
+
+    <!-- ( Bootstrap Date picker ) -->
+    <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 
     <!-- ( Bootstrap Select Dropdown ) -->
     <script src="{{ asset('assets/plugins/bootstrap-select/js/bootstrap-select.min.js') }}" type="text/javascript"></script>
@@ -183,11 +186,8 @@
         <!--Choices Js-->
         <script src="{{ asset('assets/plugins/choices-js/choices.min.js') }}"></script>
 
-        <!--flatpickr Js-->
-        <script src="{{ asset('assets/plugins/flatpickr/flatpickr.min.js') }}"></script>
-
         <!-- Dashboard init -->
-        {{-- <script src="{{ asset('assets/admin/js/pages/dashboard-ecommerce.init.js') }}"></script> --}}
+        <script src="{{ asset('assets/admin/js/dashboard-ecommerce.init.js') }}"></script>
 
         <!-- ( Dropify File Selector ) -->
         <script src="{{ asset('assets/plugins/dropify/js/dropify.min.js') }}" type="text/javascript"></script>
