@@ -13,17 +13,18 @@ use App\Models\ManagePanel\ManageAccess\RoleMain;
 
 use App\Helpers\GetManageAccessHelper;
 use App\Helpers\GetManageUsersHelper;
-
 use App\Models\ManageUsers\AdminUsers;
 use App\Models\ManageUsers\UsersInfo;
 
 use Exception;
+use Throwable;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ManageUsers\AdminUsersWelcomeMail;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class AdminUsersAdminController extends Controller
 {
@@ -196,6 +197,7 @@ class AdminUsersAdminController extends Controller
             DB::beginTransaction();
             $values = $request->only('name', 'email', 'phone', 'roleMain', 'roleSub', 'pinCode', 'state', 'country', 'address', 'about');
             $file = $request->file('file');
+            $password = 123456;
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveAdminUsers', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
@@ -204,26 +206,16 @@ class AdminUsersAdminController extends Controller
                 if (RoleMain::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save", 'msg' => __('messages.notAllowMsg')], config('constants.ok'));
                 } else {
-                    // if ($file) {
-                    //     $uploadPicture = $this->uploadFile([
-                    //         'file' => ['current' => $file, 'previous' => ''],
-                    //         'platform' => $this->platform,
-                    //         'storage' => Config::get('constants.storage')['adminUsers']
-                    //     ]);
-                    //     if ($uploadPicture['type'] == false) {
-                    //         return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadPicture['msg']], config('constants.ok'));
-                    //     } else {
-                    //         $fileName = $uploadPicture['name'];
-                    //     }
-                    // } else {
-                    //     $fileName = 'NA';
-                    // }
                     if ($file) {
-                        $image = $this->uploadPicture($file, '', $this->platform, 'adminUsers');
-                        if ($image == false) {
-                            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => 'LOL'], config('constants.ok'));
+                        $uploadPicture = $this->uploadFile([
+                            'file' => ['current' => $file, 'previous' => ''],
+                            'platform' => $this->platform,
+                            'storage' => Config::get('constants.storage')['adminUsers']
+                        ]);
+                        if ($uploadPicture['type'] == false) {
+                            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadPicture['msg']], config('constants.ok'));
                         } else {
-                            $fileName = $image;
+                            $fileName = $uploadPicture['name'];
                         }
                     } else {
                         $fileName = 'NA';
@@ -238,7 +230,7 @@ class AdminUsersAdminController extends Controller
                     if ($values['roleSub'] != '') {
                         $adminUsers->roleSubId = decrypt($values['roleSub']);
                     }
-                    $adminUsers->password = Hash::make(123456);
+                    $adminUsers->password = Hash::make($password);
                     if ($file) {
                         $adminUsers->image = $fileName;
                     }
@@ -252,8 +244,15 @@ class AdminUsersAdminController extends Controller
                         $usersInfo->userType = Config::get('constants.userType')['admin'];
                         $usersInfo->about = ($values['about'] == '') ? 'NA' : $values['about'];
                         if ($usersInfo->save()) {
-                            DB::commit();
-                            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save", 'msg' => __('messages.saveMsg', ['type' => 'Admin Users'])['success']], config('constants.ok'));
+                            $data = array('name' => $values['name'], 'phone' => $values['phone'], 'password' => $password);
+                            try {
+                                Mail::to($values['email'])->send(new AdminUsersWelcomeMail($data));
+                                DB::commit();
+                                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save", 'msg' => __('messages.saveMsg', ['type' => 'Admin Users'])['success']], config('constants.ok'));
+                            } catch (Throwable $th) {
+                                DB::rollback();
+                                return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+                            }
                         } else {
                             DB::rollback();
                             return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save", 'msg' => __('messages.saveMsg', ['type' => 'Admin Users'])['failed']], config('constants.ok'));
@@ -363,14 +362,6 @@ class AdminUsersAdminController extends Controller
                             $adminUsers->image = $uploadPicture['name'];
                         }
                     }
-                    // if ($file) {
-                    //     $image = $this->uploadPicture($file, $adminUsers->image, $this->platform, 'adminUsers');
-                    //     if ($image == false) {
-                    //         return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => 'LOL'], config('constants.ok'));
-                    //     } else {
-                    //         $adminUsers->image = $image;
-                    //     }
-                    // }
                     $adminUsers->uniqueId = $this->generateCode(['preString' => 'AU', 'length' => 6, 'model' => AdminUsers::class, 'field' => '']);;
                     $adminUsers->name = $values['name'];
                     $adminUsers->email = $values['email'];

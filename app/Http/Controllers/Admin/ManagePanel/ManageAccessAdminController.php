@@ -87,27 +87,40 @@ class ManageAccessAdminController extends Controller
                     return $statInfo;
                 })
                 ->addColumn('action', function ($data) use ($getPrivilege) {
-                    if ($getPrivilege['status']['permission'] == true) {
-                        if ($data['status'] == Config::get('constants.status')['inactive']) {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                        if ($getPrivilege['status']['permission'] == true) {
+                            if ($data['status'] == Config::get('constants.status')['inactive']) {
+                                $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                            } else {
+                                $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                            }
                         } else {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                            $status = '';
                         }
                     } else {
                         $status = '';
                     }
 
-                    if ($getPrivilege['edit']['permission'] == true) {
-                        $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                        if ($getPrivilege['edit']['permission'] == true) {
+                            $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                        } else {
+                            $edit = '';
+                        }
                     } else {
                         $edit = '';
                     }
 
-                    if ($getPrivilege['delete']['permission'] == true) {
-                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                        if ($getPrivilege['delete']['permission'] == true) {
+                            $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                        } else {
+                            $delete = '';
+                        }
                     } else {
                         $delete = '';
                     }
+
 
                     if ($getPrivilege['info']['permission'] == true) {
                         $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
@@ -115,11 +128,15 @@ class ManageAccessAdminController extends Controller
                         $info = '';
                     }
 
-                    if ($getPrivilege['permission']['permission'] == true) {
-                        if ($data['extraData']['hasRoleSub'] <= 0) {
-                            $access = '<a href="' .  route('admin.show.permissionRoleMain') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                        if ($getPrivilege['permission']['permission'] == true) {
+                            if ($data['extraData']['hasRoleSub'] <= 0) {
+                                $access = '<a href="' .  route('admin.show.permissionRoleMain') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                            } else {
+                                $access = '<a href="JavaScript:void(0);" data-type="permission" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                            }
                         } else {
-                            $access = '<a href="JavaScript:void(0);" data-type="permission" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                            $access = '';
                         }
                     } else {
                         $access = '';
@@ -130,7 +147,7 @@ class ManageAccessAdminController extends Controller
                             'type' => 'dtAction',
                             'data' => [
                                 'primary' => [$status, $edit, $delete, $info],
-                                'secondary' => [$access],
+                                'secondary' => ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) ? [$access] : [],
                             ]
                         ]
                     ])['dtAction']['custom'];
@@ -250,6 +267,16 @@ class ManageAccessAdminController extends Controller
                     'model' => RoleMain::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
+                ],
+                [
+                    'model' => RoleSub::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'roleMainId']],
+                ],
+                [
+                    'model' => Permission::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'roleMainId']],
                 ],
             ]);
             if ($result === true) {
@@ -627,6 +654,11 @@ class ManageAccessAdminController extends Controller
                     'model' => RoleSub::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
+                ],
+                [
+                    'model' => Permission::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'roleSubId']],
                 ],
             ]);
             if ($result === true) {

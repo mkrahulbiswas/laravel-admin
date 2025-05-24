@@ -1,17 +1,14 @@
 <html>
+
 <body>
     <table celpadding="0" cellspacing="0" align="center" bgcolor="#ffffff" style="max-width:640px;min-width:320px">
         <tbody>
             <tr>
-                <td align="center" height="60" bgcolor="#ffffff" style="border-top:4px solid #00b386;line-height:0px;font-size: 17px">Mission Enviro</td>
+                <td align="center" height="60" bgcolor="#ffffff" style="border-top:4px solid #00b386;line-height:0px;font-size: 17px">{{ $data['name'] }}</td>
             </tr>
 
             <tr>
                 <td height="20" style="line-height:0px;border-top:1px solid #d9d9d9"></td>
-            </tr>
-
-            <tr>
-                <td align="left" style="font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;color:#52555a;padding-left:10px;padding-right:10px">{!! $msg !!}</td>
             </tr>
 
             <tr>
@@ -26,7 +23,10 @@
                                 <td height="30"></td>
                             </tr>
                             <tr>
-                                <td style="font-family:Arial,Helvetica,sans-serif;font-size:25px; font-weight:bold;text-align:center;color:#52555a;padding-left:30px;padding-right:30px">{{ $otp }}</td>
+                                <td style="font-family:Arial,Helvetica,sans-serif;font-size:25px; font-weight:bold;text-align:center;color:#52555a;padding-left:30px;padding-right:30px">Login phone: {{ $data['phone'] }}</td>
+                            </tr>
+                            <tr>
+                                <td style="font-family:Arial,Helvetica,sans-serif;font-size:25px; font-weight:bold;text-align:center;color:#52555a;padding-left:30px;padding-right:30px">Login password: {{ $data['password'] }}</td>
                             </tr>
                             <tr>
                                 <td height="30"></td>
@@ -58,4 +58,5 @@
         </tbody>
     </table>
 </body>
+
 </html>

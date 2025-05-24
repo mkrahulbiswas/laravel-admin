@@ -10,18 +10,20 @@ use Illuminate\Support\Facades\Hash;
 use App\Traits\FileTrait;
 use App\Traits\ValidationTrait;
 
+use App\Helpers\GetManageAccessHelper;
+
 use App\Models\User;
-use App\Models\SetupAdmin\Role;
 use App\Models\ManageUsers\AdminUsers;
+use App\Models\ManagePanel\ManageAccess\RoleMain;
+use App\Models\ManagePanel\ManageAccess\RoleSub;
 
 use Validator;
 use Exception;
 use Illuminate\Support\Facades\DB;
-
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgotPassword;
 use Illuminate\Contracts\Encryption\DecryptException;
-
+use Illuminate\Support\Facades\Config;
 
 class AuthAdminController extends Controller
 {
@@ -32,48 +34,86 @@ class AuthAdminController extends Controller
 
     public function showLogin()
     {
-        // try {
-        if (!Auth::guard('admin')->check()) {
-            return view('admin.auth.login');
-        } else {
-            return redirect()->route('dashboard.show');
+        try {
+            if (!Auth::guard('admin')->check()) {
+                return view('admin.auth.login');
+            } else {
+                return redirect()->route('dashboard.show');
+            }
+        } catch (Exception $e) {
+            abort(500);
         }
-        // } catch (Exception $e) {
-        //     abort(500);
-        // }
     }
 
     public function checkLogin(Request $request)
     {
-        // try {
-        $validator = $this->isValid([
-            'input' => $request->all(),
-            'for' => 'checkLogin',
-            'id' => 0,
-            'platform' => $this->platform
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['status' => 0, 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
-        } else {
-            $values = $request->only('phone', 'password');
-            $admin = AdminUsers::where('phone', $values['phone'])->first();
-            if ($admin == null) {
-                return response()->json(['status' => 0, 'msg' => __('messages.adminLoginErr')], config('constants.ok'));
+        try {
+            $validator = $this->isValid([
+                'input' => $request->all(),
+                'for' => 'checkLogin',
+                'id' => 0,
+                'platform' => $this->platform
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['status' => 0, 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
-                if ($admin->status == 0) {
-                    return response()->json(['status' => 0, 'msg' => 'You are blocked by admin'], config('constants.ok'));
+                $values = $request->only('phone', 'password');
+                $adminUsers = AdminUsers::where('phone', $values['phone'])->first();
+                if ($adminUsers == null) {
+                    return response()->json(['status' => 0, 'msg' => __('messages.adminLoginErr')], config('constants.ok'));
                 } else {
-                    if (Auth::guard('admin')->attempt(['phone' => $values['phone'], 'password' => $values['password']])) {
-                        return response()->json(['status' => 1, 'msg' => __('messages.successMsg')], config('constants.ok'));
+                    if ($adminUsers->status == 0) {
+                        return response()->json(['status' => 0, 'msg' => 'You are blocked by admin'], config('constants.ok'));
                     } else {
-                        return response()->json(['status' => 0, 'msg' => __('messages.adminLoginErr')], config('constants.ok'));
+                        $roleMain = GetManageAccessHelper::getDetail([
+                            [
+                                'getDetail' => [
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                    'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                                ],
+                                'otherDataPasses' => [
+                                    'id' => encrypt($adminUsers->roleMainId)
+                                ]
+                            ],
+                        ]);
+                        if ($roleMain == false) {
+                            return response()->json(['status' => 0, 'msg' => 'Oops! we could not detect your role (main), please contact with administrator.'], config('constants.ok'));
+                        } else {
+                            $roleMain = $roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            if ($roleMain['extraData']['hasRoleSub'] > 0) {
+                                $roleSub = GetManageAccessHelper::getDetail([
+                                    [
+                                        'getDetail' => [
+                                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                            'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                                        ],
+                                        'otherDataPasses' => [
+                                            'id' => encrypt($adminUsers->roleSubId)
+                                        ]
+                                    ],
+                                ]);
+                                if ($roleSub == false) {
+                                    return response()->json(['status' => 0, 'msg' => 'Oops! we could not detect your role (sub), please contact with administrator.'], config('constants.ok'));
+                                } else {
+                                    goto login;
+                                }
+                            } else {
+                                goto login;
+                            }
+
+                            login:
+                            if (Auth::guard('admin')->attempt(['phone' => $values['phone'], 'password' => $values['password']])) {
+                                return response()->json(['status' => 1, 'msg' => __('messages.successMsg')], config('constants.ok'));
+                            } else {
+                                return response()->json(['status' => 0, 'msg' => __('messages.adminLoginErr')], config('constants.ok'));
+                            }
+                        }
                     }
                 }
             }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
-        // } catch (Exception $e) {
-        //     return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
-        // }
     }
 
     public function saveForgotPassword(Request $request)
