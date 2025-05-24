@@ -5,33 +5,6 @@
 
     $(function () {
 
-        var pathArray = window.location.pathname.split('/'),
-            date = new Date();
-
-
-        $('.date-picker').datepicker({
-            format: 'dd/mm/yyyy',
-            // defaultViewDate: {
-            //     year: moment().format('YYYY'),
-            //     month: moment().format('MM'),
-            //     day: moment().format('DD')
-            // },
-            autoclose: true,
-        });
-
-        $('.date-range-picker').daterangepicker({
-            locale: {
-                format: 'DD/MM/YYYY'
-            },
-        });
-
-        // $('.time-picker').timepicker({
-        //     autoclose: true,
-        //     defaultTime: false,
-        // });
-
-        // $('.date-range-picker').val(['']).trigger('change');
-
         // const viewer = new Viewer($('.image'), {
         //     inline: true,
         //     viewed() {
@@ -52,8 +25,6 @@
         $('.tdFilterCloseBtn').click(function () {
             $('.tdFilterBtn').trigger('click')
         })
-
-
 
         $('body').delegate('.tdAction .tdActionButton .tdActionButtonToggle', 'click', function () {
             let targetId = $(this)

@@ -1,12 +1,6 @@
 (function ($) {
     $(function () {
-        callOnModalClose()
-        callSelectPicker()
-        callSelect2()
-        lcSwitch()
-        dropify()
-        summernote()
-        waves()
+        callOnModalClose(), callSelectPicker(), callSelect2(), lcSwitch(), dropify(), summernote(), waves(), datePicker(), dateRangePicker(), timePicker()
     });
 })(jQuery);
 
@@ -164,4 +158,36 @@ function summernote() {
 
 function waves() {
     Waves.init()
+}
+
+function datePicker() {
+    $('.date-picker').datepicker({
+        format: 'dd/mm/yyyy',
+        // defaultViewDate: {
+        //     year: moment().format('YYYY'),
+        //     month: moment().format('MM'),
+        //     day: moment().format('DD')
+        // },
+        autoclose: true,
+    });
+}
+
+function dateRangePicker() {
+    $('.date-range-picker').daterangepicker({
+        locale: {
+            format: 'DD/MM/YYYY'
+        },
+    });
+}
+
+function timePicker() {
+    $('.time-picker').clockTimePicker({
+        duration: true,
+        durationNegative: true,
+        precision: 5,
+        i18n: {
+            cancelButton: 'lol'
+        },
+        onAdjust: function (newVal, oldVal) {}
+    });
 }

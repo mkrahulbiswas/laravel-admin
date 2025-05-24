@@ -2,9 +2,6 @@
     var resizefunc = [];
 </script>
 
-
-
-
 @php
     $url = url()->current();
     $data = explode('/', $url);
@@ -117,7 +114,6 @@
 
     <!-- ( Jquery Toast ) -->
     <script src="{{ asset('assets/plugins/toast/jquery.toast.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/lord-icon-2.1.0.js') }}"></script>
 
     <!-- ( Waves ) -->
     <script src="{{ asset('assets/plugins/waves/js/waves.min.js') }}"></script>
@@ -133,8 +129,14 @@
     <!-- ( Bootstrap Date picker ) -->
     <script src="{{ asset('assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 
+    <!-- ( Jquery Clock Time Picker ) -->
+    <script src="{{ asset('assets/plugins/jquery-clock-timepicker/js/jquery-clock-timepicker.min.js') }}"></script>
+
     <!-- ( Bootstrap Select Dropdown ) -->
     <script src="{{ asset('assets/plugins/bootstrap-select/js/bootstrap-select.min.js') }}" type="text/javascript"></script>
+
+    <!-- ( AOS ) -->
+    <script src="{{ asset('assets/plugins/aos/js/aos.js') }}" type="text/javascript"></script>
 
     <!-- ( Select2 CDN ) -->
     <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}" type="text/javascript"></script>

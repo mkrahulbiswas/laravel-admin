@@ -15,7 +15,8 @@
                                     <div class="col-sm-auto">
                                         <div class="input-group">
                                             <input type="text" class="form-control border-0 dash-filter-picker shadow date-range-picker">
-                                            <input type="text" class="form-control border-0 dash-filter-picker shadow date-picker">
+                                            {{-- <input type="text" class="form-control border-0 dash-filter-picker shadow date-picker"> --}}
+                                            {{-- <input type="text" class="form-control border-0 dash-filter-picker shadow time-picker"> --}}
                                             <div class="input-group-text bg-primary border-primary text-white">
                                                 <i class="ri-calendar-2-line"></i>
                                             </div>

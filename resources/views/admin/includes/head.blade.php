@@ -9,11 +9,6 @@
 <link rel="shortcut icon" href="{{ $reqData['favIcon'] }}">
 
 
-
-
-
-
-
 @php
     $url = url()->current();
     $data = explode('/', $url);
@@ -92,12 +87,6 @@
     <!-- ( Sweet Alart 2 ) -->
     <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
 
-    <!-- ( Bootstrap Select Dropdown ) -->
-    <link href="{{ asset('assets/plugins/bootstrap-select/css/bootstrap-select.min.css') }}" rel="stylesheet" />
-
-    <!-- ( Select2 CDN ) -->
-    <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
-
     @if ($checkOne == 'loginPage')
     @else
         <!-- jsvectormap css -->
@@ -121,10 +110,19 @@
         <!-- ( Bootstrap Date picker ) -->
         <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
 
+        <!-- ( AOS ) -->
+        <link href="{{ asset('assets/plugins/aos/css/aos.css') }}" rel="stylesheet" type="text/css" />
+
         <!-- ( Summernote Editor ) -->
         <link href="{{ asset('assets/plugins/summernote/css/summernote.min.css') }}" rel="stylesheet" />
         {{-- <link href="{{ asset('assets/plugins/summernote/css/summernote-bs4.min.css') }}" rel="stylesheet" /> --}}
         <link href="{{ asset('assets/plugins/summernote/css/summernote-lite.min.css') }}" rel="stylesheet" />
+
+        <!-- ( Bootstrap Select Dropdown ) -->
+        <link href="{{ asset('assets/plugins/bootstrap-select/css/bootstrap-select.min.css') }}" rel="stylesheet" />
+
+        <!-- ( Select2 CDN ) -->
+        <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 
         <!-- ( Datatble ) -->
         <link href="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
