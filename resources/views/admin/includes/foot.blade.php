@@ -12,17 +12,8 @@
 
 @if (in_array('pdf', $data) || in_array('print', $data))
 @else
-    <?php /* ?> ?> ?> ?>
-
-    <!-- ( Bootstrap CDN ) -->
-    {{-- <script src="{{ asset('assets/plugins/bootstrap/v4/js/bootstrap.min.js') }}"></script> --}}
-    {{-- <script src="{{ asset('assets/plugins/bootstrap/v4.1/js/bootstrap.min.js') }}"></script> --}}
-    <script src="{{ asset('assets/plugins/bootstrap/v4.1/js/bootstrap.bundle.min.js') }}"></script>
-
-    <!-- ( Select2 CDN ) -->
-    <script src="{{ asset('assets/plugins/select2/js/select2.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}" type="text/javascript"></script>
-
+    <?php
+    /*
     <!-- ( lightbox2 ) -->
     {{-- <script src="{{asset('assets/plugins/lightbox2/js/lightbox.min.js')}}"></script> --}}
     {{-- <script src="{{asset('assets/plugins/lightbox2/js/lightbox-plus-jquery.min.js')}}"></script> --}}
@@ -37,21 +28,6 @@
     <!-- ( For Youtube Player ) -->
     {{-- <script src="https://www.youtube.com/iframe_api"></script> --}}
 
-    <!-- ( Datatble ) -->
-    <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables/buttons.bootstrap4.min.js') }}"></script>
-    {{-- <script src="{{ asset('assets/plugins/datatables/jszip.min.js') }}"></script><!-- aa --> --}}
-    <script src="{{ asset('assets/plugins/datatables/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables/dataTables.keyTable.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/datatables/dataTables.select.min.js') }}"></script>
-
     <!-- ( Notify JS ) -->
     <script src="{{ asset('assets/plugins/notifyjs/js/notify.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/notifyjs/js/notify-metro.js') }}"></script>
@@ -64,9 +40,6 @@
 
     <!-- ( Gread View ) -->
     <script type="text/javascript" src="{{ asset('assets/plugins/isotope/js/isotope.pkgd.min.js') }}"></script>
-
-    <!-- ( Bootstrap Select Dropdown ) -->
-    <script src="{{ asset('assets/plugins/bootstrap-select/js/bootstrap-select.min.js') }}" type="text/javascript"></script>
 
     <!-- ( Jquery UI ) -->
     <script src="{{ asset('assets/plugins/jquery-ui/js/jquery-ui.min.js') }}" type="text/javascript"></script>
@@ -106,12 +79,6 @@
     <script src="https://kit.fontawesome.com/328756d9d2.js" crossorigin="anonymous"></script>
     <!--End-->
 
-    <!--Check Box Js-->
-    {{-- <script src="{{ asset('assets/admin/plugins/switchery/js/switchery.min.js') }}"></script> --}}
-    {{-- <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script> --}}
-    <!-- <script type="text/javascript" src="{{ asset('assets/admin/pages/jquery.form-advanced.init.js') }}"></script> -->
-    <!-- <script src="{{ asset('assets/admin/js/jquery.core.js') }}"></script> -->
-
     <!--Multi Tag JS-->
     <script src="{{ asset('assets/admin/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.min.js') }}"></script>
 
@@ -141,7 +108,8 @@
     <script type="text/javascript" src="{{ asset('assets/admin/plugins/x-editable/js/bootstrap-editable.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/admin/pages/jquery.xeditable.js') }}"></script>
 
-    <?pgp */ ?>
+    */
+    ?>
 
 
     <!-- ( Jquery CDN ) -->
@@ -176,7 +144,7 @@
         <script src="{{ asset('assets/admin/js/ajax/custom_ajax_login.js') }}"></script>
 
         <!-- particles js -->
-        <script src="{{ asset('assets/plugins/particles.js/particles.js') }}"></script>
+        <script src="{{ asset('assets/plugins/particles/particles.js') }}"></script>
 
         <!-- particles app js -->
         <script src="{{ asset('assets/admin/js/pages/particles.app.js') }}"></script>
@@ -253,73 +221,6 @@
         <script src="{{ asset('assets/admin/js/custom_js/custom.js') }}"></script>
     @endif
 
-
-
-
-
-
-
-
-
-
-
-
-
-    {{-- <script src="https://kit.fontawesome.com/af2e2dafde.js" crossorigin="anonymous"></script> --}}
-
-
-
-
-    {{-- <script>
-        var defaultThemeMode = "light";
-        var themeMode;
-
-        if (document.documentElement) {
-            if (document.documentElement.hasAttribute("data-bs-theme-mode")) {
-                themeMode = document.documentElement.getAttribute("data-bs-theme-mode");
-            } else {
-                if (localStorage.getItem("data-bs-theme") !== null) {
-                    themeMode = localStorage.getItem("data-bs-theme");
-                } else {
-                    themeMode = defaultThemeMode;
-                }
-            }
-
-            if (themeMode === "system") {
-                themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-            }
-
-            document.documentElement.setAttribute("data-bs-theme", themeMode);
-        }
-    </script> --}}
-
-
-
-    {{-- <script>
-        $('.multi-field-wrapper').each(function() {
-            var $wrapper = $('.multi-fields', this);
-            $(".add-field", $(this)).click(function(e) {
-                $('.multi-field:first-child', $wrapper).clone(true).appendTo($wrapper).find('input').val('')
-                    .focus();
-            });
-            $('.multi-field .remove-field', $wrapper).click(function() {
-                if ($('.multi-field', $wrapper).length > 1) $(this).parent('.multi-field').remove();
-            });
-        });
-    </script> --}}
-
-    <!--For Dashboard-->
-    {{-- <script type="text/javascript">
-        jQuery(document).ready(function($) {
-            $('.counter').counterUp({
-                delay: 100,
-                time: 1200
-            });
-            $(".knob").knob();
-        });
-    </script> --}}
-
-
     <script type="text/javascript">
         $.ajaxSetup({
             headers: {
@@ -327,42 +228,4 @@
             }
         });
     </script>
-
-    {{-- <script>
-        $(document).ready(function() {
-
-            $('#updatePermissionBtnTop').click(function() {
-                $(this).closest('.row').find('form').trigger('submit');
-            });
-
-            $('.PermiAll').click(function() {
-                $('#CheckAll').trigger('click');
-            });
-
-            setTimeout(() => {
-                $('.checkbox').lc_switch();
-            }, 3000);
-
-            $('#CheckAll').change(function() {
-                if ($(this).prop("checked") == true) {
-                    $('.checkbox').lcs_on();
-                    $('.checkbox').val(1);
-                } else if ($(this).prop("checked") == false) {
-                    $('.checkbox').val(0);
-                    $('.checkbox').lcs_off();
-                }
-            });
-
-            $('#updatePermissionForm').delegate('.lcs_switch', 'click', function() {
-                var val = $(this).closest('.lcs_wrap').find('.checkbox').val();
-                if (val == 1) {
-                    $(this).closest('.lcs_wrap').find('.checkbox').val(0);
-                } else {
-                    $(this).closest('.lcs_wrap').find('.checkbox').val(1);
-                }
-            });
-
-        });
-    </script> --}}
-
 @endif
