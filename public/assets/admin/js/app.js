@@ -1,4 +1,7 @@
 ! function () {
+    let baseUrl = window.location.href
+    let finalUrl = baseUrl.substring(0, baseUrl.indexOf("admin"))
+
     var d = document.querySelector(".navbar-menu").innerHTML,
         M = 7,
         t = "en",
@@ -15,15 +18,26 @@
     }
 
     function n(e) {
-        document.getElementById("header-lang-img") && ("en" == e ? document.getElementById("header-lang-img").src = "assets/media/admin/images/flags/us.svg" : "sp" == e ? document.getElementById("header-lang-img").src = "assets/media/admin/images/flags/spain.svg" : "gr" == e ? document.getElementById("header-lang-img").src = "assets/media/admin/images/flags/germany.svg" : "it" == e ? document.getElementById("header-lang-img").src = "assets/media/admin/images/flags/italy.svg" : "ru" == e ? document.getElementById("header-lang-img").src = "assets/media/admin/images/flags/russia.svg" : "ch" == e ? document.getElementById("header-lang-img").src = "assets/media/admin/images/flags/china.svg" : "fr" == e ? document.getElementById("header-lang-img").src = "assets/media/admin/images/flags/french.svg" : "ar" == e && (document.getElementById("header-lang-img").src = "assets/media/admin/images/flags/ae.svg"), localStorage.setItem("language", e), null == (a = localStorage.getItem("language")) && n(t), (e = new XMLHttpRequest).open("GET", "assets/lang/" + a + ".json"), e.onreadystatechange = function () {
-            var a;
-            4 === this.readyState && 200 === this.status && (a = JSON.parse(this.responseText), Object.keys(a).forEach(function (t) {
-                var e = document.querySelectorAll("[data-key='" + t + "']");
-                Array.from(e).forEach(function (e) {
-                    e.textContent = a[t]
-                })
-            }))
-        }, e.send())
+        document.getElementById("header-lang-img") &&
+            ("en" == e ?
+                document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/us.svg" : "sp" == e ?
+                document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/spain.svg" : "gr" == e ?
+                document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/germany.svg" : "it" == e ?
+                document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/italy.svg" : "ru" == e ?
+                document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/russia.svg" : "ch" == e ?
+                document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/china.svg" : "fr" == e ?
+                document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/french.svg" : "ar" == e &&
+                (document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/ae.svg"),
+                localStorage.setItem("language", e), null == (a = localStorage.getItem("language")) &&
+                n(t), (e = new XMLHttpRequest).open("GET", "assets/lang/" + a + ".json"), e.onreadystatechange = function () {
+                    var a;
+                    4 === this.readyState && 200 === this.status && (a = JSON.parse(this.responseText), Object.keys(a).forEach(function (t) {
+                        var e = document.querySelectorAll("[data-key='" + t + "']");
+                        Array.from(e).forEach(function (e) {
+                            e.textContent = a[t]
+                        })
+                    }))
+                }, e.send())
     }
 
     function s() {
@@ -64,7 +78,7 @@
         var n, e = document.documentElement.getAttribute("data-layout"),
             t = sessionStorage.getItem("defaultAttribute"),
             t = JSON.parse(t);
-        !t || "twocolumn" != e && "twocolumn" != t["data-layout"] || (document.querySelector(".navbar-menu") && (document.querySelector(".navbar-menu").innerHTML = d), (n = document.createElement("ul")).innerHTML = '<a href="#" class="logo"><img src="assets/media/admin/images/logo-sm.png" alt="" height="22"></a>', Array.from(document.getElementById("navbar-nav").querySelectorAll(".menu-link")).forEach(function (e) {
+        !t || "twocolumn" != e && "twocolumn" != t["data-layout"] || (document.querySelector(".navbar-menu") && (document.querySelector(".navbar-menu").innerHTML = d), (n = document.createElement("ul")).innerHTML = '<a href="#" class="logo"><img src="/assets/media/admin/images/logo-sm.png" alt="" height="22"></a>', Array.from(document.getElementById("navbar-nav").querySelectorAll(".menu-link")).forEach(function (e) {
             n.className = "twocolumn-iconview";
             var t = document.createElement("li"),
                 a = e;
@@ -142,7 +156,7 @@
                     a.checked ? (t.classList.add("d-none"), e.classList.remove("d-none")) : (t.classList.remove("d-none"), e.classList.add("d-none"))
                 })
             }), feather.replace()
-        }), window.addEventListener("resize", m), m(), Waves.init(), document.addEventListener("scroll", function () {
+        }), window.addEventListener("resize", m), m(), document.addEventListener("scroll", function () {
             var e;
             (e = document.getElementById("page-topbar")) && (50 <= document.body.scrollTop || 50 <= document.documentElement.scrollTop ? e.classList.add("topbar-shadow") : e.classList.remove("topbar-shadow"))
         }), window.addEventListener("load", function () {
@@ -493,7 +507,7 @@
 
     function H() {
         Array.from(document.querySelectorAll("#notificationItemsTabContent .tab-pane")).forEach(function (e) {
-            0 < e.querySelectorAll(".notification-item").length ? e.querySelector(".view-all") && (e.querySelector(".view-all").style.display = "block") : (e.querySelector(".view-all") && (e.querySelector(".view-all").style.display = "none"), e.querySelector(".empty-notification-elem") || (e.innerHTML += '<div class="empty-notification-elem">\t\t\t\t\t\t\t<div class="w-25 w-sm-50 pt-3 mx-auto">\t\t\t\t\t\t\t\t<img src="assets/media/admin/images/svg/bell.svg" class="img-fluid" alt="user-pic">\t\t\t\t\t\t\t</div>\t\t\t\t\t\t\t<div class="text-center pb-5 mt-2">\t\t\t\t\t\t\t\t<h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>\t\t\t\t\t\t\t</div>\t\t\t\t\t\t</div>'))
+            0 < e.querySelectorAll(".notification-item").length ? e.querySelector(".view-all") && (e.querySelector(".view-all").style.display = "block") : (e.querySelector(".view-all") && (e.querySelector(".view-all").style.display = "none"), e.querySelector(".empty-notification-elem") || (e.innerHTML += '<div class="empty-notification-elem">\t\t\t\t\t\t\t<div class="w-25 w-sm-50 pt-3 mx-auto">\t\t\t\t\t\t\t\t<img src="' + finalUrl + 'assets/media/admin/images/svg/bell.svg" class="img-fluid" alt="user-pic">\t\t\t\t\t\t\t</div>\t\t\t\t\t\t\t<div class="text-center pb-5 mt-2">\t\t\t\t\t\t\t\t<h6 class="fs-18 fw-semibold lh-base">Hey! You have no any notifications </h6>\t\t\t\t\t\t\t</div>\t\t\t\t\t\t</div>'))
         })
     }
 

@@ -9,11 +9,6 @@
 <link rel="shortcut icon" href="{{ $reqData['favIcon'] }}">
 
 
-
-
-
-
-
 @php
     $url = url()->current();
     $data = explode('/', $url);
@@ -23,16 +18,8 @@
 @if (in_array('pdf', $data) || in_array('print', $data))
     <link href="{{ asset('assets/admin/css/custom.scss') }}" rel="stylesheet" type="text/css" />
 @else
-    <?php /* ?> ?> ?> ?>
-    <!-- ( Bootstrap CDN ) -->
-    {{-- <link href="{{ asset('assets/plugins/bootstrap/v4/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" /> --}}
-    <link href="{{ asset('assets/plugins/bootstrap/v4.1/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/plugins/bootstrap/v4.1/css/bootstrap-grid.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/plugins/bootstrap/v4.1/css/bootstrap-reboot.min.css') }}" rel="stylesheet" type="text/css" />
-
-    <!-- ( Select2 CDN ) -->
-    <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
-
+    <?php
+    /*
     <!-- ( Viewer JS Master ) -->
     <link href="{{ asset('assets/admin/plugins/viewerjs-master/css/viewer.css') }}" rel="stylesheet">
 
@@ -47,28 +34,11 @@
     <link href="{{ asset('assets/plugins/pickrKeep-colourPicker/css/monolith.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/plugins/pickrKeep-colourPicker/css/nano.min.css') }}" rel="stylesheet" type="text/css">
 
-    <!-- ( Datatble ) -->
-    <link href="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/plugins/datatables/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/plugins/datatables/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/plugins/datatables/select.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
-
     <!-- ( Notify JS ) -->
     <link href="{{ asset('assets/plugins/notifyjs/css/notify-metro.css') }}" rel="stylesheet" type="text/css" />
 
-    <!-- ( Dropify File Selector ) -->
-    <link href="{{ asset('assets/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet" type="text/css" />
-
-    <!-- ( Summernote Editor ) -->
-    <link href="{{ asset('assets/plugins/summernote/css/summernote.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/plugins/summernote/css/summernote-bs4.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/plugins/summernote/css/summernote-lite.min.css') }}" rel="stylesheet" />
-
     <!-- ( Animate ) -->
     <link href="{{ asset('assets/plugins/animate/css/animate.min.css') }}" rel="stylesheet" />
-
-    <!-- ( Bootstrap Select Dropdown ) -->
-    <link href="{{ asset('assets/plugins/bootstrap-select/css/bootstrap-select.min.css') }}" rel="stylesheet" />
 
     <!-- ( Jquery UI ) -->
     <link href="{{ asset('assets/plugins/jquery-ui/css/jquery-ui.min.css') }}" rel="stylesheet" />
@@ -76,36 +46,15 @@
     <!-- ( Jquery Mobile ) -->
     <link href="{{ asset('assets/plugins/jquery-mobile/css/jquery.mobile-1.4.5.min.css') }}" rel="stylesheet" />
 
-
-
-
-
-
-
-
-
-
-
     <link href="{{ asset('assets/admin/css/icons.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/admin/css/style.css') }}" rel="stylesheet" type="text/css" />
 
     <script src="{{ asset('assets/admin/js/modernizr.min.js') }}"></script>
     <link href="{{ asset('assets/admin/plugins/morris/morris.css') }}" rel="stylesheet">
 
-    <!--Check Box CSS-->
-    {{-- <link href="{{asset('assets/admin/plugins/switchery/css/switchery.min.css')}}" rel="stylesheet" /> --}}
-    {{-- <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet"> --}}
-
     <!--Multi Tag CSS-->
     <link href="{{ asset('assets/admin/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css') }}" rel="stylesheet" />
 
-
-    <!--Date Range Picker-->
-    <link href="{{ asset('assets/admin/plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
-
-    <!--Date Picker-->
-    <link href="{{ asset('assets/admin/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
 
     <!--venobox lightbox for show gallery pics-->
     <link rel="stylesheet" href="{{ asset('assets/admin/plugins/magnific-popup/css/magnific-popup.css') }}" />
@@ -113,11 +62,9 @@
     <!-- X-editable css -->
     <link type="text/css" href="{{ asset('assets/admin/plugins/x-editable/css/bootstrap-editable.css') }}" rel="stylesheet">
 
-
-
-
     <link href="{{ asset('assets/admin/css/custom.css') }}" rel="stylesheet" type="text/css" />
-    <?php */ ?>
+    */
+    ?>
 
 
 
@@ -137,15 +84,8 @@
     <!-- custom Css-->
     <link href="{{ asset('assets/admin/css/custom.scss') }}" rel="stylesheet" type="text/css" />
 
-
     <!-- ( Sweet Alart 2 ) -->
     <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
-
-    <!-- ( Bootstrap Select Dropdown ) -->
-    <link href="{{ asset('assets/plugins/bootstrap-select/css/bootstrap-select.min.css') }}" rel="stylesheet" />
-
-    <!-- ( Select2 CDN ) -->
-    <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 
     @if ($checkOne == 'loginPage')
     @else
@@ -160,6 +100,29 @@
 
         <!-- ( Jquery Toast ) -->
         <link href="{{ asset('assets/plugins/toast/jquery.toast.min.css') }}" rel="stylesheet">
+
+        <!-- ( Dropify File Selector ) -->
+        <link href="{{ asset('assets/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- ( Date Range Picker ) -->
+        <link href="{{ asset('assets/plugins/daterangepicker/css/daterangepicker.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- ( Bootstrap Date picker ) -->
+        <link href="{{ asset('assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- ( AOS ) -->
+        <link href="{{ asset('assets/plugins/aos/css/aos.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- ( Summernote Editor ) -->
+        <link href="{{ asset('assets/plugins/summernote/css/summernote.min.css') }}" rel="stylesheet" />
+        {{-- <link href="{{ asset('assets/plugins/summernote/css/summernote-bs4.min.css') }}" rel="stylesheet" /> --}}
+        <link href="{{ asset('assets/plugins/summernote/css/summernote-lite.min.css') }}" rel="stylesheet" />
+
+        <!-- ( Bootstrap Select Dropdown ) -->
+        <link href="{{ asset('assets/plugins/bootstrap-select/css/bootstrap-select.min.css') }}" rel="stylesheet" />
+
+        <!-- ( Select2 CDN ) -->
+        <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 
         <!-- ( Datatble ) -->
         <link href="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />

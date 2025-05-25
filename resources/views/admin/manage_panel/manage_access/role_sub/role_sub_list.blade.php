@@ -27,19 +27,23 @@
                             <h5 class="card-title mb-0">Basic Datatables</h5>
                         </div>
                         <div class="d-sm-flex align-items-center justify-content-between">
-                            <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">
-                                <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
-                                <span>Add Sub Role</span>
-                            </button>
-                            <button type="button" class="btn btn-warning custom-toggle ms-2 tdFilterBtn d-flex" data-bs-toggle="button">
-                                <span class="icon-on">
-                                    <i class="mdi mdi-filter-outline align-bottom"></i>
-                                </span>
-                                <span class="icon-off">
-                                    <i class="mdi mdi-filter-off-outline align-bottom"></i>
-                                </span>
-                                <span class="ps-1 d-none" id="filter-applied-count"></span>
-                            </button>
+                            @if ($permission['add']['permission'] == true)
+                                <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">
+                                    <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
+                                    <span>Add Sub Role</span>
+                                </button>
+                            @endif
+                            @if ($permission['filter']['permission'] == true)
+                                <button type="button" class="btn btn-warning custom-toggle ms-2 tdFilterBtn d-flex" data-bs-toggle="button">
+                                    <span class="icon-on">
+                                        <i class="mdi mdi-filter-outline align-bottom"></i>
+                                    </span>
+                                    <span class="icon-off">
+                                        <i class="mdi mdi-filter-off-outline align-bottom"></i>
+                                    </span>
+                                    <span class="ps-1 d-none" id="filter-applied-count"></span>
+                                </button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -81,7 +85,7 @@
                                                         <div class="form-icon set-validation">
                                                             <select class="form-control form-control-icon select2-roleMain" name="roleMain" id="roleMainFilter">
                                                                 <option value="">Select One</option>
-                                                                @foreach ($data[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $key)
+                                                                @foreach ($data['roleMain'] as $key)
                                                                     <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
                                                                 @endforeach
                                                             </select>
@@ -91,14 +95,18 @@
 
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <div class="form-group d-flex flex-row justify-content-start">
-                                                            <button type="button" class="btn btn-info btn-label waves-effect waves-light filterRoleSubBtn" title="Search">
-                                                                <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
-                                                                <span>Search</span>
-                                                            </button>
-                                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterRoleSubBtn ms-2" title="Reload">
-                                                                <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
-                                                                <span>Reset</span>
-                                                            </button>
+                                                            @if ($permission['search']['permission'] == true)
+                                                                <button type="button" class="btn btn-info btn-label waves-effect waves-light filterRoleSubBtn" title="Search">
+                                                                    <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
+                                                                    <span>Search</span>
+                                                                </button>
+                                                            @endif
+                                                            @if ($permission['reset']['permission'] == true)
+                                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterRoleSubBtn ms-2" title="Reload">
+                                                                    <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
+                                                                    <span>Reset</span>
+                                                                </button>
+                                                            @endif
                                                         </div>
                                                     </div>
 
@@ -160,7 +168,7 @@
                                 <div class="form-icon set-validation">
                                     <select class="form-control form-control-icon select2-roleMain-addModal" name="roleMain" id="roleMain">
                                         <option value="">Select One</option>
-                                        @foreach ($data[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $key)
+                                        @foreach ($data['roleMain'] as $key)
                                             <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
                                         @endforeach
                                     </select>
@@ -189,14 +197,18 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
-                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                            <span>Close</span>
-                        </button>
-                        <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="saveRoleSubBtn">
-                            <i class="las la-save label-icon align-middle fs-16 me-2"></i>
-                            <span>Save</span>
-                        </button>
+                        @if ($permission['close']['permission'] == true)
+                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
+                                <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
+                                <span>Close</span>
+                            </button>
+                        @endif
+                        @if ($permission['save']['permission'] == true)
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="saveRoleSubBtn">
+                                <i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                                <span>Save</span>
+                            </button>
+                        @endif
                     </div>
                 </form>
             </div>
@@ -219,7 +231,7 @@
                                 <label for="name" class="form-label">Role Main Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <select class="form-control form-control-icon select2-roleMain-editModal" name="roleMain" id="roleMain">
-                                        @foreach ($data[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $key)
+                                        @foreach ($data['roleMain'] as $key)
                                             <option value="{{ $key['id'] }}" data-name="{{ $key['name'] }}">{{ $key['name'] }}</option>
                                         @endforeach
                                     </select>
@@ -248,21 +260,25 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
-                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                            <span>Close</span>
-                        </button>
-                        <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateRoleSubBtn">
-                            <i class="las la-save label-icon align-middle fs-16 me-2"></i>
-                            <span>Update</span>
-                        </button>
+                        @if ($permission['close']['permission'] == true)
+                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
+                                <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
+                                <span>Close</span>
+                            </button>
+                        @endif
+                        @if ($permission['update']['permission'] == true)
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateRoleSubBtn">
+                                <i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                                <span>Update</span>
+                            </button>
+                        @endif
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <div id="con-detail-modal" class="modal fade con-detail-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div id="con-info-modal" class="modal fade con-info-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -270,7 +286,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row detail-page-data">
+                    <div class="row info-page-data">
 
                         <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
                             <div class="d-flex mb-4 each-detail-box">
@@ -317,10 +333,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
-                        <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                        <span>Close</span>
-                    </button>
+                    @if ($permission['close']['permission'] == true)
+                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
+                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
+                            <span>Close</span>
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>

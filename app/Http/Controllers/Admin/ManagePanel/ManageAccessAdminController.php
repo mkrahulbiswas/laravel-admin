@@ -13,11 +13,11 @@ use App\Models\ManagePanel\ManageAccess\RoleMain;
 use App\Models\ManagePanel\ManageAccess\RoleSub;
 use App\Models\ManagePanel\ManageAccess\Permission;
 
-use Exception;
-use Yajra\DataTables\DataTables;
 use App\Helpers\GetManageNavHelper;
 use App\Helpers\GetManageAccessHelper;
-use App\Models\SetupAdmin\Role;
+
+use Exception;
+use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Arr;
@@ -50,16 +50,24 @@ class ManageAccessAdminController extends Controller
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
-                            'status' => $request->status
+                            'status' => $request->status,
+                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
                         ],
                         'orderBy' => [
                             'id' => 'desc'
-                        ]
+                        ],
                     ],
                 ],
-            ]);
+            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            return Datatables::of($roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'])
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                    'otherDataPasses' => []
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+
+            return Datatables::of($roleMain)
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -78,54 +86,72 @@ class ManageAccessAdminController extends Controller
                     ])['dtMultiData']['custom'];
                     return $statInfo;
                 })
-                ->addColumn('action', function ($data) {
-
-                    // $itemPermission = $this->itemPermission();
-
-                    // if ($itemPermission['status_item'] == '1') {
-                    if ($data['status'] == Config::get('constants.status')['inactive']) {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                ->addColumn('action', function ($data) use ($getPrivilege) {
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                        if ($getPrivilege['status']['permission'] == true) {
+                            if ($data['status'] == Config::get('constants.status')['inactive']) {
+                                $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                            } else {
+                                $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                            }
+                        } else {
+                            $status = '';
+                        }
                     } else {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        $status = '';
                     }
-                    // } else {
-                    //     $status = '';
-                    // }
 
-                    // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
-                    // } else {
-                    //     $edit = '';
-                    // }
-
-                    // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
-                    // } else {
-                    //     $delete = '';
-                    // }
-
-                    // if ($itemPermission['details_item'] == '1') {
-                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
-                    // } else {
-                    //     $details = '';
-                    // }
-
-                    // if ($itemPermission['details_item'] == '1') {
-                    if ($data['extraData']['hasRoleSub'] <= 0) {
-                        $access = '<a href="' .  route('admin.show.permissionRoleMain') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                        if ($getPrivilege['edit']['permission'] == true) {
+                            $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                        } else {
+                            $edit = '';
+                        }
                     } else {
-                        $access = '<a href="JavaScript:void(0);" data-type="permission" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                        $edit = '';
                     }
-                    // } else {
-                    //     $details = '';
-                    // }
+
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                        if ($getPrivilege['delete']['permission'] == true) {
+                            $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                        } else {
+                            $delete = '';
+                        }
+                    } else {
+                        $delete = '';
+                    }
+
+
+                    if ($getPrivilege['info']['permission'] == true) {
+                        $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
+                    } else {
+                        $info = '';
+                    }
+
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                        if ($getPrivilege['permission']['permission'] == true) {
+                            if ($data['extraData']['hasRoleSub'] <= 0) {
+                                if ($data['extraData']['hasPermission'] <= 0) {
+                                    $permission = '<a href="JavaScript:void(0);" data-type="setPermission" data-action="' . route('admin.permission.roleMain') . '/' . $data['id'] . '" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apple-keyboard-command"></i><span>Set Permission</span></a>';
+                                } else {
+                                    $permission = '<a href="' .  route('admin.show.permissionRoleMain') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                                }
+                            } else {
+                                $permission = '<a href="JavaScript:void(0);" data-type="permission" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                            }
+                        } else {
+                            $permission = '';
+                        }
+                    } else {
+                        $permission = '';
+                    }
 
                     return $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtAction',
                             'data' => [
-                                'primary' => [$status, $edit, $delete, $details],
-                                'secondary' => [$access],
+                                'primary' => [$status, $edit, $delete, $info],
+                                'secondary' => ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) ? [$permission] : [],
                             ]
                         ]
                     ])['dtAction']['custom'];
@@ -206,6 +232,36 @@ class ManageAccessAdminController extends Controller
         }
     }
 
+    public function permissionRoleMain($id)
+    {
+        try {
+            $id = decrypt($id);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Main", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
+        }
+
+        try {
+            $setPermission = GetManageAccessHelper::setPermission([
+                [
+                    'checkFirst' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
+                        'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
+                    ],
+                    'otherDataPasses' => [
+                        'roleMainId' => $id,
+                    ]
+                ]
+            ]);
+            if ($setPermission) {
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], config('constants.ok'));
+            } else {
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], config('constants.ok'));
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Main", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+        }
+    }
+
     public function statusRoleMain($id)
     {
         try {
@@ -219,7 +275,7 @@ class ManageAccessAdminController extends Controller
                 'targetId' => $id,
                 "targetModel" => RoleMain::class,
                 'targetField' => [],
-                'type' => Config::get('constants.actionFor.statusType.smsf')
+                'type' => Config::get('constants.action.status.smsf')
             ]);
             if ($result === true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Role Main'])['success']], config('constants.ok'));
@@ -245,6 +301,16 @@ class ManageAccessAdminController extends Controller
                     'model' => RoleMain::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
+                ],
+                [
+                    'model' => RoleSub::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'roleMainId']],
+                ],
+                [
+                    'model' => Permission::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'roleMainId']],
                 ],
             ]);
             if ($result === true) {
@@ -336,27 +402,44 @@ class ManageAccessAdminController extends Controller
     {
         try {
             foreach ($request->get('id') as $keyOne => $tempOne) {
-                $permission = Permission::where('id', decrypt($tempOne))->first();
+                $permission = GetManageAccessHelper::getDetail([
+                    [
+                        'getDetail' => [
+                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                            'for' => Config::get('constants.typeCheck.manageAccess.permission.type'),
+                        ],
+                        'otherDataPasses' => ['filterData' => ['id' => $tempOne]]
+                    ],
+                ])[Config::get('constants.typeCheck.manageAccess.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                 $finalArray = [];
-                foreach (json_decode($permission->privilege, true) as $keyTwo => $tempTwo) {
-                    if (array_key_exists($keyTwo, $request->get($keyOne))) {
-                        $tempTwo['permission'] = true;
-                        $finalArray = Arr::prepend(
-                            $finalArray,
-                            $tempTwo,
-                            $keyTwo
-                        );
-                    } else {
+                foreach ($permission['privilege'] as $keyTwo => $tempTwo) {
+                    if ($request->get($keyOne) == []) {
                         $tempTwo['permission'] = false;
                         $finalArray = Arr::prepend(
                             $finalArray,
                             $tempTwo,
                             $keyTwo
                         );
+                    } else {
+                        if (array_key_exists($keyTwo, $request->get($keyOne))) {
+                            $tempTwo['permission'] = true;
+                            $finalArray = Arr::prepend(
+                                $finalArray,
+                                $tempTwo,
+                                $keyTwo
+                            );
+                        } else {
+                            $tempTwo['permission'] = false;
+                            $finalArray = Arr::prepend(
+                                $finalArray,
+                                $tempTwo,
+                                $keyTwo
+                            );
+                        }
                     }
                 }
-                $permission->privilege = json_encode($finalArray);
-                $permission->update();
+                $permission['permission']->privilege = json_encode($finalArray);
+                $permission['permission']->update();
             }
             return response()->json(['status' => 1, 'type' => "success", 'title' => "Update Permission", 'msg' => 'Permissions are successfully updated.'], config('constants.ok'));
         } catch (Exception $e) {
@@ -377,14 +460,15 @@ class ManageAccessAdminController extends Controller
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
-                            'status' => Config::get('constants.status')['active']
+                            'status' => Config::get('constants.status')['active'],
+                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
                         ],
                     ],
                 ],
-            ]);
+            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $data = [
-                'roleMain' => $roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')],
+                'roleMain' => $roleMain,
             ];
 
             return view('admin.manage_panel.manage_access.role_sub.role_sub_list', ['data' => $data]);
@@ -409,12 +493,19 @@ class ManageAccessAdminController extends Controller
                         ],
                         'orderBy' => [
                             'id' => 'desc'
-                        ]
+                        ],
                     ],
                 ],
-            ]);
+            ])[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            return Datatables::of($roleSub[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                    'otherDataPasses' => []
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+
+            return Datatables::of($roleSub)
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -432,50 +523,51 @@ class ManageAccessAdminController extends Controller
                     $roleMain = $data[Config::get('constants.typeCheck.manageAccess.roleMain.type')]['name'];
                     return $roleMain;
                 })
-                ->addColumn('action', function ($data) {
-
-                    // $itemPermission = $this->itemPermission();
-
-                    // if ($itemPermission['status_item'] == '1') {
-                    if ($data['status'] == Config::get('constants.status')['inactive']) {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                ->addColumn('action', function ($data) use ($getPrivilege) {
+                    if ($getPrivilege['status']['permission'] == true) {
+                        if ($data['status'] == Config::get('constants.status')['inactive']) {
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                        } else {
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        }
                     } else {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        $status = '';
                     }
-                    // } else {
-                    //     $status = '';
-                    // }
 
-                    // if ($itemPermission['edit_item'] == '1') {
-                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
-                    // } else {
-                    //     $edit = '';
-                    // }
+                    if ($getPrivilege['edit']['permission'] == true) {
+                        $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                    } else {
+                        $edit = '';
+                    }
 
-                    // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
-                    // } else {
-                    //     $delete = '';
-                    // }
+                    if ($getPrivilege['delete']['permission'] == true) {
+                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                    } else {
+                        $delete = '';
+                    }
 
-                    // if ($itemPermission['details_item'] == '1') {
-                    $details = '<a href="JavaScript:void(0);" data-type="details" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Details" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
-                    // } else {
-                    //     $details = '';
-                    // }
+                    if ($getPrivilege['info']['permission'] == true) {
+                        $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
+                    } else {
+                        $info = '';
+                    }
 
-                    // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="' .  route('admin.show.permissionRoleSub') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
-                    // } else {
-                    //     $details = '';
-                    // }
+                    if ($getPrivilege['permission']['permission'] == true) {
+                        if ($data['extraData']['hasPermission'] <= 0) {
+                            $permission = '<a href="JavaScript:void(0);" data-type="setPermission" data-action="' . route('admin.permission.roleSub') . '/' . $data['id'] . '" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apple-keyboard-command"></i><span>Set Permission</span></a>';
+                        } else {
+                            $permission = '<a href="' .  route('admin.show.permissionRoleSub') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                        }
+                    } else {
+                        $permission = '';
+                    }
 
                     return $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtAction',
                             'data' => [
-                                'primary' => [$status, $edit, $delete, $details],
-                                'secondary' => [$access],
+                                'primary' => [$status, $edit, $delete, $info],
+                                'secondary' => [$permission],
                             ]
                         ]
                     ])['dtAction']['custom'];
@@ -502,18 +594,21 @@ class ManageAccessAdminController extends Controller
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
-
-                $roleSub = new RoleSub();
-                $roleSub->name = $values['name'];
-                $roleSub->roleMainId = decrypt($values['roleMain']);
-                $roleSub->description = $values['description'];
-                $roleSub->uniqueId = $this->generateCode(['preString' => 'RS', 'length' => 6, 'model' => RoleSub::class, 'field' => '']);
-                $roleSub->status = Config::get('constants.status')['active'];
-
-                if ($roleSub->save()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Role Sub", 'msg' => __('messages.saveMsg', ['type' => 'Role Sub'])['success']], config('constants.ok'));
+                if (RoleMain::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Sub", 'msg' => __('messages.notAllowMsg')], config('constants.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Sub", 'msg' => __('messages.saveMsg', ['type' => 'Role Sub'])['failed']], config('constants.ok'));
+                    $roleSub = new RoleSub();
+                    $roleSub->name = $values['name'];
+                    $roleSub->roleMainId = decrypt($values['roleMain']);
+                    $roleSub->description = $values['description'];
+                    $roleSub->uniqueId = $this->generateCode(['preString' => 'RS', 'length' => 6, 'model' => RoleSub::class, 'field' => '']);
+                    $roleSub->status = Config::get('constants.status')['active'];
+
+                    if ($roleSub->save()) {
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Role Sub", 'msg' => __('messages.saveMsg', ['type' => 'Role Sub'])['success']], config('constants.ok'));
+                    } else {
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Sub", 'msg' => __('messages.saveMsg', ['type' => 'Role Sub'])['failed']], config('constants.ok'));
+                    }
                 }
             }
         } catch (Exception $e) {
@@ -558,6 +653,37 @@ class ManageAccessAdminController extends Controller
         }
     }
 
+    public function permissionRoleSub($id)
+    {
+        try {
+            $id = decrypt($id);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Sub", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
+        }
+
+        // try {
+        $setPermission = GetManageAccessHelper::setPermission([
+            [
+                'checkFirst' => [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
+                    'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
+                ],
+                'otherDataPasses' => [
+                    'roleMainId' => RoleSub::where('id', $id)->first()->roleMainId,
+                    'roleSubId' => $id,
+                ]
+            ]
+        ]);
+        if ($setPermission) {
+            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], config('constants.ok'));
+        } else {
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], config('constants.ok'));
+        }
+        // } catch (Exception $e) {
+        //     return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Sub", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+        // }
+    }
+
     public function statusRoleSub($id)
     {
         try {
@@ -571,7 +697,7 @@ class ManageAccessAdminController extends Controller
                 'targetId' => $id,
                 "targetModel" => RoleSub::class,
                 'targetField' => [],
-                'type' => Config::get('constants.actionFor.statusType.smsf')
+                'type' => Config::get('constants.action.status.smsf')
             ]);
             if ($result === true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Role Sub'])['success']], config('constants.ok'));
@@ -597,6 +723,11 @@ class ManageAccessAdminController extends Controller
                     'model' => RoleSub::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
+                ],
+                [
+                    'model' => Permission::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'roleSubId']],
                 ],
             ]);
             if ($result === true) {
@@ -689,27 +820,44 @@ class ManageAccessAdminController extends Controller
     {
         try {
             foreach ($request->get('id') as $keyOne => $tempOne) {
-                $permission = Permission::where('id', decrypt($tempOne))->first();
+                $permission = GetManageAccessHelper::getDetail([
+                    [
+                        'getDetail' => [
+                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                            'for' => Config::get('constants.typeCheck.manageAccess.permission.type'),
+                        ],
+                        'otherDataPasses' => ['filterData' => ['id' => $tempOne]]
+                    ],
+                ])[Config::get('constants.typeCheck.manageAccess.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                 $finalArray = [];
-                foreach (json_decode($permission->privilege, true) as $keyTwo => $tempTwo) {
-                    if (array_key_exists($keyTwo, $request->get($keyOne))) {
-                        $tempTwo['permission'] = true;
-                        $finalArray = Arr::prepend(
-                            $finalArray,
-                            $tempTwo,
-                            $keyTwo
-                        );
-                    } else {
+                foreach ($permission['privilege'] as $keyTwo => $tempTwo) {
+                    if ($request->get($keyOne) == []) {
                         $tempTwo['permission'] = false;
                         $finalArray = Arr::prepend(
                             $finalArray,
                             $tempTwo,
                             $keyTwo
                         );
+                    } else {
+                        if (array_key_exists($keyTwo, $request->get($keyOne))) {
+                            $tempTwo['permission'] = true;
+                            $finalArray = Arr::prepend(
+                                $finalArray,
+                                $tempTwo,
+                                $keyTwo
+                            );
+                        } else {
+                            $tempTwo['permission'] = false;
+                            $finalArray = Arr::prepend(
+                                $finalArray,
+                                $tempTwo,
+                                $keyTwo
+                            );
+                        }
                     }
                 }
-                $permission->privilege = json_encode($finalArray);
-                $permission->update();
+                $permission['permission']->privilege = json_encode($finalArray);
+                $permission['permission']->update();
             }
             return response()->json(['status' => 1, 'type' => "success", 'title' => "Update Permission", 'msg' => 'Permissions are successfully updated.'], config('constants.ok'));
         } catch (Exception $e) {
@@ -804,7 +952,7 @@ class ManageAccessAdminController extends Controller
                     // }
 
                     // if ($itemPermission['details_item'] == '1') {
-                    $access = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
+                    $permission = '<a href="JavaScript:void(0);" data-type="access" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Access" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-access-point"></i><span>Change Access</span></a>';
                     // } else {
                     //     $details = '';
                     // }
@@ -814,7 +962,7 @@ class ManageAccessAdminController extends Controller
                             'type' => 'dtAction',
                             'data' => [
                                 'primary' => [$status, $edit, $delete, $details],
-                                'secondary' => [$access],
+                                'secondary' => [$permission],
                             ]
                         ]
                     ])['dtAction']['custom'];

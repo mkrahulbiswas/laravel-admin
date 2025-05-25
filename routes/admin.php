@@ -2,14 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthAdminController;
-use App\Http\Controllers\Admin\UserAdminController;
-use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\CmsAdminController;
+use App\Http\Controllers\Admin\Dashboard\DashboardAdminController;
 use App\Http\Controllers\Admin\DDDAdminController;
 use App\Http\Controllers\Admin\ManagePanel\ManageAccessAdminController;
 use App\Http\Controllers\Admin\SettingAdminController;
 use App\Http\Middleware\CheckPermission;
 use App\Http\Controllers\Admin\ManagePanel\ManageNavAdminController;
+use App\Http\Controllers\Admin\ManageUsers\AdminUsersAdminController;
 
 Route::controller(AuthAdminController::class)->group(function () {
     Route::get('/', 'showLogin')->name('show.login');
@@ -27,43 +27,23 @@ Route::controller(AuthAdminController::class)->group(function () {
         Route::post('change-password/update',  'updatePassword')->name('password.update');
 
         /*======== (-- DashboardAdminController --) ========*/
-        Route::controller(DashboardAdminController::class)->group(function () {
-            Route::get('dashboard', 'index')->name('dashboard.show');
-            Route::post('dashboard/details/product-info', 'detailProductInfo')->name('admin.detail.productInfo');
+        Route::group(['prefix' => 'dashboard'], function () {
+            Route::controller(DashboardAdminController::class)->group(function () {
+                Route::get('quick-overview', 'showAdminQuickOverview')->name('admin.show.QuickOverview');
+                Route::get('charts-view', 'showAdminChartsView')->name('admin.show.ChartsView');
+            });
         });
 
-        /*======== (-- UserAdminController --) ========*/
-        Route::group(['prefix' => 'user-management'], function () {
-            Route::get('sub-admins', [UserAdminController::class, 'showSubAdmins'])->name('admin.show.usersAdmin');
-            Route::get('sub-admins/ajaxGetList', [UserAdminController::class, 'getSubAdmins']);
-            Route::get('sub-admins/add', [UserAdminController::class, 'addSubAdmin'])->name('admin.add.usersAdmin');
-            Route::post('sub-admins/add/save', [UserAdminController::class, 'saveSubAdmin'])->name('admin.save.usersAdmin');
-            Route::get('sub-admins/edit/{id?}', [UserAdminController::class, 'editSubAdmin'])->name('admin.edit.usersAdmin');
-            Route::post('sub-admins/edit/update', [UserAdminController::class, 'updateSubAdmin'])->name('admin.update.usersAdmin');
-            Route::get('sub-admins/status/{id?}', [UserAdminController::class, 'statusSubAdmin'])->name('admin.status.usersAdmin');
-            Route::get('sub-admins/delete/{id?}', [UserAdminController::class, 'deleteSubAdmin'])->name('admin.delete.usersAdmin');
-            Route::get('sub-admins/details/{id?}', [UserAdminController::class, 'detailSubAdmin'])->name('admin.details.usersAdmin');
-
-            Route::get('client', [UserAdminController::class, 'showClient'])->name('admin.show.client');
-            Route::get('client/ajaxGetList', [UserAdminController::class, 'getClient']);
-            Route::get('client/add', [UserAdminController::class, 'addClient'])->name('admin.add.client');
-            Route::post('client/add/save', [UserAdminController::class, 'saveClient'])->name('admin.save.client');
-            Route::get('client/edit/{id?}', [UserAdminController::class, 'editClient'])->name('admin.edit.client');
-            Route::post('client/edit/update', [UserAdminController::class, 'updateClient'])->name('admin.update.client');
-            Route::get('client/status/{id?}', [UserAdminController::class, 'statusClient'])->name('admin.status.client');
-            Route::get('client/details/{id?}', [UserAdminController::class, 'detailClient'])->name('admin.details.client');
-        });
-
-
-        /*======== (-- SetupAdmin --) ========*/
+        /*======== (-- Admin Related --) ========*/
         Route::group(['prefix' => 'manage-panel'], function () {
             Route::controller(ManageAccessAdminController::class)->prefix('mange-access')->group(function () {
                 Route::get('role-main', 'showRoleMain')->name('admin.show.roleMain');
                 Route::get('role-main/ajaxGetList', 'getRoleMain')->name('admin.get.roleMain');
                 Route::post('role-main/add/save', 'saveRoleMain')->name('admin.save.roleMain');
                 Route::post('role-main/edit/update', 'updateRoleMain')->name('admin.update.roleMain');
-                Route::get('role-main/status/{id?}', 'statusRoleMain')->name('admin.status.roleMain');
-                Route::get('role-main/delete/{id?}', 'deleteRoleMain')->name('admin.delete.roleMain');
+                Route::patch('role-main/permission/{id?}', 'permissionRoleMain')->name('admin.permission.roleMain');
+                Route::patch('role-main/status/{id?}', 'statusRoleMain')->name('admin.status.roleMain');
+                Route::delete('role-main/delete/{id?}', 'deleteRoleMain')->name('admin.delete.roleMain');
                 Route::group(['prefix' => 'role-main'], function () {
                     Route::get('permission/{roleMainId?}', 'showPermissionRoleMain')->name('admin.show.permissionRoleMain');
                     Route::get('permission/role-main/ajaxGetList/{roleMainId?}', 'getPermissionRoleMain')->name('admin.get.permissionRoleMain');
@@ -74,8 +54,9 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::get('role-sub/ajaxGetList', 'getRoleSub')->name('admin.get.roleSub');
                 Route::post('role-sub/add/save', 'saveRoleSub')->name('admin.save.roleSub');
                 Route::post('role-sub/edit/update', 'updateRoleSub')->name('admin.update.roleSub');
-                Route::get('role-sub/status/{id?}', 'statusRoleSub')->name('admin.status.roleSub');
-                Route::get('role-sub/delete/{id?}', 'deleteRoleSub')->name('admin.delete.roleSub');
+                Route::patch('role-sub/permission/{id?}', 'permissionRoleSub')->name('admin.permission.roleSub');
+                Route::patch('role-sub/status/{id?}', 'statusRoleSub')->name('admin.status.roleSub');
+                Route::delete('role-sub/delete/{id?}', 'deleteRoleSub')->name('admin.delete.roleSub');
                 Route::group(['prefix' => 'role-sub'], function () {
                     Route::get('permission/{roleSubId?}', 'showPermissionRoleSub')->name('admin.show.permissionRoleSub');
                     Route::get('permission/role-sub/ajaxGetList/{roleSubId?}', 'getPermissionRoleSub')->name('admin.get.permissionRoleSub');
@@ -93,67 +74,82 @@ Route::controller(AuthAdminController::class)->group(function () {
                 //     Route::get('nav-type/ajaxGetList', 'getNavType')->name('admin.get.navType');
                 //     Route::post('nav-type/add/save', 'saveNavType')->name('admin.save.navType');
                 //     Route::post('nav-type/edit/update', 'updateNavType')->name('admin.update.navType');
-                //     Route::get('nav-type/status/{id?}', 'statusNavType')->name('admin.status.navType');
-                //     Route::get('nav-type/delete/{id?}', 'deleteNavType')->name('admin.delete.navType');
+                //     Route::patch('nav-type/status/{id?}', 'statusNavType')->name('admin.status.navType');
+                //     Route::delete('nav-type/delete/{id?}', 'deleteNavType')->name('admin.delete.navType');
 
                 //     Route::get('nav-main', 'showNavMain')->name('admin.show.navMain');
                 //     Route::get('nav-main/ajaxGetList', 'getNavMain')->name('admin.get.navMain');
                 //     Route::post('nav-main/add/save', 'saveNavMain')->name('admin.save.navMain');
                 //     Route::post('nav-main/edit/update', 'updateNavMain')->name('admin.update.navMain');
                 //     Route::post('nav-main/edit/access', 'accessNavMain')->name('admin.access.navMain');
-                //     Route::get('nav-main/status/{id?}', 'statusNavMain')->name('admin.status.navMain');
-                //     Route::get('nav-main/delete/{id?}', 'deleteNavMain')->name('admin.delete.navMain');
+                //     Route::patch('nav-main/status/{id?}', 'statusNavMain')->name('admin.status.navMain');
+                //     Route::delete('nav-main/delete/{id?}', 'deleteNavMain')->name('admin.delete.navMain');
 
                 //     Route::get('nav-sub', 'showNavSub')->name('admin.show.navSub');
                 //     Route::get('nav-sub/ajaxGetList', 'getNavSub')->name('admin.get.navSub');
                 //     Route::post('nav-sub/add/save', 'saveNavSub')->name('admin.save.navSub');
                 //     Route::post('nav-sub/edit/update', 'updateNavSub')->name('admin.update.navSub');
                 //     Route::post('nav-sub/edit/access', 'accessNavSub')->name('admin.access.navSub');
-                //     Route::get('nav-sub/status/{id?}', 'statusNavSub')->name('admin.status.navSub');
-                //     Route::get('nav-sub/delete/{id?}', 'deleteNavSub')->name('admin.delete.navSub');
+                //     Route::patch('nav-sub/status/{id?}', 'statusNavSub')->name('admin.status.navSub');
+                //     Route::delete('nav-sub/delete/{id?}', 'deleteNavSub')->name('admin.delete.navSub');
 
                 //     Route::get('nav-nested', 'showNavNested')->name('admin.show.navNested');
                 //     Route::get('nav-nested/ajaxGetList', 'getNavNested')->name('admin.get.navNested');
                 //     Route::post('nav-nested/add/save', 'saveNavNested')->name('admin.save.navNested');
                 //     Route::post('nav-nested/edit/update', 'updateNavNested')->name('admin.update.navNested');
                 //     Route::post('nav-nested/edit/access', 'accessNavNested')->name('admin.access.navNested');
-                //     Route::get('nav-nested/status/{id?}', 'statusNavNested')->name('admin.status.navNested');
-                //     Route::get('nav-nested/delete/{id?}', 'deleteNavNested')->name('admin.delete.navNested');
+                //     Route::patch('nav-nested/status/{id?}', 'statusNavNested')->name('admin.status.navNested');
+                //     Route::delete('nav-nested/delete/{id?}', 'deleteNavNested')->name('admin.delete.navNested');
                 // });
 
                 Route::get('nav-type', 'showNavType')->name('admin.show.navType');
                 Route::get('nav-type/ajaxGetList', 'getNavType')->name('admin.get.navType');
                 Route::post('nav-type/add/save', 'saveNavType')->name('admin.save.navType');
                 Route::post('nav-type/edit/update', 'updateNavType')->name('admin.update.navType');
-                Route::get('nav-type/status/{id?}', 'statusNavType')->name('admin.status.navType');
-                Route::get('nav-type/delete/{id?}', 'deleteNavType')->name('admin.delete.navType');
+                Route::patch('nav-type/status/{id?}', 'statusNavType')->name('admin.status.navType');
+                Route::delete('nav-type/delete/{id?}', 'deleteNavType')->name('admin.delete.navType');
 
                 Route::get('nav-main', 'showNavMain')->name('admin.show.navMain');
                 Route::get('nav-main/ajaxGetList', 'getNavMain')->name('admin.get.navMain');
                 Route::post('nav-main/add/save', 'saveNavMain')->name('admin.save.navMain');
                 Route::post('nav-main/edit/update', 'updateNavMain')->name('admin.update.navMain');
                 Route::post('nav-main/edit/access', 'accessNavMain')->name('admin.access.navMain');
-                Route::get('nav-main/status/{id?}', 'statusNavMain')->name('admin.status.navMain');
-                Route::get('nav-main/delete/{id?}', 'deleteNavMain')->name('admin.delete.navMain');
+                Route::patch('nav-main/status/{id?}', 'statusNavMain')->name('admin.status.navMain');
+                Route::delete('nav-main/delete/{id?}', 'deleteNavMain')->name('admin.delete.navMain');
 
                 Route::get('nav-sub', 'showNavSub')->name('admin.show.navSub');
                 Route::get('nav-sub/ajaxGetList', 'getNavSub')->name('admin.get.navSub');
                 Route::post('nav-sub/add/save', 'saveNavSub')->name('admin.save.navSub');
                 Route::post('nav-sub/edit/update', 'updateNavSub')->name('admin.update.navSub');
                 Route::post('nav-sub/edit/access', 'accessNavSub')->name('admin.access.navSub');
-                Route::get('nav-sub/status/{id?}', 'statusNavSub')->name('admin.status.navSub');
-                Route::get('nav-sub/delete/{id?}', 'deleteNavSub')->name('admin.delete.navSub');
+                Route::patch('nav-sub/status/{id?}', 'statusNavSub')->name('admin.status.navSub');
+                Route::delete('nav-sub/delete/{id?}', 'deleteNavSub')->name('admin.delete.navSub');
 
                 Route::get('nav-nested', 'showNavNested')->name('admin.show.navNested');
                 Route::get('nav-nested/ajaxGetList', 'getNavNested')->name('admin.get.navNested');
                 Route::post('nav-nested/add/save', 'saveNavNested')->name('admin.save.navNested');
                 Route::post('nav-nested/edit/update', 'updateNavNested')->name('admin.update.navNested');
                 Route::post('nav-nested/edit/access', 'accessNavNested')->name('admin.access.navNested');
-                Route::get('nav-nested/status/{id?}', 'statusNavNested')->name('admin.status.navNested');
-                Route::get('nav-nested/delete/{id?}', 'deleteNavNested')->name('admin.delete.navNested');
+                Route::patch('nav-nested/status/{id?}', 'statusNavNested')->name('admin.status.navNested');
+                Route::delete('nav-nested/delete/{id?}', 'deleteNavNested')->name('admin.delete.navNested');
 
                 Route::get('arrange-nav', 'showArrangeNav')->name('admin.show.arrangeNav');
                 Route::post('arrange-nav/edit/update', 'updateArrangeNav')->name('admin.update.arrangeNav');
+            });
+        });
+
+        /*======== (-- Users Related --) ========*/
+        Route::group(['prefix' => 'manage-users'], function () {
+            Route::controller(AdminUsersAdminController::class)->group(function () {
+                Route::get('admin-users', 'showAdminUsers')->name('admin.show.adminUsers');
+                Route::get('admin-users/ajaxGetList', 'getAdminUsers')->name('admin.get.adminUsers');
+                Route::get('admin-users/add', 'addAdminUsers')->name('admin.add.adminUsers');
+                Route::post('admin-users/add/save', 'saveAdminUsers')->name('admin.save.adminUsers');
+                Route::get('admin-users/edit/{id?}', 'editAdminUsers')->name('admin.edit.adminUsers');
+                Route::post('admin-users/edit/update', 'updateAdminUsers')->name('admin.update.adminUsers');
+                // Route::post('admin-users/edit/update', 'updateAdminUsers')->name('admin.update.adminUsers');
+                Route::patch('admin-users/status/{id?}', 'statusAdminUsers')->name('admin.status.adminUsers');
+                Route::delete('admin-users/delete/{id?}', 'deleteAdminUsers')->name('admin.delete.adminUsers');
             });
         });
 
@@ -167,8 +163,8 @@ Route::controller(AuthAdminController::class)->group(function () {
             Route::get('social-links/ajaxGetList', [SettingAdminController::class, 'getSocialLinks'])->name('admin.get.socialLinks');
             Route::post('social-links/add/save', [SettingAdminController::class, 'saveSocialLinks'])->name('admin.save.socialLinks');
             Route::post('social-links/edit/update', [SettingAdminController::class, 'updateSocialLinks'])->name('admin.update.socialLinks');
-            Route::get('social-links/change-status/{id?}', [SettingAdminController::class, 'statusSocialLinks'])->name('admin.status.socialLinks');
-            Route::get('social-links/delete/{id?}', [SettingAdminController::class, 'deleteSocialLinks'])->name('admin.delete.socialLinks');
+            Route::patch('social-links/change-status/{id?}', [SettingAdminController::class, 'statusSocialLinks'])->name('admin.status.socialLinks');
+            Route::delete('social-links/delete/{id?}', [SettingAdminController::class, 'deleteSocialLinks'])->name('admin.delete.socialLinks');
 
             Route::get('email-template', [SettingAdminController::class, 'showEmailTemplate'])->name('admin.show.emailTemplate');
             Route::get('email-template/ajaxGetList', [SettingAdminController::class, 'getEmailTemplate'])->name('admin.get.emailTemplate');
@@ -178,15 +174,15 @@ Route::controller(AuthAdminController::class)->group(function () {
             Route::get('logo/ajaxGetList', [SettingAdminController::class, 'ajaxGetLogo']);
             Route::post('logo/add/save', [SettingAdminController::class, 'saveLogo'])->name('admin.save.logo');
             Route::post('logo/edit/update', [SettingAdminController::class, 'updateLogo'])->name('admin.update.logo');
-            Route::get('logo/status/{id?}', [SettingAdminController::class, 'statusLogo'])->name('admin.status.logo');
-            Route::get('logo/delete/{id?}', [SettingAdminController::class, 'deleteLogo'])->name('admin.delete.logo');
+            Route::patch('logo/status/{id?}', [SettingAdminController::class, 'statusLogo'])->name('admin.status.logo');
+            Route::delete('logo/delete/{id?}', [SettingAdminController::class, 'deleteLogo'])->name('admin.delete.logo');
 
             Route::get('units', [SettingAdminController::class, 'showUnits'])->name('admin.show.units');
             Route::get('units/ajaxGetList', [SettingAdminController::class, 'getUnits'])->name('admin.get.units');
             Route::post('units/add/save', [SettingAdminController::class, 'saveUnits'])->name('admin.save.units');
             Route::post('units/edit/update', [SettingAdminController::class, 'updateUnits'])->name('admin.update.units');
-            Route::get('units/status/{id?}', [SettingAdminController::class, 'statusUnits'])->name('admin.status.units');
-            Route::get('units/delete/{id?}', [SettingAdminController::class, 'deleteUnits'])->name('admin.delete.units');
+            Route::patch('units/status/{id?}', [SettingAdminController::class, 'statusUnits'])->name('admin.status.units');
+            Route::delete('units/delete/{id?}', [SettingAdminController::class, 'deleteUnits'])->name('admin.delete.units');
         });
 
 
@@ -196,7 +192,7 @@ Route::controller(AuthAdminController::class)->group(function () {
             Route::get('banner/ajaxGetList', [CmsAdminController::class, 'getBanner'])->name('admin.get.banner');
             Route::post('banner/add/save', [CmsAdminController::class, 'saveBanner'])->name('admin.save.banner');
             Route::post('banner/edit/update', [CmsAdminController::class, 'updateBanner'])->name('admin.update.banner');
-            Route::get('banner/status/{id?}', [CmsAdminController::class, 'statusBanner'])->name('admin.status.banner');
+            Route::patch('banner/status/{id?}', [CmsAdminController::class, 'statusBanner'])->name('admin.status.banner');
             Route::get('banner/delete/{id?}', [CmsAdminController::class, 'deleteBanner'])->name('admin.delete.banner');
 
             Route::get('privacy-policy', [CmsAdminController::class, 'showPrivacyPolicy'])->name('admin.show.privacyPolicy');
@@ -222,7 +218,7 @@ Route::controller(AuthAdminController::class)->group(function () {
             Route::get('faq/ajaxGetList', [CmsAdminController::class, 'getFaq'])->name('admin.get.faq');
             Route::post('faq/add/save', [CmsAdminController::class, 'saveFaq'])->name('admin.save.faq');
             Route::post('faq/edit/update', [CmsAdminController::class, 'updateFaq'])->name('admin.update.faq');
-            Route::get('faq/status/{id?}', [CmsAdminController::class, 'statusFaq'])->name('admin.status.faq');
+            Route::patch('faq/status/{id?}', [CmsAdminController::class, 'statusFaq'])->name('admin.status.faq');
             Route::get('faq/delete/{id?}', [CmsAdminController::class, 'deleteFaq'])->name('admin.delete.faq');
         });
 
@@ -231,6 +227,7 @@ Route::controller(AuthAdminController::class)->group(function () {
         Route::controller(DDDAdminController::class)->prefix('ddd')->group(function () {
             Route::get('nav-main/{navTypeId?}', 'getNavMain')->name('admin.get.navMainDDD');
             Route::get('nav-sub/{navMainId?}', 'getNavSub')->name('admin.get.navSubDDD');
+            Route::get('role-sub/{roleMainId?}', 'getRoleSub')->name('admin.get.roleSubDDD');
         });
 
         /*======== (-- Error Page --) ========*/

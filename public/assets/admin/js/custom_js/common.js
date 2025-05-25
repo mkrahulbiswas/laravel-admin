@@ -1,9 +1,6 @@
 (function ($) {
     $(function () {
-        callOnModalClose()
-        callSelectPicker()
-        callSelect2()
-        lcSwitch()
+        callOnModalClose(), callSelectPicker(), callSelect2(), lcSwitch(), dropify(), summernote(), waves(), datePicker(), dateRangePicker(), timePicker()
     });
 })(jQuery);
 
@@ -102,10 +99,95 @@ function callSelect2() {
         placeholder: "Select Role Main",
         dropdownParent: $('#con-edit-modal')
     });
+
+    $('.select2-roleSub').select2({
+        tags: false,
+        placeholder: "Select Role Sub"
+    });
 }
 
 function lcSwitch() {
-    // $('body').delegate('.lcSwitch', 'click', function () {
-    //     lc_switch('.lcSwitch')
-    // });
+    $('body').delegate('.npGo span', 'click', function () {
+        let targetId = $(this)
+        $(targetId).closest('.npGo').fadeOut(500)
+        lc_switch('.lcSwitch')
+    })
+
+    $('.PermiAll').click(function () {
+        $('#CheckAll').trigger('click');
+    });
+
+    $('#CheckAll').change(function () {
+        if ($(this).prop("checked") == true) {
+            lcs_on('.lcSwitch');
+            $('.lcSwitch').val(1);
+        } else if ($(this).prop("checked") == false) {
+            $('.lcSwitch').val(0);
+            lcs_off('.lcSwitch');
+        }
+    });
+
+    $('body').delegate('.lcs_switch', 'click', function () {
+        var val = $(this).closest('.lcs_wrap').find('.lcSwitch').val();
+        if (val == 1) {
+            $(this).closest('.lcs_wrap').find('.lcSwitch').val(0);
+        } else {
+            $(this).closest('.lcs_wrap').find('.lcSwitch').val(1);
+        }
+    });
+}
+
+function dropify() {
+    $('.dropify').dropify();
+}
+
+function summernote() {
+    $('.sn-adminUser-about').summernote({
+        height: 145,
+        width: '100%',
+        focus: false,
+        placeholder: 'Paste content here...',
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+        ]
+    });
+}
+
+function waves() {
+    Waves.init()
+}
+
+function datePicker() {
+    $('.date-picker').datepicker({
+        format: 'dd/mm/yyyy',
+        // defaultViewDate: {
+        //     year: moment().format('YYYY'),
+        //     month: moment().format('MM'),
+        //     day: moment().format('DD')
+        // },
+        autoclose: true,
+    });
+}
+
+function dateRangePicker() {
+    $('.date-range-picker').daterangepicker({
+        locale: {
+            format: 'DD/MM/YYYY'
+        },
+    });
+}
+
+function timePicker() {
+    $('.time-picker').clockTimePicker({
+        duration: true,
+        durationNegative: true,
+        precision: 5,
+        i18n: {
+            cancelButton: 'lol'
+        },
+        onAdjust: function (newVal, oldVal) {}
+    });
 }

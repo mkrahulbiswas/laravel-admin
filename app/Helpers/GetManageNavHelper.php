@@ -983,7 +983,7 @@ class GetManageNavHelper
                             'icon' => $navType->icon,
                             'position' => $navType->position,
                             'status' => $navType->status,
-                            'uniqueId' => $navType->uniqueId,
+                            'uniqueId' => $navType->uniqueId
                         ];
                     }
 
@@ -1079,7 +1079,8 @@ class GetManageNavHelper
                             'position' => $navMain->position,
                             'description' => $navMain->description,
                             'status' => $navMain->status,
-                            'uniqueId' => $navMain->uniqueId
+                            'uniqueId' => $navMain->uniqueId,
+                            'lastSegment' => $navMain->lastSegment,
                         ];
                     }
 
@@ -1186,6 +1187,7 @@ class GetManageNavHelper
                             'position' => $navSub->position,
                             'description' => $navSub->description,
                             'status' => $navSub->status,
+                            'lastSegment' => $navSub->lastSegment,
                             'uniqueId' => $navSub->uniqueId
                         ];
                     }
@@ -1287,6 +1289,7 @@ class GetManageNavHelper
                             'position' => $navNested->position,
                             'description' => $navNested->description,
                             'status' => $navNested->status,
+                            'lastSegment' => $navNested->lastSegment,
                             'uniqueId' => $navNested->uniqueId
                         ];
                     }
@@ -1473,6 +1476,32 @@ class GetManageNavHelper
 
                 if (in_array(Config::get('constants.typeCheck.helperCommon.nav.np'), $type)) {
                     $navList = $nav1 = $nav2 = $nav3 = [];
+                    $navTypeId = $navMainId = $navSubId = $navNestedId = '';
+
+                    if (isset($filterData['navTypeId'])) {
+                        if ($filterData['navTypeId'] != '') {
+                            $navTypeId = $filterData['navTypeId'];
+                        }
+                    }
+
+                    if (isset($filterData['navMainId'])) {
+                        if ($filterData['navMainId'] != '') {
+                            $navMainId = $filterData['navMainId'];
+                        }
+                    }
+
+                    if (isset($filterData['navSubId'])) {
+                        if ($filterData['navSubId'] != '') {
+                            $navSubId = $filterData['navSubId'];
+                        }
+                    }
+
+                    if (isset($filterData['navNestedId'])) {
+                        if ($filterData['navNestedId'] != '') {
+                            $navNestedId = $filterData['navNestedId'];
+                        }
+                    }
+
 
                     $navType = GetManageNavHelper::getList([
                         [
@@ -1483,7 +1512,7 @@ class GetManageNavHelper
                             'otherDataPasses' => [
                                 'filterData' => [
                                     'status' => $filterData['status'],
-                                    'id' => (isset($filterData['navTypeId']) || $filterData['navTypeId'] != '')  ? $filterData['navTypeId'] : '',
+                                    'id' => $navTypeId,
                                 ],
                                 'orderBy' => [
                                     'position' => $orderBy['position']
@@ -1501,8 +1530,8 @@ class GetManageNavHelper
                                 'otherDataPasses' => [
                                     'filterData' => [
                                         'status' => $filterData['status'],
-                                        'id' => (isset($filterData['navMainId']) || $filterData['navMainId'] != '')  ? $filterData['navMainId'] : '',
-                                        'navTypeId' => (isset($filterData['navTypeId']) || $filterData['navTypeId'] != '')  ? $filterData['navTypeId'] : encrypt($tempTwo['id']),
+                                        'id' => $navMainId,
+                                        'navTypeId' => ($navTypeId != '')  ? $navTypeId : encrypt($tempTwo['id']),
                                         // 'access' => $tempTwo['id']
                                     ],
                                     'orderBy' => [
@@ -1522,9 +1551,9 @@ class GetManageNavHelper
                                         'otherDataPasses' => [
                                             'filterData' => [
                                                 'status' => $filterData['status'],
-                                                'id' => (isset($filterData['navSubId']) || $filterData['navSubId'] != '')  ? $filterData['navSubId'] : '',
-                                                'navTypeId' => (isset($filterData['navTypeId']) || $filterData['navTypeId'] != '')  ? $filterData['navTypeId'] : encrypt($tempTwo['id']),
-                                                'navMainId' => (isset($filterData['navMainId']) || $filterData['navMainId'] != '')  ? $filterData['navMainId'] : encrypt($tempThree['id']),
+                                                'id' => $navSubId,
+                                                'navTypeId' => ($navTypeId != '')  ? $navTypeId : encrypt($tempTwo['id']),
+                                                'navMainId' => ($navMainId != '')  ? $navMainId : encrypt($tempThree['id']),
                                                 // 'access' => $tempThree['id']
                                             ],
                                             'orderBy' => [
@@ -1544,9 +1573,10 @@ class GetManageNavHelper
                                                 'otherDataPasses' => [
                                                     'filterData' => [
                                                         'status' => $filterData['status'],
-                                                        'navTypeId' => (isset($filterData['navTypeId']) || $filterData['navTypeId'] != '')  ? $filterData['navTypeId'] : encrypt($tempTwo['id']),
-                                                        'navMainId' => (isset($filterData['navMainId']) || $filterData['navMainId'] != '')  ? $filterData['navMainId'] : encrypt($tempThree['id']),
-                                                        'navSubId' => (isset($filterData['navSubId']) || $filterData['navSubId'] != '')  ? $filterData['navSubId'] : encrypt($tempFour['id']),
+                                                        'id' => $navNestedId,
+                                                        'navTypeId' => ($navTypeId != '')  ? $navTypeId : encrypt($tempTwo['id']),
+                                                        'navMainId' => ($navMainId != '')  ? $navMainId : encrypt($tempThree['id']),
+                                                        'navSubId' => ($navSubId != '')  ? $navSubId : encrypt($tempFour['id']),
                                                         // 'access' => $tempFour['id']
                                                     ],
                                                     'orderBy' => [

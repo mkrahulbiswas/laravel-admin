@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Admin;
+use App\Models\ManageUsers\AdminUsers;
 use App\Models\User;
 
 return [
@@ -81,7 +81,7 @@ return [
 
         'admins' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', Admin::class),
+            'model' => env('AUTH_MODEL', AdminUsers::class),
         ],
     ],
 

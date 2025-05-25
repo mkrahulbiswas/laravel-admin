@@ -5,42 +5,6 @@
 
     $(function () {
 
-        var pathArray = window.location.pathname.split('/'),
-            date = new Date();
-
-        // $('.date-picker-month').datepicker({
-        //     format: "mm-yyyy",
-        //     viewMode: "months",
-        //     minViewMode: "months",
-        //     autoclose: true,
-        // });
-
-        // $('.date-picker-year').datepicker({
-        //     format: "yyyy",
-        //     viewMode: "years",
-        //     minViewMode: "years",
-        //     autoclose: true,
-        // });
-
-        // $('.date-picker').datepicker({
-        //     // format: 'M dd, yyyy',
-        //     format: 'dd-mm-yyyy',
-        //     autoclose: true,
-        // });
-
-        // $('.date-range-picker').daterangepicker({
-        //     autoclose: true,
-        //     format: 'dd-mm-yyyy',
-        //     defaultViewDate: 'today'
-        // });
-
-        // $('.time-picker').timepicker({
-        //     autoclose: true,
-        //     defaultTime: false,
-        // });
-
-        // $('.date-range-picker').val(['']).trigger('change');
-
         // const viewer = new Viewer($('.image'), {
         //     inline: true,
         //     viewed() {
@@ -61,8 +25,6 @@
         $('.tdFilterCloseBtn').click(function () {
             $('.tdFilterBtn').trigger('click')
         })
-
-
 
         $('body').delegate('.tdAction .tdActionButton .tdActionButtonToggle', 'click', function () {
             let targetId = $(this)
@@ -116,39 +78,14 @@
             }
         })
 
-
-
-
-
-        $('body').delegate('.npGo span', 'click', function () {
-            let targetId = $(this)
-            $(targetId).closest('.npGo').fadeOut(500)
-            lc_switch('.lcSwitch')
-        })
-
-        $('.PermiAll').click(function () {
-            $('#CheckAll').trigger('click');
-        });
-
-        $('#CheckAll').change(function () {
-            if ($(this).prop("checked") == true) {
-                lcs_on('.lcSwitch');
-                $('.lcSwitch').val(1);
-            } else if ($(this).prop("checked") == false) {
-                $('.lcSwitch').val(0);
-                lcs_off('.lcSwitch');
-            }
-        });
-
-        $('body').delegate('.lcs_switch', 'click', function () {
-            var val = $(this).closest('.lcs_wrap').find('.lcSwitch').val();
-            if (val == 1) {
-                $(this).closest('.lcs_wrap').find('.lcSwitch').val(0);
+        $('body').delegate('#updateAdminUsersForm #roleMain, #saveAdminUsersForm #roleMain', 'change', function () {
+            let targetId = $(this);
+            if (targetId.find(':selected').attr('data-exist') > 0) {
+                targetId.closest('form').find('#roleSub').closest('.form-element').fadeIn(500);
             } else {
-                $(this).closest('.lcs_wrap').find('.lcSwitch').val(1);
+                targetId.closest('form').find('#roleSub').closest('.form-element').fadeOut(500);
             }
-        });
-
+        })
     });
 
 })(jQuery);

@@ -2,10 +2,11 @@
 
 namespace app\Traits;
 
-use App\Rules\UniquePhone;
-use App\Rules\UniqueEmail;
 use App\Rules\UniqueManageAccess;
 use App\Rules\UniqueManageNav;
+
+use App\Helpers\GetManageAccessHelper;
+
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
@@ -246,63 +247,70 @@ trait ValidationTrait
             /*------ ( Manage Panel End ) ------*/
 
 
-            /*------ ( Users Start ) ------*/
+            /*------ ( Manage Users Start ) ------*/
             // ---- Admin
-            case 'saveAdmin':
+            case 'saveAdminUsers':
                 $rules = [
                     'file' => 'image|mimes:jpeg,jpg,png',
-                    // 'email' => 'required|email|max:100|unique:admins',
+                    'email' => 'required|email|max:100|unique:admins',
                     'phone' => 'required|max:100|unique:admins,phone|digits:10',
                     'name' => 'required|max:255',
-                    'password' => 'required|max:255',
-                    'confirmPassword' => 'required|max:255|required_with:password|same:password',
-                    'role' => 'required',
+                    'roleMain' => 'required',
+                    'pinCode' => 'required|max:7',
+                    'state' => 'required|max:50',
+                    'country' => 'required|max:50',
+                    'address' => 'required|max:150',
+                    'about' => 'max:500',
                 ];
+                if ($data['input']['roleMain'] != '') {
+                    $getDetail = GetManageAccessHelper::getDetail([
+                        [
+                            'getDetail' => [
+                                'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                            ],
+                            'otherDataPasses' => [
+                                'id' => $data['input']['roleMain']
+                            ]
+                        ],
+                    ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                    if ($getDetail['extraData']['hasRoleSub'] > 0) {
+                        $rules['roleSub'] = 'required';
+                    }
+                }
                 break;
 
-            case 'updateAdmin':
+            case 'updateAdminUsers':
                 $rules = [
                     'file' => 'image|mimes:jpeg,jpg,png',
-                    // 'email' => 'required|email|max:100|unique:admins,email,' . $id,
+                    'email' => 'required|email|max:100|unique:admins,email,' . $data['id'],
                     'phone' => 'required|max:100|digits:10|unique:admins,phone,' . $data['id'],
                     'name' => 'required|max:255',
-                    'orgName' => 'required|max:255',
-                    'orgAddress' => 'required|max:255',
-                    'password' => 'max:255',
-                    'confirmPassword' => 'max:255|required_with:password|same:password',
-                    'role' => 'required',
+                    'roleMain' => 'required',
+                    'pinCode' => 'required|max:7',
+                    'state' => 'required|max:50',
+                    'country' => 'required|max:50',
+                    'address' => 'required|max:150',
+                    'about' => 'max:500',
                 ];
+                if ($data['input']['roleMain'] != '') {
+                    $getDetail = GetManageAccessHelper::getDetail([
+                        [
+                            'getDetail' => [
+                                'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                            ],
+                            'otherDataPasses' => [
+                                'id' => $data['input']['roleMain']
+                            ]
+                        ],
+                    ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                    if ($getDetail['extraData']['hasRoleSub'] > 0) {
+                        $rules['roleSub'] = 'required';
+                    }
+                }
                 break;
-
-            // ---- updateClient
-            case 'saveClient':
-                $rules = [
-                    'name' => 'required',
-                    'phone' => ['required', 'digits:10', new UniquePhone($data['id'], config('constants.userType')['client'], '')],
-                    'email' => [new UniqueEmail($data['id'], config('constants.userType')['client'], '')],
-                    // 'email' => ['required', 'email', new UniqueEmail($id, config('constants.userType')['client'], '')],
-                    'businessName' => 'required|max:100',
-                    'businessEmail' => 'required|email|unique:users,businessEmail',
-                    'businessAddress' => 'required',
-                    'address' => 'required',
-                    'file' => 'image|mimes:jpeg,jpg,png',
-                ];
-                break;
-
-            case 'updateClient':
-                $rules = [
-                    'name' => 'required|max:100',
-                    'phone' => ['required', 'digits:10', new UniquePhone($data['id'], config('constants.userType')['client'], '')],
-                    'email' => [new UniqueEmail($data['id'], config('constants.userType')['client'], '')],
-                    // 'email' => ['required', 'email', new UniqueEmail($id, config('constants.userType')['client'], '')],
-                    'businessName' => 'required|max:100',
-                    'businessEmail' => 'required|email|unique:users,businessEmail,' . $data['id'],
-                    'businessAddress' => 'required',
-                    'address' => 'required',
-                    'file' => 'image|mimes:jpeg,jpg,png',
-                ];
-                break;
-            /*------ ( Users End ) ------*/
+            /*------ ( Manage Users End ) ------*/
 
 
             /*------ ( CMS Start ) ------*/

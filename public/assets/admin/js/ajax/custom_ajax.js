@@ -3,7 +3,7 @@
     $(function () {
         var pathArray = window.location.pathname.split('/'),
             submitForm, submitBtn, id = '',
-            errorClassList = '.form-control, .select2-container--default .select2-selection--single';
+            errorClassList = '.form-control, .select2-container--default .select2-selection--single, .dropify-wrapper, .note-editor';
 
         function commonAction(data) {
             let targetForm = (data.targetId != undefined) ? data.targetId.submitForm : '',
@@ -12,6 +12,8 @@
             if (data.afterSuccess != undefined) {
                 if (data.afterSuccess.resetForm == true) {
                     targetForm[0].reset();
+                    targetForm.find('.dropify-clear').trigger('click')
+                    targetForm.find('.summernote').summernote('reset');
                 }
                 if (data.afterSuccess.hideModal == true) {
                     targetForm.closest('.con-common-modal').modal('hide');
@@ -60,9 +62,21 @@
             }
 
             if (data.swal != undefined) {
-                Swal.fire({
-                    ...data.swal
-                });
+                if (data.swal.type == 'basic') {
+                    Swal.fire({
+                        ...data.swal.props
+                    });
+                }
+                if (data.swal.type == 'confirm') {
+                    Swal.fire({
+                        ...data.swal.props
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            return true
+                        }
+                        return false
+                    });
+                }
             }
         }
 
@@ -79,20 +93,20 @@
                     if (result.value) {
                         $.ajax({
                             url: data.action,
-                            type: 'get',
+                            type: data.method,
                             dataType: 'json',
                             beforeSend: function () {
                                 commonAction({
-                                    loader: {
-                                        isSet: true
-                                    }
+                                    // loader: {
+                                    //     isSet: true
+                                    // }
                                 })
                             },
                             success: function (msg) {
                                 commonAction({
-                                    loader: {
-                                        isSet: false
-                                    },
+                                    // loader: {
+                                    //     isSet: false
+                                    // },
                                     toaster: {
                                         dataPass: {
                                             title: msg.title,
@@ -110,6 +124,21 @@
                                         }
                                     })
                                 }
+                            },
+                            error: function (xhr, textStatus, error) {
+                                commonAction({
+                                    targetId: {
+                                        submitForm: submitForm,
+                                        submitBtn: submitBtn,
+                                    },
+                                    toaster: {
+                                        dataPass: {
+                                            title: textStatus,
+                                            msg: error,
+                                            type: textStatus
+                                        }
+                                    },
+                                })
                             }
                         });
                     } else if (result.dismiss === Swal.DismissReason.cancel) {}
@@ -118,12 +147,12 @@
         }
 
 
-        /*--========================= ( USER START ) =========================--*/
-        //====Save Sub Admin====//
-        $("#saveAdminForm").submit(function (event) {
+        /*--========================= ( Manage Users START ) =========================--*/
+        //---- ( Admin Users Save ) ----//
+        $("#saveAdminUsersForm").submit(function (event) {
 
             submitForm = $(this);
-            submitBtn = $(this).find('#saveAdminBtn');
+            submitBtn = $(this).find('#saveAdminUsersBtn');
 
             event.preventDefault();
             $.ajax({
@@ -136,206 +165,278 @@
                 processData: false,
 
                 beforeSend: function () {
-                    loader(1);
-                    submitBtn.attr("disabled", "disabled").find('span').text('Please wait...');
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
                 },
                 success: function (msg) {
-                    loader(0);
-                    submitBtn.attr("disabled", false).find('span').text('save');
-
-                    $("#fileErr, #nameErr, #emailErr, #phoneErr, #restaurantErr, #passwordErr, #confirmPasswordErr, #roleErr, #addressErr").text('');
-
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Save',
+                                disabled: false
+                            }
+                        }
+                    })
                     if (msg.status == 0) {
-                        toaster(msg.title, msg.msg, msg.type);
-                        $.each(msg.errors.file, function (i) {
-                            submitForm.find("#fileErr").text(msg.errors.file[i]);
-                        });
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]);
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.email, function (i) {
-                            submitForm.find("#emailErr").text(msg.errors.email[i]);
+                            submitForm.find("#emailErr").text(msg.errors.email[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.phone, function (i) {
-                            submitForm.find("#phoneErr").text(msg.errors.phone[i]);
+                            submitForm.find("#phoneErr").text(msg.errors.phone[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.password, function (i) {
-                            submitForm.find("#passwordErr").text(msg.errors.password[i]);
+                        $.each(msg.errors.roleMain, function (i) {
+                            submitForm.find("#roleMainErr").text(msg.errors.roleMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.confirmPassword, function (i) {
-                            submitForm.find("#confirmPasswordErr").text(msg.errors.confirmPassword[i]);
+                        $.each(msg.errors.roleSub, function (i) {
+                            submitForm.find("#roleSubErr").text(msg.errors.roleSub[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.role, function (i) {
-                            submitForm.find("#roleErr").text(msg.errors.role[i]);
+                        $.each(msg.errors.pinCode, function (i) {
+                            submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.state, function (i) {
+                            submitForm.find("#stateErr").text(msg.errors.state[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.country, function (i) {
+                            submitForm.find("#countryErr").text(msg.errors.country[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.address, function (i) {
-                            submitForm.find("#addressErr").text(msg.errors.address[i]);
+                            submitForm.find("#addressErr").text(msg.errors.address[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.restaurant, function (i) {
-                            submitForm.find("#restaurantErr").text(msg.errors.restaurant[i]);
+                        $.each(msg.errors.file, function (i) {
+                            submitForm.find("#fileErr").text(msg.errors.file[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.about, function (i) {
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        toaster(msg.title, msg.msg, msg.type);
-                        submitForm[0].reset();
-                        submitForm.find('select').val(['']).trigger('change');
-                        submitForm.find('.dropify-clear').trigger('click');
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                        })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
 
-        //====Update Sub Admin====//
-        $("#updateAdminForm").submit(function (event) {
-
+        //---- ( Admin Users Update ) ----//
+        $("#updateAdminUsersForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#saveAdminBtn');
+            submitBtn = $(this).find('#updateAdminUsersBtn');
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
                 type: $(this).attr('method'),
+                data: new FormData(this),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
-
                 beforeSend: function () {
-                    loader(1);
-                    submitBtn.attr("disabled", "disabled").find('span').text('Please wait...');
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
                 },
                 success: function (msg) {
-                    loader(0);
-                    submitBtn.attr("disabled", false).find('span').text('Update');
-
-                    $("#fileErr, #nameErr, #emailErr, #phoneErr, #passwordErr, #confirmPasswordErr, #roleErr, #addressErr, #orgNameErr, #orgAddressErr").text('');
-
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Update',
+                                disabled: false
+                            }
+                        }
+                    })
                     if (msg.status == 0) {
-                        toaster(msg.title, msg.msg, msg.type);
-                        $.each(msg.errors.file, function (i) {
-                            submitForm.find("#fileErr").text(msg.errors.file[i]);
-                        });
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]);
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.email, function (i) {
-                            submitForm.find("#emailErr").text(msg.errors.email[i]);
+                            submitForm.find("#emailErr").text(msg.errors.email[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.phone, function (i) {
-                            submitForm.find("#phoneErr").text(msg.errors.phone[i]);
+                            submitForm.find("#phoneErr").text(msg.errors.phone[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.password, function (i) {
-                            submitForm.find("#passwordErr").text(msg.errors.password[i]);
+                        $.each(msg.errors.roleMain, function (i) {
+                            submitForm.find("#roleMainErr").text(msg.errors.roleMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.confirmPassword, function (i) {
-                            submitForm.find("#confirmPasswordErr").text(msg.errors.confirmPassword[i]);
+                        $.each(msg.errors.roleSub, function (i) {
+                            submitForm.find("#roleSubErr").text(msg.errors.roleSub[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.role, function (i) {
-                            submitForm.find("#roleErr").text(msg.errors.role[i]);
+                        $.each(msg.errors.pinCode, function (i) {
+                            submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.state, function (i) {
+                            submitForm.find("#stateErr").text(msg.errors.state[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.country, function (i) {
+                            submitForm.find("#countryErr").text(msg.errors.country[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.address, function (i) {
-                            submitForm.find("#addressErr").text(msg.errors.address[i]);
+                            submitForm.find("#addressErr").text(msg.errors.address[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.orgName, function (i) {
-                            submitForm.find("#orgNameErr").text(msg.errors.orgName[i]);
+                        $.each(msg.errors.file, function (i) {
+                            submitForm.find("#fileErr").text(msg.errors.file[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.orgAddress, function (i) {
-                            submitForm.find("#orgAddressErr").text(msg.errors.orgAddress[i]);
+                        $.each(msg.errors.about, function (i) {
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.orgEmail, function (i) {
-                            submitForm.find("#orgEmailErr").text(msg.errors.orgEmail[i]);
-                        });
-                        $.each(msg.errors.orgPhone, function (i) {
-                            submitForm.find("#orgPhoneErr").text(msg.errors.orgPhone[i]);
-                        });
-                    } else if (msg.status == 1) {
-                        toaster(msg.title, msg.msg, msg.type);
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
 
-        //====Status / Delete Sub Admin====//
-        $('body').delegate('#users-admin-listing .actionDatatable', 'click', function () {
+        //---- ( Admin Users Status, Edit, Detail ) ----//
+        $('body').delegate('#manageUsers-adminUsers .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
-                id = $(this).attr('data-id'),
                 action = $(this).attr('data-action'),
-                reloadDatatable = $('#users-admin-listing').DataTable();
+                targetTableId = $('#manageUsers-adminUsers'),
+                data = '';
+
             if (type == 'status') {
-
-                if ($(this).attr('data-status') == 'block') {
-                    var res = confirm('Do you really want to block?');
-                    if (res === false) {
-                        return;
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action the status wil change!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
                     }
-                } else {
-                    var res = confirm('Do you really want to unblock?');
-                    if (res === false) {
-                        return;
-                    }
-                }
-
-                $.ajax({
-                    url: action,
-                    type: 'get',
-                    dataType: 'json',
-                    beforeSend: function () {
-                        loader(1);
-                    },
-                    success: function (msg) {
-                        loader(0);
-                        if (msg.status == 0) {
-                            $("#alert").removeClass("alert-success").addClass("alert-danger");
-                            $("#alert").css("display", "block");
-                            $("#validationAlert").html(msg.msg);
-                        } else {
-                            $("#alert").removeClass("alert-danger").addClass("alert-success");
-                            $("#alert").css("display", "block");
-                            $("#validationAlert").html(msg.msg);
-
-                            reloadDatatable.ajax.reload(null, false);
-                        }
-                        setTimeout(function () {
-                            $("#alert").css('display', 'none');
-                        }, 5000);
-                    }
-                });
+                })
             } else if (type == 'delete') {
-                res = confirm('Do you really want to delete?');
-                if (res === false) {
-                    return;
-                }
-
-                $.ajax({
-                    url: action,
-                    type: 'get',
-                    dataType: 'json',
-                    beforeSend: function () {
-                        loader(1);
-                    },
-                    success: function (msg) {
-                        loader(0);
-                        if (msg.status == 0) {
-                            toaster(msg.title, msg.msg, msg.type);
-                        } else {
-                            toaster(msg.title, msg.msg, msg.type);
-                            reloadDatatable.ajax.reload(null, false);
-                        }
-                        setTimeout(function () {
-                            $("#alert").css('display', 'none');
-                        }, 5000);
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'delete',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action data will be deleted permanently!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
                     }
-                });
+                })
+            } else if (type == 'edit') {
+                id = $('#con-edit-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                id.find('#id').val(data.id);
+                id.find('#name').val(data.name);
+                id.find('#icon').val(data.icon);
+                id.find('#description').val(data.description);
             } else {
-
+                id = $('#con-info-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                id.find('#name').text(data.name);
+                id.find('#icon').html('<i class="' + data.icon + '"></i>');
+                id.find('#description').text(data.description);
             }
         });
-        /*--========================= ( USER END ) =========================--*/
+        /*--========================= ( Manage Users END ) =========================--*/
 
 
 
 
-        /*--========================= ( Setup Admin START ) =========================--*/
+        /*--========================= ( Manage Panel START ) =========================--*/
         //---- ( Nav Type Save ) ----//
         $("#saveNavTypeForm").submit(function (event) {
 
@@ -420,6 +521,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -506,6 +622,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -521,6 +652,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'patch',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -534,6 +666,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'delete',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -552,7 +685,7 @@
                 id.find('#icon').val(data.icon);
                 id.find('#description').val(data.description);
             } else {
-                id = $('#con-detail-modal');
+                id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
@@ -649,6 +782,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -738,6 +886,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -817,6 +980,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -832,6 +1010,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'patch',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -845,6 +1024,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'delete',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -868,12 +1048,15 @@
                 if (data.extraData.hasNavSub > 0) {
                     commonAction({
                         swal: {
-                            position: 'center-center',
-                            icon: 'warning',
-                            title: 'Oops....!',
-                            html: 'There some sub nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navSubRoute + '">sub nav</a>',
-                            showConfirmButton: false,
-                            timer: 10000
+                            type: 'basic',
+                            props: {
+                                position: 'center-center',
+                                icon: 'warning',
+                                title: 'Oops....!',
+                                html: 'There some sub nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navSubRoute + '">sub nav</a>',
+                                showConfirmButton: false,
+                                timer: 10000
+                            }
                         },
                     })
                 } else {
@@ -888,7 +1071,7 @@
                     id.find('#name').val(data.name);
                 }
             } else {
-                id = $('#con-detail-modal');
+                id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
@@ -1001,6 +1184,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1093,6 +1291,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1172,6 +1385,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1187,6 +1415,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'patch',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -1200,6 +1429,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'delete',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -1226,12 +1456,15 @@
                 if (data.extraData.hasNavNested > 0) {
                     commonAction({
                         swal: {
-                            position: 'center-center',
-                            icon: 'warning',
-                            title: 'Oops....!',
-                            html: 'There some nested nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navNestedRoute + '">nested nav</a>',
-                            showConfirmButton: false,
-                            timer: 10000
+                            type: 'basic',
+                            props: {
+                                position: 'center-center',
+                                icon: 'warning',
+                                title: 'Oops....!',
+                                html: 'There some nested nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navNestedRoute + '">nested nav</a>',
+                                showConfirmButton: false,
+                                timer: 10000
+                            }
                         },
                     })
                 } else {
@@ -1246,7 +1479,7 @@
                     id.find('#name').val(data.name);
                 }
             } else {
-                id = $('#con-detail-modal');
+                id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
@@ -1363,6 +1596,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1458,6 +1706,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1537,6 +1800,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1552,6 +1830,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'patch',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -1565,6 +1844,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'delete',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -1601,7 +1881,7 @@
                 id.find('#id').val(data.id);
                 id.find('#name').val(data.name);
             } else {
-                id = $('#con-detail-modal');
+                id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
@@ -1654,6 +1934,21 @@
                         toaster(msg.title, msg.msg, msg.type);
                         // console.log(msg.msg);
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1740,6 +2035,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1823,6 +2133,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1903,6 +2228,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -1918,6 +2258,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'patch',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -1931,6 +2272,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'delete',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -1948,8 +2290,8 @@
                 id.find('#id').val(data.id);
                 id.find('#name').val(data.name);
                 id.find('#description').val(data.description);
-            } else if (type == 'details') {
-                id = $('#con-detail-modal');
+            } else if (type == 'info') {
+                id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
@@ -1958,13 +2300,31 @@
                 data = JSON.parse($(this).attr('data-array'));
                 commonAction({
                     swal: {
-                        position: 'center-center',
-                        icon: 'warning',
-                        title: 'Oops....!',
-                        html: 'There some sub role found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.roleSubRoute + '">sub role</a>',
-                        showConfirmButton: false,
-                        timer: 10000
+                        type: 'basic',
+                        props: {
+                            position: 'center-center',
+                            icon: 'warning',
+                            title: 'Oops....!',
+                            html: 'There some sub role found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.roleSubRoute + '">sub role</a>',
+                            showConfirmButton: false,
+                            timer: 10000
+                        }
                     },
+                })
+            } else if (type == 'setPermission') {
+                data = JSON.parse($(this).attr('data-array'));
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: "Are you sure to create permission set against of all side nav, of this particular role type '" + data.name + "'",
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
                 })
             } else {}
         });
@@ -2054,6 +2414,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2140,6 +2515,21 @@
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2164,16 +2554,16 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        // loader: {
-                        //     isSet: true
-                        // },
+                        loader: {
+                            isSet: true
+                        },
                         resetValidation: {},
-                        // submitBtnState: {
-                        //     dataPass: {
-                        //         text: 'Please wait...',
-                        //         disabled: true
-                        //     }
-                        // }
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
                     })
                 },
                 success: function (msg) {
@@ -2182,9 +2572,9 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        // loader: {
-                        //     isSet: false
-                        // },
+                        loader: {
+                            isSet: false
+                        },
                         toaster: {
                             dataPass: {
                                 title: msg.title,
@@ -2192,12 +2582,12 @@
                                 type: msg.type
                             }
                         },
-                        // submitBtnState: {
-                        //     dataPass: {
-                        //         text: 'Update',
-                        //         disabled: false
-                        //     }
-                        // }
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Update',
+                                disabled: false
+                            }
+                        }
                     })
                     if (msg.status == 0) {
                         // $.each(msg.errors.name, function (i) {
@@ -2215,11 +2605,26 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageAccess-permissionRoleMain')
+                                    targetId: $('#managePanel-manageAccess-permissionRoleSub')
                                 }
                             }
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2235,6 +2640,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'patch',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -2248,6 +2654,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
+                    method: 'delete',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -2265,16 +2672,31 @@
                 id.find('#name').val(data.name);
                 id.find('#description').val(data.description);
                 id.find("#roleMain option[data-name='" + data.roleMain.name + "']").prop("selected", true).trigger('change');
-            } else if (type == 'detail') {
-                id = $('#con-detail-modal');
+            } else if (type == 'info') {
+                id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#roleMain').text(data.roleMain.name);
                 id.find('#name').text(data.name);
                 id.find('#description').text(data.description);
+            } else if (type == 'setPermission') {
+                data = JSON.parse($(this).attr('data-array'));
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: "Are you sure to create permission set against of all side nav, of this particular role type '" + data.name + "'",
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
             } else {}
         });
-        /*--========================= ( Setup Admin END ) =========================--*/
+        /*--========================= ( Manage Panel END ) =========================--*/
 
 
 
@@ -2336,6 +2758,21 @@
                             $('#cms-logo-listing').DataTable().ajax.reload(null, false);
                         }, 1000);
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2394,6 +2831,21 @@
                             $('#cms-logo-listing').DataTable().ajax.reload(null, false);
                         }, 1000);
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2420,7 +2872,7 @@
 
                 $.ajax({
                     url: action,
-                    type: 'get',
+                    type: 'patch',
                     dataType: 'json',
                     beforeSend: function () {
                         loader(1);
@@ -2441,6 +2893,21 @@
                         setTimeout(function () {
                             $("#alert").css('display', 'none');
                         }, 5000);
+                    },
+                    error: function (xhr, textStatus, error) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            toaster: {
+                                dataPass: {
+                                    title: textStatus,
+                                    msg: error,
+                                    type: textStatus
+                                }
+                            },
+                        })
                     }
                 });
             } else if (type == 'delete') {
@@ -2480,6 +2947,21 @@
                         setTimeout(function () {
                             $("#alert").css('display', 'none');
                         }, 5000);
+                    },
+                    error: function (xhr, textStatus, error) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            toaster: {
+                                dataPass: {
+                                    title: textStatus,
+                                    msg: error,
+                                    type: textStatus
+                                }
+                            },
+                        })
                     }
                 });
             } else if (type == 'edit') {
@@ -2540,6 +3022,21 @@
                         submitForm.find('.dropify-clear').trigger('click');
                         $('#cms-banner-listing').DataTable().ajax.reload(null, false);
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2582,6 +3079,21 @@
                         toaster(msg.title, msg.msg, msg.type);
                         $('#cms-banner-listing').DataTable().ajax.reload(null, false);
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2607,7 +3119,7 @@
 
                 $.ajax({
                     url: action,
-                    type: 'get',
+                    type: 'patch',
                     dataType: 'json',
                     beforeSend: function () {
                         loader(1);
@@ -2623,6 +3135,21 @@
                         setTimeout(function () {
                             $("#alert").css('display', 'none');
                         }, 5000);
+                    },
+                    error: function (xhr, textStatus, error) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            toaster: {
+                                dataPass: {
+                                    title: textStatus,
+                                    msg: error,
+                                    type: textStatus
+                                }
+                            },
+                        })
                     }
                 });
             } else if (type == 'delete') {
@@ -2649,6 +3176,21 @@
                         setTimeout(function () {
                             $("#alert").css('display', 'none');
                         }, 5000);
+                    },
+                    error: function (xhr, textStatus, error) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            toaster: {
+                                dataPass: {
+                                    title: textStatus,
+                                    msg: error,
+                                    type: textStatus
+                                }
+                            },
+                        })
                     }
                 });
             } else if (type == 'edit') {
@@ -2662,7 +3204,7 @@
                 id.find('img').attr('src', dataArray.image);
 
             } else {
-                id = $('#con-detail-modal');
+                id = $('#con-info-modal');
                 id.modal('show');
 
                 dataArray = JSON.parse($(this).attr('data-array'));
@@ -2703,10 +3245,25 @@
                         setTimeout(function () {
                             $("#alert").css('display', 'none');
                         }, 5000);
+                    },
+                    error: function (xhr, textStatus, error) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            toaster: {
+                                dataPass: {
+                                    title: textStatus,
+                                    msg: error,
+                                    type: textStatus
+                                }
+                            },
+                        })
                     }
                 });
             } else {
-                id = $('#con-detail-modal');
+                id = $('#con-info-modal');
                 id.modal('show');
 
                 dataArray = JSON.parse($(this).attr('data-array'));
@@ -2761,6 +3318,21 @@
                     } else if (msg.status == 1) {
                         toaster(msg.title, msg.msg, msg.type);
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });
@@ -2809,6 +3381,21 @@
                     } else if (msg.status == 1) {
                         toaster(msg.title, msg.msg, msg.type);
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
                 }
             });
         });

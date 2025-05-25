@@ -67,7 +67,13 @@
 }
 
 
+.menuTitle {
+    width: 100%;
+}
 
+.navItem {
+    width: 100%;
+}
 
 
 
@@ -78,6 +84,8 @@
 #container-fluid-inside {
     .main-page-content {
         .card-body {
+            position: relative;
+
             .tdFilterMain {
                 display: none;
 
@@ -93,6 +101,15 @@
             .tdFilterForm {
                 border-radius: 5px;
                 background-color: #00000036;
+            }
+
+            .formElementMain {
+                .formElementSub {
+                    .cardForm {
+                        height: 100%;
+                        margin-bottom: 0;
+                    }
+                }
             }
 
             .tdContentMain {
@@ -185,6 +202,12 @@
                             }
 
                             .tdActionButtonDelete {
+                                a {
+                                    i {}
+                                }
+                            }
+
+                            .tdActionButtonInfo {
                                 a {
                                     i {}
                                 }
@@ -438,7 +461,7 @@
         }
     }
 
-    .detail-page-data {
+    .info-page-data {
         .each-detail-box {
             background-color: white;
             padding: 10px;

@@ -7,18 +7,21 @@ return [
 
     //Image
     'image' => 'public/assets/media/image/admin',
-
-    'adminPic' => 'public/assets/media/image/admin/users/admin/',
-    'clientPic' => 'public/assets/media/image/admin/users/client/',
     'bannerPic' => 'public/assets/media/image/admin/banner/',
     'bigLogoPic' => 'public/assets/media/image/admin/logo/big_logo/',
     'smallLogoPic' => 'public/assets/media/image/admin/logo/small_logo/',
     'favIconPic' => 'public/assets/media/image/admin/logo/fav_icon/',
     'avatar' => 'public/assets/media/image/admin/avatar/',
     'webIcon' => 'public/assets/media/image/admin/webIcon/',
-    'productPic' => 'public/assets/media/image/admin/product/',
     'cmsPagesPic' => 'public/assets/media/image/admin/cms_pages/',
-    'aboutPic' => 'public/assets/media/image/admin/about_us/',
+
+    'storage' => [
+        'adminUsers' => [
+            'type' => 'adminUsers',
+            'for' => ['public'],
+            'path' => 'media/image/admin/manage_users/admin_users/'
+        ]
+    ],
 
     //Status Type
     'statusAll' => 3,
@@ -29,6 +32,11 @@ return [
     'loaderRaw' => 'Html, Css, Js Combine Loader',
     'loaderImage' => 'Image Type Loader',
     'loaderVideo' => 'Video Type Loader',
+
+    'superAdminCheck' => [
+        'roleMain' => 'RM-500077',
+        'admin' => 'AU-500077'
+    ],
 
     //--Banner For
     'bannerFor' => [
@@ -58,6 +66,14 @@ return [
             'roleSub' => [
                 'type' => 'roleSub'
             ],
+            'permission' => [
+                'type' => 'permission'
+            ],
+        ],
+        'manageUsers' => [
+            'adminUsers' => [
+                'type' => 'adminUsers'
+            ],
         ],
         'helperCommon' => [
             'get' => [
@@ -71,18 +87,32 @@ return [
                 'nd' => 'noDepended',
                 'rnd' => 'rawNoDepended',
             ],
+            'set' => [
+                'pfn' => 'permissionFromNav',
+                'pfr' => 'permissionFromRole',
+            ],
             'nav' => [
                 'sn' => 'sideNav',
                 'np' => 'navPermission',
             ],
             'privilege' => [
                 'np' => 'navPrivilege',
-            ]
+                'sp' => 'setPermission',
+                'gp' => 'getPermission'
+            ],
+            'access' => [
+                'al' => 'allYes',
+                'bm' => [
+                    'fns' => 'fromNavSide',
+                    'frs' => 'fromRoleSide'
+                ],
+            ],
         ]
     ],
 
     'rolePermission' => [
         'accessType' => [
+            'set',
             'add',
             'edit',
             'status',
@@ -96,7 +126,11 @@ return [
             'other',
             'permission',
             'access',
-        ]
+            'back',
+            'close',
+            'save',
+            'update',
+        ],
     ],
 
     //--Action Type
@@ -121,8 +155,7 @@ return [
 
     //--User Type
     'userType' => [
-        'superAdmin' => 'SUPER_ADMIN',
-        'subAdmin' => 'SUB_ADMIN',
+        'admin' => 'ADMIN',
         'na' => 'NA'
     ],
 

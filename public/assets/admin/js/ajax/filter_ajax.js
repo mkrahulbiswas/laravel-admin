@@ -37,7 +37,47 @@
             }
         }
 
-        /*--========================= ( Manage Nav START ) =========================--*/
+        /*--========================= ( Manage Users START ) =========================--*/
+        //------ ( Admin Users )
+        $('#filterAdminUsersForm').find('#statusFilter, .filterAdminUsersBtn').on('change click', function () {
+            var formId = $(this).closest('form'),
+                dataTableId = $('#manageUsers-adminUsers'),
+
+                status = formId.find("#statusFilter").val(),
+
+                action = $(this).closest('form').attr('action').split('/'),
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status;
+            if ($(this).attr('title') == 'Reload') {
+                commonAction({
+                    targetId: {
+                        submitForm: formId,
+                    },
+                    resetFormFields: {
+                        selectPicker: {},
+                        selectTwo: {},
+                    }
+                })
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
+            }
+            commonAction({
+                targetId: {
+                    submitForm: formId,
+                    actionType: $(this).attr('title'),
+                },
+                dataTable: {
+                    load: {
+                        targetId: dataTableId,
+                        url: newUrl,
+                    }
+                },
+                filterApply: {}
+            })
+        });
+        /*--========================= ( Manage Users END ) =========================--*/
+
+
+
+        /*--========================= ( Manage Panel START ) =========================--*/
         //------ ( Nav Type )
         $('#filterNavTypeForm').find('#statusFilter, .filterNavTypeBtn').on('change click', function () {
             var formId = $(this).closest('form'),
@@ -299,7 +339,46 @@
                 filterApply: {}
             })
         });
-        /*--========================= ( Manage Nav START ) =========================--*/
+
+        //------ ( Permission Role Sub )
+        $('#filterPermissionRoleSubForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, .filterPermissionRoleSubBtn').on('change click', function () {
+            var formId = $(this).closest('form'),
+                dataTableId = $('#managePanel-manageAccess-permissionRoleSub'),
+
+                navType = (formId.find("#navTypeFilter").val() == '' || formId.find("#navTypeFilter").val() == null) ? '' : formId.find("#navTypeFilter").val(),
+                navMain = (formId.find("#navMainFilter").val() == '' || formId.find("#navMainFilter").val() == null) ? '' : formId.find("#navMainFilter").val(),
+                navSub = (formId.find("#navSubFilter").val() == '' || formId.find("#navSubFilter").val() == null) ? '' : formId.find("#navSubFilter").val(),
+                roleSubId = $('#managePanel-manageAccess-permissionRoleSub').attr('data-id'),
+
+                action = $(this).closest('form').attr('action').split('/'),
+                newUrl = action[action.length - 2] + "/ajaxGetList?roleSubId=" + roleSubId + "&navType=" + navType + "&navMain=" + navMain + "&navSub=" + navSub;
+            if ($(this).attr('title') == 'Reload') {
+                commonAction({
+                    targetId: {
+                        submitForm: formId,
+                    },
+                    resetFormFields: {
+                        selectPicker: {},
+                        selectTwo: {},
+                    }
+                })
+                newUrl = action[action.length - 2] + "/ajaxGetList?roleSubId=" + roleSubId + "&navType=" + '' + "&navMain=" + '' + "&navSub=" + '';
+            }
+            commonAction({
+                targetId: {
+                    submitForm: formId,
+                    actionType: $(this).attr('title'),
+                },
+                dataTable: {
+                    load: {
+                        targetId: dataTableId,
+                        url: newUrl,
+                    }
+                },
+                filterApply: {}
+            })
+        });
+        /*--========================= ( Manage Panel START ) =========================--*/
 
     });
 
