@@ -54,7 +54,7 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::get('role-sub/ajaxGetList', 'getRoleSub')->name('admin.get.roleSub');
                 Route::post('role-sub/add/save', 'saveRoleSub')->name('admin.save.roleSub');
                 Route::post('role-sub/edit/update', 'updateRoleSub')->name('admin.update.roleSub');
-                Route::post('role-sub/edit/permission', 'permissionRoleSub')->name('admin.permission.roleSub');
+                Route::patch('role-sub/permission/{id?}', 'permissionRoleSub')->name('admin.permission.roleSub');
                 Route::patch('role-sub/status/{id?}', 'statusRoleSub')->name('admin.status.roleSub');
                 Route::delete('role-sub/delete/{id?}', 'deleteRoleSub')->name('admin.delete.roleSub');
                 Route::group(['prefix' => 'role-sub'], function () {

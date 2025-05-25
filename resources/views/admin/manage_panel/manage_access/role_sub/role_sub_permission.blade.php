@@ -15,14 +15,12 @@
                     </div>
                 </div>
                 <div class="d-sm-flex align-items-center justify-content-between">
-                    <a href="{{ route('admin.show.roleSub') }}" class="btn btn-warning btn-label waves-effect waves-light">
-                        <i class="las la-backward label-icon align-middle fs-16 me-2"></i>
-                        <span>Back</span>
-                    </a>
-                    {{-- <button type="button" class="btn btn-danger btn-label waves-effect waves-light ms-2" data-bs-toggle="button" onClick="javascript:window.close('','_parent','');">
-                        <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                        <span>Close</span>
-                    </button> --}}
+                    @if ($permission['back']['permission'] == true)
+                        <a href="{{ route('admin.show.roleSub') }}" class="btn btn-warning btn-label waves-effect waves-light">
+                            <i class="las la-backward label-icon align-middle fs-16 me-2"></i>
+                            <span>Back</span>
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -37,15 +35,17 @@
                             <h5 class="card-title mb-0">Basic Datatables</h5>
                         </div>
                         <div class="d-sm-flex align-items-center justify-content-between">
-                            <button type="button" class="btn btn-warning custom-toggle ms-2 tdFilterBtn d-flex" data-bs-toggle="button">
-                                <span class="icon-on">
-                                    <i class="mdi mdi-filter-outline align-bottom"></i>
-                                </span>
-                                <span class="icon-off">
-                                    <i class="mdi mdi-filter-off-outline align-bottom"></i>
-                                </span>
-                                <span class="ps-1 d-none" id="filter-applied-count"></span>
-                            </button>
+                            @if ($permission['filter']['permission'] == true)
+                                <button type="button" class="btn btn-warning custom-toggle ms-2 tdFilterBtn d-flex" data-bs-toggle="button">
+                                    <span class="icon-on">
+                                        <i class="mdi mdi-filter-outline align-bottom"></i>
+                                    </span>
+                                    <span class="icon-off">
+                                        <i class="mdi mdi-filter-off-outline align-bottom"></i>
+                                    </span>
+                                    <span class="ps-1 d-none" id="filter-applied-count"></span>
+                                </button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -103,14 +103,18 @@
 
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <div class="form-group d-flex flex-row justify-content-start">
-                                                            <button type="button" class="btn btn-info btn-label waves-effect waves-light filterPermissionRoleSubBtn" title="Search">
-                                                                <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
-                                                                <span>Search</span>
-                                                            </button>
-                                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterPermissionRoleSubBtn ms-2" title="Reload">
-                                                                <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
-                                                                <span>Reset</span>
-                                                            </button>
+                                                            @if ($permission['search']['permission'] == true)
+                                                                <button type="button" class="btn btn-info btn-label waves-effect waves-light filterPermissionRoleSubBtn" title="Search">
+                                                                    <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
+                                                                    <span>Search</span>
+                                                                </button>
+                                                            @endif
+                                                            @if ($permission['reset']['permission'] == true)
+                                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterPermissionRoleSubBtn ms-2" title="Reload">
+                                                                    <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
+                                                                    <span>Reset</span>
+                                                                </button>
+                                                            @endif
                                                         </div>
                                                     </div>
 
@@ -146,7 +150,12 @@
                                     </table>
                                     <br>
                                     <div class="form-group text-right m-b-0">
-                                        <button type="submit" id="updatePermissionRoleSubBtn" class="btn btn-success waves-effect waves-light" type="submit"><i class="ti-save"></i> <span>Update</span></button>
+                                        @if ($permission['update']['permission'] == true)
+                                            <button type="submit" id="updatePermissionRoleSubBtn" class="btn btn-success waves-effect waves-light" type="submit">
+                                                <i class="ti-save"></i>
+                                                <span>Update</span>
+                                            </button>
+                                        @endif
                                     </div>
                                 </form>
                             </div>

@@ -240,26 +240,26 @@ class ManageAccessAdminController extends Controller
             return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Main", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
         }
 
-        // try {
-        $setPermission = GetManageAccessHelper::setPermission([
-            [
-                'checkFirst' => [
-                    'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
-                    'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
-                ],
-                'otherDataPasses' => [
-                    'id' => $id,
+        try {
+            $setPermission = GetManageAccessHelper::setPermission([
+                [
+                    'checkFirst' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
+                        'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
+                    ],
+                    'otherDataPasses' => [
+                        'roleMainId' => $id,
+                    ]
                 ]
-            ]
-        ]);
-        if ($setPermission) {
-            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
-        } else {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['failed']], config('constants.ok'));
+            ]);
+            if ($setPermission) {
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], config('constants.ok'));
+            } else {
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], config('constants.ok'));
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Main", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
-        // } catch (Exception $e) {
-        //     return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Main", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
-        // }
     }
 
     public function statusRoleMain($id)
@@ -553,7 +553,11 @@ class ManageAccessAdminController extends Controller
                     }
 
                     if ($getPrivilege['permission']['permission'] == true) {
-                        $permission = '<a href="' .  route('admin.show.permissionRoleSub') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                        if ($data['extraData']['hasPermission'] <= 0) {
+                            $permission = '<a href="JavaScript:void(0);" data-type="setPermission" data-action="' . route('admin.permission.roleSub') . '/' . $data['id'] . '" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apple-keyboard-command"></i><span>Set Permission</span></a>';
+                        } else {
+                            $permission = '<a href="' .  route('admin.show.permissionRoleSub') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                        }
                     } else {
                         $permission = '';
                     }
@@ -647,6 +651,37 @@ class ManageAccessAdminController extends Controller
         } catch (Exception $e) {
             return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Sub", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
+    }
+
+    public function permissionRoleSub($id)
+    {
+        try {
+            $id = decrypt($id);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Sub", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
+        }
+
+        // try {
+        $setPermission = GetManageAccessHelper::setPermission([
+            [
+                'checkFirst' => [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
+                    'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
+                ],
+                'otherDataPasses' => [
+                    'roleMainId' => RoleSub::where('id', $id)->first()->roleMainId,
+                    'roleSubId' => $id,
+                ]
+            ]
+        ]);
+        if ($setPermission) {
+            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], config('constants.ok'));
+        } else {
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], config('constants.ok'));
+        }
+        // } catch (Exception $e) {
+        //     return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Sub", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+        // }
     }
 
     public function statusRoleSub($id)

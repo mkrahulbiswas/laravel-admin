@@ -479,13 +479,13 @@ class ManageNavAdminController extends Controller
                 $getNavAccessList = $this->getNavAccessList([
                     [
                         'checkFirst' => [
-                            'type' => Config::get('constants.typeCheck.helperCommon.access.bm')
+                            'type' => Config::get('constants.typeCheck.helperCommon.access.bm.fns')
                         ],
                         'otherDataPasses' => [
                             'access' => $values['access']
                         ]
                     ]
-                ])[Config::get('constants.typeCheck.helperCommon.access.bm')];
+                ])[Config::get('constants.typeCheck.helperCommon.access.bm.fns')];
                 $navMain = NavMain::find($id);
                 $navMain->access = $getNavAccessList['access'];
                 if ($navMain->update()) {
@@ -819,13 +819,13 @@ class ManageNavAdminController extends Controller
                 $getNavAccessList = $this->getNavAccessList([
                     [
                         'checkFirst' => [
-                            'type' => Config::get('constants.typeCheck.helperCommon.access.bm')
+                            'type' => Config::get('constants.typeCheck.helperCommon.access.bm.fns')
                         ],
                         'otherDataPasses' => [
                             'access' => $values['access']
                         ]
                     ]
-                ])[Config::get('constants.typeCheck.helperCommon.access.bm')];
+                ])[Config::get('constants.typeCheck.helperCommon.access.bm.fns')];
                 $navSub = NavSub::find($id);
                 $navSub->access = $getNavAccessList['access'];
                 if ($navSub->update()) {
@@ -1159,13 +1159,13 @@ class ManageNavAdminController extends Controller
                 $getNavAccessList = $this->getNavAccessList([
                     [
                         'checkFirst' => [
-                            'type' => Config::get('constants.typeCheck.helperCommon.access.bm')
+                            'type' => Config::get('constants.typeCheck.helperCommon.access.bm.fns')
                         ],
                         'otherDataPasses' => [
                             'access' => $values['access']
                         ]
                     ]
-                ])[Config::get('constants.typeCheck.helperCommon.access.bm')];
+                ])[Config::get('constants.typeCheck.helperCommon.access.bm.fns')];
                 $navNested = NavNested::find($id);
                 $navNested->access = $getNavAccessList['access'];
                 if ($navNested->update()) {

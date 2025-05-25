@@ -192,10 +192,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
-                        <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                        <span>Close</span>
-                    </button>
+                    @if ($permission['close']['permission'] == true)
+                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
+                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
+                            <span>Close</span>
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>

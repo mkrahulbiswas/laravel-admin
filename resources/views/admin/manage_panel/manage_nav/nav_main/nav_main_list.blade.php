@@ -209,14 +209,18 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
-                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                            <span>Close</span>
-                        </button>
-                        <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="saveNavMainBtn">
-                            <i class="las la-save label-icon align-middle fs-16 me-2"></i>
-                            <span>Save</span>
-                        </button>
+                        @if ($permission['close']['permission'] == true)
+                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
+                                <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
+                                <span>Close</span>
+                            </button>
+                        @endif
+                        @if ($permission['save']['permission'] == true)
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="saveNavMainBtn">
+                                <i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                                <span>Save</span>
+                            </button>
+                        @endif
                     </div>
                 </form>
             </div>
@@ -278,14 +282,18 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
-                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                            <span>Close</span>
-                        </button>
-                        <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateNavMainBtn">
-                            <i class="las la-save label-icon align-middle fs-16 me-2"></i>
-                            <span>Update</span>
-                        </button>
+                        @if ($permission['close']['permission'] == true)
+                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
+                                <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
+                                <span>Close</span>
+                            </button>
+                        @endif
+                        @if ($permission['update']['permission'] == true)
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateNavMainBtn">
+                                <i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                                <span>Update</span>
+                            </button>
+                        @endif
                     </div>
                 </form>
             </div>
@@ -325,14 +333,18 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
-                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                            <span>Close</span>
-                        </button>
-                        <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="accessNavMainBtn">
-                            <i class="las la-save label-icon align-middle fs-16 me-2"></i>
-                            <span>Set Access</span>
-                        </button>
+                        @if ($permission['close']['permission'] == true)
+                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
+                                <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
+                                <span>Close</span>
+                            </button>
+                        @endif
+                        @if ($permission['set']['permission'] == true)
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="accessNavMainBtn">
+                                <i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                                <span>Set Access</span>
+                            </button>
+                        @endif
                     </div>
                 </form>
             </div>
@@ -426,10 +438,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
-                        <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                        <span>Close</span>
-                    </button>
+                    @if ($permission['close']['permission'] == true)
+                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
+                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
+                            <span>Close</span>
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>

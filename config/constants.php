@@ -102,13 +102,17 @@ return [
             ],
             'access' => [
                 'al' => 'allYes',
-                'bm' => 'byMatch',
+                'bm' => [
+                    'fns' => 'fromNavSide',
+                    'frs' => 'fromRoleSide'
+                ],
             ],
         ]
     ],
 
     'rolePermission' => [
         'accessType' => [
+            'set',
             'add',
             'edit',
             'status',
@@ -122,6 +126,10 @@ return [
             'other',
             'permission',
             'access',
+            'back',
+            'close',
+            'save',
+            'update',
         ],
     ],
 

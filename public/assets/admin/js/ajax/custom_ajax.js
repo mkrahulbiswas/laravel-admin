@@ -2679,6 +2679,21 @@
                 id.find('#roleMain').text(data.roleMain.name);
                 id.find('#name').text(data.name);
                 id.find('#description').text(data.description);
+            } else if (type == 'setPermission') {
+                data = JSON.parse($(this).attr('data-array'));
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: "Are you sure to create permission set against of all side nav, of this particular role type '" + data.name + "'",
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
             } else {}
         });
         /*--========================= ( Manage Panel END ) =========================--*/

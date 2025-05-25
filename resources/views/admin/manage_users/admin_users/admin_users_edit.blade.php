@@ -14,10 +14,12 @@
                     </div>
                 </div>
                 <div class="d-sm-flex align-items-center justify-content-between">
-                    <a href="{{ route('admin.show.adminUsers') }}" class="btn btn-warning btn-label waves-effect waves-light">
-                        <i class="las la-backward label-icon align-middle fs-16 me-2"></i>
-                        <span>Back</span>
-                    </a>
+                    @if ($permission['back']['permission'] == true)
+                        <a href="{{ route('admin.show.adminUsers') }}" class="btn btn-warning btn-label waves-effect waves-light">
+                            <i class="las la-backward label-icon align-middle fs-16 me-2"></i>
+                            <span>Back</span>
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -184,14 +186,18 @@
                                             <div class="col-md border border-1 border-bottom border-success"></div>
                                         </div>
                                         <div class="form-element col-12 text-center mt-3">
-                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light" onclick="window.location.reload()">
-                                                <i class="mdi mdi-reload label-icon align-middle fs-16 me-2"></i>
-                                                <span>Reload</span>
-                                            </button>
-                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light ms-2" id="updateAdminUsersBtn">
-                                                <i class="las la-save label-icon align-middle fs-16 me-2"></i>
-                                                <span>Update</span>
-                                            </button>
+                                            @if ($permission['reload']['permission'] == true)
+                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light" onclick="window.location.reload()">
+                                                    <i class="mdi mdi-reload label-icon align-middle fs-16 me-2"></i>
+                                                    <span>Reload</span>
+                                                </button>
+                                            @endif
+                                            @if ($permission['update']['permission'] == true)
+                                                <button type="submit" class="btn btn-primary btn-label waves-effect waves-light ms-2" id="updateAdminUsersBtn">
+                                                    <i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                                                    <span>Update</span>
+                                                </button>
+                                            @endif
                                         </div>
                                     </div>
                                 </form>
