@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Dashboard;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -20,10 +20,19 @@ class DashboardAdminController extends Controller
     public $platform = 'backend';
 
 
-    public function index()
+    public function showAdminQuickOverview()
     {
         try {
-            return view('admin.dashboard.index');
+            return view('admin.dashboard.quick_overview.quick_overview_info');
+        } catch (Exception $e) {
+            abort(500);
+        }
+    }
+
+    public function showAdminChartsView()
+    {
+        try {
+            return view('admin.dashboard.charts_view.charts_view_info');
         } catch (Exception $e) {
             abort(500);
         }

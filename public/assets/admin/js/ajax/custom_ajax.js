@@ -62,9 +62,21 @@
             }
 
             if (data.swal != undefined) {
-                Swal.fire({
-                    ...data.swal
-                });
+                if (data.swal.type == 'basic') {
+                    Swal.fire({
+                        ...data.swal.props
+                    });
+                }
+                if (data.swal.type == 'confirm') {
+                    Swal.fire({
+                        ...data.swal.props
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            return true
+                        }
+                        return false
+                    });
+                }
             }
         }
 
@@ -85,16 +97,16 @@
                             dataType: 'json',
                             beforeSend: function () {
                                 commonAction({
-                                    loader: {
-                                        isSet: true
-                                    }
+                                    // loader: {
+                                    //     isSet: true
+                                    // }
                                 })
                             },
                             success: function (msg) {
                                 commonAction({
-                                    loader: {
-                                        isSet: false
-                                    },
+                                    // loader: {
+                                    //     isSet: false
+                                    // },
                                     toaster: {
                                         dataPass: {
                                             title: msg.title,
@@ -378,7 +390,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
-                    method: 'get',
+                    method: 'patch',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -640,7 +652,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
-                    method: 'get',
+                    method: 'patch',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -998,7 +1010,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
-                    method: 'get',
+                    method: 'patch',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -1036,12 +1048,15 @@
                 if (data.extraData.hasNavSub > 0) {
                     commonAction({
                         swal: {
-                            position: 'center-center',
-                            icon: 'warning',
-                            title: 'Oops....!',
-                            html: 'There some sub nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navSubRoute + '">sub nav</a>',
-                            showConfirmButton: false,
-                            timer: 10000
+                            type: 'basic',
+                            props: {
+                                position: 'center-center',
+                                icon: 'warning',
+                                title: 'Oops....!',
+                                html: 'There some sub nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navSubRoute + '">sub nav</a>',
+                                showConfirmButton: false,
+                                timer: 10000
+                            }
                         },
                     })
                 } else {
@@ -1400,7 +1415,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
-                    method: 'get',
+                    method: 'patch',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -1441,12 +1456,15 @@
                 if (data.extraData.hasNavNested > 0) {
                     commonAction({
                         swal: {
-                            position: 'center-center',
-                            icon: 'warning',
-                            title: 'Oops....!',
-                            html: 'There some nested nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navNestedRoute + '">nested nav</a>',
-                            showConfirmButton: false,
-                            timer: 10000
+                            type: 'basic',
+                            props: {
+                                position: 'center-center',
+                                icon: 'warning',
+                                title: 'Oops....!',
+                                html: 'There some nested nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navNestedRoute + '">nested nav</a>',
+                                showConfirmButton: false,
+                                timer: 10000
+                            }
                         },
                     })
                 } else {
@@ -1812,7 +1830,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
-                    method: 'get',
+                    method: 'patch',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -2240,7 +2258,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
-                    method: 'get',
+                    method: 'patch',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -2282,13 +2300,31 @@
                 data = JSON.parse($(this).attr('data-array'));
                 commonAction({
                     swal: {
-                        position: 'center-center',
-                        icon: 'warning',
-                        title: 'Oops....!',
-                        html: 'There some sub role found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.roleSubRoute + '">sub role</a>',
-                        showConfirmButton: false,
-                        timer: 10000
+                        type: 'basic',
+                        props: {
+                            position: 'center-center',
+                            icon: 'warning',
+                            title: 'Oops....!',
+                            html: 'There some sub role found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.roleSubRoute + '">sub role</a>',
+                            showConfirmButton: false,
+                            timer: 10000
+                        }
                     },
+                })
+            } else if (type == 'setPermission') {
+                data = JSON.parse($(this).attr('data-array'));
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: "Are you sure to create permission set against of all side nav, of this particular role type '" + data.name + "'",
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
                 })
             } else {}
         });
@@ -2569,7 +2605,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageAccess-permissionRoleMain')
+                                    targetId: $('#managePanel-manageAccess-permissionRoleSub')
                                 }
                             }
                         })
@@ -2604,7 +2640,7 @@
                 commonMethod({
                     type: 'common',
                     action: action,
-                    method: 'get',
+                    method: 'patch',
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
@@ -2821,7 +2857,7 @@
 
                 $.ajax({
                     url: action,
-                    type: 'get',
+                    type: 'patch',
                     dataType: 'json',
                     beforeSend: function () {
                         loader(1);
@@ -3068,7 +3104,7 @@
 
                 $.ajax({
                     url: action,
-                    type: 'get',
+                    type: 'patch',
                     dataType: 'json',
                     beforeSend: function () {
                         loader(1);

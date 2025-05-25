@@ -190,6 +190,10 @@ trait CommonTrait
                     if ($tempTwo['type'] == 'hasChild') {
                         $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Child:</label>' . $tempOne['data']['hasChild']['custom'] . '</div>';
                     }
+
+                    if ($tempTwo['type'] == 'hasPermission') {
+                        $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Permission:</label>' . $tempOne['data']['hasPermission']['custom'] . '</div>';
+                    }
                 }
 
                 $html = '<div class="dtMultiData"><div class="dtMultiDataContent">' . $appendHtml . '</div></div>';
@@ -461,6 +465,18 @@ trait CommonTrait
                         'type' => $temp['type'],
                     ];
                 }
+                if ($temp['type'] == 'hasPermission') {
+                    if ($temp['value'] <= 0) {
+                        $custom = '<span class="badge bg-danger">No</span>';
+                    } else {
+                        $custom = '<span class="badge bg-success">Yes</span>';
+                    }
+                    $return['hasPermission'] = [
+                        'custom' => $custom,
+                        'raw' => $temp['value'],
+                        'type' => $temp['type'],
+                    ];
+                }
             }
             return $return;
         } catch (Exception $e) {
@@ -492,52 +508,114 @@ trait CommonTrait
     public static function getNavAccessList($params = null)
     {
         try {
-            $access = $privilege = array();
-            if ($params == null) {
-                foreach (Config::get('constants.rolePermission.accessType') as $temp) {
-                    $access = Arr::prepend($access, false, $temp);
-                    $privilege = Arr::prepend(
-                        $privilege,
-                        [
-                            'allowed' => true,
-                            'permission' => true
-                        ],
-                        $temp
-                    );
-                }
-            } else {
-                foreach (Config::get('constants.rolePermission.accessType') as $temp) {
-                    if (Arr::only($params, [$temp])) {
-                        $access = Arr::prepend($access, true, $temp);
-                        $privilege = Arr::prepend(
-                            $privilege,
-                            [
-                                'allowed' => true,
-                                'permission' => false
-                            ],
-                            $temp
-                        );
-                    } else {
+            $access = $privilege = $finalData = array();
+            foreach ($params as $tempOne) {
+                [
+                    'checkFirst' => $checkFirst,
+                    'otherDataPasses' => $otherDataPasses,
+                ] = $tempOne;
+                if (Config::get('constants.typeCheck.helperCommon.access.al') == $checkFirst['type']) {
+                    foreach (Config::get('constants.rolePermission.accessType') as $temp) {
                         $access = Arr::prepend($access, false, $temp);
                         $privilege = Arr::prepend(
                             $privilege,
                             [
-                                'allowed' => false,
-                                'permission' => false
+                                'allowed' => true,
+                                'permission' => true
                             ],
                             $temp
                         );
                     }
+                    $finalData[Config::get('constants.typeCheck.helperCommon.access.al')] = [
+                        'access' => $access,
+                        'privilege' => $privilege,
+                    ];
+                }
+                if (Config::get('constants.typeCheck.helperCommon.access.bm') == $checkFirst['type']) {
+                    foreach (Config::get('constants.rolePermission.accessType') as $temp) {
+                        if (Arr::only($otherDataPasses['access'], [$temp])) {
+                            $access = Arr::prepend($access, true, $temp);
+                            $privilege = Arr::prepend(
+                                $privilege,
+                                [
+                                    'allowed' => true,
+                                    'permission' => false
+                                ],
+                                $temp
+                            );
+                        } else {
+                            $access = Arr::prepend($access, false, $temp);
+                            $privilege = Arr::prepend(
+                                $privilege,
+                                [
+                                    'allowed' => false,
+                                    'permission' => false
+                                ],
+                                $temp
+                            );
+                        }
+                    }
+                    $finalData[Config::get('constants.typeCheck.helperCommon.access.bm')] = [
+                        'access' => $access,
+                        'privilege' => $privilege,
+                    ];
                 }
             }
-            return [
-                'access' => $access,
-                'privilege' => $privilege,
-            ];
+            return $finalData;
         } catch (Exception $e) {
             return false;
         }
     }
+
+    // public static function getNavAccessList($params = null)
+    // {
+    //     try {
+    //         $access = $privilege = array();
+    //         if ($params == null) {
+    //             foreach (Config::get('constants.rolePermission.accessType') as $temp) {
+    //                 $access = Arr::prepend($access, false, $temp);
+    //                 $privilege = Arr::prepend(
+    //                     $privilege,
+    //                     [
+    //                         'allowed' => true,
+    //                         'permission' => true
+    //                     ],
+    //                     $temp
+    //                 );
+    //             }
+    //         } else {
+    //             foreach (Config::get('constants.rolePermission.accessType') as $temp) {
+    //                 if (Arr::only($params, [$temp])) {
+    //                     $access = Arr::prepend($access, true, $temp);
+    //                     $privilege = Arr::prepend(
+    //                         $privilege,
+    //                         [
+    //                             'allowed' => true,
+    //                             'permission' => false
+    //                         ],
+    //                         $temp
+    //                     );
+    //                 } else {
+    //                     $access = Arr::prepend($access, false, $temp);
+    //                     $privilege = Arr::prepend(
+    //                         $privilege,
+    //                         [
+    //                             'allowed' => false,
+    //                             'permission' => false
+    //                         ],
+    //                         $temp
+    //                     );
+    //                 }
+    //             }
+    //         }
+    //         return [
+    //             'access' => $access,
+    //             'privilege' => $privilege,
+    //         ];
+    //     } catch (Exception $e) {
+    //         return false;
+    //     }
+    // }
 
     public function getCommaSeparatedString($string, $model)
     {

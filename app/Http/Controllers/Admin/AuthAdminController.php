@@ -38,7 +38,7 @@ class AuthAdminController extends Controller
             if (!Auth::guard('admin')->check()) {
                 return view('admin.auth.login');
             } else {
-                return redirect()->route('dashboard.show');
+                return redirect()->route('admin.show.QuickOverview');
             }
         } catch (Exception $e) {
             abort(500);

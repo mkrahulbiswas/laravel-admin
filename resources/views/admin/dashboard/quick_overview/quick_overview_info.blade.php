@@ -15,7 +15,6 @@
                                     <div class="col-sm-auto">
                                         <div class="input-group">
                                             <input type="text" class="form-control border-0 dash-filter-picker shadow date-range-picker">
-                                            {{-- <input type="text" class="form-control border-0 dash-filter-picker shadow date-picker"> --}}
                                             {{-- <input type="text" class="form-control border-0 dash-filter-picker shadow time-picker"> --}}
                                             <div class="input-group-text bg-primary border-primary text-white">
                                                 <i class="ri-calendar-2-line"></i>
@@ -573,7 +572,7 @@
                         <div class="p-3">
                             <h6 class="text-muted mb-0 text-uppercase fw-semibold">Recent Activity</h6>
                         </div>
-                        <div data-simplebar style="max-height: 410px;" class="p-3 pt-0">
+                        <div style="max-height: 410px; overflow-y: scroll;" class="p-3 pt-0">
                             <div class="acitivity-timeline acitivity-main">
                                 <div class="acitivity-item d-flex">
                                     <div class="flex-shrink-0 avatar-xs acitivity-avatar">
@@ -609,6 +608,42 @@
                                             </a>
                                         </div>
                                         <p class="mb-0 text-muted"><small>9:47 PM Yesterday</small></p>
+                                    </div>
+                                </div>
+                                <div class="acitivity-item py-3 d-flex">
+                                    <div class="flex-shrink-0">
+                                        <img src="{{ asset('assets/media/admin/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1 lh-base">Natasha Carey have liked the products
+                                        </h6>
+                                        <p class="text-muted mb-1">Allow users to like products in your
+                                            WooCommerce store.</p>
+                                        <small class="mb-0 text-muted">25 Dec, 2021</small>
+                                    </div>
+                                </div>
+                                <div class="acitivity-item py-3 d-flex">
+                                    <div class="flex-shrink-0">
+                                        <img src="{{ asset('assets/media/admin/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1 lh-base">Natasha Carey have liked the products
+                                        </h6>
+                                        <p class="text-muted mb-1">Allow users to like products in your
+                                            WooCommerce store.</p>
+                                        <small class="mb-0 text-muted">25 Dec, 2021</small>
+                                    </div>
+                                </div>
+                                <div class="acitivity-item py-3 d-flex">
+                                    <div class="flex-shrink-0">
+                                        <img src="{{ asset('assets/media/admin/images/users/avatar-2.jpg') }}" alt="" class="avatar-xs rounded-circle acitivity-avatar">
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <h6 class="mb-1 lh-base">Natasha Carey have liked the products
+                                        </h6>
+                                        <p class="text-muted mb-1">Allow users to like products in your
+                                            WooCommerce store.</p>
+                                        <small class="mb-0 text-muted">25 Dec, 2021</small>
                                     </div>
                                 </div>
                                 <div class="acitivity-item py-3 d-flex">

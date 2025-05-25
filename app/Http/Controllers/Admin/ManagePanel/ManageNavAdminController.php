@@ -476,19 +476,33 @@ class ManageNavAdminController extends Controller
 
         try {
             if (isset($values['access'])) {
-                $getNavAccessList = $this->getNavAccessList($values['access']);
+                $getNavAccessList = $this->getNavAccessList([
+                    [
+                        'checkFirst' => [
+                            'type' => Config::get('constants.typeCheck.helperCommon.access.bm')
+                        ],
+                        'otherDataPasses' => [
+                            'access' => $values['access']
+                        ]
+                    ]
+                ])[Config::get('constants.typeCheck.helperCommon.access.bm')];
                 $navMain = NavMain::find($id);
                 $navMain->access = $getNavAccessList['access'];
                 if ($navMain->update()) {
-                    $setPrivilege = GetManageAccessHelper::setPrivilege([
-                        'type' => [Config::get('constants.typeCheck.helperCommon.privilege.sp')],
-                        'otherDataPasses' => [
-                            'getNavAccessList' => $getNavAccessList,
-                            'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
-                            'id' => $id,
+                    $setPermission = GetManageAccessHelper::setPermission([
+                        [
+                            'checkFirst' => [
+                                'type' => [Config::get('constants.typeCheck.helperCommon.set.pfn')],
+                                'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
+                            ],
+                            'otherDataPasses' => [
+                                'getNavAccessList' => $getNavAccessList,
+                                'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
+                                'id' => $id,
+                            ]
                         ]
                     ]);
-                    if ($setPrivilege) {
+                    if ($setPermission) {
                         DB::commit();
                         return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
                     } else {
@@ -802,19 +816,33 @@ class ManageNavAdminController extends Controller
 
         try {
             if (isset($values['access'])) {
-                $getNavAccessList = $this->getNavAccessList($values['access']);
+                $getNavAccessList = $this->getNavAccessList([
+                    [
+                        'checkFirst' => [
+                            'type' => Config::get('constants.typeCheck.helperCommon.access.bm')
+                        ],
+                        'otherDataPasses' => [
+                            'access' => $values['access']
+                        ]
+                    ]
+                ])[Config::get('constants.typeCheck.helperCommon.access.bm')];
                 $navSub = NavSub::find($id);
                 $navSub->access = $getNavAccessList['access'];
                 if ($navSub->update()) {
-                    $setPrivilege = GetManageAccessHelper::setPrivilege([
-                        'type' => [Config::get('constants.typeCheck.helperCommon.privilege.sp')],
-                        'otherDataPasses' => [
-                            'getNavAccessList' => $getNavAccessList,
-                            'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
-                            'id' => $id,
+                    $setPermission = GetManageAccessHelper::setPermission([
+                        [
+                            'checkFirst' => [
+                                'type' => [Config::get('constants.typeCheck.helperCommon.set.pfn')],
+                                'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
+                            ],
+                            'otherDataPasses' => [
+                                'getNavAccessList' => $getNavAccessList,
+                                'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
+                                'id' => $id,
+                            ]
                         ]
                     ]);
-                    if ($setPrivilege) {
+                    if ($setPermission) {
                         DB::commit();
                         return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
                     } else {
@@ -1128,19 +1156,33 @@ class ManageNavAdminController extends Controller
 
         try {
             if (isset($values['access'])) {
-                $getNavAccessList = $this->getNavAccessList($values['access']);
+                $getNavAccessList = $this->getNavAccessList([
+                    [
+                        'checkFirst' => [
+                            'type' => Config::get('constants.typeCheck.helperCommon.access.bm')
+                        ],
+                        'otherDataPasses' => [
+                            'access' => $values['access']
+                        ]
+                    ]
+                ])[Config::get('constants.typeCheck.helperCommon.access.bm')];
                 $navNested = NavNested::find($id);
                 $navNested->access = $getNavAccessList['access'];
                 if ($navNested->update()) {
-                    $setPrivilege = GetManageAccessHelper::setPrivilege([
-                        'type' => [Config::get('constants.typeCheck.helperCommon.privilege.sp')],
-                        'otherDataPasses' => [
-                            'getNavAccessList' => $getNavAccessList,
-                            'for' => Config::get('constants.typeCheck.manageNav.navNested.type'),
-                            'id' => $id,
+                    $setPermission = GetManageAccessHelper::setPermission([
+                        [
+                            'checkFirst' => [
+                                'type' => [Config::get('constants.typeCheck.helperCommon.set.pfn')],
+                                'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
+                            ],
+                            'otherDataPasses' => [
+                                'getNavAccessList' => $getNavAccessList,
+                                'for' => Config::get('constants.typeCheck.manageNav.navNested.type'),
+                                'id' => $id,
+                            ]
                         ]
                     ]);
-                    if ($setPrivilege) {
+                    if ($setPermission) {
                         DB::commit();
                         return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['success']], config('constants.ok'));
                     } else {

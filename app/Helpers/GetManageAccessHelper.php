@@ -288,7 +288,6 @@ class GetManageAccessHelper
                     $finalData[Config::get('constants.typeCheck.manageAccess.roleSub.type')] = $data;
                 }
             }
-
             return $finalData;
         } catch (Exception $e) {
             return false;
@@ -310,6 +309,7 @@ class GetManageAccessHelper
 
                 if (Config::get('constants.typeCheck.manageAccess.roleMain.type') == $for) {
                     $hasRoleSub = RoleSub::where('roleMainId', decrypt($otherDataPasses['id']))->count();
+                    $permission = Permission::where('roleMainId', decrypt($otherDataPasses['id']))->count();
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
@@ -328,11 +328,16 @@ class GetManageAccessHelper
                                 [
                                     'type' => 'hasChild',
                                     'value' => $hasRoleSub
+                                ],
+                                [
+                                    'type' => 'hasPermission',
+                                    'value' => $permission
                                 ]
                             ]),
                             'extraData' => [
                                 'hasRoleSub' => $hasRoleSub,
                                 'roleSubRoute' => route('admin.show.roleSub'),
+                                'hasPermission' => $permission,
                             ]
                         ];
                     }
@@ -341,6 +346,7 @@ class GetManageAccessHelper
                 }
 
                 if (Config::get('constants.typeCheck.manageAccess.roleSub.type') == $for) {
+                    $permission = Permission::where('roleMainId', decrypt($otherDataPasses['id']))->count();
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
@@ -357,6 +363,9 @@ class GetManageAccessHelper
                                     'value' => $roleSub->status
                                 ]
                             ]),
+                            'extraData' => [
+                                'hasPermission' => $permission,
+                            ],
                         ];
                     }
 
@@ -374,6 +383,9 @@ class GetManageAccessHelper
                                     'value' => $roleSub->status
                                 ]
                             ]),
+                            'extraData' => [
+                                'hasPermission' => $permission,
+                            ],
                             Config::get('constants.typeCheck.manageAccess.roleMain.type') => GetManageAccessHelper::getDetail([
                                 [
                                     'getDetail' => [
@@ -462,108 +474,73 @@ class GetManageAccessHelper
         }
     }
 
-    public static function setPrivilege($params, $platform = '')
+    public static function setPermission($params, $platform = '')
     {
-        try {
+        // try {
+        $finalData = array();
+
+        foreach ($params as $tempOne) {
             DB::beginTransaction();
-            $finalData = array();
 
             [
                 'otherDataPasses' => $otherDataPasses,
-                'type' => $type
-            ] = $params;
+                'checkFirst' => $checkFirst
+            ] = $tempOne;
 
-            if (in_array(Config::get('constants.typeCheck.helperCommon.privilege.sp'), $type)) {
-                if ($otherDataPasses['for'] == Config::get('constants.typeCheck.manageNav.navMain.type')) {
-                    $forType = Config::get('constants.typeCheck.manageNav.navMain.type');
-                    $targetTypeField = 'navMainId';
-                } else if ($otherDataPasses['for'] == Config::get('constants.typeCheck.manageNav.navSub.type')) {
-                    $forType = Config::get('constants.typeCheck.manageNav.navSub.type');
-                    $targetTypeField = 'navSubId';
-                } else if ($otherDataPasses['for'] == Config::get('constants.typeCheck.manageNav.navNested.type')) {
-                    $forType = Config::get('constants.typeCheck.manageNav.navNested.type');
-                    $targetTypeField = 'navNestedId';
-                } else {
-                    $forType =  Config::get('constants.typeCheck.manageNav.navType.type');
-                    $targetTypeField = 'navTypeId';
-                }
+            if (Config::get('constants.typeCheck.helperCommon.privilege.sp') == $checkFirst['for']) {
 
-                $getDetail = GetManageNavHelper::getDetail([
-                    [
-                        'getDetail' => [
-                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
-                            'for' => $otherDataPasses['for'],
+                if (in_array(Config::get('constants.typeCheck.helperCommon.set.pfn'), $checkFirst['type'])) {
+                    if ($otherDataPasses['for'] == Config::get('constants.typeCheck.manageNav.navMain.type')) {
+                        $forType = Config::get('constants.typeCheck.manageNav.navMain.type');
+                        $targetTypeField = 'navMainId';
+                    } else if ($otherDataPasses['for'] == Config::get('constants.typeCheck.manageNav.navSub.type')) {
+                        $forType = Config::get('constants.typeCheck.manageNav.navSub.type');
+                        $targetTypeField = 'navSubId';
+                    } else if ($otherDataPasses['for'] == Config::get('constants.typeCheck.manageNav.navNested.type')) {
+                        $forType = Config::get('constants.typeCheck.manageNav.navNested.type');
+                        $targetTypeField = 'navNestedId';
+                    } else {
+                        $forType =  Config::get('constants.typeCheck.manageNav.navType.type');
+                        $targetTypeField = 'navTypeId';
+                    }
+
+                    $getDetail = GetManageNavHelper::getDetail([
+                        [
+                            'getDetail' => [
+                                'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                                'for' => $otherDataPasses['for'],
+                            ],
+                            'otherDataPasses' => [
+                                'id' => encrypt($otherDataPasses['id'])
+                            ],
                         ],
-                        'otherDataPasses' => [
-                            'id' => encrypt($otherDataPasses['id'])
-                        ],
-                    ],
-                ])[$otherDataPasses['for']][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+                    ])[$otherDataPasses['for']][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
 
-                $roleMain = GetManageAccessHelper::getList([
-                    [
-                        'getList' => [
-                            'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                            'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
-                        ],
-                        'otherDataPasses' => [
-                            'filterData' => [
-                                'status' => Config::get('constants.status')['active']
-                            ]
-                        ],
-                    ],
-                ]);
-
-                $result = CommonTrait::deleteItem([
-                    [
-                        'model' => Permission::class,
-                        'picUrl' => [],
-                        'filter' => [['search' => decrypt($getDetail['id']), 'field' => $targetTypeField]],
-                    ]
-                ]);
-
-                if ($result === true) {
-                    foreach ($roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $tempOne) {
-                        if ($tempOne['extraData']['hasRoleSub'] <= 0) {
-                            $permission = new Permission();
-                            if ($otherDataPasses['for'] == Config::get('constants.typeCheck.manageNav.navMain.type')) {
-                                $permission->navMainId = decrypt($getDetail['id']);
-                            }
-                            if ($otherDataPasses['for'] == Config::get('constants.typeCheck.manageNav.navSub.type')) {
-                                $permission->navSubId = decrypt($getDetail['id']);
-                                $permission->navMainId = decrypt($getDetail['navMain']['id']);
-                            }
-                            if ($otherDataPasses['for'] == Config::get('constants.typeCheck.manageNav.navNested.type')) {
-                                $permission->navNestedId = decrypt($getDetail['id']);
-                                $permission->navSubId = decrypt($getDetail['navSub']['id']);
-                                $permission->navMainId = decrypt($getDetail['navMain']['id']);
-                            }
-                            $permission->navTypeId = decrypt($getDetail['navType']['id']);
-                            $permission->roleMainId = decrypt($tempOne['id']);
-                            $permission->privilege = json_encode($otherDataPasses['getNavAccessList']['privilege']);
-                            $permission->uniqueId = CommonTrait::generateCode(['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '']);
-                            if ($permission->save()) {
-                                $response = true;
-                            } else {
-                                DB::rollBack();
-                                $response = false;
-                            }
-                        } else {
-                            $roleSub = GetManageAccessHelper::getList([
-                                [
-                                    'getList' => [
-                                        'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
-                                        'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
-                                    ],
-                                    'otherDataPasses' => [
-                                        'filterData' => [
-                                            'status' => Config::get('constants.status')['active'],
-                                            'roleMainId' => $tempOne['id']
-                                        ]
-                                    ],
+                    $roleMain = GetManageAccessHelper::getList([
+                        [
+                            'getList' => [
+                                'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                                'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                            ],
+                            'otherDataPasses' => [
+                                'filterData' => [
+                                    'status' => Config::get('constants.status')['active']
                                 ]
-                            ]);
-                            foreach ($roleSub[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'] as $tempTwo) {
+                            ],
+                        ],
+                    ]);
+
+                    $result = CommonTrait::deleteItem([
+                        [
+                            'model' => Permission::class,
+                            'picUrl' => [],
+                            'filter' => [['search' => decrypt($getDetail['id']), 'field' => $targetTypeField]],
+                        ]
+                    ]);
+
+                    if ($result == true) {
+                        foreach ($roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $tempTwo) {
+                            if ($tempTwo['extraData']['hasRoleSub'] <= 0) {
                                 $permission = new Permission();
                                 if ($otherDataPasses['for'] == Config::get('constants.typeCheck.manageNav.navMain.type')) {
                                     $permission->navMainId = decrypt($getDetail['id']);
@@ -578,8 +555,7 @@ class GetManageAccessHelper
                                     $permission->navMainId = decrypt($getDetail['navMain']['id']);
                                 }
                                 $permission->navTypeId = decrypt($getDetail['navType']['id']);
-                                $permission->roleMainId = decrypt($tempOne['id']);
-                                $permission->roleSubId = decrypt($tempTwo['id']);
+                                $permission->roleMainId = decrypt($tempTwo['id']);
                                 $permission->privilege = json_encode($otherDataPasses['getNavAccessList']['privilege']);
                                 $permission->uniqueId = CommonTrait::generateCode(['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '']);
                                 if ($permission->save()) {
@@ -588,192 +564,299 @@ class GetManageAccessHelper
                                     DB::rollBack();
                                     $response = false;
                                 }
+                            } else {
+                                $roleSub = GetManageAccessHelper::getList([
+                                    [
+                                        'getList' => [
+                                            'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
+                                            'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                                        ],
+                                        'otherDataPasses' => [
+                                            'filterData' => [
+                                                'status' => Config::get('constants.status')['active'],
+                                                'roleMainId' => $tempTwo['id']
+                                            ]
+                                        ],
+                                    ]
+                                ]);
+                                foreach ($roleSub[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'] as $tempThree) {
+                                    $permission = new Permission();
+                                    if ($otherDataPasses['for'] == Config::get('constants.typeCheck.manageNav.navMain.type')) {
+                                        $permission->navMainId = decrypt($getDetail['id']);
+                                    }
+                                    if ($otherDataPasses['for'] == Config::get('constants.typeCheck.manageNav.navSub.type')) {
+                                        $permission->navSubId = decrypt($getDetail['id']);
+                                        $permission->navMainId = decrypt($getDetail['navMain']['id']);
+                                    }
+                                    if ($otherDataPasses['for'] == Config::get('constants.typeCheck.manageNav.navNested.type')) {
+                                        $permission->navNestedId = decrypt($getDetail['id']);
+                                        $permission->navSubId = decrypt($getDetail['navSub']['id']);
+                                        $permission->navMainId = decrypt($getDetail['navMain']['id']);
+                                    }
+                                    $permission->navTypeId = decrypt($getDetail['navType']['id']);
+                                    $permission->roleMainId = decrypt($tempTwo['id']);
+                                    $permission->roleSubId = decrypt($tempThree['id']);
+                                    $permission->privilege = json_encode($otherDataPasses['getNavAccessList']['privilege']);
+                                    $permission->uniqueId = CommonTrait::generateCode(['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '']);
+                                    if ($permission->save()) {
+                                        $response = true;
+                                    } else {
+                                        DB::rollBack();
+                                        $response = false;
+                                    }
+                                }
                             }
                         }
+                    } else {
+                        $response = false;
                     }
-                } else {
-                    $response = false;
+
+                    if ($response) {
+                        DB::commit();
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
 
-                if ($response) {
-                    DB::commit();
-                    return true;
-                } else {
-                    return false;
-                }
-
-                $finalData[Config::get('constants.typeCheck.helperCommon.detail.nd')] = [];
-            }
-
-            return $finalData;
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-    public static function getPrivilege($params, $platform = '')
-    {
-        try {
-            $finalData = array();
-            foreach ($params as $tempOne) {
-                [
-                    'type' => $type,
-                    'otherDataPasses' => $otherDataPasses
-                ] = $tempOne;
-
-                if (in_array(Config::get('constants.typeCheck.helperCommon.privilege.np'), $type)) {
-                    $roleMain = $roleSub = array();
-
+                if (in_array(Config::get('constants.typeCheck.helperCommon.set.pfr'), $checkFirst['type'])) {
                     $getNav = GetManageNavHelper::getNav([
                         [
                             'type' => [Config::get('constants.typeCheck.helperCommon.nav.np')],
                             'otherDataPasses' => [
-                                'filterData' => [
-                                    'status' => Config::get('constants.status')['active']
-                                ],
-                                'orderBy' => [
-                                    'position' => 'asc'
-                                ]
+                                'filterData' => ['status' => Config::get('constants.status')['active']],
+                                'orderBy' => ['position' => 'asc']
                             ],
                         ]
                     ])[Config::get('constants.typeCheck.helperCommon.nav.np')];
+                    foreach ($getNav as $tempTwo) {
+                        echo '1: ' . $tempTwo['name'] . '<br>';
+                        foreach ($tempTwo['navMain'] as $tempThree) {
+                            echo '2: ' . $tempThree['name'] . '<br>';
+                            if ($tempThree['extraData']['hasNavSub'] >= 0) {
+                                foreach ($tempThree['navSub'] as $tempFour) {
+                                    echo '3: ' . $tempFour['name'] . '<br>';
+                                    if ($tempFour['extraData']['hasNavNested'] >= 0) {
+                                        foreach ($tempFour['navNested'] as $tempFive) {
+                                            echo '4: ' . $tempFive['name'] . '<br>';
+                                            $getNavAccessList = CommonTrait::getNavAccessList([
+                                                [
+                                                    'checkFirst' => [
+                                                        'type' => Config::get('constants.typeCheck.helperCommon.access.glyl')
+                                                    ],
+                                                    'otherDataPasses' => [
+                                                        'access' => $tempFive['access']
+                                                    ]
+                                                ]
+                                            ]);
+                                            dd($getNavAccessList['privilege']);
+                                            if ($tempFive['extraData']['hasNavNested'] >= 0) {
+                                            } else {
+                                            }
+                                        }
+                                    } else {
+                                    }
+                                }
+                            } else {
+                            }
+                        }
+                    }
+                    dd(1);
+                    // if ($response) {
+                    //     DB::commit();
+                    //     return true;
+                    // } else {
+                    //     return false;
+                    // }
+                }
 
-                    $getRoleMain = GetManageAccessHelper::getList([
+                $finalData[Config::get('constants.typeCheck.helperCommon.detail.nd')] = [];
+            }
+        }
+
+        return $finalData;
+        // } catch (Exception $e) {
+        //     return false;
+        // }
+    }
+
+    public static function getPrivilege($params, $platform = '')
+    {
+        // try {
+        $finalData = array();
+        foreach ($params as $tempOne) {
+            [
+                'type' => $type,
+                'otherDataPasses' => $otherDataPasses
+            ] = $tempOne;
+
+            if (in_array(Config::get('constants.typeCheck.helperCommon.privilege.np'), $type)) {
+                $roleMain = $roleSub = array();
+
+                $getNav = GetManageNavHelper::getNav([
+                    [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.nav.np')],
+                        'otherDataPasses' => [
+                            'filterData' => [
+                                'status' => Config::get('constants.status')['active']
+                            ],
+                            'orderBy' => [
+                                'position' => 'asc'
+                            ]
+                        ],
+                    ]
+                ])[Config::get('constants.typeCheck.helperCommon.nav.np')];
+
+                $getRoleMain = GetManageAccessHelper::getList([
+                    [
+                        'getList' => [
+                            'type' => [Config::get('constants.typeCheck.helperCommon.get.ryf')],
+                            'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                        ],
+                        'otherDataPasses' => [
+                            'filterData' => [
+                                'status' => Config::get('constants.status')['active']
+                            ]
+                        ],
+                    ],
+                ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')]['rawYesFilter']['list'];
+
+                foreach ($getRoleMain as $tempTwo) {
+                    $getRoleSub = GetManageAccessHelper::getList([
                         [
                             'getList' => [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.get.ryf')],
-                                'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                                'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
                             ],
                             'otherDataPasses' => [
                                 'filterData' => [
-                                    'status' => Config::get('constants.status')['active']
+                                    'roleMainId' => $tempTwo->id,
+                                    'status' => Config::get('constants.status')['active'],
                                 ]
                             ],
                         ],
-                    ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')]['rawYesFilter']['list'];
-
-                    foreach ($getRoleMain as $tempTwo) {
-                        $getRoleSub = GetManageAccessHelper::getList([
-                            [
-                                'getList' => [
-                                    'type' => [Config::get('constants.typeCheck.helperCommon.get.ryf')],
-                                    'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
-                                ],
-                                'otherDataPasses' => [
-                                    'filterData' => [
-                                        'roleMainId' => $tempTwo->id,
-                                        'status' => Config::get('constants.status')['active'],
-                                    ]
-                                ],
-                            ],
-                        ])[Config::get('constants.typeCheck.manageAccess.roleSub.type')]['rawYesFilter']['list'];
-                        if ($tempTwo) {
-                            foreach ($getRoleSub as $tempThree) {
-                                $roleSub[] = [
-                                    'id' => encrypt($tempThree->id),
-                                    'name' => $tempThree->name,
-                                    'status' =>  $tempThree->status,
-                                    'description' =>  $tempThree->description,
-                                    'nav' => $getNav
-                                ];
-                            }
-                        }
-                        $roleMain[] = [
-                            'id' => encrypt($tempOne->id),
-                            'name' => $tempOne->name,
-                            'status' =>  $tempOne->status,
-                            'description' =>  $tempOne->description,
-                            'roleSub' => $roleSub,
-                            'nav' => $getNav
-                        ];
-                        $roleSub = array();
-                    }
-
-                    $finalData[Config::get('constants.typeCheck.helperCommon.privilege.np')] = $roleMain;
-                }
-
-                if (in_array(Config::get('constants.typeCheck.helperCommon.privilege.gp'), $type)) {
-                    $privilege = [];
-                    $url = explode("/", url()->current());
-                    $auth = Auth::guard('admin')->user();
-                    if ($auth->uniqueId == Config::get('constants.superAdminCheck')['admin']) {
-                        $privilege = CommonTrait::getNavAccessList()['privilege'];
-                    } else {
-                        $permission = Permission::where(function ($query) use ($auth) {
-                            if ($auth->roleSubId == null) {
-                                return $query->where('roleMainId', $auth->roleMainId)->where('roleSubId', null);
-                            } else {
-                                return $query->where('roleMainId', $auth->roleMainId)->where('roleSubId', $auth->roleSubId);
-                            }
-                        })->get();
-                        foreach ($permission as $tempTwo) {
-                            if ($tempTwo->navTypeId != null && $tempTwo->navMainId != null && $tempTwo->navSubId != null && $tempTwo->navNestedId != null) {
-                                $getDetail = GetManageNavHelper::getDetail([
-                                    [
-                                        'getDetail' => [
-                                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
-                                            'for' => Config::get('constants.typeCheck.manageNav.navNested.type'),
-                                        ],
-                                        'otherDataPasses' => [
-                                            'id' => encrypt($tempTwo->navNestedId)
-                                        ],
-                                    ]
-                                ])[Config::get('constants.typeCheck.manageNav.navNested.type')][Config::get('constants.typeCheck.helperCommon.detail.rnd')]['detail'];
-                            } else if ($tempTwo->navTypeId != null && $tempTwo->navMainId != null && $tempTwo->navSubId != null && $tempTwo->navNestedId == null) {
-                                $getDetail = GetManageNavHelper::getDetail([
-                                    [
-                                        'getDetail' => [
-                                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
-                                            'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
-                                        ],
-                                        'otherDataPasses' => [
-                                            'id' => encrypt($tempTwo->navSubId)
-                                        ],
-                                    ]
-                                ])[Config::get('constants.typeCheck.manageNav.navSub.type')][Config::get('constants.typeCheck.helperCommon.detail.rnd')]['detail'];
-                            } else if ($tempTwo->navTypeId != null && $tempTwo->navMainId != null && $tempTwo->navSubId == null && $tempTwo->navNestedId == null) {
-                                $getDetail = GetManageNavHelper::getDetail([
-                                    [
-                                        'getDetail' => [
-                                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
-                                            'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
-                                        ],
-                                        'otherDataPasses' => [
-                                            'id' => encrypt($tempTwo->navMainId)
-                                        ],
-                                    ]
-                                ])[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.detail.rnd')]['detail'];
-                            } else {
-                                $getDetail = GetManageNavHelper::getDetail([
-                                    [
-                                        'getDetail' => [
-                                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
-                                            'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
-                                        ],
-                                        'otherDataPasses' => [
-                                            'id' => encrypt($tempTwo->navTypeId)
-                                        ],
-                                    ]
-                                ])[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.detail.rnd')]['detail'];
-                            }
-
-                            if (in_array($getDetail['lastSegment'], $url)) {
-                                $privilege = json_decode($tempTwo->privilege, true);
-                                goto a;
-                            }
-                        }
-                        a:
-                        if ($privilege == []) {
-                            $privilege = CommonTrait::getNavAccessList()['privilege'];
+                    ])[Config::get('constants.typeCheck.manageAccess.roleSub.type')]['rawYesFilter']['list'];
+                    if ($tempTwo) {
+                        foreach ($getRoleSub as $tempThree) {
+                            $roleSub[] = [
+                                'id' => encrypt($tempThree->id),
+                                'name' => $tempThree->name,
+                                'status' =>  $tempThree->status,
+                                'description' =>  $tempThree->description,
+                                'nav' => $getNav
+                            ];
                         }
                     }
-                    $finalData[Config::get('constants.typeCheck.helperCommon.privilege.gp')] = $privilege;
+                    $roleMain[] = [
+                        'id' => encrypt($tempOne->id),
+                        'name' => $tempOne->name,
+                        'status' =>  $tempOne->status,
+                        'description' =>  $tempOne->description,
+                        'roleSub' => $roleSub,
+                        'nav' => $getNav
+                    ];
+                    $roleSub = array();
                 }
 
-                return $finalData;
+                $finalData[Config::get('constants.typeCheck.helperCommon.privilege.np')] = $roleMain;
             }
-        } catch (Exception $e) {
-            return false;
+
+            if (in_array(Config::get('constants.typeCheck.helperCommon.privilege.gp'), $type)) {
+                $privilege = [];
+                $url = explode("/", url()->current());
+                $auth = Auth::guard('admin')->user();
+                if ($auth->uniqueId == Config::get('constants.superAdminCheck')['admin']) {
+                    $privilege = CommonTrait::getNavAccessList([
+                        [
+                            'checkFirst' => [
+                                'type' => Config::get('constants.typeCheck.helperCommon.access.al')
+                            ],
+                            'otherDataPasses' => []
+                        ]
+                    ])[Config::get('constants.typeCheck.helperCommon.access.al')]['privilege'];
+                } else {
+                    $permission = Permission::where(function ($query) use ($auth) {
+                        if ($auth->roleSubId == null) {
+                            return $query->where('roleMainId', $auth->roleMainId)->where('roleSubId', null);
+                        } else {
+                            return $query->where('roleMainId', $auth->roleMainId)->where('roleSubId', $auth->roleSubId);
+                        }
+                    })->get();
+                    foreach ($permission as $tempTwo) {
+                        if ($tempTwo->navTypeId != null && $tempTwo->navMainId != null && $tempTwo->navSubId != null && $tempTwo->navNestedId != null) {
+                            $getDetail = GetManageNavHelper::getDetail([
+                                [
+                                    'getDetail' => [
+                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
+                                        'for' => Config::get('constants.typeCheck.manageNav.navNested.type'),
+                                    ],
+                                    'otherDataPasses' => [
+                                        'id' => encrypt($tempTwo->navNestedId)
+                                    ],
+                                ]
+                            ])[Config::get('constants.typeCheck.manageNav.navNested.type')][Config::get('constants.typeCheck.helperCommon.detail.rnd')]['detail'];
+                        } else if ($tempTwo->navTypeId != null && $tempTwo->navMainId != null && $tempTwo->navSubId != null && $tempTwo->navNestedId == null) {
+                            $getDetail = GetManageNavHelper::getDetail([
+                                [
+                                    'getDetail' => [
+                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
+                                        'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
+                                    ],
+                                    'otherDataPasses' => [
+                                        'id' => encrypt($tempTwo->navSubId)
+                                    ],
+                                ]
+                            ])[Config::get('constants.typeCheck.manageNav.navSub.type')][Config::get('constants.typeCheck.helperCommon.detail.rnd')]['detail'];
+                        } else if ($tempTwo->navTypeId != null && $tempTwo->navMainId != null && $tempTwo->navSubId == null && $tempTwo->navNestedId == null) {
+                            $getDetail = GetManageNavHelper::getDetail([
+                                [
+                                    'getDetail' => [
+                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
+                                        'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
+                                    ],
+                                    'otherDataPasses' => [
+                                        'id' => encrypt($tempTwo->navMainId)
+                                    ],
+                                ]
+                            ])[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.detail.rnd')]['detail'];
+                        } else {
+                            $getDetail = GetManageNavHelper::getDetail([
+                                [
+                                    'getDetail' => [
+                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
+                                        'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
+                                    ],
+                                    'otherDataPasses' => [
+                                        'id' => encrypt($tempTwo->navTypeId)
+                                    ],
+                                ]
+                            ])[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.detail.rnd')]['detail'];
+                        }
+
+                        if (in_array($getDetail['lastSegment'], $url)) {
+                            $privilege = json_decode($tempTwo->privilege, true);
+                            goto a;
+                        }
+                    }
+                    a:
+                    if ($privilege == []) {
+                        $privilege = CommonTrait::getNavAccessList([
+                            [
+                                'checkFirst' => [
+                                    'type' => Config::get('constants.typeCheck.helperCommon.access.al')
+                                ],
+                                'otherDataPasses' => []
+                            ]
+                        ])[Config::get('constants.typeCheck.helperCommon.access.al')]['privilege'];
+                    }
+                }
+                $finalData[Config::get('constants.typeCheck.helperCommon.privilege.gp')] = $privilege;
+            }
+
+            return $finalData;
         }
+        // } catch (Exception $e) {
+        //     return false;
+        // }
     }
 }

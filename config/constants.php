@@ -87,6 +87,10 @@ return [
                 'nd' => 'noDepended',
                 'rnd' => 'rawNoDepended',
             ],
+            'set' => [
+                'pfn' => 'permissionFromNav',
+                'pfr' => 'permissionFromRole',
+            ],
             'nav' => [
                 'sn' => 'sideNav',
                 'np' => 'navPermission',
@@ -95,7 +99,11 @@ return [
                 'np' => 'navPrivilege',
                 'sp' => 'setPermission',
                 'gp' => 'getPermission'
-            ]
+            ],
+            'access' => [
+                'al' => 'allYes',
+                'bm' => 'byMatch',
+            ],
         ]
     ],
 
