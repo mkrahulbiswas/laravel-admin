@@ -102,6 +102,7 @@ return [
             ],
             'access' => [
                 'al' => 'allYes',
+                'an' => 'allNo',
                 'bm' => [
                     'fns' => 'fromNavSide',
                     'frs' => 'fromRoleSide'

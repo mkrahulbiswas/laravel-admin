@@ -97,16 +97,16 @@
                             dataType: 'json',
                             beforeSend: function () {
                                 commonAction({
-                                    // loader: {
-                                    //     isSet: true
-                                    // }
+                                    loader: {
+                                        isSet: true
+                                    }
                                 })
                             },
                             success: function (msg) {
                                 commonAction({
-                                    // loader: {
-                                    //     isSet: false
-                                    // },
+                                    loader: {
+                                        isSet: false
+                                    },
                                     toaster: {
                                         dataPass: {
                                             title: msg.title,
