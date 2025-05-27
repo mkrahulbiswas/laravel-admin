@@ -1,11 +1,22 @@
 (function ($) {
     $(function () {
-        callOnModalClose(), callSelectPicker(), callSelect2(), lcSwitch(), dropify(), summernote(), waves(), datePicker(), dateRangePicker(), timePicker()
+        initSortable()
+        initDraggable()
+        initCallOnModalClose()
+        initCallSelectPicker()
+        initCallSelect2()
+        initLcSwitch()
+        initDropify()
+        initSummernote()
+        initWaves()
+        initDatePicker()
+        initDateRangePicker()
+        initTimePicker()
     });
 })(jQuery);
 
 
-function callOnModalClose() {
+function initCallOnModalClose() {
     $('.con-add-modal, .con-edit-modal, .con-access-modal').on("hidden.bs.modal", function () {
         $(this).find('form')[0].reset();
         $(this).find('[type="checkbox"]').attr('checked', false);
@@ -20,11 +31,11 @@ function callOnModalClose() {
     });
 }
 
-function callSelectPicker() {
+function initCallSelectPicker() {
     $('.selectPicker').selectpicker();
 }
 
-function callSelect2() {
+function initCallSelect2() {
     $('.select2-navType').select2({
         tags: false,
         placeholder: "Select Nav Type"
@@ -106,7 +117,7 @@ function callSelect2() {
     });
 }
 
-function lcSwitch() {
+function initLcSwitch() {
     $('body').delegate('.npGo span', 'click', function () {
         let targetId = $(this)
         $(targetId).closest('.npGo').fadeOut(500)
@@ -137,11 +148,11 @@ function lcSwitch() {
     });
 }
 
-function dropify() {
+function initDropify() {
     $('.dropify').dropify();
 }
 
-function summernote() {
+function initSummernote() {
     $('.sn-adminUser-about').summernote({
         height: 145,
         width: '100%',
@@ -156,11 +167,11 @@ function summernote() {
     });
 }
 
-function waves() {
+function initWaves() {
     Waves.init()
 }
 
-function datePicker() {
+function initDatePicker() {
     $('.date-picker').datepicker({
         format: 'dd/mm/yyyy',
         // defaultViewDate: {
@@ -172,7 +183,7 @@ function datePicker() {
     });
 }
 
-function dateRangePicker() {
+function initDateRangePicker() {
     $('.date-range-picker').daterangepicker({
         locale: {
             format: 'DD/MM/YYYY'
@@ -180,7 +191,7 @@ function dateRangePicker() {
     });
 }
 
-function timePicker() {
+function initTimePicker() {
     $('.time-picker').clockTimePicker({
         duration: true,
         durationNegative: true,
@@ -190,4 +201,19 @@ function timePicker() {
         },
         onAdjust: function (newVal, oldVal) {}
     });
+}
+
+function initDraggable() {
+    new DraggableNestableList("#myList");
+}
+
+function initSortable() {
+    var nestedSortables = [].slice.call(document.querySelectorAll('.allNavCommon'));
+    for (var i = 0; i < nestedSortables.length; i++) {
+        new Sortable(nestedSortables[i], {
+            animation: 150,
+            fallbackOnBody: true,
+            swapThreshold: 0.65
+        });
+    }
 }

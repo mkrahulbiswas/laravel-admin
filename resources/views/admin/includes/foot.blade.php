@@ -41,9 +41,6 @@
     <!-- ( Jquery UI ) -->
     <script src="{{ asset('assets/plugins/jquery-ui/js/jquery-ui.min.js') }}" type="text/javascript"></script>
 
-    <!-- ( Sortable ) -->
-    <script src="{{ asset('assets/plugins/sortable/js/sortable.min.js') }}" type="text/javascript"></script>
-
     <!-- ( Jquery Mobile ) -->
     {{-- <script src="{{ asset('assets/plugins/jquery-mobile/js/jquery.mobile-1.4.5.min.js') }}" type="text/javascript"></script> --}}
 
@@ -202,6 +199,9 @@
         <!-- prismjs plugin -->
         {{-- <script src="{{ asset('assets/plugins/prismjs/prism.js') }}"></script> --}}
 
+        <!-- ( Draggable Nestable List ) -->
+        <script src="{{ asset('assets/plugins/draggable-nestable-list/js/DraggableNestableList.js') }}"></script>
+
         <!-- App js -->
         <script src="{{ asset('assets/admin/js/app.js') }}"></script>
 
@@ -215,7 +215,6 @@
         <!-- Custom JS -->
         <script src="{{ asset('assets/admin/js/custom_js/common.js') }}"></script>
         {{-- <script src="{{asset('assets/admin/custom_js/color_picker.js')}}"></script> --}}
-        <script src="{{ asset('assets/admin/js/custom_js/sortable.js') }}"></script>
         <script src="{{ asset('assets/admin/js/custom_js/custom.js') }}"></script>
     @endif
 

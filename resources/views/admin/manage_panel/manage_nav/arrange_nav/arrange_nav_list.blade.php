@@ -13,9 +13,7 @@
                         </ol>
                     </div>
                 </div>
-                <div class="d-sm-flex align-items-center justify-content-between">
-
-                </div>
+                <div class="d-sm-flex align-items-center justify-content-between"></div>
             </div>
         </div>
     </div>
@@ -28,41 +26,78 @@
                         <div class="mb-3 mb-sm-0">
                             <h5 class="card-title mb-0">Basic Datatables</h5>
                         </div>
-                        <div class="d-sm-flex align-items-center justify-content-between">
-                            <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal"><i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i> Add Nav Type</button>
-                        </div>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12 mb-4"></div>
-                        <div class="col-md-12 tdContentMain">
-                            <div class="tdContentSub">
-                                <div class="all-nav-list" id="toNavType">
+                        <div class="col-md-12 navOrderableMain">
+                            <div class="navOrderableSub">
+                                <div class="navTypeInner allNavCommon">
                                     @foreach ($navList as $itemOne)
-                                        <div class="nav-type-list list-group-item" id="">
-                                            <div class="nav-type-heading common-nav-heading">{{ $itemOne['uniqueId'] }}</div>
-                                            @if (sizeof($itemOne[Config::get('constants.typeCheck.manageNav.navMain.type')]) > 0)
-                                                <div class="nav-main-inner">
-                                                    @foreach ($itemOne[Config::get('constants.typeCheck.manageNav.navMain.type')] as $itemTwo)
-                                                        <div class="nav-main-list list-group-item items" id="">
-                                                            <div class="nav-main-heading common-nav-heading">{{ $itemTwo['uniqueId'] }}</div>
-                                                            {{-- @if (sizeof($itemTwo[Config::get('constants.typeCheck.manageNav.navSub.type')]) > 0)
-                                        @foreach ($itemTwo[Config::get('constants.typeCheck.manageNav.navSub.type')] as $itemThree)
-                                        <div class="nav-sub-list list-group-item items">
-                                            <div class="nav-sub-heading common-nav-heading">{{ $itemThree['uniqueId'] }}</div>
-                                            @if (sizeof($itemThree[Config::get('constants.typeCheck.manageNav.navNested.type')]) > 0)
-                                            @foreach ($itemThree[Config::get('constants.typeCheck.manageNav.navNested.type')] as $itemFour)
-                                            <div class="nav-nested-list list-group-item items">
-                                                <div class="nav-nested-heading common-nav-heading">{{ $itemFour['uniqueId'] }}</div>
+                                        <div class="navTypeList navListCommon">
+                                            <div class="navTypeHeading commonNavHeading">
+                                                <div class="navHeadingTop">
+                                                    <i class="bx bx-cable-car"></i>
+                                                </div>
+                                                <div class="navHeadingBottom">
+                                                    <span>{{ $itemOne['name'] }}</span>
+                                                    <span>{{ $itemOne['uniqueId'] }}</span>
+                                                </div>
+                                                <input type="hidden" name="navType[]" value="{{ $itemOne['id'] }}">
                                             </div>
-                                            @endforeach
-                                            @else
-                                            @endif
-                                        </div>
-                                        @endforeach
-                                        @else
-                                        @endif --}}
+                                            @if (sizeof($itemOne[Config::get('constants.typeCheck.manageNav.navMain.type')]) > 0)
+                                                <div class="navMainInner allNavCommon">
+                                                    @foreach ($itemOne[Config::get('constants.typeCheck.manageNav.navMain.type')] as $itemTwo)
+                                                        <div class="navMainList navListCommon">
+                                                            <div class="navMainHeading commonNavHeading">
+                                                                <div class="navHeadingTop">
+                                                                    <i class="bx bx-cable-car"></i>
+                                                                </div>
+                                                                <div class="navHeadingBottom">
+                                                                    <span>{{ $itemTwo['name'] }}</span>
+                                                                    <span>{{ $itemTwo['uniqueId'] }}</span>
+                                                                </div>
+                                                                <input type="hidden" name="navMain[]" value="{{ $itemTwo['id'] }}">
+                                                            </div>
+                                                            @if (sizeof($itemTwo[Config::get('constants.typeCheck.manageNav.navSub.type')]) > 0)
+                                                                <div class="navSubInner allNavCommon">
+                                                                    @foreach ($itemTwo[Config::get('constants.typeCheck.manageNav.navSub.type')] as $itemThree)
+                                                                        <div class="navSubList navListCommon">
+                                                                            <div class="navSubHeading commonNavHeading">
+                                                                                <div class="navHeadingTop">
+                                                                                    <i class="bx bx-cable-car"></i>
+                                                                                </div>
+                                                                                <div class="navHeadingBottom">
+                                                                                    <span>{{ $itemThree['name'] }}</span>
+                                                                                    <span>{{ $itemThree['uniqueId'] }}</span>
+                                                                                </div>
+                                                                                <input type="hidden" name="navSub[]" value="{{ $itemThree['id'] }}">
+                                                                            </div>
+                                                                            @if (sizeof($itemThree[Config::get('constants.typeCheck.manageNav.navNested.type')]) > 0)
+                                                                                <div class="navNestedInner allNavCommon">
+                                                                                    @foreach ($itemThree[Config::get('constants.typeCheck.manageNav.navNested.type')] as $itemFour)
+                                                                                        <div class="navNestedList navListCommon">
+                                                                                            <div class="navNestedHeading commonNavHeading">
+                                                                                                <div class="navHeadingTop">
+                                                                                                    <i class="bx bx-cable-car"></i>
+                                                                                                </div>
+                                                                                                <div class="navHeadingBottom">
+                                                                                                    <span>{{ $itemFour['name'] }}</span>
+                                                                                                    <span>{{ $itemFour['uniqueId'] }}</span>
+                                                                                                </div>
+                                                                                                <input type="hidden" name="navNested[]" value="{{ $itemFour['id'] }}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    @endforeach
+                                                                                </div>
+                                                                            @else
+                                                                            @endif
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
+                                                            @else
+                                                            @endif
                                                         </div>
                                                     @endforeach
                                                 </div>

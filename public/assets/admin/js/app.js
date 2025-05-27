@@ -3,42 +3,7 @@
     let finalUrl = baseUrl.substring(0, baseUrl.indexOf("admin"))
 
     var d = document.querySelector(".navbar-menu").innerHTML,
-        M = 7,
-        t = "en",
-        a = localStorage.getItem("language");
-
-    function o() {
-        n(null === a ? t : a);
-        var e = document.getElementsByClassName("language");
-        e && Array.from(e).forEach(function (t) {
-            t.addEventListener("click", function (e) {
-                n(t.getAttribute("data-lang"))
-            })
-        })
-    }
-
-    function n(e) {
-        document.getElementById("header-lang-img") &&
-            ("en" == e ?
-                document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/us.svg" : "sp" == e ?
-                document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/spain.svg" : "gr" == e ?
-                document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/germany.svg" : "it" == e ?
-                document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/italy.svg" : "ru" == e ?
-                document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/russia.svg" : "ch" == e ?
-                document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/china.svg" : "fr" == e ?
-                document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/french.svg" : "ar" == e &&
-                (document.getElementById("header-lang-img").src = finalUrl + "assets/media/admin/images/flags/ae.svg"),
-                localStorage.setItem("language", e), null == (a = localStorage.getItem("language")) &&
-                n(t), (e = new XMLHttpRequest).open("GET", "assets/lang/" + a + ".json"), e.onreadystatechange = function () {
-                    var a;
-                    4 === this.readyState && 200 === this.status && (a = JSON.parse(this.responseText), Object.keys(a).forEach(function (t) {
-                        var e = document.querySelectorAll("[data-key='" + t + "']");
-                        Array.from(e).forEach(function (e) {
-                            e.textContent = a[t]
-                        })
-                    }))
-                }, e.send())
-    }
+        M = 7;
 
     function s() {
         var e;
@@ -606,7 +571,7 @@
         e.addEventListener("click", function (e) {
             e.stopPropagation(), bootstrap.Tab.getInstance(e.target).show()
         })
-    }), o(), s(), p(), window.addEventListener("resize", function () {
+    }), s(), p(), window.addEventListener("resize", function () {
         q && clearTimeout(q), q = setTimeout(W, 2e3)
     })
 }();

@@ -1262,27 +1262,25 @@ class ManageNavAdminController extends Controller
     /*---- ( Arrange Nav ) ----*/
     public function showArrangeNav()
     {
-        try {
-            $navList = GetManageNavHelper::getNav([
-                'type' => ['all'],
+        // try {
+        $getNav = GetManageNavHelper::getNav([
+            [
+                'type' => [Config::get('constants.typeCheck.helperCommon.nav.sn')],
                 'otherDataPasses' => [
-                    'filterData' => [
-                        'status' => Config::get('constants.status')['active']
-                    ],
-                    'orderBy' => [
-                        'position' => 'asc'
-                    ]
+                    'filterData' => ['status' => Config::get('constants.status')['active']],
+                    'orderBy' => ['position' => 'asc']
                 ],
-            ]);
+            ]
+        ])[Config::get('constants.typeCheck.helperCommon.nav.sn')];
 
-            $data = [
-                'navList' => $navList['all'],
-            ];
+        $data = [
+            'navList' => $getNav,
+        ];
 
-            return view('admin.manage_panel.manage_nav.arrange_nav.arrange_nav_list', ['data' => $data]);
-        } catch (Exception $e) {
-            abort(500);
-        }
+        return view('admin.manage_panel.manage_nav.arrange_nav.arrange_nav_list', ['data' => $data]);
+        // } catch (Exception $e) {
+        //     abort(500);
+        // }
     }
 
     public function updateArrangeNav(Request $request)
