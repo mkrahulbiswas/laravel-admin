@@ -374,9 +374,16 @@ class ManageAccessAdminController extends Controller
                 ]
             ]);
 
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                    'otherDataPasses' => []
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+
             return Datatables::of($getNav)
                 ->addIndexColumn()
-                ->addColumn('permission', function ($data) {
+                ->addColumn('permission', function ($data) use ($getPrivilege) {
                     $permission = $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtNavPermission',
@@ -385,7 +392,8 @@ class ManageAccessAdminController extends Controller
                                 'permission' => [
                                     'model' => Permission::class,
                                     'roleMainId' => request()->roleMainId
-                                ]
+                                ],
+                                'getPrivilege' => $getPrivilege
                             ]
                         ]
                     ])['dtNavPermission']['custom'];
@@ -791,9 +799,16 @@ class ManageAccessAdminController extends Controller
                 ]
             ]);
 
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                    'otherDataPasses' => []
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+
             return Datatables::of($getNav)
                 ->addIndexColumn()
-                ->addColumn('permission', function ($data) {
+                ->addColumn('permission', function ($data) use ($getPrivilege) {
                     $permission = $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtNavPermission',
@@ -803,7 +818,8 @@ class ManageAccessAdminController extends Controller
                                     'model' => Permission::class,
                                     'roleMainId' => encrypt(RoleSub::where('id', decrypt(request()->roleSubId))->first()->roleMainId),
                                     'roleSubId' => request()->roleSubId
-                                ]
+                                ],
+                                'getPrivilege' => $getPrivilege
                             ]
                         ]
                     ])['dtNavPermission']['custom'];

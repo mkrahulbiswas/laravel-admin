@@ -352,12 +352,35 @@
                                 }
 
                                 .npHead {
+                                    display: flex;
+                                    flex-direction: row;
+                                    justify-content: space-between;
+                                    margin-bottom: 15px;
+
                                     .nphLeft {
                                         span {}
                                     }
 
                                     .nphRight {
-                                        span {}
+                                        display: flex;
+                                        flex-direction: column;
+
+                                        .nphrTop {}
+
+                                        .nphrBottom {
+                                            display: flex;
+                                            flex-direction: row;
+
+                                            span {
+                                                border-top-right-radius: 0;
+                                                border-bottom-right-radius: 0;
+                                            }
+
+                                            button {
+                                                border-top-left-radius: 0;
+                                                border-bottom-left-radius: 0;
+                                            }
+                                        }
                                     }
                                 }
 

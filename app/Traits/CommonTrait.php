@@ -251,6 +251,7 @@ trait CommonTrait
 
                 if ($tempOne['type'] == 'dtNavPermission') {
                     $navHtml = '';
+
                     foreach ($tempOne['data'] as $tempTwo) {
                         if ($tempTwo['extraData']['hasNavMain'] <= 0) {
                             $navHtml .= '<div class="npbType"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempTwo['name'] . '</span></div><div class="npbhRight">Nav Type (No Nav Main Found)</div></div></div>';
@@ -394,23 +395,23 @@ trait CommonTrait
                                     <span>Click for set permission</span>
                                 </div>
                                 <div class="npHead">
-                                    <div class="nphLeft">
-                                        <span>Set Permission</span>
-                                    </div>
+                                    <div class="nphLeft"></div>
                                     <div class="nphRight">
-                                        <button>Update</button>
+                                        <div class="nphrTop"></div>
+                                        <div class="nphrBottom">
+                                            <span class="btn btn-warning" id="permissionCheckAll" data-type="none">Check all</span>
+                                            <button class="btn btn-success">Update</button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="npBody">' . $navHtml . '</div>
                                 <div class="npFoot">
                                     <div class="npfLeft"></div>
-                                    <div class="npfRight">
-                                        <button>Update</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>';
+                                    <div class="npfRight mt-3 text-end">';
+                    if ($tempOne['otherDataPasses']['getPrivilege']['update']['permission'] == true) {
+                        $html .= '<button class="btn btn-success">Update</button>';
+                    }
+                    $html .= '</div></div></div></div></div>';
 
                     $return['dtNavPermission'] = [
                         'custom' => $html,

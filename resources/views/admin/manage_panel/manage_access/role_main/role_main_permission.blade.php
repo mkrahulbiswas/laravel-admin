@@ -128,35 +128,11 @@
                         <div class="col-md-12 tdContentMain">
                             <div class="tdContentSub">
                                 <form action="{{ route('admin.update.permissionRoleMain') }}" method="POST" id="updatePermissionRoleMainForm">
-                                    <div class="col-md-12 p-r-0" style="display: flex; flex-direction: row; justify-content: flex-end;">
-                                        <div class="PermiAll">
-                                            <label style="padding: 1px 20px; font-size: 20px; font-weight: bold;">Permission all </label>
-                                            <input type="checkbox" id="CheckAll" checked name="CheckAll" value="0" />
-                                        </div>
-                                        <div class="form-group text-right m-b-0 m-l-10" style="align-self: center;">
-                                            <button type="submit" id="updatePermissionBtnTop" class="btn btn-success waves-effect waves-light" type="submit"><i class="ti-save"></i> <span>Update</span></button>
-                                        </div>
-                                    </div>
-
                                     @csrf
                                     <input type="hidden" name="roleMainId" value="{{ $data['roleMainId'] }}">
-                                    <table id="managePanel-manageAccess-permissionRoleMain" data-id="{{ $data['roleMainId'] }}" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Nav Type Name</th>
-                                            </tr>
-                                        </thead>
+                                    <table id="managePanel-manageAccess-permissionRoleMain" data-id="{{ $data['roleMainId'] }}" class="table table-bordered dt-responsive nowrap align-middle" cellspacing="0" width="100%">
                                         <tbody></tbody>
                                     </table>
-                                    <br>
-                                    <div class="form-group text-right m-b-0">
-                                        @if ($permission['update']['permission'] == true)
-                                            <button type="submit" id="updatePermissionRoleMainBtn" class="btn btn-success waves-effect waves-light" type="submit">
-                                                <i class="ti-save"></i>
-                                                <span>Update</span>
-                                            </button>
-                                        @endif
-                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -165,4 +141,10 @@
             </div>
         </div>
     </div>
+
+    <style>
+        #managePanel-manageAccess-permissionRoleMain thead {
+            display: none;
+        }
+    </style>
 @endsection
