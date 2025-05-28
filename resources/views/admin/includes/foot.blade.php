@@ -102,6 +102,7 @@
 
     <!-- ( bootstrap ) -->
     <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/plugins/bootstrap/new/js/bootstrap.bundle.min.js') }}"></script> --}}
 
     <!-- ( Jquery CDN ) -->
     <script src="{{ asset('assets/plugins/jquery/js/jquery.min.js') }}"></script>

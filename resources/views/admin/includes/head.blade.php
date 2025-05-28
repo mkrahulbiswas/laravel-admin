@@ -73,7 +73,8 @@
     <script src="{{ asset('assets/admin/js/layout.js') }}"></script>
 
     <!-- Bootstrap Css -->
-    <link href="{{ asset('assets/admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    {{-- <link href="{{ asset('assets/plugins/bootstrap/new/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" /> --}}
 
     <!-- Icons Css -->
     <link href="{{ asset('assets/admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />

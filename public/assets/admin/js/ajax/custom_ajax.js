@@ -141,7 +141,9 @@
                                 })
                             }
                         });
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {}
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+                    }
                 })
             }
         }
@@ -1906,10 +1908,10 @@
         });
 
 
-        //---- ( Main Menu, Sub Menu Orders Update ) ----//
-        $("#updateArrangeOrderForm").submit(function (event) {
+        //---- ( Arrange Nav Update ) ----//
+        $("#updateArrangeNavForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updateArrangeOrderBtn');
+            submitBtn = $(this).find('#updateArrangeNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -1921,18 +1923,51 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    loader(1);
-                    submitBtn.attr("disabled", "disabled").find('span').text('Please wait...');
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        // loader: {
+                        //     isSet: true
+                        // },
+                        resetValidation: {},
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Please wait...',
+                        //         disabled: true
+                        //     }
+                        // }
+                    })
                 },
                 success: function (msg) {
-                    loader(0);
-                    submitBtn.attr("disabled", false).find('span').text('Update');
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        // loader: {
+                        //     isSet: false
+                        // },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Update',
+                        //         disabled: false
+                        //     }
+                        // }
+                    })
 
                     if (msg.status == 0) {
-                        toaster(msg.title, msg.msg, msg.type);
+
                     } else {
-                        toaster(msg.title, msg.msg, msg.type);
-                        // console.log(msg.msg);
+                        window.location.reload();
                     }
                 },
                 error: function (xhr, textStatus, error) {

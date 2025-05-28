@@ -1262,65 +1262,84 @@ class ManageNavAdminController extends Controller
     /*---- ( Arrange Nav ) ----*/
     public function showArrangeNav()
     {
-        // try {
-        $getNav = GetManageNavHelper::getNav([
-            [
-                'type' => [Config::get('constants.typeCheck.helperCommon.nav.sn')],
-                'otherDataPasses' => [
-                    'filterData' => ['status' => Config::get('constants.status')['active']],
-                    'orderBy' => ['position' => 'asc']
-                ],
-            ]
-        ])[Config::get('constants.typeCheck.helperCommon.nav.sn')];
+        try {
+            $getNav = GetManageNavHelper::getNav([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.nav.sn')],
+                    'otherDataPasses' => [
+                        'filterData' => ['status' => Config::get('constants.status')['active']],
+                        'orderBy' => ['position' => 'asc']
+                    ],
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.nav.sn')];
 
-        $data = [
-            'navList' => $getNav,
-        ];
+            $data = [
+                'navList' => $getNav,
+            ];
 
-        return view('admin.manage_panel.manage_nav.arrange_nav.arrange_nav_list', ['data' => $data]);
-        // } catch (Exception $e) {
-        //     abort(500);
-        // }
+            return view('admin.manage_panel.manage_nav.arrange_nav.arrange_nav_list', ['data' => $data]);
+        } catch (Exception $e) {
+            abort(500);
+        }
     }
 
     public function updateArrangeNav(Request $request)
     {
-        $values = $request->only('id', 'name', 'icon', 'navType', 'navMain', 'navSub', 'description');
+        DB::beginTransaction();
+        $values = $request->only('navType', 'navMain', 'navSub', 'navNested');
 
         try {
-            $id = decrypt($values['id']);
-        } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Nav Nested", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
-        }
-
-        try {
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'updateNavNested',
-                'id' => $id,
-                'platform' => $this->platform
-            ]);
-            if ($validator->fails()) {
-                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
-            } else {
-                $navNested = NavNested::find($id);
-
-                $navNested->name = $values['name'];
-                $navNested->icon = $values['icon'];
-                $navNested->navTypeId = decrypt($values['navType']);
-                $navNested->navMainId = decrypt($values['navMain']);
-                $navNested->navSubId = decrypt($values['navSub']);
-                $navNested->description = ($values['description'] == '') ? 'NA' : $values['description'];;
-                $navNested->route = strtolower(str_replace(" ", "-", NavMain::where('id', decrypt($values['navMain']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", NavSub::where('id', decrypt($values['navSub']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
-                $navNested->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
-
-                if ($navNested->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Nested", 'msg' => __('messages.updateMsg', ['type' => 'Nav nested'])['success']], config('constants.ok'));
+            foreach ($values['navType'] as $key => $temp) {
+                if (NavType::where('id', $temp)->update([
+                    'position' => ($key + 1)
+                ])) {
+                    $response = true;
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Nested", 'msg' => __('messages.updateMsg', ['type' => 'Nav nested'])['failed']], config('constants.ok'));
+                    $response = false;
+                    goto next;
                 }
             }
+            foreach ($values['navMain'] as $key => $temp) {
+                if (NavMain::where('id', $temp)->update([
+                    'position' => ($key + 1)
+                ])) {
+                    $response = true;
+                } else {
+                    $response = false;
+                    goto next;
+                }
+            }
+            foreach ($values['navSub'] as $key => $temp) {
+                if (NavSub::where('id', $temp)->update([
+                    'position' => ($key + 1)
+                ])) {
+                    $response = true;
+                } else {
+                    $response = false;
+                    goto next;
+                }
+            }
+            foreach ($values['navNested'] as $key => $temp) {
+                if (NavNested::where('id', $temp)->update([
+                    'position' => ($key + 1)
+                ])) {
+                    $response = true;
+                } else {
+                    $response = false;
+                    goto next;
+                }
+            }
+
+            next:
+            if ($response == true) {
+                DB::commit();
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Nested", 'msg' => __('messages.updateMsg', ['type' => 'Nav nested'])['success']], config('constants.ok'));
+            } else {
+                DB::roleBack();
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Nested", 'msg' => __('messages.updateMsg', ['type' => 'Nav nested'])['failed']], config('constants.ok'));
+            }
         } catch (Exception $e) {
+            DB::roleBack();
             return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Nested", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
     }

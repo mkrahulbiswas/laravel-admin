@@ -29,7 +29,7 @@
     color: black;
     background-color: #f3d0f2;
     padding: 0 5px;
-    border-radius: 5px;
+    border-radius: var(--border-radios);
     cursor: pointer;
     transition: 0.3s ease-in-out;
 
@@ -45,27 +45,6 @@
     margin-bottom: .2rem;
 }
 
-.modal-dialog .modal-content {
-    border-color: black;
-    box-shadow: 0px 11px 21px -5px #424242;
-}
-
-.modal-dialog .modal-content .modal-header {
-    background-color: #c8fcff;
-}
-
-.modal-dialog .modal-content .modal-header .btn-outline-danger {
-    border-radius: 100%;
-}
-
-.modal-dialog .modal-content .modal-body {
-    background-color: #ececec;
-}
-
-.modal-dialog .modal-content .modal-footer {
-    background-color: #ffd1fc;
-}
-
 
 .menuTitle {
     width: 100%;
@@ -75,13 +54,89 @@
     width: 100%;
 }
 
+:root {
+    --border-radios: 0.25rem;
+    --vz-nav-orderable-type-bg: rgb(252, 215, 168);
+    --vz-nav-orderable-type-br: rgb(134, 93, 39);
+    --vz-nav-orderable-main-bg: rgb(192, 252, 168);
+    --vz-nav-orderable-main-br: rgb(56, 107, 35);
+    --vz-nav-orderable-sub-bg: rgb(168, 252, 252);
+    --vz-nav-orderable-sub-br: rgb(33, 110, 110);
+    --vz-nav-orderable-nested-bg: rgb(225, 206, 255);
+    --vz-nav-orderable-nested-br: rgb(61, 33, 105);
+    --vz-nav-orderable-allNav-bs: #00000094;
+    --vz-nav-orderable-allNav-bg: #ffffff7d;
+    --vz-td-contentSub-bg: #f9f9f9;
+    --vz-td-filterSub-bs: #bfbfbf;
+    --vz-modal-header-bg: #c8fcff;
+    --vz-modal-body-bg: #ececec;
+    --vz-modal-footer-bg: #ffd1fc;
+    --vz-modal-content-bs: #424242;
+    --vz-info-detail-bg: rgb(240, 240, 240);
+    --vz-info-accessSet-bg: #eeeeee;
+    --vz-td-action-bg-1: #dde7f8;
+    --vz-td-action-bg-2: #defbff;
+    --vz-td-inner-hover-bg: #d3ec76;
+    --vz-select2-bg: #fff;
+    --vz-select2-br: #aaa;
+}
 
+[data-bs-theme=dark] {
+    --vz-nav-orderable-type-bg: #32373a;
+    --vz-nav-orderable-type-br: rgb(134, 93, 39);
+    --vz-nav-orderable-main-bg: #2b3034;
+    --vz-nav-orderable-main-br: rgb(56, 107, 35);
+    --vz-nav-orderable-sub-bg: #222528;
+    --vz-nav-orderable-sub-br: rgb(33, 110, 110);
+    --vz-nav-orderable-nested-bg: #1a1d21;
+    --vz-nav-orderable-nested-br: rgb(61, 33, 105);
+    --vz-nav-orderable-allNav-bs: #000000cf;
+    --vz-nav-orderable-allNav-bg: #1c1b1cb0;
+    --vz-td-contentSub-bg: #1b1c20;
+    --vz-td-filterSub-bs: #15161a;
+    --vz-modal-header-bg: #2b2d32;
+    --vz-modal-body-bg: #191a1c;
+    --vz-modal-footer-bg: #2b2d32;
+    --vz-modal-content-bs: #000000;
+    --vz-info-detail-bg: #2c2d30;
+    --vz-info-accessSet-bg: #1d1d20;
+    --vz-td-action-bg-1: #2b2f36;
+    --vz-td-action-bg-2: #26282c;
+    --vz-td-inner-hover-bg: #1f1f20;
+    --vz-select2-bg: #262a2f;
+    --vz-select2-br: #131314;
+}
 
 
 
 
 
 #container-fluid-inside {
+    .modal-dialog {
+        .modal-content {
+            border-color: black;
+            box-shadow: 0px 11px 21px -5px var(--vz-modal-content-bs);
+
+            .modal-header {
+                background-color: var(--vz-modal-header-bg);
+            }
+
+            .modal-header {
+                .btn-outline-danger {
+                    border-radius: 100%;
+                }
+            }
+
+            .modal-body {
+                background-color: var(--vz-modal-body-bg);
+            }
+
+            .modal-footer {
+                background-color: var(--vz-modal-footer-bg);
+            }
+        }
+    }
+
     .main-page-content {
         .card-body {
             position: relative;
@@ -90,16 +145,16 @@
                 display: none;
 
                 .tdFilterSub {
-                    box-shadow: 0 5px 10px #bfbfbf;
-                    padding: 10px;
-                    border-radius: 5px;
+                    box-shadow: inset 0 0px 10px var(--vz-td-filterSub-bs);
+                    padding: 15px;
+                    border-radius: var(--border-radios);
 
                     .row {}
                 }
             }
 
             .tdFilterForm {
-                border-radius: 5px;
+                border-radius: var(--border-radios);
                 background-color: #00000036;
             }
 
@@ -114,14 +169,14 @@
 
             .tdContentMain {
                 .tdContentSub {
-                    background-color: #f9f9f9;
+                    background-color: var(--vz-td-contentSub-bg);
                     padding: 10px 0;
-                    border-radius: 5px;
+                    border-radius: var(--border-radios);
 
                     .tdAction {
                         padding: 5px;
-                        background-image: linear-gradient(0deg, #defbff 0%, #dde7f8 100%);
-                        border-radius: 0.25rem;
+                        background-image: linear-gradient(0deg, var(--vz-td-action-bg-2) 0%, var(--vz-td-action-bg-1) 100%);
+                        border-radius: var(--border-radios);
                         max-width: max-content;
                         position: relative;
                         transition: 0.30s ease-in-out;
@@ -192,7 +247,7 @@
                             width: 100%;
                             height: auto;
                             z-index: 4;
-                            background-color: #defbff;
+                            background-color: var(--vz-td-action-bg-2);
                             transition: 0.30s ease-in-out;
                             pointer-events: none;
                             display: flex;
@@ -208,13 +263,13 @@
                                     flex-direction: row;
                                     padding: 5px;
                                     transition: 0.30s ease-in-out;
-                                    border-radius: 0.25rem;
+                                    border-radius: var(--border-radios);
                                     text-align: left;
                                     gap: 8px;
 
                                     &:hover {
                                         cursor: pointer;
-                                        background-color: #d3ec76;
+                                        background-color: var(--vz-td-inner-hover-bg);
                                     }
 
                                     i {
@@ -271,7 +326,7 @@
                         .navPermissionSub {
                             .npRoleMain {
                                 position: relative;
-                                border-radius: 5px;
+                                border-radius: var(--border-radios);
                                 overflow: hidden;
 
                                 .npGo {
@@ -315,33 +370,37 @@
                                         display: flex;
                                         flex-direction: column;
                                         gap: 10px;
-                                        background-color: rgb(247, 208, 208);
+                                        background-color: var(--vz-nav-orderable-type-bg);
+                                        // border: 2px solid var(--vz-nav-orderable-type-br);
                                         padding: 10px;
-                                        border-radius: 5px;
+                                        border-radius: var(--border-radios);
 
                                         .npbMain {
                                             display: flex;
                                             flex-direction: column;
                                             gap: 10px;
-                                            background-color: rgb(234, 252, 207);
+                                            background-color: var(--vz-nav-orderable-main-bg);
+                                            // border: 2px solid var(--vz-nav-orderable-main-br);
                                             padding: 10px;
-                                            border-radius: 5px;
+                                            border-radius: var(--border-radios);
 
                                             .npbSub {
                                                 display: flex;
                                                 flex-direction: column;
                                                 gap: 10px;
-                                                background-color: rgb(240, 224, 255);
+                                                background-color: var(--vz-nav-orderable-sub-bg);
+                                                // border: 2px solid var(--vz-nav-orderable-sub-br);
                                                 padding: 10px;
-                                                border-radius: 5px;
+                                                border-radius: var(--border-radios);
 
                                                 .npbNested {
                                                     display: flex;
                                                     flex-direction: column;
                                                     gap: 10px;
-                                                    background-color: rgb(219, 219, 219);
+                                                    background-color: var(--vz-nav-orderable-nested-bg);
+                                                    // border: 2px solid var(--vz-nav-orderable-nested-br);
                                                     padding: 10px;
-                                                    border-radius: 5px;
+                                                    border-radius: var(--border-radios);
                                                 }
                                             }
                                         }
@@ -362,7 +421,7 @@
 
                                                 .npbCheckNoAccess {
                                                     padding: 8px;
-                                                    border-radius: 5px;
+                                                    border-radius: var(--border-radios);
                                                     background-color: rgb(116, 220, 238);
 
                                                     span {}
@@ -373,7 +432,7 @@
                                                     flex-direction: column;
                                                     gap: 10px;
                                                     padding: 8px;
-                                                    border-radius: 5px;
+                                                    border-radius: var(--border-radios);
                                                     background-color: rgb(223, 223, 223);
                                                     box-shadow: 0 0 5px #acacac;
                                                     max-width: 95px;
@@ -417,88 +476,95 @@
                 }
             }
 
-            .navOrderableMain {
-                .navOrderableSub {
-                    .navTypeInner {
-                        flex-direction: row;
+            .navOrderable {
+                .no_listMain {
 
-                        .navTypeList {
-                            background-color: rgb(252, 215, 168);
-                            border: 2px solid rgb(134, 93, 39);
+                    .no_listSub {
+                        .navTypeInner {
+                            flex-direction: row;
+                            flex-wrap: wrap;
 
-                            .navTypeHeading {
-                                .navHeadingTop {
-                                    i {}
-                                }
+                            .navTypeList {
+                                background-color: var(--vz-nav-orderable-type-bg);
+                                border: 2px solid var(--vz-nav-orderable-type-br);
 
-                                .navHeadingBottom {
-                                    span {
-                                        &:first-child {}
+                                .navTypeHeading {
+                                    .navHeadingTop {
+                                        i {}
+                                    }
 
-                                        &:last-child {}
+                                    .navHeadingBottom {
+                                        span {
+                                            &:first-child {}
+
+                                            &:last-child {}
+                                        }
                                     }
                                 }
-                            }
 
-                            .navMainInner {
-                                flex-direction: row;
+                                .navMainInner {
+                                    flex-direction: row;
+                                    flex-wrap: wrap;
 
-                                .navMainList {
-                                    background-color: rgb(192, 252, 168);
-                                    border: 2px solid rgb(56, 107, 35);
+                                    .navMainList {
+                                        background-color: var(--vz-nav-orderable-main-bg);
+                                        border: 2px solid var(--vz-nav-orderable-main-br);
 
-                                    .navMainHeading {
-                                        .navHeadingTop {
-                                            i {}
-                                        }
+                                        .navMainHeading {
+                                            .navHeadingTop {
+                                                i {}
+                                            }
 
-                                        .navHeadingBottom {
-                                            span {
-                                                &:first-child {}
+                                            .navHeadingBottom {
+                                                span {
+                                                    &:first-child {}
 
-                                                &:last-child {}
+                                                    &:last-child {}
+                                                }
                                             }
                                         }
-                                    }
 
-                                    .navSubInner {
-                                        flex-direction: row;
+                                        .navSubInner {
+                                            flex-direction: row;
+                                            flex-wrap: wrap;
 
-                                        .navSubList {
-                                            background-color: rgb(168, 252, 252);
-                                            border: 2px solid rgb(33, 110, 110);
+                                            .navSubList {
+                                                background-color: var(--vz-nav-orderable-sub-bg);
+                                                border: 2px solid var(--vz-nav-orderable-sub-br);
 
-                                            .navSubHeading {
-                                                .navHeadingTop {
-                                                    i {}
-                                                }
+                                                .navSubHeading {
+                                                    .navHeadingTop {
+                                                        i {}
+                                                    }
 
-                                                .navHeadingBottom {
-                                                    span {
-                                                        &:first-child {}
+                                                    .navHeadingBottom {
+                                                        span {
+                                                            &:first-child {}
 
-                                                        &:last-child {}
+                                                            &:last-child {}
+                                                        }
                                                     }
                                                 }
-                                            }
 
-                                            .navNestedInner {
-                                                flex-direction: row;
+                                                .navNestedInner {
+                                                    flex-direction: row;
+                                                    flex-wrap: wrap;
 
-                                                .navNestedList {
-                                                    background-color: rgb(225, 206, 255);
-                                                    border: 2px solid rgb(61, 33, 105);
+                                                    .navNestedList {
+                                                        background-color: var(--vz-nav-orderable-nested-bg);
+                                                        border: 2px solid var(--vz-nav-orderable-nested-br);
 
-                                                    .navNestedHeading {
-                                                        .navHeadingTop {
-                                                            i {}
-                                                        }
+                                                        .navNestedHeading {
+                                                            .navHeadingTop {
+                                                                i {}
+                                                            }
 
-                                                        .navHeadingBottom {
-                                                            span {
-                                                                &:first-child {}
+                                                            .navHeadingBottom {
+                                                                span {
+                                                                    &:first-child {}
 
-                                                                &:last-child {}
+                                                                    &:last-child {}
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -507,69 +573,124 @@
                                         }
                                     }
                                 }
-                            }
 
-                            .commonNavHeading {
-                                display: flex;
-                                flex-direction: row;
-                                gap: 10px;
-                                // background-color: rgba(255, 0, 0, 0.233);
-                                margin-bottom: 10px;
-                                border-radius: 5px;
-                                padding: 5px;
-
-                                &:last-child {
-                                    margin: 0;
-                                }
-
-                                .navHeadingTop {
-                                    align-self: center;
-
-                                    i {
-                                        font-size: 20px;
-                                    }
-                                }
-
-                                .navHeadingBottom {
+                                .commonNavHeading {
                                     display: flex;
-                                    flex-direction: column;
-                                    gap: 3px;
+                                    flex-direction: row;
+                                    gap: 10px;
+                                    margin-bottom: 10px;
+                                    border-radius: var(--border-radios);
+                                    padding: 5px;
 
-                                    span {
-                                        display: block;
+                                    &:last-child {
+                                        margin: 0;
+                                    }
 
-                                        &:first-child {
-                                            font-weight: bold;
+                                    .navHeadingTop {
+                                        align-self: center;
+
+                                        i {
+                                            font-size: 20px;
                                         }
+                                    }
 
-                                        &:last-child {
-                                            font-size: 12px;
+                                    .navHeadingBottom {
+                                        display: flex;
+                                        flex-direction: column;
+                                        gap: 3px;
+
+                                        span {
+                                            display: block;
+
+                                            &:first-child {
+                                                font-weight: bold;
+                                            }
+
+                                            &:last-child {
+                                                font-size: 12px;
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                    }
 
-                    .allNavCommon {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 10px;
-                        padding: 10px;
-                        border-radius: 5px;
-                        box-shadow: inset 0 0 10px #00000094;
-                        margin: 0 15px 15px 15px;
-                        background-color: #ffffff7d;
+                        .allNavCommon {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 10px;
+                            padding: 10px;
+                            border-radius: var(--border-radios);
+                            margin: 0 15px 15px 15px;
+                            box-shadow: inset 0 0 10px var(--vz-nav-orderable-allNav-bs);
+                            background-color: var(--vz-nav-orderable-allNav-bg);
 
-                        &:first-child {
-                            box-shadow: 0 0 10px #00000094;
-                            margin: 0;
-                            background-color: transparent;
+                            &:first-child {
+                                box-shadow: none;
+                                margin: 0;
+                                padding: 0;
+                                background-color: transparent;
+                            }
+                        }
+
+                        .navListCommon {
+                            border-radius: var(--border-radios);
                         }
                     }
+                }
 
-                    .navListCommon {
-                        border-radius: 5px;
+                .no_noteMain {
+                    .no_noteSub {
+                        border-radius: var(--border-radios);
+
+                        .no_noteHeading {}
+
+                        .no_noteBody {
+                            .no_noteCommon {
+                                padding: 8px;
+                                border-radius: var(--border-radios);
+
+                                .no_noteText {
+                                    display: flex;
+
+                                    .no_colorType {
+                                        width: 15px;
+                                        height: 15px;
+                                        margin: 2px 5px 0 5px;
+                                        display: block;
+                                        background-color: var(--vz-nav-orderable-type-bg);
+                                        border: 2px solid var(--vz-nav-orderable-type-br);
+                                    }
+
+                                    .no_colorMain {
+                                        width: 15px;
+                                        height: 15px;
+                                        margin: 2px 5px 0 5px;
+                                        display: block;
+                                        background-color: var(--vz-nav-orderable-main-bg);
+                                        border: 2px solid var(--vz-nav-orderable-main-br);
+                                    }
+
+                                    .no_colorSub {
+                                        width: 15px;
+                                        height: 15px;
+                                        margin: 2px 5px 0 5px;
+                                        display: block;
+                                        background-color: var(--vz-nav-orderable-sub-bg);
+                                        border: 2px solid var(--vz-nav-orderable-sub-br);
+                                    }
+
+                                    .no_colorNested {
+                                        width: 15px;
+                                        height: 15px;
+                                        margin: 2px 5px 0 5px;
+                                        display: block;
+                                        background-color: var(--vz-nav-orderable-nested-bg);
+                                        border: 2px solid var(--vz-nav-orderable-nested-br);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -578,9 +699,9 @@
 
     .info-page-data {
         .each-detail-box {
-            background-color: white;
+            background-color: var(--vz-info-detail-bg);
             padding: 10px;
-            border-radius: 5px;
+            border-radius: var(--border-radios);
 
             .details-label {
                 font-size: 15px;
@@ -595,9 +716,9 @@
 
                 .accessSet {
                     padding: 5px;
-                    background-color: #eeeeee;
+                    background-color: var(--vz-info-accessSet-bg);
                     max-width: fit-content;
-                    border-radius: 5px;
+                    border-radius: var(--border-radios);
                     text-transform: capitalize;
                 }
             }
@@ -611,6 +732,26 @@
                 user-select: none;
             }
         }
+    }
+
+    .select2-container--default .select2-selection--single {
+        background-color: var(--vz-select2-bg);
+        border: 1px solid var(--vz-select2-br);
+    }
+
+    .select2-dropdown {
+        background-color: var(--vz-select2-bg) !important;
+        border: 1px solid var(--vz-select2-br) !important;
+    }
+
+    .dropify-wrapper {
+        background-color: var(--vz-select2-bg);
+        border: 2px solid var(--vz-select2-br);
+    }
+
+    .note-toolbar {
+        background-color: var(--vz-select2-bg);
+        border-color: var(--vz-select2-br);
     }
 }
 
