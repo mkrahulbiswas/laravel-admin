@@ -3,13 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\CmsAdminController;
-use App\Http\Controllers\Admin\Dashboard\DashboardAdminController;
 use App\Http\Controllers\Admin\DDDAdminController;
-use App\Http\Controllers\Admin\ManagePanel\ManageAccessAdminController;
 use App\Http\Controllers\Admin\SettingAdminController;
-use App\Http\Middleware\CheckPermission;
+use App\Http\Controllers\Admin\Dashboard\DashboardAdminController;
+use App\Http\Controllers\Admin\ManagePanel\ManageAccessAdminController;
 use App\Http\Controllers\Admin\ManagePanel\ManageNavAdminController;
+use App\Http\Controllers\Admin\ManagePanel\QuickSettingsAdminController;
 use App\Http\Controllers\Admin\ManageUsers\AdminUsersAdminController;
+use App\Http\Middleware\CheckPermission;
 
 Route::controller(AuthAdminController::class)->group(function () {
     Route::get('/', 'showLogin')->name('show.login');
@@ -36,6 +37,15 @@ Route::controller(AuthAdminController::class)->group(function () {
 
         /*======== (-- Admin Related --) ========*/
         Route::group(['prefix' => 'manage-panel'], function () {
+            Route::controller(QuickSettingsAdminController::class)->prefix('quick-settings')->group(function () {
+                Route::get('logo', 'showLogo')->name('admin.show.logo');
+                Route::get('logo/ajaxGetList', 'getLogo')->name('admin.get.logo');
+                Route::post('logo/add/save', 'saveLogo')->name('admin.save.logo');
+                Route::post('logo/edit/update', 'updateLogo')->name('admin.update.logo');
+                Route::patch('logo/status/{id?}', 'statusLogo')->name('admin.status.logo');
+                Route::delete('logo/delete/{id?}', 'deleteLogo')->name('admin.delete.logo');
+            });
+
             Route::controller(ManageAccessAdminController::class)->prefix('mange-access')->group(function () {
                 Route::get('role-main', 'showRoleMain')->name('admin.show.roleMain');
                 Route::get('role-main/ajaxGetList', 'getRoleMain')->name('admin.get.roleMain');

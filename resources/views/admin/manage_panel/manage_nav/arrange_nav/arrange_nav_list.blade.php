@@ -25,6 +25,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between">
                         <div class="mb-3 mb-sm-0">
                             <h5 class="card-title mb-0">Arrange your current nav order</h5>
+                            <span>Test</span>
                         </div>
                     </div>
                 </div>

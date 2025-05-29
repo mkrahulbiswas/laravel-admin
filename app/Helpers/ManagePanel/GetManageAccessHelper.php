@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Helpers\ManagePanel;
 
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;

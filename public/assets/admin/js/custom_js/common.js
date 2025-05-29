@@ -25,7 +25,7 @@ function initCallOnModalClose() {
         $(this).find('.selectPicker').selectpicker('val', '');
         // $(this).find('textarea').summernote('reset');
         $(this).find('.form-control, .select2-container--default .select2-selection--single').removeClass('valid-input invalid-input');
-        let ids = '#saveNavTypeForm, #updateNavTypeForm, #saveNavMainForm, #updateNavMainForm, #saveNavSubForm, #updateNavSubForm, #saveNavNestedForm, #updateNavNestedForm';
+        let ids = '#saveLogoForm, #updateLogoForm, #saveNavTypeForm, #updateNavTypeForm, #saveNavMainForm, #updateNavMainForm, #saveNavSubForm, #updateNavSubForm, #saveNavNestedForm, #updateNavNestedForm';
         $(ids).find(".validation-error").text('');
         $(this).find('.selectTwo').select2('reset');
     });

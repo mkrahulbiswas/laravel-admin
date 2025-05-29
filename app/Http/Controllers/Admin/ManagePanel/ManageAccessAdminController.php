@@ -13,8 +13,8 @@ use App\Models\ManagePanel\ManageAccess\RoleMain;
 use App\Models\ManagePanel\ManageAccess\RoleSub;
 use App\Models\ManagePanel\ManageAccess\Permission;
 
-use App\Helpers\GetManageNavHelper;
-use App\Helpers\GetManageAccessHelper;
+use App\Helpers\ManagePanel\GetManageAccessHelper;
+use App\Helpers\ManagePanel\GetManageNavHelper;
 
 use Exception;
 use Yajra\DataTables\DataTables;

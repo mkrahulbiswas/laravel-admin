@@ -71,7 +71,7 @@
     align-items: center;
     margin: 0 auto;
     height: 70px;
-    padding: 0 1.5rem 0 calc(1.5rem * .5)
+    padding: 0 0 0 calc(1.5rem * .5)
 }
 
 @media (max-width:767.98px) {
@@ -226,7 +226,7 @@
 }
 
 @media (min-width:768px) {
-    .topbar-user {
+    .topbar-user #page-header-user-dropdown {
         background-color: var(--vz-topbar-user-bg)
     }
 }

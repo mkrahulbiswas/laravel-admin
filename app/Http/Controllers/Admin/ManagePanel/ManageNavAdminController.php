@@ -15,8 +15,8 @@ use App\Models\ManagePanel\ManageNav\NavMain;
 use App\Models\ManagePanel\ManageNav\NavNested;
 use App\Models\ManagePanel\ManageAccess\Permission;
 
-use App\Helpers\GetManageNavHelper;
-use App\Helpers\GetManageAccessHelper;
+use App\Helpers\ManagePanel\GetManageAccessHelper;
+use App\Helpers\ManagePanel\GetManageNavHelper;
 
 use Exception;
 use Yajra\DataTables\DataTables;

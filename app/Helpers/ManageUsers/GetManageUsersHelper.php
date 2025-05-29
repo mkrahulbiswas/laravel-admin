@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Helpers\ManageUsers;
 
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 
 use App\Models\ManageUsers\AdminUsers;
 use App\Models\ManageUsers\UsersInfo;
+
+use App\Helpers\ManagePanel\GetManageAccessHelper;
 
 use Exception;
 use Illuminate\Support\Arr;

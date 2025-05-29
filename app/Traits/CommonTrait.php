@@ -2,7 +2,7 @@
 
 namespace app\Traits;
 
-use App\Helpers\GetManageAccessHelper;
+use App\Helpers\ManagePanel\GetManageAccessHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;

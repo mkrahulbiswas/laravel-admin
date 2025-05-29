@@ -2731,6 +2731,279 @@
                 })
             } else {}
         });
+
+
+        //---- ( Logo Save ) ----//
+        $("#saveLogoForm").submit(function (event) {
+
+            submitForm = $(this);
+            submitBtn = $(this).find('#saveLogoBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        // loader: {
+                        //     isSet: true
+                        // },
+                        resetValidation: {},
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Please wait...',
+                        //         disabled: true
+                        //     }
+                        // }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        // loader: {
+                        //     isSet: false
+                        // },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Save',
+                        //         disabled: false
+                        //     }
+                        // }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.name, function (i) {
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.roleMain, function (i) {
+                            submitForm.find("#roleMainErr").text(msg.errors.roleMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.description, function (i) {
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else if (msg.status == 1) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#managePanel-quickSettings-logo')
+                                }
+                            }
+                        })
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        //---- ( Logo Update ) ----//
+        $("#updateLogoForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#updateLogoBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        // loader: {
+                        //     isSet: true
+                        // },
+                        resetValidation: {},
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Please wait...',
+                        //         disabled: true
+                        //     }
+                        // }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        // loader: {
+                        //     isSet: false
+                        // },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Update',
+                        //         disabled: false
+                        //     }
+                        // }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.name, function (i) {
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.roleMain, function (i) {
+                            submitForm.find("#roleMainErr").text(msg.errors.roleMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.description, function (i) {
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#managePanel-quickSettings-logo')
+                                }
+                            }
+                        })
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        //---- ( Logo Status, Edit, Detail ) ----//
+        $('body').delegate('#managePanel-quickSettings-logo .actionDatatable', 'click', function () {
+            var type = $(this).attr('data-type'),
+                action = $(this).attr('data-action'),
+                targetTableId = $('#managePanel-quickSettings-logo'),
+                data = '';
+
+            if (type == 'status') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action the status wil change!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'delete') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'delete',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action data will be deleted permanently!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'edit') {
+                id = $('#con-edit-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                id.find('#id').val(data.id);
+                id.find('#name').val(data.name);
+                id.find('#description').val(data.description);
+                id.find("#roleMain option[data-name='" + data.roleMain.name + "']").prop("selected", true).trigger('change');
+            } else if (type == 'info') {
+                id = $('#con-info-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                id.find('#roleMain').text(data.roleMain.name);
+                id.find('#name').text(data.name);
+                id.find('#description').text(data.description);
+            } else if (type == 'setPermission') {
+                data = JSON.parse($(this).attr('data-array'));
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: "Are you sure to create permission set against of all side nav, of this particular role type '" + data.name + "'",
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else {}
+        });
         /*--========================= ( Manage Panel END ) =========================--*/
 
 

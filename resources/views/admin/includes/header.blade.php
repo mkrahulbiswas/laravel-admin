@@ -698,7 +698,7 @@
                         </div>
                     </div>
 
-                    <div class="dropdown ms-sm-3 header-item topbar-user">
+                    <div class="dropdown ms-sm-3 me-sm-3 header-item topbar-user">
                         <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="d-flex align-items-center">
                                 <img class="rounded-circle header-profile-user" src="{{ asset('assets/media/admin/images/users/avatar-1.jpg') }}" alt="Header Avatar">
