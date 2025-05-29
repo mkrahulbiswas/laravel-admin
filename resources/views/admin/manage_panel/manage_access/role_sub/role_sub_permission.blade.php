@@ -144,7 +144,7 @@
     </div>
 
     <style>
-        #managePanel-manageAccess-permissionRoleMain thead {
+        #managePanel-manageAccess-permissionRoleSub thead {
             display: none;
         }
     </style>
