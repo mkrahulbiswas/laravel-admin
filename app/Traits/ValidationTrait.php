@@ -248,13 +248,17 @@ trait ValidationTrait
             //------- Logo
             case 'saveLogo':
                 $rules = [
-                    'navType' => 'required',
+                    'bigLogo' => 'required|image|mimes:jpeg,jpg,png',
+                    'smallLogo' => 'required|image|mimes:jpeg,jpg,png',
+                    'favicon' => 'required|image|mimes:jpeg,jpg,png',
                 ];
                 break;
 
             case 'updateLogo':
                 $rules = [
-                    'navType' => 'required',
+                    'bigLogo' => 'image|mimes:jpeg,jpg,png',
+                    'smallLogo' => 'image|mimes:jpeg,jpg,png',
+                    'favicon' => 'image|mimes:jpeg,jpg,png',
                 ];
                 break;
             /*------ ( Manage Panel End ) ------*/

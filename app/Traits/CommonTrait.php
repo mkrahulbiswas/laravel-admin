@@ -3,12 +3,12 @@
 namespace app\Traits;
 
 use App\Helpers\ManagePanel\GetManageAccessHelper;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Exception;
 use DateTimeZone;
 use DateTime;
@@ -64,6 +64,43 @@ trait CommonTrait
         }
     }
 
+    public static function setDefault($params)
+    {
+        // try {
+        DB::beginTransaction();
+        if ($params['type'] == Config::get('constants.action.status.smsfa')) {
+            $field = ($params['targetField'] == null) ? 'default' : $params['targetField'][0];
+            $data = app($params['targetModel'])::where('id', $params['targetId'])->first();
+            app($params['targetModel'])::where($field, config('constants.status')['yes'])->update([$field => config('constants.status')['no']]);
+            if ($data->$field == config('constants.status')['no']) {
+                $data->$field = config('constants.status')['yes'];
+                if ($data->update()) {
+                    DB::commit();
+                    return true;
+                } else {
+                    DB::rollBack();
+                    return false;
+                }
+            } else {
+                $data->$field = config('constants.status')['no'];
+                if ($data->update()) {
+                    DB::commit();
+                    return true;
+                } else {
+                    DB::rollBack();
+                    return false;
+                }
+            }
+        } elseif ($params['type'] == Config::get('constants.action.status.smmf')) {
+        } elseif ($params['type'] == Config::get('constants.action.status.mmsf')) {
+        } else {
+        }
+        // } catch (Exception $e) {
+        //     DB::rollBack();
+        //     return false;
+        // }
+    }
+
     public static function deleteItem($params)
     {
         try {
@@ -95,12 +132,17 @@ trait CommonTrait
                         if (sizeof($picUrl) > 0) {
                             foreach ($picUrl as $tempThree) {
                                 $field = ($tempThree['field'] == '') ? 'image' : $tempThree['field'];
-                                $file = ($tempTwo[$field] == 'NA') ? 'NA' : $tempTwo[$field];
-                                if ($file != 'NA') {
-                                    if (unlink($tempThree['path'] . $file)) {
-                                        $response = true;
-                                    } else {
-                                        $response = false;
+                                $fileName = ($tempTwo[$field] == '' || $tempTwo[$field] == 'NA') ? 'NA' : $tempTwo[$field];
+                                if ($fileName != 'NA') {
+                                    foreach ($tempThree['storage']['for'] as $tempFour) {
+                                        if (Storage::disk($tempFour)->exists($tempThree['storage']['path'] . $fileName)) {
+                                            if (Storage::disk($tempFour)->delete($tempThree['storage']['path'] . $fileName)) {
+                                                $response = true;
+                                            } else {
+                                                $response = false;
+                                                goto resp;
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -109,12 +151,14 @@ trait CommonTrait
                             $response = true;
                         } else {
                             $response = false;
+                            goto resp;
                         }
                     }
                 } else {
                     $response = true;
                 }
             }
+            resp:
             if ($response == true) {
                 DB::commit();
                 return true;
@@ -124,49 +168,6 @@ trait CommonTrait
             }
         } catch (Exception $e) {
             DB::rollBack();
-            return false;
-        }
-    }
-
-    public static function changeDefault($id, $model, $field, $type)
-    {
-
-        try {
-            if ($type == config('constants.statusSingle')) {
-                $field = ($field == null) ? 'isDefault' : $field[0];
-                $data = app($model)::where('id', $id)->first();
-                if ($data->$field == '0') {
-                    $data->$field = '1';
-                    if ($data->update()) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    $data->$field = '0';
-                    if ($data->update()) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            } elseif ($type == config('constants.statusMultiple')) {
-            } else {
-                foreach ($field as $temp) {
-                    if (app($model)::where($temp, '1')->update([$temp => '0'])) {
-                        $responce = app($model)::where('id', $id)->update([$temp => '1']);
-                    } else {
-                        return false;
-                    }
-                }
-
-                if ($responce) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        } catch (Exception $e) {
             return false;
         }
     }
@@ -222,6 +223,9 @@ trait CommonTrait
                         }
                         if (Str::contains($tempTwo, 'data-type="access"')) {
                             $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonAccess">' . $tempTwo . '</div>';
+                        }
+                        if (Str::contains($tempTwo, 'data-type="default"')) {
+                            $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonDefault">' . $tempTwo . '</div>';
                         }
                     }
 
@@ -429,9 +433,8 @@ trait CommonTrait
     {
         try {
             $return = array();
-
             foreach ($params as $temp) {
-                if ($temp['type'] == 'status') {
+                if ($temp['type'] == Config::get('constants.typeCheck.customizeInText.status')) {
                     if ($temp['value'] == Config::get('constants.status')['active']) {
                         $custom = '<span class="badge bg-success">Active</span>';
                         $formatted = 'Active';
@@ -441,44 +444,61 @@ trait CommonTrait
                         $formatted = 'In Active';
                         $raw = $temp['value'];
                     }
-                    $return['status'] = [
+                    $return[Config::get('constants.typeCheck.customizeInText.status')] = [
                         'custom' => $custom,
                         'formatted' => $formatted,
                         'raw' => $raw,
                         'type' => $temp['type'],
                     ];
                 }
-                if ($temp['type'] == 'access') {
+                if ($temp['type'] == Config::get('constants.typeCheck.customizeInText.default')) {
+                    if ($temp['value'] == Config::get('constants.status')['yes']) {
+                        $custom = '<span class="badge bg-success">Yes</span>';
+                        $formatted = 'Yes';
+                        $raw = $temp['value'];
+                    } else {
+                        $custom = '<span class="badge bg-danger">No</span>';
+                        $formatted = 'No';
+                        $raw = $temp['value'];
+                    }
+                    $return[Config::get('constants.typeCheck.customizeInText.default')] = [
+                        'custom' => $custom,
+                        'formatted' => $formatted,
+                        'raw' => $raw,
+                        'type' => $temp['type'],
+                    ];
+                }
+                if ($temp['type'] == Config::get('constants.typeCheck.customizeInText.access')) {
                     if ($temp['value'] == null) {
                         $custom = '<span class="badge bg-danger">No Access Found</span>';
                     } else {
                         $custom = '<span class="badge bg-success" data-access="' . json_encode($temp['value']) . '">Access Found</span>';
                     }
-                    $return['access'] = [
+                    $return[Config::get('constants.typeCheck.customizeInText.access')] = [
                         'custom' => $custom,
                         'raw' => $temp['value'],
                         'type' => $temp['type'],
                     ];
                 }
-                if ($temp['type'] == 'hasChild') {
+                if ($temp['type'] == Config::get('constants.typeCheck.customizeInText.child')) {
                     if ($temp['value'] <= 0) {
                         $custom = '<span class="badge bg-danger">No</span>';
                     } else {
                         $custom = '<span class="badge bg-success">Yes</span>';
                     }
-                    $return['hasChild'] = [
+                    $return[Config::get('constants.typeCheck.customizeInText.child')] = [
                         'custom' => $custom,
                         'raw' => $temp['value'],
                         'type' => $temp['type'],
                     ];
                 }
-                if ($temp['type'] == 'hasPermission') {
+                if ($temp['type'] == Config::get('constants.typeCheck.customizeInText.permission')) {
                     if ($temp['value'] <= 0) {
                         $custom = '<span class="badge bg-danger">No</span>';
                     } else {
                         $custom = '<span class="badge bg-success">Yes</span>';
                     }
-                    $return['hasPermission'] = [
+                    $return[Config::get('constants.typeCheck.customizeInText.permission')] = [
                         'custom' => $custom,
                         'raw' => $temp['value'],
                         'type' => $temp['type'],

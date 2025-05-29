@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Logo extends Model
 {
     protected $table = 'logo';
-    protected $fillable = array('bigLogo', 'smallLogo', 'favIcon', 'status');
+    protected $fillable = array('bigLogo', 'smallLogo', 'favicon');
 }

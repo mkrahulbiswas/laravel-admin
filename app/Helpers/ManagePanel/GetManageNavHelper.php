@@ -27,7 +27,7 @@ class GetManageNavHelper
                 if (Config::get('constants.typeCheck.manageNav.navType.type') == $tempOne['getList']['for']) {
                     $data = array();
 
-                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.bnf'), $tempOne['getList']['type'])) {
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.inf'), $tempOne['getList']['type'])) {
                         $navType = array();
 
                         foreach (NavType::get() as $tempTwo) {
@@ -37,7 +37,7 @@ class GetManageNavHelper
                             ];
                         }
 
-                        $data[Config::get('constants.typeCheck.helperCommon.get.bnf')] = [
+                        $data[Config::get('constants.typeCheck.helperCommon.get.inf')] = [
                             'list' => $navType
                         ];
                     }
@@ -151,7 +151,7 @@ class GetManageNavHelper
                 if (Config::get('constants.typeCheck.manageNav.navMain.type') == $tempOne['getList']['for']) {
                     $data = array();
 
-                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.bnf'), $tempOne['getList']['type'])) {
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.inf'), $tempOne['getList']['type'])) {
                         $navMain = array();
 
                         foreach (NavMain::get() as $tempTwo) {
@@ -161,7 +161,7 @@ class GetManageNavHelper
                             ];
                         }
 
-                        $data[Config::get('constants.typeCheck.helperCommon.get.bnf')] = [
+                        $data[Config::get('constants.typeCheck.helperCommon.get.inf')] = [
                             'list' => $navMain
                         ];
                     }
@@ -382,7 +382,7 @@ class GetManageNavHelper
                 if (Config::get('constants.typeCheck.manageNav.navSub.type') == $tempOne['getList']['for']) {
                     $data = array();
 
-                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.bnf'), $tempOne['getList']['type'])) {
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.inf'), $tempOne['getList']['type'])) {
                         $navSub = array();
 
                         foreach (NavSub::get() as $tempTwo) {
@@ -392,7 +392,7 @@ class GetManageNavHelper
                             ];
                         }
 
-                        $data[Config::get('constants.typeCheck.helperCommon.get.bnf')] = [
+                        $data[Config::get('constants.typeCheck.helperCommon.get.inf')] = [
                             'list' => $navSub
                         ];
                     }
@@ -642,7 +642,7 @@ class GetManageNavHelper
                 if (Config::get('constants.typeCheck.manageNav.navNested.type') == $tempOne['getList']['for']) {
                     $data = array();
 
-                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.bnf'), $tempOne['getList']['type'])) {
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.inf'), $tempOne['getList']['type'])) {
                         $navNested = array();
 
                         foreach (NavNested::get() as $tempTwo) {
@@ -652,7 +652,7 @@ class GetManageNavHelper
                             ];
                         }
 
-                        $data[Config::get('constants.typeCheck.helperCommon.get.bnf')] = [
+                        $data[Config::get('constants.typeCheck.helperCommon.get.inf')] = [
                             'list' => $navNested
                         ];
                     }

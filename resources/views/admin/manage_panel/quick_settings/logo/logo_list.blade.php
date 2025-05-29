@@ -49,7 +49,7 @@
                                             <th>Big Logo</th>
                                             <th>Small Logo</th>
                                             <th>Favicon</th>
-                                            <th>Status</th>
+                                            <th>Default</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -61,7 +61,7 @@
                                             <th>Big Logo</th>
                                             <th>Small Logo</th>
                                             <th>Favicon</th>
-                                            <th>Status</th>
+                                            <th>Default</th>
                                             <th>Actions</th>
                                         </tr>
                                     </tfoot>
@@ -127,8 +127,8 @@
         </div>
     </div>
 
-    <div id="con-edit-modal" class="modal fade con-edit-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
+    <div id="con-edit-modal" class="modal fade bs-example-modal-lg con-edit-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <form id="updateLogoForm" action="{{ route('admin.update.logo') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
@@ -139,8 +139,48 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-
-
+                            <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+                                <label for="about" class="form-label">Big Logo</label>
+                                <div class="input-group set-validation">
+                                    <div class="d-flex justify-between gap-3">
+                                        <div class="col-md-6">
+                                            <input type="file" name="bigLogo" id="bigLogo" class="dropify" data-max-file-size="1M">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img src="" class="img-responsive img-thumbnail" style="height: 200px">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="validation-error" id="bigLogoErr"></div>
+                            </div>
+                            <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+                                <label for="about" class="form-label">Small Logo</label>
+                                <div class="input-group set-validation">
+                                    <div class="d-flex justify-between gap-3">
+                                        <div class="col-md-6">
+                                            <input type="file" name="smallLogo" id="smallLogo" class="dropify" data-max-file-size="1M">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img src="" class="img-responsive img-thumbnail" style="height: 200px">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="validation-error" id="smallLogoErr"></div>
+                            </div>
+                            <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-6 mb-3">
+                                <label for="about" class="form-label">Favicon</label>
+                                <div class="input-group set-validation">
+                                    <div class="d-flex justify-between gap-3">
+                                        <div class="col-md-6">
+                                            <input type="file" name="favicon" id="favicon" class="dropify" data-max-file-size="1M">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <img src="" class="img-responsive img-thumbnail" style="height: 200px">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="validation-error" id="faviconErr"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -162,8 +202,8 @@
         </div>
     </div>
 
-    <div id="con-info-modal" class="modal fade con-info-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
+    <div id="con-info-modal" class="modal fade bs-example-modal-lg con-info-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="myModalLabel">Details Logo</h5>
@@ -174,42 +214,33 @@
 
                         <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
                             <div class="d-flex mb-4 each-detail-box">
-                                <div class="flex-shrink-0 avatar-xs align-self-center me-3">
-                                    <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
-                                        <i class="bx bx-receipt"></i>
-                                    </div>
-                                </div>
                                 <div class="flex-grow-1 overflow-hidden">
                                     <label class="details-label form-label mb-1">Big Logo:</label>
-                                    <span class="detail-span d-block mb-0" id="bigLogo"></span>
+                                    <span class="detail-span d-block mb-0" id="bigLogo">
+                                        <img src="" alt="" height="200px">
+                                    </span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
                             <div class="d-flex mb-4 each-detail-box">
-                                <div class="flex-shrink-0 avatar-xs align-self-center me-3">
-                                    <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
-                                        <i class="bx bx-receipt"></i>
-                                    </div>
-                                </div>
                                 <div class="flex-grow-1 overflow-hidden">
                                     <label class="details-label form-label mb-1">Small Logo:</label>
-                                    <span class="detail-span d-block mb-0" id="smallLogo"></span>
+                                    <span class="detail-span d-block mb-0" id="smallLogo">
+                                        <img src="" alt="" height="200px">
+                                    </span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
                             <div class="d-flex mb-4 each-detail-box">
-                                <div class="flex-shrink-0 avatar-xs align-self-center me-3">
-                                    <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
-                                        <i class="bx bx-receipt"></i>
-                                    </div>
-                                </div>
                                 <div class="flex-grow-1 overflow-hidden">
                                     <label class="details-label form-label mb-1">Favicon:</label>
-                                    <span class="detail-span d-block mb-0" id="favicon"></span>
+                                    <span class="detail-span d-block mb-0" id="favicon">
+                                        <img src="" alt="" height="200px">
+                                    </span>
                                 </div>
                             </div>
                         </div>

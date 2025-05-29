@@ -55,6 +55,10 @@ return [
         'success' => ':type deleted successfully.',
         'failed' => ':type failed to delete.',
     ],
+    'defaultMsg' => [
+        'success' => ':type set as default successfully.',
+        'failed' => ':type failed to set as default.',
+    ],
 
     'registerSuccess' => 'Successfully registered, just need to verify your OTP.',
     'loginSuccess' => 'Successfully logged in.',

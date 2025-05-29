@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Config;
 
 use App\Models\AboutUs;
 use App\Models\ContactUs;
@@ -74,13 +75,22 @@ abstract class Controller
                 'internalLoader' => $internalLoaderData,
             );
 
-            $logo = Logo::where('status', '1')->first();
+            $logo = Logo::where('default', Config::get('constants.status.yes'))->first();
 
             $data = array(
                 'appName' => str_replace('_', ' ', config('app.name')),
-                'bigLogo' => $this->picUrl($logo->bigLogo, 'bigLogoPic', $this->platform),
-                'smallLogo' => $this->picUrl($logo->smallLogo, 'smallLogoPic', $this->platform),
-                'favIcon' => $this->picUrl($logo->favIcon, 'favIconPic', $this->platform),
+                'bigLogo' => FileTrait::getFile([
+                    'fileName' => $logo->bigLogo,
+                    'storage' => Config::get('constants.storage')['bigLogo']
+                ])['public']['fullPath']['asset'],
+                'smallLogo' => FileTrait::getFile([
+                    'fileName' => $logo->smallLogo,
+                    'storage' => Config::get('constants.storage')['smallLogo']
+                ])['public']['fullPath']['asset'],
+                'favIcon' => FileTrait::getFile([
+                    'fileName' => $logo->favicon,
+                    'storage' => Config::get('constants.storage')['favicon']
+                ])['public']['fullPath']['asset'],
                 'customizeButton' => $customizeButton,
                 'customizeTable' => $customizeTable,
                 'customizeLoader' => $loader,

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin\ManagePanel;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Traits\FileTrait;
@@ -22,6 +21,7 @@ use Exception;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Http\Request;
 use Illuminate\Contracts\Encryption\DecryptException;
 
 class ManageNavAdminController extends Controller

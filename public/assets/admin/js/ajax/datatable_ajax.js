@@ -400,76 +400,45 @@
                 orderable: false,
             }]
         });
+
+
+        /*------( Logo Listing )--------*/
+        $('#managePanel-quickSettings-logo').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "logo/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "bigLogo"
+                },
+                {
+                    data: "smallLogo"
+                },
+                {
+                    data: "favicon",
+                },
+                {
+                    data: "default",
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
         /*--========================= ( Manage Panel END ) =========================--*/
-
-
-
-        /*--========================= ( CMS START ) =========================--*/
-        /*------( Banner Listing )--------*/
-        $('#cms-banner-listing').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "ajax": "banner/ajaxGetList",
-            "language": {
-                "searchPlaceholder": "None"
-            },
-            "columns": [{
-                    "data": "DT_RowIndex",
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    "data": "banner",
-                },
-                {
-                    "data": "for"
-                },
-                {
-                    "data": "status"
-                },
-                {
-                    data: 'action',
-                    name: 'actions',
-                    orderable: false,
-                    searchable: false
-                }
-            ]
-        });
-
-        /*------( Logo Listing )------*/
-        $('#cms-logo-listing').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "ajax": "logo/ajaxGetList",
-            "language": {
-                "searchPlaceholder": "None"
-            },
-            "columns": [{
-                    "data": "DT_RowIndex",
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    "data": "bigLogo",
-                },
-                {
-                    "data": "smallLogo",
-                },
-                {
-                    "data": "favIcon",
-                },
-                {
-                    "data": "status",
-                },
-                {
-                    data: 'action',
-                    name: 'actions',
-                    orderable: false,
-                    searchable: false,
-                }
-            ]
-        });
-        /*--========================= ( CMS END ) =========================--*/
 
     });
 

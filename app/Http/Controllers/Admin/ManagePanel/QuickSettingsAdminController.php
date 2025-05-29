@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin\ManagePanel;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Traits\FileTrait;
@@ -15,10 +14,12 @@ use App\Models\ManagePanel\ManageAccess\Permission;
 use App\Models\ManagePanel\QuickSettings\Logo;
 
 use App\Helpers\ManagePanel\GetManageAccessHelper;
+use App\Helpers\ManagePanel\GetQuickSettingsHelper;
 
 use Exception;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Http\Request;
 use Illuminate\Contracts\Encryption\DecryptException;
 
 class QuickSettingsAdminController extends Controller
@@ -38,88 +39,71 @@ class QuickSettingsAdminController extends Controller
         }
     }
 
-    public function getLogo(Request $request)
+    public function getLogo()
     {
         try {
-            $roleMain = GetManageAccessHelper::getList([
+            $logo = GetQuickSettingsHelper::getList([
                 [
                     'getList' => [
-                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.inf')],
+                        'for' => Config::get('constants.typeCheck.quickSettings.logo.type'),
                     ],
                     'otherDataPasses' => [
-                        'filterData' => [
-                            'status' => $request->status,
-                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
-                        ],
-                        'orderBy' => [
-                            'id' => 'desc'
-                        ],
+                        'filterData' => [],
+                        'orderBy' => ['id' => 'desc'],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
-
+            ])[Config::get('constants.typeCheck.quickSettings.logo.type')][Config::get('constants.typeCheck.helperCommon.get.inf')]['list'];
             $getPrivilege = GetManageAccessHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
                 ]
             ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
-
-            return Datatables::of($roleMain)
+            return Datatables::of($logo)
                 ->addIndexColumn()
-                ->addColumn('description', function ($data) {
-                    $description = $this->subStrString(40, $data['description'], '....');
-                    return $description;
+                ->addColumn('bigLogo', function ($data) {
+                    $bigLogo = '<img src="' . $data['bigLogo'] . '" class="img-fluid rounded" width="100"/>';
+                    return $bigLogo;
                 })
-                ->addColumn('uniqueId', function ($data) {
-                    $uniqueId = $data['uniqueId']['raw'];
-                    return $uniqueId;
+                ->addColumn('smallLogo', function ($data) {
+                    $smallLogo = '<img src="' . $data['smallLogo'] . '" class="img-fluid rounded" width="100"/>';
+                    return $smallLogo;
                 })
-                ->addColumn('statInfo', function ($data) {
-                    $statInfo = $this->dynamicHtmlPurse([
-                        [
-                            'type' => 'dtMultiData',
-                            'data' => $data['customizeInText']
-                        ]
-                    ])['dtMultiData']['custom'];
-                    return $statInfo;
+                ->addColumn('favicon', function ($data) {
+                    $favicon = '<img src="' . $data['favicon'] . '" class="img-fluid rounded" width="100"/>';
+                    return $favicon;
+                })
+                ->addColumn('default', function ($data) {
+                    $default = $data['customizeInText'][Config::get('constants.typeCheck.customizeInText.default')]['custom'];
+                    return $default;
                 })
                 ->addColumn('action', function ($data) use ($getPrivilege) {
-                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
-                        if ($getPrivilege['status']['permission'] == true) {
-                            if ($data['status'] == Config::get('constants.status')['inactive']) {
-                                $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
-                            } else {
-                                $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
-                            }
+                    if ($getPrivilege['default']['permission'] == true) {
+                        if ($data['customizeInText'][Config::get('constants.typeCheck.customizeInText.default')]['raw'] == Config::get('constants.status')['yes']) {
+                            $default = '';
                         } else {
-                            $status = '';
+                            $default = '<a href="JavaScript:void(0);" data-type="default" data-action="' . route('admin.default.logo') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Default"><i class="mdi mdi-cursor-default-click"></i></a>';
                         }
                     } else {
-                        $status = '';
+                        $default = '';
                     }
 
-                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
-                        if ($getPrivilege['edit']['permission'] == true) {
-                            $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
-                        } else {
-                            $edit = '';
-                        }
+                    if ($getPrivilege['edit']['permission'] == true) {
+                        $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
                     } else {
                         $edit = '';
                     }
 
-                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
-                        if ($getPrivilege['delete']['permission'] == true) {
-                            $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
-                        } else {
+                    if ($getPrivilege['delete']['permission'] == true) {
+                        if ($data['customizeInText'][Config::get('constants.typeCheck.customizeInText.default')]['raw'] == Config::get('constants.status')['yes']) {
                             $delete = '';
+                        } else {
+                            $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.logo') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                         }
                     } else {
                         $delete = '';
                     }
-
 
                     if ($getPrivilege['info']['permission'] == true) {
                         $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
@@ -127,35 +111,17 @@ class QuickSettingsAdminController extends Controller
                         $info = '';
                     }
 
-                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
-                        if ($getPrivilege['permission']['permission'] == true) {
-                            if ($data['extraData']['hasRoleSub'] <= 0) {
-                                if ($data['extraData']['hasPermission'] <= 0) {
-                                    $permission = '<a href="JavaScript:void(0);" data-type="setPermission" data-action="' . route('admin.permission.roleMain') . '/' . $data['id'] . '" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apple-keyboard-command"></i><span>Set Permission</span></a>';
-                                } else {
-                                    $permission = '<a href="' .  route('admin.show.permissionRoleMain') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
-                                }
-                            } else {
-                                $permission = '<a href="JavaScript:void(0);" data-type="permission" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
-                            }
-                        } else {
-                            $permission = '';
-                        }
-                    } else {
-                        $permission = '';
-                    }
-
                     return $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtAction',
                             'data' => [
-                                'primary' => [$status, $edit, $delete, $info],
-                                'secondary' => ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) ? [$permission] : [],
+                                'primary' => [$default, $edit, $delete, $info],
+                                'secondary' => [],
                             ]
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['description', 'uniqueId', 'statInfo', 'action'])
+                ->rawColumns(['bigLogo', 'smallLogo', 'favicon', 'default', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -164,7 +130,9 @@ class QuickSettingsAdminController extends Controller
 
     public function saveLogo(Request $request)
     {
-        $file = $request->file('file');
+        $bigLogo = $request->file('bigLogo');
+        $smallLogo = $request->file('smallLogo');
+        $favicon = $request->file('favicon');
 
         try {
             $validator = $this->isValid([
@@ -177,38 +145,74 @@ class QuickSettingsAdminController extends Controller
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
 
-                if ($file) {
-                    $uploadPicture = $this->uploadFile([
-                        'file' => ['current' => $file, 'previous' => ''],
+                if ($bigLogo) {
+                    $uploadFile = $this->uploadFile([
+                        'file' => ['current' => $bigLogo, 'previous' => ''],
                         'platform' => $this->platform,
-                        'storage' => Config::get('constants.storage')['adminUsers']
+                        'storage' => Config::get('constants.storage')['bigLogo']
                     ]);
-                    if ($uploadPicture['type'] == false) {
-                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadPicture['msg']], config('constants.ok'));
+                    if ($uploadFile['type'] == false) {
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], config('constants.ok'));
                     } else {
-                        $fileName = $uploadPicture['name'];
+                        $bigLogo = $uploadFile['name'];
                     }
                 } else {
-                    $fileName = 'NA';
+                    $bigLogo = 'NA';
                 }
 
-                $roleMain = new RoleMain();
-                $roleMain->uniqueId = $this->generateCode(['preString' => 'LOGO', 'length' => 6, 'model' => Logo::class, 'field' => '']);
-
-                if ($roleMain->save()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Role Main", 'msg' => __('messages.saveMsg', ['type' => 'Role Main'])['success']], config('constants.ok'));
+                if ($smallLogo) {
+                    $uploadFile = $this->uploadFile([
+                        'file' => ['current' => $smallLogo, 'previous' => ''],
+                        'platform' => $this->platform,
+                        'storage' => Config::get('constants.storage')['smallLogo']
+                    ]);
+                    if ($uploadFile['type'] == false) {
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], config('constants.ok'));
+                    } else {
+                        $smallLogo = $uploadFile['name'];
+                    }
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Main", 'msg' => __('messages.saveMsg', ['type' => 'Role Main'])['failed']], config('constants.ok'));
+                    $smallLogo = 'NA';
+                }
+
+                if ($favicon) {
+                    $uploadFile = $this->uploadFile([
+                        'file' => ['current' => $favicon, 'previous' => ''],
+                        'platform' => $this->platform,
+                        'storage' => Config::get('constants.storage')['favicon']
+                    ]);
+                    if ($uploadFile['type'] == false) {
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], config('constants.ok'));
+                    } else {
+                        $favicon = $uploadFile['name'];
+                    }
+                } else {
+                    $favicon = 'NA';
+                }
+
+                $logo = new Logo();
+                $logo->bigLogo = $bigLogo;
+                $logo->smallLogo = $smallLogo;
+                $logo->favicon = $favicon;
+                $logo->uniqueId = $this->generateCode(['preString' => 'LOGO', 'length' => 6, 'model' => Logo::class, 'field' => '']);
+
+                if ($logo->save()) {
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Logo'])['success']], config('constants.ok'));
+                } else {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Logo'])['failed']], config('constants.ok'));
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Main", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save data", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
     }
 
     public function updateLogo(Request $request)
     {
-        $values = $request->only('id', 'name', 'description');
+        $values = $request->only('id');
+        $bigLogo = $request->file('bigLogo');
+        $smallLogo = $request->file('smallLogo');
+        $favicon = $request->file('favicon');
 
         try {
             $id = decrypt($values['id']);
@@ -219,52 +223,84 @@ class QuickSettingsAdminController extends Controller
         try {
             $validator = $this->isValid([
                 'input' => $request->all(),
-                'for' => 'updateRoleMain',
+                'for' => 'updateLogo',
                 'id' => $id,
                 'platform' => $this->platform
             ]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
-                $roleMain = RoleMain::find($id);
-
-                $roleMain->name = $values['name'];
-                $roleMain->description = $values['description'];
-
-                if ($roleMain->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Role Main", 'msg' => __('messages.updateMsg', ['type' => 'Role Main'])['success']], config('constants.ok'));
+                $logo = Logo::find($id);
+                if ($bigLogo) {
+                    $uploadFile = $this->uploadFile([
+                        'file' => ['current' => $bigLogo, 'previous' => $logo->bigLogo],
+                        'platform' => $this->platform,
+                        'storage' => Config::get('constants.storage')['bigLogo']
+                    ]);
+                    if ($uploadFile['type'] == false) {
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], config('constants.ok'));
+                    } else {
+                        $logo->bigLogo = $uploadFile['name'];
+                    }
+                }
+                if ($smallLogo) {
+                    $uploadFile = $this->uploadFile([
+                        'file' => ['current' => $smallLogo, 'previous' => $logo->smallLogo],
+                        'platform' => $this->platform,
+                        'storage' => Config::get('constants.storage')['smallLogo']
+                    ]);
+                    if ($uploadFile['type'] == false) {
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], config('constants.ok'));
+                    } else {
+                        $logo->smallLogo = $uploadFile['name'];
+                    }
+                }
+                if ($favicon) {
+                    $uploadFile = $this->uploadFile([
+                        'file' => ['current' => $favicon, 'previous' => $logo->favicon],
+                        'platform' => $this->platform,
+                        'storage' => Config::get('constants.storage')['favicon']
+                    ]);
+                    if ($uploadFile['type'] == false) {
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], config('constants.ok'));
+                    } else {
+                        $logo->favicon = $uploadFile['name'];
+                    }
+                }
+                if ($logo->update()) {
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Logo'])['success']], config('constants.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Main", 'msg' => __('messages.updateMsg', ['type' => 'Role Main'])['failed']], config('constants.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Logo'])['failed']], config('constants.ok'));
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Main", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update data", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
     }
 
-    public function statusLogo($id)
+    public function defaultLogo($id)
     {
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Default", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
 
-        try {
-            $result = $this->changeStatus([
-                'targetId' => $id,
-                "targetModel" => RoleMain::class,
-                'targetField' => [],
-                'type' => Config::get('constants.action.status.smsf')
-            ]);
-            if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Role Main'])['success']], config('constants.ok'));
-            } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Role Main'])['failed']], config('constants.ok'));
-            }
-        } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+        // try {
+        $result = $this->setDefault([
+            'targetId' => $id,
+            "targetModel" => Logo::class,
+            'targetField' => [],
+            'type' => Config::get('constants.action.status.smsfa')
+        ]);
+        if ($result === true) {
+            return response()->json(['status' => 1, 'type' => "success", 'title' => "Default", 'msg' => __('messages.defaultMsg', ['type' => 'Logo'])['success']], config('constants.ok'));
+        } else {
+            return response()->json(['status' => 0, 'type' => "warning", 'title' => "Default", 'msg' => __('messages.defaultMsg', ['type' => 'Logo'])['failed']], config('constants.ok'));
         }
+        // } catch (Exception $e) {
+        //     return response()->json(['status' => 0, 'type' => "error", 'title' => "Default", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+        // }
     }
 
     public function deleteLogo($id)
@@ -278,25 +314,28 @@ class QuickSettingsAdminController extends Controller
         try {
             $result = $this->deleteItem([
                 [
-                    'model' => RoleMain::class,
-                    'picUrl' => [],
+                    'model' => Logo::class,
+                    'picUrl' => [
+                        [
+                            'field' => 'bigLogo',
+                            'storage' => Config::get('constants.storage')['bigLogo']
+                        ],
+                        [
+                            'field' => 'smallLogo',
+                            'storage' => Config::get('constants.storage')['smallLogo']
+                        ],
+                        [
+                            'field' => 'favicon',
+                            'storage' => Config::get('constants.storage')['favicon']
+                        ]
+                    ],
                     'filter' => [['search' => $id, 'field' => '']],
-                ],
-                [
-                    'model' => RoleSub::class,
-                    'picUrl' => [],
-                    'filter' => [['search' => $id, 'field' => 'roleMainId']],
-                ],
-                [
-                    'model' => Permission::class,
-                    'picUrl' => [],
-                    'filter' => [['search' => $id, 'field' => 'roleMainId']],
                 ],
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Role Main'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Logo'])['success']], config('constants.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Role Main'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Logo'])['failed']], config('constants.ok'));
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));

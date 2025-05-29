@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin\ManagePanel;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Traits\FileTrait;
@@ -20,6 +19,7 @@ use Exception;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class ManageAccessAdminController extends Controller
