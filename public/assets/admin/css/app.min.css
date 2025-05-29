@@ -71,7 +71,7 @@
     align-items: center;
     margin: 0 auto;
     height: 70px;
-    padding: 0 1.5rem 0 calc(1.5rem * .5)
+    padding: 0 0 0 calc(1.5rem * .5)
 }
 
 @media (max-width:767.98px) {
@@ -226,7 +226,7 @@
 }
 
 @media (min-width:768px) {
-    .topbar-user {
+    .topbar-user #page-header-user-dropdown {
         background-color: var(--vz-topbar-user-bg)
     }
 }
@@ -3169,9 +3169,9 @@
 
 .customizer-setting {
     position: fixed;
-    bottom: 40px;
-    right: 20px;
-    z-index: 1000
+    bottom: 15px;
+    right: -2px;
+    z-index: 1000;
 }
 
 code {
@@ -3270,12 +3270,20 @@ code {
 
 #back-to-top {
     position: fixed;
-    bottom: 100px;
-    right: 28px;
+    bottom: 15px;
+    right: 40px;
     -webkit-transition: all .5s ease;
     transition: all .5s ease;
     display: none;
     z-index: 1000
+}
+
+#back-to-top i {
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #back-to-top:hover {

@@ -1,11 +1,22 @@
 (function ($) {
     $(function () {
-        callOnModalClose(), callSelectPicker(), callSelect2(), lcSwitch(), dropify(), summernote(), waves(), datePicker(), dateRangePicker(), timePicker()
+        initSortable()
+        initDraggable()
+        initCallOnModalClose()
+        initCallSelectPicker()
+        initCallSelect2()
+        initLcSwitch()
+        initDropify()
+        initSummernote()
+        initWaves()
+        initDatePicker()
+        initDateRangePicker()
+        initTimePicker()
     });
 })(jQuery);
 
 
-function callOnModalClose() {
+function initCallOnModalClose() {
     $('.con-add-modal, .con-edit-modal, .con-access-modal').on("hidden.bs.modal", function () {
         $(this).find('form')[0].reset();
         $(this).find('[type="checkbox"]').attr('checked', false);
@@ -14,17 +25,17 @@ function callOnModalClose() {
         $(this).find('.selectPicker').selectpicker('val', '');
         // $(this).find('textarea').summernote('reset');
         $(this).find('.form-control, .select2-container--default .select2-selection--single').removeClass('valid-input invalid-input');
-        let ids = '#saveNavTypeForm, #updateNavTypeForm, #saveNavMainForm, #updateNavMainForm, #saveNavSubForm, #updateNavSubForm, #saveNavNestedForm, #updateNavNestedForm';
+        let ids = '#saveLogoForm, #updateLogoForm, #saveNavTypeForm, #updateNavTypeForm, #saveNavMainForm, #updateNavMainForm, #saveNavSubForm, #updateNavSubForm, #saveNavNestedForm, #updateNavNestedForm';
         $(ids).find(".validation-error").text('');
         $(this).find('.selectTwo').select2('reset');
     });
 }
 
-function callSelectPicker() {
+function initCallSelectPicker() {
     $('.selectPicker').selectpicker();
 }
 
-function callSelect2() {
+function initCallSelect2() {
     $('.select2-navType').select2({
         tags: false,
         placeholder: "Select Nav Type"
@@ -106,42 +117,19 @@ function callSelect2() {
     });
 }
 
-function lcSwitch() {
+function initLcSwitch() {
     $('body').delegate('.npGo span', 'click', function () {
         let targetId = $(this)
         $(targetId).closest('.npGo').fadeOut(500)
         lc_switch('.lcSwitch')
     })
-
-    $('.PermiAll').click(function () {
-        $('#CheckAll').trigger('click');
-    });
-
-    $('#CheckAll').change(function () {
-        if ($(this).prop("checked") == true) {
-            lcs_on('.lcSwitch');
-            $('.lcSwitch').val(1);
-        } else if ($(this).prop("checked") == false) {
-            $('.lcSwitch').val(0);
-            lcs_off('.lcSwitch');
-        }
-    });
-
-    $('body').delegate('.lcs_switch', 'click', function () {
-        var val = $(this).closest('.lcs_wrap').find('.lcSwitch').val();
-        if (val == 1) {
-            $(this).closest('.lcs_wrap').find('.lcSwitch').val(0);
-        } else {
-            $(this).closest('.lcs_wrap').find('.lcSwitch').val(1);
-        }
-    });
 }
 
-function dropify() {
+function initDropify() {
     $('.dropify').dropify();
 }
 
-function summernote() {
+function initSummernote() {
     $('.sn-adminUser-about').summernote({
         height: 145,
         width: '100%',
@@ -156,11 +144,11 @@ function summernote() {
     });
 }
 
-function waves() {
+function initWaves() {
     Waves.init()
 }
 
-function datePicker() {
+function initDatePicker() {
     $('.date-picker').datepicker({
         format: 'dd/mm/yyyy',
         // defaultViewDate: {
@@ -172,7 +160,7 @@ function datePicker() {
     });
 }
 
-function dateRangePicker() {
+function initDateRangePicker() {
     $('.date-range-picker').daterangepicker({
         locale: {
             format: 'DD/MM/YYYY'
@@ -180,7 +168,7 @@ function dateRangePicker() {
     });
 }
 
-function timePicker() {
+function initTimePicker() {
     $('.time-picker').clockTimePicker({
         duration: true,
         durationNegative: true,
@@ -190,4 +178,19 @@ function timePicker() {
         },
         onAdjust: function (newVal, oldVal) {}
     });
+}
+
+function initDraggable() {
+    new DraggableNestableList("#myList");
+}
+
+function initSortable() {
+    var nestedSortables = [].slice.call(document.querySelectorAll('.allNavCommon'));
+    for (var i = 0; i < nestedSortables.length; i++) {
+        new Sortable(nestedSortables[i], {
+            animation: 150,
+            fallbackOnBody: true,
+            swapThreshold: 0.65
+        });
+    }
 }

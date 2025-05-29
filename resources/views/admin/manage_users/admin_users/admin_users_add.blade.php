@@ -32,6 +32,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between">
                         <div class="mb-3 mb-sm-0">
                             <h5 class="card-title mb-0">Form to create a new admin user</h5>
+                            <span>Test</span>
                         </div>
                     </div>
                 </div>

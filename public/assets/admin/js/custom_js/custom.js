@@ -22,6 +22,7 @@
                 filterClass.attr('data-filterStatus', '0').fadeOut(500);
             }
         })
+
         $('.tdFilterCloseBtn').click(function () {
             $('.tdFilterBtn').trigger('click')
         })
@@ -86,6 +87,31 @@
                 targetId.closest('form').find('#roleSub').closest('.form-element').fadeOut(500);
             }
         })
+
+
+
+        $('body').delegate('#permissionCheckAll', 'click', function () {
+            if ($(this).attr("data-type") == 'none') {
+                $(this).attr("data-type", 'all').text('Check none')
+                lcs_on('.lcSwitch');
+                $('.lcSwitch').val(1);
+            } else if ($(this).attr("data-type") == 'all') {
+                $(this).attr("data-type", 'none').text('Check all')
+                $('.lcSwitch').val(0);
+                lcs_off('.lcSwitch');
+            } else {
+                $(this).attr("data-type", 'some')
+            }
+        });
+
+        $('body').delegate('.lcs_switch', 'click', function () {
+            var val = $(this).closest('.lcs_wrap').find('.lcSwitch').val();
+            if (val == 1) {
+                $(this).closest('.lcs_wrap').find('.lcSwitch').val(0);
+            } else {
+                $(this).closest('.lcs_wrap').find('.lcSwitch').val(1);
+            }
+        });
     });
 
 })(jQuery);

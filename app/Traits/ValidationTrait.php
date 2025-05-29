@@ -5,7 +5,7 @@ namespace app\Traits;
 use App\Rules\UniqueManageAccess;
 use App\Rules\UniqueManageNav;
 
-use App\Helpers\GetManageAccessHelper;
+use App\Helpers\ManagePanel\GetManageAccessHelper;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
@@ -242,6 +242,23 @@ trait ValidationTrait
                         'navSubId' => $data['input']['navSub'],
                     ])],
                     'description' => 'max:500',
+                ];
+                break;
+
+            //------- Logo
+            case 'saveLogo':
+                $rules = [
+                    'bigLogo' => 'required|image|mimes:jpeg,jpg,png',
+                    'smallLogo' => 'required|image|mimes:jpeg,jpg,png',
+                    'favicon' => 'required|image|mimes:jpeg,jpg,png',
+                ];
+                break;
+
+            case 'updateLogo':
+                $rules = [
+                    'bigLogo' => 'image|mimes:jpeg,jpg,png',
+                    'smallLogo' => 'image|mimes:jpeg,jpg,png',
+                    'favicon' => 'image|mimes:jpeg,jpg,png',
                 ];
                 break;
             /*------ ( Manage Panel End ) ------*/

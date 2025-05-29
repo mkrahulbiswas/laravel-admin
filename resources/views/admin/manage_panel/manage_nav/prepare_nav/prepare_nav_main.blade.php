@@ -27,6 +27,7 @@
                     <div class="d-sm-flex align-items-center justify-content-between">
                         <div class="mb-3 mb-sm-0">
                             <h5 class="card-title mb-0">Basic Datatables</h5>
+                            <span>Test</span>
                         </div>
                         <div class="d-sm-flex align-items-center justify-content-between">
                             <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">

@@ -73,7 +73,8 @@
     <script src="{{ asset('assets/admin/js/layout.js') }}"></script>
 
     <!-- Bootstrap Css -->
-    <link href="{{ asset('assets/admin/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    {{-- <link href="{{ asset('assets/plugins/bootstrap/new/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" /> --}}
 
     <!-- Icons Css -->
     <link href="{{ asset('assets/admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
@@ -123,6 +124,9 @@
 
         <!-- ( Select2 CDN ) -->
         <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- ( Draggable Nestable List ) -->
+        <link href="{{ asset('assets/plugins/draggable-nestable-list/css/DraggableNestableList.min.css') }}" rel="stylesheet" type="text/css" />
 
         <!-- ( Datatble ) -->
         <link href="{{ asset('assets/plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />

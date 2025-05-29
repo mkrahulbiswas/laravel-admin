@@ -2,9 +2,8 @@
 
 namespace App\Providers;
 
-use App\Helpers\GetManageAccessHelper;
-use App\Helpers\GetManageNavHelper;
-
+use App\Helpers\ManagePanel\GetManageAccessHelper;
+use App\Helpers\ManagePanel\GetManageNavHelper;
 use App\Models\Contact;
 
 use Illuminate\Support\Facades\Auth;

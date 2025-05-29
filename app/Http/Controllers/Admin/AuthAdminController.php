@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Traits\FileTrait;
 use App\Traits\ValidationTrait;
 
-use App\Helpers\GetManageAccessHelper;
+use App\Helpers\ManagePanel\GetManageAccessHelper;
 
 use App\Models\User;
 use App\Models\ManageUsers\AdminUsers;

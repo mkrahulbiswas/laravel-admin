@@ -20,6 +20,21 @@ return [
             'type' => 'adminUsers',
             'for' => ['public'],
             'path' => 'media/image/admin/manage_users/admin_users/'
+        ],
+        'bigLogo' => [
+            'type' => 'bigLogo',
+            'for' => ['public'],
+            'path' => 'media/image/admin/manage_panel/quick_settings/big_logo/'
+        ],
+        'smallLogo' => [
+            'type' => 'smallLogo',
+            'for' => ['public'],
+            'path' => 'media/image/admin/manage_panel/quick_settings/small_logo/'
+        ],
+        'favicon' => [
+            'type' => 'favicon',
+            'for' => ['public'],
+            'path' => 'media/image/admin/manage_panel/quick_settings/favicon/'
         ]
     ],
 
@@ -70,6 +85,11 @@ return [
                 'type' => 'permission'
             ],
         ],
+        'quickSettings' => [
+            'logo' => [
+                'type' => "logo"
+            ]
+        ],
         'manageUsers' => [
             'adminUsers' => [
                 'type' => 'adminUsers'
@@ -77,6 +97,7 @@ return [
         ],
         'helperCommon' => [
             'get' => [
+                'inf' => 'insideNoFilter',
                 'bnf' => 'basicNoFilter',
                 'byf' => 'basicYesFilter',
                 'dyf' => 'dependedYesFilter',
@@ -102,11 +123,19 @@ return [
             ],
             'access' => [
                 'al' => 'allYes',
+                'an' => 'allNo',
                 'bm' => [
                     'fns' => 'fromNavSide',
                     'frs' => 'fromRoleSide'
                 ],
             ],
+        ],
+        'customizeInText' => [
+            'status' => 'status',
+            'default' => 'default',
+            'access' => 'access',
+            'child' => 'hasChild',
+            'permission' => 'hasPermission',
         ]
     ],
 
@@ -119,6 +148,7 @@ return [
             'delete',
             'info',
             'detail',
+            'default',
             'filter',
             'reload',
             'reset',
@@ -136,6 +166,7 @@ return [
     //--Action Type
     'action' => [
         'status' => [
+            'smsfa' => 'SINGLE_MODEL_SINGLE_FIELD_ALL',
             'smsf' => 'SINGLE_MODEL_SINGLE_FIELD',
             'smmf' => 'SINGLE_MODEL_MULTIPLE_FIELD',
             'mmsf' => 'MULTIPLE_MODEL_SINGLE_FIELD',
@@ -151,6 +182,8 @@ return [
         '1' => '1',
         'active' => 'ACTIVE',
         'inactive' => 'INACTIVE',
+        'yes' => 'YES',
+        'no' => 'NO',
     ],
 
     //--User Type

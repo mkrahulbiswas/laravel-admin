@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin\ManagePanel;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Traits\FileTrait;
@@ -13,13 +12,14 @@ use App\Models\ManagePanel\ManageAccess\RoleMain;
 use App\Models\ManagePanel\ManageAccess\RoleSub;
 use App\Models\ManagePanel\ManageAccess\Permission;
 
-use App\Helpers\GetManageNavHelper;
-use App\Helpers\GetManageAccessHelper;
+use App\Helpers\ManagePanel\GetManageAccessHelper;
+use App\Helpers\ManagePanel\GetManageNavHelper;
 
 use Exception;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class ManageAccessAdminController extends Controller
@@ -374,9 +374,16 @@ class ManageAccessAdminController extends Controller
                 ]
             ]);
 
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                    'otherDataPasses' => []
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+
             return Datatables::of($getNav)
                 ->addIndexColumn()
-                ->addColumn('permission', function ($data) {
+                ->addColumn('permission', function ($data) use ($getPrivilege) {
                     $permission = $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtNavPermission',
@@ -385,7 +392,8 @@ class ManageAccessAdminController extends Controller
                                 'permission' => [
                                     'model' => Permission::class,
                                     'roleMainId' => request()->roleMainId
-                                ]
+                                ],
+                                'getPrivilege' => $getPrivilege
                             ]
                         ]
                     ])['dtNavPermission']['custom'];
@@ -661,27 +669,27 @@ class ManageAccessAdminController extends Controller
             return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Sub", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
         }
 
-        // try {
-        $setPermission = GetManageAccessHelper::setPermission([
-            [
-                'checkFirst' => [
-                    'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
-                    'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
-                ],
-                'otherDataPasses' => [
-                    'roleMainId' => RoleSub::where('id', $id)->first()->roleMainId,
-                    'roleSubId' => $id,
+        try {
+            $setPermission = GetManageAccessHelper::setPermission([
+                [
+                    'checkFirst' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
+                        'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
+                    ],
+                    'otherDataPasses' => [
+                        'roleMainId' => RoleSub::where('id', $id)->first()->roleMainId,
+                        'roleSubId' => $id,
+                    ]
                 ]
-            ]
-        ]);
-        if ($setPermission) {
-            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], config('constants.ok'));
-        } else {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], config('constants.ok'));
+            ]);
+            if ($setPermission) {
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], config('constants.ok'));
+            } else {
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], config('constants.ok'));
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Sub", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
         }
-        // } catch (Exception $e) {
-        //     return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Sub", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
-        // }
     }
 
     public function statusRoleSub($id)
@@ -791,9 +799,16 @@ class ManageAccessAdminController extends Controller
                 ]
             ]);
 
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                    'otherDataPasses' => []
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+
             return Datatables::of($getNav)
                 ->addIndexColumn()
-                ->addColumn('permission', function ($data) {
+                ->addColumn('permission', function ($data) use ($getPrivilege) {
                     $permission = $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtNavPermission',
@@ -803,7 +818,8 @@ class ManageAccessAdminController extends Controller
                                     'model' => Permission::class,
                                     'roleMainId' => encrypt(RoleSub::where('id', decrypt(request()->roleSubId))->first()->roleMainId),
                                     'roleSubId' => request()->roleSubId
-                                ]
+                                ],
+                                'getPrivilege' => $getPrivilege
                             ]
                         ]
                     ])['dtNavPermission']['custom'];
