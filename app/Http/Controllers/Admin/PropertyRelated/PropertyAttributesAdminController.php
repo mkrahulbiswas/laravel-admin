@@ -116,11 +116,21 @@ class PropertyAttributesAdminController extends Controller
                         $info = '';
                     }
 
+                    if ($getPrivilege['default']['permission'] == true) {
+                        if ($data['customizeInText']['default']['raw'] == Config::get('constants.status')['no']) {
+                            $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.propertyAttributes') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-open-outline"></i></a>';
+                        } else {
+                            $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.propertyAttributes') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-outline"></i></a>';
+                        }
+                    } else {
+                        $default = '';
+                    }
+
                     return $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtAction',
                             'data' => [
-                                'primary' => [$status, $edit, $delete, $info],
+                                'primary' => [$status, $default, $edit, $delete, $info],
                                 'secondary' => [],
                             ]
                         ]
@@ -202,16 +212,16 @@ class PropertyAttributesAdminController extends Controller
         }
 
         try {
-            $result = $this->changeStatus([
+            $result = $this->setDefault([
                 'targetId' => $id,
                 "targetModel" => PropertyAttributes::class,
                 'targetField' => [],
-                'type' => Config::get('constants.action.status.smsf')
+                'type' => Config::get('constants.action.status.smsfs')
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Set default", 'msg' => __('messages.statusMsg', ['type' => 'Property attributes'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Property attributes'])['success']], config('constants.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Set default", 'msg' => __('messages.statusMsg', ['type' => 'Property attributes'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Property attributes'])['failed']], config('constants.ok'));
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Set default", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));

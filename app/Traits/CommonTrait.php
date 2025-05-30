@@ -91,7 +91,28 @@ trait CommonTrait
                     return false;
                 }
             }
-        } elseif ($params['type'] == Config::get('constants.action.status.smmf')) {
+        } elseif ($params['type'] == Config::get('constants.action.status.smsfs')) {
+            $field = ($params['targetField'] == null) ? 'default' : $params['targetField'][0];
+            $data = app($params['targetModel'])::where('id', $params['targetId'])->first();
+            if ($data->$field == config('constants.status')['no']) {
+                $data->$field = config('constants.status')['yes'];
+                if ($data->update()) {
+                    DB::commit();
+                    return true;
+                } else {
+                    DB::rollBack();
+                    return false;
+                }
+            } else {
+                $data->$field = config('constants.status')['no'];
+                if ($data->update()) {
+                    DB::commit();
+                    return true;
+                } else {
+                    DB::rollBack();
+                    return false;
+                }
+            }
         } elseif ($params['type'] == Config::get('constants.action.status.mmsf')) {
         } else {
         }

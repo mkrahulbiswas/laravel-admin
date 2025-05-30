@@ -3249,6 +3249,20 @@
                         cancelButtonText: 'No, cancel',
                     }
                 })
+            } else if (type == 'default') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action the data default state will change!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
             } else if (type == 'edit') {
                 id = $('#con-edit-modal');
                 id.modal('show');
