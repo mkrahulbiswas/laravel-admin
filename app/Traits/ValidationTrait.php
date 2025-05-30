@@ -133,7 +133,7 @@ trait ValidationTrait
             case 'saveNavType':
                 $rules = [
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:30', new UniqueManageNav([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
                     ])],
@@ -144,7 +144,7 @@ trait ValidationTrait
             case 'updateNavType':
                 $rules = [
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:30', new UniqueManageNav([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
                     ])],

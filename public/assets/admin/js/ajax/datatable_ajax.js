@@ -440,6 +440,248 @@
         });
         /*--========================= ( Manage Panel END ) =========================--*/
 
+
+
+        /*--========================= ( Property Related START ) =========================--*/
+        /*------( Amenities Listing )--------*/
+        $('#propertyRelated-propertyAttributes-amenities').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "amenities/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "info"
+                },
+                {
+                    data: "statInfo"
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        /*------( Property Features Listing )--------*/
+        $('#propertyRelated-propertyAttributes-propertyFeatures').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "property-features/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "info"
+                },
+                {
+                    data: "statInfo"
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        /*------( Society Features Listing )--------*/
+        $('#propertyRelated-propertyAttributes-societyFeatures').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "society-features/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "info"
+                },
+                {
+                    data: "statInfo"
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        /*------( Type Of Floorings Listing )--------*/
+        $('#propertyRelated-propertyAttributes-typeOfFloorings').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "type-of-floorings/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "info"
+                },
+                {
+                    data: "statInfo"
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        /*------( Parking Types Listing )--------*/
+        $('#propertyRelated-propertyAttributes-parkingTypes').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "parking-types/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "info"
+                },
+                {
+                    data: "statInfo"
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        /*------( Located Near Listing )--------*/
+        $('#propertyRelated-propertyAttributes-locatedNear').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "located-near/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "info"
+                },
+                {
+                    data: "statInfo"
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        /*------( Location Advantages Listing )--------*/
+        $('#propertyRelated-propertyAttributes-locationAdvantages').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "location-advantages/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "info"
+                },
+                {
+                    data: "statInfo"
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+        /*--========================= ( Property Related END ) =========================--*/
+
     });
 
 })(jQuery);
