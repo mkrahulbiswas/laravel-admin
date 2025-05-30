@@ -25,7 +25,7 @@ function initCallOnModalClose() {
         $(this).find('.selectPicker').selectpicker('val', '');
         // $(this).find('textarea').summernote('reset');
         $(this).find('.form-control, .select2-container--default .select2-selection--single').removeClass('valid-input invalid-input');
-        let ids = '#saveLogoForm, #updateLogoForm, #saveNavTypeForm, #updateNavTypeForm, #saveNavMainForm, #updateNavMainForm, #saveNavSubForm, #updateNavSubForm, #saveNavNestedForm, #updateNavNestedForm, #saveAmenitiesForm, #updateAmenitiesForm, #savePropertyFeaturesForm, #updatePropertyFeaturesForm, #saveSocietyFeaturesForm, #updateSocietyFeaturesForm, #saveTypeOfFlooringsForm, #updateTypeOfFlooringsForm, #saveParkingTypesForm, #updateParkingTypesForm, #saveLocatedNearForm, #updateLocatedNearForm, #saveLocationAdvantagesForm, #updateLocationAdvantagesForm';
+        let ids = '#saveLogoForm, #updateLogoForm, #saveNavTypeForm, #updateNavTypeForm, #saveNavMainForm, #updateNavMainForm, #saveNavSubForm, #updateNavSubForm, #saveNavNestedForm, #updateNavNestedForm, #savePropertyAttributesForm, #updatePropertyAttributesForm';
         $(ids).find(".validation-error").text('');
         $(this).find('.selectTwo').select2('reset');
     });
@@ -63,6 +63,21 @@ function initCallSelect2() {
     $('.select2-navMain-editModal').select2({
         tags: false,
         placeholder: "Select Nav Main",
+        dropdownParent: $('#con-edit-modal')
+    });
+
+    $('.select2-type').select2({
+        tags: false,
+        placeholder: "Select Type"
+    });
+    $('.select2-type-addModal').select2({
+        tags: false,
+        placeholder: "Select Type",
+        dropdownParent: $('#con-add-modal')
+    });
+    $('.select2-type-editModal').select2({
+        tags: false,
+        placeholder: "Select Type",
         dropdownParent: $('#con-edit-modal')
     });
 

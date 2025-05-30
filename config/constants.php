@@ -1,4 +1,7 @@
 <?php
+
+use function PHPSTORM_META\type;
+
 $baseUrl = 'http://localhost/LARAVEL/AdminSetup/';
 // $baseUrl = 'https://unicorncomputech.com/';
 
@@ -73,6 +76,38 @@ return [
             'navNested' => [
                 'type' => 'navNested'
             ],
+        ],
+        'propertyRelated' => [
+            'propertyAttributes' => [
+                'amenities' => [
+                    'type' => 'amenities',
+                    'name' => 'Amenities'
+                ],
+                'propertyFeatures' => [
+                    'type' => 'propertyFeatures',
+                    'name' => 'Property Features'
+                ],
+                'societyFeatures' => [
+                    'type' => 'societyFeatures',
+                    'name' => 'Society Features'
+                ],
+                'typeOfFloorings' => [
+                    'type' => 'typeOfFloorings',
+                    'name' => 'Type Of Floorings'
+                ],
+                'parkingTypes' => [
+                    'type' => 'parkingTypes',
+                    'name' => 'Parking Types'
+                ],
+                'locatedNear' => [
+                    'type' => 'locatedNear',
+                    'name' => 'Located Near'
+                ],
+                'locationAdvantages' => [
+                    'type' => 'locationAdvantages',
+                    'name' => 'Location Advantages'
+                ],
+            ]
         ],
         'manageAccess' => [
             'roleMain' => [
@@ -162,6 +197,7 @@ return [
             'update',
         ],
     ],
+
 
     //--Action Type
     'action' => [

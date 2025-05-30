@@ -151,74 +151,15 @@ Route::controller(AuthAdminController::class)->group(function () {
 
         /*======== (-- Category & Attributes & Types --) ========*/
         Route::group(['prefix' => 'property-related'], function () {
-            Route::controller(PropertyAttributesAdminController::class)->prefix('property-attributes')->group(function () {
-                Route::get('amenities', 'showAmenities')->name('admin.show.amenities');
-                Route::get('amenities/ajaxGetList', 'getAmenities')->name('admin.get.amenities');
-                Route::post('amenities/add/save', 'saveAmenities')->name('admin.save.amenities');
-                Route::post('amenities/edit/update', 'updateAmenities')->name('admin.update.amenities');
-                Route::patch('amenities/default/{id?}', 'defaultAmenities')->name('admin.default.amenities');
-                Route::delete('amenities/delete/{id?}', 'deleteAmenities')->name('admin.delete.amenities');
-
-                Route::get('property-features', 'showPropertyFeatures')->name('admin.show.propertyFeatures');
-                Route::get('property-features/ajaxGetList', 'getPropertyFeatures')->name('admin.get.propertyFeatures');
-                Route::post('property-features/add/save', 'savePropertyFeatures')->name('admin.save.propertyFeatures');
-                Route::post('property-features/edit/update', 'updatePropertyFeatures')->name('admin.update.propertyFeatures');
-                Route::patch('property-features/default/{id?}', 'defaultPropertyFeatures')->name('admin.default.propertyFeatures');
-                Route::delete('property-features/delete/{id?}', 'deletePropertyFeatures')->name('admin.delete.propertyFeatures');
-
-                Route::get('society-features', 'showSocietyFeatures')->name('admin.show.societyFeatures');
-                Route::get('society-features/ajaxGetList', 'getSocietyFeatures')->name('admin.get.societyFeatures');
-                Route::post('society-features/add/save', 'saveSocietyFeatures')->name('admin.save.societyFeatures');
-                Route::post('society-features/edit/update', 'updateSocietyFeatures')->name('admin.update.societyFeatures');
-                Route::patch('society-features/default/{id?}', 'defaultSocietyFeatures')->name('admin.default.societyFeatures');
-                Route::delete('society-features/delete/{id?}', 'deleteSocietyFeatures')->name('admin.delete.societyFeatures');
-
-                Route::get('type-of-floorings', 'showTypeOfFloorings')->name('admin.show.typeOfFloorings');
-                Route::get('type-of-floorings/ajaxGetList', 'getTypeOfFloorings')->name('admin.get.typeOfFloorings');
-                Route::post('type-of-floorings/add/save', 'saveTypeOfFloorings')->name('admin.save.typeOfFloorings');
-                Route::post('type-of-floorings/edit/update', 'updateTypeOfFloorings')->name('admin.update.typeOfFloorings');
-                Route::patch('type-of-floorings/default/{id?}', 'defaultTypeOfFloorings')->name('admin.default.typeOfFloorings');
-                Route::delete('type-of-floorings/delete/{id?}', 'deleteTypeOfFloorings')->name('admin.delete.typeOfFloorings');
-
-                Route::get('parking-types', 'showParkingTypes')->name('admin.show.parkingTypes');
-                Route::get('parking-types/ajaxGetList', 'getParkingTypes')->name('admin.get.parkingTypes');
-                Route::post('parking-types/add/save', 'saveParkingTypes')->name('admin.save.parkingTypes');
-                Route::post('parking-types/edit/update', 'updateParkingTypes')->name('admin.update.parkingTypes');
-                Route::patch('parking-types/default/{id?}', 'defaultParkingTypes')->name('admin.default.parkingTypes');
-                Route::delete('parking-types/delete/{id?}', 'deleteParkingTypes')->name('admin.delete.parkingTypes');
-
-                Route::get('located-near', 'showLocatedNear')->name('admin.show.locatedNear');
-                Route::get('located-near/ajaxGetList', 'getLocatedNear')->name('admin.get.locatedNear');
-                Route::post('located-near/add/save', 'saveLocatedNear')->name('admin.save.locatedNear');
-                Route::post('located-near/edit/update', 'updateLocatedNear')->name('admin.update.locatedNear');
-                Route::patch('located-near/default/{id?}', 'defaultLocatedNear')->name('admin.default.locatedNear');
-                Route::delete('located-near/delete/{id?}', 'deleteLocatedNear')->name('admin.delete.locatedNear');
-
-                Route::get('location-advantages', 'showLocationAdvantages')->name('admin.show.locationAdvantages');
-                Route::get('location-advantages/ajaxGetList', 'getLocationAdvantages')->name('admin.get.locationAdvantages');
-                Route::post('location-advantages/add/save', 'saveLocationAdvantages')->name('admin.save.locationAdvantages');
-                Route::post('location-advantages/edit/update', 'updateLocationAdvantages')->name('admin.update.locationAdvantages');
-                Route::patch('location-advantages/default/{id?}', 'defaultLocationAdvantages')->name('admin.default.locationAdvantages');
-                Route::delete('location-advantages/delete/{id?}', 'deleteLocationAdvantages')->name('admin.delete.locationAdvantages');
+            Route::controller(PropertyAttributesAdminController::class)->group(function () {
+                Route::get('property-attributes', 'showPropertyAttributes')->name('admin.show.propertyAttributes');
+                Route::get('property-attributes/ajaxGetList', 'getPropertyAttributes')->name('admin.get.propertyAttributes');
+                Route::post('property-attributes/add/save', 'savePropertyAttributes')->name('admin.save.propertyAttributes');
+                Route::post('property-attributes/edit/update', 'updatePropertyAttributes')->name('admin.update.propertyAttributes');
+                Route::patch('property-attributes/default/{id?}', 'defaultPropertyAttributes')->name('admin.default.propertyAttributes');
+                Route::patch('property-attributes/status/{id?}', 'statusPropertyAttributes')->name('admin.status.propertyAttributes');
+                Route::delete('property-attributes/delete/{id?}', 'deletePropertyAttributes')->name('admin.delete.propertyAttributes');
             });
-
-            // Route::controller(PropertyTypesAdminController::class)->prefix('property-types')->group(function () {
-            //     Route::get('logo', 'showLogo')->name('admin.show.logo');
-            //     Route::get('logo/ajaxGetList', 'getLogo')->name('admin.get.logo');
-            //     Route::post('logo/add/save', 'saveLogo')->name('admin.save.logo');
-            //     Route::post('logo/edit/update', 'updateLogo')->name('admin.update.logo');
-            //     Route::patch('logo/default/{id?}', 'defaultLogo')->name('admin.default.logo');
-            //     Route::delete('logo/delete/{id?}', 'deleteLogo')->name('admin.delete.logo');
-            // });
-
-            // Route::controller(PropertyCategoriesAdminController::class)->prefix('property-categories')->group(function () {
-            //     Route::get('logo', 'showLogo')->name('admin.show.logo');
-            //     Route::get('logo/ajaxGetList', 'getLogo')->name('admin.get.logo');
-            //     Route::post('logo/add/save', 'saveLogo')->name('admin.save.logo');
-            //     Route::post('logo/edit/update', 'updateLogo')->name('admin.update.logo');
-            //     Route::patch('logo/default/{id?}', 'defaultLogo')->name('admin.default.logo');
-            //     Route::delete('logo/delete/{id?}', 'deleteLogo')->name('admin.delete.logo');
-            // });
         });
 
         /*======== (-- Users Related --) ========*/

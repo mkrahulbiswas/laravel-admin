@@ -378,8 +378,48 @@
                 filterApply: {}
             })
         });
-        /*--========================= ( Manage Panel START ) =========================--*/
+        /*--========================= ( Manage Panel END ) =========================--*/
 
+
+
+        /*--========================= ( Property Related START ) =========================--*/
+        //------ ( Property Attributes )
+        $('#filterPropertyAttributesForm').find('#statusFilter, #typeFilter, .filterPropertyAttributesBtn').on('change click', function () {
+            var formId = $(this).closest('form'),
+                dataTableId = $('#propertyRelated-propertyAttributes'),
+
+                status = formId.find("#statusFilter").val(),
+                type = formId.find("#typeFilter").val(),
+
+                action = $(this).closest('form').attr('action').split('/'),
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&type=" + type;
+            if ($(this).attr('title') == 'Reload') {
+                commonAction({
+                    targetId: {
+                        submitForm: formId,
+                    },
+                    resetFormFields: {
+                        selectPicker: {},
+                        selectTwo: {},
+                    }
+                })
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&type=" + '';
+            }
+            commonAction({
+                targetId: {
+                    submitForm: formId,
+                    actionType: $(this).attr('title'),
+                },
+                dataTable: {
+                    load: {
+                        targetId: dataTableId,
+                        url: newUrl,
+                    }
+                },
+                filterApply: {}
+            })
+        });
+        /*--========================= ( Property Related END ) =========================--*/
     });
 
 })(jQuery);

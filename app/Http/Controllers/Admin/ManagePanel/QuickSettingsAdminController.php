@@ -4,13 +4,9 @@ namespace App\Http\Controllers\Admin\ManagePanel;
 
 use App\Http\Controllers\Controller;
 
-use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\ManagePanel\ManageAccess\RoleMain;
-use App\Models\ManagePanel\ManageAccess\RoleSub;
-use App\Models\ManagePanel\ManageAccess\Permission;
 use App\Models\ManagePanel\QuickSettings\Logo;
 
 use App\Helpers\ManagePanel\GetManageAccessHelper;
@@ -25,7 +21,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 class QuickSettingsAdminController extends Controller
 {
 
-    use ValidationTrait, FileTrait, CommonTrait;
+    use ValidationTrait, CommonTrait;
     public $platform = 'backend';
 
 

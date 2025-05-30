@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\ManagePanel;
 
 use App\Http\Controllers\Controller;
 
-use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
@@ -27,7 +26,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 class ManageNavAdminController extends Controller
 {
 
-    use ValidationTrait, FileTrait, CommonTrait;
+    use ValidationTrait, CommonTrait;
     public $platform = 'backend';
 
 

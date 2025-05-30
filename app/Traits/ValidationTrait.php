@@ -83,7 +83,7 @@ trait ValidationTrait
 
 
             /*------ ( Manage Panel Start ) ------*/
-            //-------Role Main
+            //---- ( Role Main )
             case 'saveRoleMain':
                 $rules = [
                     'name' => ['required', 'max:20', new UniqueManageAccess([
@@ -104,7 +104,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            //-------Role Sub
+            //---- ( Role Sub )
             case 'saveRoleSub':
                 $rules = [
                     'name' => ['required', 'max:20', new UniqueManageAccess([
@@ -129,7 +129,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            //-------Nav Type
+            //---- ( Nav Type )
             case 'saveNavType':
                 $rules = [
                     'icon' => 'required|max:150',
@@ -152,7 +152,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            //-------Nav Main
+            //---- ( Nav Main )
             case 'saveNavMain':
                 $rules = [
                     'navType' => 'required',
@@ -179,7 +179,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            //-------Nav Sub
+            //---- ( Nav Sub )
             case 'saveNavSub':
                 $rules = [
                     'navType' => 'required',
@@ -210,7 +210,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            //-------Nav Nested
+            //---- ( Nav Nested )
             case 'saveNavNested':
                 $rules = [
                     'navType' => 'required',
@@ -245,7 +245,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            //------- Logo
+            //---- ( Logo )
             case 'saveLogo':
                 $rules = [
                     'bigLogo' => 'required|image|mimes:jpeg,jpg,png',
@@ -265,7 +265,7 @@ trait ValidationTrait
 
 
             /*------ ( Manage Users Start ) ------*/
-            // ---- Admin
+            //---- ( Admin )
             case 'saveAdminUsers':
                 $rules = [
                     'file' => 'image|mimes:jpeg,jpg,png',
@@ -330,24 +330,23 @@ trait ValidationTrait
             /*------ ( Manage Users End ) ------*/
 
 
-            /*------ ( CMS Start ) ------*/
-            //---Logo
-            case 'saveLogo':
+            /*------ ( Property Related Start ) ------*/
+            //---- ( Property Attributes )
+            case 'savePropertyAttributes':
                 $rules = [
-                    'bigLogo' => 'required|mimes:jpeg,jpg,png,ico',
-                    'smallLogo' => 'mimes:jpeg,jpg,png,ico',
-                    'favIcon' => 'mimes:jpeg,jpg,png,ico',
+                    'type' => 'required',
+                    'name' => 'required|max:255',
+                    'about' => 'max:500',
                 ];
                 break;
-
-            case 'updateLogo':
+            case 'updatePropertyAttributes':
                 $rules = [
-                    'bigLogo' => 'mimes:jpeg,jpg,png,ico',
-                    'smallLogo' => 'mimes:jpeg,jpg,png,ico',
-                    'favIcon' => 'mimes:jpeg,jpg,png,ico',
+                    'type' => 'required',
+                    'name' => 'required|max:255',
+                    'about' => 'max:500',
                 ];
                 break;
-            /*------ ( CMS End ) ------*/
+            /*------ ( Property Related End ) ------*/
 
             case 'emailLogin':
             default:
