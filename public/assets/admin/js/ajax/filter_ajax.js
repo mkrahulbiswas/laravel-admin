@@ -384,15 +384,16 @@
 
         /*--========================= ( Property Related START ) =========================--*/
         //------ ( Property Attributes )
-        $('#filterPropertyAttributesForm').find('#statusFilter, #typeFilter, .filterPropertyAttributesBtn').on('change click', function () {
+        $('#filterPropertyAttributesForm').find('#statusFilter, #typeFilter, #defaultFilter, .filterPropertyAttributesBtn').on('change click', function () {
             var formId = $(this).closest('form'),
                 dataTableId = $('#propertyRelated-propertyAttributes'),
 
                 status = formId.find("#statusFilter").val(),
                 type = formId.find("#typeFilter").val(),
+                defaul = formId.find("#defaultFilter").val(),
 
                 action = $(this).closest('form').attr('action').split('/'),
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&type=" + type;
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&type=" + type + "&default=" + defaul;
             if ($(this).attr('title') == 'Reload') {
                 commonAction({
                     targetId: {
@@ -403,7 +404,7 @@
                         selectTwo: {},
                     }
                 })
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&type=" + '';
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&type=" + '' + "&default=" + '';
             }
             commonAction({
                 targetId: {

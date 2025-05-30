@@ -2,11 +2,10 @@
 
 namespace app\Traits;
 
-use App\Rules\UniqueManageAccess;
-use App\Rules\UniqueManageNav;
-
 use App\Helpers\ManagePanel\GetManageAccessHelper;
-
+use App\Rules\ManagePanel\UniqueManageAccess;
+use App\Rules\ManagePanel\UniqueManageNav;
+use App\Rules\PropertyRelated\UniquePropertyAttributes;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
@@ -335,14 +334,20 @@ trait ValidationTrait
             case 'savePropertyAttributes':
                 $rules = [
                     'type' => 'required',
-                    'name' => 'required|max:255',
+                    'name' => ['required', 'max:255', new UniquePropertyAttributes([
+                        'targetId' => $data['id'],
+                        'type' => $data['input']['type']
+                    ])],
                     'about' => 'max:500',
                 ];
                 break;
             case 'updatePropertyAttributes':
                 $rules = [
                     'type' => 'required',
-                    'name' => 'required|max:255',
+                    'name' => ['required', 'max:255', new UniquePropertyAttributes([
+                        'targetId' => $data['id'],
+                        'type' => $data['input']['type']
+                    ])],
                     'about' => 'max:500',
                 ];
                 break;

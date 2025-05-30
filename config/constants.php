@@ -1,7 +1,4 @@
 <?php
-
-use function PHPSTORM_META\type;
-
 $baseUrl = 'http://localhost/LARAVEL/AdminSetup/';
 // $baseUrl = 'https://unicorncomputech.com/';
 
@@ -78,35 +75,39 @@ return [
             ],
         ],
         'propertyRelated' => [
+            'type' => 'propertyRelated',
             'propertyAttributes' => [
-                'amenities' => [
-                    'type' => 'amenities',
-                    'name' => 'Amenities'
-                ],
-                'propertyFeatures' => [
-                    'type' => 'propertyFeatures',
-                    'name' => 'Property Features'
-                ],
-                'societyFeatures' => [
-                    'type' => 'societyFeatures',
-                    'name' => 'Society Features'
-                ],
-                'typeOfFloorings' => [
-                    'type' => 'typeOfFloorings',
-                    'name' => 'Type Of Floorings'
-                ],
-                'parkingTypes' => [
-                    'type' => 'parkingTypes',
-                    'name' => 'Parking Types'
-                ],
-                'locatedNear' => [
-                    'type' => 'locatedNear',
-                    'name' => 'Located Near'
-                ],
-                'locationAdvantages' => [
-                    'type' => 'locationAdvantages',
-                    'name' => 'Location Advantages'
-                ],
+                'type' => 'propertyAttributes',
+                'attributes' => [
+                    'amenities' => [
+                        'type' => 'amenities',
+                        'name' => 'Amenities'
+                    ],
+                    'propertyFeatures' => [
+                        'type' => 'propertyFeatures',
+                        'name' => 'Property Features'
+                    ],
+                    'societyFeatures' => [
+                        'type' => 'societyFeatures',
+                        'name' => 'Society Features'
+                    ],
+                    'typeOfFloorings' => [
+                        'type' => 'typeOfFloorings',
+                        'name' => 'Type Of Floorings'
+                    ],
+                    'parkingTypes' => [
+                        'type' => 'parkingTypes',
+                        'name' => 'Parking Types'
+                    ],
+                    'locatedNear' => [
+                        'type' => 'locatedNear',
+                        'name' => 'Located Near'
+                    ],
+                    'locationAdvantages' => [
+                        'type' => 'locationAdvantages',
+                        'name' => 'Location Advantages'
+                    ],
+                ]
             ]
         ],
         'manageAccess' => [
@@ -167,6 +168,7 @@ return [
         ],
         'customizeInText' => [
             'status' => 'status',
+            'type' => 'type',
             'default' => 'default',
             'access' => 'access',
             'child' => 'hasChild',

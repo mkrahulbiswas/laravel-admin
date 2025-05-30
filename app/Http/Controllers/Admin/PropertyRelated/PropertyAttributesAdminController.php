@@ -10,6 +10,7 @@ use App\Traits\ValidationTrait;
 use App\Models\PropertyRelated\PropertyAttributes;
 
 use App\Helpers\ManagePanel\GetManageAccessHelper;
+use App\Helpers\PropertyRelated\GetPropertyAttributesHelper;
 
 use Exception;
 use Yajra\DataTables\DataTables;
@@ -37,25 +38,24 @@ class PropertyAttributesAdminController extends Controller
     public function getPropertyAttributes(Request $request)
     {
         try {
-            $status = $request->status;
-            $type = $request->type;
-            // $roleMain = GetManageAccessHelper::getList([
-            //     [
-            //         'getList' => [
-            //             'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-            //             'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
-            //         ],
-            //         'otherDataPasses' => [
-            //             'filterData' => [
-            //                 'status' => $request->status,
-            //                 'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
-            //             ],
-            //             'orderBy' => [
-            //                 'id' => 'desc'
-            //             ],
-            //         ],
-            //     ],
-            // ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            $propertyAttributes = GetPropertyAttributesHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyAttributes.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => $request->status,
+                            'type' => $request->type,
+                            'default' => $request->default,
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ],
+                    ],
+                ],
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyAttributes.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $getPrivilege = GetManageAccessHelper::getPrivilege([
                 [
@@ -64,34 +64,32 @@ class PropertyAttributesAdminController extends Controller
                 ]
             ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
 
-            $propertyAttributes = PropertyAttributes::get();
-
             return Datatables::of($propertyAttributes)
                 ->addIndexColumn()
                 ->addColumn('about', function ($data) {
-                    $about = $this->subStrString(40, $data->about, '....');
-                    // $about = $this->subStrString(40, $data['description'], '....');
+                    $about = $this->subStrString(40, $data['about'], '....');
                     return $about;
                 })
                 ->addColumn('uniqueId', function ($data) {
-                    $uniqueId = $data->uniqueId;
-                    // $uniqueId = $data['uniqueId']['raw'];
+                    $uniqueId = $data['uniqueId']['raw'];
                     return $uniqueId;
                 })
+                ->addColumn('type', function ($data) {
+                    $type = $data['customizeInText'][Config::get('constants.typeCheck.customizeInText.type')]['custom'];
+                    return $type;
+                })
                 ->addColumn('statInfo', function ($data) {
-                    // $statInfo = $this->dynamicHtmlPurse([
-                    //     [
-                    //         'type' => 'dtMultiData',
-                    //         'data' => $data['customizeInText']
-                    //     ]
-                    // ])['dtMultiData']['custom'];
-                    $statInfo = '';
+                    $statInfo = $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'dtMultiData',
+                            'data' => $data['customizeInText']
+                        ]
+                    ])['dtMultiData']['custom'];
                     return $statInfo;
                 })
                 ->addColumn('action', function ($data) use ($getPrivilege) {
                     if ($getPrivilege['status']['permission'] == true) {
-                        if ($data->status == Config::get('constants.status')['inactive']) {
-                            // if ($data['status'] == Config::get('constants.status')['inactive']) {
+                        if ($data['customizeInText']['status']['raw'] == Config::get('constants.status')['inactive']) {
                             $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.propertyAttributes') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                         } else {
                             $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.propertyAttributes') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
@@ -128,7 +126,7 @@ class PropertyAttributesAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['about', 'uniqueId', 'statInfo', 'action'])
+                ->rawColumns(['about', 'uniqueId', 'statInfo', 'action', 'type'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');

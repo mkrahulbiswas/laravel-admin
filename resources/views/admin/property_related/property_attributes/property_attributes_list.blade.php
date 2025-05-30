@@ -75,19 +75,27 @@
                                                         <div class="form-icon set-validation">
                                                             <select name="type" id="typeFilter" class="selectTwo select2-type">
                                                                 <option value="">Select Property Attributes Type</option>
-                                                                @foreach (Config::get('constants.typeCheck.propertyRelated.propertyAttributes') as $item)
+                                                                @foreach (Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes') as $item)
                                                                     <option value="{{ $item['type'] }}">{{ $item['name'] }}</option>
                                                                 @endforeach
                                                             </select>
                                                             <i class="bx bx-receipt"></i>
                                                         </div>
                                                     </div>
-
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <div class="form-icon set-validation">
                                                             <select name="status" id="statusFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any status">
                                                                 <option value="{{ config('constants.status')['active'] }}">{{ config('constants.status')['active'] }}</option>
                                                                 <option value="{{ config('constants.status')['inactive'] }}">{{ config('constants.status')['inactive'] }}</option>
+                                                            </select>
+                                                            <i class="mdi mdi-list-status"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
+                                                        <div class="form-icon set-validation">
+                                                            <select name="default" id="defaultFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any default type">
+                                                                <option value="{{ config('constants.status')['yes'] }}">{{ config('constants.status')['yes'] }}</option>
+                                                                <option value="{{ config('constants.status')['no'] }}">{{ config('constants.status')['no'] }}</option>
                                                             </select>
                                                             <i class="mdi mdi-list-status"></i>
                                                         </div>
@@ -166,7 +174,7 @@
                                 <div class="form-icon set-validation">
                                     <select name="type" id="type" class="selectTwo select2-type-addModal">
                                         <option value="">Select Type</option>
-                                        @foreach (Config::get('constants.typeCheck.propertyRelated.propertyAttributes') as $item)
+                                        @foreach (Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes') as $item)
                                             <option value="{{ $item['type'] }}">{{ $item['name'] }}</option>
                                         @endforeach
                                     </select>
@@ -230,7 +238,7 @@
                                 <div class="form-icon set-validation">
                                     <select name="type" id="type2" class="selectTwo select2-type-editModal">
                                         <option value="">Select Type</option>
-                                        @foreach (Config::get('constants.typeCheck.propertyRelated.propertyAttributes') as $item)
+                                        @foreach (Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes') as $item)
                                             <option value="{{ $item['type'] }}">{{ $item['name'] }}</option>
                                         @endforeach
                                     </select>
@@ -286,7 +294,20 @@
                 </div>
                 <div class="modal-body">
                     <div class="row info-page-data">
-                        <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                        <div class="col-12">
+                            <div class="d-flex mb-4 each-detail-box">
+                                <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                                    <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
+                                        <i class="bx bx-receipt"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <label class="details-label form-label mb-1">Property Attributes Type:</label>
+                                    <span class="detail-span d-block mb-0" id="type"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
                             <div class="d-flex mb-4 each-detail-box">
                                 <div class="flex-shrink-0 avatar-xs align-self-center me-3">
                                     <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
@@ -294,7 +315,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Name :</label>
+                                    <label class="details-label form-label mb-1">Name:</label>
                                     <span class="detail-span d-block mb-0" id="name"></span>
                                 </div>
                             </div>

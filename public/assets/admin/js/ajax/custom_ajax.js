@@ -3253,15 +3253,19 @@
                 id = $('#con-edit-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
+                console.log(data);
                 id.find('#id').val(data.id);
                 id.find('#name').val(data.name);
-                id.find('#info').val(data.info);
+                id.find('#about').val(data.about);
+                id.find("#type2").val(data.customizeInText.type.raw).trigger('change');
             } else {
                 id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
+                console.log(data);
                 id.find('#name').text(data.name);
-                id.find('#info').text(data.info);
+                id.find('#about').text(data.about);
+                id.find('#type').text(data.customizeInText.type.formatted);
             }
         });
         /*--========================= ( Property Related END ) =========================--*/

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\ManagePanel;
 
 use App\Models\ManagePanel\ManageNav\NavMain;
 use App\Models\ManagePanel\ManageNav\NavNested;
