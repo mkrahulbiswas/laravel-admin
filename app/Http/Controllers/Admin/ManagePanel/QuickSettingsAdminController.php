@@ -25,6 +25,17 @@ class QuickSettingsAdminController extends Controller
     public $platform = 'backend';
 
 
+    /*---- ( Templates ) ----*/
+    public function showTemplates()
+    {
+        try {
+            return view('admin.manage_panel.quick_settings.templates.templates_list');
+        } catch (Exception $e) {
+            abort(500);
+        }
+    }
+
+
     /*---- ( Logo ) ----*/
     public function showLogo()
     {

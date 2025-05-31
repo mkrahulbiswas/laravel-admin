@@ -45,6 +45,13 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::post('logo/edit/update', 'updateLogo')->name('admin.update.logo');
                 Route::patch('logo/default/{id?}', 'defaultLogo')->name('admin.default.logo');
                 Route::delete('logo/delete/{id?}', 'deleteLogo')->name('admin.delete.logo');
+
+                Route::get('templates', 'showTemplates')->name('admin.show.templates');
+                Route::get('templates/ajaxGetList', 'getTemplates')->name('admin.get.templates');
+                Route::post('templates/add/save', 'saveTemplates')->name('admin.save.templates');
+                Route::post('templates/edit/update', 'updateTemplates')->name('admin.update.templates');
+                Route::patch('templates/status/{id?}', 'statusTemplates')->name('admin.status.templates');
+                Route::delete('templates/delete/{id?}', 'deleteTemplates')->name('admin.delete.templates');
             });
 
             Route::controller(ManageAccessAdminController::class)->prefix('mange-access')->group(function () {

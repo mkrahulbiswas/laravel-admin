@@ -83,6 +83,11 @@
     --vz-dataTable-br: #4ea0d5;
     --vz-topNavBar-bg: #003264;
     --vz-mainPageContent-cardHeader-bg: #c1f7ff;
+    --vz-ulNavList-bg: rgb(193 247 255);
+    --vz-ulNavList-buttonNotActive-bg: #e3e3e9;
+    --vz-ulNavList-buttonActive-bg: #c1f7ff;
+    --vz-ulNavList-button-col: rgb(43 127 137);
+    --vz-ulNavList-buttonHover-bg: rgb(197 197 197);
 }
 
 [data-bs-theme=dark] {
@@ -113,6 +118,11 @@
     --vz-dataTable-br: #373742;
     --vz-topNavBar-bg: #292e32;
     --vz-mainPageContent-cardHeader-bg: #292e32;
+    --vz-ulNavList-bg: rgb(41 46 50);
+    --vz-ulNavList-buttonNotActive-bg: #5e5e5e;
+    --vz-ulNavList-buttonActive-bg: #292e32;
+    --vz-ulNavList-button-col: rgb(58 206 223);
+    --vz-ulNavList-buttonHover-bg: rgb(197 197 197);
 }
 
 
@@ -144,11 +154,11 @@
         }
 
         .main-page-content {
-            .card-header {
+            .cardHeader {
                 background-color: var(--vz-mainPageContent-cardHeader-bg);
             }
 
-            .card-body {
+            .cardBody {
                 position: relative;
 
                 .tdFilterMain {
@@ -723,6 +733,45 @@
                                         }
                                     }
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .cardBodyTab {
+                .ulNavList {
+                    justify-content: center;
+
+                    .nav-link {
+                        color: var(--vz-ulNavList-button-col);
+
+                        &:not(.active) {
+                            &:hover {
+                                background-color: var(--vz-ulNavList-buttonHover-bg) !important;
+
+                                &::after,
+                                &::before {
+                                    background-color: var(--vz-ulNavList-buttonHover-bg) !important;
+                                }
+                            }
+                        }
+
+                        &.active {
+                            background-color: var(--vz-ulNavList-buttonActive-bg);
+
+                            &::after,
+                            &::before {
+                                background-color: var(--vz-ulNavList-buttonActive-bg);
+                            }
+                        }
+
+                        &:not(.active) {
+                            background-color: var(--vz-ulNavList-buttonNotActive-bg);
+
+                            &::after,
+                            &::before {
+                                background-color: var(--vz-ulNavList-buttonNotActive-bg);
                             }
                         }
                     }

@@ -4,12 +4,12 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-sm-0">
-                    <h4>Logo</h4>
+                    <h4>Templates</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Panel</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Quick Settings</a></li>
-                            <li class="breadcrumb-item active">Logo</li>
+                            <li class="breadcrumb-item active">Templates</li>
                         </ol>
                     </div>
                 </div>
@@ -19,53 +19,134 @@
     </div>
 
     <div class="row main-page-content">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header cardHeader">
-                    <div class="d-sm-flex align-items-center justify-content-between">
-                        <div class="mb-3 mb-sm-0">
-                            <h5 class="card-title mb-1">Logo</h5>
-                            <span>From this section you can manage logo for everywhere.</span>
-                        </div>
-                        <div class="d-sm-flex align-items-center justify-content-between">
-                            @if ($permission['add']['permission'] == true)
-                                <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">
-                                    <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
-                                    <span>Add Sub Role</span>
-                                </button>
-                            @endif
+        <div class="col-12">
+            <div class="card-body cardBodyTab">
+                <ul class="nav nav-pills nav-customs nav-danger ulNavList" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#arrow-overview" role="tab" aria-selected="true">
+                            <span class="d-block d-sm-none">
+                                <i class="mdi mdi-email"></i>
+                            </span>
+                            <span class="d-none d-sm-block">Email Templates</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#arrow-profile" role="tab" aria-selected="false" tabindex="-1">
+                            <span class="d-block d-sm-none">
+                                <i class="las las la-sms"></i>
+                            </span>
+                            <span class="d-none d-sm-block">SMS Templates</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content text-muted">
+                    <div class="tab-pane active show" id="arrow-overview" role="tabpanel">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header cardHeader">
+                                        <div class="d-sm-flex align-items-center justify-content-between">
+                                            <div class="mb-3 mb-sm-0">
+                                                <h5 class="card-title mb-1">Email Templates</h5>
+                                                <span>From this section you can manage email templates.</span>
+                                            </div>
+                                            <div class="d-sm-flex align-items-center justify-content-between">
+                                                @if ($permission['add']['permission'] == true)
+                                                    <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">
+                                                        <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
+                                                        <span>Add Email Template</span>
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body cardBody">
+                                        <div class="row">
+                                            <div class="col-md-12 tdContentMain">
+                                                <div class="tdContentSub">
+                                                    <table id="managePanel-quickSettings-emailTemplate" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Unique Id</th>
+                                                                <th>Subject</th>
+                                                                <th>Content</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Unique Id</th>
+                                                                <th>Subject</th>
+                                                                <th>Content</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="card-body cardBody">
-                    <div class="row">
-                        <div class="col-md-12 tdContentMain">
-                            <div class="tdContentSub">
-                                <table id="managePanel-quickSettings-logo" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Unique Id</th>
-                                            <th>Big Logo</th>
-                                            <th>Small Logo</th>
-                                            <th>Favicon</th>
-                                            <th>Default</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Unique Id</th>
-                                            <th>Big Logo</th>
-                                            <th>Small Logo</th>
-                                            <th>Favicon</th>
-                                            <th>Default</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                    <div class="tab-pane" id="arrow-profile" role="tabpanel">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header cardHeader">
+                                        <div class="d-sm-flex align-items-center justify-content-between">
+                                            <div class="mb-3 mb-sm-0">
+                                                <h5 class="card-title mb-1">SMS Templates</h5>
+                                                <span>From this section you can manage sms templates.</span>
+                                            </div>
+                                            <div class="d-sm-flex align-items-center justify-content-between">
+                                                @if ($permission['add']['permission'] == true)
+                                                    <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">
+                                                        <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
+                                                        <span>Add SMS Template</span>
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body cardBody">
+                                        <div class="row">
+                                            <div class="col-md-12 tdContentMain">
+                                                <div class="tdContentSub">
+                                                    <table id="managePanel-quickSettings-logo" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Unique Id</th>
+                                                                <th>Big Logo</th>
+                                                                <th>Small Logo</th>
+                                                                <th>Favicon</th>
+                                                                <th>Default</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <th>#</th>
+                                                                <th>Unique Id</th>
+                                                                <th>Big Logo</th>
+                                                                <th>Small Logo</th>
+                                                                <th>Favicon</th>
+                                                                <th>Default</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
