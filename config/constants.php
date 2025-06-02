@@ -108,6 +108,9 @@ return [
                         'name' => 'Location Advantages'
                     ],
                 ]
+            ],
+            'propertyTypes' => [
+                'type' => 'propertyTypes',
             ]
         ],
         'manageAccess' => [

@@ -167,6 +167,16 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::patch('property-attributes/status/{id?}', 'statusPropertyAttributes')->name('admin.status.propertyAttributes');
                 Route::delete('property-attributes/delete/{id?}', 'deletePropertyAttributes')->name('admin.delete.propertyAttributes');
             });
+
+            Route::controller(PropertyTypesAdminController::class)->group(function () {
+                Route::get('property-types', 'showPropertyTypes')->name('admin.show.propertyTypes');
+                Route::get('property-types/ajaxGetList', 'getPropertyTypes')->name('admin.get.propertyTypes');
+                Route::post('property-types/add/save', 'savePropertyTypes')->name('admin.save.propertyTypes');
+                Route::post('property-types/edit/update', 'updatePropertyTypes')->name('admin.update.propertyTypes');
+                Route::patch('property-types/default/{id?}', 'defaultPropertyTypes')->name('admin.default.propertyTypes');
+                Route::patch('property-types/status/{id?}', 'statusPropertyTypes')->name('admin.status.propertyTypes');
+                Route::delete('property-types/delete/{id?}', 'deletePropertyTypes')->name('admin.delete.propertyTypes');
+            });
         });
 
         /*======== (-- Users Related --) ========*/

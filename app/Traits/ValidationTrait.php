@@ -351,6 +351,20 @@ trait ValidationTrait
                     'about' => 'max:500',
                 ];
                 break;
+
+            //---- ( Property Types )
+            case 'savePropertyTypes':
+                $rules = [
+                    'name' => 'required|max:255|unique:property_types,name',
+                    'about' => 'max:500',
+                ];
+                break;
+            case 'updatePropertyTypes':
+                $rules = [
+                    'name' => 'required|max:255|unique:property_types,name,' . $data['id'],
+                    'about' => 'max:500',
+                ];
+                break;
             /*------ ( Property Related End ) ------*/
 
             case 'emailLogin':

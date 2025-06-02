@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: May 30, 2025 at 02:31 PM
+-- Generation Time: Jun 01, 2025 at 02:02 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.4.0
 
@@ -2332,7 +2332,7 @@ CREATE TABLE IF NOT EXISTS `nav_nested` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `nav_nested`
@@ -2348,7 +2348,8 @@ INSERT INTO `nav_nested` (`id`, `uniqueId`, `navTypeId`, `navMainId`, `navSubId`
 (8, 'NN-856999', 2, 2, 6, 'Nav Nested', 'ri-pie-chart-line', 'NA', '{\"add\": true, \"set\": true, \"back\": false, \"edit\": true, \"info\": true, \"save\": true, \"close\": true, \"other\": false, \"reset\": true, \"access\": true, \"delete\": true, \"detail\": false, \"filter\": true, \"reload\": false, \"search\": true, \"status\": true, \"update\": true, \"permission\": false}', 'manage-panel/manage-nav/nav-nested', 'nav-nested', 'ACTIVE', 7, '2024-08-07 08:27:04', '2025-05-28 08:03:46', NULL),
 (18, 'NN-427492', 2, 2, 6, 'Arrange Nav', 's', 'Test', '{\"add\": true, \"edit\": false, \"info\": true, \"other\": true, \"reset\": true, \"access\": false, \"delete\": false, \"detail\": false, \"filter\": true, \"reload\": false, \"search\": false, \"status\": true, \"permission\": false}', 'manage-panel/manage-nav/arrange-nav', 'arrange-nav', 'ACTIVE', 8, '2024-09-04 01:21:27', '2025-05-28 08:03:46', NULL),
 (23, 'NN-470666', 2, 2, 6, 'Prepare Nav', 'bx bx-menu-alt-left', 'NA', NULL, 'manage-panel/manage-nav/prepare-nav', 'prepare-nav', 'ACTIVE', 9, '2025-04-19 06:39:00', '2025-05-10 00:41:23', '2025-05-10 00:41:23'),
-(25, 'NN-189487', 2, 2, 21, 'Logo', 'aa', 'NA', '{\"add\": true, \"set\": false, \"back\": false, \"edit\": true, \"info\": true, \"save\": false, \"close\": false, \"other\": false, \"reset\": false, \"access\": false, \"delete\": true, \"detail\": false, \"filter\": false, \"reload\": false, \"search\": false, \"status\": false, \"update\": false, \"default\": true, \"permission\": false}', 'manage-panel/quick-settings/logo', 'logo', 'ACTIVE', 9, '2025-05-28 23:41:54', '2025-05-29 06:05:11', NULL);
+(25, 'NN-189487', 2, 2, 21, 'Logo', 'aa', 'NA', '{\"add\": true, \"set\": false, \"back\": false, \"edit\": true, \"info\": true, \"save\": false, \"close\": false, \"other\": false, \"reset\": false, \"access\": false, \"delete\": true, \"detail\": false, \"filter\": false, \"reload\": false, \"search\": false, \"status\": false, \"update\": false, \"default\": true, \"permission\": false}', 'manage-panel/quick-settings/logo', 'logo', 'ACTIVE', 9, '2025-05-28 23:41:54', '2025-05-29 06:05:11', NULL),
+(33, 'NN-356537', 2, 2, 21, 'Templates', 'NA', 'NA', NULL, 'manage-panel/quick-settings/templates', 'templates', 'ACTIVE', 10, '2025-05-30 09:22:08', '2025-05-31 05:11:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -2696,7 +2697,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('Qd8U8jSGigZBHcmzYxSFb6Jnb5WbXGu7dLeXXgJE', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiZEJDYlpjY3dzeE1BWm1acm9xWW9LODc1RkEzWnFDNVhMd1Y2U2JqYiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Nzg6Imh0dHA6Ly9sb2NhbGhvc3QvTEFSQVZFTC9BZG1pblNldHVwL2FkbWluL3Byb3BlcnR5LXJlbGF0ZWQvcHJvcGVydHktYXR0cmlidXRlcyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTI6ImxvZ2luX2FkbWluXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1748606770);
+('RZdDN5tDWR7OefBTzsYv8BBb5sQbKY970raEy6Lv', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoianVVeEd0Y3BobVgxT0w0dkRzaHp2b1dxMUVDN3N0N0RvNGNvT1BzNyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Nzk6Imh0dHA6Ly9sb2NhbGhvc3QvTEFSQVZFTC9BZG1pblNldHVwL2FkbWluL21hbmFnZS1wYW5lbC9xdWljay1zZXR0aW5ncy90ZW1wbGF0ZXMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUyOiJsb2dpbl9hZG1pbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1748694157);
 
 -- --------------------------------------------------------
 

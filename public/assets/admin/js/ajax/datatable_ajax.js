@@ -479,6 +479,40 @@
                 }
             ]
         });
+
+        /*------( Property Types Listing )--------*/
+        $('#propertyRelated-propertyTypes').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "property-types/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "about"
+                },
+                {
+                    data: "statInfo"
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
         /*--========================= ( Property Related END ) =========================--*/
 
     });
