@@ -365,6 +365,20 @@ trait ValidationTrait
                     'about' => 'max:500',
                 ];
                 break;
+
+            //---- ( Broad Type )
+            case 'saveBroadType':
+                $rules = [
+                    'name' => 'required|max:255|unique:broad_type,name',
+                    'about' => 'max:500',
+                ];
+                break;
+            case 'updateBroadType':
+                $rules = [
+                    'name' => 'required|max:255|unique:broad_type,name,' . $data['id'],
+                    'about' => 'max:500',
+                ];
+                break;
             /*------ ( Property Related End ) ------*/
 
             case 'emailLogin':

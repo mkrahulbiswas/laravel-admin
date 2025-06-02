@@ -513,6 +513,40 @@
                 }
             ]
         });
+
+        /*------( broad Types Listing )--------*/
+        $('#propertyRelated-manageBroad-broadType').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "broad-type/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "about"
+                },
+                {
+                    data: "statInfo"
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
         /*--========================= ( Property Related END ) =========================--*/
 
     });

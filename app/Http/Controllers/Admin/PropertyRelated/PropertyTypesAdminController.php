@@ -156,9 +156,9 @@ class PropertyTypesAdminController extends Controller
                 $propertyTypes->status = Config::get('constants.status')['active'];
 
                 if ($propertyTypes->save()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Property attributes'])['success']], config('constants.ok'));
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Property type'])['success']], config('constants.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Property attributes'])['failed']], config('constants.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Property type'])['failed']], config('constants.ok'));
                 }
             }
         } catch (Exception $e) {
@@ -187,9 +187,9 @@ class PropertyTypesAdminController extends Controller
                 $propertyTypes->about = $values['about'];
 
                 if ($propertyTypes->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Property attributes'])['success']], config('constants.ok'));
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Property type'])['success']], config('constants.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Property attributes'])['failed']], config('constants.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Property type'])['failed']], config('constants.ok'));
                 }
             }
         } catch (Exception $e) {

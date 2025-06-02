@@ -8,8 +8,8 @@ use App\Http\Controllers\Admin\ManagePanel\ManageAccessAdminController;
 use App\Http\Controllers\Admin\ManagePanel\ManageNavAdminController;
 use App\Http\Controllers\Admin\ManagePanel\QuickSettingsAdminController;
 use App\Http\Controllers\Admin\ManageUsers\AdminUsersAdminController;
+use App\Http\Controllers\Admin\PropertyRelated\ManageBroadAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyAttributesAdminController;
-use App\Http\Controllers\Admin\PropertyRelated\PropertyCategoriesAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyTypesAdminController;
 use App\Http\Middleware\CheckPermission;
 
@@ -176,6 +176,15 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::patch('property-types/default/{id?}', 'defaultPropertyTypes')->name('admin.default.propertyTypes');
                 Route::patch('property-types/status/{id?}', 'statusPropertyTypes')->name('admin.status.propertyTypes');
                 Route::delete('property-types/delete/{id?}', 'deletePropertyTypes')->name('admin.delete.propertyTypes');
+            });
+
+            Route::controller(ManageBroadAdminController::class)->prefix('manage-broad')->group(function () {
+                Route::get('broad-type', 'showBroadType')->name('admin.show.broadType');
+                Route::get('broad-type/ajaxGetList', 'getBroadType')->name('admin.get.broadType');
+                Route::post('broad-type/add/save', 'saveBroadType')->name('admin.save.broadType');
+                Route::post('broad-type/edit/update', 'updateBroadType')->name('admin.update.broadType');
+                Route::patch('broad-type/status/{id?}', 'statusBroadType')->name('admin.status.broadType');
+                Route::delete('broad-type/delete/{id?}', 'deleteBroadType')->name('admin.delete.broadType');
             });
         });
 

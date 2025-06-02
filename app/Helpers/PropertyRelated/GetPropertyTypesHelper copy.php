@@ -24,6 +24,41 @@ class GetPropertyTypesHelper
                 if (Config::get('constants.typeCheck.propertyRelated.propertyTypes.type') == $tempOne['getList']['for']) {
                     $data = array();
 
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.iyf'), $tempOne['getList']['type'])) {
+                        $propertyTypes = array();
+                        $whereRaw = "`created_at` is not null";
+                        $orderByRaw = "`id` DESC";
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
+                                $status = $tempOne['otherDataPasses']['filterData']['status'];
+                                if (!empty($status)) {
+                                    $whereRaw .= " and `status` = '" . $status . "'";
+                                }
+                            }
+                        }
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'id')) {
+                                $id = $tempOne['otherDataPasses']['orderBy']['id'];
+                                if (!empty($id)) {
+                                    $orderByRaw = "`id` " . $id;
+                                }
+                            }
+                        }
+
+                        foreach (PropertyTypes::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
+                            $propertyTypes[] = [
+                                'id' => $tempTwo->id,
+                                'name' => $tempTwo->name
+                            ];
+                        }
+
+                        $data[Config::get('constants.typeCheck.helperCommon.get.iyf')] = [
+                            'list' => $propertyTypes
+                        ];
+                    }
+
                     if (in_array(Config::get('constants.typeCheck.helperCommon.get.byf'), $tempOne['getList']['type'])) {
                         $propertyTypes = array();
                         $whereRaw = "`created_at` is not null";

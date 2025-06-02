@@ -111,6 +111,12 @@ return [
             ],
             'propertyTypes' => [
                 'type' => 'propertyTypes',
+            ],
+            'manageBroad' => [
+                'type' => 'manageBroad',
+                'broadType' => [
+                    'type' => 'broadType'
+                ]
             ]
         ],
         'manageAccess' => [
@@ -137,6 +143,7 @@ return [
         'helperCommon' => [
             'get' => [
                 'inf' => 'insideNoFilter',
+                'iyf' => 'insideYesFilter',
                 'bnf' => 'basicNoFilter',
                 'byf' => 'basicYesFilter',
                 'dyf' => 'dependedYesFilter',
