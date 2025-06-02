@@ -13,8 +13,9 @@ use App\Models\ManagePanel\ManageNav\NavMain;
 use App\Models\ManagePanel\ManageNav\NavNested;
 use App\Models\ManagePanel\ManageAccess\Permission;
 
-use App\Helpers\ManagePanel\GetManageAccessHelper;
 use App\Helpers\ManagePanel\GetManageNavHelper;
+use App\Helpers\ManagePanel\ManageAccess\GetPrivilegeHelper;
+use App\Helpers\ManagePanel\ManageAccess\SetPermissionHelper;
 
 use Exception;
 use Yajra\DataTables\DataTables;
@@ -60,7 +61,7 @@ class ManageNavAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = GetPrivilegeHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -312,7 +313,7 @@ class ManageNavAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = GetPrivilegeHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -488,7 +489,7 @@ class ManageNavAdminController extends Controller
                 $navMain = NavMain::find($id);
                 $navMain->access = $getNavAccessList['access'];
                 if ($navMain->update()) {
-                    $setPermission = GetManageAccessHelper::setPermission([
+                    $setPermission = SetPermissionHelper::setPermission([
                         [
                             'checkFirst' => [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.set.pfn')],
@@ -646,7 +647,7 @@ class ManageNavAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.manageNav.navSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = GetPrivilegeHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -828,7 +829,7 @@ class ManageNavAdminController extends Controller
                 $navSub = NavSub::find($id);
                 $navSub->access = $getNavAccessList['access'];
                 if ($navSub->update()) {
-                    $setPermission = GetManageAccessHelper::setPermission([
+                    $setPermission = SetPermissionHelper::setPermission([
                         [
                             'checkFirst' => [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.set.pfn')],
@@ -980,7 +981,7 @@ class ManageNavAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.manageNav.navNested.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = GetPrivilegeHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -1168,7 +1169,7 @@ class ManageNavAdminController extends Controller
                 $navNested = NavNested::find($id);
                 $navNested->access = $getNavAccessList['access'];
                 if ($navNested->update()) {
-                    $setPermission = GetManageAccessHelper::setPermission([
+                    $setPermission = SetPermissionHelper::setPermission([
                         [
                             'checkFirst' => [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.set.pfn')],

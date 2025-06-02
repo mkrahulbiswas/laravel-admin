@@ -11,8 +11,9 @@ use App\Models\ManagePanel\ManageAccess\RoleMain;
 use App\Models\ManageUsers\AdminUsers;
 use App\Models\ManageUsers\UsersInfo;
 
-use App\Helpers\ManagePanel\GetManageAccessHelper;
 use App\Helpers\ManageUsers\GetManageUsersHelper;
+use App\Helpers\ManagePanel\ManageAccess\GetPrivilegeHelper;
+use App\Helpers\ManagePanel\ManageAccess\GetListHelper;
 
 use Exception;
 use Throwable;
@@ -36,7 +37,7 @@ class AdminUsersAdminController extends Controller
     public function showAdminUsers()
     {
         try {
-            $roleMain = GetManageAccessHelper::getList([
+            $roleMain = GetListHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -80,7 +81,7 @@ class AdminUsersAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = GetPrivilegeHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -150,7 +151,7 @@ class AdminUsersAdminController extends Controller
     public function addAdminUsers()
     {
         try {
-            $roleMain = GetManageAccessHelper::getList([
+            $roleMain = GetListHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -256,7 +257,7 @@ class AdminUsersAdminController extends Controller
     public function editAdminUsers($id)
     {
         try {
-            $roleMain = GetManageAccessHelper::getList([
+            $roleMain = GetListHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -283,7 +284,7 @@ class AdminUsersAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
 
-            $roleSub = GetManageAccessHelper::getList([
+            $roleSub = GetListHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],

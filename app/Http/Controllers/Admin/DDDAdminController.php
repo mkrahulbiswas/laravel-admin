@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\ManagePanel\GetManageAccessHelper;
-use App\Helpers\ManagePanel\GetManageNavHelper;
 use App\Http\Controllers\Controller;
+
+use App\Helpers\ManagePanel\GetManageNavHelper;
+use App\Helpers\ManagePanel\ManageAccess\GetListHelper;
 
 use App\Traits\CommonTrait;
 use App\Traits\FileTrait;
@@ -95,7 +96,7 @@ class DDDAdminController extends Controller
     public function getRoleSub($roleMainId)
     {
         try {
-            $navSub = GetManageAccessHelper::getList([
+            $navSub = GetListHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],

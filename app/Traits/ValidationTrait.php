@@ -2,7 +2,7 @@
 
 namespace app\Traits;
 
-use App\Helpers\ManagePanel\GetManageAccessHelper;
+use App\Helpers\ManagePanel\ManageAccess\GetDetailHelper;
 use App\Rules\ManagePanel\UniqueManageAccess;
 use App\Rules\ManagePanel\UniqueManageNav;
 use App\Rules\PropertyRelated\UniquePropertyAttributes;
@@ -279,7 +279,7 @@ trait ValidationTrait
                     'about' => 'max:500',
                 ];
                 if ($data['input']['roleMain'] != '') {
-                    $getDetail = GetManageAccessHelper::getDetail([
+                    $getDetail = GetDetailHelper::getDetail([
                         [
                             'getDetail' => [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -310,7 +310,7 @@ trait ValidationTrait
                     'about' => 'max:500',
                 ];
                 if ($data['input']['roleMain'] != '') {
-                    $getDetail = GetManageAccessHelper::getDetail([
+                    $getDetail = GetDetailHelper::getDetail([
                         [
                             'getDetail' => [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],

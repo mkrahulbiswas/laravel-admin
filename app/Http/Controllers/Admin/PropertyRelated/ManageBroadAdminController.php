@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin\PropertyRelated;
 
+use App\Helpers\ManagePanel\ManageAccess\GetPrivilegeHelper;
 use App\Http\Controllers\Controller;
 
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
-use App\Helpers\ManagePanel\GetManageAccessHelper;
 use App\Helpers\PropertyRelated\GetBroadTypeHelper;
 
 use App\Models\PropertyRelated\ManageBroad\BroadType;
@@ -57,7 +57,7 @@ class ManageBroadAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.broadType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = GetPrivilegeHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -287,7 +287,7 @@ class ManageBroadAdminController extends Controller
     //             ],
     //         ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.broadType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-    //         $getPrivilege = GetManageAccessHelper::getPrivilege([
+    //         $getPrivilege = GetPrivilegeHelper::getPrivilege([
     //             [
     //                 'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
     //                 'otherDataPasses' => []

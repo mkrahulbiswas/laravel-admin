@@ -7,15 +7,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use App\Helpers\ManagePanel\ManageAccess\GetDetailHelper;
+
 use App\Traits\FileTrait;
 use App\Traits\ValidationTrait;
 
-use App\Helpers\ManagePanel\GetManageAccessHelper;
-
 use App\Models\User;
 use App\Models\ManageUsers\AdminUsers;
-use App\Models\ManagePanel\ManageAccess\RoleMain;
-use App\Models\ManagePanel\ManageAccess\RoleSub;
 
 use Validator;
 use Exception;
@@ -65,7 +63,7 @@ class AuthAdminController extends Controller
                     if ($adminUsers->status == 0) {
                         return response()->json(['status' => 0, 'msg' => 'You are blocked by admin'], config('constants.ok'));
                     } else {
-                        $roleMain = GetManageAccessHelper::getDetail([
+                        $roleMain = GetDetailHelper::getDetail([
                             [
                                 'getDetail' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -81,7 +79,7 @@ class AuthAdminController extends Controller
                         } else {
                             $roleMain = $roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                             if ($roleMain['extraData']['hasRoleSub'] > 0) {
-                                $roleSub = GetManageAccessHelper::getDetail([
+                                $roleSub = GetDetailHelper::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],

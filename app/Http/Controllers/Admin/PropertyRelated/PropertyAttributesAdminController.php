@@ -9,8 +9,8 @@ use App\Traits\ValidationTrait;
 
 use App\Models\PropertyRelated\PropertyAttributes;
 
-use App\Helpers\ManagePanel\GetManageAccessHelper;
 use App\Helpers\PropertyRelated\GetPropertyAttributesHelper;
+use App\Helpers\ManagePanel\ManageAccess\GetPrivilegeHelper;
 
 use Exception;
 use Yajra\DataTables\DataTables;
@@ -57,7 +57,7 @@ class PropertyAttributesAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.propertyRelated.propertyAttributes.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = GetPrivilegeHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []

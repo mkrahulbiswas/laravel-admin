@@ -5,16 +5,15 @@ namespace App\Helpers\ManageUsers;
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 
+use App\Helpers\ManagePanel\ManageAccess\GetDetailHelper;
+
 use App\Models\ManageUsers\AdminUsers;
 use App\Models\ManageUsers\UsersInfo;
-
-use App\Helpers\ManagePanel\GetManageAccessHelper;
 
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 
 class GetManageUsersHelper
 {
@@ -151,7 +150,7 @@ class GetManageUsersHelper
                             ['userId', $adminUsers->id],
                             ['userType', Config::get('constants.userType.admin')]
                         ])->first();
-                        $roleMain = GetManageAccessHelper::getDetail([
+                        $roleMain = GetDetailHelper::getDetail([
                             [
                                 'getDetail' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -163,7 +162,7 @@ class GetManageUsersHelper
                             ],
                         ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                         if ($adminUsers->roleSubId != null) {
-                            $roleSub = GetManageAccessHelper::getDetail([
+                            $roleSub = GetDetailHelper::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
