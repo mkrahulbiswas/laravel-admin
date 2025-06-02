@@ -79,6 +79,15 @@
     --vz-td-inner-hover-bg: #d3ec76;
     --vz-select2-bg: #fff;
     --vz-select2-br: #aaa;
+    --vz-dataTable-bg: #8af3ff;
+    --vz-dataTable-br: #4ea0d5;
+    --vz-topNavBar-bg: #003264;
+    --vz-mainPageContent-cardHeader-bg: #c1f7ff;
+    --vz-ulNavList-bg: rgb(193 247 255);
+    --vz-ulNavList-buttonNotActive-bg: #e3e3e9;
+    --vz-ulNavList-buttonActive-bg: #c1f7ff;
+    --vz-ulNavList-button-col: rgb(43 127 137);
+    --vz-ulNavList-buttonHover-bg: rgb(197 197 197);
 }
 
 [data-bs-theme=dark] {
@@ -105,488 +114,500 @@
     --vz-td-inner-hover-bg: #1f1f20;
     --vz-select2-bg: #262a2f;
     --vz-select2-br: #131314;
+    --vz-dataTable-bg: #14141a;
+    --vz-dataTable-br: #373742;
+    --vz-topNavBar-bg: #292e32;
+    --vz-mainPageContent-cardHeader-bg: #292e32;
+    --vz-ulNavList-bg: rgb(41 46 50);
+    --vz-ulNavList-buttonNotActive-bg: #5e5e5e;
+    --vz-ulNavList-buttonActive-bg: #292e32;
+    --vz-ulNavList-button-col: rgb(58 206 223);
+    --vz-ulNavList-buttonHover-bg: rgb(197 197 197);
 }
 
 
+#layout-wrapper {
+    #container-fluid-inside {
+        .modal-dialog {
+            .modal-content {
+                border-color: black;
+                box-shadow: 0px 11px 21px -5px var(--vz-modal-content-bs);
 
-
-
-#container-fluid-inside {
-    .modal-dialog {
-        .modal-content {
-            border-color: black;
-            box-shadow: 0px 11px 21px -5px var(--vz-modal-content-bs);
-
-            .modal-header {
-                background-color: var(--vz-modal-header-bg);
-            }
-
-            .modal-header {
-                .btn-outline-danger {
-                    border-radius: 100%;
+                .modal-header {
+                    background-color: var(--vz-modal-header-bg);
                 }
-            }
 
-            .modal-body {
-                background-color: var(--vz-modal-body-bg);
-            }
+                .modal-header {
+                    .btn-outline-danger {
+                        border-radius: 100%;
+                    }
+                }
 
-            .modal-footer {
-                background-color: var(--vz-modal-footer-bg);
+                .modal-body {
+                    background-color: var(--vz-modal-body-bg);
+                }
+
+                .modal-footer {
+                    background-color: var(--vz-modal-footer-bg);
+                }
             }
         }
-    }
 
-    .main-page-content {
-        .card-body {
-            position: relative;
-
-            .tdFilterMain {
-                display: none;
-
-                .tdFilterSub {
-                    box-shadow: inset 0 0px 10px var(--vz-td-filterSub-bs);
-                    padding: 15px;
-                    border-radius: var(--border-radios);
-
-                    .row {}
-                }
+        .main-page-content {
+            .cardHeader {
+                background-color: var(--vz-mainPageContent-cardHeader-bg);
             }
 
-            .tdFilterForm {
-                border-radius: var(--border-radios);
-                background-color: #00000036;
-            }
+            .cardBody {
+                position: relative;
 
-            .formElementMain {
-                .formElementSub {
-                    .cardForm {
-                        height: 100%;
-                        margin-bottom: 0;
-                    }
-                }
-            }
+                .tdFilterMain {
+                    display: none;
 
-            .tdContentMain {
-                .tdContentSub {
-                    background-color: var(--vz-td-contentSub-bg);
-                    padding: 10px 0;
-                    border-radius: var(--border-radios);
-
-                    .tdAction {
-                        padding: 5px;
-                        background-image: linear-gradient(0deg, var(--vz-td-action-bg-2) 0%, var(--vz-td-action-bg-1) 100%);
+                    .tdFilterSub {
+                        box-shadow: inset 0 0px 10px var(--vz-td-filterSub-bs);
+                        padding: 15px;
                         border-radius: var(--border-radios);
-                        max-width: max-content;
-                        position: relative;
-                        transition: 0.30s ease-in-out;
 
-                        .tdActionButton {
-                            display: flex;
-                            flex-direction: row;
-                            gap: 7px;
+                        .row {}
+                    }
+                }
 
-                            .tdActionButtonCommon {
-                                a {
-                                    border-radius: 10%;
-                                    width: 30px;
-                                    height: 30px;
-                                    padding: 0;
-                                    display: flex;
-                                    justify-content: center;
+                .tdFilterForm {
+                    border-radius: var(--border-radios);
+                    background-color: #00000036;
+                }
 
-                                    i {
-                                        font-size: 18px;
-                                        align-self: center;
-                                    }
-                                }
-                            }
-
-                            .tdActionButtonStatus {
-                                a {
-                                    i {}
-                                }
-                            }
-
-                            .tdActionButtonEdit {
-                                a {
-                                    i {}
-                                }
-                            }
-
-                            .tdActionButtonDelete {
-                                a {
-                                    i {}
-                                }
-                            }
-
-                            .tdActionButtonInfo {
-                                a {
-                                    i {}
-                                }
-                            }
-
-                            .tdActionButtonDetails {
-                                a {
-                                    i {}
-                                }
-                            }
-
-                            .tdActionButtonToggle {
-                                a {
-                                    i {}
-                                }
-                            }
-                        }
-
-                        .tdActionInner {
-                            position: absolute;
-                            top: 60px;
-                            left: 0;
-                            opacity: 0;
-                            width: 100%;
-                            height: auto;
-                            z-index: 4;
-                            background-color: var(--vz-td-action-bg-2);
-                            transition: 0.30s ease-in-out;
-                            pointer-events: none;
-                            display: flex;
-                            flex-direction: column;
-                            gap: 7px;
-                            padding: 10px;
-                            border-bottom-left-radius: 0.25rem;
-                            border-bottom-right-radius: 0.25rem;
-
-                            .tdActionInnerCommon {
-                                a {
-                                    display: flex;
-                                    flex-direction: row;
-                                    padding: 5px;
-                                    transition: 0.30s ease-in-out;
-                                    border-radius: var(--border-radios);
-                                    text-align: left;
-                                    gap: 8px;
-
-                                    &:hover {
-                                        cursor: pointer;
-                                        background-color: var(--vz-td-inner-hover-bg);
-                                    }
-
-                                    i {
-                                        font-size: 16px;
-                                    }
-
-                                    span {
-                                        font-size: 13px;
-                                        align-self: center;
-                                    }
-                                }
-                            }
+                .formElementMain {
+                    .formElementSub {
+                        .cardForm {
+                            height: 100%;
+                            margin-bottom: 0;
                         }
                     }
+                }
 
-                    .dtMultiData {
-                        .dtMultiDataContent {
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: space-between;
-                            gap: 5px;
+                .tdContentMain {
+                    .tdContentSub {
+                        background-color: var(--vz-td-contentSub-bg);
+                        padding: 10px 0;
+                        border-radius: var(--border-radios);
 
-                            .dtMultiDataCommon {
+                        .tdAction {
+                            padding: 5px;
+                            background-image: linear-gradient(0deg, var(--vz-td-action-bg-2) 0%, var(--vz-td-action-bg-1) 100%);
+                            border-radius: var(--border-radios);
+                            max-width: max-content;
+                            position: relative;
+                            transition: 0.30s ease-in-out;
+
+                            .tdActionButton {
                                 display: flex;
                                 flex-direction: row;
+                                gap: 7px;
 
-                                label {
-                                    font-weight: bold;
-                                    padding: 0;
-                                    margin: 0;
+                                .tdActionButtonCommon {
+                                    a {
+                                        border-radius: 10%;
+                                        width: 30px;
+                                        height: 30px;
+                                        padding: 0;
+                                        display: flex;
+                                        justify-content: center;
+
+                                        i {
+                                            font-size: 18px;
+                                            align-self: center;
+                                        }
+                                    }
                                 }
 
-                                span {
-                                    margin-left: 5px;
-                                    line-height: 12px;
+                                .tdActionButtonStatus {
+                                    a {
+                                        i {}
+                                    }
+                                }
+
+                                .tdActionButtonEdit {
+                                    a {
+                                        i {}
+                                    }
+                                }
+
+                                .tdActionButtonDelete {
+                                    a {
+                                        i {}
+                                    }
+                                }
+
+                                .tdActionButtonInfo {
+                                    a {
+                                        i {}
+                                    }
+                                }
+
+                                .tdActionButtonDetails {
+                                    a {
+                                        i {}
+                                    }
+                                }
+
+                                .tdActionButtonToggle {
+                                    a {
+                                        i {}
+                                    }
                                 }
                             }
 
-                            .dtMultiDataStatus {
-                                label {}
+                            .tdActionInner {
+                                position: absolute;
+                                top: 60px;
+                                left: 0;
+                                opacity: 0;
+                                width: 100%;
+                                height: auto;
+                                z-index: 4;
+                                background-color: var(--vz-td-action-bg-2);
+                                transition: 0.30s ease-in-out;
+                                pointer-events: none;
+                                display: flex;
+                                flex-direction: column;
+                                gap: 7px;
+                                padding: 10px;
+                                border-bottom-left-radius: 0.25rem;
+                                border-bottom-right-radius: 0.25rem;
 
-                                span {}
-                            }
+                                .tdActionInnerCommon {
+                                    a {
+                                        display: flex;
+                                        flex-direction: row;
+                                        padding: 5px;
+                                        transition: 0.30s ease-in-out;
+                                        border-radius: var(--border-radios);
+                                        text-align: left;
+                                        gap: 8px;
 
-                            .dtMultiDataAccess {
-                                label {}
+                                        &:hover {
+                                            cursor: pointer;
+                                            background-color: var(--vz-td-inner-hover-bg);
+                                        }
 
-                                span {}
+                                        i {
+                                            font-size: 16px;
+                                        }
+
+                                        span {
+                                            font-size: 13px;
+                                            align-self: center;
+                                        }
+                                    }
+                                }
                             }
                         }
-                    }
 
-                    .navPermissionMain {
-                        .navPermissionSub {
-                            .npRoleMain {
-                                position: relative;
-                                border-radius: var(--border-radios);
-                                overflow: hidden;
+                        .dtMultiData {
+                            .dtMultiDataContent {
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: space-between;
+                                gap: 5px;
 
-                                .npGo {
-                                    position: absolute;
-                                    top: 0;
-                                    left: 0;
-                                    background-color: #00000087;
-                                    width: 100%;
-                                    height: 100%;
-                                    z-index: 1;
-                                    backdrop-filter: blur(2px);
-
-                                    span {
-                                        position: absolute;
-                                        top: 60px;
-                                        left: 50%;
-                                        padding: 5px 10px;
-                                        cursor: pointer;
-                                        transform: translate(-50%, -0%);
-                                        background: hsla(233, 100%, 90%, 1);
-                                        background: linear-gradient(90deg, hsla(233, 100%, 90%, 1) 0%, hsla(0, 0%, 89%, 1) 100%);
-                                    }
-                                }
-
-                                .npHead {
+                                .dtMultiDataCommon {
                                     display: flex;
                                     flex-direction: row;
-                                    justify-content: space-between;
-                                    margin-bottom: 15px;
 
-                                    .nphLeft {
-                                        span {}
+                                    label {
+                                        font-weight: bold;
+                                        padding: 0;
+                                        margin: 0;
                                     }
 
-                                    .nphRight {
-                                        display: flex;
-                                        flex-direction: column;
-
-                                        .nphrTop {}
-
-                                        .nphrBottom {
-                                            display: flex;
-                                            flex-direction: row;
-
-                                            span {
-                                                border-top-right-radius: 0;
-                                                border-bottom-right-radius: 0;
-                                            }
-
-                                            button {
-                                                border-top-left-radius: 0;
-                                                border-bottom-left-radius: 0;
-                                            }
-                                        }
+                                    span {
+                                        margin-left: 5px;
+                                        line-height: 12px;
                                     }
                                 }
 
-                                .npBody {
-                                    display: flex;
-                                    flex-direction: column;
-                                    gap: 10px;
+                                .dtMultiDataStatus {
+                                    label {}
 
-                                    .npbType {
-                                        display: flex;
-                                        flex-direction: column;
-                                        gap: 10px;
-                                        background-color: var(--vz-nav-orderable-type-bg);
-                                        // border: 2px solid var(--vz-nav-orderable-type-br);
-                                        padding: 10px;
-                                        border-radius: var(--border-radios);
+                                    span {}
+                                }
 
-                                        .npbMain {
-                                            display: flex;
-                                            flex-direction: column;
-                                            gap: 10px;
-                                            background-color: var(--vz-nav-orderable-main-bg);
-                                            // border: 2px solid var(--vz-nav-orderable-main-br);
-                                            padding: 10px;
-                                            border-radius: var(--border-radios);
+                                .dtMultiDataAccess {
+                                    label {}
 
-                                            .npbSub {
-                                                display: flex;
-                                                flex-direction: column;
-                                                gap: 10px;
-                                                background-color: var(--vz-nav-orderable-sub-bg);
-                                                // border: 2px solid var(--vz-nav-orderable-sub-br);
-                                                padding: 10px;
-                                                border-radius: var(--border-radios);
+                                    span {}
+                                }
+                            }
+                        }
 
-                                                .npbNested {
-                                                    display: flex;
-                                                    flex-direction: column;
-                                                    gap: 10px;
-                                                    background-color: var(--vz-nav-orderable-nested-bg);
-                                                    // border: 2px solid var(--vz-nav-orderable-nested-br);
-                                                    padding: 10px;
-                                                    border-radius: var(--border-radios);
-                                                }
-                                            }
+                        .navPermissionMain {
+                            .navPermissionSub {
+                                .npRoleMain {
+                                    position: relative;
+                                    border-radius: var(--border-radios);
+                                    overflow: hidden;
+
+                                    .npGo {
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        background-color: #00000087;
+                                        width: 100%;
+                                        height: 100%;
+                                        z-index: 1;
+                                        backdrop-filter: blur(2px);
+
+                                        span {
+                                            position: absolute;
+                                            top: 60px;
+                                            left: 50%;
+                                            padding: 5px 10px;
+                                            cursor: pointer;
+                                            transform: translate(-50%, -0%);
+                                            background: hsla(233, 100%, 90%, 1);
+                                            background: linear-gradient(90deg, hsla(233, 100%, 90%, 1) 0%, hsla(0, 0%, 89%, 1) 100%);
                                         }
                                     }
 
-                                    .npbHeading {
-                                        .npbhLeft {
+                                    .npHead {
+                                        display: flex;
+                                        flex-direction: row;
+                                        justify-content: space-between;
+                                        margin-bottom: 15px;
+
+                                        .nphLeft {
                                             span {}
                                         }
 
-                                        .npbhRight {
-                                            .npbCheckCommon {
+                                        .nphRight {
+                                            display: flex;
+                                            flex-direction: column;
+
+                                            .nphrTop {}
+
+                                            .nphrBottom {
                                                 display: flex;
                                                 flex-direction: row;
-                                                gap: 17px;
-                                                justify-content: space-between;
-                                                flex-wrap: wrap;
 
-                                                .npbCheckNoAccess {
-                                                    padding: 8px;
-                                                    border-radius: var(--border-radios);
-                                                    background-color: rgb(116, 220, 238);
-
-                                                    span {}
+                                                span {
+                                                    border-top-right-radius: 0;
+                                                    border-bottom-right-radius: 0;
                                                 }
 
-                                                .npbCheckYesAccess {
+                                                button {
+                                                    border-top-left-radius: 0;
+                                                    border-bottom-left-radius: 0;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    .npBody {
+                                        display: flex;
+                                        flex-direction: column;
+                                        gap: 10px;
+
+                                        .npbType {
+                                            display: flex;
+                                            flex-direction: column;
+                                            gap: 10px;
+                                            background-color: var(--vz-nav-orderable-type-bg);
+                                            // border: 2px solid var(--vz-nav-orderable-type-br);
+                                            padding: 10px;
+                                            border-radius: var(--border-radios);
+
+                                            .npbMain {
+                                                display: flex;
+                                                flex-direction: column;
+                                                gap: 10px;
+                                                background-color: var(--vz-nav-orderable-main-bg);
+                                                // border: 2px solid var(--vz-nav-orderable-main-br);
+                                                padding: 10px;
+                                                border-radius: var(--border-radios);
+
+                                                .npbSub {
                                                     display: flex;
                                                     flex-direction: column;
                                                     gap: 10px;
-                                                    padding: 8px;
+                                                    background-color: var(--vz-nav-orderable-sub-bg);
+                                                    // border: 2px solid var(--vz-nav-orderable-sub-br);
+                                                    padding: 10px;
                                                     border-radius: var(--border-radios);
-                                                    background-color: rgb(223, 223, 223);
-                                                    box-shadow: 0 0 5px #acacac;
-                                                    max-width: 95px;
-                                                    width: 100%;
 
-                                                    .npbcHeading {
-                                                        span {
-                                                            text-align: center;
-                                                            display: block;
-                                                            text-transform: capitalize;
-                                                            font-weight: bold;
-                                                            font-size: 12px;
-                                                        }
+                                                    .npbNested {
+                                                        display: flex;
+                                                        flex-direction: column;
+                                                        gap: 10px;
+                                                        background-color: var(--vz-nav-orderable-nested-bg);
+                                                        // border: 2px solid var(--vz-nav-orderable-nested-br);
+                                                        padding: 10px;
+                                                        border-radius: var(--border-radios);
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        .npbHeading {
+                                            .npbhLeft {
+                                                span {}
+                                            }
+
+                                            .npbhRight {
+                                                .npbCheckCommon {
+                                                    display: flex;
+                                                    flex-direction: row;
+                                                    gap: 17px;
+                                                    justify-content: space-between;
+                                                    flex-wrap: wrap;
+
+                                                    .npbCheckNoAccess {
+                                                        padding: 8px;
+                                                        border-radius: var(--border-radios);
+                                                        background-color: rgb(116, 220, 238);
+
+                                                        span {}
                                                     }
 
-                                                    .npbcbInput {
-                                                        input {}
+                                                    .npbCheckYesAccess {
+                                                        display: flex;
+                                                        flex-direction: column;
+                                                        gap: 10px;
+                                                        padding: 8px;
+                                                        border-radius: var(--border-radios);
+                                                        background-color: rgb(223, 223, 223);
+                                                        box-shadow: 0 0 5px #acacac;
+                                                        max-width: 95px;
+                                                        width: 100%;
 
-                                                        span {
-                                                            font-size: 20px;
-                                                            text-align: center;
-                                                            display: block;
+                                                        .npbcHeading {
+                                                            span {
+                                                                text-align: center;
+                                                                display: block;
+                                                                text-transform: capitalize;
+                                                                font-weight: bold;
+                                                                font-size: 12px;
+                                                            }
+                                                        }
+
+                                                        .npbcbInput {
+                                                            input {}
+
+                                                            span {
+                                                                font-size: 20px;
+                                                                text-align: center;
+                                                                display: block;
+                                                            }
                                                         }
                                                     }
                                                 }
                                             }
                                         }
                                     }
-                                }
 
-                                .npFoot {
-                                    .npfLeft {}
+                                    .npFoot {
+                                        .npfLeft {}
 
-                                    .npfRight {
-                                        button {}
+                                        .npfRight {
+                                            button {}
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }
 
-            .navOrderable {
-                .no_listMain {
+                .navOrderable {
+                    .no_listMain {
 
-                    .no_listSub {
-                        .navTypeInner {
-                            flex-direction: row;
-                            flex-wrap: wrap;
+                        .no_listSub {
+                            .navTypeInner {
+                                flex-direction: row;
+                                flex-wrap: wrap;
 
-                            .navTypeList {
-                                background-color: var(--vz-nav-orderable-type-bg);
-                                border: 2px solid var(--vz-nav-orderable-type-br);
+                                .navTypeList {
+                                    background-color: var(--vz-nav-orderable-type-bg);
+                                    border: 2px solid var(--vz-nav-orderable-type-br);
 
-                                .navTypeHeading {
-                                    .navHeadingTop {
-                                        i {}
-                                    }
+                                    .navTypeHeading {
+                                        .navHeadingTop {
+                                            i {}
+                                        }
 
-                                    .navHeadingBottom {
-                                        span {
-                                            &:first-child {}
+                                        .navHeadingBottom {
+                                            span {
+                                                &:first-child {}
 
-                                            &:last-child {}
+                                                &:last-child {}
+                                            }
                                         }
                                     }
-                                }
 
-                                .navMainInner {
-                                    flex-direction: row;
-                                    flex-wrap: wrap;
+                                    .navMainInner {
+                                        flex-direction: row;
+                                        flex-wrap: wrap;
 
-                                    .navMainList {
-                                        background-color: var(--vz-nav-orderable-main-bg);
-                                        border: 2px solid var(--vz-nav-orderable-main-br);
+                                        .navMainList {
+                                            background-color: var(--vz-nav-orderable-main-bg);
+                                            border: 2px solid var(--vz-nav-orderable-main-br);
 
-                                        .navMainHeading {
-                                            .navHeadingTop {
-                                                i {}
-                                            }
+                                            .navMainHeading {
+                                                .navHeadingTop {
+                                                    i {}
+                                                }
 
-                                            .navHeadingBottom {
-                                                span {
-                                                    &:first-child {}
+                                                .navHeadingBottom {
+                                                    span {
+                                                        &:first-child {}
 
-                                                    &:last-child {}
+                                                        &:last-child {}
+                                                    }
                                                 }
                                             }
-                                        }
 
-                                        .navSubInner {
-                                            flex-direction: row;
-                                            flex-wrap: wrap;
+                                            .navSubInner {
+                                                flex-direction: row;
+                                                flex-wrap: wrap;
 
-                                            .navSubList {
-                                                background-color: var(--vz-nav-orderable-sub-bg);
-                                                border: 2px solid var(--vz-nav-orderable-sub-br);
+                                                .navSubList {
+                                                    background-color: var(--vz-nav-orderable-sub-bg);
+                                                    border: 2px solid var(--vz-nav-orderable-sub-br);
 
-                                                .navSubHeading {
-                                                    .navHeadingTop {
-                                                        i {}
-                                                    }
+                                                    .navSubHeading {
+                                                        .navHeadingTop {
+                                                            i {}
+                                                        }
 
-                                                    .navHeadingBottom {
-                                                        span {
-                                                            &:first-child {}
+                                                        .navHeadingBottom {
+                                                            span {
+                                                                &:first-child {}
 
-                                                            &:last-child {}
+                                                                &:last-child {}
+                                                            }
                                                         }
                                                     }
-                                                }
 
-                                                .navNestedInner {
-                                                    flex-direction: row;
-                                                    flex-wrap: wrap;
+                                                    .navNestedInner {
+                                                        flex-direction: row;
+                                                        flex-wrap: wrap;
 
-                                                    .navNestedList {
-                                                        background-color: var(--vz-nav-orderable-nested-bg);
-                                                        border: 2px solid var(--vz-nav-orderable-nested-br);
+                                                        .navNestedList {
+                                                            background-color: var(--vz-nav-orderable-nested-bg);
+                                                            border: 2px solid var(--vz-nav-orderable-nested-br);
 
-                                                        .navNestedHeading {
-                                                            .navHeadingTop {
-                                                                i {}
-                                                            }
+                                                            .navNestedHeading {
+                                                                .navHeadingTop {
+                                                                    i {}
+                                                                }
 
-                                                            .navHeadingBottom {
-                                                                span {
-                                                                    &:first-child {}
+                                                                .navHeadingBottom {
+                                                                    span {
+                                                                        &:first-child {}
 
-                                                                    &:last-child {}
+                                                                        &:last-child {}
+                                                                    }
                                                                 }
                                                             }
                                                         }
@@ -595,121 +616,121 @@
                                             }
                                         }
                                     }
-                                }
 
-                                .commonNavHeading {
-                                    display: flex;
-                                    flex-direction: row;
-                                    gap: 10px;
-                                    margin-bottom: 10px;
-                                    border-radius: var(--border-radios);
-                                    padding: 5px;
-
-                                    &:last-child {
-                                        margin: 0;
-                                    }
-
-                                    .navHeadingTop {
-                                        align-self: center;
-
-                                        i {
-                                            font-size: 20px;
-                                        }
-                                    }
-
-                                    .navHeadingBottom {
+                                    .commonNavHeading {
                                         display: flex;
-                                        flex-direction: column;
-                                        gap: 3px;
+                                        flex-direction: row;
+                                        gap: 10px;
+                                        margin-bottom: 10px;
+                                        border-radius: var(--border-radios);
+                                        padding: 5px;
 
-                                        span {
-                                            display: block;
+                                        &:last-child {
+                                            margin: 0;
+                                        }
 
-                                            &:first-child {
-                                                font-weight: bold;
+                                        .navHeadingTop {
+                                            align-self: center;
+
+                                            i {
+                                                font-size: 20px;
                                             }
+                                        }
 
-                                            &:last-child {
-                                                font-size: 12px;
+                                        .navHeadingBottom {
+                                            display: flex;
+                                            flex-direction: column;
+                                            gap: 3px;
+
+                                            span {
+                                                display: block;
+
+                                                &:first-child {
+                                                    font-weight: bold;
+                                                }
+
+                                                &:last-child {
+                                                    font-size: 12px;
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
 
-                        .allNavCommon {
-                            display: flex;
-                            flex-direction: column;
-                            gap: 10px;
-                            padding: 10px;
-                            border-radius: var(--border-radios);
-                            margin: 0 15px 15px 15px;
-                            box-shadow: inset 0 0 10px var(--vz-nav-orderable-allNav-bs);
-                            background-color: var(--vz-nav-orderable-allNav-bg);
+                            .allNavCommon {
+                                display: flex;
+                                flex-direction: column;
+                                gap: 10px;
+                                padding: 10px;
+                                border-radius: var(--border-radios);
+                                margin: 0 15px 15px 15px;
+                                box-shadow: inset 0 0 10px var(--vz-nav-orderable-allNav-bs);
+                                background-color: var(--vz-nav-orderable-allNav-bg);
 
-                            &:first-child {
-                                box-shadow: none;
-                                margin: 0;
-                                padding: 0;
-                                background-color: transparent;
+                                &:first-child {
+                                    box-shadow: none;
+                                    margin: 0;
+                                    padding: 0;
+                                    background-color: transparent;
+                                }
+                            }
+
+                            .navListCommon {
+                                border-radius: var(--border-radios);
                             }
                         }
-
-                        .navListCommon {
-                            border-radius: var(--border-radios);
-                        }
                     }
-                }
 
-                .no_noteMain {
-                    .no_noteSub {
-                        border-radius: var(--border-radios);
+                    .no_noteMain {
+                        .no_noteSub {
+                            border-radius: var(--border-radios);
 
-                        .no_noteHeading {}
+                            .no_noteHeading {}
 
-                        .no_noteBody {
-                            .no_noteCommon {
-                                padding: 8px;
-                                border-radius: var(--border-radios);
+                            .no_noteBody {
+                                .no_noteCommon {
+                                    padding: 8px;
+                                    border-radius: var(--border-radios);
 
-                                .no_noteText {
-                                    display: flex;
+                                    .no_noteText {
+                                        display: flex;
 
-                                    .no_colorType {
-                                        width: 15px;
-                                        height: 15px;
-                                        margin: 2px 5px 0 5px;
-                                        display: block;
-                                        background-color: var(--vz-nav-orderable-type-bg);
-                                        border: 2px solid var(--vz-nav-orderable-type-br);
-                                    }
+                                        .no_colorType {
+                                            width: 15px;
+                                            height: 15px;
+                                            margin: 2px 5px 0 5px;
+                                            display: block;
+                                            background-color: var(--vz-nav-orderable-type-bg);
+                                            border: 2px solid var(--vz-nav-orderable-type-br);
+                                        }
 
-                                    .no_colorMain {
-                                        width: 15px;
-                                        height: 15px;
-                                        margin: 2px 5px 0 5px;
-                                        display: block;
-                                        background-color: var(--vz-nav-orderable-main-bg);
-                                        border: 2px solid var(--vz-nav-orderable-main-br);
-                                    }
+                                        .no_colorMain {
+                                            width: 15px;
+                                            height: 15px;
+                                            margin: 2px 5px 0 5px;
+                                            display: block;
+                                            background-color: var(--vz-nav-orderable-main-bg);
+                                            border: 2px solid var(--vz-nav-orderable-main-br);
+                                        }
 
-                                    .no_colorSub {
-                                        width: 15px;
-                                        height: 15px;
-                                        margin: 2px 5px 0 5px;
-                                        display: block;
-                                        background-color: var(--vz-nav-orderable-sub-bg);
-                                        border: 2px solid var(--vz-nav-orderable-sub-br);
-                                    }
+                                        .no_colorSub {
+                                            width: 15px;
+                                            height: 15px;
+                                            margin: 2px 5px 0 5px;
+                                            display: block;
+                                            background-color: var(--vz-nav-orderable-sub-bg);
+                                            border: 2px solid var(--vz-nav-orderable-sub-br);
+                                        }
 
-                                    .no_colorNested {
-                                        width: 15px;
-                                        height: 15px;
-                                        margin: 2px 5px 0 5px;
-                                        display: block;
-                                        background-color: var(--vz-nav-orderable-nested-bg);
-                                        border: 2px solid var(--vz-nav-orderable-nested-br);
+                                        .no_colorNested {
+                                            width: 15px;
+                                            height: 15px;
+                                            margin: 2px 5px 0 5px;
+                                            display: block;
+                                            background-color: var(--vz-nav-orderable-nested-bg);
+                                            border: 2px solid var(--vz-nav-orderable-nested-br);
+                                        }
                                     }
                                 }
                             }
@@ -717,64 +738,146 @@
                     }
                 }
             }
+
+            .cardBodyTab {
+                .ulNavList {
+                    justify-content: center;
+
+                    .nav-link {
+                        color: var(--vz-ulNavList-button-col);
+
+                        &:not(.active) {
+                            &:hover {
+                                background-color: var(--vz-ulNavList-buttonHover-bg) !important;
+
+                                &::after,
+                                &::before {
+                                    background-color: var(--vz-ulNavList-buttonHover-bg) !important;
+                                }
+                            }
+                        }
+
+                        &.active {
+                            background-color: var(--vz-ulNavList-buttonActive-bg);
+
+                            &::after,
+                            &::before {
+                                background-color: var(--vz-ulNavList-buttonActive-bg);
+                            }
+                        }
+
+                        &:not(.active) {
+                            background-color: var(--vz-ulNavList-buttonNotActive-bg);
+
+                            &::after,
+                            &::before {
+                                background-color: var(--vz-ulNavList-buttonNotActive-bg);
+                            }
+                        }
+                    }
+                }
+            }
         }
-    }
 
-    .info-page-data {
-        .each-detail-box {
-            background-color: var(--vz-info-detail-bg);
-            padding: 10px;
+        .info-page-data {
+            .each-detail-box {
+                background-color: var(--vz-info-detail-bg);
+                padding: 10px;
+                border-radius: var(--border-radios);
+
+                .details-label {
+                    font-size: 15px;
+                }
+
+                .detail-span {
+                    font-size: 12px;
+                    display: flex;
+                    flex-direction: row;
+                    gap: 5px;
+                    flex-wrap: wrap;
+
+                    .accessSet {
+                        padding: 5px;
+                        background-color: var(--vz-info-accessSet-bg);
+                        max-width: fit-content;
+                        border-radius: var(--border-radios);
+                        text-transform: capitalize;
+                    }
+                }
+            }
+        }
+
+        .con-access-modal {
+            .form-element {
+                .form-check-label {
+                    text-transform: capitalize;
+                    user-select: none;
+                }
+            }
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: var(--vz-select2-bg);
+            border: 1px solid var(--vz-select2-br);
+        }
+
+        .select2-dropdown {
+            background-color: var(--vz-select2-bg) !important;
+            border: 1px solid var(--vz-select2-br) !important;
+        }
+
+        .dropify-wrapper {
+            background-color: var(--vz-select2-bg);
+            border: 2px solid var(--vz-select2-br);
+        }
+
+        .note-toolbar {
+            background-color: var(--vz-select2-bg);
+            border-color: var(--vz-select2-br);
+        }
+
+        .dataTable {
+            border: 2px solid var(--vz-dataTable-br);
             border-radius: var(--border-radios);
+            overflow: hidden;
 
-            .details-label {
-                font-size: 15px;
+            thead {
+                background-color: var(--vz-dataTable-bg);
+
+                tr {
+                    th {
+                        border-color: var(--vz-dataTable-br);
+                        border: none;
+                    }
+                }
             }
 
-            .detail-span {
-                font-size: 12px;
-                display: flex;
-                flex-direction: row;
-                gap: 5px;
-                flex-wrap: wrap;
+            tbody {
+                tr {
+                    td {
+                        border-color: var(--vz-dataTable-br);
+                        border: none;
+                    }
+                }
+            }
 
-                .accessSet {
-                    padding: 5px;
-                    background-color: var(--vz-info-accessSet-bg);
-                    max-width: fit-content;
-                    border-radius: var(--border-radios);
-                    text-transform: capitalize;
+            tfoot {
+                background-color: var(--vz-dataTable-bg);
+
+                tr {
+                    th {
+                        border-color: var(--vz-dataTable-br);
+                        border: none;
+                    }
                 }
             }
         }
     }
 
-    .con-access-modal {
-        .form-element {
-            .form-check-label {
-                text-transform: capitalize;
-                user-select: none;
-            }
+    #page-topbar {
+        .layout-width {
+            background-color: var(--vz-topNavBar-bg);
         }
-    }
-
-    .select2-container--default .select2-selection--single {
-        background-color: var(--vz-select2-bg);
-        border: 1px solid var(--vz-select2-br);
-    }
-
-    .select2-dropdown {
-        background-color: var(--vz-select2-bg) !important;
-        border: 1px solid var(--vz-select2-br) !important;
-    }
-
-    .dropify-wrapper {
-        background-color: var(--vz-select2-bg);
-        border: 2px solid var(--vz-select2-br);
-    }
-
-    .note-toolbar {
-        background-color: var(--vz-select2-bg);
-        border-color: var(--vz-select2-br);
     }
 }
 

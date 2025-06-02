@@ -91,7 +91,28 @@ trait CommonTrait
                     return false;
                 }
             }
-        } elseif ($params['type'] == Config::get('constants.action.status.smmf')) {
+        } elseif ($params['type'] == Config::get('constants.action.status.smsfs')) {
+            $field = ($params['targetField'] == null) ? 'default' : $params['targetField'][0];
+            $data = app($params['targetModel'])::where('id', $params['targetId'])->first();
+            if ($data->$field == config('constants.status')['no']) {
+                $data->$field = config('constants.status')['yes'];
+                if ($data->update()) {
+                    DB::commit();
+                    return true;
+                } else {
+                    DB::rollBack();
+                    return false;
+                }
+            } else {
+                $data->$field = config('constants.status')['no'];
+                if ($data->update()) {
+                    DB::commit();
+                    return true;
+                } else {
+                    DB::rollBack();
+                    return false;
+                }
+            }
         } elseif ($params['type'] == Config::get('constants.action.status.mmsf')) {
         } else {
         }
@@ -180,19 +201,23 @@ trait CommonTrait
                 if ($tempOne['type'] == 'dtMultiData') {
                     $appendHtml = '';
                     foreach ($tempOne['data'] as $tempTwo) {
-                        if ($tempTwo['type'] == 'status') {
+                        if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.status')) {
                             $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataStatus"><label>Status:</label>' . $tempOne['data']['status']['custom'] . '</div>';
                         }
 
-                        if ($tempTwo['type'] == 'access') {
+                        if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.default')) {
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataDefault"><label>Default:</label>' . $tempOne['data']['default']['custom'] . '</div>';
+                        }
+
+                        if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.access')) {
                             $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Access:</label>' . $tempOne['data']['access']['custom'] . '</div>';
                         }
 
-                        if ($tempTwo['type'] == 'hasChild') {
+                        if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.hasChild')) {
                             $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Child:</label>' . $tempOne['data']['hasChild']['custom'] . '</div>';
                         }
 
-                        if ($tempTwo['type'] == 'hasPermission') {
+                        if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.hasPermission')) {
                             $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Permission:</label>' . $tempOne['data']['hasPermission']['custom'] . '</div>';
                         }
                     }
@@ -434,6 +459,43 @@ trait CommonTrait
         try {
             $return = array();
             foreach ($params as $temp) {
+                if ($temp['type'] == Config::get('constants.typeCheck.customizeInText.type')) {
+                    if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.amenities.type')) {
+                        $custom = '<span class="pa_amenities">' . Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.amenities.name') . '</span>';
+                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.amenities.name');
+                        $raw = $temp['value'];
+                    } else if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.propertyFeatures.type')) {
+                        $custom = '<span class="pa_propertyFeatures">' . Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.propertyFeatures.name') . '</span>';
+                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.propertyFeatures.name');
+                        $raw = $temp['value'];
+                    } else if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.societyFeatures.type')) {
+                        $custom = '<span class="pa_societyFeatures">' . Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.societyFeatures.name') . '</span>';
+                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.societyFeatures.name');
+                        $raw = $temp['value'];
+                    } else if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.typeOfFloorings.type')) {
+                        $custom = '<span class="pa_typeOfFloorings">' . Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.typeOfFloorings.name') . '</span>';
+                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.typeOfFloorings.name');
+                        $raw = $temp['value'];
+                    } else if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.parkingTypes.type')) {
+                        $custom = '<span class="pa_parkingTypes">' . Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.parkingTypes.name') . '</span>';
+                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.parkingTypes.name');
+                        $raw = $temp['value'];
+                    } else if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.locatedNear.type')) {
+                        $custom = '<span class="pa_locatedNear">' . Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.locatedNear.name') . '</span>';
+                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.locatedNear.name');
+                        $raw = $temp['value'];
+                    } else {
+                        $custom = '<span class="pa_locationAdvantages">' . Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.locationAdvantages.name') . '</span>';
+                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyAttributes.attributes.locationAdvantages.name');
+                        $raw = $temp['value'];
+                    }
+                    $return[Config::get('constants.typeCheck.customizeInText.type')] = [
+                        'custom' => $custom,
+                        'formatted' => $formatted,
+                        'raw' => $raw,
+                        'type' => $temp['type'],
+                    ];
+                }
                 if ($temp['type'] == Config::get('constants.typeCheck.customizeInText.status')) {
                     if ($temp['value'] == Config::get('constants.status')['active']) {
                         $custom = '<span class="badge bg-success">Active</span>';

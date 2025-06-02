@@ -21,7 +21,7 @@
     <div class="row main-page-content">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header cardHeader">
                     <div class="d-sm-flex align-items-center justify-content-between">
                         <div class="mb-3 mb-sm-0">
                             <h5 class="card-title mb-0">Basic Datatables</h5>
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body cardBody">
                     <div class="row">
                         <div class="col-md-12 mb-4 tdFilterMain" data-filterStatus="0">
                             <div class="tdFilterSub">

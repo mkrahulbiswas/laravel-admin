@@ -74,6 +74,54 @@ return [
                 'type' => 'navNested'
             ],
         ],
+        'propertyRelated' => [
+            'type' => 'propertyRelated',
+            'propertyAttributes' => [
+                'type' => 'propertyAttributes',
+                'attributes' => [
+                    'amenities' => [
+                        'type' => 'amenities',
+                        'name' => 'Amenities'
+                    ],
+                    'propertyFeatures' => [
+                        'type' => 'propertyFeatures',
+                        'name' => 'Property Features'
+                    ],
+                    'societyFeatures' => [
+                        'type' => 'societyFeatures',
+                        'name' => 'Society Features'
+                    ],
+                    'typeOfFloorings' => [
+                        'type' => 'typeOfFloorings',
+                        'name' => 'Type Of Floorings'
+                    ],
+                    'parkingTypes' => [
+                        'type' => 'parkingTypes',
+                        'name' => 'Parking Types'
+                    ],
+                    'locatedNear' => [
+                        'type' => 'locatedNear',
+                        'name' => 'Located Near'
+                    ],
+                    'locationAdvantages' => [
+                        'type' => 'locationAdvantages',
+                        'name' => 'Location Advantages'
+                    ],
+                ]
+            ],
+            'propertyType' => [
+                'type' => 'propertyType',
+            ],
+            'manageBroad' => [
+                'type' => 'manageBroad',
+                'broadType' => [
+                    'type' => 'broadType'
+                ],
+                'assignBroad' => [
+                    'type' => 'assignBroad'
+                ]
+            ]
+        ],
         'manageAccess' => [
             'roleMain' => [
                 'type' => 'roleMain'
@@ -98,6 +146,7 @@ return [
         'helperCommon' => [
             'get' => [
                 'inf' => 'insideNoFilter',
+                'iyf' => 'insideYesFilter',
                 'bnf' => 'basicNoFilter',
                 'byf' => 'basicYesFilter',
                 'dyf' => 'dependedYesFilter',
@@ -132,6 +181,7 @@ return [
         ],
         'customizeInText' => [
             'status' => 'status',
+            'type' => 'type',
             'default' => 'default',
             'access' => 'access',
             'child' => 'hasChild',
@@ -163,10 +213,12 @@ return [
         ],
     ],
 
+
     //--Action Type
     'action' => [
         'status' => [
             'smsfa' => 'SINGLE_MODEL_SINGLE_FIELD_ALL',
+            'smsfs' => 'SINGLE_MODEL_SINGLE_FIELD_SELECTED',
             'smsf' => 'SINGLE_MODEL_SINGLE_FIELD',
             'smmf' => 'SINGLE_MODEL_MULTIPLE_FIELD',
             'mmsf' => 'MULTIPLE_MODEL_SINGLE_FIELD',

@@ -440,6 +440,159 @@
         });
         /*--========================= ( Manage Panel END ) =========================--*/
 
+
+
+        /*--========================= ( Property Related START ) =========================--*/
+        /*------( Property Attributes Listing )--------*/
+        $('#propertyRelated-propertyAttributes').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "property-attributes/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "about"
+                },
+                {
+                    data: "type"
+                },
+                {
+                    data: "statInfo"
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        /*------( Property Type Listing )--------*/
+        $('#propertyRelated-propertyType').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "property-types/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "about"
+                },
+                {
+                    data: "statInfo"
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        /*------( broad Types Listing )--------*/
+        $('#propertyRelated-manageBroad-broadType').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "broad-type/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "about"
+                },
+                {
+                    data: "customizeInText",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.status.custom).text();
+                    }
+
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        /*------( Assign Broad Listing )--------*/
+        $('#propertyRelated-manageBroad-assignBroad').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "assign-broad/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "propertyType",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.name).text();
+                    }
+                },
+                {
+                    data: "broadType",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.name).text();
+                    }
+                },
+                {
+                    data: "statInfo",
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+        /*--========================= ( Property Related END ) =========================--*/
+
     });
 
 })(jQuery);

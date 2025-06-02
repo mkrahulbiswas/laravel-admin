@@ -8,6 +8,9 @@ use App\Http\Controllers\Admin\ManagePanel\ManageAccessAdminController;
 use App\Http\Controllers\Admin\ManagePanel\ManageNavAdminController;
 use App\Http\Controllers\Admin\ManagePanel\QuickSettingsAdminController;
 use App\Http\Controllers\Admin\ManageUsers\AdminUsersAdminController;
+use App\Http\Controllers\Admin\PropertyRelated\ManageBroadAdminController;
+use App\Http\Controllers\Admin\PropertyRelated\PropertyAttributesAdminController;
+use App\Http\Controllers\Admin\PropertyRelated\PropertyTypeAdminController;
 use App\Http\Middleware\CheckPermission;
 
 Route::controller(AuthAdminController::class)->group(function () {
@@ -42,6 +45,13 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::post('logo/edit/update', 'updateLogo')->name('admin.update.logo');
                 Route::patch('logo/default/{id?}', 'defaultLogo')->name('admin.default.logo');
                 Route::delete('logo/delete/{id?}', 'deleteLogo')->name('admin.delete.logo');
+
+                Route::get('templates', 'showTemplates')->name('admin.show.templates');
+                Route::get('templates/ajaxGetList', 'getTemplates')->name('admin.get.templates');
+                Route::post('templates/add/save', 'saveTemplates')->name('admin.save.templates');
+                Route::post('templates/edit/update', 'updateTemplates')->name('admin.update.templates');
+                Route::patch('templates/status/{id?}', 'statusTemplates')->name('admin.status.templates');
+                Route::delete('templates/delete/{id?}', 'deleteTemplates')->name('admin.delete.templates');
             });
 
             Route::controller(ManageAccessAdminController::class)->prefix('mange-access')->group(function () {
@@ -143,6 +153,46 @@ Route::controller(AuthAdminController::class)->group(function () {
 
                 Route::get('arrange-nav', 'showArrangeNav')->name('admin.show.arrangeNav');
                 Route::post('arrange-nav/edit/update', 'updateArrangeNav')->name('admin.update.arrangeNav');
+            });
+        });
+
+        /*======== (-- Category & Attributes & Types --) ========*/
+        Route::group(['prefix' => 'property-related'], function () {
+            Route::controller(PropertyAttributesAdminController::class)->group(function () {
+                Route::get('property-attributes', 'showPropertyAttributes')->name('admin.show.propertyAttributes');
+                Route::get('property-attributes/ajaxGetList', 'getPropertyAttributes')->name('admin.get.propertyAttributes');
+                Route::post('property-attributes/add/save', 'savePropertyAttributes')->name('admin.save.propertyAttributes');
+                Route::post('property-attributes/edit/update', 'updatePropertyAttributes')->name('admin.update.propertyAttributes');
+                Route::patch('property-attributes/default/{id?}', 'defaultPropertyAttributes')->name('admin.default.propertyAttributes');
+                Route::patch('property-attributes/status/{id?}', 'statusPropertyAttributes')->name('admin.status.propertyAttributes');
+                Route::delete('property-attributes/delete/{id?}', 'deletePropertyAttributes')->name('admin.delete.propertyAttributes');
+            });
+
+            Route::controller(PropertyTypeAdminController::class)->group(function () {
+                Route::get('property-types', 'showPropertyType')->name('admin.show.propertyType');
+                Route::get('property-types/ajaxGetList', 'getPropertyType')->name('admin.get.propertyType');
+                Route::post('property-types/add/save', 'savePropertyType')->name('admin.save.propertyType');
+                Route::post('property-types/edit/update', 'updatePropertyType')->name('admin.update.propertyType');
+                Route::patch('property-types/default/{id?}', 'defaultPropertyType')->name('admin.default.propertyType');
+                Route::patch('property-types/status/{id?}', 'statusPropertyType')->name('admin.status.propertyType');
+                Route::delete('property-types/delete/{id?}', 'deletePropertyType')->name('admin.delete.propertyType');
+            });
+
+            Route::controller(ManageBroadAdminController::class)->prefix('manage-broad')->group(function () {
+                Route::get('broad-type', 'showBroadType')->name('admin.show.broadType');
+                Route::get('broad-type/ajaxGetList', 'getBroadType')->name('admin.get.broadType');
+                Route::post('broad-type/add/save', 'saveBroadType')->name('admin.save.broadType');
+                Route::post('broad-type/edit/update', 'updateBroadType')->name('admin.update.broadType');
+                Route::patch('broad-type/status/{id?}', 'statusBroadType')->name('admin.status.broadType');
+                Route::delete('broad-type/delete/{id?}', 'deleteBroadType')->name('admin.delete.broadType');
+
+                Route::get('assign-broad', 'showAssignBroad')->name('admin.show.assignBroad');
+                Route::get('assign-broad/ajaxGetList', 'getAssignBroad')->name('admin.get.assignBroad');
+                Route::post('assign-broad/add/save', 'saveAssignBroad')->name('admin.save.assignBroad');
+                Route::post('assign-broad/edit/update', 'updateAssignBroad')->name('admin.update.assignBroad');
+                Route::patch('assign-broad/default/{id?}', 'defaultAssignBroad')->name('admin.default.assignBroad');
+                Route::patch('assign-broad/status/{id?}', 'statusAssignBroad')->name('admin.status.assignBroad');
+                Route::delete('assign-broad/delete/{id?}', 'deleteAssignBroad')->name('admin.delete.assignBroad');
             });
         });
 

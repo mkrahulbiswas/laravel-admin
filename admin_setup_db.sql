@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: May 29, 2025 at 02:53 PM
+-- Generation Time: Jun 01, 2025 at 02:02 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.4.0
 
@@ -2295,7 +2295,7 @@ CREATE TABLE IF NOT EXISTS `nav_main` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `nav_main`
@@ -2304,6 +2304,7 @@ CREATE TABLE IF NOT EXISTS `nav_main` (
 INSERT INTO `nav_main` (`id`, `uniqueId`, `navTypeId`, `name`, `icon`, `route`, `lastSegment`, `description`, `access`, `status`, `position`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'NM-124127', 1, 'Dashboard', 'ri-dashboard-2-line', 'dashboard', 'dashboard', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', NULL, 'ACTIVE', 1, '2024-08-07 04:50:28', '2025-05-28 08:03:46', NULL),
 (2, 'NM-966851', 2, 'Manage Panel', 'ri-pages-line', 'manage-panel', 'manage-panel', 'dd', NULL, 'ACTIVE', 3, '2024-08-07 04:50:28', '2025-05-28 08:03:46', NULL),
+(29, 'NM-271623', 36, 'Property Related', 'mdi mdi-crane', 'property-related', 'property-related', 'NA', NULL, 'ACTIVE', 4, '2025-05-29 23:40:37', '2025-05-29 23:41:04', NULL),
 (25, 'NM-332277', 35, 'Manage Users', 'bx bxs-user-account', 'manage-users', 'manage-users', 'NA', NULL, 'ACTIVE', 2, '2025-05-19 21:10:37', '2025-05-28 08:03:46', NULL);
 
 -- --------------------------------------------------------
@@ -2331,7 +2332,7 @@ CREATE TABLE IF NOT EXISTS `nav_nested` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `nav_nested`
@@ -2347,7 +2348,8 @@ INSERT INTO `nav_nested` (`id`, `uniqueId`, `navTypeId`, `navMainId`, `navSubId`
 (8, 'NN-856999', 2, 2, 6, 'Nav Nested', 'ri-pie-chart-line', 'NA', '{\"add\": true, \"set\": true, \"back\": false, \"edit\": true, \"info\": true, \"save\": true, \"close\": true, \"other\": false, \"reset\": true, \"access\": true, \"delete\": true, \"detail\": false, \"filter\": true, \"reload\": false, \"search\": true, \"status\": true, \"update\": true, \"permission\": false}', 'manage-panel/manage-nav/nav-nested', 'nav-nested', 'ACTIVE', 7, '2024-08-07 08:27:04', '2025-05-28 08:03:46', NULL),
 (18, 'NN-427492', 2, 2, 6, 'Arrange Nav', 's', 'Test', '{\"add\": true, \"edit\": false, \"info\": true, \"other\": true, \"reset\": true, \"access\": false, \"delete\": false, \"detail\": false, \"filter\": true, \"reload\": false, \"search\": false, \"status\": true, \"permission\": false}', 'manage-panel/manage-nav/arrange-nav', 'arrange-nav', 'ACTIVE', 8, '2024-09-04 01:21:27', '2025-05-28 08:03:46', NULL),
 (23, 'NN-470666', 2, 2, 6, 'Prepare Nav', 'bx bx-menu-alt-left', 'NA', NULL, 'manage-panel/manage-nav/prepare-nav', 'prepare-nav', 'ACTIVE', 9, '2025-04-19 06:39:00', '2025-05-10 00:41:23', '2025-05-10 00:41:23'),
-(25, 'NN-189487', 2, 2, 21, 'Logo', 'aa', 'NA', '{\"add\": true, \"set\": false, \"back\": false, \"edit\": true, \"info\": true, \"save\": false, \"close\": false, \"other\": false, \"reset\": false, \"access\": false, \"delete\": true, \"detail\": false, \"filter\": false, \"reload\": false, \"search\": false, \"status\": false, \"update\": false, \"default\": true, \"permission\": false}', 'manage-panel/quick-settings/logo', 'logo', 'ACTIVE', 9, '2025-05-28 23:41:54', '2025-05-29 06:05:11', NULL);
+(25, 'NN-189487', 2, 2, 21, 'Logo', 'aa', 'NA', '{\"add\": true, \"set\": false, \"back\": false, \"edit\": true, \"info\": true, \"save\": false, \"close\": false, \"other\": false, \"reset\": false, \"access\": false, \"delete\": true, \"detail\": false, \"filter\": false, \"reload\": false, \"search\": false, \"status\": false, \"update\": false, \"default\": true, \"permission\": false}', 'manage-panel/quick-settings/logo', 'logo', 'ACTIVE', 9, '2025-05-28 23:41:54', '2025-05-29 06:05:11', NULL),
+(33, 'NN-356537', 2, 2, 21, 'Templates', 'NA', 'NA', NULL, 'manage-panel/quick-settings/templates', 'templates', 'ACTIVE', 10, '2025-05-30 09:22:08', '2025-05-31 05:11:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -2373,7 +2375,7 @@ CREATE TABLE IF NOT EXISTS `nav_sub` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `nav_sub`
@@ -2385,7 +2387,10 @@ INSERT INTO `nav_sub` (`id`, `uniqueId`, `navTypeId`, `navMainId`, `name`, `icon
 (3, 'NS-818113', 2, 2, 'Mange Access', 'ri-apps-2-line', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', NULL, 'manage-panel/mange-access', 'mange-access', 'ACTIVE', 4, '2024-08-07 04:52:31', '2025-05-28 08:03:46', NULL),
 (6, 'NS-520284', 2, 2, 'Manage Nav', 'ri-pie-chart-line', 'aa', NULL, 'manage-panel/manage-nav', 'manage-nav', 'ACTIVE', 5, '2024-08-07 04:52:31', '2025-05-28 08:03:46', NULL),
 (20, 'NS-229603', 35, 25, 'Admin Users', 'las la-user-tie', 'NA', '{\"add\": true, \"set\": false, \"back\": true, \"edit\": true, \"info\": true, \"save\": true, \"close\": true, \"other\": false, \"reset\": false, \"access\": false, \"delete\": true, \"detail\": true, \"filter\": true, \"reload\": true, \"search\": false, \"status\": true, \"update\": true, \"permission\": false}', 'manage-users/admin-users', 'admin-users', 'ACTIVE', 3, '2025-05-19 23:32:47', '2025-05-28 08:03:46', NULL),
-(21, 'NS-160510', 2, 2, 'Quick Settings', 'aa', 'NA', NULL, 'manage-panel/quick-settings', 'quick-settings', 'ACTIVE', 6, '2025-05-28 23:41:29', '2025-05-28 23:41:29', NULL);
+(21, 'NS-160510', 2, 2, 'Quick Settings', 'aa', 'NA', NULL, 'manage-panel/quick-settings', 'quick-settings', 'ACTIVE', 6, '2025-05-28 23:41:29', '2025-05-28 23:41:29', NULL),
+(30, 'NS-184980', 36, 29, 'Property Categories', 'NA', 'Property types can be broadly categorized into real, personal, private, public, and intellectual property. Real property includes land and anything permanently attached to it, like buildings. Personal property refers to movable items, such as vehicles and furniture. Private property is owned by individuals or corporations, while public property is owned by the government. Intellectual property encompasses creations of the mind, such as patents and copyrights.', NULL, 'property-related/property-categories', 'property-categories', 'ACTIVE', 8, '2025-05-29 23:42:39', '2025-05-29 23:42:39', NULL),
+(29, 'NS-722249', 36, 29, 'Property Types', 'NA', 'Property types in real estate can be broadly classified into five main categories: residential, commercial, raw land, industrial, and special purpose. Within each category, there are further sub-types.', NULL, 'property-related/property-types', 'property-types', 'ACTIVE', 7, '2025-05-29 23:42:01', '2025-05-29 23:42:01', NULL),
+(31, 'NS-489685', 36, 29, 'Property Attributes', 'NA', 'Property attributes, in various contexts, are characteristics or features that describe or define a property, such as a house, a piece of land, or an object in programming. These attributes can include details like address, size, location, and more. In programming, they define how a property can be accessed and modified', NULL, 'property-related/property-attributes', 'property-attributes', 'ACTIVE', 9, '2025-05-29 23:43:33', '2025-05-29 23:43:33', NULL);
 
 -- --------------------------------------------------------
 
@@ -2406,7 +2411,7 @@ CREATE TABLE IF NOT EXISTS `nav_type` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `nav_type`
@@ -2415,7 +2420,8 @@ CREATE TABLE IF NOT EXISTS `nav_type` (
 INSERT INTO `nav_type` (`id`, `uniqueId`, `name`, `icon`, `description`, `status`, `position`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'NT-841206', 'Dashboard', 'ri-dashboard-2-line', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'ACTIVE', 1, '2024-08-07 04:21:05', '2025-05-28 08:03:46', NULL),
 (2, 'NT-549934', 'Admin Related', 'las la-hat-cowboy-side', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently', 'ACTIVE', 3, '2024-08-07 04:21:10', '2025-05-28 08:03:46', NULL),
-(35, 'NT-162469', 'Users Releted', 'las la-user-tie', 'NA', 'ACTIVE', 2, '2025-05-09 08:24:38', '2025-05-28 08:03:46', NULL);
+(35, 'NT-162469', 'Users Releted', 'las la-user-tie', 'NA', 'ACTIVE', 2, '2025-05-09 08:24:38', '2025-05-28 08:03:46', NULL),
+(36, 'NT-533251', 'Category & Attributes & type', 'NA', 'NA', 'ACTIVE', 4, '2025-05-29 22:58:41', '2025-05-29 23:36:12', NULL);
 
 -- --------------------------------------------------------
 
@@ -2582,6 +2588,36 @@ INSERT INTO `privacy_policy` (`id`, `privacyPolicy`, `created_at`, `updated_at`)
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `property_attributes`
+--
+
+DROP TABLE IF EXISTS `property_attributes`;
+CREATE TABLE IF NOT EXISTS `property_attributes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `uniqueId` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'NA',
+  `name` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'NA',
+  `about` text COLLATE utf8mb3_unicode_ci,
+  `status` enum('ACTIVE','INACTIVE') COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'ACTIVE',
+  `default` enum('YES','NO') COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'NO',
+  `type` enum('amenities','propertyFeatures','societyFeatures','typeOfFloorings','parkingTypes','locatedNear','locationAdvantages','NA') CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL DEFAULT 'NA',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+
+--
+-- Dumping data for table `property_attributes`
+--
+
+INSERT INTO `property_attributes` (`id`, `uniqueId`, `name`, `about`, `status`, `default`, `type`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'PRPA-937733', 'NEW', 'LOL', 'ACTIVE', 'YES', 'typeOfFloorings', '2025-05-30 04:42:41', '2025-05-30 06:15:28', NULL),
+(2, 'PRPA-477373', 'NEW', 'dfg', 'ACTIVE', 'YES', 'propertyFeatures', '2025-05-30 05:03:21', '2025-05-30 06:36:08', NULL),
+(3, 'PRPA-448593', 'NEW', NULL, 'ACTIVE', 'NO', 'parkingTypes', '2025-05-30 06:15:43', '2025-05-30 06:36:10', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `role_main`
 --
 
@@ -2661,8 +2697,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('4AmRNKljYslGqbrdJ8sut5Rp12MfJRjPTBBrGGOE', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiTVRzQ3l3OWZ3S0JORVh5QkxuTXllcnlUQ1VnVmY4c0tzazVGVkpsdCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NzQ6Imh0dHA6Ly9sb2NhbGhvc3QvTEFSQVZFTC9BZG1pblNldHVwL2FkbWluL21hbmFnZS1wYW5lbC9xdWljay1zZXR0aW5ncy9sb2dvIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MjoibG9naW5fYWRtaW5fNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1748529416),
-('MevNEW9Zf17eQUvZvFEr4m5KFnkGjBmFyXIEJosU', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoibGpGd2tsWnphQUtGWWx5Nk5RRXRJcU12ZzZTU2JtUWRHb0JsVDZxWCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDE6Imh0dHA6Ly9sb2NhbGhvc3QvTEFSQVZFTC9BZG1pblNldHVwL2FkbWluIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1748526588);
+('RZdDN5tDWR7OefBTzsYv8BBb5sQbKY970raEy6Lv', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoianVVeEd0Y3BobVgxT0w0dkRzaHp2b1dxMUVDN3N0N0RvNGNvT1BzNyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Nzk6Imh0dHA6Ly9sb2NhbGhvc3QvTEFSQVZFTC9BZG1pblNldHVwL2FkbWluL21hbmFnZS1wYW5lbC9xdWljay1zZXR0aW5ncy90ZW1wbGF0ZXMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUyOiJsb2dpbl9hZG1pbl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1748694157);
 
 -- --------------------------------------------------------
 

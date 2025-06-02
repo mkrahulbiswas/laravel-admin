@@ -21,7 +21,7 @@
     <div class="row main-page-content">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header cardHeader">
                     <div class="d-sm-flex align-items-center justify-content-between">
                         <div class="mb-3 mb-sm-0">
                             <h5 class="card-title mb-0">Basic Datatables</h5>
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body cardBody">
                     <div class="row">
                         <div class="col-md-12 mb-4 tdFilterMain" data-filterStatus="0">
                             <div class="tdFilterSub">
@@ -167,7 +167,7 @@
                             <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="name" class="form-label">Role Main Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select class="form-control form-control-icon select2-roleMain-addModal" name="roleMain" id="roleMain">
+                                    <select class="selectTwo form-control form-control-icon select2-roleMain-addModal" name="roleMain" id="roleMain">
                                         <option value="">Select One</option>
                                         @foreach ($data['roleMain'] as $key)
                                             <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
@@ -231,7 +231,7 @@
                             <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="name" class="form-label">Role Main Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select class="form-control form-control-icon select2-roleMain-editModal" name="roleMain" id="roleMain">
+                                    <select class="selectTwo form-control form-control-icon select2-roleMain-editModal" name="roleMain" id="roleMain2">
                                         @foreach ($data['roleMain'] as $key)
                                             <option value="{{ $key['id'] }}" data-name="{{ $key['name'] }}">{{ $key['name'] }}</option>
                                         @endforeach

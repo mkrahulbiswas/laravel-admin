@@ -2,11 +2,10 @@
 
 namespace app\Traits;
 
-use App\Rules\UniqueManageAccess;
-use App\Rules\UniqueManageNav;
-
 use App\Helpers\ManagePanel\GetManageAccessHelper;
-
+use App\Rules\ManagePanel\UniqueManageAccess;
+use App\Rules\ManagePanel\UniqueManageNav;
+use App\Rules\PropertyRelated\UniquePropertyAttributes;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
@@ -83,7 +82,7 @@ trait ValidationTrait
 
 
             /*------ ( Manage Panel Start ) ------*/
-            //-------Role Main
+            //---- ( Role Main )
             case 'saveRoleMain':
                 $rules = [
                     'name' => ['required', 'max:20', new UniqueManageAccess([
@@ -104,7 +103,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            //-------Role Sub
+            //---- ( Role Sub )
             case 'saveRoleSub':
                 $rules = [
                     'name' => ['required', 'max:20', new UniqueManageAccess([
@@ -129,11 +128,11 @@ trait ValidationTrait
                 ];
                 break;
 
-            //-------Nav Type
+            //---- ( Nav Type )
             case 'saveNavType':
                 $rules = [
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:30', new UniqueManageNav([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
                     ])],
@@ -144,7 +143,7 @@ trait ValidationTrait
             case 'updateNavType':
                 $rules = [
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:30', new UniqueManageNav([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
                     ])],
@@ -152,7 +151,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            //-------Nav Main
+            //---- ( Nav Main )
             case 'saveNavMain':
                 $rules = [
                     'navType' => 'required',
@@ -179,7 +178,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            //-------Nav Sub
+            //---- ( Nav Sub )
             case 'saveNavSub':
                 $rules = [
                     'navType' => 'required',
@@ -210,7 +209,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            //-------Nav Nested
+            //---- ( Nav Nested )
             case 'saveNavNested':
                 $rules = [
                     'navType' => 'required',
@@ -245,7 +244,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            //------- Logo
+            //---- ( Logo )
             case 'saveLogo':
                 $rules = [
                     'bigLogo' => 'required|image|mimes:jpeg,jpg,png',
@@ -265,7 +264,7 @@ trait ValidationTrait
 
 
             /*------ ( Manage Users Start ) ------*/
-            // ---- Admin
+            //---- ( Admin )
             case 'saveAdminUsers':
                 $rules = [
                     'file' => 'image|mimes:jpeg,jpg,png',
@@ -330,24 +329,73 @@ trait ValidationTrait
             /*------ ( Manage Users End ) ------*/
 
 
-            /*------ ( CMS Start ) ------*/
-            //---Logo
-            case 'saveLogo':
+            /*------ ( Property Related Start ) ------*/
+            //---- ( Property Attributes )
+            case 'savePropertyAttributes':
                 $rules = [
-                    'bigLogo' => 'required|mimes:jpeg,jpg,png,ico',
-                    'smallLogo' => 'mimes:jpeg,jpg,png,ico',
-                    'favIcon' => 'mimes:jpeg,jpg,png,ico',
+                    'type' => 'required',
+                    'name' => ['required', 'max:255', new UniquePropertyAttributes([
+                        'targetId' => $data['id'],
+                        'type' => $data['input']['type']
+                    ])],
+                    'about' => 'max:500',
+                ];
+                break;
+            case 'updatePropertyAttributes':
+                $rules = [
+                    'type' => 'required',
+                    'name' => ['required', 'max:255', new UniquePropertyAttributes([
+                        'targetId' => $data['id'],
+                        'type' => $data['input']['type']
+                    ])],
+                    'about' => 'max:500',
                 ];
                 break;
 
-            case 'updateLogo':
+            //---- ( Property Type )
+            case 'savePropertyType':
                 $rules = [
-                    'bigLogo' => 'mimes:jpeg,jpg,png,ico',
-                    'smallLogo' => 'mimes:jpeg,jpg,png,ico',
-                    'favIcon' => 'mimes:jpeg,jpg,png,ico',
+                    'name' => 'required|max:255|unique:property_type,name',
+                    'about' => 'max:500',
                 ];
                 break;
-            /*------ ( CMS End ) ------*/
+            case 'updatePropertyType':
+                $rules = [
+                    'name' => 'required|max:255|unique:property_type,name,' . $data['id'],
+                    'about' => 'max:500',
+                ];
+                break;
+
+            //---- ( Broad Type )
+            case 'saveBroadType':
+                $rules = [
+                    'name' => 'required|max:255|unique:broad_type,name',
+                    'about' => 'max:500',
+                ];
+                break;
+            case 'updateBroadType':
+                $rules = [
+                    'name' => 'required|max:255|unique:broad_type,name,' . $data['id'],
+                    'about' => 'max:500',
+                ];
+                break;
+
+            //---- ( Assign Broad )
+            case 'saveAssignBroad':
+                $rules = [
+                    'propertyType' => 'required',
+                    'broadType' => 'required',
+                    'about' => 'max:500',
+                ];
+                break;
+            case 'updateAssignBroad':
+                $rules = [
+                    'propertyType' => 'required',
+                    'broadType' => 'required',
+                    'about' => 'max:500',
+                ];
+                break;
+            /*------ ( Property Related End ) ------*/
 
             case 'emailLogin':
             default:

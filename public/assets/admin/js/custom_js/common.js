@@ -25,7 +25,7 @@ function initCallOnModalClose() {
         $(this).find('.selectPicker').selectpicker('val', '');
         // $(this).find('textarea').summernote('reset');
         $(this).find('.form-control, .select2-container--default .select2-selection--single').removeClass('valid-input invalid-input');
-        let ids = '#saveLogoForm, #updateLogoForm, #saveNavTypeForm, #updateNavTypeForm, #saveNavMainForm, #updateNavMainForm, #saveNavSubForm, #updateNavSubForm, #saveNavNestedForm, #updateNavNestedForm';
+        let ids = '#saveAssignBroadForm, #updateAssignBroadForm, #saveBroadTypeForm, #updateBroadTypeForm, #saveLogoForm, #updateLogoForm, #saveNavTypeForm, #updateNavTypeForm, #saveNavMainForm, #updateNavMainForm, #saveNavSubForm, #updateNavSubForm, #saveNavNestedForm, #updateNavNestedForm, #savePropertyAttributesForm, #updatePropertyAttributesForm, #savePropertyTypeForm, #updatePropertyTypeForm, #saveRoleSubForm, #updateRoleSubForm';
         $(ids).find(".validation-error").text('');
         $(this).find('.selectTwo').select2('reset');
     });
@@ -63,6 +63,51 @@ function initCallSelect2() {
     $('.select2-navMain-editModal').select2({
         tags: false,
         placeholder: "Select Nav Main",
+        dropdownParent: $('#con-edit-modal')
+    });
+
+    $('.select2-propertyType').select2({
+        tags: false,
+        placeholder: "Select property type"
+    });
+    $('.select2-propertyType-addModal').select2({
+        tags: false,
+        placeholder: "Select property type",
+        dropdownParent: $('#con-add-modal')
+    });
+    $('.select2-propertyType-editModal').select2({
+        tags: false,
+        placeholder: "Select property type",
+        dropdownParent: $('#con-edit-modal')
+    });
+
+    $('.select2-broadType').select2({
+        tags: false,
+        placeholder: "Select broad type"
+    });
+    $('.select2-broadType-addModal').select2({
+        tags: false,
+        placeholder: "Select broad type",
+        dropdownParent: $('#con-add-modal')
+    });
+    $('.select2-broadType-editModal').select2({
+        tags: false,
+        placeholder: "Select broad type",
+        dropdownParent: $('#con-edit-modal')
+    });
+
+    $('.select2-type').select2({
+        tags: false,
+        placeholder: "Select Type"
+    });
+    $('.select2-type-addModal').select2({
+        tags: false,
+        placeholder: "Select Type",
+        dropdownParent: $('#con-add-modal')
+    });
+    $('.select2-type-editModal').select2({
+        tags: false,
+        placeholder: "Select Type",
         dropdownParent: $('#con-edit-modal')
     });
 
@@ -181,7 +226,7 @@ function initTimePicker() {
 }
 
 function initDraggable() {
-    new DraggableNestableList("#myList");
+    // new DraggableNestableList("#myList");
 }
 
 function initSortable() {

@@ -59,6 +59,10 @@ return [
         'success' => ':type set as default successfully.',
         'failed' => ':type failed to set as default.',
     ],
+    'existMsg' => [
+        'success' => 'Your :type is already exist.',
+        'failed' => 'Your :type is not exist.',
+    ],
 
     'registerSuccess' => 'Successfully registered, just need to verify your OTP.',
     'loginSuccess' => 'Successfully logged in.',

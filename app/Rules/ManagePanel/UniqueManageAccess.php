@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\ManagePanel;
 
 use App\Models\ManagePanel\ManageAccess\RoleMain;
 use App\Models\ManagePanel\ManageAccess\RoleSub;

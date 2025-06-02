@@ -85,7 +85,7 @@
                                 @else
                             <li class="nav-item navItem">
                                 <a class="nav-link menu-link" href="{{ url('admin/' . $itemTwo['route']) }}">
-                                    <i class="ri-honour-line"></i>
+                                    <i class="{{ $itemTwo['icon'] }}"></i>
                                     <span data-key="{{ $itemTwo['uniqueId'] }}">{{ $itemTwo['name'] }}</span>
                                 </a>
                             </li>
