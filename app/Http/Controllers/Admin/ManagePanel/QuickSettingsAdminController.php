@@ -9,8 +9,8 @@ use App\Traits\ValidationTrait;
 
 use App\Models\ManagePanel\QuickSettings\Logo;
 
+use App\Helpers\ManagePanel\GetManageAccessHelper;
 use App\Helpers\ManagePanel\GetQuickSettingsHelper;
-use App\Helpers\ManagePanel\ManageAccess\GetPrivilegeHelper;
 
 use Exception;
 use Yajra\DataTables\DataTables;
@@ -61,7 +61,7 @@ class QuickSettingsAdminController extends Controller
                     ],
                 ],
             ])[Config::get('constants.typeCheck.quickSettings.logo.type')][Config::get('constants.typeCheck.helperCommon.get.inf')]['list'];
-            $getPrivilege = GetPrivilegeHelper::getPrivilege([
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []

@@ -2,10 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\Contact;
-
+use App\Helpers\ManagePanel\GetManageAccessHelper;
 use App\Helpers\ManagePanel\GetManageNavHelper;
-use App\Helpers\ManagePanel\ManageAccess\GetPrivilegeHelper;
+use App\Models\Contact;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -37,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
                         ]
                     ])[Config::get('constants.typeCheck.helperCommon.nav.sn')];
 
-                    $getPrivilege = GetPrivilegeHelper::getPrivilege([
+                    $getPrivilege = GetManageAccessHelper::getPrivilege([
                         [
                             'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                             'otherDataPasses' => []

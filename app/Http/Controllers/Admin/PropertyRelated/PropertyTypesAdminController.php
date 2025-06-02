@@ -8,7 +8,7 @@ use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
-use App\Helpers\ManagePanel\ManageAccess\GetPrivilegeHelper;
+use App\Helpers\ManagePanel\GetManageAccessHelper;
 use App\Helpers\PropertyRelated\GetPropertyTypesHelper;
 
 use App\Models\PropertyRelated\PropertyTypes;
@@ -57,7 +57,7 @@ class PropertyTypesAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.propertyRelated.propertyTypes.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $getPrivilege = GetPrivilegeHelper::getPrivilege([
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []

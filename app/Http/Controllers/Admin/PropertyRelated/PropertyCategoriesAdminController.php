@@ -12,11 +12,8 @@ use App\Models\ManagePanel\ManageAccess\RoleMain;
 use App\Models\ManagePanel\ManageAccess\RoleSub;
 use App\Models\ManagePanel\ManageAccess\Permission;
 
+use App\Helpers\ManagePanel\GetManageAccessHelper;
 use App\Helpers\ManagePanel\GetManageNavHelper;
-use App\Helpers\ManagePanel\ManageAccess\GetDetailHelper;
-use App\Helpers\ManagePanel\ManageAccess\GetListHelper;
-use App\Helpers\ManagePanel\ManageAccess\GetPrivilegeHelper;
-use App\Helpers\ManagePanel\ManageAccess\SetPermissionHelper;
 
 use Exception;
 use Yajra\DataTables\DataTables;
@@ -45,7 +42,7 @@ class PropertyCategoriesAdminController extends Controller
     public function getRoleMain(Request $request)
     {
         try {
-            $roleMain = GetListHelper::getList([
+            $roleMain = GetManageAccessHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -63,7 +60,7 @@ class PropertyCategoriesAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $getPrivilege = GetPrivilegeHelper::getPrivilege([
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -244,7 +241,7 @@ class PropertyCategoriesAdminController extends Controller
         }
 
         try {
-            $setPermission = SetPermissionHelper::setPermission([
+            $setPermission = GetManageAccessHelper::setPermission([
                 [
                     'checkFirst' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
@@ -377,7 +374,7 @@ class PropertyCategoriesAdminController extends Controller
                 ]
             ]);
 
-            $getPrivilege = GetPrivilegeHelper::getPrivilege([
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -413,7 +410,7 @@ class PropertyCategoriesAdminController extends Controller
     {
         try {
             foreach ($request->get('id') as $keyOne => $tempOne) {
-                $permission = GetDetailHelper::getDetail([
+                $permission = GetManageAccessHelper::getDetail([
                     [
                         'getDetail' => [
                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -463,7 +460,7 @@ class PropertyCategoriesAdminController extends Controller
     public function showRoleSub()
     {
         try {
-            $roleMain = GetListHelper::getList([
+            $roleMain = GetManageAccessHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -491,7 +488,7 @@ class PropertyCategoriesAdminController extends Controller
     public function getRoleSub(Request $request)
     {
         try {
-            $roleSub = GetListHelper::getList([
+            $roleSub = GetManageAccessHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
@@ -509,7 +506,7 @@ class PropertyCategoriesAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            $getPrivilege = GetPrivilegeHelper::getPrivilege([
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -673,7 +670,7 @@ class PropertyCategoriesAdminController extends Controller
         }
 
         try {
-            $setPermission = SetPermissionHelper::setPermission([
+            $setPermission = GetManageAccessHelper::setPermission([
                 [
                     'checkFirst' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
@@ -802,7 +799,7 @@ class PropertyCategoriesAdminController extends Controller
                 ]
             ]);
 
-            $getPrivilege = GetPrivilegeHelper::getPrivilege([
+            $getPrivilege = GetManageAccessHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -839,7 +836,7 @@ class PropertyCategoriesAdminController extends Controller
     {
         try {
             foreach ($request->get('id') as $keyOne => $tempOne) {
-                $permission = GetDetailHelper::getDetail([
+                $permission = GetManageAccessHelper::getDetail([
                     [
                         'getDetail' => [
                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -889,7 +886,7 @@ class PropertyCategoriesAdminController extends Controller
     public function showPermissions()
     {
         // try {
-        $getPrivilege = GetPrivilegeHelper::getPrivilege([
+        $getPrivilege = GetManageAccessHelper::getPrivilege([
             ['type' => [Config::get('constants.typeCheck.helperCommon.privilege.np')]]
         ])[Config::get('constants.typeCheck.helperCommon.privilege.np')];
         dd($getPrivilege);
@@ -902,7 +899,7 @@ class PropertyCategoriesAdminController extends Controller
     public function getPermissions(Request $request)
     {
         try {
-            $roleSub = GetListHelper::getList([
+            $roleSub = GetManageAccessHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
