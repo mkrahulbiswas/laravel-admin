@@ -421,8 +421,8 @@
             })
         });
 
-        //------ ( Property Types )
-        $('#filterPropertyTypesForm').find('#statusFilter, #defaultFilter, .filterPropertyTypesBtn').on('change click', function () {
+        //------ ( Property Type )
+        $('#filterPropertyTypeForm').find('#statusFilter, #defaultFilter, .filterPropertyTypeBtn').on('change click', function () {
             var formId = $(this).closest('form'),
                 dataTableId = $('#propertyRelated-propertyAttributes'),
 
@@ -479,6 +479,45 @@
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&default=" + '';
+            }
+            commonAction({
+                targetId: {
+                    submitForm: formId,
+                    actionType: $(this).attr('title'),
+                },
+                dataTable: {
+                    load: {
+                        targetId: dataTableId,
+                        url: newUrl,
+                    }
+                },
+                filterApply: {}
+            })
+        });
+
+        //------ ( Assign Broad )
+        $('#filterAssignBroadForm').find('#statusFilter, #defaultFilter, #propertyTypeFilter, #broadTypeFilter, .filterAssignBroadBtn').on('change click', function () {
+            var formId = $(this).closest('form'),
+                dataTableId = $('#propertyRelated-manageBroad-assignBroad'),
+
+                status = formId.find("#statusFilter").val(),
+                defaul = formId.find("#defaultFilter").val(),
+                propertyType = formId.find("#propertyTypeFilter").val(),
+                broadType = formId.find("#broadTypeFilter").val(),
+
+                action = $(this).closest('form').attr('action').split('/'),
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&default=" + defaul + "&propertyType=" + propertyType + "&broadType=" + broadType;
+            if ($(this).attr('title') == 'Reload') {
+                commonAction({
+                    targetId: {
+                        submitForm: formId,
+                    },
+                    resetFormFields: {
+                        selectPicker: {},
+                        selectTwo: {},
+                    }
+                })
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&default=" + '' + "&propertyType=" + '' + "&broadType=" + '';
             }
             commonAction({
                 targetId: {

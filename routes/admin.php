@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\ManagePanel\QuickSettingsAdminController;
 use App\Http\Controllers\Admin\ManageUsers\AdminUsersAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\ManageBroadAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyAttributesAdminController;
-use App\Http\Controllers\Admin\PropertyRelated\PropertyTypesAdminController;
+use App\Http\Controllers\Admin\PropertyRelated\PropertyTypeAdminController;
 use App\Http\Middleware\CheckPermission;
 
 Route::controller(AuthAdminController::class)->group(function () {
@@ -168,14 +168,14 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::delete('property-attributes/delete/{id?}', 'deletePropertyAttributes')->name('admin.delete.propertyAttributes');
             });
 
-            Route::controller(PropertyTypesAdminController::class)->group(function () {
-                Route::get('property-types', 'showPropertyTypes')->name('admin.show.propertyTypes');
-                Route::get('property-types/ajaxGetList', 'getPropertyTypes')->name('admin.get.propertyTypes');
-                Route::post('property-types/add/save', 'savePropertyTypes')->name('admin.save.propertyTypes');
-                Route::post('property-types/edit/update', 'updatePropertyTypes')->name('admin.update.propertyTypes');
-                Route::patch('property-types/default/{id?}', 'defaultPropertyTypes')->name('admin.default.propertyTypes');
-                Route::patch('property-types/status/{id?}', 'statusPropertyTypes')->name('admin.status.propertyTypes');
-                Route::delete('property-types/delete/{id?}', 'deletePropertyTypes')->name('admin.delete.propertyTypes');
+            Route::controller(PropertyTypeAdminController::class)->group(function () {
+                Route::get('property-types', 'showPropertyType')->name('admin.show.propertyType');
+                Route::get('property-types/ajaxGetList', 'getPropertyType')->name('admin.get.propertyType');
+                Route::post('property-types/add/save', 'savePropertyType')->name('admin.save.propertyType');
+                Route::post('property-types/edit/update', 'updatePropertyType')->name('admin.update.propertyType');
+                Route::patch('property-types/default/{id?}', 'defaultPropertyType')->name('admin.default.propertyType');
+                Route::patch('property-types/status/{id?}', 'statusPropertyType')->name('admin.status.propertyType');
+                Route::delete('property-types/delete/{id?}', 'deletePropertyType')->name('admin.delete.propertyType');
             });
 
             Route::controller(ManageBroadAdminController::class)->prefix('manage-broad')->group(function () {
@@ -185,6 +185,14 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::post('broad-type/edit/update', 'updateBroadType')->name('admin.update.broadType');
                 Route::patch('broad-type/status/{id?}', 'statusBroadType')->name('admin.status.broadType');
                 Route::delete('broad-type/delete/{id?}', 'deleteBroadType')->name('admin.delete.broadType');
+
+                Route::get('assign-broad', 'showAssignBroad')->name('admin.show.assignBroad');
+                Route::get('assign-broad/ajaxGetList', 'getAssignBroad')->name('admin.get.assignBroad');
+                Route::post('assign-broad/add/save', 'saveAssignBroad')->name('admin.save.assignBroad');
+                Route::post('assign-broad/edit/update', 'updateAssignBroad')->name('admin.update.assignBroad');
+                Route::patch('assign-broad/default/{id?}', 'defaultAssignBroad')->name('admin.default.assignBroad');
+                Route::patch('assign-broad/status/{id?}', 'statusAssignBroad')->name('admin.status.assignBroad');
+                Route::delete('assign-broad/delete/{id?}', 'deleteAssignBroad')->name('admin.delete.assignBroad');
             });
         });
 

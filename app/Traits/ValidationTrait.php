@@ -352,16 +352,16 @@ trait ValidationTrait
                 ];
                 break;
 
-            //---- ( Property Types )
-            case 'savePropertyTypes':
+            //---- ( Property Type )
+            case 'savePropertyType':
                 $rules = [
-                    'name' => 'required|max:255|unique:property_types,name',
+                    'name' => 'required|max:255|unique:property_type,name',
                     'about' => 'max:500',
                 ];
                 break;
-            case 'updatePropertyTypes':
+            case 'updatePropertyType':
                 $rules = [
-                    'name' => 'required|max:255|unique:property_types,name,' . $data['id'],
+                    'name' => 'required|max:255|unique:property_type,name,' . $data['id'],
                     'about' => 'max:500',
                 ];
                 break;
@@ -376,6 +376,22 @@ trait ValidationTrait
             case 'updateBroadType':
                 $rules = [
                     'name' => 'required|max:255|unique:broad_type,name,' . $data['id'],
+                    'about' => 'max:500',
+                ];
+                break;
+
+            //---- ( Assign Broad )
+            case 'saveAssignBroad':
+                $rules = [
+                    'propertyType' => 'required',
+                    'broadType' => 'required',
+                    'about' => 'max:500',
+                ];
+                break;
+            case 'updateAssignBroad':
+                $rules = [
+                    'propertyType' => 'required',
+                    'broadType' => 'required',
                     'about' => 'max:500',
                 ];
                 break;

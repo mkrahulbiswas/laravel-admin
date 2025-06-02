@@ -4,11 +4,11 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-sm-0">
-                    <h4>Property Types</h4>
+                    <h4>Property Type</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Property Related</a></li>
-                            <li class="breadcrumb-item active">Property Types</li>
+                            <li class="breadcrumb-item active">Property Type</li>
                         </ol>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                             @if ($permission['add']['permission'] == true)
                                 <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">
                                     <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
-                                    <span>Add Property Types</span>
+                                    <span>Add Property Type</span>
                                 </button>
                             @endif
                             @if ($permission['filter']['permission'] == true)
@@ -68,7 +68,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="tdFilterForm p-3">
-                                            <form id="filterPropertyTypesForm" method="POST" action="{{ route('admin.get.propertyTypes') }}" class="m-b-20">
+                                            <form id="filterPropertyTypeForm" method="POST" action="{{ route('admin.get.propertyType') }}" class="m-b-20">
                                                 @csrf
                                                 <div class="row gap-2">
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
@@ -92,13 +92,13 @@
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
                                                         <div class="form-group d-flex flex-row justify-content-start">
                                                             @if ($permission['search']['permission'] == true)
-                                                                <button type="button" class="btn btn-info btn-label waves-effect waves-light filterPropertyTypesBtn" title="Search">
+                                                                <button type="button" class="btn btn-info btn-label waves-effect waves-light filterPropertyTypeBtn" title="Search">
                                                                     <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
                                                                     <span>Search</span>
                                                                 </button>
                                                             @endif
                                                             @if ($permission['reset']['permission'] == true)
-                                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterPropertyTypesBtn ms-2" title="Reload">
+                                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterPropertyTypeBtn ms-2" title="Reload">
                                                                     <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
                                                                     <span>Reset</span>
                                                                 </button>
@@ -114,7 +114,7 @@
                         </div>
                         <div class="col-md-12 tdContentMain">
                             <div class="tdContentSub">
-                                <table id="propertyRelated-propertyTypes" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
+                                <table id="propertyRelated-propertyType" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>#</th>
@@ -148,10 +148,10 @@
     <div id="con-add-modal" class="modal fade con-add-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="savePropertyTypesForm" action="{{ route('admin.save.propertyTypes') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="savePropertyTypeForm" action="{{ route('admin.save.propertyType') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Add Property Types</h5>
+                        <h5 class="modal-title" id="myModalLabel">Add Property Type</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -159,7 +159,7 @@
                             <div class="form-element col-12 mb-3">
                                 <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Property Types">
+                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Property Type">
                                     <i class="bx bx-message-edit"></i>
                                 </div>
                                 <div class="validation-error" id="nameErr"></div>
@@ -184,7 +184,7 @@
                             </button>
                         @endif
                         @if ($permission['save']['permission'] == true)
-                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="savePropertyTypesBtn">
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="savePropertyTypeBtn">
                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                 <span>Save</span>
                             </button>
@@ -198,11 +198,11 @@
     <div id="con-edit-modal" class="modal fade con-edit-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="updatePropertyTypesForm" action="{{ route('admin.update.propertyTypes') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="updatePropertyTypeForm" action="{{ route('admin.update.propertyType') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Edit Property Types</h5>
+                        <h5 class="modal-title" id="myModalLabel">Edit Property Type</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -210,7 +210,7 @@
                             <div class="form-element col-12 mb-3">
                                 <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Property Types">
+                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Property Type">
                                     <i class="bx bx-message-edit"></i>
                                 </div>
                                 <div class="validation-error" id="nameErr"></div>
@@ -235,7 +235,7 @@
                             </button>
                         @endif
                         @if ($permission['update']['permission'] == true)
-                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updatePropertyTypesBtn">
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updatePropertyTypeBtn">
                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                 <span>Update</span>
                             </button>
@@ -250,7 +250,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Details Property Types</h5>
+                    <h5 class="modal-title" id="myModalLabel">Details Property Type</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

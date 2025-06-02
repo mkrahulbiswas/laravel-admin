@@ -109,13 +109,16 @@ return [
                     ],
                 ]
             ],
-            'propertyTypes' => [
-                'type' => 'propertyTypes',
+            'propertyType' => [
+                'type' => 'propertyType',
             ],
             'manageBroad' => [
                 'type' => 'manageBroad',
                 'broadType' => [
                     'type' => 'broadType'
+                ],
+                'assignBroad' => [
+                    'type' => 'assignBroad'
                 ]
             ]
         ],

@@ -9,9 +9,9 @@ use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
 use App\Helpers\ManagePanel\GetManageAccessHelper;
-use App\Helpers\PropertyRelated\GetPropertyTypesHelper;
+use App\Helpers\PropertyRelated\GetPropertyTypeHelper;
 
-use App\Models\PropertyRelated\PropertyTypes;
+use App\Models\PropertyRelated\PropertyType;
 
 use Exception;
 use Yajra\DataTables\DataTables;
@@ -19,31 +19,31 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 
-class PropertyTypesAdminController extends Controller
+class PropertyTypeAdminController extends Controller
 {
 
     use ValidationTrait, FileTrait, CommonTrait;
     public $platform = 'backend';
 
 
-    /*---- ( Property Types ) ----*/
-    public function showPropertyTypes()
+    /*---- ( Property Type ) ----*/
+    public function showPropertyType()
     {
         try {
-            return view('admin.property_related.property_types.property_types_list');
+            return view('admin.property_related.property_type.property_type_list');
         } catch (Exception $e) {
             abort(500);
         }
     }
 
-    public function getPropertyTypes(Request $request)
+    public function getPropertyType(Request $request)
     {
         try {
-            $propertyTypes = GetPropertyTypesHelper::getList([
+            $propertyType = GetPropertyTypeHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyTypes.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -55,7 +55,7 @@ class PropertyTypesAdminController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyTypes.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $getPrivilege = GetManageAccessHelper::getPrivilege([
                 [
@@ -64,7 +64,7 @@ class PropertyTypesAdminController extends Controller
                 ]
             ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
 
-            return Datatables::of($propertyTypes)
+            return Datatables::of($propertyType)
                 ->addIndexColumn()
                 ->addColumn('about', function ($data) {
                     $about = $this->subStrString(40, $data['about'], '....');
@@ -86,9 +86,9 @@ class PropertyTypesAdminController extends Controller
                 ->addColumn('action', function ($data) use ($getPrivilege) {
                     if ($getPrivilege['status']['permission'] == true) {
                         if ($data['customizeInText']['status']['raw'] == Config::get('constants.status')['inactive']) {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.propertyTypes') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.propertyType') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                         } else {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.propertyTypes') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.propertyType') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                         }
                     } else {
                         $status = '';
@@ -101,7 +101,7 @@ class PropertyTypesAdminController extends Controller
                     }
 
                     if ($getPrivilege['delete']['permission'] == true) {
-                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.propertyTypes') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.propertyType') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     } else {
                         $delete = '';
                     }
@@ -114,9 +114,9 @@ class PropertyTypesAdminController extends Controller
 
                     if ($getPrivilege['default']['permission'] == true) {
                         if ($data['customizeInText']['default']['raw'] == Config::get('constants.status')['no']) {
-                            $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.propertyTypes') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-open-outline"></i></a>';
+                            $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.propertyType') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-open-outline"></i></a>';
                         } else {
-                            $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.propertyTypes') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-outline"></i></a>';
+                            $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.propertyType') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-outline"></i></a>';
                         }
                     } else {
                         $default = '';
@@ -139,23 +139,23 @@ class PropertyTypesAdminController extends Controller
         }
     }
 
-    public function savePropertyTypes(Request $request)
+    public function savePropertyType(Request $request)
     {
         try {
             $values = $request->only('name', 'about');
 
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'savePropertyTypes', 'id' => 0, 'platform' => $this->platform]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'savePropertyType', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
 
-                $propertyTypes = new PropertyTypes();
-                $propertyTypes->name = $values['name'];
-                $propertyTypes->about = $values['about'];
-                $propertyTypes->uniqueId = $this->generateCode(['preString' => 'PRPT', 'length' => 6, 'model' => PropertyTypes::class, 'field' => '']);
-                $propertyTypes->status = Config::get('constants.status')['active'];
+                $propertyType = new PropertyType();
+                $propertyType->name = $values['name'];
+                $propertyType->about = $values['about'];
+                $propertyType->uniqueId = $this->generateCode(['preString' => 'PRPT', 'length' => 6, 'model' => PropertyType::class, 'field' => '']);
+                $propertyType->status = Config::get('constants.status')['active'];
 
-                if ($propertyTypes->save()) {
+                if ($propertyType->save()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Property type'])['success']], config('constants.ok'));
                 } else {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Property type'])['failed']], config('constants.ok'));
@@ -166,7 +166,7 @@ class PropertyTypesAdminController extends Controller
         }
     }
 
-    public function updatePropertyTypes(Request $request)
+    public function updatePropertyType(Request $request)
     {
         $values = $request->only('id', 'name', 'about');
 
@@ -177,16 +177,16 @@ class PropertyTypesAdminController extends Controller
         }
 
         try {
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updatePropertyTypes', 'id' => $id, 'platform' => $this->platform]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updatePropertyType', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
-                $propertyTypes = PropertyTypes::find($id);
+                $propertyType = PropertyType::find($id);
 
-                $propertyTypes->name = $values['name'];
-                $propertyTypes->about = $values['about'];
+                $propertyType->name = $values['name'];
+                $propertyType->about = $values['about'];
 
-                if ($propertyTypes->update()) {
+                if ($propertyType->update()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Property type'])['success']], config('constants.ok'));
                 } else {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Property type'])['failed']], config('constants.ok'));
@@ -197,7 +197,7 @@ class PropertyTypesAdminController extends Controller
         }
     }
 
-    public function defaultPropertyTypes($id)
+    public function defaultPropertyType($id)
     {
         try {
             $id = decrypt($id);
@@ -208,7 +208,7 @@ class PropertyTypesAdminController extends Controller
         try {
             $result = $this->setDefault([
                 'targetId' => $id,
-                "targetModel" => PropertyTypes::class,
+                "targetModel" => PropertyType::class,
                 'targetField' => [],
                 'type' => Config::get('constants.action.status.smsfs')
             ]);
@@ -222,7 +222,7 @@ class PropertyTypesAdminController extends Controller
         }
     }
 
-    public function statusPropertyTypes($id)
+    public function statusPropertyType($id)
     {
         try {
             $id = decrypt($id);
@@ -233,7 +233,7 @@ class PropertyTypesAdminController extends Controller
         try {
             $result = $this->changeStatus([
                 'targetId' => $id,
-                "targetModel" => PropertyTypes::class,
+                "targetModel" => PropertyType::class,
                 'targetField' => [],
                 'type' => Config::get('constants.action.status.smsf')
             ]);
@@ -247,7 +247,7 @@ class PropertyTypesAdminController extends Controller
         }
     }
 
-    public function deletePropertyTypes($id)
+    public function deletePropertyType($id)
     {
         try {
             $id = decrypt($id);
@@ -258,7 +258,7 @@ class PropertyTypesAdminController extends Controller
         try {
             $result = $this->deleteItem([
                 [
-                    'model' => PropertyTypes::class,
+                    'model' => PropertyType::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
                 ],

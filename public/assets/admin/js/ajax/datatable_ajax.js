@@ -480,8 +480,8 @@
             ]
         });
 
-        /*------( Property Types Listing )--------*/
-        $('#propertyRelated-propertyTypes').DataTable({
+        /*------( Property Type Listing )--------*/
+        $('#propertyRelated-propertyType').DataTable({
             processing: true,
             serverSide: true,
             ajax: "property-types/ajaxGetList",
@@ -537,7 +537,51 @@
                     data: "about"
                 },
                 {
-                    data: "statInfo"
+                    data: "customizeInText",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.status.custom).text();
+                    }
+
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        /*------( Assign Broad Listing )--------*/
+        $('#propertyRelated-manageBroad-assignBroad').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "assign-broad/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "propertyType",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.name).text();
+                    }
+                },
+                {
+                    data: "broadType",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.name).text();
+                    }
+                },
+                {
+                    data: "statInfo",
                 },
                 {
                     data: 'action',
