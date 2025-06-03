@@ -985,10 +985,14 @@ trait CommonTrait
     public static function subStrString($length, $text, $with)
     {
         $finalText = strip_tags($text);
-        if (strlen($finalText) <= $length) {
-            return $finalText;
+        if (strlen($finalText) <= 0) {
+            return 'NA';
         } else {
-            return substr($finalText, 0, $length) . $with;
+            if (strlen($finalText) <= $length) {
+                return $finalText;
+            } else {
+                return substr($finalText, 0, $length) . $with;
+            }
         }
     }
 

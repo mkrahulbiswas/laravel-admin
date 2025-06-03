@@ -514,7 +514,7 @@
             ]
         });
 
-        /*------( broad Types Listing )--------*/
+        /*------( Broad Types Listing )--------*/
         $('#propertyRelated-manageBroad-broadType').DataTable({
             processing: true,
             serverSide: true,
@@ -541,7 +541,6 @@
                     render: function (data, type, row) {
                         return $('<div/>').html(data.status.custom).text();
                     }
-
                 },
                 {
                     data: 'action',
@@ -582,6 +581,43 @@
                 },
                 {
                     data: "statInfo",
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        /*------( Main Category Listing )--------*/
+        $('#propertyRelated-propertyCategory-mainCategory').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "main-category/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "about"
+                },
+                {
+                    data: "customizeInText",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.status.custom).text();
+                    }
                 },
                 {
                     data: 'action',

@@ -395,6 +395,20 @@ trait ValidationTrait
                     'about' => 'max:500',
                 ];
                 break;
+
+            //---- ( Main Category )
+            case 'saveMainCategory':
+                $rules = [
+                    'name' => 'required|max:255|unique:main_category,name',
+                    'about' => 'max:500',
+                ];
+                break;
+            case 'updateMainCategory':
+                $rules = [
+                    'name' => 'required|max:255|unique:main_category,name,' . $data['id'],
+                    'about' => 'max:500',
+                ];
+                break;
             /*------ ( Property Related End ) ------*/
 
             case 'emailLogin':

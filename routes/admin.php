@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ManagePanel\QuickSettingsAdminController;
 use App\Http\Controllers\Admin\ManageUsers\AdminUsersAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\ManageBroadAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyAttributeAdminController;
+use App\Http\Controllers\Admin\PropertyRelated\PropertyCategoryAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyTypeAdminController;
 use App\Http\Middleware\CheckPermission;
 
@@ -194,6 +195,23 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::patch('assign-broad/status/{id?}', 'statusAssignBroad')->name('admin.status.assignBroad');
                 Route::delete('assign-broad/delete/{id?}', 'deleteAssignBroad')->name('admin.delete.assignBroad');
             });
+
+            Route::controller(PropertyCategoryAdminController::class)->prefix('property-category')->group(function () {
+                Route::get('main-category', 'showMainCategory')->name('admin.show.mainCategory');
+                Route::get('main-category/ajaxGetList', 'getMainCategory')->name('admin.get.mainCategory');
+                Route::post('main-category/add/save', 'saveMainCategory')->name('admin.save.mainCategory');
+                Route::post('main-category/edit/update', 'updateMainCategory')->name('admin.update.mainCategory');
+                Route::patch('main-category/status/{id?}', 'statusMainCategory')->name('admin.status.mainCategory');
+                Route::delete('main-category/delete/{id?}', 'deleteMainCategory')->name('admin.delete.mainCategory');
+
+                Route::get('assign-category', 'showAssignCategory')->name('admin.show.assignCategory');
+                Route::get('assign-category/ajaxGetList', 'getAssignCategory')->name('admin.get.assignCategory');
+                Route::post('assign-category/add/save', 'saveAssignCategory')->name('admin.save.assignCategory');
+                Route::post('assign-category/edit/update', 'updateAssignCategory')->name('admin.update.assignCategory');
+                Route::patch('assign-category/default/{id?}', 'defaultAssignCategory')->name('admin.default.assignCategory');
+                Route::patch('assign-category/status/{id?}', 'statusAssignCategory')->name('admin.status.assignCategory');
+                Route::delete('assign-category/delete/{id?}', 'deleteAssignCategory')->name('admin.delete.assignCategory');
+            });
         });
 
         /*======== (-- Users Related --) ========*/
@@ -216,6 +234,7 @@ Route::controller(AuthAdminController::class)->group(function () {
             Route::get('nav-main/{navTypeId?}', 'getNavMain')->name('admin.get.navMainDDD');
             Route::get('nav-sub/{navMainId?}', 'getNavSub')->name('admin.get.navSubDDD');
             Route::get('role-sub/{roleMainId?}', 'getRoleSub')->name('admin.get.roleSubDDD');
+            Route::get('assign-broad/{propertyTypeId?}', 'getAssignBroad')->name('admin.get.assignBroadDDD');
         });
 
         /*======== (-- Error Page --) ========*/

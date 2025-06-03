@@ -120,6 +120,15 @@ return [
                 'assignBroad' => [
                     'type' => 'assignBroad'
                 ]
+            ],
+            'propertyCategory' => [
+                'type' => 'propertyCategory',
+                'mainCategory' => [
+                    'type' => 'mainCategory'
+                ],
+                'assignCategory' => [
+                    'type' => 'assignCategory'
+                ],
             ]
         ],
         'manageAccess' => [

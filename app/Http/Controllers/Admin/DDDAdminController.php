@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\ManagePanel\GetManageAccessHelper;
 use App\Helpers\ManagePanel\GetManageNavHelper;
+use App\Helpers\PropertyRelated\GetManageBroadHelper;
 use App\Http\Controllers\Controller;
 
 use App\Traits\CommonTrait;
@@ -121,6 +122,45 @@ class DDDAdminController extends Controller
                 return Response()->Json(['status' => 1, 'msg' => 'Role sub is found.', 'data' => $data], config('constants.ok'));
             } else {
                 return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+        }
+    }
+
+    /*------ ( Assign Broad Sub ) -------*/
+    public function getAssignBroad($propertyTypeId)
+    {
+        try {
+            $assignBroad = GetManageBroadHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
+                        'for' => Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status')['active'],
+                            'propertyTypeId' => $propertyTypeId,
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ]
+                    ],
+                ],
+            ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
+
+            if ($assignBroad == []) {
+                return Response()->Json(['status' => 2, 'msg' => __('messages.serverErrMsg'), 'redirectTo' => route('admin.show.assignBroad'), 'data' => (object)[]], config('constants.ok'));
+            } else {
+                $data = [
+                    'assignBroad' => $assignBroad
+                ];
+                if ($data) {
+                    return Response()->Json(['status' => 1, 'msg' => 'Role sub is found.', 'data' => $data], config('constants.ok'));
+                } else {
+                    return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg'), 'data' => (object)[]], config('constants.ok'));
+                }
             }
         } catch (Exception $e) {
             return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));

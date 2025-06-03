@@ -4080,6 +4080,549 @@
                 id.find('#about').text(data.about);
             }
         });
+
+
+        //---- ( Main Category Save ) ----//
+        $("#saveMainCategoryForm").submit(function (event) {
+
+            submitForm = $(this);
+            submitBtn = $(this).find('#saveMainCategoryBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Save',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.name, function (i) {
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.about, function (i) {
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else if (msg.status == 1) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#propertyRelated-propertyCategory-mainCategory')
+                                }
+                            }
+                        })
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        //---- ( Main Category Update ) ----//
+        $("#updateMainCategoryForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#updateMainCategoryBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Update',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.name, function (i) {
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.about, function (i) {
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#propertyRelated-propertyCategory-mainCategory')
+                                }
+                            }
+                        })
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        //---- ( Main Category Status, Edit, Detail ) ----//
+        $('body').delegate('#propertyRelated-propertyCategory-mainCategory .actionDatatable', 'click', function () {
+            var type = $(this).attr('data-type'),
+                action = $(this).attr('data-action'),
+                targetTableId = $('#propertyRelated-propertyCategory-mainCategory'),
+                data = '';
+
+            if (type == 'status') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action the status wil change!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'delete') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'delete',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action data will be deleted permanently!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'default') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action the data default state will change!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'edit') {
+                id = $('#con-edit-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                id.find('#id').val(data.id);
+                id.find('#name').val(data.name);
+                id.find('#about').val(data.about);
+            } else {
+                id = $('#con-info-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                id.find('#name').text(data.name);
+                id.find('#about').text(data.about);
+            }
+        });
+
+
+        //---- ( Assign Category Save ) ----//
+        $("#saveAssignCategoryForm").submit(function (event) {
+
+            submitForm = $(this);
+            submitBtn = $(this).find('#saveAssignCategoryBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Save',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.mainCategory, function (i) {
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.propertyType, function (i) {
+                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.assignBroad, function (i) {
+                            submitForm.find("#assignBroadErr").text(msg.errors.assignBroad[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.about, function (i) {
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else if (msg.status == 1) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#propertyRelated-propertyCategory-assignCategory')
+                                }
+                            }
+                        })
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        //---- ( Assign Category Update ) ----//
+        $("#updateAssignCategoryForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#updateAssignCategoryBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Update',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.mainCategory, function (i) {
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.propertyType, function (i) {
+                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.assignBroad, function (i) {
+                            submitForm.find("#assignBroadErr").text(msg.errors.assignBroad[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.about, function (i) {
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#propertyRelated-propertyCategory-assignCategory')
+                                }
+                            }
+                        })
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        //---- ( Assign Category Status, Edit, Detail ) ----//
+        $('body').delegate('#propertyRelated-propertyCategory-assignCategory .actionDatatable', 'click', function () {
+            var type = $(this).attr('data-type'),
+                action = $(this).attr('data-action'),
+                targetTableId = $('#propertyRelated-propertyCategory-assignCategory'),
+                data = '';
+
+            if (type == 'status') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action the status wil change!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'delete') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'delete',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action data will be deleted permanently!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'default') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action the data default state will change!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'edit') {
+                id = $('#con-edit-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                id.find('#id').val(data.id);
+                id.find("#propertyType2 option[data-name='" + data.propertyType.name + "']").prop("selected", true).trigger('change');
+                id.find("#broadType2 option[data-name='" + data.broadType.name + "']").prop("selected", true).trigger('change');
+                id.find('#about').val(data.about);
+            } else {
+                id = $('#con-info-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                id.find('#name').text(data.name);
+                id.find('#propertyType').text(data.propertyType.name);
+                id.find('#broadType').text(data.broadType.name);
+                id.find('#about').text(data.about);
+            }
+        });
         /*--========================= ( Property Related END ) =========================--*/
 
     })
