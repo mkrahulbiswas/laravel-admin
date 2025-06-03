@@ -114,26 +114,30 @@ class GetPropertyAttributeHelper
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
                         $propertyAttribute = PropertyAttribute::where('id', decrypt($otherDataPasses['id']))->first();
-                        $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
-                            'id' => encrypt($propertyAttribute->id),
-                            'name' => $propertyAttribute->name,
-                            'about' =>  $propertyAttribute->about,
-                            'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $propertyAttribute->uniqueId]),
-                            'customizeInText' => CommonTrait::customizeInText([
-                                [
-                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
-                                    'value' => $propertyAttribute->status
-                                ],
-                                [
-                                    'type' => Config::get('constants.typeCheck.customizeInText.default'),
-                                    'value' => $propertyAttribute->default
-                                ],
-                                [
-                                    'type' => Config::get('constants.typeCheck.customizeInText.type'),
-                                    'value' => $propertyAttribute->type
-                                ]
-                            ]),
-                        ];
+                        if ($propertyAttribute != null) {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
+                                'id' => encrypt($propertyAttribute->id),
+                                'name' => $propertyAttribute->name,
+                                'about' =>  $propertyAttribute->about,
+                                'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $propertyAttribute->uniqueId]),
+                                'customizeInText' => CommonTrait::customizeInText([
+                                    [
+                                        'type' => Config::get('constants.typeCheck.customizeInText.status'),
+                                        'value' => $propertyAttribute->status
+                                    ],
+                                    [
+                                        'type' => Config::get('constants.typeCheck.customizeInText.default'),
+                                        'value' => $propertyAttribute->default
+                                    ],
+                                    [
+                                        'type' => Config::get('constants.typeCheck.customizeInText.type'),
+                                        'value' => $propertyAttribute->type
+                                    ]
+                                ]),
+                            ];
+                        } else {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [];
+                        }
                     }
 
                     $finalData[Config::get('constants.typeCheck.propertyRelated.propertyAttribute.type')] = $data;

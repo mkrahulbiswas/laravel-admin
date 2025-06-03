@@ -21,7 +21,7 @@ function initCallOnModalClose() {
         $(this).find('form')[0].reset();
         $(this).find('[type="checkbox"]').attr('checked', false);
         $(this).find('.dropify-clear').trigger('click');
-        $(this).find('.selectTwo').val('').trigger('change');
+        $(this).find('.selectTwo').val(null).trigger('change');
         $(this).find('.selectPicker').selectpicker('val', '');
         // $(this).find('textarea').summernote('reset');
         $(this).find('.form-control, .select2-container--default .select2-selection--single').removeClass('valid-input invalid-input');

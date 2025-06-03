@@ -186,8 +186,6 @@
                                     },
                                 })
                             } else {
-                                console.log(msg.data.assignBroad);
-
                                 $.each(msg.data.assignBroad, function (key, value) {
                                     html += '<option value="' + value['id'] + '" data-name="' + value['broadType']['name'] + '">' + value['broadType']['name'] + '</option>'
                                 });

@@ -114,94 +114,102 @@ class GetManageUsersHelper
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
                         $adminUsers = AdminUsers::where('id', decrypt($otherDataPasses['id']))->first();
-                        $usersInfo = UsersInfo::where([
-                            ['userId', $adminUsers->id],
-                            ['userType', Config::get('constants.userType.admin')]
-                        ])->first();
-                        $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
-                            'id' => encrypt($adminUsers->id),
-                            'name' => $adminUsers->name,
-                            'status' =>  $adminUsers->status,
-                            'getFile' => FileTrait::getFile([
-                                'fileName' => $adminUsers->image,
-                                'storage' => Config::get('constants.storage')['adminUsers']
-                            ]),
-                            'roleMainId' =>  $adminUsers->roleMainId,
-                            'roleSubId' =>  $adminUsers->roleSubId,
-                            'email' =>  $adminUsers->email,
-                            'phone' =>  $adminUsers->phone,
-                            'pinCode' =>  $usersInfo->pinCode,
-                            'state' =>  $usersInfo->state,
-                            'country' =>  $usersInfo->country,
-                            'address' =>  $usersInfo->address,
-                            'about' =>  $usersInfo->about,
-                            'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $adminUsers->uniqueId]),
-                            'customizeInText' => CommonTrait::customizeInText([
-                                [
-                                    'type' => 'status',
-                                    'value' => $adminUsers->status
-                                ]
-                            ]),
-                        ];
+                        if ($adminUsers != null) {
+                            $usersInfo = UsersInfo::where([
+                                ['userId', $adminUsers->id],
+                                ['userType', Config::get('constants.userType.admin')]
+                            ])->first();
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
+                                'id' => encrypt($adminUsers->id),
+                                'name' => $adminUsers->name,
+                                'status' =>  $adminUsers->status,
+                                'getFile' => FileTrait::getFile([
+                                    'fileName' => $adminUsers->image,
+                                    'storage' => Config::get('constants.storage')['adminUsers']
+                                ]),
+                                'roleMainId' =>  $adminUsers->roleMainId,
+                                'roleSubId' =>  $adminUsers->roleSubId,
+                                'email' =>  $adminUsers->email,
+                                'phone' =>  $adminUsers->phone,
+                                'pinCode' =>  $usersInfo->pinCode,
+                                'state' =>  $usersInfo->state,
+                                'country' =>  $usersInfo->country,
+                                'address' =>  $usersInfo->address,
+                                'about' =>  $usersInfo->about,
+                                'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $adminUsers->uniqueId]),
+                                'customizeInText' => CommonTrait::customizeInText([
+                                    [
+                                        'type' => 'status',
+                                        'value' => $adminUsers->status
+                                    ]
+                                ]),
+                            ];
+                        } else {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [];
+                        }
                     }
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.yd'), $type)) {
                         $adminUsers = AdminUsers::where('id', decrypt($otherDataPasses['id']))->first();
-                        $usersInfo = UsersInfo::where([
-                            ['userId', $adminUsers->id],
-                            ['userType', Config::get('constants.userType.admin')]
-                        ])->first();
-                        $roleMain = GetManageAccessHelper::getDetail([
-                            [
-                                'getDetail' => [
-                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                    'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
-                                ],
-                                'otherDataPasses' => [
-                                    'id' => encrypt($adminUsers->roleMainId)
-                                ]
-                            ],
-                        ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
-                        if ($adminUsers->roleSubId != null) {
-                            $roleSub = GetManageAccessHelper::getDetail([
+                        if ($adminUsers != null) {
+                            $usersInfo = UsersInfo::where([
+                                ['userId', $adminUsers->id],
+                                ['userType', Config::get('constants.userType.admin')]
+                            ])->first();
+                            $roleMain = GetManageAccessHelper::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                        'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
                                     ],
                                     'otherDataPasses' => [
-                                        'id' => encrypt($adminUsers->roleSubId)
+                                        'id' => encrypt($adminUsers->roleMainId)
                                     ]
                                 ],
-                            ])[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            if ($adminUsers->roleSubId != null) {
+                                $roleSub = GetManageAccessHelper::getDetail([
+                                    [
+                                        'getDetail' => [
+                                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                            'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                                        ],
+                                        'otherDataPasses' => [
+                                            'id' => encrypt($adminUsers->roleSubId)
+                                        ]
+                                    ],
+                                ])[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            } else {
+                                $roleSub = [];
+                            }
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
+                                'id' => encrypt($adminUsers->id),
+                                'name' => $adminUsers->name,
+                                'status' =>  $adminUsers->status,
+                                'getFile' => FileTrait::getFile([
+                                    'fileName' => $adminUsers->image,
+                                    'storage' => Config::get('constants.storage')['adminUsers']
+                                ]),
+                                'roleMain' =>  $roleMain,
+                                'roleSub' =>  $roleSub,
+                                'email' =>  $adminUsers->email,
+                                'phone' =>  $adminUsers->phone,
+                                'pinCode' =>  $usersInfo->pinCode,
+                                'state' =>  $usersInfo->state,
+                                'country' =>  $usersInfo->country,
+                                'address' =>  $usersInfo->address,
+                                'about' =>  $usersInfo->about,
+                                'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $adminUsers->uniqueId]),
+                                'customizeInText' => CommonTrait::customizeInText([
+                                    [
+                                        'type' => 'status',
+                                        'value' => $adminUsers->status
+                                    ]
+                                ]),
+                            ];
                         } else {
-                            $roleSub = [];
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [];
                         }
-                        $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
-                            'id' => encrypt($adminUsers->id),
-                            'name' => $adminUsers->name,
-                            'status' =>  $adminUsers->status,
-                            'getFile' => FileTrait::getFile([
-                                'fileName' => $adminUsers->image,
-                                'storage' => Config::get('constants.storage')['adminUsers']
-                            ]),
-                            'roleMain' =>  $roleMain,
-                            'roleSub' =>  $roleSub,
-                            'email' =>  $adminUsers->email,
-                            'phone' =>  $adminUsers->phone,
-                            'pinCode' =>  $usersInfo->pinCode,
-                            'state' =>  $usersInfo->state,
-                            'country' =>  $usersInfo->country,
-                            'address' =>  $usersInfo->address,
-                            'about' =>  $usersInfo->about,
-                            'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $adminUsers->uniqueId]),
-                            'customizeInText' => CommonTrait::customizeInText([
-                                [
-                                    'type' => 'status',
-                                    'value' => $adminUsers->status
-                                ]
-                            ]),
-                        ];
                     }
 
                     $finalData[Config::get('constants.typeCheck.manageUsers.adminUsers.type')] = $data;

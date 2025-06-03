@@ -277,6 +277,12 @@ return [
     'ok' => 200,
     'serverErr' => 500,
     'vErr' => 420,
+    'errorCode' => [
+        'ok' => 200,
+        'server' => 500,
+        'validation' => 420,
+        'block' => 403,
+    ],
 
     //Implode OR Explode Key----
     'keyImpExp' => '-(SeP)-',

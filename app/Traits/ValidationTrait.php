@@ -409,6 +409,24 @@ trait ValidationTrait
                     'about' => 'max:500',
                 ];
                 break;
+
+            //---- ( Assign Category )
+            case 'saveAssignCategory':
+                $rules = [
+                    'mainCategory' => 'required',
+                    'propertyType' => 'required',
+                    'assignBroad' => 'required',
+                    'about' => 'max:500',
+                ];
+                break;
+            case 'updateAssignCategory':
+                $rules = [
+                    'mainCategory' => 'required',
+                    'propertyType' => 'required',
+                    'assignBroad' => 'required',
+                    'about' => 'max:500',
+                ];
+                break;
             /*------ ( Property Related End ) ------*/
 
             case 'emailLogin':

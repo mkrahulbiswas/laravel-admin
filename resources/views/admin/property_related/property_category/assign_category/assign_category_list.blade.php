@@ -122,7 +122,18 @@
                                                     <div class="row gap-2">
                                                         <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                             <div class="form-icon set-validation">
-                                                                <select class="selectTwo form-control form-control-icon select2-propertyType" name="propertyType" id="propertyTypeFilter">
+                                                                <select class="selectTwo form-control form-control-icon select2-mainCategory" name="mainCategory" id="mainCategoryFilter">
+                                                                    <option value="">Select main category</option>
+                                                                    @foreach ($data['mainCategory'] as $key)
+                                                                        <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                <i class="mdi mdi-list-status"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
+                                                            <div class="form-icon set-validation">
+                                                                <select class="selectTwo form-control form-control-icon select2-propertyType propertyTypeDDD" data-action="{{ route('admin.get.assignBroadDDD') }}" name="propertyType" id="propertyTypeFilter">
                                                                     <option value="">Select property type</option>
                                                                     @foreach ($data['propertyType'] as $key)
                                                                         <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
@@ -133,11 +144,8 @@
                                                         </div>
                                                         <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                             <div class="form-icon set-validation">
-                                                                <select class="selectTwo form-control form-control-icon select2-mainCategory" name="mainCategory" id="mainCategoryFilter">
-                                                                    <option value="">Select main category</option>
-                                                                    @foreach ($data['mainCategory'] as $key)
-                                                                        <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
-                                                                    @endforeach
+                                                                <select name="assignBroad" id="assignBroadFilter" class="selectTwo select2-assignBroad assignBroadDDD">
+                                                                    <option value="">Select broad type</option>
                                                                 </select>
                                                                 <i class="mdi mdi-list-status"></i>
                                                             </div>
@@ -207,8 +215,9 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Unique Id</th>
+                                                <th>Category Type</th>
                                                 <th>Property Type</th>
-                                                <th>Main category</th>
+                                                <th>Broad Type</th>
                                                 <th>Stats Info</th>
                                                 <th>Actions</th>
                                             </tr>
@@ -218,8 +227,9 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>Unique Id</th>
+                                                <th>Category Type</th>
                                                 <th>Property Type</th>
-                                                <th>Main category</th>
+                                                <th>Broad Type</th>
                                                 <th>Stats Info</th>
                                                 <th>Actions</th>
                                             </tr>
@@ -324,7 +334,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
+                            <div class="form-element col-12 mb-3">
                                 <label for="name" class="form-label">Main category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <select class="selectTwo form-control form-control-icon select2-mainCategory-editModal" name="mainCategory" id="mainCategory2">
@@ -340,7 +350,7 @@
                             <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="name" class="form-label">Property Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select class="selectTwo form-control form-control-icon select2-propertyType-addModal propertyTypeDDD" name="propertyType" id="propertyType" data-action="{{ route('admin.get.assignBroadDDD') }}">
+                                    <select class="selectTwo form-control form-control-icon select2-propertyType-editModal propertyTypeDDD" name="propertyType" id="propertyType2" data-action="{{ route('admin.get.assignBroadDDD') }}">
                                         <option value="">Select property type</option>
                                         @foreach ($data['propertyType'] as $key)
                                             <option value="{{ $key['id'] }}" data-name="{{ $key['name'] }}">{{ $key['name'] }}</option>
@@ -353,7 +363,7 @@
                             <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="assignBroad" class="form-label">Broad Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="assignBroad" id="assignBroad" class="selectTwo select2-assignBroad-addModal assignBroadDDD">
+                                    <select name="assignBroad" id="assignBroad2" class="selectTwo select2-assignBroad-editModal assignBroadDDD">
                                         <option value="">Select broad type</option>
                                     </select>
                                     <i class="bx bx-bar-chart-square"></i>
@@ -400,6 +410,19 @@
                 </div>
                 <div class="modal-body">
                     <div class="row info-page-data">
+                        <div class="col-12">
+                            <div class="d-flex mb-4 each-detail-box">
+                                <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                                    <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
+                                        <i class="bx bx-message-edit"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <label class="details-label form-label mb-1">Category Type:</label>
+                                    <span class="detail-span d-block mb-0" id="mainCategory"></span>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-12 col-sm-12 col-md-6 col-xl-6 col-lg-6">
                             <div class="d-flex mb-4 each-detail-box">
                                 <div class="flex-shrink-0 avatar-xs align-self-center me-3">
@@ -408,7 +431,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Property type:</label>
+                                    <label class="details-label form-label mb-1">Property Type:</label>
                                     <span class="detail-span d-block mb-0" id="propertyType"></span>
                                 </div>
                             </div>
@@ -421,8 +444,8 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Main category:</label>
-                                    <span class="detail-span d-block mb-0" id="mainCategory"></span>
+                                    <label class="details-label form-label mb-1">Broad Type:</label>
+                                    <span class="detail-span d-block mb-0" id="assignBroad"></span>
                                 </div>
                             </div>
                         </div>

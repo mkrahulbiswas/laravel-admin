@@ -12,6 +12,8 @@ use App\Helpers\ManagePanel\GetManageAccessHelper;
 use App\Helpers\PropertyRelated\GetPropertyCategoryHelper;
 use App\Helpers\PropertyRelated\GetPropertyTypeHelper;
 
+use App\Models\PropertyRelated\ManageBroad\AssignBroad;
+use App\Models\PropertyRelated\PropertyCategory\AssignCategory;
 use App\Models\PropertyRelated\PropertyCategory\MainCategory;
 
 use Exception;
@@ -268,25 +270,26 @@ class PropertyCategoryAdminController extends Controller
     public function getAssignCategory(Request $request)
     {
         try {
-            $assignBroad = GetManageBroadHelper::getList([
+            $assignCategory = GetPropertyCategoryHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $request->status,
                             'default' => $request->default,
+                            'mainCategory' => $request->mainCategory,
                             'propertyType' => $request->propertyType,
-                            'broadType' => $request->broadType,
+                            'assignBroad' => $request->assignBroad,
                         ],
                         'orderBy' => [
                             'id' => 'desc'
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
             $getPrivilege = GetManageAccessHelper::getPrivilege([
                 [
@@ -295,7 +298,7 @@ class PropertyCategoryAdminController extends Controller
                 ]
             ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
 
-            return Datatables::of($assignBroad)
+            return Datatables::of($assignCategory)
                 ->addIndexColumn()
                 ->addColumn('uniqueId', function ($data) {
                     $uniqueId = $data['uniqueId']['raw'];
@@ -313,9 +316,9 @@ class PropertyCategoryAdminController extends Controller
                 ->addColumn('action', function ($data) use ($getPrivilege) {
                     if ($getPrivilege['status']['permission'] == true) {
                         if ($data['customizeInText']['status']['raw'] == Config::get('constants.status')['inactive']) {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.assignBroad') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.assignCategory') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                         } else {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.assignBroad') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.assignCategory') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                         }
                     } else {
                         $status = '';
@@ -328,7 +331,7 @@ class PropertyCategoryAdminController extends Controller
                     }
 
                     if ($getPrivilege['delete']['permission'] == true) {
-                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.assignBroad') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.assignCategory') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     } else {
                         $delete = '';
                     }
@@ -341,9 +344,9 @@ class PropertyCategoryAdminController extends Controller
 
                     if ($getPrivilege['default']['permission'] == true) {
                         if ($data['customizeInText']['default']['raw'] == Config::get('constants.status')['no']) {
-                            $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.assignBroad') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-open-outline"></i></a>';
+                            $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.assignCategory') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-open-outline"></i></a>';
                         } else {
-                            $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.assignBroad') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-outline"></i></a>';
+                            $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.assignCategory') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-outline"></i></a>';
                         }
                     } else {
                         $default = '';
@@ -369,28 +372,31 @@ class PropertyCategoryAdminController extends Controller
     public function saveAssignCategory(Request $request)
     {
         try {
-            $values = $request->only('propertyType', 'broadType', 'about');
+            $values = $request->only('mainCategory', 'propertyType', 'assignBroad', 'about');
 
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveAssignBroad', 'id' => 0, 'platform' => $this->platform]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveAssignCategory', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
-                if (AssignBroad::where([
+                if (AssignCategory::where([
                     ['propertyTypeId', decrypt($values['propertyType'])],
-                    ['broadTypeId', decrypt($values['broadType'])],
+                    ['mainCategoryId', decrypt($values['mainCategory'])],
+                    ['assignBroadId', decrypt($values['assignBroad'])],
                 ])->get()->count() > 0) {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Already exist", 'msg' => __('messages.existMsg', ['type' => 'selected both property type and broad type'])['success']], config('constants.ok'));
                 } else {
-                    $assignBroad = new AssignBroad();
-                    $assignBroad->propertyTypeId = decrypt($values['propertyType']);
-                    $assignBroad->broadTypeId = decrypt($values['broadType']);
-                    $assignBroad->about = $values['about'];
-                    $assignBroad->uniqueId = $this->generateCode(['preString' => 'PRAB', 'length' => 6, 'model' => AssignBroad::class, 'field' => '']);
+                    $assignCategory = new AssignCategory();
+                    $assignCategory->mainCategoryId = decrypt($values['mainCategory']);
+                    $assignCategory->propertyTypeId = decrypt($values['propertyType']);
+                    $assignCategory->assignBroadId = decrypt($values['assignBroad']);
+                    $assignCategory->broadTypeId = AssignBroad::where('id', decrypt($values['assignBroad']))->value('broadTypeId');
+                    $assignCategory->about = $values['about'];
+                    $assignCategory->uniqueId = $this->generateCode(['preString' => 'PRAC', 'length' => 6, 'model' => AssignCategory::class, 'field' => '']);
 
-                    if ($assignBroad->save()) {
-                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Assign broad'])['success']], config('constants.ok'));
+                    if ($assignCategory->save()) {
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Assign Category'])['success']], config('constants.ok'));
                     } else {
-                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Assign broad'])['failed']], config('constants.ok'));
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Assign Category'])['failed']], config('constants.ok'));
                     }
                 }
             }
@@ -401,7 +407,7 @@ class PropertyCategoryAdminController extends Controller
 
     public function updateAssignCategory(Request $request)
     {
-        $values = $request->only('id', 'propertyType', 'broadType', 'about');
+        $values = $request->only('id', 'mainCategory', 'propertyType', 'assignBroad', 'about');
 
         try {
             $id = decrypt($values['id']);
@@ -410,27 +416,30 @@ class PropertyCategoryAdminController extends Controller
         }
 
         try {
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateAssignBroad', 'id' => $id, 'platform' => $this->platform]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateAssignCategory', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
             } else {
-                if (AssignBroad::where([
+                if (AssignCategory::where([
                     ['propertyTypeId', decrypt($values['propertyType'])],
-                    ['broadTypeId', decrypt($values['broadType'])],
+                    ['mainCategoryId', decrypt($values['mainCategory'])],
+                    ['assignBroadId', decrypt($values['assignBroad'])],
                     ['id', '!=', $id],
                 ])->get()->count() > 0) {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Already exist", 'msg' => __('messages.existMsg', ['type' => 'selected both property type and broad type'])['success']], config('constants.ok'));
                 } else {
-                    $assignBroad = AssignBroad::find($id);
+                    $assignCategory = AssignCategory::find($id);
 
-                    $assignBroad->propertyTypeId = decrypt($values['propertyType']);
-                    $assignBroad->broadTypeId = decrypt($values['broadType']);
-                    $assignBroad->about = $values['about'];
+                    $assignCategory->mainCategoryId = decrypt($values['mainCategory']);
+                    $assignCategory->propertyTypeId = decrypt($values['propertyType']);
+                    $assignCategory->assignBroadId = decrypt($values['assignBroad']);
+                    $assignCategory->broadTypeId = AssignBroad::where('id', decrypt($values['assignBroad']))->value('broadTypeId');
+                    $assignCategory->about = $values['about'];
 
-                    if ($assignBroad->update()) {
-                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Assign broad'])['success']], config('constants.ok'));
+                    if ($assignCategory->update()) {
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Assign Category'])['success']], config('constants.ok'));
                     } else {
-                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Assign broad'])['failed']], config('constants.ok'));
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Assign Category'])['failed']], config('constants.ok'));
                     }
                 }
             }
@@ -450,14 +459,14 @@ class PropertyCategoryAdminController extends Controller
         try {
             $result = $this->setDefault([
                 'targetId' => $id,
-                "targetModel" => AssignBroad::class,
+                "targetModel" => AssignCategory::class,
                 'targetField' => [],
                 'type' => Config::get('constants.action.status.smsfs')
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Assign broad'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Assign Category'])['success']], config('constants.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Assign broad'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Assign Category'])['failed']], config('constants.ok'));
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Set default", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
@@ -475,14 +484,14 @@ class PropertyCategoryAdminController extends Controller
         try {
             $result = $this->changeStatus([
                 'targetId' => $id,
-                "targetModel" => AssignBroad::class,
+                "targetModel" => AssignCategory::class,
                 'targetField' => [],
                 'type' => Config::get('constants.action.status.smsf')
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Assign broad'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Assign Category'])['success']], config('constants.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Assign broad'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Assign Category'])['failed']], config('constants.ok'));
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Change status", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
@@ -500,15 +509,15 @@ class PropertyCategoryAdminController extends Controller
         try {
             $result = $this->deleteItem([
                 [
-                    'model' => AssignBroad::class,
+                    'model' => AssignCategory::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
                 ],
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Assign broad'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Assign Category'])['success']], config('constants.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Assign broad'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Assign Category'])['failed']], config('constants.ok'));
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete data", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));

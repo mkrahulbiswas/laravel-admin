@@ -224,18 +224,22 @@ class GetManageBroadHelper
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
                         $broadType = BroadType::where('id', decrypt($otherDataPasses['id']))->first();
-                        $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
-                            'id' => encrypt($broadType->id),
-                            'name' => $broadType->name,
-                            'about' =>  $broadType->about,
-                            'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $broadType->uniqueId]),
-                            'customizeInText' => CommonTrait::customizeInText([
-                                [
-                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
-                                    'value' => $broadType->status
-                                ],
-                            ]),
-                        ];
+                        if ($broadType != null) {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
+                                'id' => encrypt($broadType->id),
+                                'name' => $broadType->name,
+                                'about' =>  $broadType->about,
+                                'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $broadType->uniqueId]),
+                                'customizeInText' => CommonTrait::customizeInText([
+                                    [
+                                        'type' => Config::get('constants.typeCheck.customizeInText.status'),
+                                        'value' => $broadType->status
+                                    ],
+                                ]),
+                            ];
+                        } else {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [];
+                        }
                     }
 
                     $finalData[Config::get('constants.typeCheck.propertyRelated.manageBroad.broadType.type')] = $data;
@@ -246,43 +250,47 @@ class GetManageBroadHelper
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.yd'), $type)) {
                         $assignBroad = AssignBroad::where('id', decrypt($otherDataPasses['id']))->first();
-                        $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
-                            'id' => encrypt($assignBroad->id),
-                            'about' => $assignBroad->about,
-                            'propertyType' => GetPropertyTypeHelper::getDetail([
-                                [
-                                    'getDetail' => [
-                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyType.type'),
+                        if ($assignBroad != null) {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
+                                'id' => encrypt($assignBroad->id),
+                                'about' => $assignBroad->about,
+                                'propertyType' => GetPropertyTypeHelper::getDetail([
+                                    [
+                                        'getDetail' => [
+                                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                            'for' => Config::get('constants.typeCheck.propertyRelated.propertyType.type'),
+                                        ],
+                                        'otherDataPasses' => [
+                                            'id' => encrypt($assignBroad->propertyTypeId)
+                                        ]
                                     ],
-                                    'otherDataPasses' => [
-                                        'id' => encrypt($assignBroad->propertyTypeId)
-                                    ]
-                                ],
-                            ])[Config::get('constants.typeCheck.propertyRelated.propertyType.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                            'broadType' => GetManageBroadHelper::getDetail([
-                                [
-                                    'getDetail' => [
-                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                        'for' => Config::get('constants.typeCheck.propertyRelated.manageBroad.broadType.type'),
+                                ])[Config::get('constants.typeCheck.propertyRelated.propertyType.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
+                                'broadType' => GetManageBroadHelper::getDetail([
+                                    [
+                                        'getDetail' => [
+                                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                            'for' => Config::get('constants.typeCheck.propertyRelated.manageBroad.broadType.type'),
+                                        ],
+                                        'otherDataPasses' => [
+                                            'id' => encrypt($assignBroad->broadTypeId)
+                                        ]
                                     ],
-                                    'otherDataPasses' => [
-                                        'id' => encrypt($assignBroad->broadTypeId)
-                                    ]
-                                ],
-                            ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.broadType.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                            'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $assignBroad->uniqueId]),
-                            'customizeInText' => CommonTrait::customizeInText([
-                                [
-                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
-                                    'value' => $assignBroad->status
-                                ],
-                                [
-                                    'type' => Config::get('constants.typeCheck.customizeInText.default'),
-                                    'value' => $assignBroad->default
-                                ],
-                            ]),
-                        ];
+                                ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.broadType.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
+                                'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $assignBroad->uniqueId]),
+                                'customizeInText' => CommonTrait::customizeInText([
+                                    [
+                                        'type' => Config::get('constants.typeCheck.customizeInText.status'),
+                                        'value' => $assignBroad->status
+                                    ],
+                                    [
+                                        'type' => Config::get('constants.typeCheck.customizeInText.default'),
+                                        'value' => $assignBroad->default
+                                    ],
+                                ]),
+                            ];
+                        } else {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [];
+                        }
                     }
 
                     $finalData[Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type')] = $data;

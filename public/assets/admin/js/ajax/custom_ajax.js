@@ -4074,7 +4074,6 @@
                 id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
-                id.find('#name').text(data.name);
                 id.find('#propertyType').text(data.propertyType.name);
                 id.find('#broadType').text(data.broadType.name);
                 id.find('#about').text(data.about);
@@ -4610,16 +4609,19 @@
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#id').val(data.id);
-                id.find("#propertyType2 option[data-name='" + data.propertyType.name + "']").prop("selected", true).trigger('change');
-                id.find("#broadType2 option[data-name='" + data.broadType.name + "']").prop("selected", true).trigger('change');
+                id.find("#mainCategory2 option[data-name='" + data.mainCategory.name + "']").prop("selected", true).trigger('change');
+                id.find("#propertyType2 option[data-name='" + data.assignBroad.propertyType.name + "']").prop("selected", true).trigger('change');
+                setTimeout(function () {
+                    id.find("#assignBroad2 option[data-name='" + data.assignBroad.broadType.name + "']").prop("selected", true).trigger('change');
+                }, 1000)
                 id.find('#about').val(data.about);
             } else {
                 id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
-                id.find('#name').text(data.name);
-                id.find('#propertyType').text(data.propertyType.name);
-                id.find('#broadType').text(data.broadType.name);
+                id.find('#mainCategory').text(data.mainCategory.name);
+                id.find('#propertyType').text(data.assignBroad.propertyType.name);
+                id.find('#assignBroad').text(data.assignBroad.broadType.name);
                 id.find('#about').text(data.about);
             }
         });

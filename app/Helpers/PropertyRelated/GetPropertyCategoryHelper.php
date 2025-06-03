@@ -4,6 +4,7 @@ namespace App\Helpers\PropertyRelated;
 
 use App\Traits\CommonTrait;
 
+use App\Models\PropertyRelated\PropertyCategory\AssignCategory;
 use App\Models\PropertyRelated\PropertyCategory\MainCategory;
 
 use Exception;
@@ -122,7 +123,7 @@ class GetPropertyCategoryHelper
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.get.dyf'), $tempOne['getList']['type'])) {
-                        $assignBroad = array();
+                        $assignCategory = array();
                         $whereRaw = "`created_at` is not null";
                         $orderByRaw = "`id` DESC";
 
@@ -139,16 +140,22 @@ class GetPropertyCategoryHelper
                                     $whereRaw .= " and `default` = '" . $default . "'";
                                 }
                             }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainCategory')) {
+                                $mainCategory = $tempOne['otherDataPasses']['filterData']['mainCategory'];
+                                if (!empty($mainCategory)) {
+                                    $whereRaw .= " and `mainCategoryId` = " .  decrypt($mainCategory);
+                                }
+                            }
                             if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'propertyType')) {
                                 $propertyType = $tempOne['otherDataPasses']['filterData']['propertyType'];
                                 if (!empty($propertyType)) {
                                     $whereRaw .= " and `propertyTypeId` = " .  decrypt($propertyType);
                                 }
                             }
-                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'broadType')) {
-                                $broadType = $tempOne['otherDataPasses']['filterData']['broadType'];
-                                if (!empty($broadType)) {
-                                    $whereRaw .= " and `broadTypeId` = " .  decrypt($broadType);
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'assignBroad')) {
+                                $assignBroad = $tempOne['otherDataPasses']['filterData']['assignBroad'];
+                                if (!empty($assignBroad)) {
+                                    $whereRaw .= " and `assignBroadId` = " .  decrypt($assignBroad);
                                 }
                             }
                         }
@@ -162,8 +169,8 @@ class GetPropertyCategoryHelper
                             }
                         }
 
-                        foreach (AssignBroad::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $assignBroad[] = GetPropertyCategoryHelper::getDetail([
+                        foreach (AssignCategory::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
+                            $assignCategory[] = GetPropertyCategoryHelper::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
@@ -177,7 +184,7 @@ class GetPropertyCategoryHelper
                         }
 
                         $data[Config::get('constants.typeCheck.helperCommon.get.dyf')] = [
-                            'list' => $assignBroad
+                            'list' => $assignCategory
                         ];
 
                         if (isset($tempOne['otherDataPasses']['filterData'])) {
@@ -234,51 +241,51 @@ class GetPropertyCategoryHelper
                     $finalData[Config::get('constants.typeCheck.propertyRelated.propertyCategory.mainCategory.type')] = $data;
                 }
 
-                if (Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type') == $for) {
+                if (Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type') == $for) {
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.yd'), $type)) {
-                        $assignBroad = AssignBroad::where('id', decrypt($otherDataPasses['id']))->first();
+                        $assignCategory = AssignCategory::where('id', decrypt($otherDataPasses['id']))->first();
                         $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
-                            'id' => encrypt($assignBroad->id),
-                            'about' => $assignBroad->about,
-                            'propertyType' => GetPropertyTypeHelper::getDetail([
+                            'id' => encrypt($assignCategory->id),
+                            'about' => $assignCategory->about,
+                            'assignBroad' => GetManageBroadHelper::getDetail([
                                 [
                                     'getDetail' => [
-                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyType.type'),
+                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                                        'for' => Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type'),
                                     ],
                                     'otherDataPasses' => [
-                                        'id' => encrypt($assignBroad->propertyTypeId)
+                                        'id' => encrypt($assignCategory->assignBroadId)
                                     ]
                                 ],
-                            ])[Config::get('constants.typeCheck.propertyRelated.propertyType.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                            'broadType' => GetPropertyCategoryHelper::getDetail([
+                            ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'],
+                            'mainCategory' => GetPropertyCategoryHelper::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                                         'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.mainCategory.type'),
                                     ],
                                     'otherDataPasses' => [
-                                        'id' => encrypt($assignBroad->broadTypeId)
+                                        'id' => encrypt($assignCategory->mainCategoryId)
                                     ]
                                 ],
                             ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.mainCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                            'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $assignBroad->uniqueId]),
+                            'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $assignCategory->uniqueId]),
                             'customizeInText' => CommonTrait::customizeInText([
                                 [
                                     'type' => Config::get('constants.typeCheck.customizeInText.status'),
-                                    'value' => $assignBroad->status
+                                    'value' => $assignCategory->status
                                 ],
                                 [
                                     'type' => Config::get('constants.typeCheck.customizeInText.default'),
-                                    'value' => $assignBroad->default
+                                    'value' => $assignCategory->default
                                 ],
                             ]),
                         ];
                     }
 
-                    $finalData[Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type')] = $data;
                 }
             }
             return $finalData;

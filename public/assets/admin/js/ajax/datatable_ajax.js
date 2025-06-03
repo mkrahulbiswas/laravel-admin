@@ -627,6 +627,52 @@
                 }
             ]
         });
+
+        /*------( Assign Category Listing )--------*/
+        $('#propertyRelated-propertyCategory-assignCategory').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "assign-category/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "mainCategory",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.name).text();
+                    }
+                },
+                {
+                    data: "assignBroad",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.broadType.name).text();
+                    }
+                },
+                {
+                    data: "assignBroad",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.propertyType.name).text();
+                    }
+                },
+                {
+                    data: "statInfo",
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
         /*--========================= ( Property Related END ) =========================--*/
 
     });

@@ -118,17 +118,21 @@ class GetQuickSettingsHelper
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
                         $logo = Logo::where('id', decrypt($otherDataPasses['id']))->first();
-                        $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
-                            'id' => encrypt($logo->id),
-                            'default' =>  $logo->default,
-                            'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $logo->uniqueId]),
-                            'customizeInText' => CommonTrait::customizeInText([
-                                [
-                                    'type' => 'default',
-                                    'value' => $logo->default
-                                ],
-                            ]),
-                        ];
+                        if ($logo != null) {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
+                                'id' => encrypt($logo->id),
+                                'default' =>  $logo->default,
+                                'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $logo->uniqueId]),
+                                'customizeInText' => CommonTrait::customizeInText([
+                                    [
+                                        'type' => 'default',
+                                        'value' => $logo->default
+                                    ],
+                                ]),
+                            ];
+                        } else {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [];
+                        }
                     }
 
                     $finalData[Config::get('constants.typeCheck.quickSettings.logo.type')] = $data;
