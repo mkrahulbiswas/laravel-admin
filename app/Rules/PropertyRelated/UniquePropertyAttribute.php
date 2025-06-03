@@ -2,11 +2,11 @@
 
 namespace App\Rules\PropertyRelated;
 
-use App\Models\PropertyRelated\PropertyAttributes;
 use Closure;
+use App\Models\PropertyRelated\PropertyAttribute;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class UniquePropertyAttributes implements ValidationRule
+class UniquePropertyAttribute implements ValidationRule
 {
     private $data;
 
@@ -18,12 +18,12 @@ class UniquePropertyAttributes implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail, array $parameters = []): void
     {
         if ($this->data['targetId'] == '') {
-            $isExist = PropertyAttributes::where([
+            $isExist = PropertyAttribute::where([
                 ['name', $value],
                 ['type', $this->data['type']],
             ])->get();
         } else {
-            $isExist = PropertyAttributes::where([
+            $isExist = PropertyAttribute::where([
                 ['name', $value],
                 ['type', $this->data['type']],
                 ['id', '!=', $this->data['targetId']]

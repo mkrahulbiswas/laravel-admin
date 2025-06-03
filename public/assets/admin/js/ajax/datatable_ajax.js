@@ -443,11 +443,11 @@
 
 
         /*--========================= ( Property Related START ) =========================--*/
-        /*------( Property Attributes Listing )--------*/
-        $('#propertyRelated-propertyAttributes').DataTable({
+        /*------( Property Attribute Listing )--------*/
+        $('#propertyRelated-propertyAttribute').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "property-attributes/ajaxGetList",
+            ajax: "property-attribute/ajaxGetList",
             language: {
                 searchPlaceholder: "None"
             },
@@ -484,7 +484,7 @@
         $('#propertyRelated-propertyType').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "property-types/ajaxGetList",
+            ajax: "property-type/ajaxGetList",
             language: {
                 searchPlaceholder: "None"
             },

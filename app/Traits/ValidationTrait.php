@@ -5,7 +5,7 @@ namespace app\Traits;
 use App\Helpers\ManagePanel\GetManageAccessHelper;
 use App\Rules\ManagePanel\UniqueManageAccess;
 use App\Rules\ManagePanel\UniqueManageNav;
-use App\Rules\PropertyRelated\UniquePropertyAttributes;
+use App\Rules\PropertyRelated\UniquePropertyAttribute;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
@@ -330,21 +330,21 @@ trait ValidationTrait
 
 
             /*------ ( Property Related Start ) ------*/
-            //---- ( Property Attributes )
-            case 'savePropertyAttributes':
+            //---- ( Property Attribute )
+            case 'savePropertyAttribute':
                 $rules = [
                     'type' => 'required',
-                    'name' => ['required', 'max:255', new UniquePropertyAttributes([
+                    'name' => ['required', 'max:255', new UniquePropertyAttribute([
                         'targetId' => $data['id'],
                         'type' => $data['input']['type']
                     ])],
                     'about' => 'max:500',
                 ];
                 break;
-            case 'updatePropertyAttributes':
+            case 'updatePropertyAttribute':
                 $rules = [
                     'type' => 'required',
-                    'name' => ['required', 'max:255', new UniquePropertyAttributes([
+                    'name' => ['required', 'max:255', new UniquePropertyAttribute([
                         'targetId' => $data['id'],
                         'type' => $data['input']['type']
                     ])],

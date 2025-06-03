@@ -76,8 +76,8 @@ return [
         ],
         'propertyRelated' => [
             'type' => 'propertyRelated',
-            'propertyAttributes' => [
-                'type' => 'propertyAttributes',
+            'propertyAttribute' => [
+                'type' => 'propertyAttribute',
                 'attributes' => [
                     'amenities' => [
                         'type' => 'amenities',

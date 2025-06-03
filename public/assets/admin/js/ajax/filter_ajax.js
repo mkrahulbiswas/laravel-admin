@@ -383,10 +383,10 @@
 
 
         /*--========================= ( Property Related START ) =========================--*/
-        //------ ( Property Attributes )
-        $('#filterPropertyAttributesForm').find('#statusFilter, #typeFilter, #defaultFilter, .filterPropertyAttributesBtn').on('change click', function () {
+        //------ ( Property Attribute )
+        $('#filterPropertyAttributeForm').find('#statusFilter, #typeFilter, #defaultFilter, .filterPropertyAttributeBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#propertyRelated-propertyAttributes'),
+                dataTableId = $('#propertyRelated-propertyAttribute'),
 
                 status = formId.find("#statusFilter").val(),
                 type = formId.find("#typeFilter").val(),
@@ -424,7 +424,7 @@
         //------ ( Property Type )
         $('#filterPropertyTypeForm').find('#statusFilter, #defaultFilter, .filterPropertyTypeBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#propertyRelated-propertyAttributes'),
+                dataTableId = $('#propertyRelated-propertyAttribute'),
 
                 status = formId.find("#statusFilter").val(),
                 defaul = formId.find("#defaultFilter").val(),

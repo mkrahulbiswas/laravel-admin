@@ -25,7 +25,7 @@ function initCallOnModalClose() {
         $(this).find('.selectPicker').selectpicker('val', '');
         // $(this).find('textarea').summernote('reset');
         $(this).find('.form-control, .select2-container--default .select2-selection--single').removeClass('valid-input invalid-input');
-        let ids = '#saveAssignBroadForm, #updateAssignBroadForm, #saveBroadTypeForm, #updateBroadTypeForm, #saveLogoForm, #updateLogoForm, #saveNavTypeForm, #updateNavTypeForm, #saveNavMainForm, #updateNavMainForm, #saveNavSubForm, #updateNavSubForm, #saveNavNestedForm, #updateNavNestedForm, #savePropertyAttributesForm, #updatePropertyAttributesForm, #savePropertyTypeForm, #updatePropertyTypeForm, #saveRoleSubForm, #updateRoleSubForm';
+        let ids = '#saveAssignBroadForm, #updateAssignBroadForm, #saveBroadTypeForm, #updateBroadTypeForm, #saveLogoForm, #updateLogoForm, #saveNavTypeForm, #updateNavTypeForm, #saveNavMainForm, #updateNavMainForm, #saveNavSubForm, #updateNavSubForm, #saveNavNestedForm, #updateNavNestedForm, #savePropertyAttributeForm, #updatePropertyAttributeForm, #savePropertyTypeForm, #updatePropertyTypeForm, #saveRoleSubForm, #updateRoleSubForm';
         $(ids).find(".validation-error").text('');
         $(this).find('.selectTwo').select2('reset');
     });

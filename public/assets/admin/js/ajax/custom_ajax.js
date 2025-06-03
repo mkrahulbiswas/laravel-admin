@@ -3009,11 +3009,11 @@
 
 
         /*--========================= ( Property Related START ) =========================--*/
-        //---- ( Property Attributes Save ) ----//
-        $("#savePropertyAttributesForm").submit(function (event) {
+        //---- ( Property Attribute Save ) ----//
+        $("#savePropertyAttributeForm").submit(function (event) {
 
             submitForm = $(this);
-            submitBtn = $(this).find('#savePropertyAttributesBtn');
+            submitBtn = $(this).find('#savePropertyAttributeBtn');
 
             event.preventDefault();
             $.ajax({
@@ -3088,7 +3088,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#propertyRelated-propertyAttributes')
+                                    targetId: $('#propertyRelated-propertyAttribute')
                                 }
                             }
                         })
@@ -3112,10 +3112,10 @@
             });
         });
 
-        //---- ( Property Attributes Update ) ----//
-        $("#updatePropertyAttributesForm").submit(function (event) {
+        //---- ( Property Attribute Update ) ----//
+        $("#updatePropertyAttributeForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updatePropertyAttributesBtn');
+            submitBtn = $(this).find('#updatePropertyAttributeBtn');
 
             event.preventDefault();
             $.ajax({
@@ -3189,7 +3189,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#propertyRelated-propertyAttributes')
+                                    targetId: $('#propertyRelated-propertyAttribute')
                                 }
                             }
                         })
@@ -3213,11 +3213,11 @@
             });
         });
 
-        //---- ( Property Attributes Status, Edit, Detail ) ----//
-        $('body').delegate('#propertyRelated-propertyAttributes .actionDatatable', 'click', function () {
+        //---- ( Property Attribute Status, Edit, Detail ) ----//
+        $('body').delegate('#propertyRelated-propertyAttribute .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
-                targetTableId = $('#propertyRelated-propertyAttributes'),
+                targetTableId = $('#propertyRelated-propertyAttribute'),
                 data = '';
 
             if (type == 'status') {
