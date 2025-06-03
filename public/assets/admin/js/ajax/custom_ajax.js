@@ -127,6 +127,9 @@
                             },
                             error: function (xhr, textStatus, error) {
                                 commonAction({
+                                    loader: {
+                                        isSet: false
+                                    },
                                     targetId: {
                                         submitForm: submitForm,
                                         submitBtn: submitBtn,
@@ -256,6 +259,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -365,6 +371,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -526,6 +535,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -627,6 +639,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -787,6 +802,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -891,6 +909,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -985,6 +1006,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1189,6 +1213,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1296,6 +1323,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1390,6 +1420,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1601,6 +1634,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1711,6 +1747,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1805,6 +1844,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1972,6 +2014,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2073,6 +2118,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2171,6 +2219,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2266,6 +2317,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2451,6 +2505,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2552,6 +2609,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2647,6 +2707,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2819,6 +2882,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2920,6 +2986,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3096,6 +3165,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3197,6 +3269,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3365,6 +3440,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3463,6 +3541,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3629,6 +3710,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3727,6 +3811,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3896,6 +3983,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3997,6 +4087,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4165,6 +4258,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4263,6 +4359,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4435,6 +4534,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4446,6 +4548,12 @@
                                 type: textStatus
                             }
                         },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Save',
+                                disabled: false
+                            }
+                        }
                     })
                 }
             });
@@ -4539,6 +4647,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
