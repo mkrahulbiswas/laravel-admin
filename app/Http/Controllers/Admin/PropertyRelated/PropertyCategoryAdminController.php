@@ -128,20 +128,20 @@ class PropertyCategoryAdminController extends Controller
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveMainCategory', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
-                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
                 $mainCategory = new MainCategory();
                 $mainCategory->name = $values['name'];
                 $mainCategory->about = $values['about'];
                 $mainCategory->uniqueId = $this->generateCode(['preString' => 'PRMC', 'length' => 6, 'model' => MainCategory::class, 'field' => '']);
                 if ($mainCategory->save()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Main category'])['success']], config('constants.ok'));
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Main category'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Main category'])['failed']], config('constants.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Main category'])['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save data", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -152,25 +152,25 @@ class PropertyCategoryAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Update data", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Update data", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateMainCategory', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
-                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
                 $mainCategory = MainCategory::find($id);
                 $mainCategory->name = $values['name'];
                 $mainCategory->about = $values['about'];
                 if ($mainCategory->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Main category'])['success']], config('constants.ok'));
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Main category'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Main category'])['failed']], config('constants.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Main category'])['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update data", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -179,7 +179,7 @@ class PropertyCategoryAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
@@ -190,12 +190,12 @@ class PropertyCategoryAdminController extends Controller
                 'type' => Config::get('constants.action.status.smsf')
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Main category'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Main category'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Main category'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Main category'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Change status", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Change status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -204,7 +204,7 @@ class PropertyCategoryAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
@@ -216,12 +216,12 @@ class PropertyCategoryAdminController extends Controller
                 ],
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Main category'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Main category'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Main category'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Main category'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete data", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -376,14 +376,14 @@ class PropertyCategoryAdminController extends Controller
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveAssignCategory', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
-                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
                 if (AssignCategory::where([
                     ['propertyTypeId', decrypt($values['propertyType'])],
                     ['mainCategoryId', decrypt($values['mainCategory'])],
                     ['assignBroadId', decrypt($values['assignBroad'])],
                 ])->get()->count() > 0) {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Already exist", 'msg' => __('messages.existMsg', ['type' => 'selected both property type and broad type'])['success']], config('constants.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Already exist", 'msg' => __('messages.existMsg', ['type' => 'selected both property type and broad type'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
                     $assignCategory = new AssignCategory();
                     $assignCategory->mainCategoryId = decrypt($values['mainCategory']);
@@ -394,14 +394,14 @@ class PropertyCategoryAdminController extends Controller
                     $assignCategory->uniqueId = $this->generateCode(['preString' => 'PRAC', 'length' => 6, 'model' => AssignCategory::class, 'field' => '']);
 
                     if ($assignCategory->save()) {
-                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Assign Category'])['success']], config('constants.ok'));
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Assign Category'])['success']], Config::get('constants.errorCode.ok'));
                     } else {
-                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Assign Category'])['failed']], config('constants.ok'));
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Assign Category'])['failed']], Config::get('constants.errorCode.ok'));
                     }
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save data", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -412,13 +412,13 @@ class PropertyCategoryAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Update data", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Update data", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateAssignCategory', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
-                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
                 if (AssignCategory::where([
                     ['propertyTypeId', decrypt($values['propertyType'])],
@@ -426,7 +426,7 @@ class PropertyCategoryAdminController extends Controller
                     ['assignBroadId', decrypt($values['assignBroad'])],
                     ['id', '!=', $id],
                 ])->get()->count() > 0) {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Already exist", 'msg' => __('messages.existMsg', ['type' => 'selected both property type and broad type'])['success']], config('constants.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Already exist", 'msg' => __('messages.existMsg', ['type' => 'selected both property type and broad type'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
                     $assignCategory = AssignCategory::find($id);
 
@@ -437,14 +437,14 @@ class PropertyCategoryAdminController extends Controller
                     $assignCategory->about = $values['about'];
 
                     if ($assignCategory->update()) {
-                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Assign Category'])['success']], config('constants.ok'));
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Assign Category'])['success']], Config::get('constants.errorCode.ok'));
                     } else {
-                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Assign Category'])['failed']], config('constants.ok'));
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Assign Category'])['failed']], Config::get('constants.errorCode.ok'));
                     }
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update data", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -453,7 +453,7 @@ class PropertyCategoryAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
@@ -464,12 +464,12 @@ class PropertyCategoryAdminController extends Controller
                 'type' => Config::get('constants.action.status.smsfs')
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Assign Category'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Assign Category'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Assign Category'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Assign Category'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Set default", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Set default", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -478,7 +478,7 @@ class PropertyCategoryAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
@@ -489,12 +489,12 @@ class PropertyCategoryAdminController extends Controller
                 'type' => Config::get('constants.action.status.smsf')
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Assign Category'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Assign Category'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Assign Category'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Assign Category'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Change status", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Change status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -503,7 +503,7 @@ class PropertyCategoryAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
@@ -515,12 +515,12 @@ class PropertyCategoryAdminController extends Controller
                 ],
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Assign Category'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Assign Category'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Assign Category'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Assign Category'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete data", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 }

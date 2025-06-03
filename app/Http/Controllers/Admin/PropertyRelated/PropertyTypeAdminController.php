@@ -146,7 +146,7 @@ class PropertyTypeAdminController extends Controller
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'savePropertyType', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
-                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
 
                 $propertyType = new PropertyType();
@@ -156,13 +156,13 @@ class PropertyTypeAdminController extends Controller
                 $propertyType->status = Config::get('constants.status')['active'];
 
                 if ($propertyType->save()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Property type'])['success']], config('constants.ok'));
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Property type'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Property type'])['failed']], config('constants.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Property type'])['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save data", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -173,13 +173,13 @@ class PropertyTypeAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Update data", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Update data", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'updatePropertyType', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
-                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
                 $propertyType = PropertyType::find($id);
 
@@ -187,13 +187,13 @@ class PropertyTypeAdminController extends Controller
                 $propertyType->about = $values['about'];
 
                 if ($propertyType->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Property type'])['success']], config('constants.ok'));
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Property type'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Property type'])['failed']], config('constants.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Property type'])['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update data", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -202,7 +202,7 @@ class PropertyTypeAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
@@ -213,12 +213,12 @@ class PropertyTypeAdminController extends Controller
                 'type' => Config::get('constants.action.status.smsfs')
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Property type'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Property type'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Property type'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Property type'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Set default", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Set default", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -227,7 +227,7 @@ class PropertyTypeAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
@@ -238,12 +238,12 @@ class PropertyTypeAdminController extends Controller
                 'type' => Config::get('constants.action.status.smsf')
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Property type'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Property type'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Property type'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Property type'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Change status", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Change status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -252,7 +252,7 @@ class PropertyTypeAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
@@ -264,12 +264,12 @@ class PropertyTypeAdminController extends Controller
                 ],
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Property type'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Property type'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Property type'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Property type'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete data", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 }

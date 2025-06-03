@@ -274,9 +274,6 @@ return [
     'successMsg' => 'Success.',
 
     //HTTP Status for api response
-    'ok' => 200,
-    'serverErr' => 500,
-    'vErr' => 420,
     'errorCode' => [
         'ok' => 200,
         'server' => 500,

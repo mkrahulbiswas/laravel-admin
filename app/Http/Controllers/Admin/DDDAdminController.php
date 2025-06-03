@@ -47,12 +47,12 @@ class DDDAdminController extends Controller
             ];
 
             if ($data) {
-                return Response()->Json(['status' => 1, 'msg' => 'Nav main is found.', 'data' => $data], config('constants.ok'));
+                return Response()->Json(['status' => 1, 'msg' => 'Nav main is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
             } else {
-                return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+                return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -83,12 +83,12 @@ class DDDAdminController extends Controller
             ];
 
             if ($data) {
-                return Response()->Json(['status' => 1, 'msg' => 'Nav sub is found.', 'data' => $data], config('constants.ok'));
+                return Response()->Json(['status' => 1, 'msg' => 'Nav sub is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
             } else {
-                return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+                return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -119,12 +119,12 @@ class DDDAdminController extends Controller
             ];
 
             if ($data) {
-                return Response()->Json(['status' => 1, 'msg' => 'Role sub is found.', 'data' => $data], config('constants.ok'));
+                return Response()->Json(['status' => 1, 'msg' => 'Role sub is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
             } else {
-                return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+                return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -151,19 +151,19 @@ class DDDAdminController extends Controller
             ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
             if ($assignBroad == []) {
-                return Response()->Json(['status' => 2, 'msg' => __('messages.serverErrMsg'), 'redirectTo' => route('admin.show.assignBroad'), 'data' => (object)[]], config('constants.ok'));
+                return Response()->Json(['status' => 2, 'msg' => __('messages.serverErrMsg'), 'redirectTo' => route('admin.show.assignBroad'), 'data' => (object)[]], Config::get('constants.errorCode.ok'));
             } else {
                 $data = [
                     'assignBroad' => $assignBroad
                 ];
                 if ($data) {
-                    return Response()->Json(['status' => 1, 'msg' => 'Role sub is found.', 'data' => $data], config('constants.ok'));
+                    return Response()->Json(['status' => 1, 'msg' => 'Role sub is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg'), 'data' => (object)[]], config('constants.ok'));
+                    return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg'), 'data' => (object)[]], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 }

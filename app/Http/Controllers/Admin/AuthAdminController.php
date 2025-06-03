@@ -55,15 +55,15 @@ class AuthAdminController extends Controller
                 'platform' => $this->platform
             ]);
             if ($validator->fails()) {
-                return response()->json(['status' => 0, 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
+                return response()->json(['status' => 0, 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
                 $values = $request->only('phone', 'password');
                 $adminUsers = AdminUsers::where('phone', $values['phone'])->first();
                 if ($adminUsers == null) {
-                    return response()->json(['status' => 0, 'msg' => __('messages.adminLoginErr')], config('constants.ok'));
+                    return response()->json(['status' => 0, 'msg' => __('messages.adminLoginErr')], Config::get('constants.errorCode.ok'));
                 } else {
                     if ($adminUsers->status == 0) {
-                        return response()->json(['status' => 0, 'msg' => 'You are blocked by admin'], config('constants.ok'));
+                        return response()->json(['status' => 0, 'msg' => 'You are blocked by admin'], Config::get('constants.errorCode.ok'));
                     } else {
                         $roleMain = GetManageAccessHelper::getDetail([
                             [
@@ -77,7 +77,7 @@ class AuthAdminController extends Controller
                             ],
                         ]);
                         if ($roleMain == false) {
-                            return response()->json(['status' => 0, 'msg' => 'Oops! we could not detect your role (main), please contact with administrator.'], config('constants.ok'));
+                            return response()->json(['status' => 0, 'msg' => 'Oops! we could not detect your role (main), please contact with administrator.'], Config::get('constants.errorCode.ok'));
                         } else {
                             $roleMain = $roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                             if ($roleMain['extraData']['hasRoleSub'] > 0) {
@@ -93,7 +93,7 @@ class AuthAdminController extends Controller
                                     ],
                                 ]);
                                 if ($roleSub == false) {
-                                    return response()->json(['status' => 0, 'msg' => 'Oops! we could not detect your role (sub), please contact with administrator.'], config('constants.ok'));
+                                    return response()->json(['status' => 0, 'msg' => 'Oops! we could not detect your role (sub), please contact with administrator.'], Config::get('constants.errorCode.ok'));
                                 } else {
                                     goto login;
                                 }
@@ -103,16 +103,16 @@ class AuthAdminController extends Controller
 
                             login:
                             if (Auth::guard('admin')->attempt(['phone' => $values['phone'], 'password' => $values['password']])) {
-                                return response()->json(['status' => 1, 'msg' => __('messages.successMsg')], config('constants.ok'));
+                                return response()->json(['status' => 1, 'msg' => __('messages.successMsg')], Config::get('constants.errorCode.ok'));
                             } else {
-                                return response()->json(['status' => 0, 'msg' => __('messages.adminLoginErr')], config('constants.ok'));
+                                return response()->json(['status' => 0, 'msg' => __('messages.adminLoginErr')], Config::get('constants.errorCode.ok'));
                             }
                         }
                     }
                 }
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -123,12 +123,12 @@ class AuthAdminController extends Controller
 
             $validator = $this->isValid($request->all(), 'saveForgotPassword', 0, $this->platform);
             if ($validator->fails()) {
-                return response()->json(['status' => 0, 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
+                return response()->json(['status' => 0, 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
                 $otp = rand(100000, 999999);
                 $admin = AdminUsers::where('email', $values['email'])->first();
                 if ($admin == null) {
-                    return response()->json(['status' => 0, 'msg' => 'Email not found, please check it again.'], config('constants.ok'));
+                    return response()->json(['status' => 0, 'msg' => 'Email not found, please check it again.'], Config::get('constants.errorCode.ok'));
                 } else {
                     $admin->otp = $otp;
                     if ($admin->update()) {
@@ -136,17 +136,17 @@ class AuthAdminController extends Controller
                         $data = array('name' => $name, 'otp' => $otp);
 
                         if (Mail::to($values['email'])->send(new ForgotPassword($data)) == false) {
-                            return response()->json(['status' => 1, 'msg' => 'OTP is send to your email, please check it.'], config('constants.ok'));
+                            return response()->json(['status' => 1, 'msg' => 'OTP is send to your email, please check it.'], Config::get('constants.errorCode.ok'));
                         } else {
-                            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+                            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
                         }
                     } else {
-                        return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+                        return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
                     }
                 }
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -157,23 +157,23 @@ class AuthAdminController extends Controller
 
             $validator = $this->isValid($request->all(), 'updateResetPassword', 0, $this->platform);
             if ($validator->fails()) {
-                return response()->json(['status' => 0, 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
+                return response()->json(['status' => 0, 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
                 $admin = AdminUsers::where('otp', $values['otp'])->first();
                 if ($admin == null) {
-                    return response()->json(['status' => 0, 'msg' => 'OTP does\'t match.'], config('constants.ok'));
+                    return response()->json(['status' => 0, 'msg' => 'OTP does\'t match.'], Config::get('constants.errorCode.ok'));
                 } else {
                     $admin->otp = null;
                     $admin->password = Hash::make($values['confirmPassword']);
                     if ($admin->update()) {
-                        return response()->json(['status' => 1, 'msg' => 'Password Changed Successfully'], config('constants.ok'));
+                        return response()->json(['status' => 1, 'msg' => 'Password Changed Successfully'], Config::get('constants.errorCode.ok'));
                     } else {
-                        return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+                        return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
                     }
                 }
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -279,7 +279,7 @@ class AuthAdminController extends Controller
 
             $validator = $this->isValid($request->all(), 'updateProfile', $admin->id, $this->platform);
             if ($validator->fails()) {
-                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             }
 
 
@@ -288,7 +288,7 @@ class AuthAdminController extends Controller
                 $previousImg = $admin->profilePic;
                 $image = $this->uploadPicture($file, $previousImg, $this->platform, $imgType);
                 if ($image === false) {
-                    return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update Profile", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
                 }
             }
 
@@ -310,11 +310,11 @@ class AuthAdminController extends Controller
                 $user->update();
 
                 DB::commit();
-                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update Profile", 'msg' => 'Profile successfully update.'], config('constants.ok'));
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update Profile", 'msg' => 'Profile successfully update.'], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
             DB::rollback();
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update Sub Admin", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update Sub Admin", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 }
