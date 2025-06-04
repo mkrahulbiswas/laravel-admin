@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+
 use App\Helpers\ManagePanel\GetManageAccessHelper;
 use App\Helpers\ManagePanel\GetManageNavHelper;
 use App\Helpers\PropertyRelated\GetManageBroadHelper;
-use App\Http\Controllers\Controller;
+use App\Helpers\PropertyRelated\GetPropertyCategoryHelper;
 
 use App\Traits\CommonTrait;
 use App\Traits\FileTrait;
@@ -128,7 +130,7 @@ class DDDAdminController extends Controller
         }
     }
 
-    /*------ ( Assign Broad Sub ) -------*/
+    /*------ ( Property Category ) -------*/
     public function getAssignBroad($propertyTypeId)
     {
         try {
@@ -161,6 +163,39 @@ class DDDAdminController extends Controller
                 } else {
                     return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg'), 'data' => (object)[]], Config::get('constants.errorCode.ok'));
                 }
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+    }
+
+    public function getMain($mainId)
+    {
+        try {
+            $getList = GetPropertyCategoryHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status.active'),
+                            'mainId' => $mainId,
+                            'subId' => null,
+                        ],
+                        'orderBy' => ['id' => 'desc'],
+                    ],
+                ],
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+
+            $data = [
+                'main' => $getList
+            ];
+            if ($data) {
+                return Response()->Json(['status' => 1, 'msg' => 'Role sub is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
+            } else {
+                return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg'), 'data' => (object)[]], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
             return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));

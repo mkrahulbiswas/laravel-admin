@@ -405,10 +405,44 @@ trait ValidationTrait
                     ];
                     break;
                 }
+                if ($data['input']['type'] == Config::get('constants.status.sub')) {
+                    $rules = [
+                        'name' => 'required|max:255|unique:manage_category,name',
+                        'main' => 'required',
+                        'about' => 'max:500',
+                    ];
+                    break;
+                }
+                if ($data['input']['type'] == Config::get('constants.status.nested')) {
+                    $rules = [
+                        'name' => 'required|max:255|unique:manage_category,name',
+                        'main' => 'required',
+                        'sub' => 'required',
+                        'about' => 'max:500',
+                    ];
+                    break;
+                }
             case 'updateManageCategory':
                 if ($data['input']['type'] == Config::get('constants.status.main')) {
                     $rules = [
                         'name' => 'required|max:255|unique:manage_category,name,' . $data['id'],
+                        'about' => 'max:500',
+                    ];
+                    break;
+                }
+                if ($data['input']['type'] == Config::get('constants.status.sub')) {
+                    $rules = [
+                        'name' => 'required|max:255|unique:manage_category,name,' . $data['id'],
+                        'main' => 'required',
+                        'about' => 'max:500',
+                    ];
+                    break;
+                }
+                if ($data['input']['type'] == Config::get('constants.status.nested')) {
+                    $rules = [
+                        'name' => 'required|max:255|unique:manage_category,name,' . $data['id'],
+                        'main' => 'required',
+                        'sub' => 'required',
                         'about' => 'max:500',
                     ];
                     break;

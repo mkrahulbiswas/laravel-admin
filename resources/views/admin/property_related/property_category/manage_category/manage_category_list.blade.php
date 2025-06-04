@@ -82,7 +82,7 @@
                             <div class="form-element col-12 mb-3">
                                 <label for="main" class="form-label">Main Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="main" id="main" class="selectTwo select2-main-addModal mainDDD" data-action="{{ route('admin.get.navMainDDD') }}">
+                                    <select name="main" id="main" class="selectTwo select2-main-addModal mainDDD" data-action="{{ route('admin.get.mainDDD') }}">
                                         <option value="">Select Nav Type</option>
                                         @foreach ($data['main'] as $item)
                                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -95,7 +95,9 @@
                             <div class="form-element col-12 mb-3">
                                 <label for="sub" class="form-label">Sub Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="sub" id="sub" class="selectTwo select2-sub-addModal subDDD" data-action="{{ route('admin.get.navSubDDD') }}"></select>
+                                    <select name="sub" id="sub" class="selectTwo select2-sub-addModal subDDD" data-action="{{ route('admin.get.navSubDDD') }}">
+                                        <option value="">Select Sum Type</option>
+                                    </select>
                                     <i class="bx bx-bar-chart-square"></i>
                                 </div>
                                 <div class="validation-error" id="subErr"></div>
@@ -155,7 +157,7 @@
                             <div class="form-element col-12 mb-3">
                                 <label for="main" class="form-label">Main Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="main" id="main2" class="selectTwo select2-main-addModal mainDDD" data-action="{{ route('admin.get.navMainDDD') }}">
+                                    <select name="main" id="main2" class="selectTwo select2-main-addModal mainDDD" data-action="{{ route('admin.get.mainDDD') }}">
                                         <option value="">Select Nav Type</option>
                                         @foreach ($data['main'] as $item)
                                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>

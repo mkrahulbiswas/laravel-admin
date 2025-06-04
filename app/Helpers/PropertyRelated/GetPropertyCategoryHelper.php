@@ -52,6 +52,20 @@ class GetPropertyCategoryHelper
                                     $whereRaw .= " and `type` = '" . $type . "'";
                                 }
                             }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainId')) {
+                                $mainId = $tempOne['otherDataPasses']['filterData']['mainId'];
+                                if (!empty($mainId)) {
+                                    $whereRaw .= " and `mainId` = " . decrypt($mainId);
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'subId')) {
+                                $subId = $tempOne['otherDataPasses']['filterData']['subId'];
+                                if (!empty($subId)) {
+                                    $whereRaw .= " and `subId` = " . decrypt($subId);
+                                } else {
+                                    $whereRaw .= " and `subId` is null";
+                                }
+                            }
                         }
 
                         foreach (ManageCategory::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {

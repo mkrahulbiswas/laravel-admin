@@ -141,29 +141,33 @@ class PropertyCategoryAdminController extends Controller
 
     public function saveManageCategory(Request $request)
     {
-        try {
-            $values = $request->only('name', 'about', 'main', 'sub', 'type');
+        // try {
+        $values = $request->only('name', 'about', 'main', 'sub', 'type');
 
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveManageCategory', 'id' => 0, 'platform' => $this->platform]);
-            if ($validator->fails()) {
-                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
-            } else {
-                $manageCategory = new ManageCategory();
-                $manageCategory->name = $values['name'];
-                $manageCategory->about = $values['about'];
-                $manageCategory->type = $values['type'];
-                $manageCategory->mainId = $values['main'];
-                $manageCategory->subId = $values['sub'];
-                $manageCategory->uniqueId = $this->generateCode(['preString' => 'PRMC', 'length' => 6, 'model' => ManageCategory::class, 'field' => '']);
-                if ($manageCategory->save()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Main category'])['success']], Config::get('constants.errorCode.ok'));
-                } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Main category'])['failed']], Config::get('constants.errorCode.ok'));
-                }
+        $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveManageCategory', 'id' => 0, 'platform' => $this->platform]);
+        if ($validator->fails()) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
+        } else {
+            $manageCategory = new ManageCategory();
+            $manageCategory->name = $values['name'];
+            $manageCategory->about = $values['about'];
+            $manageCategory->type = $values['type'];
+            if ($values['type'] == Config::get('constants.status.sub') || $values['type'] == Config::get('constants.status.nested')) {
+                $manageCategory->mainId = decrypt($values['main']);
             }
-        } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            if ($values['type'] == Config::get('constants.status.nested')) {
+                $manageCategory->subId = decrypt($values['sub']);
+            }
+            $manageCategory->uniqueId = $this->generateCode(['preString' => 'PRMC', 'length' => 6, 'model' => ManageCategory::class, 'field' => '']);
+            if ($manageCategory->save()) {
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Main category'])['success']], Config::get('constants.errorCode.ok'));
+            } else {
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Main category'])['failed']], Config::get('constants.errorCode.ok'));
+            }
         }
+        // } catch (Exception $e) {
+        //     return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        // }
     }
 
     public function updateManageCategory(Request $request)
@@ -185,6 +189,12 @@ class PropertyCategoryAdminController extends Controller
                 $manageCategory->name = $values['name'];
                 $manageCategory->about = $values['about'];
                 $manageCategory->type = $values['type'];
+                if ($values['type'] == Config::get('constants.status.sub') || $values['type'] == Config::get('constants.status.nested')) {
+                    $manageCategory->mainId = decrypt($values['main']);
+                }
+                if ($values['type'] == Config::get('constants.status.nested')) {
+                    $manageCategory->subId = decrypt($values['sub']);
+                }
                 if ($manageCategory->update()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Main category'])['success']], Config::get('constants.errorCode.ok'));
                 } else {

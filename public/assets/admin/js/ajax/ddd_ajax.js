@@ -196,6 +196,44 @@
                 }
             }
         });
+
+        $('.mainDDD').change(function () {
+            if ($(this).attr('data-action') != undefined) {
+                var html = '<option value="">Select Role Sub</option>';
+                $('.subDDD').text('');
+                if ($(this).val() == '') {
+                    $('.subDDD').append(html);
+                } else {
+                    $.ajax({
+                        url: $(this).attr('data-action') + '/' + $(this).val(),
+                        type: 'get',
+                        dataType: 'json',
+                        beforeSend: function () {
+                            commonAction({
+                                loader: {
+                                    isSet: true
+                                }
+                            })
+                        },
+                        success: function (msg) {
+                            commonAction({
+                                loader: {
+                                    isSet: false
+                                }
+                            })
+                            if (msg.status == 0) {
+                                $('.subDDD').append(html);
+                            } else {
+                                $.each(msg.data.main, function (key, value) {
+                                    html += '<option value="' + value['id'] + '" data-name="' + value['name'] + '">' + value['name'] + '</option>'
+                                });
+                                $('.subDDD').append(html);
+                            }
+                        }
+                    });
+                }
+            }
+        });
         /*--========================= ( Property Related END ) =========================--*/
 
     });
