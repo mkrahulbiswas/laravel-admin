@@ -84,7 +84,7 @@
                     </div>
                     <div class="col-md-12 tdContentMain">
                         <div class="tdContentSub">
-                            <table id="propertyRelated-propertyCategory-manageCategory-nested" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%" data-type="{{ Config::get('constants.status.nested') }}">
+                            <table id="propertyRelated-propertyCategory-manageCategory-nested" class="propertyRelated-propertyCategory-manageCategory table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%" data-type="{{Config::get('constants.status.nested')}}">
                                 <thead>
                                     <tr>
                                         <th>#</th>

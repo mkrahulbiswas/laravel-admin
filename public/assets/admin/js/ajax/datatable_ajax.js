@@ -628,6 +628,78 @@
             ]
         });
 
+        $('#propertyRelated-propertyCategory-manageCategory-sub').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "manage-category/ajaxGetList?type=" + $('#propertyRelated-propertyCategory-manageCategory-sub').attr('data-type'),
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "about"
+                },
+                {
+                    data: "customizeInText",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.status.custom).text();
+                    }
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        $('#propertyRelated-propertyCategory-manageCategory-nested').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "manage-category/ajaxGetList?type=" + $('#propertyRelated-propertyCategory-manageCategory-nested').attr('data-type'),
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "about"
+                },
+                {
+                    data: "customizeInText",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.status.custom).text();
+                    }
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
         /*------( Assign Category Listing )--------*/
         $('#propertyRelated-propertyCategory-assignCategory').DataTable({
             processing: true,

@@ -46,6 +46,12 @@ class GetPropertyCategoryHelper
                                     $orderByRaw = "`id` " . $id;
                                 }
                             }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'type')) {
+                                $type = $tempOne['otherDataPasses']['filterData']['type'];
+                                if (!empty($type)) {
+                                    $whereRaw .= " and `type` = '" . $type . "'";
+                                }
+                            }
                         }
 
                         foreach (ManageCategory::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {

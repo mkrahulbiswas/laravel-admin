@@ -80,6 +80,27 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-element col-12 mb-3">
+                                <label for="main" class="form-label">Main Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <div class="form-icon set-validation">
+                                    <select name="main" id="main" class="selectTwo select2-main-addModal mainDDD" data-action="{{ route('admin.get.navMainDDD') }}">
+                                        <option value="">Select Nav Type</option>
+                                        @foreach ($data['main'] as $item)
+                                            <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                    <i class="bx bx-receipt"></i>
+                                </div>
+                                <div class="validation-error" id="mainErr"></div>
+                            </div>
+                            <div class="form-element col-12 mb-3">
+                                <label for="sub" class="form-label">Sub Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <div class="form-icon set-validation">
+                                    <select name="sub" id="sub" class="selectTwo select2-sub-addModal subDDD" data-action="{{ route('admin.get.navSubDDD') }}"></select>
+                                    <i class="bx bx-bar-chart-square"></i>
+                                </div>
+                                <div class="validation-error" id="subErr"></div>
+                            </div>
+                            <div class="form-element col-12 mb-3">
                                 <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Name">
@@ -131,6 +152,27 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
+                            <div class="form-element col-12 mb-3">
+                                <label for="main" class="form-label">Main Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <div class="form-icon set-validation">
+                                    <select name="main" id="main2" class="selectTwo select2-main-addModal mainDDD" data-action="{{ route('admin.get.navMainDDD') }}">
+                                        <option value="">Select Nav Type</option>
+                                        @foreach ($data['main'] as $item)
+                                            <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                    <i class="bx bx-receipt"></i>
+                                </div>
+                                <div class="validation-error" id="mainErr"></div>
+                            </div>
+                            <div class="form-element col-12 mb-3">
+                                <label for="sub" class="form-label">Sub Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <div class="form-icon set-validation">
+                                    <select name="sub" id="sub2" class="selectTwo select2-sub-addModal subDDD" data-action="{{ route('admin.get.navSubDDD') }}"></select>
+                                    <i class="bx bx-bar-chart-square"></i>
+                                </div>
+                                <div class="validation-error" id="subErr"></div>
+                            </div>
                             <div class="form-element col-12 mb-3">
                                 <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
@@ -229,20 +271,27 @@
 
             $('.con-common-modal .myModalLabel').text(textToChange);
             $('.con-common-modal .type').val(typeToChange);
+            $('.con-common-modal').find('#main, #sub').closest('.form-element, .col-12').hide();
 
             $('.tabClick').click(function() {
                 targetClass = $(this);
                 typeToChange = targetClass.attr('data-type');
                 if (targetClass.attr('data-type') == '{{ Config::get('constants.status.main') }}') {
                     textToChange = 'Main Category';
+                    $('#propertyRelated-propertyCategory-manageCategory-main').DataTable().ajax.reload(null, false)
+                    $('.con-common-modal').find('#main, #sub').closest('.form-element, .col-12').hide();
                 } else if (targetClass.attr('data-type') == '{{ Config::get('constants.status.sub') }}') {
                     textToChange = 'Sub Category';
+                    $('#propertyRelated-propertyCategory-manageCategory-sub').DataTable().ajax.reload(null, false)
+                    $('.con-common-modal').find('#main').closest('.form-element, .col-12').show();
+                    $('.con-common-modal').find('#sub').closest('.form-element, .col-12').hide();
                 } else if (targetClass.attr('data-type') == '{{ Config::get('constants.status.nested') }}') {
                     textToChange = 'Nested Category';
+                    $('#propertyRelated-propertyCategory-manageCategory-nested').DataTable().ajax.reload(null, false)
+                    $('.con-common-modal').find('#main, #sub').closest('.form-element, .col-12').show();
                 }
-                console.log(textToChange + ' - ' + typeToChange);
-                targetClass.closest('body').find('.myModalLabel').text(textToChange);
-                targetClass.closest('body').find('.con-common-modal .type').val(typeToChange);
+                targetClass.closest('#container-fluid-inside').find('.myModalLabel').text(textToChange);
+                targetClass.closest('#container-fluid-inside').find('.con-common-modal .type').val(typeToChange);
             })
         });
     </script>

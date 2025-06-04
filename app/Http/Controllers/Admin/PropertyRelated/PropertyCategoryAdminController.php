@@ -32,7 +32,24 @@ class PropertyCategoryAdminController extends Controller
     public function showManageCategory()
     {
         try {
-            return view('admin.property_related.property_category.manage_category.manage_category_list');
+            $getList = GetPropertyCategoryHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => ['status' => Config::get('constants.status.active'), 'type' => Config::get('constants.status.main')],
+                        'orderBy' => ['id' => 'desc'],
+                    ],
+                ],
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+
+            $data = [
+                'main' => $getList,
+            ];
+
+            return view('admin.property_related.property_category.manage_category.manage_category_list', ['data' => $data]);
         } catch (Exception $e) {
             abort(500);
         }
@@ -125,7 +142,7 @@ class PropertyCategoryAdminController extends Controller
     public function saveManageCategory(Request $request)
     {
         try {
-            $values = $request->only('name', 'about', 'type');
+            $values = $request->only('name', 'about', 'main', 'sub', 'type');
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveManageCategory', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
@@ -135,6 +152,8 @@ class PropertyCategoryAdminController extends Controller
                 $manageCategory->name = $values['name'];
                 $manageCategory->about = $values['about'];
                 $manageCategory->type = $values['type'];
+                $manageCategory->mainId = $values['main'];
+                $manageCategory->subId = $values['sub'];
                 $manageCategory->uniqueId = $this->generateCode(['preString' => 'PRMC', 'length' => 6, 'model' => ManageCategory::class, 'field' => '']);
                 if ($manageCategory->save()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Main category'])['success']], Config::get('constants.errorCode.ok'));
@@ -149,7 +168,7 @@ class PropertyCategoryAdminController extends Controller
 
     public function updateManageCategory(Request $request)
     {
-        $values = $request->only('id', 'name', 'about');
+        $values = $request->only('id', 'name', 'about', 'main', 'sub', 'type');
 
         try {
             $id = decrypt($values['id']);
@@ -246,14 +265,14 @@ class PropertyCategoryAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.propertyRelated.propertyType.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
 
-            $manageCategory = GetPropertyCategoryHelper::getList([
+            $mainCategory = GetPropertyCategoryHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
                         'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
                     ],
                     'otherDataPasses' => [
-                        'filterData' => ['status' => Config::get('constants.status.active')],
+                        'filterData' => ['status' => Config::get('constants.status.active'), 'type' => Config::get('constants.status.main')],
                         'orderBy' => ['id' => 'desc'],
                     ],
                 ],
@@ -261,7 +280,7 @@ class PropertyCategoryAdminController extends Controller
 
             $data = [
                 'propertyType' => $propertyType,
-                'manageCategory' => $manageCategory,
+                'mainCategory' => $mainCategory,
             ];
 
             return view('admin.property_related.property_category.assign_category.assign_category_list', ['data' => $data]);

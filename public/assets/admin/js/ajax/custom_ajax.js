@@ -4238,6 +4238,12 @@
                         $.each(msg.errors.about, function (i) {
                             submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
+                        $.each(msg.errors.main, function (i) {
+                            submitForm.find("#mainErr").text(msg.errors.main[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.sub, function (i) {
+                            submitForm.find("#subErr").text(msg.errors.sub[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
                     } else if (msg.status == 1) {
                         commonAction({
                             targetId: {
@@ -4250,7 +4256,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#propertyRelated-propertyCategory-mainCategory')
+                                    targetId: $('.propertyRelated-propertyCategory-manageCategory')
                                 }
                             }
                         })
@@ -4339,6 +4345,12 @@
                         $.each(msg.errors.about, function (i) {
                             submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
+                        $.each(msg.errors.mainCategory, function (i) {
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.subCategory, function (i) {
+                            submitForm.find("#subCategoryErr").text(msg.errors.subCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
                     } else {
                         commonAction({
                             targetId: {
@@ -4351,7 +4363,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#propertyRelated-propertyCategory-mainCategory')
+                                    targetId: $('.propertyRelated-propertyCategory-manageCategory')
                                 }
                             }
                         })
@@ -4379,10 +4391,10 @@
         });
 
         //---- ( Manage Category Status, Edit, Detail ) ----//
-        $('body').delegate('#propertyRelated-propertyCategory-mainCategory .actionDatatable', 'click', function () {
+        $('body').delegate('.propertyRelated-propertyCategory-manageCategory .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
-                targetTableId = $('#propertyRelated-propertyCategory-mainCategory'),
+                targetTableId = $('.propertyRelated-propertyCategory-manageCategory'),
                 data = '';
 
             if (type == 'status') {

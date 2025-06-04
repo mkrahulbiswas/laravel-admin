@@ -536,7 +536,7 @@
         //------ ( Main Category )
         $('#filterMainCategoryForm').find('#statusFilter, .filterMainCategoryBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#propertyRelated-propertyCategory-mainCategory'),
+                dataTableId = $('.propertyRelated-propertyCategory-manageCategory'),
 
                 status = formId.find("#statusFilter").val(),
 
