@@ -169,10 +169,10 @@ class DDDAdminController extends Controller
         }
     }
 
-    public function getMain($mainId)
+    public function getMainCategory($mainCategoryId)
     {
         try {
-            $getList = GetPropertyCategoryHelper::getList([
+            $mainCategory = GetPropertyCategoryHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
@@ -181,8 +181,8 @@ class DDDAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status.active'),
-                            'mainId' => $mainId,
-                            'subId' => null,
+                            'mainCategoryId' => $mainCategoryId,
+                            'subCategoryId' => null,
                         ],
                         'orderBy' => ['id' => 'desc'],
                     ],
@@ -190,7 +190,7 @@ class DDDAdminController extends Controller
             ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
 
             $data = [
-                'main' => $getList
+                'mainCategory' => $mainCategory
             ];
             if ($data) {
                 return Response()->Json(['status' => 1, 'msg' => 'Role sub is found.', 'data' => $data], Config::get('constants.errorCode.ok'));

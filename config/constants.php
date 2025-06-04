@@ -244,10 +244,12 @@ return [
         'inactive' => 'INACTIVE',
         'yes' => 'YES',
         'no' => 'NO',
-        'main' => 'MAIN',
-        'sub' => 'SUB',
-        'nested' => 'NESTED',
         'default' => 'DEFAULT',
+        'category' => [
+            'main' => 'MAIN',
+            'sub' => 'SUB',
+            'nested' => 'NESTED',
+        ]
     ],
 
     //--User Type

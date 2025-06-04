@@ -52,18 +52,18 @@ class GetPropertyCategoryHelper
                                     $whereRaw .= " and `type` = '" . $type . "'";
                                 }
                             }
-                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainId')) {
-                                $mainId = $tempOne['otherDataPasses']['filterData']['mainId'];
-                                if (!empty($mainId)) {
-                                    $whereRaw .= " and `mainId` = " . decrypt($mainId);
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainCategoryId')) {
+                                $mainCategoryId = $tempOne['otherDataPasses']['filterData']['mainCategoryId'];
+                                if (!empty($mainCategoryId)) {
+                                    $whereRaw .= " and `mainCategoryId` = " . decrypt($mainCategoryId);
                                 }
                             }
-                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'subId')) {
-                                $subId = $tempOne['otherDataPasses']['filterData']['subId'];
-                                if (!empty($subId)) {
-                                    $whereRaw .= " and `subId` = " . decrypt($subId);
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'subCategoryId')) {
+                                $subCategoryId = $tempOne['otherDataPasses']['filterData']['subCategoryId'];
+                                if (!empty($subCategoryId)) {
+                                    $whereRaw .= " and `subCategoryId` = " . decrypt($subCategoryId);
                                 } else {
-                                    $whereRaw .= " and `subId` is null";
+                                    $whereRaw .= " and `subCategoryId` is null";
                                 }
                             }
                         }

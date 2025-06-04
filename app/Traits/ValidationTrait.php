@@ -398,55 +398,37 @@ trait ValidationTrait
 
             //---- ( Manage Category )
             case 'saveManageCategory':
-                if ($data['input']['type'] == Config::get('constants.status.main')) {
-                    $rules = [
-                        'name' => 'required|max:255|unique:manage_category,name',
-                        'about' => 'max:500',
-                    ];
-                    break;
+                $rules = [
+                    'name' => 'required|max:255|unique:manage_category,name',
+                    'about' => 'max:500',
+                ];
+                if ($data['input']['type'] == Config::get('constants.status.category.sub')) {
+                    $rules['mainCategory'] = 'required';
+                } elseif ($data['input']['type'] == Config::get('constants.status.category.nested')) {
+                    $rules['mainCategory'] = 'required';
+                    $rules['subCategory'] = 'required';
                 }
-                if ($data['input']['type'] == Config::get('constants.status.sub')) {
-                    $rules = [
-                        'name' => 'required|max:255|unique:manage_category,name',
-                        'mainCategory' => 'required',
-                        'about' => 'max:500',
-                    ];
-                    break;
-                }
-                if ($data['input']['type'] == Config::get('constants.status.nested')) {
-                    $rules = [
-                        'name' => 'required|max:255|unique:manage_category,name',
-                        'mainCategory' => 'required',
-                        'sub' => 'required',
-                        'about' => 'max:500',
-                    ];
-                    break;
-                }
+                $messages = [
+                    'mainCategory.required' => 'You must select main category',
+                    'subCategory.required' => 'You must select sub category'
+                ];
+                break;
+
             case 'updateManageCategory':
-                if ($data['input']['type'] == Config::get('constants.status.main')) {
-                    $rules = [
-                        'name' => 'required|max:255|unique:manage_category,name,' . $data['id'],
-                        'about' => 'max:500',
-                    ];
-                    break;
+                $rules = [
+                    'name' => 'required|max:255|unique:manage_category,name,' . $data['id'],
+                    'about' => 'max:500',
+                ];
+                if ($data['input']['type'] == Config::get('constants.status.category.sub')) {
+                    $rules['mainCategory'] = 'required';
+                } elseif ($data['input']['type'] == Config::get('constants.status.category.nested')) {
+                    $rules['mainCategory'] = 'required';
+                    $rules['subCategory'] = 'required';
                 }
-                if ($data['input']['type'] == Config::get('constants.status.sub')) {
-                    $rules = [
-                        'name' => 'required|max:255|unique:manage_category,name,' . $data['id'],
-                        'mainCategory' => 'required',
-                        'about' => 'max:500',
-                    ];
-                    break;
-                }
-                if ($data['input']['type'] == Config::get('constants.status.nested')) {
-                    $rules = [
-                        'name' => 'required|max:255|unique:manage_category,name,' . $data['id'],
-                        'mainCategory' => 'required',
-                        'sub' => 'required',
-                        'about' => 'max:500',
-                    ];
-                    break;
-                }
+                $messages = [
+                    'mainCategory.required' => 'You must select main category',
+                    'subCategory.required' => 'You must select sub category lol'
+                ];
 
                 //---- ( Assign Category )
             case 'saveAssignCategory':

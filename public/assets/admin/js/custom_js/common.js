@@ -95,36 +95,36 @@ function initCallSelect2() {
         dropdownParent: $('#con-edit-modal')
     });
 
-    $('.select2-nested').select2({
+    $('.select2-nestedCategory').select2({
         tags: false,
         placeholder: "Select nested category"
     });
 
-    $('.select2-sub').select2({
+    $('.select2-subCategory').select2({
         tags: false,
         placeholder: "Select sub category"
     });
-    $('.select2-sub-addModal').select2({
+    $('.select2-subCategory-addModal').select2({
         tags: false,
         placeholder: "Select sub category",
         dropdownParent: $('#con-add-modal')
     });
-    $('.select2-sub-editModal').select2({
+    $('.select2-subCategory-editModal').select2({
         tags: false,
         placeholder: "Select sub category",
         dropdownParent: $('#con-edit-modal')
     });
 
-    $('.select2-main').select2({
+    $('.select2-mainCategory').select2({
         tags: false,
         placeholder: "Select main category"
     });
-    $('.select2-main-addModal').select2({
+    $('.select2-mainCategory-addModal').select2({
         tags: false,
         placeholder: "Select main category",
         dropdownParent: $('#con-add-modal')
     });
-    $('.select2-main-editModal').select2({
+    $('.select2-mainCategory-editModal').select2({
         tags: false,
         placeholder: "Select main category",
         dropdownParent: $('#con-edit-modal')

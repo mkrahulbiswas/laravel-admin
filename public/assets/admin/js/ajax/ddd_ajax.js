@@ -197,12 +197,12 @@
             }
         });
 
-        $('.mainDDD').change(function () {
+        $('.mainCategoryDDD').change(function () {
             if ($(this).attr('data-action') != undefined) {
                 var html = '<option value="">Select Role Sub</option>';
-                $('.subDDD').text('');
+                $('.subCategoryDDD').text('');
                 if ($(this).val() == '') {
-                    $('.subDDD').append(html);
+                    $('.subCategoryDDD').append(html);
                 } else {
                     $.ajax({
                         url: $(this).attr('data-action') + '/' + $(this).val(),
@@ -222,12 +222,12 @@
                                 }
                             })
                             if (msg.status == 0) {
-                                $('.subDDD').append(html);
+                                $('.subCategoryDDD').append(html);
                             } else {
-                                $.each(msg.data.main, function (key, value) {
+                                $.each(msg.data.mainCategory, function (key, value) {
                                     html += '<option value="' + value['id'] + '" data-name="' + value['name'] + '">' + value['name'] + '</option>'
                                 });
-                                $('.subDDD').append(html);
+                                $('.subCategoryDDD').append(html);
                             }
                         }
                     });

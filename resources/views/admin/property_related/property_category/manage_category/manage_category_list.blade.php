@@ -25,7 +25,7 @@
             <div class="card-body cardBodyTab">
                 <ul class="nav nav-pills nav-customs nav-danger ulNavList" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="tabClick nav-link active" data-bs-toggle="tab" href="#main-category" role="tab" aria-selected="true" data-type='{{ Config::get('constants.status.main') }}'>
+                        <a class="tabClick nav-link active" data-bs-toggle="tab" href="#main-category" role="tab" aria-selected="true" data-type='{{ Config::get('constants.status.category.main') }}'>
                             <span class="d-block d-sm-none">
                                 <i class="mdi mdi-email"></i>
                             </span>
@@ -33,7 +33,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="tabClick nav-link" data-bs-toggle="tab" href="#sub-category" role="tab" aria-selected="false" tabindex="-1" data-type='{{ Config::get('constants.status.sub') }}'>
+                        <a class="tabClick nav-link" data-bs-toggle="tab" href="#sub-category" role="tab" aria-selected="false" tabindex="-1" data-type='{{ Config::get('constants.status.category.sub') }}'>
                             <span class="d-block d-sm-none">
                                 <i class="las las la-sms"></i>
                             </span>
@@ -41,7 +41,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="tabClick nav-link" data-bs-toggle="tab" href="#nested-category" role="tab" aria-selected="false" tabindex="-1" data-type='{{ Config::get('constants.status.nested') }}'>
+                        <a class="tabClick nav-link" data-bs-toggle="tab" href="#nested-category" role="tab" aria-selected="false" tabindex="-1" data-type='{{ Config::get('constants.status.category.nested') }}'>
                             <span class="d-block d-sm-none">
                                 <i class="las las la-sms"></i>
                             </span>
@@ -93,14 +93,14 @@
                                 <div class="validation-error" id="mainCategoryErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
-                                <label for="sub" class="form-label">Sub Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="subCategory" class="form-label">Sub Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="sub" id="sub" class="selectTwo select2-sub-addModal subDDD" data-action="{{ route('admin.get.navSubDDD') }}">
+                                    <select name="subCategory" id="subCategory" class="selectTwo select2-subCategory-addModal subCategoryDDD">
                                         <option value="">Select Sum Type</option>
                                     </select>
                                     <i class="bx bx-bar-chart-square"></i>
                                 </div>
-                                <div class="validation-error" id="subErr"></div>
+                                <div class="validation-error" id="subCategoryErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
                                 <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
@@ -168,12 +168,12 @@
                                 <div class="validation-error" id="mainCategoryErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
-                                <label for="sub" class="form-label">Sub Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="subCategory" class="form-label">Sub Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="sub" id="sub2" class="selectTwo select2-sub-addModal subDDD" data-action="{{ route('admin.get.navSubDDD') }}"></select>
+                                    <select name="subCategory" id="subCategory2" class="selectTwo select2-subCategory-addModal subDDD"></select>
                                     <i class="bx bx-bar-chart-square"></i>
                                 </div>
-                                <div class="validation-error" id="subErr"></div>
+                                <div class="validation-error" id="subCategoryErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
                                 <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
@@ -269,28 +269,28 @@
         $('document').ready(function() {
             let targetClass = '',
                 textToChange = 'Main Category',
-                typeToChange = '{{ Config::get('constants.status.main') }}';
+                typeToChange = '{{ Config::get('constants.status.category.main') }}';
 
             $('.con-common-modal .myModalLabel').text(textToChange);
             $('.con-common-modal .type').val(typeToChange);
-            $('.con-common-modal').find('#mainCategory, #sub').closest('.form-element, .col-12').hide();
+            $('.con-common-modal').find('#mainCategory, #subCategory').closest('.form-element, .col-12').hide();
 
             $('.tabClick').click(function() {
                 targetClass = $(this);
                 typeToChange = targetClass.attr('data-type');
-                if (targetClass.attr('data-type') == '{{ Config::get('constants.status.main') }}') {
+                if (targetClass.attr('data-type') == '{{ Config::get('constants.status.category.main') }}') {
                     textToChange = 'Main Category';
                     $('#propertyRelated-propertyCategory-manageCategory-main').DataTable().ajax.reload(null, false)
-                    $('.con-common-modal').find('#mainCategory, #sub').closest('.form-element, .col-12').hide();
-                } else if (targetClass.attr('data-type') == '{{ Config::get('constants.status.sub') }}') {
+                    $('.con-common-modal').find('#mainCategory, #subCategory').closest('.form-element, .col-12').hide();
+                } else if (targetClass.attr('data-type') == '{{ Config::get('constants.status.category.sub') }}') {
                     textToChange = 'Sub Category';
                     $('#propertyRelated-propertyCategory-manageCategory-sub').DataTable().ajax.reload(null, false)
                     $('.con-common-modal').find('#mainCategory').closest('.form-element, .col-12').show();
-                    $('.con-common-modal').find('#sub').closest('.form-element, .col-12').hide();
-                } else if (targetClass.attr('data-type') == '{{ Config::get('constants.status.nested') }}') {
+                    $('.con-common-modal').find('#subCategory').closest('.form-element, .col-12').hide();
+                } else if (targetClass.attr('data-type') == '{{ Config::get('constants.status.category.nested') }}') {
                     textToChange = 'Nested Category';
                     $('#propertyRelated-propertyCategory-manageCategory-nested').DataTable().ajax.reload(null, false)
-                    $('.con-common-modal').find('#mainCategory, #sub').closest('.form-element, .col-12').show();
+                    $('.con-common-modal').find('#mainCategory, #subCategory').closest('.form-element, .col-12').show();
                 }
                 targetClass.closest('#container-fluid-inside').find('.myModalLabel').text(textToChange);
                 targetClass.closest('#container-fluid-inside').find('.con-common-modal .type').val(typeToChange);
