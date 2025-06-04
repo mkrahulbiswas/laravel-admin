@@ -136,6 +136,62 @@ class GetPropertyCategoryHelper
                         }
                     }
 
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.dyf'), $tempOne['getList']['type'])) {
+                        $manageCategory = array();
+                        $whereRaw = "`created_at` is not null";
+                        $orderByRaw = "`id` DESC";
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
+                                $status = $tempOne['otherDataPasses']['filterData']['status'];
+                                if (!empty($status)) {
+                                    $whereRaw .= " and `status` = '" . $status . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'type')) {
+                                $type = $tempOne['otherDataPasses']['filterData']['type'];
+                                if (!empty($type)) {
+                                    $whereRaw .= " and `type` = '" . $type . "'";
+                                }
+                            }
+                        }
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'id')) {
+                                $id = $tempOne['otherDataPasses']['orderBy']['id'];
+                                if (!empty($id)) {
+                                    $orderByRaw = "`id` " . $id;
+                                }
+                            }
+                        }
+
+                        foreach (ManageCategory::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
+                            $manageCategory[] = GetPropertyCategoryHelper::getDetail([
+                                [
+                                    'getDetail' => [
+                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                    ],
+                                    'otherDataPasses' => [
+                                        'id' => encrypt($tempTwo->id)
+                                    ]
+                                ],
+                            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+                        }
+
+                        $data[Config::get('constants.typeCheck.helperCommon.get.dyf')] = [
+                            'list' => $manageCategory
+                        ];
+
+                        if (isset($tempOne['otherDataPasses']['filterData'])) {
+                            $data[Config::get('constants.typeCheck.helperCommon.get.dyf')]['filterData'] = $tempOne['otherDataPasses']['filterData'];
+                        }
+
+                        if (isset($tempOne['otherDataPasses']['orderBy'])) {
+                            $data[Config::get('constants.typeCheck.helperCommon.get.dyf')]['orderBy'] = $tempOne['otherDataPasses']['orderBy'];
+                        }
+                    }
+
                     $finalData[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')] = $data;
                 }
 
@@ -244,18 +300,70 @@ class GetPropertyCategoryHelper
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
                         $manageCategory = ManageCategory::where('id', decrypt($otherDataPasses['id']))->first();
-                        $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
-                            'id' => encrypt($manageCategory->id),
-                            'name' => $manageCategory->name,
-                            'about' =>  $manageCategory->about,
-                            'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $manageCategory->uniqueId]),
-                            'customizeInText' => CommonTrait::customizeInText([
-                                [
-                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
-                                    'value' => $manageCategory->status
-                                ],
-                            ]),
-                        ];
+                        if ($manageCategory != null) {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
+                                'id' => encrypt($manageCategory->id),
+                                'name' => $manageCategory->name,
+                                'about' =>  $manageCategory->about,
+                                'type' =>  $manageCategory->type,
+                                'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $manageCategory->uniqueId]),
+                                'customizeInText' => CommonTrait::customizeInText([
+                                    [
+                                        'type' => Config::get('constants.typeCheck.customizeInText.status'),
+                                        'value' => $manageCategory->status
+                                    ],
+                                ]),
+                            ];
+                        } else {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [];
+                        }
+                    }
+
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.detail.yd'), $type)) {
+                        $manageCategory = ManageCategory::where('id', decrypt($otherDataPasses['id']))->first();
+                        if ($manageCategory != null) {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
+                                'id' => encrypt($manageCategory->id),
+                                'name' => $manageCategory->name,
+                                'about' =>  $manageCategory->about,
+                                'type' =>  $manageCategory->type,
+                                'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $manageCategory->uniqueId]),
+                                'customizeInText' => CommonTrait::customizeInText([
+                                    [
+                                        'type' => Config::get('constants.typeCheck.customizeInText.status'),
+                                        'value' => $manageCategory->status
+                                    ],
+                                ]),
+                            ];
+                            if ($manageCategory->mainCategoryId != null) {
+                                $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail']['mainCategory'] = GetPropertyCategoryHelper::getDetail([
+                                    [
+                                        'getDetail' => [
+                                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                            'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                        ],
+                                        'otherDataPasses' => [
+                                            'id' => encrypt($manageCategory->mainCategoryId)
+                                        ]
+                                    ],
+                                ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            }
+                            if ($manageCategory->subCategoryId != null) {
+                                $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail']['subCategory'] = GetPropertyCategoryHelper::getDetail([
+                                    [
+                                        'getDetail' => [
+                                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                            'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                        ],
+                                        'otherDataPasses' => [
+                                            'id' => encrypt($manageCategory->subCategoryId)
+                                        ]
+                                    ],
+                                ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            }
+                        } else {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [];
+                        }
                     }
 
                     $finalData[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')] = $data;
@@ -266,43 +374,47 @@ class GetPropertyCategoryHelper
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.yd'), $type)) {
                         $assignCategory = AssignCategory::where('id', decrypt($otherDataPasses['id']))->first();
-                        $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
-                            'id' => encrypt($assignCategory->id),
-                            'about' => $assignCategory->about,
-                            'assignBroad' => GetManageBroadHelper::getDetail([
-                                [
-                                    'getDetail' => [
-                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
-                                        'for' => Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type'),
+                        if ($assignCategory != null) {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
+                                'id' => encrypt($assignCategory->id),
+                                'about' => $assignCategory->about,
+                                'assignBroad' => GetManageBroadHelper::getDetail([
+                                    [
+                                        'getDetail' => [
+                                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                                            'for' => Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type'),
+                                        ],
+                                        'otherDataPasses' => [
+                                            'id' => encrypt($assignCategory->assignBroadId)
+                                        ]
                                     ],
-                                    'otherDataPasses' => [
-                                        'id' => encrypt($assignCategory->assignBroadId)
-                                    ]
-                                ],
-                            ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'],
-                            'manageCategory' => GetPropertyCategoryHelper::getDetail([
-                                [
-                                    'getDetail' => [
-                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'],
+                                'manageCategory' => GetPropertyCategoryHelper::getDetail([
+                                    [
+                                        'getDetail' => [
+                                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                            'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                        ],
+                                        'otherDataPasses' => [
+                                            'id' => encrypt($assignCategory->mainCategoryId)
+                                        ]
                                     ],
-                                    'otherDataPasses' => [
-                                        'id' => encrypt($assignCategory->mainCategoryId)
-                                    ]
-                                ],
-                            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                            'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $assignCategory->uniqueId]),
-                            'customizeInText' => CommonTrait::customizeInText([
-                                [
-                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
-                                    'value' => $assignCategory->status
-                                ],
-                                [
-                                    'type' => Config::get('constants.typeCheck.customizeInText.default'),
-                                    'value' => $assignCategory->default
-                                ],
-                            ]),
-                        ];
+                                ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
+                                'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $assignCategory->uniqueId]),
+                                'customizeInText' => CommonTrait::customizeInText([
+                                    [
+                                        'type' => Config::get('constants.typeCheck.customizeInText.status'),
+                                        'value' => $assignCategory->status
+                                    ],
+                                    [
+                                        'type' => Config::get('constants.typeCheck.customizeInText.default'),
+                                        'value' => $assignCategory->default
+                                    ],
+                                ]),
+                            ];
+                        } else {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [];
+                        }
                     }
 
                     $finalData[Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type')] = $data;

@@ -74,7 +74,7 @@
                     @csrf
                     <input type="hidden" name="type" id="type" class="type" value="">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Add <span class="myModalLabel">Main Category</span></h5>
+                        <h5 class="modal-title" id="myModalLabel">Add <span class="myModalLabel"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -149,7 +149,7 @@
                     <input type="hidden" name="id" id="id" value="">
                     <input type="hidden" name="type" id="type" class="type" value="">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Edit <span class="myModalLabel">Main Category</span></h5>
+                        <h5 class="modal-title" id="myModalLabel">Edit <span class="myModalLabel"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -218,12 +218,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Details <span class="myModalLabel">Main Category</span></h5>
+                    <h5 class="modal-title" id="myModalLabel">Details <span class="myModalLabel"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row info-page-data">
-                        <div class="col-12">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
                             <div class="d-flex mb-4 each-detail-box">
                                 <div class="flex-shrink-0 avatar-xs align-self-center me-3">
                                     <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
@@ -231,8 +231,34 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Name:</label>
-                                    <span class="detail-span d-block mb-0" id="name"></span>
+                                    <label class="details-label form-label mb-1">Main Category:</label>
+                                    <span class="detail-span d-block mb-0" id="mainCategory"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6" style="display: none;">
+                            <div class="d-flex mb-4 each-detail-box">
+                                <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                                    <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
+                                        <i class="bx bx-message-edit"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <label class="details-label form-label mb-1">Sub Category:</label>
+                                    <span class="detail-span d-block mb-0" id="subCategory"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6" style="display: none;">
+                            <div class="d-flex mb-4 each-detail-box">
+                                <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                                    <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
+                                        <i class="bx bx-message-edit"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <label class="details-label form-label mb-1">Nested Category:</label>
+                                    <span class="detail-span d-block mb-0" id="nestedCategory"></span>
                                 </div>
                             </div>
                         </div>

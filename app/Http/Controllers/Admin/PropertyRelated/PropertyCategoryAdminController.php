@@ -61,7 +61,7 @@ class PropertyCategoryAdminController extends Controller
             $manageCategory = GetPropertyCategoryHelper::getList([
                 [
                     'getList' => [
-                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
                         'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
                     ],
                     'otherDataPasses' => [
@@ -74,7 +74,7 @@ class PropertyCategoryAdminController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
             $getPrivilege = GetManageAccessHelper::getPrivilege([
                 [

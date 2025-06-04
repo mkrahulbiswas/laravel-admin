@@ -4443,6 +4443,7 @@
                 id = $('#con-edit-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
+                console.log(data);
                 id.find('#id').val(data.id);
                 id.find('#name').val(data.name);
                 id.find('#about').val(data.about);
@@ -4450,7 +4451,22 @@
                 id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
-                id.find('#name').text(data.name);
+                id.find('#subCategory, #nestedCategory').closest('.col-12').hide();
+                if (data.type == 'MAIN') {
+                    id.find('#mainCategory').closest('.col-12').show();
+                    id.find('#mainCategory').text(data.name);
+                }
+                if (data.type == 'SUB') {
+                    id.find('#mainCategory, #subCategory').closest('.col-12').show();
+                    id.find('#mainCategory').text(data.mainCategory.name);
+                    id.find('#subCategory').text(data.name);
+                }
+                if (data.type == 'NESTED') {
+                    id.find('#mainCategory, #subCategory, #nestedCategory').closest('.col-12').show();
+                    id.find('#mainCategory').text(data.mainCategory.name);
+                    id.find('#subCategory').text(data.subCategory.name);
+                    id.find('#nestedCategory').text(data.name);
+                }
                 id.find('#about').text(data.about);
             }
         });
