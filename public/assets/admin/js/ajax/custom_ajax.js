@@ -4238,8 +4238,8 @@
                         $.each(msg.errors.about, function (i) {
                             submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.main, function (i) {
-                            submitForm.find("#mainErr").text(msg.errors.main[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.mainCategory, function (i) {
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.sub, function (i) {
                             submitForm.find("#subErr").text(msg.errors.sub[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');

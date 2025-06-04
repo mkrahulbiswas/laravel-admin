@@ -80,17 +80,17 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-element col-12 mb-3">
-                                <label for="main" class="form-label">Main Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="mainCategory" class="form-label">Main Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="main" id="main" class="selectTwo select2-main-addModal mainDDD" data-action="{{ route('admin.get.mainDDD') }}">
+                                    <select name="mainCategory" id="mainCategory" class="selectTwo select2-mainCategory-addModal mainCategoryDDD" data-action="{{ route('admin.get.mainCategoryDDD') }}">
                                         <option value="">Select Nav Type</option>
-                                        @foreach ($data['main'] as $item)
+                                        @foreach ($data['mainCategory'] as $item)
                                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                                         @endforeach
                                     </select>
                                     <i class="bx bx-receipt"></i>
                                 </div>
-                                <div class="validation-error" id="mainErr"></div>
+                                <div class="validation-error" id="mainCategoryErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
                                 <label for="sub" class="form-label">Sub Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
@@ -155,17 +155,17 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-element col-12 mb-3">
-                                <label for="main" class="form-label">Main Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="mainCategory" class="form-label">Main Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="main" id="main2" class="selectTwo select2-main-addModal mainDDD" data-action="{{ route('admin.get.mainDDD') }}">
+                                    <select name="mainCategory" id="mainCategory2" class="selectTwo select2-mainCategory-addModal mainCategoryDDD" data-action="{{ route('admin.get.mainCategoryDDD') }}">
                                         <option value="">Select Nav Type</option>
-                                        @foreach ($data['main'] as $item)
+                                        @foreach ($data['mainCategory'] as $item)
                                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                                         @endforeach
                                     </select>
                                     <i class="bx bx-receipt"></i>
                                 </div>
-                                <div class="validation-error" id="mainErr"></div>
+                                <div class="validation-error" id="mainCategoryErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
                                 <label for="sub" class="form-label">Sub Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
@@ -273,7 +273,7 @@
 
             $('.con-common-modal .myModalLabel').text(textToChange);
             $('.con-common-modal .type').val(typeToChange);
-            $('.con-common-modal').find('#main, #sub').closest('.form-element, .col-12').hide();
+            $('.con-common-modal').find('#mainCategory, #sub').closest('.form-element, .col-12').hide();
 
             $('.tabClick').click(function() {
                 targetClass = $(this);
@@ -281,16 +281,16 @@
                 if (targetClass.attr('data-type') == '{{ Config::get('constants.status.main') }}') {
                     textToChange = 'Main Category';
                     $('#propertyRelated-propertyCategory-manageCategory-main').DataTable().ajax.reload(null, false)
-                    $('.con-common-modal').find('#main, #sub').closest('.form-element, .col-12').hide();
+                    $('.con-common-modal').find('#mainCategory, #sub').closest('.form-element, .col-12').hide();
                 } else if (targetClass.attr('data-type') == '{{ Config::get('constants.status.sub') }}') {
                     textToChange = 'Sub Category';
                     $('#propertyRelated-propertyCategory-manageCategory-sub').DataTable().ajax.reload(null, false)
-                    $('.con-common-modal').find('#main').closest('.form-element, .col-12').show();
+                    $('.con-common-modal').find('#mainCategory').closest('.form-element, .col-12').show();
                     $('.con-common-modal').find('#sub').closest('.form-element, .col-12').hide();
                 } else if (targetClass.attr('data-type') == '{{ Config::get('constants.status.nested') }}') {
                     textToChange = 'Nested Category';
                     $('#propertyRelated-propertyCategory-manageCategory-nested').DataTable().ajax.reload(null, false)
-                    $('.con-common-modal').find('#main, #sub').closest('.form-element, .col-12').show();
+                    $('.con-common-modal').find('#mainCategory, #sub').closest('.form-element, .col-12').show();
                 }
                 targetClass.closest('#container-fluid-inside').find('.myModalLabel').text(textToChange);
                 targetClass.closest('#container-fluid-inside').find('.con-common-modal .type').val(typeToChange);

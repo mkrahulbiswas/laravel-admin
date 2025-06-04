@@ -408,7 +408,7 @@ trait ValidationTrait
                 if ($data['input']['type'] == Config::get('constants.status.sub')) {
                     $rules = [
                         'name' => 'required|max:255|unique:manage_category,name',
-                        'main' => 'required',
+                        'mainCategory' => 'required',
                         'about' => 'max:500',
                     ];
                     break;
@@ -416,7 +416,7 @@ trait ValidationTrait
                 if ($data['input']['type'] == Config::get('constants.status.nested')) {
                     $rules = [
                         'name' => 'required|max:255|unique:manage_category,name',
-                        'main' => 'required',
+                        'mainCategory' => 'required',
                         'sub' => 'required',
                         'about' => 'max:500',
                     ];
@@ -433,7 +433,7 @@ trait ValidationTrait
                 if ($data['input']['type'] == Config::get('constants.status.sub')) {
                     $rules = [
                         'name' => 'required|max:255|unique:manage_category,name,' . $data['id'],
-                        'main' => 'required',
+                        'mainCategory' => 'required',
                         'about' => 'max:500',
                     ];
                     break;
@@ -441,7 +441,7 @@ trait ValidationTrait
                 if ($data['input']['type'] == Config::get('constants.status.nested')) {
                     $rules = [
                         'name' => 'required|max:255|unique:manage_category,name,' . $data['id'],
-                        'main' => 'required',
+                        'mainCategory' => 'required',
                         'sub' => 'required',
                         'about' => 'max:500',
                     ];

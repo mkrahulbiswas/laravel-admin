@@ -46,7 +46,7 @@ class PropertyCategoryAdminController extends Controller
             ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
 
             $data = [
-                'main' => $getList,
+                'mainCategory' => $getList,
             ];
 
             return view('admin.property_related.property_category.manage_category.manage_category_list', ['data' => $data]);
@@ -142,7 +142,7 @@ class PropertyCategoryAdminController extends Controller
     public function saveManageCategory(Request $request)
     {
         // try {
-        $values = $request->only('name', 'about', 'main', 'sub', 'type');
+        $values = $request->only('name', 'about', 'mainCategory', 'sub', 'type');
 
         $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveManageCategory', 'id' => 0, 'platform' => $this->platform]);
         if ($validator->fails()) {
@@ -153,7 +153,7 @@ class PropertyCategoryAdminController extends Controller
             $manageCategory->about = $values['about'];
             $manageCategory->type = $values['type'];
             if ($values['type'] == Config::get('constants.status.sub') || $values['type'] == Config::get('constants.status.nested')) {
-                $manageCategory->mainId = decrypt($values['main']);
+                $manageCategory->mainCategoryId = decrypt($values['mainCategory']);
             }
             if ($values['type'] == Config::get('constants.status.nested')) {
                 $manageCategory->subId = decrypt($values['sub']);
@@ -172,7 +172,7 @@ class PropertyCategoryAdminController extends Controller
 
     public function updateManageCategory(Request $request)
     {
-        $values = $request->only('id', 'name', 'about', 'main', 'sub', 'type');
+        $values = $request->only('id', 'name', 'about', 'mainCategory', 'sub', 'type');
 
         try {
             $id = decrypt($values['id']);
@@ -190,7 +190,7 @@ class PropertyCategoryAdminController extends Controller
                 $manageCategory->about = $values['about'];
                 $manageCategory->type = $values['type'];
                 if ($values['type'] == Config::get('constants.status.sub') || $values['type'] == Config::get('constants.status.nested')) {
-                    $manageCategory->mainId = decrypt($values['main']);
+                    $manageCategory->mainCategoryId = decrypt($values['mainCategory']);
                 }
                 if ($values['type'] == Config::get('constants.status.nested')) {
                     $manageCategory->subId = decrypt($values['sub']);
