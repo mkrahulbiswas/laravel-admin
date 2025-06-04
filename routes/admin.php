@@ -197,12 +197,12 @@ Route::controller(AuthAdminController::class)->group(function () {
             });
 
             Route::controller(PropertyCategoryAdminController::class)->prefix('property-category')->group(function () {
-                Route::get('main-category', 'showMainCategory')->name('admin.show.mainCategory');
-                Route::get('main-category/ajaxGetList', 'getMainCategory')->name('admin.get.mainCategory');
-                Route::post('main-category/add/save', 'saveMainCategory')->name('admin.save.mainCategory');
-                Route::post('main-category/edit/update', 'updateMainCategory')->name('admin.update.mainCategory');
-                Route::patch('main-category/status/{id?}', 'statusMainCategory')->name('admin.status.mainCategory');
-                Route::delete('main-category/delete/{id?}', 'deleteMainCategory')->name('admin.delete.mainCategory');
+                Route::get('manage-category', 'showManageCategory')->name('admin.show.manageCategory');
+                Route::get('manage-category/ajaxGetList/{type?}', 'getManageCategory')->name('admin.get.manageCategory');
+                Route::post('manage-category/add/save', 'saveManageCategory')->name('admin.save.manageCategory');
+                Route::post('manage-category/edit/update', 'updateManageCategory')->name('admin.update.manageCategory');
+                Route::patch('manage-category/status/{id?}', 'statusManageCategory')->name('admin.status.manageCategory');
+                Route::delete('manage-category/delete/{id?}', 'deleteManageCategory')->name('admin.delete.manageCategory');
 
                 Route::get('assign-category', 'showAssignCategory')->name('admin.show.assignCategory');
                 Route::get('assign-category/ajaxGetList', 'getAssignCategory')->name('admin.get.assignCategory');

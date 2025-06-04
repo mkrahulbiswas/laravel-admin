@@ -123,8 +123,8 @@ return [
             ],
             'propertyCategory' => [
                 'type' => 'propertyCategory',
-                'mainCategory' => [
-                    'type' => 'mainCategory'
+                'manageCategory' => [
+                    'type' => 'manageCategory'
                 ],
                 'assignCategory' => [
                     'type' => 'assignCategory'
@@ -222,7 +222,6 @@ return [
         ],
     ],
 
-
     //--Action Type
     'action' => [
         'status' => [
@@ -245,6 +244,10 @@ return [
         'inactive' => 'INACTIVE',
         'yes' => 'YES',
         'no' => 'NO',
+        'main' => 'MAIN',
+        'sub' => 'SUB',
+        'nested' => 'NESTED',
+        'default' => 'DEFAULT',
     ],
 
     //--User Type
@@ -284,7 +287,6 @@ return [
     //Implode OR Explode Key----
     'keyImpExp' => '-(SeP)-',
 
-    ////Company Email////
     'companyEmail' => 'appcoderandroid2@gmail.com',
 
     //FCM Authorization Key

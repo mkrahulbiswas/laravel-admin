@@ -4174,11 +4174,11 @@
         });
 
 
-        //---- ( Main Category Save ) ----//
-        $("#saveMainCategoryForm").submit(function (event) {
+        //---- ( Manage Category Save ) ----//
+        $("#saveManageCategoryForm").submit(function (event) {
 
             submitForm = $(this);
-            submitBtn = $(this).find('#saveMainCategoryBtn');
+            submitBtn = $(this).find('#saveManageCategoryBtn');
 
             event.preventDefault();
             $.ajax({
@@ -4196,16 +4196,16 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        loader: {
-                            isSet: true
-                        },
+                        // loader: {
+                        //     isSet: true
+                        // },
                         resetValidation: {},
-                        submitBtnState: {
-                            dataPass: {
-                                text: 'Please wait...',
-                                disabled: true
-                            }
-                        }
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Please wait...',
+                        //         disabled: true
+                        //     }
+                        // }
                     })
                 },
                 success: function (msg) {
@@ -4214,9 +4214,9 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        loader: {
-                            isSet: false
-                        },
+                        // loader: {
+                        //     isSet: false
+                        // },
                         toaster: {
                             dataPass: {
                                 title: msg.title,
@@ -4224,12 +4224,12 @@
                                 type: msg.type
                             }
                         },
-                        submitBtnState: {
-                            dataPass: {
-                                text: 'Save',
-                                disabled: false
-                            }
-                        }
+                        // submitBtnState: {
+                        //     dataPass: {
+                        //         text: 'Save',
+                        //         disabled: false
+                        //     }
+                        // }
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
@@ -4277,10 +4277,10 @@
             });
         });
 
-        //---- ( Main Category Update ) ----//
-        $("#updateMainCategoryForm").submit(function (event) {
+        //---- ( Manage Category Update ) ----//
+        $("#updateManageCategoryForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updateMainCategoryBtn');
+            submitBtn = $(this).find('#updateManageCategoryBtn');
 
             event.preventDefault();
             $.ajax({
@@ -4378,7 +4378,7 @@
             });
         });
 
-        //---- ( Main Category Status, Edit, Detail ) ----//
+        //---- ( Manage Category Status, Edit, Detail ) ----//
         $('body').delegate('#propertyRelated-propertyCategory-mainCategory .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),

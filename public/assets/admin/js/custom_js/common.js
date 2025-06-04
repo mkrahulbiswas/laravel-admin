@@ -27,7 +27,7 @@ function initCallOnModalClose() {
         $(this).find('.form-control, .select2-container--default .select2-selection--single').removeClass('valid-input invalid-input');
         var idArray = [
             'saveAssignCategoryForm', 'updateAssignCategoryForm',
-            'saveMainCategoryForm', 'updateMainCategoryForm',
+            'saveManageCategoryForm', 'updateManageCategoryForm',
             'saveAssignBroadForm', 'updateAssignBroadForm',
             'saveBroadTypeForm', 'updateBroadTypeForm',
             'saveLogoForm', 'updateLogoForm',

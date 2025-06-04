@@ -396,21 +396,25 @@ trait ValidationTrait
                 ];
                 break;
 
-            //---- ( Main Category )
-            case 'saveMainCategory':
-                $rules = [
-                    'name' => 'required|max:255|unique:main_category,name',
-                    'about' => 'max:500',
-                ];
-                break;
-            case 'updateMainCategory':
-                $rules = [
-                    'name' => 'required|max:255|unique:main_category,name,' . $data['id'],
-                    'about' => 'max:500',
-                ];
-                break;
+            //---- ( Manage Category )
+            case 'saveManageCategory':
+                if ($data['input']['type'] == Config::get('constants.status.main')) {
+                    $rules = [
+                        'name' => 'required|max:255|unique:manage_category,name',
+                        'about' => 'max:500',
+                    ];
+                    break;
+                }
+            case 'updateManageCategory':
+                if ($data['input']['type'] == Config::get('constants.status.main')) {
+                    $rules = [
+                        'name' => 'required|max:255|unique:manage_category,name,' . $data['id'],
+                        'about' => 'max:500',
+                    ];
+                    break;
+                }
 
-            //---- ( Assign Category )
+                //---- ( Assign Category )
             case 'saveAssignCategory':
                 $rules = [
                     'mainCategory' => 'required',

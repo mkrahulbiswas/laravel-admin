@@ -14,7 +14,7 @@ use App\Helpers\PropertyRelated\GetPropertyTypeHelper;
 
 use App\Models\PropertyRelated\ManageBroad\AssignBroad;
 use App\Models\PropertyRelated\PropertyCategory\AssignCategory;
-use App\Models\PropertyRelated\PropertyCategory\MainCategory;
+use App\Models\PropertyRelated\PropertyCategory\ManageCategory;
 
 use Exception;
 use Yajra\DataTables\DataTables;
@@ -29,34 +29,35 @@ class PropertyCategoryAdminController extends Controller
 
 
     /*---- ( Main Category ) ----*/
-    public function showMainCategory()
+    public function showManageCategory()
     {
         try {
-            return view('admin.property_related.property_category.main_category.main_category_list');
+            return view('admin.property_related.property_category.manage_category.manage_category_list');
         } catch (Exception $e) {
             abort(500);
         }
     }
 
-    public function getMainCategory(Request $request)
+    public function getManageCategory(Request $request)
     {
         try {
-            $mainCategory = GetPropertyCategoryHelper::getList([
+            $manageCategory = GetPropertyCategoryHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.mainCategory.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $request->status,
+                            'type' => $request['type'],
                         ],
                         'orderBy' => [
                             'id' => 'desc'
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.mainCategory.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $getPrivilege = GetManageAccessHelper::getPrivilege([
                 [
@@ -65,7 +66,7 @@ class PropertyCategoryAdminController extends Controller
                 ]
             ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
 
-            return Datatables::of($mainCategory)
+            return Datatables::of($manageCategory)
                 ->addIndexColumn()
                 ->addColumn('uniqueId', function ($data) {
                     $uniqueId = $data['uniqueId']['raw'];
@@ -78,9 +79,9 @@ class PropertyCategoryAdminController extends Controller
                 ->addColumn('action', function ($data) use ($getPrivilege) {
                     if ($getPrivilege['status']['permission'] == true) {
                         if ($data['customizeInText']['status']['raw'] == Config::get('constants.status')['inactive']) {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.mainCategory') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.manageCategory') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                         } else {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.mainCategory') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.manageCategory') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                         }
                     } else {
                         $status = '';
@@ -93,7 +94,7 @@ class PropertyCategoryAdminController extends Controller
                     }
 
                     if ($getPrivilege['delete']['permission'] == true) {
-                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.mainCategory') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.manageCategory') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     } else {
                         $delete = '';
                     }
@@ -121,20 +122,21 @@ class PropertyCategoryAdminController extends Controller
         }
     }
 
-    public function saveMainCategory(Request $request)
+    public function saveManageCategory(Request $request)
     {
         try {
-            $values = $request->only('name', 'about');
+            $values = $request->only('name', 'about', 'type');
 
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveMainCategory', 'id' => 0, 'platform' => $this->platform]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveManageCategory', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                $mainCategory = new MainCategory();
-                $mainCategory->name = $values['name'];
-                $mainCategory->about = $values['about'];
-                $mainCategory->uniqueId = $this->generateCode(['preString' => 'PRMC', 'length' => 6, 'model' => MainCategory::class, 'field' => '']);
-                if ($mainCategory->save()) {
+                $manageCategory = new ManageCategory();
+                $manageCategory->name = $values['name'];
+                $manageCategory->about = $values['about'];
+                $manageCategory->type = $values['type'];
+                $manageCategory->uniqueId = $this->generateCode(['preString' => 'PRMC', 'length' => 6, 'model' => ManageCategory::class, 'field' => '']);
+                if ($manageCategory->save()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Main category'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Main category'])['failed']], Config::get('constants.errorCode.ok'));
@@ -145,7 +147,7 @@ class PropertyCategoryAdminController extends Controller
         }
     }
 
-    public function updateMainCategory(Request $request)
+    public function updateManageCategory(Request $request)
     {
         $values = $request->only('id', 'name', 'about');
 
@@ -156,14 +158,15 @@ class PropertyCategoryAdminController extends Controller
         }
 
         try {
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateMainCategory', 'id' => $id, 'platform' => $this->platform]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateManageCategory', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                $mainCategory = MainCategory::find($id);
-                $mainCategory->name = $values['name'];
-                $mainCategory->about = $values['about'];
-                if ($mainCategory->update()) {
+                $manageCategory = ManageCategory::find($id);
+                $manageCategory->name = $values['name'];
+                $manageCategory->about = $values['about'];
+                $manageCategory->type = $values['type'];
+                if ($manageCategory->update()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Main category'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Main category'])['failed']], Config::get('constants.errorCode.ok'));
@@ -174,7 +177,7 @@ class PropertyCategoryAdminController extends Controller
         }
     }
 
-    public function statusMainCategory($id)
+    public function statusManageCategory($id)
     {
         try {
             $id = decrypt($id);
@@ -185,7 +188,7 @@ class PropertyCategoryAdminController extends Controller
         try {
             $result = $this->changeStatus([
                 'targetId' => $id,
-                "targetModel" => MainCategory::class,
+                "targetModel" => ManageCategory::class,
                 'targetField' => [],
                 'type' => Config::get('constants.action.status.smsf')
             ]);
@@ -199,7 +202,7 @@ class PropertyCategoryAdminController extends Controller
         }
     }
 
-    public function deleteMainCategory($id)
+    public function deleteManageCategory($id)
     {
         try {
             $id = decrypt($id);
@@ -210,7 +213,7 @@ class PropertyCategoryAdminController extends Controller
         try {
             $result = $this->deleteItem([
                 [
-                    'model' => MainCategory::class,
+                    'model' => ManageCategory::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
                 ],
@@ -243,22 +246,22 @@ class PropertyCategoryAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.propertyRelated.propertyType.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
 
-            $mainCategory = GetPropertyCategoryHelper::getList([
+            $manageCategory = GetPropertyCategoryHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.mainCategory.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => ['status' => Config::get('constants.status.active')],
                         'orderBy' => ['id' => 'desc'],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.mainCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
 
             $data = [
                 'propertyType' => $propertyType,
-                'mainCategory' => $mainCategory,
+                'manageCategory' => $manageCategory,
             ];
 
             return view('admin.property_related.property_category.assign_category.assign_category_list', ['data' => $data]);
@@ -280,7 +283,7 @@ class PropertyCategoryAdminController extends Controller
                         'filterData' => [
                             'status' => $request->status,
                             'default' => $request->default,
-                            'mainCategory' => $request->mainCategory,
+                            'manageCategory' => $request->manageCategory,
                             'propertyType' => $request->propertyType,
                             'assignBroad' => $request->assignBroad,
                         ],

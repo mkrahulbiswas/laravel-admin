@@ -591,11 +591,11 @@
             ]
         });
 
-        /*------( Main Category Listing )--------*/
-        $('#propertyRelated-propertyCategory-mainCategory').DataTable({
+        /*------( Mange Category Listing )--------*/
+        $('#propertyRelated-propertyCategory-manageCategory-main').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "main-category/ajaxGetList",
+            ajax: "manage-category/ajaxGetList?type=" + $('#propertyRelated-propertyCategory-manageCategory-main').attr('data-type'),
             language: {
                 searchPlaceholder: "None"
             },
