@@ -21,12 +21,26 @@ function initCallOnModalClose() {
         $(this).find('form')[0].reset();
         $(this).find('[type="checkbox"]').attr('checked', false);
         $(this).find('.dropify-clear').trigger('click');
-        $(this).find('.selectTwo').val('').trigger('change');
+        $(this).find('.selectTwo').val(null).trigger('change');
         $(this).find('.selectPicker').selectpicker('val', '');
         // $(this).find('textarea').summernote('reset');
         $(this).find('.form-control, .select2-container--default .select2-selection--single').removeClass('valid-input invalid-input');
-        let ids = '#saveAssignBroadForm, #updateAssignBroadForm, #saveBroadTypeForm, #updateBroadTypeForm, #saveLogoForm, #updateLogoForm, #saveNavTypeForm, #updateNavTypeForm, #saveNavMainForm, #updateNavMainForm, #saveNavSubForm, #updateNavSubForm, #saveNavNestedForm, #updateNavNestedForm, #savePropertyAttributesForm, #updatePropertyAttributesForm, #savePropertyTypeForm, #updatePropertyTypeForm, #saveRoleSubForm, #updateRoleSubForm';
-        $(ids).find(".validation-error").text('');
+        var idArray = [
+            'saveAssignCategoryForm', 'updateAssignCategoryForm',
+            'saveManageCategoryForm', 'updateManageCategoryForm',
+            'saveAssignBroadForm', 'updateAssignBroadForm',
+            'saveBroadTypeForm', 'updateBroadTypeForm',
+            'saveLogoForm', 'updateLogoForm',
+            'saveNavTypeForm', 'updateNavTypeForm',
+            'saveNavMainForm', 'updateNavMainForm',
+            'saveNavSubForm', 'updateNavSubForm',
+            'saveNavNestedForm', 'updateNavNestedForm',
+            'savePropertyAttributeForm', 'updatePropertyAttributeForm',
+            'savePropertyTypeForm', 'updatePropertyTypeForm',
+            'saveRoleSubForm', 'updateRoleSubForm',
+        ];
+        var idArrayToString = '#' + idArray.join(', #');
+        $(idArrayToString).find(".validation-error").text('');
         $(this).find('.selectTwo').select2('reset');
     });
 }
@@ -78,6 +92,56 @@ function initCallSelect2() {
     $('.select2-propertyType-editModal').select2({
         tags: false,
         placeholder: "Select property type",
+        dropdownParent: $('#con-edit-modal')
+    });
+
+    $('.select2-nestedCategory').select2({
+        tags: false,
+        placeholder: "Select nested category"
+    });
+
+    $('.select2-subCategory').select2({
+        tags: false,
+        placeholder: "Select sub category"
+    });
+    $('.select2-subCategory-addModal').select2({
+        tags: false,
+        placeholder: "Select sub category",
+        dropdownParent: $('#con-add-modal')
+    });
+    $('.select2-subCategory-editModal').select2({
+        tags: false,
+        placeholder: "Select sub category",
+        dropdownParent: $('#con-edit-modal')
+    });
+
+    $('.select2-mainCategory').select2({
+        tags: false,
+        placeholder: "Select main category"
+    });
+    $('.select2-mainCategory-addModal').select2({
+        tags: false,
+        placeholder: "Select main category",
+        dropdownParent: $('#con-add-modal')
+    });
+    $('.select2-mainCategory-editModal').select2({
+        tags: false,
+        placeholder: "Select main category",
+        dropdownParent: $('#con-edit-modal')
+    });
+
+    $('.select2-assignBroad').select2({
+        tags: false,
+        placeholder: "Select broad type"
+    });
+    $('.select2-assignBroad-addModal').select2({
+        tags: false,
+        placeholder: "Select broad type",
+        dropdownParent: $('#con-add-modal')
+    });
+    $('.select2-assignBroad-editModal').select2({
+        tags: false,
+        placeholder: "Select broad type",
         dropdownParent: $('#con-edit-modal')
     });
 

@@ -149,7 +149,7 @@ class QuickSettingsAdminController extends Controller
                 'platform' => $this->platform
             ]);
             if ($validator->fails()) {
-                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
 
                 if ($bigLogo) {
@@ -159,7 +159,7 @@ class QuickSettingsAdminController extends Controller
                         'storage' => Config::get('constants.storage')['bigLogo']
                     ]);
                     if ($uploadFile['type'] == false) {
-                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], config('constants.ok'));
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], Config::get('constants.errorCode.ok'));
                     } else {
                         $bigLogo = $uploadFile['name'];
                     }
@@ -174,7 +174,7 @@ class QuickSettingsAdminController extends Controller
                         'storage' => Config::get('constants.storage')['smallLogo']
                     ]);
                     if ($uploadFile['type'] == false) {
-                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], config('constants.ok'));
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], Config::get('constants.errorCode.ok'));
                     } else {
                         $smallLogo = $uploadFile['name'];
                     }
@@ -189,7 +189,7 @@ class QuickSettingsAdminController extends Controller
                         'storage' => Config::get('constants.storage')['favicon']
                     ]);
                     if ($uploadFile['type'] == false) {
-                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], config('constants.ok'));
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], Config::get('constants.errorCode.ok'));
                     } else {
                         $favicon = $uploadFile['name'];
                     }
@@ -204,13 +204,13 @@ class QuickSettingsAdminController extends Controller
                 $logo->uniqueId = $this->generateCode(['preString' => 'LOGO', 'length' => 6, 'model' => Logo::class, 'field' => '']);
 
                 if ($logo->save()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Logo'])['success']], config('constants.ok'));
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Logo'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Logo'])['failed']], config('constants.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Logo'])['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save data", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -224,7 +224,7 @@ class QuickSettingsAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Main", 'msg' => config('constants.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Main", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
@@ -235,7 +235,7 @@ class QuickSettingsAdminController extends Controller
                 'platform' => $this->platform
             ]);
             if ($validator->fails()) {
-                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], config('constants.ok'));
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
                 $logo = Logo::find($id);
                 if ($bigLogo) {
@@ -245,7 +245,7 @@ class QuickSettingsAdminController extends Controller
                         'storage' => Config::get('constants.storage')['bigLogo']
                     ]);
                     if ($uploadFile['type'] == false) {
-                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], config('constants.ok'));
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], Config::get('constants.errorCode.ok'));
                     } else {
                         $logo->bigLogo = $uploadFile['name'];
                     }
@@ -257,7 +257,7 @@ class QuickSettingsAdminController extends Controller
                         'storage' => Config::get('constants.storage')['smallLogo']
                     ]);
                     if ($uploadFile['type'] == false) {
-                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], config('constants.ok'));
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], Config::get('constants.errorCode.ok'));
                     } else {
                         $logo->smallLogo = $uploadFile['name'];
                     }
@@ -269,19 +269,19 @@ class QuickSettingsAdminController extends Controller
                         'storage' => Config::get('constants.storage')['favicon']
                     ]);
                     if ($uploadFile['type'] == false) {
-                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], config('constants.ok'));
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], Config::get('constants.errorCode.ok'));
                     } else {
                         $logo->favicon = $uploadFile['name'];
                     }
                 }
                 if ($logo->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Logo'])['success']], config('constants.ok'));
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Logo'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Logo'])['failed']], config('constants.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Logo'])['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update data", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -290,7 +290,7 @@ class QuickSettingsAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Default", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Default", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         // try {
@@ -301,12 +301,12 @@ class QuickSettingsAdminController extends Controller
             'type' => Config::get('constants.action.status.smsfa')
         ]);
         if ($result === true) {
-            return response()->json(['status' => 1, 'type' => "success", 'title' => "Default", 'msg' => __('messages.defaultMsg', ['type' => 'Logo'])['success']], config('constants.ok'));
+            return response()->json(['status' => 1, 'type' => "success", 'title' => "Default", 'msg' => __('messages.defaultMsg', ['type' => 'Logo'])['success']], Config::get('constants.errorCode.ok'));
         } else {
-            return response()->json(['status' => 0, 'type' => "warning", 'title' => "Default", 'msg' => __('messages.defaultMsg', ['type' => 'Logo'])['failed']], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "warning", 'title' => "Default", 'msg' => __('messages.defaultMsg', ['type' => 'Logo'])['failed']], Config::get('constants.errorCode.ok'));
         }
         // } catch (Exception $e) {
-        //     return response()->json(['status' => 0, 'type' => "error", 'title' => "Default", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+        //     return response()->json(['status' => 0, 'type' => "error", 'title' => "Default", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         // }
     }
 
@@ -315,7 +315,7 @@ class QuickSettingsAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
@@ -340,12 +340,12 @@ class QuickSettingsAdminController extends Controller
                 ],
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Logo'])['success']], config('constants.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Logo'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Logo'])['failed']], config('constants.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Logo'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], config('constants.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 }

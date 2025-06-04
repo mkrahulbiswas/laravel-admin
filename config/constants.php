@@ -76,8 +76,8 @@ return [
         ],
         'propertyRelated' => [
             'type' => 'propertyRelated',
-            'propertyAttributes' => [
-                'type' => 'propertyAttributes',
+            'propertyAttribute' => [
+                'type' => 'propertyAttribute',
                 'attributes' => [
                     'amenities' => [
                         'type' => 'amenities',
@@ -120,6 +120,15 @@ return [
                 'assignBroad' => [
                     'type' => 'assignBroad'
                 ]
+            ],
+            'propertyCategory' => [
+                'type' => 'propertyCategory',
+                'manageCategory' => [
+                    'type' => 'manageCategory'
+                ],
+                'assignCategory' => [
+                    'type' => 'assignCategory'
+                ],
             ]
         ],
         'manageAccess' => [
@@ -213,7 +222,6 @@ return [
         ],
     ],
 
-
     //--Action Type
     'action' => [
         'status' => [
@@ -236,6 +244,12 @@ return [
         'inactive' => 'INACTIVE',
         'yes' => 'YES',
         'no' => 'NO',
+        'default' => 'DEFAULT',
+        'category' => [
+            'main' => 'MAIN',
+            'sub' => 'SUB',
+            'nested' => 'NESTED',
+        ]
     ],
 
     //--User Type
@@ -265,14 +279,16 @@ return [
     'successMsg' => 'Success.',
 
     //HTTP Status for api response
-    'ok' => 200,
-    'serverErr' => 500,
-    'vErr' => 420,
+    'errorCode' => [
+        'ok' => 200,
+        'server' => 500,
+        'validation' => 422,
+        'block' => 403,
+    ],
 
     //Implode OR Explode Key----
     'keyImpExp' => '-(SeP)-',
 
-    ////Company Email////
     'companyEmail' => 'appcoderandroid2@gmail.com',
 
     //FCM Authorization Key

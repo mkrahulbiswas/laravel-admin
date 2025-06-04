@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Models\PropertyRelated;
+namespace App\Models\PropertyRelated\PropertyCategory;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class PropertyAttributes extends Authenticatable
+class AssignCategory extends Authenticatable
 {
     use Notifiable, SoftDeletes;
 
-    protected $table = 'property_attributes';
+    protected $table = 'assign_category';
     protected $fillable = ['status'];
 }

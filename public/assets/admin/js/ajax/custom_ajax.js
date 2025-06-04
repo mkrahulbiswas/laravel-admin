@@ -127,6 +127,9 @@
                             },
                             error: function (xhr, textStatus, error) {
                                 commonAction({
+                                    loader: {
+                                        isSet: false
+                                    },
                                     targetId: {
                                         submitForm: submitForm,
                                         submitBtn: submitBtn,
@@ -256,6 +259,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -365,6 +371,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -526,6 +535,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -627,6 +639,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -787,6 +802,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -891,6 +909,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -985,6 +1006,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1189,6 +1213,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1296,6 +1323,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1390,6 +1420,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1601,6 +1634,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1711,6 +1747,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1805,6 +1844,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1972,6 +2014,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2073,6 +2118,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2171,6 +2219,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2266,6 +2317,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2451,6 +2505,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2552,6 +2609,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2647,6 +2707,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2819,6 +2882,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2920,6 +2986,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3009,11 +3078,11 @@
 
 
         /*--========================= ( Property Related START ) =========================--*/
-        //---- ( Property Attributes Save ) ----//
-        $("#savePropertyAttributesForm").submit(function (event) {
+        //---- ( Property Attribute Save ) ----//
+        $("#savePropertyAttributeForm").submit(function (event) {
 
             submitForm = $(this);
-            submitBtn = $(this).find('#savePropertyAttributesBtn');
+            submitBtn = $(this).find('#savePropertyAttributeBtn');
 
             event.preventDefault();
             $.ajax({
@@ -3088,7 +3157,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#propertyRelated-propertyAttributes')
+                                    targetId: $('#propertyRelated-propertyAttribute')
                                 }
                             }
                         })
@@ -3096,6 +3165,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3112,10 +3184,10 @@
             });
         });
 
-        //---- ( Property Attributes Update ) ----//
-        $("#updatePropertyAttributesForm").submit(function (event) {
+        //---- ( Property Attribute Update ) ----//
+        $("#updatePropertyAttributeForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updatePropertyAttributesBtn');
+            submitBtn = $(this).find('#updatePropertyAttributeBtn');
 
             event.preventDefault();
             $.ajax({
@@ -3189,7 +3261,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#propertyRelated-propertyAttributes')
+                                    targetId: $('#propertyRelated-propertyAttribute')
                                 }
                             }
                         })
@@ -3197,6 +3269,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3213,11 +3288,11 @@
             });
         });
 
-        //---- ( Property Attributes Status, Edit, Detail ) ----//
-        $('body').delegate('#propertyRelated-propertyAttributes .actionDatatable', 'click', function () {
+        //---- ( Property Attribute Status, Edit, Detail ) ----//
+        $('body').delegate('#propertyRelated-propertyAttribute .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
-                targetTableId = $('#propertyRelated-propertyAttributes'),
+                targetTableId = $('#propertyRelated-propertyAttribute'),
                 data = '';
 
             if (type == 'status') {
@@ -3365,6 +3440,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3463,6 +3541,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3629,6 +3710,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3727,6 +3811,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3896,6 +3983,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3997,6 +4087,9 @@
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
+                        loader: {
+                            isSet: false
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4074,9 +4167,600 @@
                 id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
-                id.find('#name').text(data.name);
                 id.find('#propertyType').text(data.propertyType.name);
                 id.find('#broadType').text(data.broadType.name);
+                id.find('#about').text(data.about);
+            }
+        });
+
+
+        //---- ( Manage Category Save ) ----//
+        $("#saveManageCategoryForm").submit(function (event) {
+
+            submitForm = $(this);
+            submitBtn = $(this).find('#saveManageCategoryBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Save',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.name, function (i) {
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.about, function (i) {
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.mainCategory, function (i) {
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.subCategory, function (i) {
+                            submitForm.find("#subCategoryErr").text(msg.errors.subCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else if (msg.status == 1) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('.propertyRelated-propertyCategory-manageCategory')
+                                }
+                            }
+                        })
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        loader: {
+                            isSet: false
+                        },
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        //---- ( Manage Category Update ) ----//
+        $("#updateManageCategoryForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#updateManageCategoryBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Update',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.name, function (i) {
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.about, function (i) {
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.mainCategory, function (i) {
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.subCategory, function (i) {
+                            submitForm.find("#subCategoryErr").text(msg.errors.subCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('.propertyRelated-propertyCategory-manageCategory')
+                                }
+                            }
+                        })
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        loader: {
+                            isSet: false
+                        },
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        //---- ( Manage Category Status, Edit, Detail ) ----//
+        $('body').delegate('.propertyRelated-propertyCategory-manageCategory .actionDatatable', 'click', function () {
+            var type = $(this).attr('data-type'),
+                action = $(this).attr('data-action'),
+                targetTableId = $('.propertyRelated-propertyCategory-manageCategory'),
+                data = '';
+
+            if (type == 'status') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action the status wil change!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'delete') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'delete',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action data will be deleted permanently!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'default') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action the data default state will change!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'edit') {
+                id = $('#con-edit-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                console.log(data);
+                id.find('#id').val(data.id);
+                id.find('#name').val(data.name);
+                id.find('#about').val(data.about);
+            } else {
+                id = $('#con-info-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                id.find('#subCategory, #nestedCategory').closest('.col-12').hide();
+                if (data.type == 'MAIN') {
+                    id.find('#mainCategory').closest('.col-12').show();
+                    id.find('#mainCategory').text(data.name);
+                }
+                if (data.type == 'SUB') {
+                    id.find('#mainCategory, #subCategory').closest('.col-12').show();
+                    id.find('#mainCategory').text(data.mainCategory.name);
+                    id.find('#subCategory').text(data.name);
+                }
+                if (data.type == 'NESTED') {
+                    id.find('#mainCategory, #subCategory, #nestedCategory').closest('.col-12').show();
+                    id.find('#mainCategory').text(data.mainCategory.name);
+                    id.find('#subCategory').text(data.subCategory.name);
+                    id.find('#nestedCategory').text(data.name);
+                }
+                id.find('#about').text(data.about);
+            }
+        });
+
+
+        //---- ( Assign Category Save ) ----//
+        $("#saveAssignCategoryForm").submit(function (event) {
+
+            submitForm = $(this);
+            submitBtn = $(this).find('#saveAssignCategoryBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Save',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.mainCategory, function (i) {
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.propertyType, function (i) {
+                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.assignBroad, function (i) {
+                            submitForm.find("#assignBroadErr").text(msg.errors.assignBroad[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.about, function (i) {
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else if (msg.status == 1) {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#propertyRelated-propertyCategory-assignCategory')
+                                }
+                            }
+                        })
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        loader: {
+                            isSet: false
+                        },
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Save',
+                                disabled: false
+                            }
+                        }
+                    })
+                }
+            });
+        });
+
+        //---- ( Assign Category Update ) ----//
+        $("#updateAssignCategoryForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#updateAssignCategoryBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                data: new FormData(this),
+                type: $(this).attr('method'),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Update',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.mainCategory, function (i) {
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.propertyType, function (i) {
+                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.assignBroad, function (i) {
+                            submitForm.find("#assignBroadErr").text(msg.errors.assignBroad[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.about, function (i) {
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else {
+                        commonAction({
+                            targetId: {
+                                submitForm: submitForm,
+                                submitBtn: submitBtn,
+                            },
+                            afterSuccess: {
+                                hideModal: true,
+                                resetForm: true,
+                            },
+                            dataTable: {
+                                reload: {
+                                    targetId: $('#propertyRelated-propertyCategory-assignCategory')
+                                }
+                            }
+                        })
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        loader: {
+                            isSet: false
+                        },
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        //---- ( Assign Category Status, Edit, Detail ) ----//
+        $('body').delegate('#propertyRelated-propertyCategory-assignCategory .actionDatatable', 'click', function () {
+            var type = $(this).attr('data-type'),
+                action = $(this).attr('data-action'),
+                targetTableId = $('#propertyRelated-propertyCategory-assignCategory'),
+                data = '';
+
+            if (type == 'status') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action the status wil change!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'delete') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'delete',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action data will be deleted permanently!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'default') {
+                commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action the data default state will change!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'edit') {
+                id = $('#con-edit-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                id.find('#id').val(data.id);
+                id.find("#mainCategory2 option[data-name='" + data.mainCategory.name + "']").prop("selected", true).trigger('change');
+                id.find("#propertyType2 option[data-name='" + data.assignBroad.propertyType.name + "']").prop("selected", true).trigger('change');
+                setTimeout(function () {
+                    id.find("#assignBroad2 option[data-name='" + data.assignBroad.broadType.name + "']").prop("selected", true).trigger('change');
+                }, 1000)
+                id.find('#about').val(data.about);
+            } else {
+                id = $('#con-info-modal');
+                id.modal('show');
+                data = JSON.parse($(this).attr('data-array'));
+                id.find('#mainCategory').text(data.mainCategory.name);
+                id.find('#propertyType').text(data.assignBroad.propertyType.name);
+                id.find('#assignBroad').text(data.assignBroad.broadType.name);
                 id.find('#about').text(data.about);
             }
         });

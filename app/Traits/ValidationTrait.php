@@ -5,7 +5,7 @@ namespace app\Traits;
 use App\Helpers\ManagePanel\GetManageAccessHelper;
 use App\Rules\ManagePanel\UniqueManageAccess;
 use App\Rules\ManagePanel\UniqueManageNav;
-use App\Rules\PropertyRelated\UniquePropertyAttributes;
+use App\Rules\PropertyRelated\UniquePropertyAttribute;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
@@ -330,21 +330,21 @@ trait ValidationTrait
 
 
             /*------ ( Property Related Start ) ------*/
-            //---- ( Property Attributes )
-            case 'savePropertyAttributes':
+            //---- ( Property Attribute )
+            case 'savePropertyAttribute':
                 $rules = [
                     'type' => 'required',
-                    'name' => ['required', 'max:255', new UniquePropertyAttributes([
+                    'name' => ['required', 'max:255', new UniquePropertyAttribute([
                         'targetId' => $data['id'],
                         'type' => $data['input']['type']
                     ])],
                     'about' => 'max:500',
                 ];
                 break;
-            case 'updatePropertyAttributes':
+            case 'updatePropertyAttribute':
                 $rules = [
                     'type' => 'required',
-                    'name' => ['required', 'max:255', new UniquePropertyAttributes([
+                    'name' => ['required', 'max:255', new UniquePropertyAttribute([
                         'targetId' => $data['id'],
                         'type' => $data['input']['type']
                     ])],
@@ -392,6 +392,58 @@ trait ValidationTrait
                 $rules = [
                     'propertyType' => 'required',
                     'broadType' => 'required',
+                    'about' => 'max:500',
+                ];
+                break;
+
+            //---- ( Manage Category )
+            case 'saveManageCategory':
+                $rules = [
+                    'name' => 'required|max:255|unique:manage_category,name',
+                    'about' => 'max:500',
+                ];
+                if ($data['input']['type'] == Config::get('constants.status.category.sub')) {
+                    $rules['mainCategory'] = 'required';
+                } elseif ($data['input']['type'] == Config::get('constants.status.category.nested')) {
+                    $rules['mainCategory'] = 'required';
+                    $rules['subCategory'] = 'required';
+                }
+                $messages = [
+                    'mainCategory.required' => 'You must select main category',
+                    'subCategory.required' => 'You must select sub category'
+                ];
+                break;
+
+            case 'updateManageCategory':
+                $rules = [
+                    'name' => 'required|max:255|unique:manage_category,name,' . $data['id'],
+                    'about' => 'max:500',
+                ];
+                if ($data['input']['type'] == Config::get('constants.status.category.sub')) {
+                    $rules['mainCategory'] = 'required';
+                } elseif ($data['input']['type'] == Config::get('constants.status.category.nested')) {
+                    $rules['mainCategory'] = 'required';
+                    $rules['subCategory'] = 'required';
+                }
+                $messages = [
+                    'mainCategory.required' => 'You must select main category',
+                    'subCategory.required' => 'You must select sub category lol'
+                ];
+
+                //---- ( Assign Category )
+            case 'saveAssignCategory':
+                $rules = [
+                    'mainCategory' => 'required',
+                    'propertyType' => 'required',
+                    'assignBroad' => 'required',
+                    'about' => 'max:500',
+                ];
+                break;
+            case 'updateAssignCategory':
+                $rules = [
+                    'mainCategory' => 'required',
+                    'propertyType' => 'required',
+                    'assignBroad' => 'required',
                     'about' => 'max:500',
                 ];
                 break;

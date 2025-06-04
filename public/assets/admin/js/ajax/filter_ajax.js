@@ -11,7 +11,7 @@
                     targetForm.find('.selectPicker').selectpicker('val', '');
                 }
                 if (data.resetFormFields.selectTwo != undefined) {
-                    targetForm.find('.selectTwo').val(['']).trigger('change');
+                    targetForm.find('.selectTwo').val(null).trigger('change');
                     // targetForm.find('.selectTwo').select2('reset');
                 }
             }
@@ -383,10 +383,10 @@
 
 
         /*--========================= ( Property Related START ) =========================--*/
-        //------ ( Property Attributes )
-        $('#filterPropertyAttributesForm').find('#statusFilter, #typeFilter, #defaultFilter, .filterPropertyAttributesBtn').on('change click', function () {
+        //------ ( Property Attribute )
+        $('#filterPropertyAttributeForm').find('#statusFilter, #typeFilter, #defaultFilter, .filterPropertyAttributeBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#propertyRelated-propertyAttributes'),
+                dataTableId = $('#propertyRelated-propertyAttribute'),
 
                 status = formId.find("#statusFilter").val(),
                 type = formId.find("#typeFilter").val(),
@@ -424,7 +424,7 @@
         //------ ( Property Type )
         $('#filterPropertyTypeForm').find('#statusFilter, #defaultFilter, .filterPropertyTypeBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#propertyRelated-propertyAttributes'),
+                dataTableId = $('#propertyRelated-propertyAttribute'),
 
                 status = formId.find("#statusFilter").val(),
                 defaul = formId.find("#defaultFilter").val(),
@@ -459,15 +459,14 @@
         });
 
         //------ ( Broad Type )
-        $('#filterBroadTypeForm').find('#statusFilter, #defaultFilter, .filterBroadTypeBtn').on('change click', function () {
+        $('#filterBroadTypeForm').find('#statusFilter, .filterBroadTypeBtn').on('change click', function () {
             var formId = $(this).closest('form'),
                 dataTableId = $('#propertyRelated-manageBroad-broadType'),
 
                 status = formId.find("#statusFilter").val(),
-                defaul = formId.find("#defaultFilter").val(),
 
                 action = $(this).closest('form').attr('action').split('/'),
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&default=" + defaul;
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status;
             if ($(this).attr('title') == 'Reload') {
                 commonAction({
                     targetId: {
@@ -478,7 +477,7 @@
                         selectTwo: {},
                     }
                 })
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&default=" + '';
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
             }
             commonAction({
                 targetId: {
@@ -518,6 +517,82 @@
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&default=" + '' + "&propertyType=" + '' + "&broadType=" + '';
+            }
+            commonAction({
+                targetId: {
+                    submitForm: formId,
+                    actionType: $(this).attr('title'),
+                },
+                dataTable: {
+                    load: {
+                        targetId: dataTableId,
+                        url: newUrl,
+                    }
+                },
+                filterApply: {}
+            })
+        });
+
+        //------ ( Main Category )
+        $('#filterMainCategoryForm').find('#statusFilter, .filterMainCategoryBtn').on('change click', function () {
+            var formId = $(this).closest('form'),
+                dataTableId = $('.propertyRelated-propertyCategory-manageCategory'),
+
+                status = formId.find("#statusFilter").val(),
+
+                action = $(this).closest('form').attr('action').split('/'),
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status;
+            if ($(this).attr('title') == 'Reload') {
+                commonAction({
+                    targetId: {
+                        submitForm: formId,
+                    },
+                    resetFormFields: {
+                        selectPicker: {},
+                        selectTwo: {},
+                    }
+                })
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
+            }
+            commonAction({
+                targetId: {
+                    submitForm: formId,
+                    actionType: $(this).attr('title'),
+                },
+                dataTable: {
+                    load: {
+                        targetId: dataTableId,
+                        url: newUrl,
+                    }
+                },
+                filterApply: {}
+            })
+        });
+
+        //------ ( Assign Category )
+        $('#filterAssignCategoryForm').find('#statusFilter, #defaultFilter, #mainCategoryFilter, #propertyTypeFilter, #assignBroadFilter, .filterAssignCategoryBtn').on('change click', function () {
+            var formId = $(this).closest('form'),
+                dataTableId = $('#propertyRelated-propertyCategory-assignCategory'),
+
+                status = formId.find("#statusFilter").val(),
+                defaul = formId.find("#defaultFilter").val(),
+                mainCategory = formId.find("#mainCategoryFilter").val(),
+                propertyType = formId.find("#propertyTypeFilter").val(),
+                assignBroad = formId.find("#assignBroadFilter").val(),
+
+                action = $(this).closest('form').attr('action').split('/'),
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&default=" + defaul + "&mainCategory=" + mainCategory + "&propertyType=" + propertyType + "&assignBroad=" + assignBroad;
+            if ($(this).attr('title') == 'Reload') {
+                commonAction({
+                    targetId: {
+                        submitForm: formId,
+                    },
+                    resetFormFields: {
+                        selectPicker: {},
+                        selectTwo: {},
+                    }
+                })
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&default=" + '' + "&mainCategory=" + '' + "&propertyType=" + '' + "&assignBroad=" + '';
             }
             commonAction({
                 targetId: {

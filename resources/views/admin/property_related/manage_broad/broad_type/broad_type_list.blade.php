@@ -81,15 +81,6 @@
                                                             <i class="mdi mdi-list-status"></i>
                                                         </div>
                                                     </div>
-                                                    <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
-                                                        <div class="form-icon set-validation">
-                                                            <select name="default" id="defaultFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any default type">
-                                                                <option value="{{ config('constants.status')['yes'] }}">{{ config('constants.status')['yes'] }}</option>
-                                                                <option value="{{ config('constants.status')['no'] }}">{{ config('constants.status')['no'] }}</option>
-                                                            </select>
-                                                            <i class="mdi mdi-list-status"></i>
-                                                        </div>
-                                                    </div>
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
                                                         <div class="form-group d-flex flex-row justify-content-start">
                                                             @if ($permission['search']['permission'] == true)

@@ -10,14 +10,14 @@
 @endphp
 
 <!doctype html>
-<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg"
-    data-sidebar-image="none" data-preloader="disable">
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
 <head>
     @include('admin.includes.head', ['checkOne' => $checkFor])
 </head>
 
 @if ($count >= 2)
+
     <body>
         @if (in_array('pdf', $urlArray) || in_array('print', $urlArray))
             @yield('content')
@@ -41,8 +41,6 @@
                     </div>
                     @include('admin.includes.footer')
                 </div>
-
-                @yield('footscripts')
             </div>
             @include('admin.includes.common', [
                 'checkOne' => $checkFor,
@@ -53,9 +51,11 @@
                 'checkOne' => $checkFor,
                 'checkTwo' => 'cssJs',
             ])
+            @yield('footScripts')
         @endif
     </body>
 @else
+
     <body>
         @include('admin.includes.dynamic_html_css_js', ['checkOne' => $checkFor, 'checkTwo' => 'loader'])
         @include('admin.includes.dynamic_html_css_js', [

@@ -143,22 +143,25 @@ class GetPropertyTypeHelper
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
                         $propertyType = PropertyType::where('id', decrypt($otherDataPasses['id']))->first();
-                        $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
-                            'id' => encrypt($propertyType->id),
-                            'name' => $propertyType->name,
-                            'about' =>  $propertyType->about,
-                            'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $propertyType->uniqueId]),
-                            'customizeInText' => CommonTrait::customizeInText([
-                                [
-                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
-                                    'value' => $propertyType->status
-                                ],
-                                [
-                                    'type' => Config::get('constants.typeCheck.customizeInText.default'),
-                                    'value' => $propertyType->default
-                                ]
-                            ]),
-                        ];
+                        if ($propertyType != null)
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
+                                'id' => encrypt($propertyType->id),
+                                'name' => $propertyType->name,
+                                'about' =>  $propertyType->about,
+                                'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $propertyType->uniqueId]),
+                                'customizeInText' => CommonTrait::customizeInText([
+                                    [
+                                        'type' => Config::get('constants.typeCheck.customizeInText.status'),
+                                        'value' => $propertyType->status
+                                    ],
+                                    [
+                                        'type' => Config::get('constants.typeCheck.customizeInText.default'),
+                                        'value' => $propertyType->default
+                                    ]
+                                ]),
+                            ];
+                    } else {
+                        $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [];
                     }
 
                     $finalData[Config::get('constants.typeCheck.propertyRelated.propertyType.type')] = $data;

@@ -16,6 +16,14 @@
                     });
                 }
             }
+
+            if (data.swal != undefined) {
+                if (data.swal.type == 'basic') {
+                    Swal.fire({
+                        ...data.swal.props
+                    });
+                }
+            }
         }
 
         /*--========================= ( Manage Nav START ) =========================--*/
@@ -110,16 +118,16 @@
                         dataType: 'json',
                         beforeSend: function () {
                             commonAction({
-                                // loader: {
-                                //     isSet: true
-                                // }
+                                loader: {
+                                    isSet: true
+                                }
                             })
                         },
                         success: function (msg) {
                             commonAction({
-                                // loader: {
-                                //     isSet: false
-                                // }
+                                loader: {
+                                    isSet: false
+                                }
                             })
                             if (msg.status == 0) {
                                 $('.roleSubDDD').append(html);
@@ -135,6 +143,98 @@
             }
         });
         /*--========================= ( Manage Access END ) =========================--*/
+
+        /*--========================= ( Property Related START ) =========================--*/
+        $('.propertyTypeDDD').change(function () {
+            if ($(this).attr('data-action') != undefined) {
+                var html = '<option value="">Select Role Sub</option>';
+                $('.assignBroadDDD').text('');
+                if ($(this).val() == '') {
+                    $('.assignBroadDDD').append(html);
+                } else {
+                    $.ajax({
+                        url: $(this).attr('data-action') + '/' + $(this).val(),
+                        type: 'get',
+                        dataType: 'json',
+                        beforeSend: function () {
+                            commonAction({
+                                loader: {
+                                    isSet: true
+                                }
+                            })
+                        },
+                        success: function (msg) {
+                            commonAction({
+                                loader: {
+                                    isSet: false
+                                }
+                            })
+                            if (msg.status == 0) {
+                                $('.assignBroadDDD').append(html);
+                            } else if (msg.status == 2) {
+                                commonAction({
+                                    swal: {
+                                        type: 'basic',
+                                        props: {
+                                            position: 'center-center',
+                                            icon: 'warning',
+                                            title: 'Oops....!',
+                                            html: 'You have not assign any broad with the selected property type. To set <a class="linkHrefRoute" href="' + msg.redirectTo + '">click me</a>',
+                                            showConfirmButton: false,
+                                            timer: 10000
+                                        }
+                                    },
+                                })
+                            } else {
+                                $.each(msg.data.assignBroad, function (key, value) {
+                                    html += '<option value="' + value['id'] + '" data-name="' + value['broadType']['name'] + '">' + value['broadType']['name'] + '</option>'
+                                });
+                                $('.assignBroadDDD').append(html);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+        $('.mainCategoryDDD').change(function () {
+            if ($(this).attr('data-action') != undefined) {
+                var html = '<option value="">Select Role Sub</option>';
+                $('.subCategoryDDD').text('');
+                if ($(this).val() == '') {
+                    $('.subCategoryDDD').append(html);
+                } else {
+                    $.ajax({
+                        url: $(this).attr('data-action') + '/' + $(this).val(),
+                        type: 'get',
+                        dataType: 'json',
+                        beforeSend: function () {
+                            commonAction({
+                                loader: {
+                                    isSet: true
+                                }
+                            })
+                        },
+                        success: function (msg) {
+                            commonAction({
+                                loader: {
+                                    isSet: false
+                                }
+                            })
+                            if (msg.status == 0) {
+                                $('.subCategoryDDD').append(html);
+                            } else {
+                                $.each(msg.data.mainCategory, function (key, value) {
+                                    html += '<option value="' + value['id'] + '" data-name="' + value['name'] + '">' + value['name'] + '</option>'
+                                });
+                                $('.subCategoryDDD').append(html);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        /*--========================= ( Property Related END ) =========================--*/
 
     });
 
