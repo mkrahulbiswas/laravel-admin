@@ -533,15 +533,26 @@
             })
         });
 
-        //------ ( Main Category )
-        $('#filterMainCategoryForm').find('#statusFilter, .filterMainCategoryBtn').on('change click', function () {
+        //------ ( Manage Category )
+        $('.filterManageCategoryForm').find('#statusFilter, #mainCategoryFilter, #subCategoryFilter, .filterManageCategoryBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('.propertyRelated-propertyCategory-manageCategory'),
+                dataTableId = '',
 
                 status = formId.find("#statusFilter").val(),
+                mainCategory = (formId.find("#mainCategoryFilter").val() == '' || formId.find("#mainCategoryFilter").val() == null) ? '' : formId.find("#mainCategoryFilter").val(),
+                subCategory = (formId.find("#subCategoryFilter").val() == '' || formId.find("#subCategoryFilter").val() == null) ? '' : formId.find("#mainCategoryFilter").val(),
+                type = formId.attr('data-type'),
 
                 action = $(this).closest('form').attr('action').split('/'),
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status;
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&mainCategory=" + mainCategory + "&subCategory=" + subCategory + "&type=" + type;
+
+            if (formId.attr('data-type') == 'MAIN') {
+                dataTableId = $('#propertyRelated-propertyCategory-manageCategory-main')
+            } else if (formId.attr('data-type') == 'SUB') {
+                dataTableId = $('#propertyRelated-propertyCategory-manageCategory-sub')
+            } else {
+                dataTableId = $('#propertyRelated-propertyCategory-manageCategory-nested')
+            }
             if ($(this).attr('title') == 'Reload') {
                 commonAction({
                     targetId: {
@@ -552,7 +563,7 @@
                         selectTwo: {},
                     }
                 })
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&mainCategory=" + '' + "&subCategory=" + '' + "&type=" + type;
             }
             commonAction({
                 targetId: {

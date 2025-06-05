@@ -154,6 +154,18 @@ class GetPropertyCategoryHelper
                                     $whereRaw .= " and `type` = '" . $type . "'";
                                 }
                             }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainCategory')) {
+                                $mainCategory = $tempOne['otherDataPasses']['filterData']['mainCategory'];
+                                if (!empty($mainCategory)) {
+                                    $whereRaw .= " and `mainCategoryId` = " . decrypt($mainCategory);
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'subCategory')) {
+                                $subCategory = $tempOne['otherDataPasses']['filterData']['subCategory'];
+                                if (!empty($subCategory)) {
+                                    $whereRaw .= " and `subCategoryId` = " . decrypt($subCategory);
+                                }
+                            }
                         }
 
                         if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {

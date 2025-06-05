@@ -67,7 +67,9 @@ class PropertyCategoryAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $request->status,
-                            'type' => $request['type'],
+                            'type' => $request->type,
+                            'mainCategory' => $request->mainCategory,
+                            'subCategory' => $request->subCategory,
                         ],
                         'orderBy' => [
                             'id' => 'desc'
