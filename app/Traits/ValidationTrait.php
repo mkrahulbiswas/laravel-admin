@@ -429,8 +429,9 @@ trait ValidationTrait
                     'mainCategory.required' => 'You must select main category',
                     'subCategory.required' => 'You must select sub category lol'
                 ];
+                break;
 
-                //---- ( Assign Category )
+            //---- ( Assign Category )
             case 'saveAssignCategory':
                 $rules = [
                     'mainCategory' => 'required',

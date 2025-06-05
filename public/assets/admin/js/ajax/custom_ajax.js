@@ -4443,9 +4443,21 @@
                 id = $('#con-edit-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
-                console.log(data);
                 id.find('#id').val(data.id);
-                id.find('#name').val(data.name);
+                if (data.type == 'MAIN') {
+                    id.find('#name').val(data.name);
+                }
+                if (data.type == 'SUB') {
+                    id.find("#mainCategory2 option[data-name='" + data.mainCategory.name + "']").prop("selected", true).trigger('change');
+                    id.find('#name').val(data.name);
+                }
+                if (data.type == 'NESTED') {
+                    id.find("#mainCategory2 option[data-name='" + data.mainCategory.name + "']").prop("selected", true).trigger('change');
+                    setTimeout(function () {
+                        id.find("#subCategory2 option[data-name='" + data.subCategory.name + "']").prop("selected", true).trigger('change');
+                    }, 1000)
+                    id.find('#name').val(data.name);
+                }
                 id.find('#about').val(data.about);
             } else {
                 id = $('#con-info-modal');

@@ -17,6 +17,7 @@ use App\Models\PropertyRelated\PropertyCategory\AssignCategory;
 use App\Models\PropertyRelated\PropertyCategory\ManageCategory;
 
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -174,6 +175,7 @@ class PropertyCategoryAdminController extends Controller
 
     public function updateManageCategory(Request $request)
     {
+        DB::beginTransaction();
         $values = $request->only('id', 'name', 'about', 'mainCategory', 'subCategory', 'type');
 
         try {
@@ -193,17 +195,21 @@ class PropertyCategoryAdminController extends Controller
                 $manageCategory->type = $values['type'];
                 if ($values['type'] == Config::get('constants.status.category.sub') || $values['type'] == Config::get('constants.status.category.nested')) {
                     $manageCategory->mainCategoryId = decrypt($values['mainCategory']);
+                    ManageCategory::where('subCategoryId', $id)->update(['mainCategoryId' => decrypt($values['mainCategory'])]);
                 }
                 if ($values['type'] == Config::get('constants.status.category.nested')) {
                     $manageCategory->subCategoryId = decrypt($values['subCategory']);
                 }
                 if ($manageCategory->update()) {
+                    DB::commit();
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Manage category'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
+                    DB::roleBack();
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Manage category'])['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {
+            DB::roleBack();
             return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
