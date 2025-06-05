@@ -91,7 +91,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Unique Id</th>
-                                        <th>Name</th>
+                                        <th>Main Category</th>
                                         <th>About</th>
                                         <th>Status</th>
                                         <th>Actions</th>
@@ -102,7 +102,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Unique Id</th>
-                                        <th>Name</th>
+                                        <th>Main Category</th>
                                         <th>About</th>
                                         <th>Status</th>
                                         <th>Actions</th>

@@ -644,10 +644,13 @@
                     data: "uniqueId"
                 },
                 {
-                    data: "name"
+                    data: "mainCategory",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.name).text();
+                    }
                 },
                 {
-                    data: "about"
+                    data: "name"
                 },
                 {
                     data: "customizeInText",
@@ -680,10 +683,19 @@
                     data: "uniqueId"
                 },
                 {
-                    data: "name"
+                    data: "mainCategory",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.name).text();
+                    }
                 },
                 {
-                    data: "about"
+                    data: "subCategory",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.name).text();
+                    }
+                },
+                {
+                    data: "name"
                 },
                 {
                     data: "customizeInText",

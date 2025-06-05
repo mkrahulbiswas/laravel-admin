@@ -52,6 +52,17 @@
                                             <div class="row gap-2">
                                                 <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                     <div class="form-icon set-validation">
+                                                        <select name="mainCategory" id="mainCategoryFilter" class="selectTwo select2-mainCategory mainCategoryDDD" data-action="{{ route('admin.get.mainCategoryDDD') }}">
+                                                            <option value="">Select Nav Type</option>
+                                                            @foreach ($data['mainCategory'] as $item)
+                                                                <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <i class="mdi mdi-list-status"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
+                                                    <div class="form-icon set-validation">
                                                         <select name="status" id="statusFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any status">
                                                             <option value="{{ config('constants.status')['active'] }}">{{ config('constants.status')['active'] }}</option>
                                                             <option value="{{ config('constants.status')['inactive'] }}">{{ config('constants.status')['inactive'] }}</option>
@@ -89,8 +100,8 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Unique Id</th>
-                                        <th>Name</th>
-                                        <th>About</th>
+                                        <th>Main Category</th>
+                                        <th>Sub Category</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -100,8 +111,8 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Unique Id</th>
-                                        <th>Name</th>
-                                        <th>About</th>
+                                        <th>Main Category</th>
+                                        <th>Sub Category</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
