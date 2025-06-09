@@ -14,6 +14,7 @@
 
 <head>
     @include('admin.includes.head', ['checkOne' => $checkFor])
+    @yield('headStyle')
 </head>
 
 @if ($count >= 2)

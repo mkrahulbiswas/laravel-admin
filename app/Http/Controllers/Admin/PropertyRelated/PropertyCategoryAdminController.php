@@ -319,7 +319,10 @@ class PropertyCategoryAdminController extends Controller
                         'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
                     ],
                     'otherDataPasses' => [
-                        'filterData' => ['status' => Config::get('constants.status.active'), 'type' => Config::get('constants.status.category.main')],
+                        'filterData' => [
+                            'status' => Config::get('constants.status.active'),
+                            'type' => Config::get('constants.status.category.main')
+                        ],
                         'orderBy' => ['id' => 'desc'],
                     ],
                 ],

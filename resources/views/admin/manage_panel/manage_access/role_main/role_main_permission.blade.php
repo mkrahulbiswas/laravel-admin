@@ -142,10 +142,16 @@
             </div>
         </div>
     </div>
+@endsection
 
+@section('headStyle')
     <style>
         #managePanel-manageAccess-permissionRoleMain thead {
             display: none;
         }
+
+        #managePanel-manageAccess-permissionRoleMain tbody tr td {
+            padding: 0;
+        }
     </style>
-@endsection
+@stop

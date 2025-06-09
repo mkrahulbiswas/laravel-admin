@@ -668,27 +668,27 @@ class ManageAccessAdminController extends Controller
             return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Sub", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
-        try {
-            $setPermission = GetManageAccessHelper::setPermission([
-                [
-                    'checkFirst' => [
-                        'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
-                        'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
-                    ],
-                    'otherDataPasses' => [
-                        'roleMainId' => RoleSub::where('id', $id)->first()->roleMainId,
-                        'roleSubId' => $id,
-                    ]
+        // try {
+        $setPermission = GetManageAccessHelper::setPermission([
+            [
+                'checkFirst' => [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
+                    'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
+                ],
+                'otherDataPasses' => [
+                    'roleMainId' => RoleSub::where('id', $id)->first()->roleMainId,
+                    'roleSubId' => $id,
                 ]
-            ]);
-            if ($setPermission) {
-                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], Config::get('constants.errorCode.ok'));
-            } else {
-                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
-            }
-        } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Sub", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            ]
+        ]);
+        if ($setPermission) {
+            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], Config::get('constants.errorCode.ok'));
+        } else {
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
         }
+        // } catch (Exception $e) {
+        //     return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Sub", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        // }
     }
 
     public function statusRoleSub($id)

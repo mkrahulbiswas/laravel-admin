@@ -401,7 +401,7 @@ class GetPropertyCategoryHelper
                                         ]
                                     ],
                                 ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'],
-                                'manageCategory' => GetPropertyCategoryHelper::getDetail([
+                                'mainCategory' => GetPropertyCategoryHelper::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],

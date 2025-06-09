@@ -366,7 +366,7 @@ trait CommonTrait
                                             }
                                             $navHtml .= '</div></div></div></div>';
                                         } else {
-                                            $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight">There some nav nested found.....</div></div>';
+                                            $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight"></div></div>';
                                             foreach ($tempFour['navNested'] as $tempFive) {
                                                 $permission = GetManageAccessHelper::getDetail([
                                                     [
@@ -596,33 +596,82 @@ trait CommonTrait
 
     public static function getNavAccessList($params = null)
     {
-        try {
-            $finalData = array();
-            foreach ($params as $tempOne) {
-                [
-                    'checkFirst' => $checkFirst,
-                    'otherDataPasses' => $otherDataPasses,
-                ] = $tempOne;
-                if (Config::get('constants.typeCheck.helperCommon.access.al') == $checkFirst['type']) {
-                    $access = $privilege = $finalData = array();
-                    foreach (Config::get('constants.rolePermission.accessType') as $temp) {
+        // try {
+        $finalData = array();
+        foreach ($params as $tempOne) {
+            [
+                'checkFirst' => $checkFirst,
+                'otherDataPasses' => $otherDataPasses,
+            ] = $tempOne;
+            if (Config::get('constants.typeCheck.helperCommon.access.ay') == $checkFirst['type']) {
+                $access = $privilege = $finalData = array();
+                foreach (Config::get('constants.rolePermission.accessType') as $temp) {
+                    $access = Arr::prepend($access, true, $temp);
+                    $privilege = Arr::prepend(
+                        $privilege,
+                        [
+                            'allowed' => true,
+                            'permission' => true
+                        ],
+                        $temp
+                    );
+                }
+                $finalData[Config::get('constants.typeCheck.helperCommon.access.ay')] = [
+                    'access' => $access,
+                    'privilege' => $privilege,
+                ];
+            }
+            if (Config::get('constants.typeCheck.helperCommon.access.an') == $checkFirst['type']) {
+                $access = $privilege = $finalData = array();
+                foreach (Config::get('constants.rolePermission.accessType') as $temp) {
+                    $access = Arr::prepend($access, false, $temp);
+                    $privilege = Arr::prepend(
+                        $privilege,
+                        [
+                            'allowed' => false,
+                            'permission' => false
+                        ],
+                        $temp
+                    );
+                }
+                $finalData[Config::get('constants.typeCheck.helperCommon.access.an')] = [
+                    'access' => $access,
+                    'privilege' => $privilege,
+                ];
+            }
+            if (Config::get('constants.typeCheck.helperCommon.access.fns') == $checkFirst['type']) {
+                $access = $privilege = $finalData = array();
+                foreach (Config::get('constants.rolePermission.accessType') as $temp) {
+                    if (Arr::only($otherDataPasses['access'], [$temp])) {
                         $access = Arr::prepend($access, true, $temp);
                         $privilege = Arr::prepend(
                             $privilege,
                             [
                                 'allowed' => true,
-                                'permission' => true
+                                'permission' => false
+                            ],
+                            $temp
+                        );
+                    } else {
+                        $access = Arr::prepend($access, false, $temp);
+                        $privilege = Arr::prepend(
+                            $privilege,
+                            [
+                                'allowed' => false,
+                                'permission' => false
                             ],
                             $temp
                         );
                     }
-                    $finalData[Config::get('constants.typeCheck.helperCommon.access.al')] = [
-                        'access' => $access,
-                        'privilege' => $privilege,
-                    ];
                 }
-                if (Config::get('constants.typeCheck.helperCommon.access.an') == $checkFirst['type']) {
-                    $access = $privilege = $finalData = array();
+                $finalData[Config::get('constants.typeCheck.helperCommon.access.fns')] = [
+                    'access' => $access,
+                    'privilege' => $privilege,
+                ];
+            }
+            if (Config::get('constants.typeCheck.helperCommon.access.frs') == $checkFirst['type']) {
+                $access = $privilege = $finalData = array();
+                if ($otherDataPasses['access'] == null) {
                     foreach (Config::get('constants.rolePermission.accessType') as $temp) {
                         $access = Arr::prepend($access, false, $temp);
                         $privilege = Arr::prepend(
@@ -634,43 +683,7 @@ trait CommonTrait
                             $temp
                         );
                     }
-                    $finalData[Config::get('constants.typeCheck.helperCommon.access.an')] = [
-                        'access' => $access,
-                        'privilege' => $privilege,
-                    ];
-                }
-                if (Config::get('constants.typeCheck.helperCommon.access.bm.fns') == $checkFirst['type']) {
-                    $access = $privilege = $finalData = array();
-                    foreach (Config::get('constants.rolePermission.accessType') as $temp) {
-                        if (Arr::only($otherDataPasses['access'], [$temp])) {
-                            $access = Arr::prepend($access, true, $temp);
-                            $privilege = Arr::prepend(
-                                $privilege,
-                                [
-                                    'allowed' => true,
-                                    'permission' => false
-                                ],
-                                $temp
-                            );
-                        } else {
-                            $access = Arr::prepend($access, false, $temp);
-                            $privilege = Arr::prepend(
-                                $privilege,
-                                [
-                                    'allowed' => false,
-                                    'permission' => false
-                                ],
-                                $temp
-                            );
-                        }
-                    }
-                    $finalData[Config::get('constants.typeCheck.helperCommon.access.bm.fns')] = [
-                        'access' => $access,
-                        'privilege' => $privilege,
-                    ];
-                }
-                if (Config::get('constants.typeCheck.helperCommon.access.bm.frs') == $checkFirst['type']) {
-                    $access = $privilege = $finalData = array();
+                } else {
                     foreach ($otherDataPasses['access'] as $key => $temp) {
                         if ($temp == true) {
                             $access = Arr::prepend($access, true, $key);
@@ -694,16 +707,17 @@ trait CommonTrait
                             );
                         }
                     }
-                    $finalData[Config::get('constants.typeCheck.helperCommon.access.bm.frs')] = [
-                        'access' => $access,
-                        'privilege' => $privilege,
-                    ];
                 }
+                $finalData[Config::get('constants.typeCheck.helperCommon.access.frs')] = [
+                    'access' => $access,
+                    'privilege' => $privilege,
+                ];
             }
-            return $finalData;
-        } catch (Exception $e) {
-            return false;
         }
+        return $finalData;
+        // } catch (Exception $e) {
+        //     return false;
+        // }
     }
 
     // public static function getNavAccessList($params = null)
