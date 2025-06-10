@@ -69,7 +69,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="tdFilterForm p-3">
-                                            <form id="filterNavNestedForm" method="POST" action="{{ route('admin.get.navNested') }}" class="m-b-20">
+                                            <form id="filterNavNestedForm" method="POST" action="{{ route('admin.get.nestedNav') }}" class="m-b-20">
                                                 @csrf
                                                 <div class="row gap-2">
 
@@ -179,7 +179,7 @@
     <div id="con-add-modal" class="modal fade con-add-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="saveNavNestedForm" action="{{ route('admin.save.navNested') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="saveNavNestedForm" action="{{ route('admin.save.nestedNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalLabel">Add Nested type</h5>
@@ -266,7 +266,7 @@
     <div id="con-edit-modal" class="modal fade con-edit-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="updateNavNestedForm" action="{{ route('admin.update.navNested') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="updateNavNestedForm" action="{{ route('admin.update.nestedNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
@@ -355,7 +355,7 @@
     <div id="con-access-modal" class="modal fade con-access-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="accessNavNestedForm" action="{{ route('admin.access.navNested') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="accessNavNestedForm" action="{{ route('admin.access.nestedNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">

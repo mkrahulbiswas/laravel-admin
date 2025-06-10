@@ -69,7 +69,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="tdFilterForm p-3">
-                                            <form id="filterNavSubForm" method="POST" action="{{ route('admin.get.navSub') }}" class="m-b-20">
+                                            <form id="filterNavSubForm" method="POST" action="{{ route('admin.get.subNav') }}" class="m-b-20">
                                                 @csrf
                                                 <div class="row gap-2">
 
@@ -169,7 +169,7 @@
     <div id="con-add-modal" class="modal fade con-add-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="saveNavSubForm" action="{{ route('admin.save.navSub') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="saveNavSubForm" action="{{ route('admin.save.subNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalLabel">Add Sub Nav</h5>
@@ -250,7 +250,7 @@
     <div id="con-edit-modal" class="modal fade con-edit-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="updateNavSubForm" action="{{ route('admin.update.navSub') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="updateNavSubForm" action="{{ route('admin.update.subNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
@@ -331,7 +331,7 @@
     <div id="con-access-modal" class="modal fade con-access-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="accessNavSubForm" action="{{ route('admin.access.navSub') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="accessNavSubForm" action="{{ route('admin.access.subNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
