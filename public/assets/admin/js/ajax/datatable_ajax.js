@@ -337,7 +337,7 @@
             info: false,
             searching: false,
             serverSide: true,
-            ajax: "main-role/ajaxGetList/?roleMainId=" + $('#managePanel-manageAccess-permissionRoleMain').attr('data-id'),
+            ajax: "main-role/ajaxGetList/?mainRoleId=" + $('#managePanel-manageAccess-permissionRoleMain').attr('data-id'),
             language: {
                 searchPlaceholder: "None"
             },
@@ -391,7 +391,7 @@
             info: false,
             searching: false,
             serverSide: true,
-            ajax: "sub-role/ajaxGetList/?roleSubId=" + $('#managePanel-manageAccess-permissionRoleSub').attr('data-id'),
+            ajax: "sub-role/ajaxGetList/?subRoleId=" + $('#managePanel-manageAccess-permissionRoleSub').attr('data-id'),
             language: {
                 searchPlaceholder: "None"
             },

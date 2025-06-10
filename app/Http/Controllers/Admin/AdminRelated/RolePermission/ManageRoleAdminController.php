@@ -41,7 +41,7 @@ class ManageRoleAdminController extends Controller
     public function getMainRole(Request $request)
     {
         // try {
-        $roleMain = GetManageAccessHelper::getList([
+        $mainRole = GetManageAccessHelper::getList([
             [
                 'getList' => [
                     'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -66,7 +66,7 @@ class ManageRoleAdminController extends Controller
             ]
         ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
 
-        return Datatables::of($roleMain)
+        return Datatables::of($mainRole)
             ->addIndexColumn()
             ->addColumn('description', function ($data) {
                 $description = $this->subStrString(40, $data['description'], '....');
@@ -173,13 +173,13 @@ class ManageRoleAdminController extends Controller
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
 
-                $roleMain = new MainRole();
-                $roleMain->name = $values['name'];
-                $roleMain->description = $values['description'];
-                $roleMain->uniqueId = $this->generateCode(['preString' => 'RM', 'length' => 6, 'model' => MainRole::class, 'field' => '']);
-                $roleMain->status = Config::get('constants.status')['active'];
+                $mainRole = new MainRole();
+                $mainRole->name = $values['name'];
+                $mainRole->description = $values['description'];
+                $mainRole->uniqueId = $this->generateCode(['preString' => 'RM', 'length' => 6, 'model' => MainRole::class, 'field' => '']);
+                $mainRole->status = Config::get('constants.status')['active'];
 
-                if ($roleMain->save()) {
+                if ($mainRole->save()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Main role", 'msg' => __('messages.saveMsg', ['type' => 'Main role'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Main role", 'msg' => __('messages.saveMsg', ['type' => 'Main role'])['failed']], Config::get('constants.errorCode.ok'));
@@ -205,12 +205,12 @@ class ManageRoleAdminController extends Controller
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                $roleMain = MainRole::find($id);
+                $mainRole = MainRole::find($id);
 
-                $roleMain->name = $values['name'];
-                $roleMain->description = $values['description'];
+                $mainRole->name = $values['name'];
+                $mainRole->description = $values['description'];
 
-                if ($roleMain->update()) {
+                if ($mainRole->update()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Main role", 'msg' => __('messages.updateMsg', ['type' => 'Main role'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Main role", 'msg' => __('messages.updateMsg', ['type' => 'Main role'])['failed']], Config::get('constants.errorCode.ok'));
@@ -237,7 +237,7 @@ class ManageRoleAdminController extends Controller
                         'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
                     ],
                     'otherDataPasses' => [
-                        'roleMainId' => $id,
+                        'mainRoleId' => $id,
                     ]
                 ]
             ]);
@@ -294,12 +294,12 @@ class ManageRoleAdminController extends Controller
                 [
                     'model' => SubRole::class,
                     'picUrl' => [],
-                    'filter' => [['search' => $id, 'field' => 'roleMainId']],
+                    'filter' => [['search' => $id, 'field' => 'mainRoleId']],
                 ],
                 [
                     'model' => Permission::class,
                     'picUrl' => [],
-                    'filter' => [['search' => $id, 'field' => 'roleMainId']],
+                    'filter' => [['search' => $id, 'field' => 'mainRoleId']],
                 ],
             ]);
             if ($result === true) {
@@ -312,7 +312,7 @@ class ManageRoleAdminController extends Controller
         }
     }
 
-    public function showPermissionMainRole($roleMainId)
+    public function showPermissionMainRole($mainRoleId)
     {
         try {
             $navType = GetManageNavHelper::getList([
@@ -334,7 +334,7 @@ class ManageRoleAdminController extends Controller
 
             $data = [
                 'navType' => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
-                'roleMainId' => $roleMainId
+                'mainRoleId' => $mainRoleId
             ];
 
             return view('admin.admin_related.role_permission.manage_role.main_role.main_role_permission', ['data' => $data]);
@@ -380,7 +380,7 @@ class ManageRoleAdminController extends Controller
                             'otherDataPasses' => [
                                 'permission' => [
                                     'model' => Permission::class,
-                                    'roleMainId' => request()->roleMainId
+                                    'mainRoleId' => request()->mainRoleId
                                 ],
                                 'getPrivilege' => $getPrivilege
                             ]
@@ -449,7 +449,7 @@ class ManageRoleAdminController extends Controller
     public function showSubRole()
     {
         try {
-            $roleMain = GetManageAccessHelper::getList([
+            $mainRole = GetManageAccessHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -465,7 +465,7 @@ class ManageRoleAdminController extends Controller
             ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $data = [
-                'roleMain' => $roleMain,
+                'roleMain' => $mainRole,
             ];
 
             return view('admin.admin_related.role_permission.manage_role.sub_role.sub_role_list', ['data' => $data]);
@@ -477,7 +477,7 @@ class ManageRoleAdminController extends Controller
     public function getSubRole(Request $request)
     {
         try {
-            $roleSub = GetManageAccessHelper::getList([
+            $subRole = GetManageAccessHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
@@ -486,7 +486,7 @@ class ManageRoleAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $request->status,
-                            'roleMainId' => $request->roleMain
+                            'mainRoleId' => $request->roleMain
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -502,7 +502,7 @@ class ManageRoleAdminController extends Controller
                 ]
             ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
 
-            return Datatables::of($roleSub)
+            return Datatables::of($subRole)
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -517,8 +517,8 @@ class ManageRoleAdminController extends Controller
                     return $status;
                 })
                 ->addColumn(Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'), function ($data) {
-                    $roleMain = $data[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')]['name'];
-                    return $roleMain;
+                    $mainRole = $data[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')]['name'];
+                    return $mainRole;
                 })
                 ->addColumn('action', function ($data) use ($getPrivilege) {
                     if ($getPrivilege['status']['permission'] == true) {
@@ -589,14 +589,14 @@ class ManageRoleAdminController extends Controller
                 if (MainRole::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Sub role", 'msg' => __('messages.notAllowMsg')], Config::get('constants.errorCode.ok'));
                 } else {
-                    $roleSub = new SubRole();
-                    $roleSub->name = $values['name'];
-                    $roleSub->roleMainId = decrypt($values['roleMain']);
-                    $roleSub->description = $values['description'];
-                    $roleSub->uniqueId = $this->generateCode(['preString' => 'RS', 'length' => 6, 'model' => SubRole::class, 'field' => '']);
-                    $roleSub->status = Config::get('constants.status')['active'];
+                    $subRole = new SubRole();
+                    $subRole->name = $values['name'];
+                    $subRole->mainRoleId = decrypt($values['roleMain']);
+                    $subRole->description = $values['description'];
+                    $subRole->uniqueId = $this->generateCode(['preString' => 'RS', 'length' => 6, 'model' => SubRole::class, 'field' => '']);
+                    $subRole->status = Config::get('constants.status')['active'];
 
-                    if ($roleSub->save()) {
+                    if ($subRole->save()) {
                         return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Sub role", 'msg' => __('messages.saveMsg', ['type' => 'Sub role'])['success']], Config::get('constants.errorCode.ok'));
                     } else {
                         return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Sub role", 'msg' => __('messages.saveMsg', ['type' => 'Sub role'])['failed']], Config::get('constants.errorCode.ok'));
@@ -623,13 +623,13 @@ class ManageRoleAdminController extends Controller
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                $roleSub = SubRole::find($id);
+                $subRole = SubRole::find($id);
 
-                $roleSub->name = $values['name'];
-                $roleSub->roleMainId = decrypt($values['roleMain']);
-                $roleSub->description = $values['description'];
+                $subRole->name = $values['name'];
+                $subRole->mainRoleId = decrypt($values['roleMain']);
+                $subRole->description = $values['description'];
 
-                if ($roleSub->update()) {
+                if ($subRole->update()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Sub role", 'msg' => __('messages.updateMsg', ['type' => 'Sub role'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Sub role", 'msg' => __('messages.updateMsg', ['type' => 'Sub role'])['failed']], Config::get('constants.errorCode.ok'));
@@ -656,8 +656,8 @@ class ManageRoleAdminController extends Controller
                     'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
                 ],
                 'otherDataPasses' => [
-                    'roleMainId' => SubRole::where('id', $id)->first()->roleMainId,
-                    'roleSubId' => $id,
+                    'mainRoleId' => SubRole::where('id', $id)->first()->mainRoleId,
+                    'subRoleId' => $id,
                 ]
             ]
         ]);
@@ -714,7 +714,7 @@ class ManageRoleAdminController extends Controller
                 [
                     'model' => Permission::class,
                     'picUrl' => [],
-                    'filter' => [['search' => $id, 'field' => 'roleSubId']],
+                    'filter' => [['search' => $id, 'field' => 'subRoleId']],
                 ],
             ]);
             if ($result === true) {
@@ -727,7 +727,7 @@ class ManageRoleAdminController extends Controller
         }
     }
 
-    public function showPermissionSubRole($roleSubId)
+    public function showPermissionSubRole($subRoleId)
     {
         try {
             $navType = GetManageNavHelper::getList([
@@ -749,7 +749,7 @@ class ManageRoleAdminController extends Controller
 
             $data = [
                 'navType' => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
-                'roleSubId' => $roleSubId
+                'subRoleId' => $subRoleId
             ];
 
             return view('admin.admin_related.role_permission.manage_role.sub_role.sub_role_permission', ['data' => $data]);
@@ -795,8 +795,8 @@ class ManageRoleAdminController extends Controller
                             'otherDataPasses' => [
                                 'permission' => [
                                     'model' => Permission::class,
-                                    'roleMainId' => encrypt(SubRole::where('id', decrypt(request()->roleSubId))->first()->roleMainId),
-                                    'roleSubId' => request()->roleSubId
+                                    'mainRoleId' => encrypt(SubRole::where('id', decrypt(request()->subRoleId))->first()->mainRoleId),
+                                    'subRoleId' => request()->subRoleId
                                 ],
                                 'getPrivilege' => $getPrivilege
                             ]
@@ -878,7 +878,7 @@ class ManageRoleAdminController extends Controller
     public function getPermissions(Request $request)
     {
         try {
-            $roleSub = GetManageAccessHelper::getList([
+            $subRole = GetManageAccessHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
@@ -887,7 +887,7 @@ class ManageRoleAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $request->status,
-                            'roleMainId' => $request->roleMain
+                            'mainRoleId' => $request->roleMain
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -896,7 +896,7 @@ class ManageRoleAdminController extends Controller
                 ],
             ]);
 
-            return Datatables::of($roleSub[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
+            return Datatables::of($subRole[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -911,8 +911,8 @@ class ManageRoleAdminController extends Controller
                     return $status;
                 })
                 ->addColumn(Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'), function ($data) {
-                    $roleMain = $data[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')]['name'];
-                    return $roleMain;
+                    $mainRole = $data[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')]['name'];
+                    return $mainRole;
                 })
                 ->addColumn('action', function ($data) {
 
@@ -989,13 +989,13 @@ class ManageRoleAdminController extends Controller
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                $roleSub = SubRole::find($id);
+                $subRole = SubRole::find($id);
 
-                $roleSub->name = $values['name'];
-                $roleSub->roleMainId = decrypt($values['roleMain']);
-                $roleSub->description = $values['description'];
+                $subRole->name = $values['name'];
+                $subRole->mainRoleId = decrypt($values['roleMain']);
+                $subRole->description = $values['description'];
 
-                if ($roleSub->update()) {
+                if ($subRole->update()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Sub role", 'msg' => __('messages.updateMsg', ['type' => 'Sub role'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Sub role", 'msg' => __('messages.updateMsg', ['type' => 'Sub role'])['failed']], Config::get('constants.errorCode.ok'));

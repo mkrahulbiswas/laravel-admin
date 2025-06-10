@@ -63,34 +63,34 @@ class AuthAdminController extends Controller
                     if ($adminUsers->status == 0) {
                         return response()->json(['status' => 0, 'msg' => 'You are blocked by admin'], Config::get('constants.errorCode.ok'));
                     } else {
-                        $roleMain = GetManageAccessHelper::getDetail([
+                        $mainRole = GetManageAccessHelper::getDetail([
                             [
                                 'getDetail' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                                     'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                                 ],
                                 'otherDataPasses' => [
-                                    'id' => encrypt($adminUsers->roleMainId)
+                                    'id' => encrypt($adminUsers->mainRoleId)
                                 ]
                             ],
                         ]);
-                        if ($roleMain == false) {
+                        if ($mainRole == false) {
                             return response()->json(['status' => 0, 'msg' => 'Oops! we could not detect your role (main), please contact with administrator.'], Config::get('constants.errorCode.ok'));
                         } else {
-                            $roleMain = $roleMain[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
-                            if ($roleMain['extraData']['hasRoleSub'] > 0) {
-                                $roleSub = GetManageAccessHelper::getDetail([
+                            $mainRole = $mainRole[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            if ($mainRole['extraData']['hasRoleSub'] > 0) {
+                                $subRole = GetManageAccessHelper::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                                             'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                                         ],
                                         'otherDataPasses' => [
-                                            'id' => encrypt($adminUsers->roleSubId)
+                                            'id' => encrypt($adminUsers->subRoleId)
                                         ]
                                     ],
                                 ]);
-                                if ($roleSub == false) {
+                                if ($subRole == false) {
                                     return response()->json(['status' => 0, 'msg' => 'Oops! we could not detect your role (sub), please contact with administrator.'], Config::get('constants.errorCode.ok'));
                                 } else {
                                     goto login;

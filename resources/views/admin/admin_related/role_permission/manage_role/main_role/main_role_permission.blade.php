@@ -130,8 +130,8 @@
                             <div class="tdContentSub">
                                 <form action="{{ route('admin.update.permissionRoleMain') }}" method="POST" id="updatePermissionRoleMainForm">
                                     @csrf
-                                    <input type="hidden" name="roleMainId" value="{{ $data['roleMainId'] }}">
-                                    <table id="managePanel-manageAccess-permissionRoleMain" data-id="{{ $data['roleMainId'] }}" class="table table-bordered dt-responsive nowrap align-middle" cellspacing="0" width="100%">
+                                    <input type="hidden" name="mainRoleId" value="{{ $data['mainRoleId'] }}">
+                                    <table id="managePanel-manageAccess-permissionRoleMain" data-id="{{ $data['mainRoleId'] }}" class="table table-bordered dt-responsive nowrap align-middle" cellspacing="0" width="100%">
                                         <tbody></tbody>
                                     </table>
                                 </form>

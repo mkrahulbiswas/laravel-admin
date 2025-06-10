@@ -109,7 +109,7 @@ trait ValidationTrait
                     'name' => ['required', 'max:20', new UniqueManageRole([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
-                        'roleMainId' => $data['input']['roleMain']
+                        'mainRoleId' => $data['input']['roleMain']
                     ])],
                     'roleMain' => 'required',
                     'description' => 'required',
@@ -121,7 +121,7 @@ trait ValidationTrait
                     'name' => ['required', 'max:20', new UniqueManageRole([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
-                        'roleMainId' => $data['input']['roleMain']
+                        'mainRoleId' => $data['input']['roleMain']
                     ])],
                     'roleMain' => 'required',
                     'description' => 'required',

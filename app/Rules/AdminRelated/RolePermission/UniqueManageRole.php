@@ -39,7 +39,7 @@ class UniqueManageRole implements ValidationRule
             } else {
                 $isExist = SubRole::where([
                     ['name', $value],
-                    ['roleMainId', decrypt($this->data['roleMainId'])],
+                    ['mainRoleId', decrypt($this->data['mainRoleId'])],
                     ['id', '!=', $this->data['targetId']]
                 ])->get();
             }

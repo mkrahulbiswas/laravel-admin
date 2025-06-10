@@ -127,8 +127,8 @@ class GetManageUsersHelper
                                     'fileName' => $adminUsers->image,
                                     'storage' => Config::get('constants.storage')['adminUsers']
                                 ]),
-                                'roleMainId' =>  $adminUsers->roleMainId,
-                                'roleSubId' =>  $adminUsers->roleSubId,
+                                'mainRoleId' =>  $adminUsers->mainRoleId,
+                                'subRoleId' =>  $adminUsers->subRoleId,
                                 'email' =>  $adminUsers->email,
                                 'phone' =>  $adminUsers->phone,
                                 'pinCode' =>  $usersInfo->pinCode,
@@ -156,31 +156,31 @@ class GetManageUsersHelper
                                 ['userId', $adminUsers->id],
                                 ['userType', Config::get('constants.userType.admin')]
                             ])->first();
-                            $roleMain = GetManageAccessHelper::getDetail([
+                            $mainRole = GetManageAccessHelper::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                                         'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                                     ],
                                     'otherDataPasses' => [
-                                        'id' => encrypt($adminUsers->roleMainId)
+                                        'id' => encrypt($adminUsers->mainRoleId)
                                     ]
                                 ],
                             ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
-                            if ($adminUsers->roleSubId != null) {
-                                $roleSub = GetManageAccessHelper::getDetail([
+                            if ($adminUsers->subRoleId != null) {
+                                $subRole = GetManageAccessHelper::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
                                             'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                                         ],
                                         'otherDataPasses' => [
-                                            'id' => encrypt($adminUsers->roleSubId)
+                                            'id' => encrypt($adminUsers->subRoleId)
                                         ]
                                     ],
                                 ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                             } else {
-                                $roleSub = [];
+                                $subRole = [];
                             }
                             $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
                                 'id' => encrypt($adminUsers->id),
@@ -190,8 +190,8 @@ class GetManageUsersHelper
                                     'fileName' => $adminUsers->image,
                                     'storage' => Config::get('constants.storage')['adminUsers']
                                 ]),
-                                'roleMain' =>  $roleMain,
-                                'roleSub' =>  $roleSub,
+                                'roleMain' =>  $mainRole,
+                                'roleSub' =>  $subRole,
                                 'email' =>  $adminUsers->email,
                                 'phone' =>  $adminUsers->phone,
                                 'pinCode' =>  $usersInfo->pinCode,

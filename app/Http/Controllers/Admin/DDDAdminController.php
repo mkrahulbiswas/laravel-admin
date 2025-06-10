@@ -95,7 +95,7 @@ class DDDAdminController extends Controller
     }
 
     /*------ ( Get Sub Role ) -------*/
-    public function getRoleSub($roleMainId)
+    public function getRoleSub($mainRoleId)
     {
         try {
             $navSub = GetManageAccessHelper::getList([
@@ -107,7 +107,7 @@ class DDDAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
-                            'roleMainId' => $roleMainId,
+                            'mainRoleId' => $mainRoleId,
                         ],
                         'orderBy' => [
                             'id' => 'desc'

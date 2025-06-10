@@ -297,8 +297,8 @@ trait CommonTrait
                                             'filterData' => [
                                                 'navTypeId' => $tempTwo['id'],
                                                 'navMainId' => $tempThree['id'],
-                                                'roleSubId' => isset($tempOne['otherDataPasses']['permission']['roleSubId']) ? $tempOne['otherDataPasses']['permission']['roleSubId'] : '',
-                                                'roleMainId' => $tempOne['otherDataPasses']['permission']['roleMainId'],
+                                                'subRoleId' => isset($tempOne['otherDataPasses']['permission']['subRoleId']) ? $tempOne['otherDataPasses']['permission']['subRoleId'] : '',
+                                                'mainRoleId' => $tempOne['otherDataPasses']['permission']['mainRoleId'],
                                             ]
                                         ]
                                     ],
@@ -338,8 +338,8 @@ trait CommonTrait
                                                         'navTypeId' => $tempTwo['id'],
                                                         'navMainId' => $tempThree['id'],
                                                         'navSubId' => $tempFour['id'],
-                                                        'roleSubId' => isset($tempOne['otherDataPasses']['permission']['roleSubId']) ? $tempOne['otherDataPasses']['permission']['roleSubId'] : '',
-                                                        'roleMainId' => $tempOne['otherDataPasses']['permission']['roleMainId'],
+                                                        'subRoleId' => isset($tempOne['otherDataPasses']['permission']['subRoleId']) ? $tempOne['otherDataPasses']['permission']['subRoleId'] : '',
+                                                        'mainRoleId' => $tempOne['otherDataPasses']['permission']['mainRoleId'],
                                                     ]
                                                 ]
                                             ],
@@ -380,8 +380,8 @@ trait CommonTrait
                                                                 'navMainId' => $tempThree['id'],
                                                                 'navSubId' => $tempFour['id'],
                                                                 'navNestedId' => $tempFive['id'],
-                                                                'roleSubId' => isset($tempOne['otherDataPasses']['permission']['roleSubId']) ? $tempOne['otherDataPasses']['permission']['roleSubId'] : '',
-                                                                'roleMainId' => $tempOne['otherDataPasses']['permission']['roleMainId'],
+                                                                'subRoleId' => isset($tempOne['otherDataPasses']['permission']['subRoleId']) ? $tempOne['otherDataPasses']['permission']['subRoleId'] : '',
+                                                                'mainRoleId' => $tempOne['otherDataPasses']['permission']['mainRoleId'],
                                                             ]
                                                         ]
                                                     ],
