@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin\PropertyRelated;
 
 use App\Http\Controllers\Controller;
 
+use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
+use App\Helpers\PropertyRelated\GetPropertyCategoryHelper;
+use App\Helpers\PropertyRelated\GetPropertyTypeHelper;
+
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
-
-use App\Helpers\ManagePanel\GetManageAccessHelper;
-use App\Helpers\PropertyRelated\GetPropertyCategoryHelper;
-use App\Helpers\PropertyRelated\GetPropertyTypeHelper;
 
 use App\Models\PropertyRelated\ManageBroad\AssignBroad;
 use App\Models\PropertyRelated\PropertyCategory\AssignCategory;
@@ -79,7 +79,7 @@ class PropertyCategoryAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = ManageRoleHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -363,7 +363,7 @@ class PropertyCategoryAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = ManageRoleHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []

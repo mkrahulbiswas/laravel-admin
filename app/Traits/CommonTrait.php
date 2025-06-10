@@ -2,7 +2,8 @@
 
 namespace app\Traits;
 
-use App\Helpers\ManagePanel\GetManageAccessHelper;
+use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
@@ -287,7 +288,7 @@ trait CommonTrait
                         } else {
                             $navHtml .= '<div class="npbType"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempTwo['name'] . '</span></div></div>';
                             foreach ($tempTwo['navMain'] as $tempThree) {
-                                $permission = GetManageAccessHelper::getDetail([
+                                $permission = ManageRoleHelper::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -327,7 +328,7 @@ trait CommonTrait
                                 } else {
                                     $navHtml .= '<div class="npbMain"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempThree['name'] . '</span></div></div>';
                                     foreach ($tempThree['navSub'] as $tempFour) {
-                                        $permission = GetManageAccessHelper::getDetail([
+                                        $permission = ManageRoleHelper::getDetail([
                                             [
                                                 'getDetail' => [
                                                     'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -368,7 +369,7 @@ trait CommonTrait
                                         } else {
                                             $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight"></div></div>';
                                             foreach ($tempFour['navNested'] as $tempFive) {
-                                                $permission = GetManageAccessHelper::getDetail([
+                                                $permission = ManageRoleHelper::getDetail([
                                                     [
                                                         'getDetail' => [
                                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],

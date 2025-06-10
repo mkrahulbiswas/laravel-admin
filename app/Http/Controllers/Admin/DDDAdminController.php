@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
-use App\Helpers\ManagePanel\GetManageAccessHelper;
+use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
 use App\Helpers\ManagePanel\GetManageNavHelper;
 use App\Helpers\PropertyRelated\GetManageBroadHelper;
 use App\Helpers\PropertyRelated\GetPropertyCategoryHelper;
@@ -98,7 +98,7 @@ class DDDAdminController extends Controller
     public function getSubRole($mainRoleId)
     {
         try {
-            $navSub = GetManageAccessHelper::getList([
+            $navSub = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],

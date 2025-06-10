@@ -2,10 +2,12 @@
 
 namespace app\Traits;
 
-use App\Helpers\ManagePanel\GetManageAccessHelper;
+use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
+
 use App\Rules\ManagePanel\UniqueManageNav;
 use App\Rules\PropertyRelated\UniquePropertyAttribute;
 use App\Rules\AdminRelated\RolePermission\UniqueManageRole;
+
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
@@ -279,7 +281,7 @@ trait ValidationTrait
                     'about' => 'max:500',
                 ];
                 if ($data['input']['mainRole'] != '') {
-                    $getDetail = GetManageAccessHelper::getDetail([
+                    $getDetail = ManageRoleHelper::getDetail([
                         [
                             'getDetail' => [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -310,7 +312,7 @@ trait ValidationTrait
                     'about' => 'max:500',
                 ];
                 if ($data['input']['mainRole'] != '') {
-                    $getDetail = GetManageAccessHelper::getDetail([
+                    $getDetail = ManageRoleHelper::getDetail([
                         [
                             'getDetail' => [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],

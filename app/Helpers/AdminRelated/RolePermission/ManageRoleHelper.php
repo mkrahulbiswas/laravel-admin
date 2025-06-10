@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Helpers\ManagePanel;
+namespace App\Helpers\AdminRelated\RolePermission;
 
 use App\Models\AdminRelated\RolePermission\ManageRole\MainRole;
 use App\Models\AdminRelated\RolePermission\ManageRole\SubRole;
 use App\Models\ManagePanel\ManageAccess\Permission;
+
+use App\Helpers\ManagePanel\GetManageNavHelper;
 
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
@@ -15,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
-class GetManageAccessHelper
+class ManageRoleHelper
 {
     use FileTrait, CommonTrait;
     public $platform = 'backend';
@@ -58,7 +60,7 @@ class GetManageAccessHelper
                     }
 
                     foreach (MainRole::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                        $mainRole[] = GetManageAccessHelper::getDetail([
+                        $mainRole[] = ManageRoleHelper::getDetail([
                             [
                                 'getDetail' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -161,7 +163,7 @@ class GetManageAccessHelper
                     }
 
                     foreach (SubRole::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                        $subRole[] = GetManageAccessHelper::getDetail([
+                        $subRole[] = ManageRoleHelper::getDetail([
                             [
                                 'getDetail' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -217,7 +219,7 @@ class GetManageAccessHelper
                     }
 
                     foreach (SubRole::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                        $subRole[] = GetManageAccessHelper::getDetail([
+                        $subRole[] = ManageRoleHelper::getDetail([
                             [
                                 'getDetail' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
@@ -385,7 +387,7 @@ class GetManageAccessHelper
                         'extraData' => [
                             'hasPermission' => $permission,
                         ],
-                        Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type') => GetManageAccessHelper::getDetail([
+                        Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type') => ManageRoleHelper::getDetail([
                             [
                                 'getDetail' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -514,7 +516,7 @@ class GetManageAccessHelper
                         ],
                     ])[$otherDataPasses['for']][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
 
-                    $mainRole = GetManageAccessHelper::getList([
+                    $mainRole = ManageRoleHelper::getList([
                         [
                             'getList' => [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -563,7 +565,7 @@ class GetManageAccessHelper
                                     goto a;
                                 }
                             } else {
-                                $subRole = GetManageAccessHelper::getList([
+                                $subRole = ManageRoleHelper::getList([
                                     [
                                         'getList' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
@@ -764,7 +766,7 @@ class GetManageAccessHelper
                         ]
                     ])[Config::get('constants.typeCheck.helperCommon.nav.np')];
 
-                    $getMainRole = GetManageAccessHelper::getList([
+                    $getMainRole = ManageRoleHelper::getList([
                         [
                             'getList' => [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.get.ryf')],
@@ -779,7 +781,7 @@ class GetManageAccessHelper
                     ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')]['rawYesFilter']['list'];
 
                     foreach ($getMainRole as $tempTwo) {
-                        $getSubRole = GetManageAccessHelper::getList([
+                        $getSubRole = ManageRoleHelper::getList([
                             [
                                 'getList' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.get.ryf')],

@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Admin\ManageUsers;
 
 use App\Http\Controllers\Controller;
 
+use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
+use App\Helpers\ManageUsers\GetManageUsersHelper;
+
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
 use App\Models\AdminRelated\RolePermission\ManageRole\MainRole;
 use App\Models\ManageUsers\AdminUsers;
 use App\Models\ManageUsers\UsersInfo;
-
-use App\Helpers\ManagePanel\GetManageAccessHelper;
-use App\Helpers\ManageUsers\GetManageUsersHelper;
 
 use Exception;
 use Throwable;
@@ -36,7 +36,7 @@ class AdminUsersAdminController extends Controller
     public function showAdminUsers()
     {
         try {
-            $mainRole = GetManageAccessHelper::getList([
+            $mainRole = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -80,7 +80,7 @@ class AdminUsersAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = ManageRoleHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -150,7 +150,7 @@ class AdminUsersAdminController extends Controller
     public function addAdminUsers()
     {
         try {
-            $mainRole = GetManageAccessHelper::getList([
+            $mainRole = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -256,7 +256,7 @@ class AdminUsersAdminController extends Controller
     public function editAdminUsers($id)
     {
         try {
-            $mainRole = GetManageAccessHelper::getList([
+            $mainRole = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -283,7 +283,7 @@ class AdminUsersAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
 
-            $subRole = GetManageAccessHelper::getList([
+            $subRole = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],

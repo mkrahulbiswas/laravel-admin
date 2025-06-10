@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Admin\PropertyRelated;
 
 use App\Http\Controllers\Controller;
 
+use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
+use App\Helpers\PropertyRelated\GetPropertyTypeHelper;
+
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
-
-use App\Helpers\ManagePanel\GetManageAccessHelper;
-use App\Helpers\PropertyRelated\GetPropertyTypeHelper;
 
 use App\Models\PropertyRelated\PropertyType;
 
@@ -57,7 +57,7 @@ class PropertyTypeAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.propertyRelated.propertyType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = ManageRoleHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []

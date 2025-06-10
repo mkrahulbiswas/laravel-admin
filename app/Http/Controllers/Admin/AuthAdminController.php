@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+
+use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
 
 use App\Traits\FileTrait;
 use App\Traits\ValidationTrait;
-
-use App\Helpers\ManagePanel\GetManageAccessHelper;
 
 use App\Models\User;
 use App\Models\ManageUsers\AdminUsers;
 
 use Validator;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgotPassword;
@@ -63,7 +63,7 @@ class AuthAdminController extends Controller
                     if ($adminUsers->status == 0) {
                         return response()->json(['status' => 0, 'msg' => 'You are blocked by admin'], Config::get('constants.errorCode.ok'));
                     } else {
-                        $mainRole = GetManageAccessHelper::getDetail([
+                        $mainRole = ManageRoleHelper::getDetail([
                             [
                                 'getDetail' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -79,7 +79,7 @@ class AuthAdminController extends Controller
                         } else {
                             $mainRole = $mainRole[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                             if ($mainRole['extraData']['hasSubRole'] > 0) {
-                                $subRole = GetManageAccessHelper::getDetail([
+                                $subRole = ManageRoleHelper::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
