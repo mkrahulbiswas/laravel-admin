@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Helpers\AdminRelated\NavigationAccess\ManageSideNavHelper;
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
-use App\Helpers\ManagePanel\GetManageNavHelper;
 use App\Helpers\PropertyRelated\GetManageBroadHelper;
 use App\Helpers\PropertyRelated\GetPropertyCategoryHelper;
 
@@ -22,15 +22,15 @@ class DDDAdminController extends Controller
     public $platform = 'backend';
 
 
-    /*------ ( Get Nav Main ) -------*/
-    public function getNavMain($navTypeId)
+    /*------ ( Get Main Nav ) -------*/
+    public function getMainNav($navTypeId)
     {
         try {
-            $navMain = GetManageNavHelper::getList([
+            $mainNav = ManageSideNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -45,11 +45,11 @@ class DDDAdminController extends Controller
             ]);
 
             $data = [
-                'navMain' => $navMain[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
+                'mainNav' => $mainNav[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
             ];
 
             if ($data) {
-                return Response()->Json(['status' => 1, 'msg' => 'Nav main is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
+                return Response()->Json(['status' => 1, 'msg' => 'Main nav is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
             } else {
                 return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
             }
@@ -58,20 +58,20 @@ class DDDAdminController extends Controller
         }
     }
 
-    /*------ ( Get Nav Sub ) -------*/
-    public function getNavSub($navMainId)
+    /*------ ( Get Sub Nav ) -------*/
+    public function getSubNav($mainNavId)
     {
         try {
-            $navSub = GetManageNavHelper::getList([
+            $subNav = ManageSideNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
-                            'navMainId' => $navMainId,
+                            'mainNavId' => $mainNavId,
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -81,11 +81,11 @@ class DDDAdminController extends Controller
             ]);
 
             $data = [
-                'navSub' => $navSub[Config::get('constants.typeCheck.manageNav.navSub.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
+                'subNav' => $subNav[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
             ];
 
             if ($data) {
-                return Response()->Json(['status' => 1, 'msg' => 'Nav sub is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
+                return Response()->Json(['status' => 1, 'msg' => 'Sub nav is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
             } else {
                 return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
             }
@@ -98,7 +98,7 @@ class DDDAdminController extends Controller
     public function getSubRole($mainRoleId)
     {
         try {
-            $navSub = ManageRoleHelper::getList([
+            $subNav = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -117,7 +117,7 @@ class DDDAdminController extends Controller
             ]);
 
             $data = [
-                'subRole' => $navSub[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
+                'subRole' => $subNav[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
             ];
 
             if ($data) {

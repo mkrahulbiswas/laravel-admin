@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
+use App\Helpers\AdminRelated\NavigationAccess\ManageSideNavHelper;
 use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
-use App\Helpers\ManagePanel\GetManageNavHelper;
 
 use App\Models\Contact;
 
@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
             $url = explode("/", url()->current());
             if (in_array('admin', $url)) {
                 if (Auth::guard('admin')->check()) {
-                    $navList = GetManageNavHelper::getNav([
+                    $navList = ManageSideNavHelper::getNav([
                         [
                             'type' => [Config::get('constants.typeCheck.helperCommon.nav.sn')],
                             'otherDataPasses' => [

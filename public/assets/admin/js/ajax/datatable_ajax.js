@@ -139,7 +139,7 @@
         });
 
         /*------( Nav Type Listing )--------*/
-        $('#managePanel-manageNav-navType').DataTable({
+        $('#adminRelated-navigationAccess-manageSideNav-navType').DataTable({
             processing: true,
             serverSide: true,
             ajax: "nav-type/ajaxGetList",
@@ -175,11 +175,11 @@
             ]
         });
 
-        /*------( Nav Main Listing )--------*/
-        $('#managePanel-manageNav-navMain').DataTable({
+        /*------( Main Nav Listing )--------*/
+        $('#adminRelated-navigationAccess-manageSideNav-mainNav').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "nav-main/ajaxGetList",
+            ajax: "main-nav/ajaxGetList",
             language: {
                 searchPlaceholder: "None"
             },
@@ -212,11 +212,11 @@
             ]
         });
 
-        /*------( Nav Sub Listing )--------*/
-        $('#managePanel-manageNav-navSub').DataTable({
+        /*------( Sub Nav Listing )--------*/
+        $('#adminRelated-navigationAccess-manageSideNav-subNav').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "nav-sub/ajaxGetList",
+            ajax: "sub-nav/ajaxGetList",
             language: {
                 searchPlaceholder: "None"
             },
@@ -232,7 +232,7 @@
                     data: "navType"
                 },
                 {
-                    data: "navMain"
+                    data: "mainNav"
                 },
                 {
                     data: "name"
@@ -252,11 +252,11 @@
             ]
         });
 
-        /*------( Nav Nested Listing )--------*/
-        $('#managePanel-manageNav-navNested').DataTable({
+        /*------( Nested Nav Listing )--------*/
+        $('#adminRelated-navigationAccess-manageSideNav-nestedNav').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "nav-nested/ajaxGetList",
+            ajax: "nested-nav/ajaxGetList",
             language: {
                 searchPlaceholder: "None"
             },
@@ -272,10 +272,10 @@
                     data: "navType"
                 },
                 {
-                    data: "navMain"
+                    data: "mainNav"
                 },
                 {
-                    data: "navSub"
+                    data: "subNav"
                 },
                 {
                     data: "name"

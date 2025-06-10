@@ -283,11 +283,11 @@ trait CommonTrait
                     $navHtml = '';
 
                     foreach ($tempOne['data'] as $tempTwo) {
-                        if ($tempTwo['extraData']['hasNavMain'] <= 0) {
-                            $navHtml .= '<div class="npbType"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempTwo['name'] . '</span></div><div class="npbhRight">Nav Type (No Nav Main Found)</div></div></div>';
+                        if ($tempTwo['extraData']['hasMainNav'] <= 0) {
+                            $navHtml .= '<div class="npbType"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempTwo['name'] . '</span></div><div class="npbhRight">Nav Type (No Main nav Found)</div></div></div>';
                         } else {
                             $navHtml .= '<div class="npbType"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempTwo['name'] . '</span></div></div>';
-                            foreach ($tempTwo['navMain'] as $tempThree) {
+                            foreach ($tempTwo['mainNav'] as $tempThree) {
                                 $permission = ManageRoleHelper::getDetail([
                                     [
                                         'getDetail' => [
@@ -297,17 +297,17 @@ trait CommonTrait
                                         'otherDataPasses' => [
                                             'filterData' => [
                                                 'navTypeId' => $tempTwo['id'],
-                                                'navMainId' => $tempThree['id'],
+                                                'mainNavId' => $tempThree['id'],
                                                 'subRoleId' => isset($tempOne['otherDataPasses']['permission']['subRoleId']) ? $tempOne['otherDataPasses']['permission']['subRoleId'] : '',
                                                 'mainRoleId' => $tempOne['otherDataPasses']['permission']['mainRoleId'],
                                             ]
                                         ]
                                     ],
                                 ])[Config::get('constants.typeCheck.manageAccess.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
-                                if ($tempThree['extraData']['hasNavSub'] <= 0) {
+                                if ($tempThree['extraData']['hasSubNav'] <= 0) {
                                     $navHtml .= '<div class="npbMain"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempThree['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                     if ($permission == null) {
-                                        $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>nav main</b>, please set access before set permission.</span></div>';
+                                        $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>main nav</b>, please set access before set permission.</span></div>';
                                     } else {
                                         foreach ($permission['privilege'] as $keySix => $tempSix) {
                                             $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
@@ -327,7 +327,7 @@ trait CommonTrait
                                     $navHtml .= '</div></div></div></div>';
                                 } else {
                                     $navHtml .= '<div class="npbMain"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempThree['name'] . '</span></div></div>';
-                                    foreach ($tempThree['navSub'] as $tempFour) {
+                                    foreach ($tempThree['subNav'] as $tempFour) {
                                         $permission = ManageRoleHelper::getDetail([
                                             [
                                                 'getDetail' => [
@@ -337,18 +337,18 @@ trait CommonTrait
                                                 'otherDataPasses' => [
                                                     'filterData' => [
                                                         'navTypeId' => $tempTwo['id'],
-                                                        'navMainId' => $tempThree['id'],
-                                                        'navSubId' => $tempFour['id'],
+                                                        'mainNavId' => $tempThree['id'],
+                                                        'subNavId' => $tempFour['id'],
                                                         'subRoleId' => isset($tempOne['otherDataPasses']['permission']['subRoleId']) ? $tempOne['otherDataPasses']['permission']['subRoleId'] : '',
                                                         'mainRoleId' => $tempOne['otherDataPasses']['permission']['mainRoleId'],
                                                     ]
                                                 ]
                                             ],
                                         ])[Config::get('constants.typeCheck.manageAccess.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
-                                        if ($tempFour['extraData']['hasNavNested'] <= 0) {
+                                        if ($tempFour['extraData']['hasNestedNav'] <= 0) {
                                             $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                             if ($permission == null) {
-                                                $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>nav sub</b>, please set access before set permission.</span></div>';
+                                                $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>sub nav</b>, please set access before set permission.</span></div>';
                                             } else {
                                                 foreach ($permission['privilege'] as $keySix => $tempSix) {
                                                     $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
@@ -368,7 +368,7 @@ trait CommonTrait
                                             $navHtml .= '</div></div></div></div>';
                                         } else {
                                             $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight"></div></div>';
-                                            foreach ($tempFour['navNested'] as $tempFive) {
+                                            foreach ($tempFour['nestedNav'] as $tempFive) {
                                                 $permission = ManageRoleHelper::getDetail([
                                                     [
                                                         'getDetail' => [
@@ -378,9 +378,9 @@ trait CommonTrait
                                                         'otherDataPasses' => [
                                                             'filterData' => [
                                                                 'navTypeId' => $tempTwo['id'],
-                                                                'navMainId' => $tempThree['id'],
-                                                                'navSubId' => $tempFour['id'],
-                                                                'navNestedId' => $tempFive['id'],
+                                                                'mainNavId' => $tempThree['id'],
+                                                                'subNavId' => $tempFour['id'],
+                                                                'nestedNavId' => $tempFive['id'],
                                                                 'subRoleId' => isset($tempOne['otherDataPasses']['permission']['subRoleId']) ? $tempOne['otherDataPasses']['permission']['subRoleId'] : '',
                                                                 'mainRoleId' => $tempOne['otherDataPasses']['permission']['mainRoleId'],
                                                             ]
@@ -389,7 +389,7 @@ trait CommonTrait
                                                 ])[Config::get('constants.typeCheck.manageAccess.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                                                 $navHtml .= '<div class="npbNested"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFive['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                                 if ($permission == null) {
-                                                    $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>nav nested</b>, please set access before set permission.</span></div>';
+                                                    $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>nested nav</b>, please set access before set permission.</span></div>';
                                                 } else {
                                                     foreach ($permission['privilege'] as $keySix => $tempSix) {
                                                         $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';

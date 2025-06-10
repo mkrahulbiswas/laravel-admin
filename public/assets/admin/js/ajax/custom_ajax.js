@@ -527,7 +527,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navType')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-navType')
                                 }
                             }
                         })
@@ -631,7 +631,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navType')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-navType')
                                 }
                             }
                         })
@@ -659,10 +659,10 @@
         });
 
         //---- ( Nav Type Status, Edit, Detail ) ----//
-        $('body').delegate('#managePanel-manageNav-navType .actionDatatable', 'click', function () {
+        $('body').delegate('#adminRelated-navigationAccess-manageSideNav-navType .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
-                targetTableId = $('#managePanel-manageNav-navType'),
+                targetTableId = $('#adminRelated-navigationAccess-manageSideNav-navType'),
                 data = '';
 
             if (type == 'status') {
@@ -712,11 +712,11 @@
         });
 
 
-        //---- ( Nav Main Save ) ----//
-        $("#saveNavMainForm").submit(function (event) {
+        //---- ( Main Nav Save ) ----//
+        $("#saveMainNavForm").submit(function (event) {
 
             submitForm = $(this);
-            submitBtn = $(this).find('#saveNavMainBtn');
+            submitBtn = $(this).find('#saveMainNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -794,7 +794,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navMain')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-mainNav')
                                 }
                             }
                         })
@@ -821,10 +821,10 @@
             });
         });
 
-        //---- ( Nav Main Update ) ----//
-        $("#updateNavMainForm").submit(function (event) {
+        //---- ( Main Nav Update ) ----//
+        $("#updateMainNavForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updateNavMainBtn');
+            submitBtn = $(this).find('#updateMainNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -901,7 +901,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navMain')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-mainNav')
                                 }
                             }
                         })
@@ -928,10 +928,10 @@
             });
         });
 
-        //---- ( Nav Main Access ) ----//
-        $("#accessNavMainForm").submit(function (event) {
+        //---- ( Main Nav Access ) ----//
+        $("#accessMainNavForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#accessNavMainBtn');
+            submitBtn = $(this).find('#accessMainNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -998,7 +998,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navMain')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-mainNav')
                                 }
                             }
                         })
@@ -1025,11 +1025,11 @@
             });
         });
 
-        //---- ( Nav Main Status, Edit, Detail ) ----//
-        $('body').delegate('#managePanel-manageNav-navMain .actionDatatable', 'click', function () {
+        //---- ( Main Nav Status, Edit, Detail ) ----//
+        $('body').delegate('#adminRelated-navigationAccess-manageSideNav-mainNav .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
-                targetTableId = $('#managePanel-manageNav-navMain'),
+                targetTableId = $('#adminRelated-navigationAccess-manageSideNav-mainNav'),
                 data = '';
 
             if (type == 'status') {
@@ -1071,7 +1071,7 @@
                 id.find('#description').val(data.description);
             } else if (type == 'access') {
                 data = JSON.parse($(this).attr('data-array'));
-                if (data.extraData.hasNavSub > 0) {
+                if (data.extraData.hasSubNav > 0) {
                     commonAction({
                         swal: {
                             type: 'basic',
@@ -1079,7 +1079,7 @@
                                 position: 'center-center',
                                 icon: 'warning',
                                 title: 'Oops....!',
-                                html: 'There some sub nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navSubRoute + '">sub nav</a>',
+                                html: 'There some sub nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.subNavRoute + '">sub nav</a>',
                                 showConfirmButton: false,
                                 timer: 10000
                             }
@@ -1120,11 +1120,11 @@
         });
 
 
-        //---- ( Nav Sub Save ) ----//
-        $("#saveNavSubForm").submit(function (event) {
+        //---- ( Sub Nav Save ) ----//
+        $("#saveSubNavForm").submit(function (event) {
 
             submitForm = $(this);
-            submitBtn = $(this).find('#saveNavSubBtn');
+            submitBtn = $(this).find('#saveSubNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -1181,8 +1181,8 @@
                         $.each(msg.errors.navType, function (i) {
                             submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.navMain, function (i) {
-                            submitForm.find("#navMainErr").text(msg.errors.navMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.mainNav, function (i) {
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
                             submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
@@ -1205,7 +1205,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navSub')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-subNav')
                                 }
                             }
                         })
@@ -1232,10 +1232,10 @@
             });
         });
 
-        //---- ( Nav Sub Update ) ----//
-        $("#updateNavSubForm").submit(function (event) {
+        //---- ( Sub Nav Update ) ----//
+        $("#updateSubNavForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updateNavSubBtn');
+            submitBtn = $(this).find('#updateSubNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -1291,8 +1291,8 @@
                         $.each(msg.errors.navType, function (i) {
                             submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.navMain, function (i) {
-                            submitForm.find("#navMainErr").text(msg.errors.navMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.mainNav, function (i) {
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
                             submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
@@ -1315,7 +1315,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navSub')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-subNav')
                                 }
                             }
                         })
@@ -1342,10 +1342,10 @@
             });
         });
 
-        //---- ( Nav Sub Access ) ----//
-        $("#accessNavSubForm").submit(function (event) {
+        //---- ( Sub Nav Access ) ----//
+        $("#accessSubNavForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#accessNavSubBtn');
+            submitBtn = $(this).find('#accessSubNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -1412,7 +1412,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navSub')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-subNav')
                                 }
                             }
                         })
@@ -1439,11 +1439,11 @@
             });
         });
 
-        //---- ( Nav Sub Status, Edit, Detail ) ----//
-        $('body').delegate('#managePanel-manageNav-navSub .actionDatatable', 'click', function () {
+        //---- ( Sub Nav Status, Edit, Detail ) ----//
+        $('body').delegate('#adminRelated-navigationAccess-manageSideNav-subNav .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
-                targetTableId = $('#managePanel-manageNav-navSub'),
+                targetTableId = $('#adminRelated-navigationAccess-manageSideNav-subNav'),
                 data = '';
 
             if (type == 'status') {
@@ -1484,11 +1484,11 @@
                 id.find('#description').val(data.description);
                 id.find("#navType2 option[data-name='" + data.navType.name + "']").prop("selected", true).trigger('change');
                 setTimeout(() => {
-                    id.find("#navMain2 option[data-name='" + data.navMain.name + "']").prop("selected", true).trigger('change');
+                    id.find("#mainNav2 option[data-name='" + data.mainNav.name + "']").prop("selected", true).trigger('change');
                 }, 1000);
             } else if (type == 'access') {
                 data = JSON.parse($(this).attr('data-array'));
-                if (data.extraData.hasNavNested > 0) {
+                if (data.extraData.hasNestedNav > 0) {
                     commonAction({
                         swal: {
                             type: 'basic',
@@ -1496,7 +1496,7 @@
                                 position: 'center-center',
                                 icon: 'warning',
                                 title: 'Oops....!',
-                                html: 'There some nested nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navNestedRoute + '">nested nav</a>',
+                                html: 'There some nested nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.nestedNavRoute + '">nested nav</a>',
                                 showConfirmButton: false,
                                 timer: 10000
                             }
@@ -1519,7 +1519,7 @@
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
                 id.find('#navType').text(data.navType.name);
-                id.find('#navMain').text(data.navMain.name);
+                id.find('#mainNav').text(data.mainNav.name);
                 id.find('#icon').html('<i class="' + data.icon + '"></i>');
                 id.find('#description').text(data.description);
                 if (data.access != null) {
@@ -1538,11 +1538,11 @@
         });
 
 
-        //---- ( Nav Nested Save ) ----//
-        $("#saveNavNestedForm").submit(function (event) {
+        //---- ( Nested Nav Save ) ----//
+        $("#saveNestedNavForm").submit(function (event) {
 
             submitForm = $(this);
-            submitBtn = $(this).find('#saveNavNestedBtn');
+            submitBtn = $(this).find('#saveNestedNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -1599,11 +1599,11 @@
                         $.each(msg.errors.navType, function (i) {
                             submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.navMain, function (i) {
-                            submitForm.find("#navMainErr").text(msg.errors.navMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.mainNav, function (i) {
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.navSub, function (i) {
-                            submitForm.find("#navSubErr").text(msg.errors.navSub[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.subNav, function (i) {
+                            submitForm.find("#subNavErr").text(msg.errors.subNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
                             submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
@@ -1626,7 +1626,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navNested')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-nestedNav')
                                 }
                             }
                         })
@@ -1653,10 +1653,10 @@
             });
         });
 
-        //---- ( Nav Nested Update ) ----//
-        $("#updateNavNestedForm").submit(function (event) {
+        //---- ( Nested Nav Update ) ----//
+        $("#updateNestedNavForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updateNavNestedBtn');
+            submitBtn = $(this).find('#updateNestedNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -1712,11 +1712,11 @@
                         $.each(msg.errors.navType, function (i) {
                             submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.navMain, function (i) {
-                            submitForm.find("#navMainErr").text(msg.errors.navMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.mainNav, function (i) {
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.navSub, function (i) {
-                            submitForm.find("#navSubErr").text(msg.errors.navSub[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.subNav, function (i) {
+                            submitForm.find("#subNavErr").text(msg.errors.subNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
                             submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
@@ -1739,7 +1739,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navNested')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-nestedNav')
                                 }
                             }
                         })
@@ -1766,10 +1766,10 @@
             });
         });
 
-        //---- ( Nav Nested Access ) ----//
-        $("#accessNavNestedForm").submit(function (event) {
+        //---- ( Nested Nav Access ) ----//
+        $("#accessNestedNavForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#accessNavNestedBtn');
+            submitBtn = $(this).find('#accessNestedNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -1836,7 +1836,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navNested')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-nestedNav')
                                 }
                             }
                         })
@@ -1863,11 +1863,11 @@
             });
         });
 
-        //---- ( Nav Nested Status, Edit, Detail ) ----//
-        $('body').delegate('#managePanel-manageNav-navNested .actionDatatable', 'click', function () {
+        //---- ( Nested Nav Status, Edit, Detail ) ----//
+        $('body').delegate('#adminRelated-navigationAccess-manageSideNav-nestedNav .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
-                targetTableId = $('#managePanel-manageNav-navNested'),
+                targetTableId = $('#adminRelated-navigationAccess-manageSideNav-nestedNav'),
                 data = '';
 
             if (type == 'status') {
@@ -1908,10 +1908,10 @@
                 id.find('#description').val(data.description);
                 id.find("#navType2 option[data-name='" + data.navType.name + "']").prop("selected", true).trigger('change');
                 setTimeout(() => {
-                    id.find("#navMain2 option[data-name='" + data.navMain.name + "']").prop("selected", true).trigger('change');
+                    id.find("#mainNav2 option[data-name='" + data.mainNav.name + "']").prop("selected", true).trigger('change');
                 }, 1000);
                 setTimeout(() => {
-                    id.find("#navSub2 option[data-name='" + data.navSub.name + "']").prop("selected", true).trigger('change');
+                    id.find("#subNav2 option[data-name='" + data.subNav.name + "']").prop("selected", true).trigger('change');
                 }, 2000);
             } else if (type == 'access') {
                 data = JSON.parse($(this).attr('data-array'));
@@ -1930,8 +1930,8 @@
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
                 id.find('#navType').text(data.navType.name);
-                id.find('#navMain').text(data.navMain.name);
-                id.find('#navSub').text(data.navSub.name);
+                id.find('#mainNav').text(data.mainNav.name);
+                id.find('#subNav').text(data.subNav.name);
                 id.find('#icon').html('<i class="' + data.icon + '"></i>');
                 id.find('#description').text(data.description);
                 if (data.access != null) {

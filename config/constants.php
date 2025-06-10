@@ -76,20 +76,24 @@ return [
                         'type' => 'permission'
                     ],
                 ],
-            ]
-        ],
-        'manageNav' => [
-            'navType' => [
-                'type' => 'navType'
             ],
-            'navMain' => [
-                'type' => 'navMain'
-            ],
-            'navSub' => [
-                'type' => 'navSub'
-            ],
-            'navNested' => [
-                'type' => 'navNested'
+            'navigationAccess' => [
+                'type' => 'navigationAccess',
+                'manageSideNav' => [
+                    'type' => 'manageSideNav',
+                    'navType' => [
+                        'type' => 'navType'
+                    ],
+                    'mainNav' => [
+                        'type' => 'mainNav'
+                    ],
+                    'subNav' => [
+                        'type' => 'subNav'
+                    ],
+                    'nestedNav' => [
+                        'type' => 'nestedNav'
+                    ],
+                ],
             ],
         ],
         'propertyRelated' => [

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin\AdminRelated\RolePermission;
 
 use App\Http\Controllers\Controller;
 
+use App\Helpers\AdminRelated\NavigationAccess\ManageSideNavHelper;
 use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
-use App\Helpers\ManagePanel\GetManageNavHelper;
 
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
@@ -243,9 +243,9 @@ class ManageRoleAdminController extends Controller
                 ]
             ]);
             if ($setPermission) {
-                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], Config::get('constants.errorCode.ok'));
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Main nav", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Main nav", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
             return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
@@ -316,11 +316,11 @@ class ManageRoleAdminController extends Controller
     public function showPermissionMainRole($mainRoleId)
     {
         try {
-            $navType = GetManageNavHelper::getList([
+            $navType = ManageSideNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -334,7 +334,7 @@ class ManageRoleAdminController extends Controller
             ]);
 
             $data = [
-                'navType' => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
+                'navType' => $navType[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
                 'mainRoleId' => $mainRoleId
             ];
 
@@ -347,15 +347,15 @@ class ManageRoleAdminController extends Controller
     public function getPermissionMainRole(Request $request)
     {
         try {
-            $getNav = GetManageNavHelper::getNav([
+            $getNav = ManageSideNavHelper::getNav([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.nav.np')],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
                             'navTypeId' => $request->navType,
-                            'navMainId' => $request->navMain,
-                            'navSubId' => $request->navSub,
+                            'mainNavId' => $request->mainNav,
+                            'subNavId' => $request->subNav,
                         ],
                         'orderBy' => [
                             'position' => 'asc'
@@ -663,9 +663,9 @@ class ManageRoleAdminController extends Controller
             ]
         ]);
         if ($setPermission) {
-            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Sub nav", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], Config::get('constants.errorCode.ok'));
         } else {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Sub nav", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
         }
         // } catch (Exception $e) {
         //     return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
@@ -731,11 +731,11 @@ class ManageRoleAdminController extends Controller
     public function showPermissionSubRole($subRoleId)
     {
         try {
-            $navType = GetManageNavHelper::getList([
+            $navType = ManageSideNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageNav.navType.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -749,7 +749,7 @@ class ManageRoleAdminController extends Controller
             ]);
 
             $data = [
-                'navType' => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
+                'navType' => $navType[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
                 'subRoleId' => $subRoleId
             ];
 
@@ -762,15 +762,15 @@ class ManageRoleAdminController extends Controller
     public function getPermissionSubRole(Request $request)
     {
         try {
-            $getNav = GetManageNavHelper::getNav([
+            $getNav = ManageSideNavHelper::getNav([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.nav.np')],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
                             'navTypeId' => $request->navType,
-                            'navMainId' => $request->navMain,
-                            'navSubId' => $request->navSub,
+                            'mainNavId' => $request->mainNav,
+                            'subNavId' => $request->subNav,
                         ],
                         'orderBy' => [
                             'position' => 'asc'

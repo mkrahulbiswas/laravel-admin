@@ -29,10 +29,10 @@
         /*--========================= ( Manage Nav START ) =========================--*/
         $('.navTypeDDD').change(function () {
             if ($(this).attr('data-action') != undefined) {
-                var html = '<option value="">Select Nav Main</option>';
-                $('.navMainDDD').text('');
+                var html = '<option value="">Select main nav</option>';
+                $('.mainNavDDD').text('');
                 if ($(this).val() == '') {
-                    $('.navMainDDD').append(html);
+                    $('.mainNavDDD').append(html);
                 } else {
                     $.ajax({
                         url: $(this).attr('data-action') + '/' + $(this).val(),
@@ -52,12 +52,12 @@
                                 }
                             })
                             if (msg.status == 0) {
-                                $('.navMainDDD').append(html);
+                                $('.mainNavDDD').append(html);
                             } else {
-                                $.each(msg.data.navMain, function (key, value) {
+                                $.each(msg.data.mainNav, function (key, value) {
                                     html += '<option value="' + value['id'] + '" data-name="' + value['name'] + '">' + value['name'] + '</option>'
                                 });
-                                $('.navMainDDD').append(html);
+                                $('.mainNavDDD').append(html);
                             }
                         }
                     });
@@ -65,12 +65,12 @@
             }
         });
 
-        $('.navMainDDD').change(function () {
+        $('.mainNavDDD').change(function () {
             if ($(this).attr('data-action') != undefined) {
-                var html = '<option value="">Select Nav Sub</option>';
-                $('.navSubDDD').text('');
+                var html = '<option value="">Select sub nav</option>';
+                $('.subNavDDD').text('');
                 if ($(this).val() == '') {
-                    $('.navSubDDD').append(html);
+                    $('.subNavDDD').append(html);
                 } else {
                     $.ajax({
                         url: $(this).attr('data-action') + '/' + $(this).val(),
@@ -90,12 +90,12 @@
                                 }
                             })
                             if (msg.status == 0) {
-                                $('.navSubDDD').append(html);
+                                $('.subNavDDD').append(html);
                             } else {
-                                $.each(msg.data.navSub, function (key, value) {
+                                $.each(msg.data.subNav, function (key, value) {
                                     html += '<option value="' + value['id'] + '" data-name="' + value['name'] + '">' + value['name'] + '</option>'
                                 });
-                                $('.navSubDDD').append(html);
+                                $('.subNavDDD').append(html);
                             }
                         }
                     });

@@ -81,7 +81,7 @@
         //------ ( Nav Type )
         $('#filterNavTypeForm').find('#statusFilter, .filterNavTypeBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageNav-navType'),
+                dataTableId = $('#adminRelated-navigationAccess-manageSideNav-navType'),
 
                 status = formId.find("#statusFilter").val(),
 
@@ -114,10 +114,10 @@
             })
         });
 
-        //------ ( Nav Main )
-        $('#filterNavMainForm').find('#navTypeFilter, #statusFilter, .filterNavMainBtn').on('change click', function () {
+        //------ ( Main Nav )
+        $('#filterMainNavForm').find('#navTypeFilter, #statusFilter, .filterMainNavBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageNav-navMain'),
+                dataTableId = $('#adminRelated-navigationAccess-manageSideNav-mainNav'),
 
                 status = formId.find("#statusFilter").val(),
                 navType = (formId.find("#navTypeFilter").val() == '' || formId.find("#navTypeFilter").val() == null) ? '' : formId.find("#navTypeFilter").val(),
@@ -151,17 +151,17 @@
             })
         });
 
-        //------ ( Nav Sub )
-        $('#filterNavSubForm').find('#navTypeFilter, #navMainFilter, #statusFilter, .filterNavSubBtn').on('change click', function () {
+        //------ ( Sub Nav )
+        $('#filterSubNavForm').find('#navTypeFilter, #mainNavFilter, #statusFilter, .filterSubNavBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageNav-navSub'),
+                dataTableId = $('#adminRelated-navigationAccess-manageSideNav-subNav'),
 
                 status = formId.find("#statusFilter").val(),
                 navType = (formId.find("#navTypeFilter").val() == '' || formId.find("#navTypeFilter").val() == null) ? '' : formId.find("#navTypeFilter").val(),
-                navMain = (formId.find("#navMainFilter").val() == '' || formId.find("#navMainFilter").val() == null) ? '' : formId.find("#navMainFilter").val(),
+                mainNav = (formId.find("#mainNavFilter").val() == '' || formId.find("#mainNavFilter").val() == null) ? '' : formId.find("#mainNavFilter").val(),
 
                 action = $(this).closest('form').attr('action').split('/'),
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&navType=" + navType + "&navMain=" + navMain;
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&navType=" + navType + "&mainNav=" + mainNav;
             if ($(this).attr('title') == 'Reload') {
                 commonAction({
                     targetId: {
@@ -172,7 +172,7 @@
                         selectTwo: {},
                     }
                 })
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&navType=" + '' + "&navMain=" + '';
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&navType=" + '' + "&mainNav=" + '';
             }
             commonAction({
                 targetId: {
@@ -189,18 +189,18 @@
             })
         });
 
-        //------ ( Nav Nested )
-        $('#filterNavNestedForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, #statusFilter, .filterNavNestedBtn').on('change click', function () {
+        //------ ( Nested Nav )
+        $('#filterNestedNavForm').find('#navTypeFilter, #mainNavFilter, #subNavFilter, #statusFilter, .filterNestedNavBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageNav-navNested'),
+                dataTableId = $('#adminRelated-navigationAccess-manageSideNav-nestedNav'),
 
                 status = formId.find("#statusFilter").val(),
                 navType = (formId.find("#navTypeFilter").val() == '' || formId.find("#navTypeFilter").val() == null) ? '' : formId.find("#navTypeFilter").val(),
-                navMain = (formId.find("#navMainFilter").val() == '' || formId.find("#navMainFilter").val() == null) ? '' : formId.find("#navMainFilter").val(),
-                navSub = (formId.find("#navSubFilter").val() == '' || formId.find("#navSubFilter").val() == null) ? '' : formId.find("#navSubFilter").val(),
+                mainNav = (formId.find("#mainNavFilter").val() == '' || formId.find("#mainNavFilter").val() == null) ? '' : formId.find("#mainNavFilter").val(),
+                subNav = (formId.find("#subNavFilter").val() == '' || formId.find("#subNavFilter").val() == null) ? '' : formId.find("#subNavFilter").val(),
 
                 action = $(this).closest('form').attr('action').split('/'),
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&navType=" + navType + "&navMain=" + navMain + "&navSub=" + navSub;
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&navType=" + navType + "&mainNav=" + mainNav + "&subNav=" + subNav;
             if ($(this).attr('title') == 'Reload') {
                 commonAction({
                     targetId: {
@@ -211,7 +211,7 @@
                         selectTwo: {},
                     }
                 })
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&navType=" + '' + "&navMain=" + '' + "&navSub=" + '';
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&navType=" + '' + "&mainNav=" + '' + "&subNav=" + '';
             }
             commonAction({
                 targetId: {
@@ -265,17 +265,17 @@
         });
 
         //------ ( Permission Main Role )
-        $('#filterPermissionMainRoleForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, .filterPermissionMainRoleBtn').on('change click', function () {
+        $('#filterPermissionMainRoleForm').find('#navTypeFilter, #mainNavFilter, #subNavFilter, .filterPermissionMainRoleBtn').on('change click', function () {
             var formId = $(this).closest('form'),
                 dataTableId = $('#managePanel-manageAccess-permissionMainRole'),
 
                 navType = (formId.find("#navTypeFilter").val() == '' || formId.find("#navTypeFilter").val() == null) ? '' : formId.find("#navTypeFilter").val(),
-                navMain = (formId.find("#navMainFilter").val() == '' || formId.find("#navMainFilter").val() == null) ? '' : formId.find("#navMainFilter").val(),
-                navSub = (formId.find("#navSubFilter").val() == '' || formId.find("#navSubFilter").val() == null) ? '' : formId.find("#navSubFilter").val(),
+                mainNav = (formId.find("#mainNavFilter").val() == '' || formId.find("#mainNavFilter").val() == null) ? '' : formId.find("#mainNavFilter").val(),
+                subNav = (formId.find("#subNavFilter").val() == '' || formId.find("#subNavFilter").val() == null) ? '' : formId.find("#subNavFilter").val(),
                 mainRoleId = $('#managePanel-manageAccess-permissionMainRole').attr('data-id'),
 
                 action = $(this).closest('form').attr('action').split('/'),
-                newUrl = action[action.length - 2] + "/ajaxGetList?mainRoleId=" + mainRoleId + "&navType=" + navType + "&navMain=" + navMain + "&navSub=" + navSub;
+                newUrl = action[action.length - 2] + "/ajaxGetList?mainRoleId=" + mainRoleId + "&navType=" + navType + "&mainNav=" + mainNav + "&subNav=" + subNav;
             if ($(this).attr('title') == 'Reload') {
                 commonAction({
                     targetId: {
@@ -286,7 +286,7 @@
                         selectTwo: {},
                     }
                 })
-                newUrl = action[action.length - 2] + "/ajaxGetList?mainRoleId=" + mainRoleId + "&navType=" + '' + "&navMain=" + '' + "&navSub=" + '';
+                newUrl = action[action.length - 2] + "/ajaxGetList?mainRoleId=" + mainRoleId + "&navType=" + '' + "&mainNav=" + '' + "&subNav=" + '';
             }
             commonAction({
                 targetId: {
@@ -341,17 +341,17 @@
         });
 
         //------ ( Permission Sub Role )
-        $('#filterPermissionSubRoleForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, .filterPermissionSubRoleBtn').on('change click', function () {
+        $('#filterPermissionSubRoleForm').find('#navTypeFilter, #mainNavFilter, #subNavFilter, .filterPermissionSubRoleBtn').on('change click', function () {
             var formId = $(this).closest('form'),
                 dataTableId = $('#managePanel-manageAccess-permissionSubRole'),
 
                 navType = (formId.find("#navTypeFilter").val() == '' || formId.find("#navTypeFilter").val() == null) ? '' : formId.find("#navTypeFilter").val(),
-                navMain = (formId.find("#navMainFilter").val() == '' || formId.find("#navMainFilter").val() == null) ? '' : formId.find("#navMainFilter").val(),
-                navSub = (formId.find("#navSubFilter").val() == '' || formId.find("#navSubFilter").val() == null) ? '' : formId.find("#navSubFilter").val(),
+                mainNav = (formId.find("#mainNavFilter").val() == '' || formId.find("#mainNavFilter").val() == null) ? '' : formId.find("#mainNavFilter").val(),
+                subNav = (formId.find("#subNavFilter").val() == '' || formId.find("#subNavFilter").val() == null) ? '' : formId.find("#subNavFilter").val(),
                 subRoleId = $('#managePanel-manageAccess-permissionSubRole').attr('data-id'),
 
                 action = $(this).closest('form').attr('action').split('/'),
-                newUrl = action[action.length - 2] + "/ajaxGetList?subRoleId=" + subRoleId + "&navType=" + navType + "&navMain=" + navMain + "&navSub=" + navSub;
+                newUrl = action[action.length - 2] + "/ajaxGetList?subRoleId=" + subRoleId + "&navType=" + navType + "&mainNav=" + mainNav + "&subNav=" + subNav;
             if ($(this).attr('title') == 'Reload') {
                 commonAction({
                     targetId: {
@@ -362,7 +362,7 @@
                         selectTwo: {},
                     }
                 })
-                newUrl = action[action.length - 2] + "/ajaxGetList?subRoleId=" + subRoleId + "&navType=" + '' + "&navMain=" + '' + "&navSub=" + '';
+                newUrl = action[action.length - 2] + "/ajaxGetList?subRoleId=" + subRoleId + "&navType=" + '' + "&mainNav=" + '' + "&subNav=" + '';
             }
             commonAction({
                 targetId: {

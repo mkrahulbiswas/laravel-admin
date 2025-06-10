@@ -2,10 +2,10 @@
 
 namespace App\Rules\ManagePanel;
 
-use App\Models\ManagePanel\ManageNav\NavMain;
-use App\Models\ManagePanel\ManageNav\NavNested;
-use App\Models\ManagePanel\ManageNav\NavSub;
-use App\Models\ManagePanel\ManageNav\NavType;
+use App\Models\AdminRelated\NavigationAccess\ManageSideNav\MainNav;
+use App\Models\AdminRelated\NavigationAccess\ManageSideNav\NavType;
+use App\Models\AdminRelated\NavigationAccess\ManageSideNav\NestedNav;
+use App\Models\AdminRelated\NavigationAccess\ManageSideNav\SubNav;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -22,7 +22,7 @@ class UniqueManageNav implements ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail, array $parameters = []): void
     {
-        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navType.type')) {
+        if ($this->data['type'] == Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = NavType::where('name', $value)->get();
             } else {
@@ -36,14 +36,14 @@ class UniqueManageNav implements ValidationRule
             }
         }
 
-        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navMain.type')) {
+        if ($this->data['type'] == Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')) {
             if ($this->data['targetId'] == '') {
-                $isExist = NavMain::where([
+                $isExist = MainNav::where([
                     ['name', $value],
                     ['navTypeId', decrypt($this->data['navTypeId'])],
                 ])->get();
             } else {
-                $isExist = NavMain::where([
+                $isExist = MainNav::where([
                     ['name', $value],
                     ['navTypeId', decrypt($this->data['navTypeId'])],
                     ['id', '!=', $this->data['targetId']]
@@ -54,18 +54,18 @@ class UniqueManageNav implements ValidationRule
             }
         }
 
-        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navSub.type')) {
+        if ($this->data['type'] == Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')) {
             if ($this->data['targetId'] == '') {
-                $isExist = NavSub::where([
+                $isExist = SubNav::where([
                     ['name', $value],
                     ['navTypeId', decrypt($this->data['navTypeId'])],
-                    ['navMainId', decrypt($this->data['navMainId'])],
+                    ['mainNavId', decrypt($this->data['mainNavId'])],
                 ])->get();
             } else {
-                $isExist = NavSub::where([
+                $isExist = SubNav::where([
                     ['name', $value],
                     ['navTypeId', decrypt($this->data['navTypeId'])],
-                    ['navMainId', decrypt($this->data['navMainId'])],
+                    ['mainNavId', decrypt($this->data['mainNavId'])],
                     ['id', '!=', $this->data['targetId']]
                 ])->get();
             }
@@ -74,20 +74,20 @@ class UniqueManageNav implements ValidationRule
             }
         }
 
-        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navNested.type')) {
+        if ($this->data['type'] == Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type')) {
             if ($this->data['targetId'] == '') {
-                $isExist = NavNested::where([
+                $isExist = NestedNav::where([
                     ['name', $value],
                     ['navTypeId', decrypt($this->data['navTypeId'])],
-                    ['navMainId', decrypt($this->data['navMainId'])],
-                    ['navSubId', decrypt($this->data['navSubId'])],
+                    ['mainNavId', decrypt($this->data['mainNavId'])],
+                    ['subNavId', decrypt($this->data['subNavId'])],
                 ])->get();
             } else {
-                $isExist = NavNested::where([
+                $isExist = NestedNav::where([
                     ['name', $value],
                     ['navTypeId', decrypt($this->data['navTypeId'])],
-                    ['navMainId', decrypt($this->data['navMainId'])],
-                    ['navSubId', decrypt($this->data['navSubId'])],
+                    ['mainNavId', decrypt($this->data['mainNavId'])],
+                    ['subNavId', decrypt($this->data['subNavId'])],
                     ['id', '!=', $this->data['targetId']]
                 ])->get();
             }

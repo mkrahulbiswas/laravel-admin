@@ -7,8 +7,9 @@
                     <h4>Permission</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Panel</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Access</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Admin Related</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Role & Permission</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Role</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('admin.show.mainRole') }}">Main Role</a></li>
                             <li class="breadcrumb-item active">Permission</li>
                         </ol>
@@ -76,9 +77,9 @@
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
                                                         <div class="form-icon set-validation">
-                                                            <select name="navType" id="navTypeFilter" class="selectTwo select2-navType navTypeDDD" data-action="{{ route('admin.get.navMainDDD') }}">
+                                                            <select name="navType" id="navTypeFilter" class="selectTwo select2-navType navTypeDDD" data-action="{{ route('admin.get.mainNavDDD') }}">
                                                                 <option value="">Select Nav Type</option>
-                                                                @foreach ($data[Config::get('constants.typeCheck.manageNav.navType.type')] as $item)
+                                                                @foreach ($data[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')] as $item)
                                                                     <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                                                                 @endforeach
                                                             </select>
@@ -89,7 +90,7 @@
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
                                                         <div class="form-icon set-validation">
-                                                            <select name="navMain" id="navMainFilter" class="selectTwo select2-navMain navMainDDD" data-action="{{ route('admin.get.navSubDDD') }}"></select>
+                                                            <select name="mainNav" id="mainNavFilter" class="selectTwo select2-mainNav mainNavDDD" data-action="{{ route('admin.get.subNavDDD') }}"></select>
                                                             <i class="bx bx-bar-chart-square"></i>
                                                         </div>
                                                     </div>
@@ -97,7 +98,7 @@
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
                                                         <div class="form-icon set-validation">
-                                                            <select name="navSub" id="navSubFilter" class="selectTwo select2-navSub navSubDDD"></select>
+                                                            <select name="subNav" id="subNavFilter" class="selectTwo select2-subNav subNavDDD"></select>
                                                             <i class="bx bx-message-edit"></i>
                                                         </div>
                                                     </div>
