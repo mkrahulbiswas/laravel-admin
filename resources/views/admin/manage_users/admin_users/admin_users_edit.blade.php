@@ -81,14 +81,14 @@
                                                                 <select name="roleMain" id="roleMain" class="selectTwo select2-roleMain roleMainDDD" data-action="{{ route('admin.get.roleSubDDD') }}">
                                                                     <option value="">Select Main Role</option>
                                                                     @foreach ($data['roleMain'] as $item)
-                                                                        <option value="{{ $item['id'] }}" {{ decrypt($data['adminUsers']['roleMain']['id']) == decrypt($item['id']) ? 'selected' : '' }} data-exist="{{ $item['extraData']['hasRoleSub'] }}">{{ $item['name'] }}</option>
+                                                                        <option value="{{ $item['id'] }}" {{ decrypt($data['adminUsers']['roleMain']['id']) == decrypt($item['id']) ? 'selected' : '' }} data-exist="{{ $item['extraData']['hasSubRole'] }}">{{ $item['name'] }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 <i class="bx bx-receipt"></i>
                                                             </div>
                                                             <div class="validation-error" id="roleMainErr"></div>
                                                         </div>
-                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4" style="display: {{ $data['adminUsers']['roleMain']['extraData']['hasRoleSub'] > 0 ? 'block' : 'none' }};">
+                                                        <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4" style="display: {{ $data['adminUsers']['roleMain']['extraData']['hasSubRole'] > 0 ? 'block' : 'none' }};">
                                                             <label for="roleSub" class="form-label">Sub Role <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                             <div class="form-icon set-validation">
                                                                 <select name="roleSub" id="roleSub" class="selectTwo select2-roleSub roleSubDDD">

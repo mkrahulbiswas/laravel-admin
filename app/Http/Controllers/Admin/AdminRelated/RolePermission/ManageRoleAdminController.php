@@ -129,7 +129,7 @@ class ManageRoleAdminController extends Controller
 
                 if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
                     if ($getPrivilege['permission']['permission'] == true) {
-                        if ($data['extraData']['hasRoleSub'] <= 0) {
+                        if ($data['extraData']['hasSubRole'] <= 0) {
                             if ($data['extraData']['hasPermission'] <= 0) {
                                 $permission = '<a href="JavaScript:void(0);" data-type="setPermission" data-action="' . route('admin.permission.mainRole') . '/' . $data['id'] . '" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apple-keyboard-command"></i><span>Set Permission</span></a>';
                             } else {

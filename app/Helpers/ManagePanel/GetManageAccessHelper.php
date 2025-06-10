@@ -307,7 +307,7 @@ class GetManageAccessHelper
             ] = $tempOne;
 
             if (Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type') == $for) {
-                $hasRoleSub = SubRole::where('mainRoleId', decrypt($otherDataPasses['id']))->count();
+                $hasSubRole = SubRole::where('mainRoleId', decrypt($otherDataPasses['id']))->count();
                 $permission = Permission::where('mainRoleId', decrypt($otherDataPasses['id']))->count();
                 $data = array();
 
@@ -326,7 +326,7 @@ class GetManageAccessHelper
                             ],
                             [
                                 'type' => 'hasChild',
-                                'value' => $hasRoleSub
+                                'value' => $hasSubRole
                             ],
                             [
                                 'type' => 'hasPermission',
@@ -334,7 +334,7 @@ class GetManageAccessHelper
                             ]
                         ]),
                         'extraData' => [
-                            'hasRoleSub' => $hasRoleSub,
+                            'hasSubRole' => $hasSubRole,
                             'roleSubRoute' => route('admin.show.subRole'),
                             'hasPermission' => $permission,
                         ]
@@ -538,7 +538,7 @@ class GetManageAccessHelper
 
                     if ($result == true) {
                         foreach ($mainRole[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $tempTwo) {
-                            if ($tempTwo['extraData']['hasRoleSub'] <= 0) {
+                            if ($tempTwo['extraData']['hasSubRole'] <= 0) {
                                 $permission = new Permission();
                                 if ($otherDataPasses['for'] == Config::get('constants.typeCheck.manageNav.navMain.type')) {
                                     $permission->navMainId = decrypt($getDetail['id']);
@@ -764,7 +764,7 @@ class GetManageAccessHelper
                         ]
                     ])[Config::get('constants.typeCheck.helperCommon.nav.np')];
 
-                    $getRoleMain = GetManageAccessHelper::getList([
+                    $getMainRole = GetManageAccessHelper::getList([
                         [
                             'getList' => [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.get.ryf')],
@@ -778,8 +778,8 @@ class GetManageAccessHelper
                         ],
                     ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')]['rawYesFilter']['list'];
 
-                    foreach ($getRoleMain as $tempTwo) {
-                        $getRoleSub = GetManageAccessHelper::getList([
+                    foreach ($getMainRole as $tempTwo) {
+                        $getSubRole = GetManageAccessHelper::getList([
                             [
                                 'getList' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.get.ryf')],
@@ -794,7 +794,7 @@ class GetManageAccessHelper
                             ],
                         ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')]['rawYesFilter']['list'];
                         if ($tempTwo) {
-                            foreach ($getRoleSub as $tempThree) {
+                            foreach ($getSubRole as $tempThree) {
                                 $subRole[] = [
                                     'id' => encrypt($tempThree->id),
                                     'name' => $tempThree->name,

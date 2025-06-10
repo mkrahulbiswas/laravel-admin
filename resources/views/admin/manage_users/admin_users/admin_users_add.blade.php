@@ -80,7 +80,7 @@
                                                                 <select name="roleMain" id="roleMain" class="selectTwo select2-roleMain roleMainDDD" data-action="{{ route('admin.get.roleSubDDD') }}">
                                                                     <option value="">Select Main Role</option>
                                                                     @foreach ($data['roleMain'] as $item)
-                                                                        <option value="{{ $item['id'] }}" data-exist="{{ $item['extraData']['hasRoleSub'] }}">{{ $item['name'] }}</option>
+                                                                        <option value="{{ $item['id'] }}" data-exist="{{ $item['extraData']['hasSubRole'] }}">{{ $item['name'] }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 <i class="bx bx-receipt"></i>

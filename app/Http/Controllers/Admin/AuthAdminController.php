@@ -78,7 +78,7 @@ class AuthAdminController extends Controller
                             return response()->json(['status' => 0, 'msg' => 'Oops! we could not detect your role (main), please contact with administrator.'], Config::get('constants.errorCode.ok'));
                         } else {
                             $mainRole = $mainRole[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
-                            if ($mainRole['extraData']['hasRoleSub'] > 0) {
+                            if ($mainRole['extraData']['hasSubRole'] > 0) {
                                 $subRole = GetManageAccessHelper::getDetail([
                                     [
                                         'getDetail' => [

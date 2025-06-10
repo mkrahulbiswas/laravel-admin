@@ -95,7 +95,7 @@ class DDDAdminController extends Controller
     }
 
     /*------ ( Get Sub Role ) -------*/
-    public function getRoleSub($mainRoleId)
+    public function getSubRole($mainRoleId)
     {
         try {
             $navSub = GetManageAccessHelper::getList([

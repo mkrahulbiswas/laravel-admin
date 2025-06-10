@@ -290,7 +290,7 @@ trait ValidationTrait
                             ]
                         ],
                     ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
-                    if ($getDetail['extraData']['hasRoleSub'] > 0) {
+                    if ($getDetail['extraData']['hasSubRole'] > 0) {
                         $rules['roleSub'] = 'required';
                     }
                 }
@@ -321,7 +321,7 @@ trait ValidationTrait
                             ]
                         ],
                     ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
-                    if ($getDetail['extraData']['hasRoleSub'] > 0) {
+                    if ($getDetail['extraData']['hasSubRole'] > 0) {
                         $rules['roleSub'] = 'required';
                     }
                 }
