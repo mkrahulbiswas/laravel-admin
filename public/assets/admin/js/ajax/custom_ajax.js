@@ -2035,7 +2035,7 @@
 
 
         //---- ( Role Main Save ) ----//
-        $("#saveRoleMainForm").submit(function (event) {
+        $("#saveMainRoleForm").submit(function (event) {
 
             submitForm = $(this);
             submitBtn = $(this).find('#saveRoleMainBtn');
@@ -2110,7 +2110,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageAccess-roleMain')
+                                    targetId: $('#adminRelated-rolePermission-manageRole-mainRole')
                                 }
                             }
                         })
@@ -2138,7 +2138,7 @@
         });
 
         //---- ( Role Main Update ) ----//
-        $("#updateRoleMainForm").submit(function (event) {
+        $("#updateMainRoleForm").submit(function (event) {
             submitForm = $(this);
             submitBtn = $(this).find('#updateRoleMainBtn');
 
@@ -2211,7 +2211,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageAccess-roleMain')
+                                    targetId: $('#adminRelated-rolePermission-manageRole-mainRole')
                                 }
                             }
                         })
@@ -2337,10 +2337,10 @@
         });
 
         //---- ( Role Main Status, Edit, Detail ) ----//
-        $('body').delegate('#managePanel-manageAccess-roleMain .actionDatatable', 'click', function () {
+        $('body').delegate('#adminRelated-rolePermission-manageRole-mainRole .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
-                targetTableId = $('#managePanel-manageAccess-roleMain'),
+                targetTableId = $('#adminRelated-rolePermission-manageRole-mainRole'),
                 data = '';
 
             if (type == 'status') {
@@ -2419,7 +2419,7 @@
 
 
         //---- ( Role Sub Save ) ----//
-        $("#saveRoleSubForm").submit(function (event) {
+        $("#saveSubRoleForm").submit(function (event) {
 
             submitForm = $(this);
             submitBtn = $(this).find('#saveRoleSubBtn');
@@ -2497,7 +2497,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageAccess-roleSub')
+                                    targetId: $('#adminRelated-rolePermission-manageRole-subRole')
                                 }
                             }
                         })
@@ -2525,7 +2525,7 @@
         });
 
         //---- ( Role Sub Update ) ----//
-        $("#updateRoleSubForm").submit(function (event) {
+        $("#updateSubRoleForm").submit(function (event) {
             submitForm = $(this);
             submitBtn = $(this).find('#updateRoleSubBtn');
 
@@ -2601,7 +2601,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageAccess-roleSub')
+                                    targetId: $('#adminRelated-rolePermission-manageRole-subRole')
                                 }
                             }
                         })
@@ -2727,10 +2727,10 @@
         });
 
         //---- ( Role Sub Status, Edit, Detail ) ----//
-        $('body').delegate('#managePanel-manageAccess-roleSub .actionDatatable', 'click', function () {
+        $('body').delegate('#adminRelated-rolePermission-manageRole-subRole .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
-                targetTableId = $('#managePanel-manageAccess-roleSub'),
+                targetTableId = $('#adminRelated-rolePermission-manageRole-subRole'),
                 data = '';
 
             if (type == 'status') {

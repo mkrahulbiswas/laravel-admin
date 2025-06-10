@@ -3,9 +3,9 @@
 namespace app\Traits;
 
 use App\Helpers\ManagePanel\GetManageAccessHelper;
-use App\Rules\ManagePanel\UniqueManageAccess;
 use App\Rules\ManagePanel\UniqueManageNav;
 use App\Rules\PropertyRelated\UniquePropertyAttribute;
+use App\Rules\AdminRelated\RolePermission\UniqueManageRole;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
@@ -82,10 +82,10 @@ trait ValidationTrait
 
 
             /*------ ( Manage Panel Start ) ------*/
-            //---- ( Role Main )
-            case 'saveRoleMain':
+            //---- ( Main Role )
+            case 'saveMainRole':
                 $rules = [
-                    'name' => ['required', 'max:20', new UniqueManageAccess([
+                    'name' => ['required', 'max:20', new UniqueManageRole([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
                     ])],
@@ -93,9 +93,9 @@ trait ValidationTrait
                 ];
                 break;
 
-            case 'updateRoleMain':
+            case 'updateMainRole':
                 $rules = [
-                    'name' => ['required', 'max:20', new UniqueManageAccess([
+                    'name' => ['required', 'max:20', new UniqueManageRole([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
                     ])],
@@ -103,10 +103,10 @@ trait ValidationTrait
                 ];
                 break;
 
-            //---- ( Role Sub )
-            case 'saveRoleSub':
+            //---- ( Sub Role )
+            case 'saveSubRole':
                 $rules = [
-                    'name' => ['required', 'max:20', new UniqueManageAccess([
+                    'name' => ['required', 'max:20', new UniqueManageRole([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
                         'roleMainId' => $data['input']['roleMain']
@@ -116,9 +116,9 @@ trait ValidationTrait
                 ];
                 break;
 
-            case 'updateRoleSub':
+            case 'updateSubRole':
                 $rules = [
-                    'name' => ['required', 'max:20', new UniqueManageAccess([
+                    'name' => ['required', 'max:20', new UniqueManageRole([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
                         'roleMainId' => $data['input']['roleMain']

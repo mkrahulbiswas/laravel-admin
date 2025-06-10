@@ -297,10 +297,10 @@
 
 
         /*------( Role Main Listing )--------*/
-        $('#managePanel-manageAccess-roleMain').DataTable({
+        $('#adminRelated-rolePermission-manageRole-mainRole').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "role-main/ajaxGetList",
+            ajax: "main-role/ajaxGetList",
             language: {
                 searchPlaceholder: "None"
             },
@@ -337,7 +337,7 @@
             info: false,
             searching: false,
             serverSide: true,
-            ajax: "role-main/ajaxGetList/?roleMainId=" + $('#managePanel-manageAccess-permissionRoleMain').attr('data-id'),
+            ajax: "main-role/ajaxGetList/?roleMainId=" + $('#managePanel-manageAccess-permissionRoleMain').attr('data-id'),
             language: {
                 searchPlaceholder: "None"
             },
@@ -348,10 +348,10 @@
         });
 
         /*------( Role Sub Listing )--------*/
-        $('#managePanel-manageAccess-roleSub').DataTable({
+        $('#adminRelated-rolePermission-manageRole-subRole').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "role-sub/ajaxGetList",
+            ajax: "sub-role/ajaxGetList",
             language: {
                 searchPlaceholder: "None"
             },
@@ -391,7 +391,7 @@
             info: false,
             searching: false,
             serverSide: true,
-            ajax: "role-sub/ajaxGetList/?roleSubId=" + $('#managePanel-manageAccess-permissionRoleSub').attr('data-id'),
+            ajax: "sub-role/ajaxGetList/?roleSubId=" + $('#managePanel-manageAccess-permissionRoleSub').attr('data-id'),
             language: {
                 searchPlaceholder: "None"
             },

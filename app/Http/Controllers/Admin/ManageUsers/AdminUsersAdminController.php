@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\ManagePanel\ManageAccess\RoleMain;
+use App\Models\AdminRelated\RolePermission\ManageRole\MainRole;
 use App\Models\ManageUsers\AdminUsers;
 use App\Models\ManageUsers\UsersInfo;
 
@@ -187,7 +187,7 @@ class AdminUsersAdminController extends Controller
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                if (RoleMain::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
+                if (MainRole::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save", 'msg' => __('messages.notAllowMsg')], Config::get('constants.errorCode.ok'));
                 } else {
                     if ($file) {
@@ -330,7 +330,7 @@ class AdminUsersAdminController extends Controller
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                if (RoleMain::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
+                if (MainRole::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update", 'msg' => __('messages.notAllowMsg')], Config::get('constants.errorCode.ok'));
                 } else {
                     $adminUsers = AdminUsers::findOrFail($id);

@@ -37,7 +37,8 @@ function initCallOnModalClose() {
             'saveNavNestedForm', 'updateNavNestedForm',
             'savePropertyAttributeForm', 'updatePropertyAttributeForm',
             'savePropertyTypeForm', 'updatePropertyTypeForm',
-            'saveRoleSubForm', 'updateRoleSubForm',
+            'saveMainRoleForm', 'updateMainRoleForm',
+            'saveSubRoleForm', 'updateSubRoleForm',
         ];
         var idArrayToString = '#' + idArray.join(', #');
         $(idArrayToString).find(".validation-error").text('');

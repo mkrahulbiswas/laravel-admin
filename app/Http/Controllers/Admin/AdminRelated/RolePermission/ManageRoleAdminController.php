@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Admin\ManagePanel;
+namespace App\Http\Controllers\Admin\AdminRelated\RolePermission;
 
 use App\Http\Controllers\Controller;
 
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\ManagePanel\ManageAccess\RoleMain;
-use App\Models\ManagePanel\ManageAccess\RoleSub;
 use App\Models\ManagePanel\ManageAccess\Permission;
+use App\Models\AdminRelated\RolePermission\ManageRole\MainRole;
+use App\Models\AdminRelated\RolePermission\ManageRole\SubRole;
 
 use App\Helpers\ManagePanel\GetManageAccessHelper;
 use App\Helpers\ManagePanel\GetManageNavHelper;
@@ -21,167 +21,162 @@ use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
-class ManageAccessAdminController extends Controller
+class ManageRoleAdminController extends Controller
 {
 
     use ValidationTrait, CommonTrait;
     public $platform = 'backend';
 
 
-    /*---- ( Role Main ) ----*/
-    public function showRoleMain()
+    /*---- ( Main Role ) ----*/
+    public function showMainRole()
     {
         try {
-            return view('admin.manage_panel.manage_access.role_main.role_main_list');
+            return view('admin.admin_related.role_permission.manage_role.main_role.main_role_list');
         } catch (Exception $e) {
             abort(500);
         }
     }
 
-    public function getRoleMain(Request $request)
+    public function getMainRole(Request $request)
     {
-        try {
-            $roleMain = GetManageAccessHelper::getList([
-                [
-                    'getList' => [
-                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+        // try {
+        $roleMain = GetManageAccessHelper::getList([
+            [
+                'getList' => [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                    'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                ],
+                'otherDataPasses' => [
+                    'filterData' => [
+                        'status' => $request->status,
+                        'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
                     ],
-                    'otherDataPasses' => [
-                        'filterData' => [
-                            'status' => $request->status,
-                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
-                        ],
-                        'orderBy' => [
-                            'id' => 'desc'
-                        ],
+                    'orderBy' => [
+                        'id' => 'desc'
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ],
+        ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
-                [
-                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
-                    'otherDataPasses' => []
-                ]
-            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+        $getPrivilege = GetManageAccessHelper::getPrivilege([
+            [
+                'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                'otherDataPasses' => []
+            ]
+        ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
 
-            return Datatables::of($roleMain)
-                ->addIndexColumn()
-                ->addColumn('description', function ($data) {
-                    $description = $this->subStrString(40, $data['description'], '....');
-                    return $description;
-                })
-                ->addColumn('uniqueId', function ($data) {
-                    $uniqueId = $data['uniqueId']['raw'];
-                    return $uniqueId;
-                })
-                ->addColumn('statInfo', function ($data) {
-                    $statInfo = $this->dynamicHtmlPurse([
-                        [
-                            'type' => 'dtMultiData',
-                            'data' => $data['customizeInText']
-                        ]
-                    ])['dtMultiData']['custom'];
-                    return $statInfo;
-                })
-                ->addColumn('action', function ($data) use ($getPrivilege) {
-                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
-                        if ($getPrivilege['status']['permission'] == true) {
-                            if ($data['status'] == Config::get('constants.status')['inactive']) {
-                                $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
-                            } else {
-                                $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
-                            }
+        return Datatables::of($roleMain)
+            ->addIndexColumn()
+            ->addColumn('description', function ($data) {
+                $description = $this->subStrString(40, $data['description'], '....');
+                return $description;
+            })
+            ->addColumn('uniqueId', function ($data) {
+                $uniqueId = $data['uniqueId']['raw'];
+                return $uniqueId;
+            })
+            ->addColumn('statInfo', function ($data) {
+                $statInfo = $this->dynamicHtmlPurse([
+                    [
+                        'type' => 'dtMultiData',
+                        'data' => $data['customizeInText']
+                    ]
+                ])['dtMultiData']['custom'];
+                return $statInfo;
+            })
+            ->addColumn('action', function ($data) use ($getPrivilege) {
+                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                    if ($getPrivilege['status']['permission'] == true) {
+                        if ($data['status'] == Config::get('constants.status')['inactive']) {
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.mainRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                         } else {
-                            $status = '';
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.mainRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                         }
                     } else {
                         $status = '';
                     }
+                } else {
+                    $status = '';
+                }
 
-                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
-                        if ($getPrivilege['edit']['permission'] == true) {
-                            $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
-                        } else {
-                            $edit = '';
-                        }
+                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                    if ($getPrivilege['edit']['permission'] == true) {
+                        $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
                     } else {
                         $edit = '';
                     }
+                } else {
+                    $edit = '';
+                }
 
-                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
-                        if ($getPrivilege['delete']['permission'] == true) {
-                            $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
-                        } else {
-                            $delete = '';
-                        }
+                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                    if ($getPrivilege['delete']['permission'] == true) {
+                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.mainRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     } else {
                         $delete = '';
                     }
+                } else {
+                    $delete = '';
+                }
 
 
-                    if ($getPrivilege['info']['permission'] == true) {
-                        $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
-                    } else {
-                        $info = '';
-                    }
+                if ($getPrivilege['info']['permission'] == true) {
+                    $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
+                } else {
+                    $info = '';
+                }
 
-                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
-                        if ($getPrivilege['permission']['permission'] == true) {
-                            if ($data['extraData']['hasRoleSub'] <= 0) {
-                                if ($data['extraData']['hasPermission'] <= 0) {
-                                    $permission = '<a href="JavaScript:void(0);" data-type="setPermission" data-action="' . route('admin.permission.roleMain') . '/' . $data['id'] . '" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apple-keyboard-command"></i><span>Set Permission</span></a>';
-                                } else {
-                                    $permission = '<a href="' .  route('admin.show.permissionRoleMain') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
-                                }
+                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                    if ($getPrivilege['permission']['permission'] == true) {
+                        if ($data['extraData']['hasRoleSub'] <= 0) {
+                            if ($data['extraData']['hasPermission'] <= 0) {
+                                $permission = '<a href="JavaScript:void(0);" data-type="setPermission" data-action="' . route('admin.permission.mainRole') . '/' . $data['id'] . '" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apple-keyboard-command"></i><span>Set Permission</span></a>';
                             } else {
-                                $permission = '<a href="JavaScript:void(0);" data-type="permission" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                                $permission = '<a href="' .  route('admin.show.permissionMainRole') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
                             }
                         } else {
-                            $permission = '';
+                            $permission = '<a href="JavaScript:void(0);" data-type="permission" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
                         }
                     } else {
                         $permission = '';
                     }
+                } else {
+                    $permission = '';
+                }
 
-                    return $this->dynamicHtmlPurse([
-                        [
-                            'type' => 'dtAction',
-                            'data' => [
-                                'primary' => [$status, $edit, $delete, $info],
-                                'secondary' => ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) ? [$permission] : [],
-                            ]
+                return $this->dynamicHtmlPurse([
+                    [
+                        'type' => 'dtAction',
+                        'data' => [
+                            'primary' => [$status, $edit, $delete, $info],
+                            'secondary' => ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) ? [$permission] : [],
                         ]
-                    ])['dtAction']['custom'];
-                })
-                ->rawColumns(['description', 'uniqueId', 'statInfo', 'action'])
-                ->make(true);
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', 'Something went wrong.');
-        }
+                    ]
+                ])['dtAction']['custom'];
+            })
+            ->rawColumns(['description', 'uniqueId', 'statInfo', 'action'])
+            ->make(true);
+        // } catch (Exception $e) {
+        //     return redirect()->back()->with('error', 'Something went wrong.');
+        // }
     }
 
-    public function saveRoleMain(Request $request)
+    public function saveMainRole(Request $request)
     {
         try {
             $values = $request->only('name', 'description');
             //--Checking The Validation--//
 
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'saveRoleMain',
-                'id' => 0,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveMainRole', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
 
-                $roleMain = new RoleMain();
+                $roleMain = new MainRole();
                 $roleMain->name = $values['name'];
                 $roleMain->description = $values['description'];
-                $roleMain->uniqueId = $this->generateCode(['preString' => 'RM', 'length' => 6, 'model' => RoleMain::class, 'field' => '']);
+                $roleMain->uniqueId = $this->generateCode(['preString' => 'RM', 'length' => 6, 'model' => MainRole::class, 'field' => '']);
                 $roleMain->status = Config::get('constants.status')['active'];
 
                 if ($roleMain->save()) {
@@ -195,7 +190,7 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function updateRoleMain(Request $request)
+    public function updateMainRole(Request $request)
     {
         $values = $request->only('id', 'name', 'description');
 
@@ -206,16 +201,11 @@ class ManageAccessAdminController extends Controller
         }
 
         try {
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'updateRoleMain',
-                'id' => $id,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateMainRole', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                $roleMain = RoleMain::find($id);
+                $roleMain = MainRole::find($id);
 
                 $roleMain->name = $values['name'];
                 $roleMain->description = $values['description'];
@@ -231,7 +221,7 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function permissionRoleMain($id)
+    public function permissionMainRole($id)
     {
         try {
             $id = decrypt($id);
@@ -261,7 +251,7 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function statusRoleMain($id)
+    public function statusMainRole($id)
     {
         try {
             $id = decrypt($id);
@@ -272,7 +262,7 @@ class ManageAccessAdminController extends Controller
         try {
             $result = $this->changeStatus([
                 'targetId' => $id,
-                "targetModel" => RoleMain::class,
+                "targetModel" => MainRole::class,
                 'targetField' => [],
                 'type' => Config::get('constants.action.status.smsf')
             ]);
@@ -286,7 +276,7 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function deleteRoleMain($id)
+    public function deleteMainRole($id)
     {
         try {
             $id = decrypt($id);
@@ -297,12 +287,12 @@ class ManageAccessAdminController extends Controller
         try {
             $result = $this->deleteItem([
                 [
-                    'model' => RoleMain::class,
+                    'model' => MainRole::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
                 ],
                 [
-                    'model' => RoleSub::class,
+                    'model' => SubRole::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => 'roleMainId']],
                 ],
@@ -322,7 +312,7 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function showPermissionRoleMain($roleMainId)
+    public function showPermissionMainRole($roleMainId)
     {
         try {
             $navType = GetManageNavHelper::getList([
@@ -347,13 +337,13 @@ class ManageAccessAdminController extends Controller
                 'roleMainId' => $roleMainId
             ];
 
-            return view('admin.manage_panel.manage_access.role_main.role_main_permission', ['data' => $data]);
+            return view('admin.admin_related.role_permission.manage_role.main_role.main_role_permission', ['data' => $data]);
         } catch (Exception $e) {
             abort(500);
         }
     }
 
-    public function getPermissionRoleMain(Request $request)
+    public function getPermissionMainRole(Request $request)
     {
         try {
             $getNav = GetManageNavHelper::getNav([
@@ -405,7 +395,7 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function updatePermissionRoleMain(Request $request)
+    public function updatePermissionMainRole(Request $request)
     {
         try {
             foreach ($request->get('id') as $keyOne => $tempOne) {
@@ -455,8 +445,8 @@ class ManageAccessAdminController extends Controller
     }
 
 
-    /*---- ( Role Sub ) ----*/
-    public function showRoleSub()
+    /*---- ( Sub Role ) ----*/
+    public function showSubRole()
     {
         try {
             $roleMain = GetManageAccessHelper::getList([
@@ -478,13 +468,13 @@ class ManageAccessAdminController extends Controller
                 'roleMain' => $roleMain,
             ];
 
-            return view('admin.manage_panel.manage_access.role_sub.role_sub_list', ['data' => $data]);
+            return view('admin.admin_related.role_permission.manage_role.sub_role.sub_role_list', ['data' => $data]);
         } catch (Exception $e) {
             abort(500);
         }
     }
 
-    public function getRoleSub(Request $request)
+    public function getSubRole(Request $request)
     {
         try {
             $roleSub = GetManageAccessHelper::getList([
@@ -533,9 +523,9 @@ class ManageAccessAdminController extends Controller
                 ->addColumn('action', function ($data) use ($getPrivilege) {
                     if ($getPrivilege['status']['permission'] == true) {
                         if ($data['status'] == Config::get('constants.status')['inactive']) {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.subRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                         } else {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.subRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                         }
                     } else {
                         $status = '';
@@ -548,7 +538,7 @@ class ManageAccessAdminController extends Controller
                     }
 
                     if ($getPrivilege['delete']['permission'] == true) {
-                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.subRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     } else {
                         $delete = '';
                     }
@@ -561,9 +551,9 @@ class ManageAccessAdminController extends Controller
 
                     if ($getPrivilege['permission']['permission'] == true) {
                         if ($data['extraData']['hasPermission'] <= 0) {
-                            $permission = '<a href="JavaScript:void(0);" data-type="setPermission" data-action="' . route('admin.permission.roleSub') . '/' . $data['id'] . '" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apple-keyboard-command"></i><span>Set Permission</span></a>';
+                            $permission = '<a href="JavaScript:void(0);" data-type="setPermission" data-action="' . route('admin.permission.subRole') . '/' . $data['id'] . '" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apple-keyboard-command"></i><span>Set Permission</span></a>';
                         } else {
-                            $permission = '<a href="' .  route('admin.show.permissionRoleSub') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                            $permission = '<a href="' .  route('admin.show.permissionSubRole') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
                         }
                     } else {
                         $permission = '';
@@ -586,29 +576,24 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function saveRoleSub(Request $request)
+    public function saveSubRole(Request $request)
     {
         try {
             $values = $request->only('name', 'roleMain', 'description');
             //--Checking The Validation--//
 
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'saveRoleSub',
-                'id' => 0,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveSubRole', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                if (RoleMain::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
+                if (MainRole::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Sub", 'msg' => __('messages.notAllowMsg')], Config::get('constants.errorCode.ok'));
                 } else {
-                    $roleSub = new RoleSub();
+                    $roleSub = new SubRole();
                     $roleSub->name = $values['name'];
                     $roleSub->roleMainId = decrypt($values['roleMain']);
                     $roleSub->description = $values['description'];
-                    $roleSub->uniqueId = $this->generateCode(['preString' => 'RS', 'length' => 6, 'model' => RoleSub::class, 'field' => '']);
+                    $roleSub->uniqueId = $this->generateCode(['preString' => 'RS', 'length' => 6, 'model' => SubRole::class, 'field' => '']);
                     $roleSub->status = Config::get('constants.status')['active'];
 
                     if ($roleSub->save()) {
@@ -623,7 +608,7 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function updateRoleSub(Request $request)
+    public function updateSubRole(Request $request)
     {
         $values = $request->only('id', 'name', 'roleMain', 'description');
 
@@ -634,16 +619,11 @@ class ManageAccessAdminController extends Controller
         }
 
         try {
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'updateRoleSub',
-                'id' => $id,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateSubRole', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                $roleSub = RoleSub::find($id);
+                $roleSub = SubRole::find($id);
 
                 $roleSub->name = $values['name'];
                 $roleSub->roleMainId = decrypt($values['roleMain']);
@@ -660,7 +640,7 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function permissionRoleSub($id)
+    public function permissionSubRole($id)
     {
         try {
             $id = decrypt($id);
@@ -676,7 +656,7 @@ class ManageAccessAdminController extends Controller
                     'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
                 ],
                 'otherDataPasses' => [
-                    'roleMainId' => RoleSub::where('id', $id)->first()->roleMainId,
+                    'roleMainId' => SubRole::where('id', $id)->first()->roleMainId,
                     'roleSubId' => $id,
                 ]
             ]
@@ -691,7 +671,7 @@ class ManageAccessAdminController extends Controller
         // }
     }
 
-    public function statusRoleSub($id)
+    public function statusSubRole($id)
     {
         try {
             $id = decrypt($id);
@@ -702,7 +682,7 @@ class ManageAccessAdminController extends Controller
         try {
             $result = $this->changeStatus([
                 'targetId' => $id,
-                "targetModel" => RoleSub::class,
+                "targetModel" => SubRole::class,
                 'targetField' => [],
                 'type' => Config::get('constants.action.status.smsf')
             ]);
@@ -716,7 +696,7 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function deleteRoleSub($id)
+    public function deleteSubRole($id)
     {
         try {
             $id = decrypt($id);
@@ -727,7 +707,7 @@ class ManageAccessAdminController extends Controller
         try {
             $result = $this->deleteItem([
                 [
-                    'model' => RoleSub::class,
+                    'model' => SubRole::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
                 ],
@@ -747,7 +727,7 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function showPermissionRoleSub($roleSubId)
+    public function showPermissionSubRole($roleSubId)
     {
         try {
             $navType = GetManageNavHelper::getList([
@@ -772,13 +752,13 @@ class ManageAccessAdminController extends Controller
                 'roleSubId' => $roleSubId
             ];
 
-            return view('admin.manage_panel.manage_access.role_sub.role_sub_permission', ['data' => $data]);
+            return view('admin.admin_related.role_permission.manage_role.sub_role.sub_role_permission', ['data' => $data]);
         } catch (Exception $e) {
             abort(500);
         }
     }
 
-    public function getPermissionRoleSub(Request $request)
+    public function getPermissionSubRole(Request $request)
     {
         try {
             $getNav = GetManageNavHelper::getNav([
@@ -815,7 +795,7 @@ class ManageAccessAdminController extends Controller
                             'otherDataPasses' => [
                                 'permission' => [
                                     'model' => Permission::class,
-                                    'roleMainId' => encrypt(RoleSub::where('id', decrypt(request()->roleSubId))->first()->roleMainId),
+                                    'roleMainId' => encrypt(SubRole::where('id', decrypt(request()->roleSubId))->first()->roleMainId),
                                     'roleSubId' => request()->roleSubId
                                 ],
                                 'getPrivilege' => $getPrivilege
@@ -831,7 +811,7 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function updatePermissionRoleSub(Request $request)
+    public function updatePermissionSubRole(Request $request)
     {
         try {
             foreach ($request->get('id') as $keyOne => $tempOne) {
@@ -940,9 +920,9 @@ class ManageAccessAdminController extends Controller
 
                     // if ($itemPermission['status_item'] == '1') {
                     if ($data['status'] == Config::get('constants.status')['inactive']) {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.subRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.subRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                     }
                     // } else {
                     //     $status = '';
@@ -955,7 +935,7 @@ class ManageAccessAdminController extends Controller
                     // }
 
                     // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.subRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     // } else {
                     //     $delete = '';
                     // }
@@ -1009,7 +989,7 @@ class ManageAccessAdminController extends Controller
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                $roleSub = RoleSub::find($id);
+                $roleSub = SubRole::find($id);
 
                 $roleSub->name = $values['name'];
                 $roleSub->roleMainId = decrypt($values['roleMain']);

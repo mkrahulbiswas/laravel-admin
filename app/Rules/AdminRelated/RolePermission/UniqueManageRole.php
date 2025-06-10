@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules\ManagePanel;
+namespace App\Rules\AdminRelated\RolePermission;
 
 use Closure;
 use App\Models\AdminRelated\RolePermission\ManageRole\MainRole;
@@ -8,7 +8,7 @@ use App\Models\AdminRelated\RolePermission\ManageRole\SubRole;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Config;
 
-class UniqueManageAccess implements ValidationRule
+class UniqueManageRole implements ValidationRule
 {
     private $data;
 

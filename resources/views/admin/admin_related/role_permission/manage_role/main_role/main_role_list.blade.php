@@ -67,7 +67,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="tdFilterForm p-3">
-                                            <form id="filterRoleMainForm" method="POST" action="{{ route('admin.get.roleMain') }}" class="m-b-20">
+                                            <form id="filterRoleMainForm" method="POST" action="{{ route('admin.get.mainRole') }}" class="m-b-20">
                                                 @csrf
                                                 <div class="row gap-2">
 
@@ -142,7 +142,7 @@
     <div id="con-add-modal" class="modal fade con-add-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="saveMainRoleForm" action="{{ route('admin.save.roleMain') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="saveMainRoleForm" action="{{ route('admin.save.mainRole') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalLabel">Add Role Main</h5>
@@ -192,7 +192,7 @@
     <div id="con-edit-modal" class="modal fade con-edit-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="updateMainRoleForm" action="{{ route('admin.update.roleMain') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="updateMainRoleForm" action="{{ route('admin.update.mainRole') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">

@@ -120,7 +120,7 @@
                         </div>
                         <div class="col-md-12 tdContentMain">
                             <div class="tdContentSub">
-                                <table id="managePanel-manageAccess-roleSub" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
+                                <table id="adminRelated-rolePermission-manageRole-subRole" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>#</th>
@@ -156,7 +156,7 @@
     <div id="con-add-modal" class="modal fade con-add-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="saveRoleSubForm" action="{{ route('admin.save.roleSub') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="saveSubRoleForm" action="{{ route('admin.save.roleSub') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalLabel">Add Role Sub</h5>
@@ -219,7 +219,7 @@
     <div id="con-edit-modal" class="modal fade con-edit-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="updateRoleSubForm" action="{{ route('admin.update.roleSub') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="updateSubRoleForm" action="{{ route('admin.update.roleSub') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">

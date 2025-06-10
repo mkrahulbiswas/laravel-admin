@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminRelated\RolePermission\ManageRoleAdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\DDDAdminController;
@@ -38,6 +39,40 @@ Route::controller(AuthAdminController::class)->group(function () {
         });
 
         /*======== (-- Admin Related --) ========*/
+        Route::group(['prefix' => 'role-permission'], function () {
+            Route::controller(ManageRoleAdminController::class)->prefix('manage-role')->group(function () {
+                Route::get('main-role', 'showMainRole')->name('admin.show.mainRole');
+                Route::get('main-role/ajaxGetList', 'getMainRole')->name('admin.get.mainRole');
+                Route::post('main-role/add/save', 'saveMainRole')->name('admin.save.mainRole');
+                Route::post('main-role/edit/update', 'updateMainRole')->name('admin.update.mainRole');
+                Route::patch('main-role/permission/{id?}', 'permissionMainRole')->name('admin.permission.mainRole');
+                Route::patch('main-role/status/{id?}', 'statusMainRole')->name('admin.status.mainRole');
+                Route::delete('main-role/delete/{id?}', 'deleteMainRole')->name('admin.delete.mainRole');
+                Route::group(['prefix' => 'main-role'], function () {
+                    Route::get('permission/{MainRoleId?}', 'showPermissionMainRole')->name('admin.show.permissionMainRole');
+                    Route::get('permission/main-role/ajaxGetList/{MainRoleId?}', 'getPermissionMainRole')->name('admin.get.permissionMainRole');
+                    Route::post('permission/update', 'updatePermissionMainRole')->name('admin.update.permissionMainRole');
+                });
+
+                Route::get('sub-role', 'showSubRole')->name('admin.show.subRole');
+                Route::get('sub-role/ajaxGetList', 'getSubRole')->name('admin.get.subRole');
+                Route::post('sub-role/add/save', 'saveSubRole')->name('admin.save.subRole');
+                Route::post('sub-role/edit/update', 'updateSubRole')->name('admin.update.subRole');
+                Route::patch('sub-role/permission/{id?}', 'permissionSubRole')->name('admin.permission.subRole');
+                Route::patch('sub-role/status/{id?}', 'statusSubRole')->name('admin.status.subRole');
+                Route::delete('sub-role/delete/{id?}', 'deleteSubRole')->name('admin.delete.subRole');
+                Route::group(['prefix' => 'sub-role'], function () {
+                    Route::get('permission/{SubRoleId?}', 'showPermissionSubRole')->name('admin.show.permissionSubRole');
+                    Route::get('permission/sub-role/ajaxGetList/{SubRoleId?}', 'getPermissionSubRole')->name('admin.get.permissionSubRole');
+                    Route::post('permission/update', 'updatePermissionSubRole')->name('admin.update.permissionSubRole');
+                });
+
+                Route::get('permissions', 'showPermissions')->name('admin.show.permissions');
+                Route::get('permissions/ajaxGetList', 'getPermissions')->name('admin.get.permissions');
+                Route::post('permissions/edit/update', 'updatePermissions')->name('admin.update.permissions');
+            });
+        });
+
         Route::group(['prefix' => 'manage-panel'], function () {
             Route::controller(QuickSettingsAdminController::class)->prefix('quick-settings')->group(function () {
                 Route::get('logo', 'showLogo')->name('admin.show.logo');
@@ -48,43 +83,12 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::delete('logo/delete/{id?}', 'deleteLogo')->name('admin.delete.logo');
 
                 Route::get('templates', 'showTemplates')->name('admin.show.templates');
-                Route::get('templates/ajaxGetList', 'getTemplates')->name('admin.get.templates');
+                Route::get('templates/email/ajaxGetList', 'getEmailTemplates')->name('admin.get.emailTemplates');
+                Route::get('templates/phone/ajaxGetList', 'getPhoneTemplates')->name('admin.get.phoneTemplates');
                 Route::post('templates/add/save', 'saveTemplates')->name('admin.save.templates');
                 Route::post('templates/edit/update', 'updateTemplates')->name('admin.update.templates');
                 Route::patch('templates/status/{id?}', 'statusTemplates')->name('admin.status.templates');
                 Route::delete('templates/delete/{id?}', 'deleteTemplates')->name('admin.delete.templates');
-            });
-
-            Route::controller(ManageAccessAdminController::class)->prefix('mange-access')->group(function () {
-                Route::get('role-main', 'showRoleMain')->name('admin.show.roleMain');
-                Route::get('role-main/ajaxGetList', 'getRoleMain')->name('admin.get.roleMain');
-                Route::post('role-main/add/save', 'saveRoleMain')->name('admin.save.roleMain');
-                Route::post('role-main/edit/update', 'updateRoleMain')->name('admin.update.roleMain');
-                Route::patch('role-main/permission/{id?}', 'permissionRoleMain')->name('admin.permission.roleMain');
-                Route::patch('role-main/status/{id?}', 'statusRoleMain')->name('admin.status.roleMain');
-                Route::delete('role-main/delete/{id?}', 'deleteRoleMain')->name('admin.delete.roleMain');
-                Route::group(['prefix' => 'role-main'], function () {
-                    Route::get('permission/{roleMainId?}', 'showPermissionRoleMain')->name('admin.show.permissionRoleMain');
-                    Route::get('permission/role-main/ajaxGetList/{roleMainId?}', 'getPermissionRoleMain')->name('admin.get.permissionRoleMain');
-                    Route::post('permission/update', 'updatePermissionRoleMain')->name('admin.update.permissionRoleMain');
-                });
-
-                Route::get('role-sub', 'showRoleSub')->name('admin.show.roleSub');
-                Route::get('role-sub/ajaxGetList', 'getRoleSub')->name('admin.get.roleSub');
-                Route::post('role-sub/add/save', 'saveRoleSub')->name('admin.save.roleSub');
-                Route::post('role-sub/edit/update', 'updateRoleSub')->name('admin.update.roleSub');
-                Route::patch('role-sub/permission/{id?}', 'permissionRoleSub')->name('admin.permission.roleSub');
-                Route::patch('role-sub/status/{id?}', 'statusRoleSub')->name('admin.status.roleSub');
-                Route::delete('role-sub/delete/{id?}', 'deleteRoleSub')->name('admin.delete.roleSub');
-                Route::group(['prefix' => 'role-sub'], function () {
-                    Route::get('permission/{roleSubId?}', 'showPermissionRoleSub')->name('admin.show.permissionRoleSub');
-                    Route::get('permission/role-sub/ajaxGetList/{roleSubId?}', 'getPermissionRoleSub')->name('admin.get.permissionRoleSub');
-                    Route::post('permission/update', 'updatePermissionRoleSub')->name('admin.update.permissionRoleSub');
-                });
-
-                Route::get('permissions', 'showPermissions')->name('admin.show.permissions');
-                Route::get('permissions/ajaxGetList', 'getPermissions')->name('admin.get.permissions');
-                Route::post('permissions/edit/update', 'updatePermissions')->name('admin.update.permissions');
             });
 
             Route::controller(ManageNavAdminController::class)->prefix('manage-nav')->group(function () {

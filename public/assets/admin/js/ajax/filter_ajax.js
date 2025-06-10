@@ -231,7 +231,7 @@
         //------ ( Role Main )
         $('#filterRoleMainForm').find('#statusFilter, .filterRoleMainBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageAccess-roleMain'),
+                dataTableId = $('#adminRelated-rolePermission-manageRole-mainRole'),
 
                 status = formId.find("#statusFilter").val(),
 
@@ -306,7 +306,7 @@
         //------ ( Role Sub )
         $('#filterRoleSubForm').find('#statusFilter, #roleMainFilter, .filterRoleSubBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageAccess-roleSub'),
+                dataTableId = $('#adminRelated-rolePermission-manageRole-subRole'),
 
                 status = formId.find("#statusFilter").val(),
                 roleMain = (formId.find("#roleMainFilter").val() == '' || formId.find("#roleMainFilter").val() == null) ? '' : formId.find("#roleMainFilter").val(),
