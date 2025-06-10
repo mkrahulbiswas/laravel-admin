@@ -527,7 +527,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navType')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-navType')
                                 }
                             }
                         })
@@ -631,7 +631,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navType')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-navType')
                                 }
                             }
                         })
@@ -659,10 +659,10 @@
         });
 
         //---- ( Nav Type Status, Edit, Detail ) ----//
-        $('body').delegate('#managePanel-manageNav-navType .actionDatatable', 'click', function () {
+        $('body').delegate('#adminRelated-navigationAccess-manageSideNav-navType .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
-                targetTableId = $('#managePanel-manageNav-navType'),
+                targetTableId = $('#adminRelated-navigationAccess-manageSideNav-navType'),
                 data = '';
 
             if (type == 'status') {
@@ -794,7 +794,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navMain')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-mainNav')
                                 }
                             }
                         })
@@ -901,7 +901,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navMain')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-mainNav')
                                 }
                             }
                         })
@@ -998,7 +998,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navMain')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-mainNav')
                                 }
                             }
                         })
@@ -1026,10 +1026,10 @@
         });
 
         //---- ( Main Nav Status, Edit, Detail ) ----//
-        $('body').delegate('#managePanel-manageNav-navMain .actionDatatable', 'click', function () {
+        $('body').delegate('#adminRelated-navigationAccess-manageSideNav-mainNav .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
-                targetTableId = $('#managePanel-manageNav-navMain'),
+                targetTableId = $('#adminRelated-navigationAccess-manageSideNav-mainNav'),
                 data = '';
 
             if (type == 'status') {
@@ -1205,7 +1205,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navSub')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-subNav')
                                 }
                             }
                         })
@@ -1315,7 +1315,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navSub')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-subNav')
                                 }
                             }
                         })
@@ -1412,7 +1412,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navSub')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-subNav')
                                 }
                             }
                         })
@@ -1440,10 +1440,10 @@
         });
 
         //---- ( Sub Nav Status, Edit, Detail ) ----//
-        $('body').delegate('#managePanel-manageNav-navSub .actionDatatable', 'click', function () {
+        $('body').delegate('#adminRelated-navigationAccess-manageSideNav-subNav .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
-                targetTableId = $('#managePanel-manageNav-navSub'),
+                targetTableId = $('#adminRelated-navigationAccess-manageSideNav-subNav'),
                 data = '';
 
             if (type == 'status') {
@@ -1626,7 +1626,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navNested')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-nestedNav')
                                 }
                             }
                         })
@@ -1739,7 +1739,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navNested')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-nestedNav')
                                 }
                             }
                         })
@@ -1836,7 +1836,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageNav-navNested')
+                                    targetId: $('#adminRelated-navigationAccess-manageSideNav-nestedNav')
                                 }
                             }
                         })
@@ -1864,10 +1864,10 @@
         });
 
         //---- ( Nested Nav Status, Edit, Detail ) ----//
-        $('body').delegate('#managePanel-manageNav-navNested .actionDatatable', 'click', function () {
+        $('body').delegate('#adminRelated-navigationAccess-manageSideNav-nestedNav .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
-                targetTableId = $('#managePanel-manageNav-navNested'),
+                targetTableId = $('#adminRelated-navigationAccess-manageSideNav-nestedNav'),
                 data = '';
 
             if (type == 'status') {

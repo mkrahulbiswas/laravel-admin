@@ -415,10 +415,10 @@ class GetManageNavHelper
                                 $whereRaw .= " and `navTypeId` = " . decrypt($navTypeId);
                             }
                         }
-                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navMainId')) {
-                            $navMainId = $tempOne['otherDataPasses']['filterData']['navMainId'];
-                            if (!empty($navMainId)) {
-                                $whereRaw .= " and `navMainId` = " . decrypt($navMainId);
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainNavId')) {
+                            $mainNavId = $tempOne['otherDataPasses']['filterData']['mainNavId'];
+                            if (!empty($mainNavId)) {
+                                $whereRaw .= " and `mainNavId` = " . decrypt($mainNavId);
                             }
                         }
                         if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'access')) {
@@ -491,10 +491,10 @@ class GetManageNavHelper
                                 $whereRaw .= " and `navTypeId` = " . decrypt($navTypeId);
                             }
                         }
-                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navMainId')) {
-                            $navMainId = $tempOne['otherDataPasses']['filterData']['navMainId'];
-                            if (!empty($navMainId)) {
-                                $whereRaw .= " and `navMainId` = " . decrypt($navMainId);
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainNavId')) {
+                            $mainNavId = $tempOne['otherDataPasses']['filterData']['mainNavId'];
+                            if (!empty($mainNavId)) {
+                                $whereRaw .= " and `mainNavId` = " . decrypt($mainNavId);
                             }
                         }
                         if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'access')) {
@@ -551,7 +551,7 @@ class GetManageNavHelper
                                         'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
                                     ],
                                     'otherDataPasses' => [
-                                        'id' => encrypt($tempTwo->navMainId)
+                                        'id' => encrypt($tempTwo->mainNavId)
                                     ],
                                 ],
                             ])[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
@@ -588,10 +588,10 @@ class GetManageNavHelper
                                 $whereRaw .= " and `navTypeId` = " . decrypt($navTypeId);
                             }
                         }
-                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navMainId')) {
-                            $navMainId = $tempOne['otherDataPasses']['filterData']['navMainId'];
-                            if (!empty($navMainId)) {
-                                $whereRaw .= " and `navMainId` = " . decrypt($navMainId);
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainNavId')) {
+                            $mainNavId = $tempOne['otherDataPasses']['filterData']['mainNavId'];
+                            if (!empty($mainNavId)) {
+                                $whereRaw .= " and `mainNavId` = " . decrypt($mainNavId);
                             }
                         }
                         if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'id')) {
@@ -675,16 +675,16 @@ class GetManageNavHelper
                                 $whereRaw .= " and `navTypeId` = " . decrypt($navTypeId);
                             }
                         }
-                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navMainId')) {
-                            $navMainId = $tempOne['otherDataPasses']['filterData']['navMainId'];
-                            if (!empty($navMainId)) {
-                                $whereRaw .= " and `navMainId` = " . decrypt($navMainId);
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainNavId')) {
+                            $mainNavId = $tempOne['otherDataPasses']['filterData']['mainNavId'];
+                            if (!empty($mainNavId)) {
+                                $whereRaw .= " and `mainNavId` = " . decrypt($mainNavId);
                             }
                         }
-                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navSubId')) {
-                            $navSubId = $tempOne['otherDataPasses']['filterData']['navSubId'];
-                            if (!empty($navSubId)) {
-                                $whereRaw .= " and `navSubId` = " . decrypt($navSubId);
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'subNavId')) {
+                            $subNavId = $tempOne['otherDataPasses']['filterData']['subNavId'];
+                            if (!empty($subNavId)) {
+                                $whereRaw .= " and `subNavId` = " . decrypt($subNavId);
                             }
                         }
                         if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'access')) {
@@ -757,16 +757,16 @@ class GetManageNavHelper
                                 $whereRaw .= " and `navTypeId` = " . decrypt($navTypeId);
                             }
                         }
-                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navMainId')) {
-                            $navMainId = $tempOne['otherDataPasses']['filterData']['navMainId'];
-                            if (!empty($navMainId)) {
-                                $whereRaw .= " and `navMainId` = " . decrypt($navMainId);
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainNavId')) {
+                            $mainNavId = $tempOne['otherDataPasses']['filterData']['mainNavId'];
+                            if (!empty($mainNavId)) {
+                                $whereRaw .= " and `mainNavId` = " . decrypt($mainNavId);
                             }
                         }
-                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navSubId')) {
-                            $navSubId = $tempOne['otherDataPasses']['filterData']['navSubId'];
-                            if (!empty($navSubId)) {
-                                $whereRaw .= " and `navSubId` = " . decrypt($navSubId);
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'subNavId')) {
+                            $subNavId = $tempOne['otherDataPasses']['filterData']['subNavId'];
+                            if (!empty($subNavId)) {
+                                $whereRaw .= " and `subNavId` = " . decrypt($subNavId);
                             }
                         }
                         if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'access')) {
@@ -823,7 +823,7 @@ class GetManageNavHelper
                                         'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
                                     ],
                                     'otherDataPasses' => [
-                                        'id' => encrypt($tempTwo->navMainId)
+                                        'id' => encrypt($tempTwo->mainNavId)
                                     ],
                                 ],
                             ])[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
@@ -834,7 +834,7 @@ class GetManageNavHelper
                                         'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
                                     ],
                                     'otherDataPasses' => [
-                                        'id' => encrypt($tempTwo->navSubId)
+                                        'id' => encrypt($tempTwo->subNavId)
                                     ],
                                 ],
                             ])[Config::get('constants.typeCheck.manageNav.navSub.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
@@ -871,16 +871,16 @@ class GetManageNavHelper
                                 $whereRaw .= " and `navTypeId` = " . decrypt($navTypeId);
                             }
                         }
-                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navMainId')) {
-                            $navMainId = $tempOne['otherDataPasses']['filterData']['navMainId'];
-                            if (!empty($navMainId)) {
-                                $whereRaw .= " and `navMainId` = " . decrypt($navMainId);
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainNavId')) {
+                            $mainNavId = $tempOne['otherDataPasses']['filterData']['mainNavId'];
+                            if (!empty($mainNavId)) {
+                                $whereRaw .= " and `mainNavId` = " . decrypt($mainNavId);
                             }
                         }
-                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navSubId')) {
-                            $navSubId = $tempOne['otherDataPasses']['filterData']['navSubId'];
-                            if (!empty($navSubId)) {
-                                $whereRaw .= " and `navSubId` = " . decrypt($navSubId);
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'subNavId')) {
+                            $subNavId = $tempOne['otherDataPasses']['filterData']['subNavId'];
+                            if (!empty($subNavId)) {
+                                $whereRaw .= " and `subNavId` = " . decrypt($subNavId);
                             }
                         }
                         if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'id')) {
@@ -992,7 +992,7 @@ class GetManageNavHelper
 
                 if (Config::get('constants.typeCheck.manageNav.navMain.type') == $for) {
                     $navMain = MainNav::where('id', decrypt($id))->first();
-                    $hasNavSub = SubNav::where('navMainId', $navMain->id)->count();
+                    $hasNavSub = SubNav::where('mainNavId', $navMain->id)->count();
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
@@ -1089,7 +1089,7 @@ class GetManageNavHelper
 
                 if (Config::get('constants.typeCheck.manageNav.navSub.type') == $for) {
                     $navSub = SubNav::where('id', decrypt($id))->first();
-                    $hasNavNested = NestedNav::where('navSubId', $navSub->id)->count();
+                    $hasNavNested = NestedNav::where('subNavId', $navSub->id)->count();
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
@@ -1167,7 +1167,7 @@ class GetManageNavHelper
                                         'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
                                     ],
                                     'otherDataPasses' => [
-                                        'id' => encrypt($navSub->navMainId)
+                                        'id' => encrypt($navSub->mainNavId)
                                     ],
                                 ]
                             ])[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
@@ -1262,7 +1262,7 @@ class GetManageNavHelper
                                         'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
                                     ],
                                     'otherDataPasses' => [
-                                        'id' => encrypt($navNested->navMainId)
+                                        'id' => encrypt($navNested->mainNavId)
                                     ],
                                 ]
                             ])[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
@@ -1273,7 +1273,7 @@ class GetManageNavHelper
                                         'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
                                     ],
                                     'otherDataPasses' => [
-                                        'id' => encrypt($navNested->navSubId)
+                                        'id' => encrypt($navNested->subNavId)
                                     ],
                                 ]
                             ])[Config::get('constants.typeCheck.manageNav.navSub.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail']
@@ -1368,7 +1368,7 @@ class GetManageNavHelper
                                     'otherDataPasses' => [
                                         'filterData' => [
                                             'status' => $filterData['status'],
-                                            'navMainId' => encrypt($tempThree['id']),
+                                            'mainNavId' => encrypt($tempThree['id']),
                                             // 'access' => $tempThree['id']
                                         ],
                                         'orderBy' => [
@@ -1388,7 +1388,7 @@ class GetManageNavHelper
                                             'otherDataPasses' => [
                                                 'filterData' => [
                                                     'status' => $filterData['status'],
-                                                    'navSubId' => encrypt($tempFour['id']),
+                                                    'subNavId' => encrypt($tempFour['id']),
                                                     // 'access' => $tempFour['id']
                                                 ],
                                                 'orderBy' => [
@@ -1476,7 +1476,7 @@ class GetManageNavHelper
 
             if (in_array(Config::get('constants.typeCheck.helperCommon.nav.np'), $type)) {
                 $navList = $nav1 = $nav2 = $nav3 = [];
-                $navTypeId = $navMainId = $navSubId = $navNestedId = '';
+                $navTypeId = $mainNavId = $subNavId = $nestedNavId = '';
 
                 if (isset($filterData['navTypeId'])) {
                     if ($filterData['navTypeId'] != '') {
@@ -1484,21 +1484,21 @@ class GetManageNavHelper
                     }
                 }
 
-                if (isset($filterData['navMainId'])) {
-                    if ($filterData['navMainId'] != '') {
-                        $navMainId = $filterData['navMainId'];
+                if (isset($filterData['mainNavId'])) {
+                    if ($filterData['mainNavId'] != '') {
+                        $mainNavId = $filterData['mainNavId'];
                     }
                 }
 
-                if (isset($filterData['navSubId'])) {
-                    if ($filterData['navSubId'] != '') {
-                        $navSubId = $filterData['navSubId'];
+                if (isset($filterData['subNavId'])) {
+                    if ($filterData['subNavId'] != '') {
+                        $subNavId = $filterData['subNavId'];
                     }
                 }
 
-                if (isset($filterData['navNestedId'])) {
-                    if ($filterData['navNestedId'] != '') {
-                        $navNestedId = $filterData['navNestedId'];
+                if (isset($filterData['nestedNavId'])) {
+                    if ($filterData['nestedNavId'] != '') {
+                        $nestedNavId = $filterData['nestedNavId'];
                     }
                 }
 
@@ -1530,7 +1530,7 @@ class GetManageNavHelper
                             'otherDataPasses' => [
                                 'filterData' => [
                                     'status' => $filterData['status'],
-                                    'id' => $navMainId,
+                                    'id' => $mainNavId,
                                     'navTypeId' => ($navTypeId != '')  ? $navTypeId : encrypt($tempTwo['id']),
                                     // 'access' => $tempTwo['id']
                                 ],
@@ -1551,9 +1551,9 @@ class GetManageNavHelper
                                     'otherDataPasses' => [
                                         'filterData' => [
                                             'status' => $filterData['status'],
-                                            'id' => $navSubId,
+                                            'id' => $subNavId,
                                             'navTypeId' => ($navTypeId != '')  ? $navTypeId : encrypt($tempTwo['id']),
-                                            'navMainId' => ($navMainId != '')  ? $navMainId : encrypt($tempThree['id']),
+                                            'mainNavId' => ($mainNavId != '')  ? $mainNavId : encrypt($tempThree['id']),
                                             // 'access' => $tempThree['id']
                                         ],
                                         'orderBy' => [
@@ -1573,10 +1573,10 @@ class GetManageNavHelper
                                             'otherDataPasses' => [
                                                 'filterData' => [
                                                     'status' => $filterData['status'],
-                                                    'id' => $navNestedId,
+                                                    'id' => $nestedNavId,
                                                     'navTypeId' => ($navTypeId != '')  ? $navTypeId : encrypt($tempTwo['id']),
-                                                    'navMainId' => ($navMainId != '')  ? $navMainId : encrypt($tempThree['id']),
-                                                    'navSubId' => ($navSubId != '')  ? $navSubId : encrypt($tempFour['id']),
+                                                    'mainNavId' => ($mainNavId != '')  ? $mainNavId : encrypt($tempThree['id']),
+                                                    'subNavId' => ($subNavId != '')  ? $subNavId : encrypt($tempFour['id']),
                                                     // 'access' => $tempFour['id']
                                                 ],
                                                 'orderBy' => [

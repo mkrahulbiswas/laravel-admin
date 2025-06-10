@@ -190,7 +190,7 @@ trait ValidationTrait
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageNav.navSub.type'),
                         'navTypeId' => $data['input']['navType'],
-                        'navMainId' => $data['input']['navMain']
+                        'mainNavId' => $data['input']['navMain']
                     ])],
                     'description' => 'max:500',
                 ];
@@ -205,7 +205,7 @@ trait ValidationTrait
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageNav.navSub.type'),
                         'navTypeId' => $data['input']['navType'],
-                        'navMainId' => $data['input']['navMain']
+                        'mainNavId' => $data['input']['navMain']
                     ])],
                     'description' => 'max:500',
                 ];
@@ -222,8 +222,8 @@ trait ValidationTrait
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageNav.navNested.type'),
                         'navTypeId' => $data['input']['navType'],
-                        'navMainId' => $data['input']['navMain'],
-                        'navSubId' => $data['input']['navSub'],
+                        'mainNavId' => $data['input']['navMain'],
+                        'subNavId' => $data['input']['navSub'],
                     ])],
                     'description' => 'max:500',
                 ];
@@ -239,8 +239,8 @@ trait ValidationTrait
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.manageNav.navNested.type'),
                         'navTypeId' => $data['input']['navType'],
-                        'navMainId' => $data['input']['navMain'],
-                        'navSubId' => $data['input']['navSub'],
+                        'mainNavId' => $data['input']['navMain'],
+                        'subNavId' => $data['input']['navSub'],
                     ])],
                     'description' => 'max:500',
                 ];

@@ -81,7 +81,7 @@
         //------ ( Nav Type )
         $('#filterNavTypeForm').find('#statusFilter, .filterNavTypeBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageNav-navType'),
+                dataTableId = $('#adminRelated-navigationAccess-manageSideNav-navType'),
 
                 status = formId.find("#statusFilter").val(),
 
@@ -117,7 +117,7 @@
         //------ ( Main Nav )
         $('#filterNavMainForm').find('#navTypeFilter, #statusFilter, .filterNavMainBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageNav-navMain'),
+                dataTableId = $('#adminRelated-navigationAccess-manageSideNav-mainNav'),
 
                 status = formId.find("#statusFilter").val(),
                 navType = (formId.find("#navTypeFilter").val() == '' || formId.find("#navTypeFilter").val() == null) ? '' : formId.find("#navTypeFilter").val(),
@@ -154,7 +154,7 @@
         //------ ( Sub Nav )
         $('#filterNavSubForm').find('#navTypeFilter, #navMainFilter, #statusFilter, .filterNavSubBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageNav-navSub'),
+                dataTableId = $('#adminRelated-navigationAccess-manageSideNav-subNav'),
 
                 status = formId.find("#statusFilter").val(),
                 navType = (formId.find("#navTypeFilter").val() == '' || formId.find("#navTypeFilter").val() == null) ? '' : formId.find("#navTypeFilter").val(),
@@ -192,7 +192,7 @@
         //------ ( Nested Nav )
         $('#filterNavNestedForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, #statusFilter, .filterNavNestedBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageNav-navNested'),
+                dataTableId = $('#adminRelated-navigationAccess-manageSideNav-nestedNav'),
 
                 status = formId.find("#statusFilter").val(),
                 navType = (formId.find("#navTypeFilter").val() == '' || formId.find("#navTypeFilter").val() == null) ? '' : formId.find("#navTypeFilter").val(),

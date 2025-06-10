@@ -59,7 +59,7 @@ class DDDAdminController extends Controller
     }
 
     /*------ ( Get Sub Nav ) -------*/
-    public function getNavSub($navMainId)
+    public function getNavSub($mainNavId)
     {
         try {
             $navSub = GetManageNavHelper::getList([
@@ -71,7 +71,7 @@ class DDDAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
-                            'navMainId' => $navMainId,
+                            'mainNavId' => $mainNavId,
                         ],
                         'orderBy' => [
                             'id' => 'desc'

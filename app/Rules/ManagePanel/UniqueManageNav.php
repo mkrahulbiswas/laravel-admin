@@ -59,13 +59,13 @@ class UniqueManageNav implements ValidationRule
                 $isExist = SubNav::where([
                     ['name', $value],
                     ['navTypeId', decrypt($this->data['navTypeId'])],
-                    ['navMainId', decrypt($this->data['navMainId'])],
+                    ['mainNavId', decrypt($this->data['mainNavId'])],
                 ])->get();
             } else {
                 $isExist = SubNav::where([
                     ['name', $value],
                     ['navTypeId', decrypt($this->data['navTypeId'])],
-                    ['navMainId', decrypt($this->data['navMainId'])],
+                    ['mainNavId', decrypt($this->data['mainNavId'])],
                     ['id', '!=', $this->data['targetId']]
                 ])->get();
             }
@@ -79,15 +79,15 @@ class UniqueManageNav implements ValidationRule
                 $isExist = NestedNav::where([
                     ['name', $value],
                     ['navTypeId', decrypt($this->data['navTypeId'])],
-                    ['navMainId', decrypt($this->data['navMainId'])],
-                    ['navSubId', decrypt($this->data['navSubId'])],
+                    ['mainNavId', decrypt($this->data['mainNavId'])],
+                    ['subNavId', decrypt($this->data['subNavId'])],
                 ])->get();
             } else {
                 $isExist = NestedNav::where([
                     ['name', $value],
                     ['navTypeId', decrypt($this->data['navTypeId'])],
-                    ['navMainId', decrypt($this->data['navMainId'])],
-                    ['navSubId', decrypt($this->data['navSubId'])],
+                    ['mainNavId', decrypt($this->data['mainNavId'])],
+                    ['subNavId', decrypt($this->data['subNavId'])],
                     ['id', '!=', $this->data['targetId']]
                 ])->get();
             }

@@ -419,22 +419,22 @@ class ManageRoleHelper
                                     $whereRaw .= " and `navTypeId` = " . decrypt($navTypeId);
                                 }
                             }
-                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navMainId')) {
-                                $navMainId = $tempOne['otherDataPasses']['filterData']['navMainId'];
-                                if (!empty($navMainId)) {
-                                    $whereRaw .= " and `navMainId` = " . decrypt($navMainId);
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainNavId')) {
+                                $mainNavId = $tempOne['otherDataPasses']['filterData']['mainNavId'];
+                                if (!empty($mainNavId)) {
+                                    $whereRaw .= " and `mainNavId` = " . decrypt($mainNavId);
                                 }
                             }
-                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navSubId')) {
-                                $navSubId = $tempOne['otherDataPasses']['filterData']['navSubId'];
-                                if (!empty($navSubId)) {
-                                    $whereRaw .= " and `navSubId` = " . decrypt($navSubId);
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'subNavId')) {
+                                $subNavId = $tempOne['otherDataPasses']['filterData']['subNavId'];
+                                if (!empty($subNavId)) {
+                                    $whereRaw .= " and `subNavId` = " . decrypt($subNavId);
                                 }
                             }
-                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'navNestedId')) {
-                                $navNestedId = $tempOne['otherDataPasses']['filterData']['navNestedId'];
-                                if (!empty($navNestedId)) {
-                                    $whereRaw .= " and `navNestedId` = " . decrypt($navNestedId);
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'nestedNavId')) {
+                                $nestedNavId = $tempOne['otherDataPasses']['filterData']['nestedNavId'];
+                                if (!empty($nestedNavId)) {
+                                    $whereRaw .= " and `nestedNavId` = " . decrypt($nestedNavId);
                                 }
                             }
                             if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'subRoleId')) {

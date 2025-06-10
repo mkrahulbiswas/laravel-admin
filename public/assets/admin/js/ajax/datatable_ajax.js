@@ -139,7 +139,7 @@
         });
 
         /*------( Nav Type Listing )--------*/
-        $('#managePanel-manageNav-navType').DataTable({
+        $('#adminRelated-navigationAccess-manageSideNav-navType').DataTable({
             processing: true,
             serverSide: true,
             ajax: "nav-type/ajaxGetList",
@@ -176,10 +176,10 @@
         });
 
         /*------( Main Nav Listing )--------*/
-        $('#managePanel-manageNav-navMain').DataTable({
+        $('#adminRelated-navigationAccess-manageSideNav-mainNav').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "nav-main/ajaxGetList",
+            ajax: "main-nav/ajaxGetList",
             language: {
                 searchPlaceholder: "None"
             },
@@ -213,10 +213,10 @@
         });
 
         /*------( Sub Nav Listing )--------*/
-        $('#managePanel-manageNav-navSub').DataTable({
+        $('#adminRelated-navigationAccess-manageSideNav-subNav').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "nav-sub/ajaxGetList",
+            ajax: "sub-nav/ajaxGetList",
             language: {
                 searchPlaceholder: "None"
             },
@@ -253,10 +253,10 @@
         });
 
         /*------( Nested Nav Listing )--------*/
-        $('#managePanel-manageNav-navNested').DataTable({
+        $('#adminRelated-navigationAccess-manageSideNav-nestedNav').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "nav-nested/ajaxGetList",
+            ajax: "nested-nav/ajaxGetList",
             language: {
                 searchPlaceholder: "None"
             },

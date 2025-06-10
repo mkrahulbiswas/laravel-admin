@@ -297,7 +297,7 @@ trait CommonTrait
                                         'otherDataPasses' => [
                                             'filterData' => [
                                                 'navTypeId' => $tempTwo['id'],
-                                                'navMainId' => $tempThree['id'],
+                                                'mainNavId' => $tempThree['id'],
                                                 'subRoleId' => isset($tempOne['otherDataPasses']['permission']['subRoleId']) ? $tempOne['otherDataPasses']['permission']['subRoleId'] : '',
                                                 'mainRoleId' => $tempOne['otherDataPasses']['permission']['mainRoleId'],
                                             ]
@@ -337,8 +337,8 @@ trait CommonTrait
                                                 'otherDataPasses' => [
                                                     'filterData' => [
                                                         'navTypeId' => $tempTwo['id'],
-                                                        'navMainId' => $tempThree['id'],
-                                                        'navSubId' => $tempFour['id'],
+                                                        'mainNavId' => $tempThree['id'],
+                                                        'subNavId' => $tempFour['id'],
                                                         'subRoleId' => isset($tempOne['otherDataPasses']['permission']['subRoleId']) ? $tempOne['otherDataPasses']['permission']['subRoleId'] : '',
                                                         'mainRoleId' => $tempOne['otherDataPasses']['permission']['mainRoleId'],
                                                     ]
@@ -378,9 +378,9 @@ trait CommonTrait
                                                         'otherDataPasses' => [
                                                             'filterData' => [
                                                                 'navTypeId' => $tempTwo['id'],
-                                                                'navMainId' => $tempThree['id'],
-                                                                'navSubId' => $tempFour['id'],
-                                                                'navNestedId' => $tempFive['id'],
+                                                                'mainNavId' => $tempThree['id'],
+                                                                'subNavId' => $tempFour['id'],
+                                                                'nestedNavId' => $tempFive['id'],
                                                                 'subRoleId' => isset($tempOne['otherDataPasses']['permission']['subRoleId']) ? $tempOne['otherDataPasses']['permission']['subRoleId'] : '',
                                                                 'mainRoleId' => $tempOne['otherDataPasses']['permission']['mainRoleId'],
                                                             ]

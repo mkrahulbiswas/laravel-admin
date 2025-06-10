@@ -564,20 +564,20 @@ class ManageSideNavAdminController extends Controller
                 [
                     'model' => SubNav::class,
                     'picUrl' => [],
-                    'filter' => [['search' => $id, 'field' => 'navMainId']],
+                    'filter' => [['search' => $id, 'field' => 'mainNavId']],
                 ],
                 [
                     'model' => NestedNav::class,
                     'picUrl' => [],
-                    'filter' => [['search' => $id, 'field' => 'navMainId']],
+                    'filter' => [['search' => $id, 'field' => 'mainNavId']],
                 ],
                 [
                     'model' => Permission::class,
                     'picUrl' => [],
                     'filter' => [
-                        ['search' => $id, 'field' => 'navMainId'],
-                        ['search' => null, 'field' => 'navSubId'],
-                        ['search' => null, 'field' => 'navNestedId'],
+                        ['search' => $id, 'field' => 'mainNavId'],
+                        ['search' => null, 'field' => 'subNavId'],
+                        ['search' => null, 'field' => 'nestedNavId'],
                     ],
                 ],
             ]);
@@ -637,7 +637,7 @@ class ManageSideNavAdminController extends Controller
                         'filterData' => [
                             'status' => $request->status,
                             'navTypeId' => $request->navType,
-                            'navMainId' => $request->navMain
+                            'mainNavId' => $request->navMain
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -747,7 +747,7 @@ class ManageSideNavAdminController extends Controller
                 $navSub->name = $values['name'];
                 $navSub->icon = $values['icon'];
                 $navSub->navTypeId = decrypt($values['navType']);
-                $navSub->navMainId = decrypt($values['navMain']);
+                $navSub->mainNavId = decrypt($values['navMain']);
                 $navSub->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $navSub->uniqueId = $this->generateCode(['preString' => 'NS', 'length' => 6, 'model' => SubNav::class, 'field' => '']);
                 $navSub->status = Config::get('constants.status')['active'];
@@ -786,7 +786,7 @@ class ManageSideNavAdminController extends Controller
                 $navSub->name = $values['name'];
                 $navSub->icon = $values['icon'];
                 $navSub->navTypeId = decrypt($values['navType']);
-                $navSub->navMainId = decrypt($values['navMain']);
+                $navSub->mainNavId = decrypt($values['navMain']);
                 $navSub->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $navSub->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['navMain']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
                 $navSub->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
@@ -904,14 +904,14 @@ class ManageSideNavAdminController extends Controller
                 [
                     'model' => NestedNav::class,
                     'picUrl' => [],
-                    'filter' => [['search' => $id, 'field' => 'navSubId']],
+                    'filter' => [['search' => $id, 'field' => 'subNavId']],
                 ],
                 [
                     'model' => Permission::class,
                     'picUrl' => [],
                     'filter' => [
-                        ['search' => $id, 'field' => 'navMainId'],
-                        ['search' => null, 'field' => 'navNestedId'],
+                        ['search' => $id, 'field' => 'mainNavId'],
+                        ['search' => null, 'field' => 'nestedNavId'],
                     ],
                 ],
             ]);
@@ -970,8 +970,8 @@ class ManageSideNavAdminController extends Controller
                         'filterData' => [
                             'status' => $request->status,
                             'navTypeId' => $request->navType,
-                            'navMainId' => $request->navMain,
-                            'navSubId' => $request->navSub,
+                            'mainNavId' => $request->navMain,
+                            'subNavId' => $request->navSub,
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -1085,8 +1085,8 @@ class ManageSideNavAdminController extends Controller
                 $navNested->name = $values['name'];
                 $navNested->icon = $values['icon'];
                 $navNested->navTypeId = decrypt($values['navType']);
-                $navNested->navMainId = decrypt($values['navMain']);
-                $navNested->navSubId = decrypt($values['navSub']);
+                $navNested->mainNavId = decrypt($values['navMain']);
+                $navNested->subNavId = decrypt($values['navSub']);
                 $navNested->description = ($values['description'] == '') ? 'NA' : $values['description'];
                 $navNested->uniqueId = $this->generateCode(['preString' => 'NN', 'length' => 6, 'model' => NestedNav::class, 'field' => '']);
                 $navNested->status = Config::get('constants.status')['active'];
@@ -1125,8 +1125,8 @@ class ManageSideNavAdminController extends Controller
                 $navNested->name = $values['name'];
                 $navNested->icon = $values['icon'];
                 $navNested->navTypeId = decrypt($values['navType']);
-                $navNested->navMainId = decrypt($values['navMain']);
-                $navNested->navSubId = decrypt($values['navSub']);
+                $navNested->mainNavId = decrypt($values['navMain']);
+                $navNested->subNavId = decrypt($values['navSub']);
                 $navNested->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $navNested->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['navMain']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", SubNav::where('id', decrypt($values['navSub']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
                 $navNested->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
@@ -1244,7 +1244,7 @@ class ManageSideNavAdminController extends Controller
                 [
                     'model' => Permission::class,
                     'picUrl' => [],
-                    'filter' => [['search' => $id, 'field' => 'navNestedId']],
+                    'filter' => [['search' => $id, 'field' => 'nestedNavId']],
                 ],
             ]);
             if ($result == true) {

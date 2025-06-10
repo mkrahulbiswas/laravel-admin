@@ -354,8 +354,8 @@ class ManageRoleAdminController extends Controller
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
                             'navTypeId' => $request->navType,
-                            'navMainId' => $request->navMain,
-                            'navSubId' => $request->navSub,
+                            'mainNavId' => $request->navMain,
+                            'subNavId' => $request->navSub,
                         ],
                         'orderBy' => [
                             'position' => 'asc'
@@ -769,8 +769,8 @@ class ManageRoleAdminController extends Controller
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
                             'navTypeId' => $request->navType,
-                            'navMainId' => $request->navMain,
-                            'navSubId' => $request->navSub,
+                            'mainNavId' => $request->navMain,
+                            'subNavId' => $request->navSub,
                         ],
                         'orderBy' => [
                             'position' => 'asc'

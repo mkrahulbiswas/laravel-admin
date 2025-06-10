@@ -131,7 +131,7 @@
                         </div>
                         <div class="col-md-12 tdContentMain">
                             <div class="tdContentSub">
-                                <table id="managePanel-manageNav-navSub" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
+                                <table id="adminRelated-navigationAccess-manageSideNav-subNav" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>#</th>
