@@ -74,10 +74,10 @@
                                                             <input type="hidden" name="navType[]" value="{{ decrypt($itemOne['id']) }}">
                                                         </div>
                                                         @if (sizeof($itemOne[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')]) > 0)
-                                                            <div class="navMainInner allNavCommon">
+                                                            <div class="mainNavInner allNavCommon">
                                                                 @foreach ($itemOne[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')] as $itemTwo)
-                                                                    <div class="navMainList navListCommon">
-                                                                        <div class="navMainHeading commonNavHeading">
+                                                                    <div class="mainNavList navListCommon">
+                                                                        <div class="mainNavHeading commonNavHeading">
                                                                             <div class="navHeadingTop">
                                                                                 <i class="bx bx-cable-car"></i>
                                                                             </div>
@@ -85,14 +85,14 @@
                                                                                 <span>{{ $itemTwo['name'] }}</span>
                                                                                 <span>{{ $itemTwo['uniqueId'] }}</span>
                                                                             </div>
-                                                                            {{-- <input type="hidden" name="navMain[]" value="{{ $itemTwo['id'] }}"> --}}
-                                                                            <input type="hidden" name="navMain[]" value="{{ decrypt($itemTwo['id']) }}">
+                                                                            {{-- <input type="hidden" name="mainNav[]" value="{{ $itemTwo['id'] }}"> --}}
+                                                                            <input type="hidden" name="mainNav[]" value="{{ decrypt($itemTwo['id']) }}">
                                                                         </div>
                                                                         @if (sizeof($itemTwo[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')]) > 0)
-                                                                            <div class="navSubInner allNavCommon">
+                                                                            <div class="subNavInner allNavCommon">
                                                                                 @foreach ($itemTwo[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')] as $itemThree)
-                                                                                    <div class="navSubList navListCommon">
-                                                                                        <div class="navSubHeading commonNavHeading">
+                                                                                    <div class="subNavList navListCommon">
+                                                                                        <div class="subNavHeading commonNavHeading">
                                                                                             <div class="navHeadingTop">
                                                                                                 <i class="bx bx-cable-car"></i>
                                                                                             </div>
@@ -100,14 +100,14 @@
                                                                                                 <span>{{ $itemThree['name'] }}</span>
                                                                                                 <span>{{ $itemThree['uniqueId'] }}</span>
                                                                                             </div>
-                                                                                            {{-- <input type="hidden" name="navSub[]" value="{{ $itemThree['id'] }}"> --}}
-                                                                                            <input type="hidden" name="navSub[]" value="{{ decrypt($itemThree['id']) }}">
+                                                                                            {{-- <input type="hidden" name="subNav[]" value="{{ $itemThree['id'] }}"> --}}
+                                                                                            <input type="hidden" name="subNav[]" value="{{ decrypt($itemThree['id']) }}">
                                                                                         </div>
                                                                                         @if (sizeof($itemThree[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type')]) > 0)
-                                                                                            <div class="navNestedInner allNavCommon">
+                                                                                            <div class="nestedNavInner allNavCommon">
                                                                                                 @foreach ($itemThree[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type')] as $itemFour)
-                                                                                                    <div class="navNestedList navListCommon">
-                                                                                                        <div class="navNestedHeading commonNavHeading">
+                                                                                                    <div class="nestedNavList navListCommon">
+                                                                                                        <div class="nestedNavHeading commonNavHeading">
                                                                                                             <div class="navHeadingTop">
                                                                                                                 <i class="bx bx-cable-car"></i>
                                                                                                             </div>
@@ -115,8 +115,8 @@
                                                                                                                 <span>{{ $itemFour['name'] }}</span>
                                                                                                                 <span>{{ $itemFour['uniqueId'] }}</span>
                                                                                                             </div>
-                                                                                                            {{-- <input type="hidden" name="navNested[]" value="{{ $itemFour['id'] }}"> --}}
-                                                                                                            <input type="hidden" name="navNested[]" value="{{ decrypt($itemFour['id']) }}">
+                                                                                                            {{-- <input type="hidden" name="nestedNav[]" value="{{ $itemFour['id'] }}"> --}}
+                                                                                                            <input type="hidden" name="nestedNav[]" value="{{ decrypt($itemFour['id']) }}">
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 @endforeach

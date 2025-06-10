@@ -69,14 +69,14 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="tdFilterForm p-3">
-                                            <form id="filterNavSubForm" method="POST" action="{{ route('admin.get.subNav') }}" class="m-b-20">
+                                            <form id="filterSubNavForm" method="POST" action="{{ route('admin.get.subNav') }}" class="m-b-20">
                                                 @csrf
                                                 <div class="row gap-2">
 
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
                                                         <div class="form-icon set-validation">
-                                                            <select name="navType" id="navTypeFilter" class="selectTwo select2-navType navTypeDDD" data-action="{{ route('admin.get.navMainDDD') }}">
+                                                            <select name="navType" id="navTypeFilter" class="selectTwo select2-navType navTypeDDD" data-action="{{ route('admin.get.mainNavDDD') }}">
                                                                 <option value="">Select Nav Type</option>
                                                                 @foreach ($data['navType'] as $item)
                                                                     <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -89,7 +89,7 @@
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
                                                         <div class="form-icon set-validation">
-                                                            <select name="navMain" id="navMainFilter" class="selectTwo select2-navMain navMainDDD"></select>
+                                                            <select name="mainNav" id="mainNavFilter" class="selectTwo select2-mainNav mainNavDDD"></select>
                                                             <i class="bx bx-bar-chart-square"></i>
                                                         </div>
                                                     </div>
@@ -108,13 +108,13 @@
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
                                                         <div class="form-group d-flex flex-row justify-content-start">
                                                             @if ($permission['search']['permission'] == true)
-                                                                <button type="button" class="btn btn-info btn-label waves-effect waves-light filterNavSubBtn" title="Search">
+                                                                <button type="button" class="btn btn-info btn-label waves-effect waves-light filterSubNavBtn" title="Search">
                                                                     <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
                                                                     <span>Search</span>
                                                                 </button>
                                                             @endif
                                                             @if ($permission['reset']['permission'] == true)
-                                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterNavSubBtn ms-2" title="Reload">
+                                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterSubNavBtn ms-2" title="Reload">
                                                                     <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
                                                                     <span>Reset</span>
                                                                 </button>
@@ -169,7 +169,7 @@
     <div id="con-add-modal" class="modal fade con-add-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="saveNavSubForm" action="{{ route('admin.save.subNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="saveSubNavForm" action="{{ route('admin.save.subNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalLabel">Add Sub Nav</h5>
@@ -180,7 +180,7 @@
                             <div class="form-element col-12 mb-3">
                                 <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="navType" id="navType" class="selectTwo select2-navType-addModal navTypeDDD" data-action="{{ route('admin.get.navMainDDD') }}">
+                                    <select name="navType" id="navType" class="selectTwo select2-navType-addModal navTypeDDD" data-action="{{ route('admin.get.mainNavDDD') }}">
                                         <option value="">Select Nav Type</option>
                                         @foreach ($data['navType'] as $item)
                                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -191,14 +191,14 @@
                                 <div class="validation-error" id="navTypeErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
-                                <label for="navMain" class="form-label">Main Nav <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="mainNav" class="form-label">Main Nav <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="navMain" id="navMain" class="selectTwo select2-navMain-addModal navMainDDD">
+                                    <select name="mainNav" id="mainNav" class="selectTwo select2-mainNav-addModal mainNavDDD">
                                         <option value="">Select Nav Type</option>
                                     </select>
                                     <i class="bx bx-bar-chart-square"></i>
                                 </div>
-                                <div class="validation-error" id="navMainErr"></div>
+                                <div class="validation-error" id="mainNavErr"></div>
                             </div>
                             <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
@@ -236,7 +236,7 @@
                             </button>
                         @endif
                         @if ($permission['save']['permission'] == true)
-                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="saveNavSubBtn">
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="saveSubNavBtn">
                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                 <span>Save</span>
                             </button>
@@ -250,7 +250,7 @@
     <div id="con-edit-modal" class="modal fade con-edit-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="updateNavSubForm" action="{{ route('admin.update.subNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="updateSubNavForm" action="{{ route('admin.update.subNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
@@ -262,7 +262,7 @@
                             <div class="form-element col-12 mb-3">
                                 <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="navType" id="navType2" class="selectTwo select2-navType-editModal navTypeDDD" data-action="{{ route('admin.get.navMainDDD') }}">
+                                    <select name="navType" id="navType2" class="selectTwo select2-navType-editModal navTypeDDD" data-action="{{ route('admin.get.mainNavDDD') }}">
                                         <option value="">Select Nav Type</option>
                                         @foreach ($data['navType'] as $item)
                                             <option value="{{ $item['id'] }}" data-name="{{ $item['name'] }}">
@@ -274,12 +274,12 @@
                                 <div class="validation-error" id="navTypeErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
-                                <label for="navMain" class="form-label">Main Nav <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="mainNav" class="form-label">Main Nav <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="navMain" id="navMain2" class="selectTwo select2-navMain-editModal navMainDDD"></select>
+                                    <select name="mainNav" id="mainNav2" class="selectTwo select2-mainNav-editModal mainNavDDD"></select>
                                     <i class="bx bx-bar-chart-square"></i>
                                 </div>
-                                <div class="validation-error" id="navMainErr"></div>
+                                <div class="validation-error" id="mainNavErr"></div>
                             </div>
                             <div class="form-element col-sm-6 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
@@ -317,7 +317,7 @@
                             </button>
                         @endif
                         @if ($permission['update']['permission'] == true)
-                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateNavSubBtn">
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateSubNavBtn">
                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                 <span>Update</span>
                             </button>
@@ -331,7 +331,7 @@
     <div id="con-access-modal" class="modal fade con-access-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="accessNavSubForm" action="{{ route('admin.access.subNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="accessSubNavForm" action="{{ route('admin.access.subNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
@@ -368,7 +368,7 @@
                             </button>
                         @endif
                         @if ($permission['set']['permission'] == true)
-                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="accessNavSubBtn">
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="accessSubNavBtn">
                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                 <span>Set Access</span>
                             </button>
@@ -412,7 +412,7 @@
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
                                     <label class="details-label form-label mb-1">Main Nav :</label>
-                                    <span class="detail-span d-block mb-0" id="navMain"></span>
+                                    <span class="detail-span d-block mb-0" id="mainNav"></span>
                                 </div>
                             </div>
                         </div>

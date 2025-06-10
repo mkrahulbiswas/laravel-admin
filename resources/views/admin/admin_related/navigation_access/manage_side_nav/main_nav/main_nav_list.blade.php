@@ -69,7 +69,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="tdFilterForm p-3">
-                                            <form id="filterNavMainForm" method="POST" action="{{ route('admin.get.mainNav') }}" class="m-b-20">
+                                            <form id="filterMainNavForm" method="POST" action="{{ route('admin.get.mainNav') }}" class="m-b-20">
                                                 @csrf
                                                 <div class="row gap-2">
 
@@ -100,13 +100,13 @@
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
                                                         <div class="form-group d-flex flex-row justify-content-start">
                                                             @if ($permission['search']['permission'] == true)
-                                                                <button type="button" class="btn btn-info btn-label waves-effect waves-light filterNavMainBtn" title="Search">
+                                                                <button type="button" class="btn btn-info btn-label waves-effect waves-light filterMainNavBtn" title="Search">
                                                                     <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
                                                                     <span>Search</span>
                                                                 </button>
                                                             @endif
                                                             @if ($permission['reset']['permission'] == true)
-                                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterNavMainBtn ms-2" title="Reload">
+                                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterMainNavBtn ms-2" title="Reload">
                                                                     <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
                                                                     <span>Reset</span>
                                                                 </button>
@@ -159,7 +159,7 @@
     <div id="con-add-modal" class="modal fade con-add-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="saveNavMainForm" action="{{ route('admin.save.mainNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="saveMainNavForm" action="{{ route('admin.save.mainNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
                         <h5 class="modal-title" id="myModalLabel">Add Main Nav</h5>
@@ -217,7 +217,7 @@
                             </button>
                         @endif
                         @if ($permission['save']['permission'] == true)
-                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="saveNavMainBtn">
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="saveMainNavBtn">
                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                 <span>Save</span>
                             </button>
@@ -231,7 +231,7 @@
     <div id="con-edit-modal" class="modal fade con-edit-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="updateNavMainForm" action="{{ route('admin.update.mainNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="updateMainNavForm" action="{{ route('admin.update.mainNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
@@ -290,7 +290,7 @@
                             </button>
                         @endif
                         @if ($permission['update']['permission'] == true)
-                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateNavMainBtn">
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateMainNavBtn">
                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                 <span>Update</span>
                             </button>
@@ -304,7 +304,7 @@
     <div id="con-access-modal" class="modal fade con-access-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="accessNavMainForm" action="{{ route('admin.access.mainNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="accessMainNavForm" action="{{ route('admin.access.mainNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
@@ -341,7 +341,7 @@
                             </button>
                         @endif
                         @if ($permission['set']['permission'] == true)
-                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="accessNavMainBtn">
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="accessMainNavBtn">
                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                 <span>Set Access</span>
                             </button>
