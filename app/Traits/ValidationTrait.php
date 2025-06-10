@@ -136,7 +136,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:30', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
+                        'type' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type'),
                     ])],
                     'description' => 'max:500',
                 ];
@@ -147,7 +147,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:30', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => Config::get('constants.typeCheck.manageNav.navType.type'),
+                        'type' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type'),
                     ])],
                     'description' => 'max:500',
                 ];
@@ -160,7 +160,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => Config::get('constants.typeCheck.manageNav.navMain.type'),
+                        'type' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.mainNav.type'),
                         'navTypeId' => $data['input']['navType']
                     ])],
                     'description' => 'max:500',
@@ -173,7 +173,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => Config::get('constants.typeCheck.manageNav.navMain.type'),
+                        'type' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.mainNav.type'),
                         'navTypeId' => $data['input']['navType']
                     ])],
                     'description' => 'max:500',
@@ -188,7 +188,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => Config::get('constants.typeCheck.manageNav.navSub.type'),
+                        'type' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.subNav.type'),
                         'navTypeId' => $data['input']['navType'],
                         'mainNavId' => $data['input']['navMain']
                     ])],
@@ -203,7 +203,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => Config::get('constants.typeCheck.manageNav.navSub.type'),
+                        'type' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.subNav.type'),
                         'navTypeId' => $data['input']['navType'],
                         'mainNavId' => $data['input']['navMain']
                     ])],
@@ -220,7 +220,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => Config::get('constants.typeCheck.manageNav.navNested.type'),
+                        'type' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.nestedNav.type'),
                         'navTypeId' => $data['input']['navType'],
                         'mainNavId' => $data['input']['navMain'],
                         'subNavId' => $data['input']['navSub'],
@@ -237,7 +237,7 @@ trait ValidationTrait
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
-                        'type' => Config::get('constants.typeCheck.manageNav.navNested.type'),
+                        'type' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.nestedNav.type'),
                         'navTypeId' => $data['input']['navType'],
                         'mainNavId' => $data['input']['navMain'],
                         'subNavId' => $data['input']['navSub'],

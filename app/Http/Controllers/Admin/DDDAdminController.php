@@ -30,7 +30,7 @@ class DDDAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageNav.navMain.type'),
+                        'for' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.mainNav.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -45,7 +45,7 @@ class DDDAdminController extends Controller
             ]);
 
             $data = [
-                'navMain' => $navMain[Config::get('constants.typeCheck.manageNav.navMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
+                'navMain' => $navMain[Config::get('constants.adminRelated.navigationAccess.manageSideNav.mainNav.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
             ];
 
             if ($data) {
@@ -66,7 +66,7 @@ class DDDAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageNav.navSub.type'),
+                        'for' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.subNav.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -81,7 +81,7 @@ class DDDAdminController extends Controller
             ]);
 
             $data = [
-                'navSub' => $navSub[Config::get('constants.typeCheck.manageNav.navSub.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
+                'navSub' => $navSub[Config::get('constants.adminRelated.navigationAccess.manageSideNav.subNav.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
             ];
 
             if ($data) {

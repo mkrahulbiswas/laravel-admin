@@ -22,7 +22,7 @@ class UniqueManageNav implements ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail, array $parameters = []): void
     {
-        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navType.type')) {
+        if ($this->data['type'] == Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = NavType::where('name', $value)->get();
             } else {
@@ -36,7 +36,7 @@ class UniqueManageNav implements ValidationRule
             }
         }
 
-        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navMain.type')) {
+        if ($this->data['type'] == Config::get('constants.adminRelated.navigationAccess.manageSideNav.mainNav.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = MainNav::where([
                     ['name', $value],
@@ -54,7 +54,7 @@ class UniqueManageNav implements ValidationRule
             }
         }
 
-        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navSub.type')) {
+        if ($this->data['type'] == Config::get('constants.adminRelated.navigationAccess.manageSideNav.subNav.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = SubNav::where([
                     ['name', $value],
@@ -74,7 +74,7 @@ class UniqueManageNav implements ValidationRule
             }
         }
 
-        if ($this->data['type'] == Config::get('constants.typeCheck.manageNav.navNested.type')) {
+        if ($this->data['type'] == Config::get('constants.adminRelated.navigationAccess.manageSideNav.nestedNav.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = NestedNav::where([
                     ['name', $value],

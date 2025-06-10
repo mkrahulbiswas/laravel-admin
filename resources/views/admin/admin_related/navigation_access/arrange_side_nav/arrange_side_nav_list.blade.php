@@ -73,9 +73,9 @@
                                                             {{-- <input type="hidden" name="navType[]" value="{{ $itemOne['id'] }}"> --}}
                                                             <input type="hidden" name="navType[]" value="{{ decrypt($itemOne['id']) }}">
                                                         </div>
-                                                        @if (sizeof($itemOne[Config::get('constants.typeCheck.manageNav.navMain.type')]) > 0)
+                                                        @if (sizeof($itemOne[Config::get('constants.adminRelated.navigationAccess.manageSideNav.mainNav.type')]) > 0)
                                                             <div class="navMainInner allNavCommon">
-                                                                @foreach ($itemOne[Config::get('constants.typeCheck.manageNav.navMain.type')] as $itemTwo)
+                                                                @foreach ($itemOne[Config::get('constants.adminRelated.navigationAccess.manageSideNav.mainNav.type')] as $itemTwo)
                                                                     <div class="navMainList navListCommon">
                                                                         <div class="navMainHeading commonNavHeading">
                                                                             <div class="navHeadingTop">
@@ -88,9 +88,9 @@
                                                                             {{-- <input type="hidden" name="navMain[]" value="{{ $itemTwo['id'] }}"> --}}
                                                                             <input type="hidden" name="navMain[]" value="{{ decrypt($itemTwo['id']) }}">
                                                                         </div>
-                                                                        @if (sizeof($itemTwo[Config::get('constants.typeCheck.manageNav.navSub.type')]) > 0)
+                                                                        @if (sizeof($itemTwo[Config::get('constants.adminRelated.navigationAccess.manageSideNav.subNav.type')]) > 0)
                                                                             <div class="navSubInner allNavCommon">
-                                                                                @foreach ($itemTwo[Config::get('constants.typeCheck.manageNav.navSub.type')] as $itemThree)
+                                                                                @foreach ($itemTwo[Config::get('constants.adminRelated.navigationAccess.manageSideNav.subNav.type')] as $itemThree)
                                                                                     <div class="navSubList navListCommon">
                                                                                         <div class="navSubHeading commonNavHeading">
                                                                                             <div class="navHeadingTop">
@@ -103,9 +103,9 @@
                                                                                             {{-- <input type="hidden" name="navSub[]" value="{{ $itemThree['id'] }}"> --}}
                                                                                             <input type="hidden" name="navSub[]" value="{{ decrypt($itemThree['id']) }}">
                                                                                         </div>
-                                                                                        @if (sizeof($itemThree[Config::get('constants.typeCheck.manageNav.navNested.type')]) > 0)
+                                                                                        @if (sizeof($itemThree[Config::get('constants.adminRelated.navigationAccess.manageSideNav.nestedNav.type')]) > 0)
                                                                                             <div class="navNestedInner allNavCommon">
-                                                                                                @foreach ($itemThree[Config::get('constants.typeCheck.manageNav.navNested.type')] as $itemFour)
+                                                                                                @foreach ($itemThree[Config::get('constants.adminRelated.navigationAccess.manageSideNav.nestedNav.type')] as $itemFour)
                                                                                                     <div class="navNestedList navListCommon">
                                                                                                         <div class="navNestedHeading commonNavHeading">
                                                                                                             <div class="navHeadingTop">
