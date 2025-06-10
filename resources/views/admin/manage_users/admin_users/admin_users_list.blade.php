@@ -142,7 +142,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Details Role Sub</h5>
+                    <h5 class="modal-title" id="myModalLabel">Details Sub Role</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -156,7 +156,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Role Main :</label>
+                                    <label class="details-label form-label mb-1">Main Role:</label>
                                     <span class="detail-span d-block mb-0" id="roleMain"></span>
                                 </div>
                             </div>
@@ -170,7 +170,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Role Sub :</label>
+                                    <label class="details-label form-label mb-1">Sub Role:</label>
                                     <span class="detail-span d-block mb-0" id="name"></span>
                                 </div>
                             </div>
@@ -184,7 +184,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Description :</label>
+                                    <label class="details-label form-label mb-1">Description:</label>
                                     <span class="detail-span d-block mb-0" id="description"></span>
                                 </div>
                             </div>

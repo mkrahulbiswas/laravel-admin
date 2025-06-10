@@ -2034,7 +2034,7 @@
         });
 
 
-        //---- ( Role Main Save ) ----//
+        //---- ( Main Role Save ) ----//
         $("#saveMainRoleForm").submit(function (event) {
 
             submitForm = $(this);
@@ -2137,7 +2137,7 @@
             });
         });
 
-        //---- ( Role Main Update ) ----//
+        //---- ( Main Role Update ) ----//
         $("#updateMainRoleForm").submit(function (event) {
             submitForm = $(this);
             submitBtn = $(this).find('#updateRoleMainBtn');
@@ -2238,7 +2238,7 @@
             });
         });
 
-        //---- ( Permission Role Main Update ) ----//
+        //---- ( Permission Main Role Update ) ----//
         $("#updatePermissionRoleMainForm").submit(function (event) {
             submitForm = $(this);
             submitBtn = $(this).find('#updatePermissionRoleMainBtn');
@@ -2336,7 +2336,7 @@
             });
         });
 
-        //---- ( Role Main Status, Edit, Detail ) ----//
+        //---- ( Main Role Status, Edit, Detail ) ----//
         $('body').delegate('#adminRelated-rolePermission-manageRole-mainRole .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
@@ -2418,7 +2418,7 @@
         });
 
 
-        //---- ( Role Sub Save ) ----//
+        //---- ( Sub Role Save ) ----//
         $("#saveSubRoleForm").submit(function (event) {
 
             submitForm = $(this);
@@ -2524,7 +2524,7 @@
             });
         });
 
-        //---- ( Role Sub Update ) ----//
+        //---- ( Sub Role Update ) ----//
         $("#updateSubRoleForm").submit(function (event) {
             submitForm = $(this);
             submitBtn = $(this).find('#updateRoleSubBtn');
@@ -2628,7 +2628,7 @@
             });
         });
 
-        //---- ( Permission Role Sub Update ) ----//
+        //---- ( Permission Sub Role Update ) ----//
         $("#updatePermissionRoleSubForm").submit(function (event) {
             submitForm = $(this);
             submitBtn = $(this).find('#updatePermissionRoleSubBtn');
@@ -2726,7 +2726,7 @@
             });
         });
 
-        //---- ( Role Sub Status, Edit, Detail ) ----//
+        //---- ( Sub Role Status, Edit, Detail ) ----//
         $('body').delegate('#adminRelated-rolePermission-manageRole-subRole .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),

@@ -228,7 +228,7 @@
             })
         });
 
-        //------ ( Role Main )
+        //------ ( Main Role )
         $('#filterRoleMainForm').find('#statusFilter, .filterRoleMainBtn').on('change click', function () {
             var formId = $(this).closest('form'),
                 dataTableId = $('#adminRelated-rolePermission-manageRole-mainRole'),
@@ -264,7 +264,7 @@
             })
         });
 
-        //------ ( Permission Role Main )
+        //------ ( Permission Main Role )
         $('#filterPermissionRoleMainForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, .filterPermissionRoleMainBtn').on('change click', function () {
             var formId = $(this).closest('form'),
                 dataTableId = $('#managePanel-manageAccess-permissionRoleMain'),
@@ -303,7 +303,7 @@
             })
         });
 
-        //------ ( Role Sub )
+        //------ ( Sub Role )
         $('#filterRoleSubForm').find('#statusFilter, #roleMainFilter, .filterRoleSubBtn').on('change click', function () {
             var formId = $(this).closest('form'),
                 dataTableId = $('#adminRelated-rolePermission-manageRole-subRole'),
@@ -340,7 +340,7 @@
             })
         });
 
-        //------ ( Permission Role Sub )
+        //------ ( Permission Sub Role )
         $('#filterPermissionRoleSubForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, .filterPermissionRoleSubBtn').on('change click', function () {
             var formId = $(this).closest('form'),
                 dataTableId = $('#managePanel-manageAccess-permissionRoleSub'),

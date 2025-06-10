@@ -224,7 +224,7 @@ class QuickSettingsAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Main", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Logo", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {

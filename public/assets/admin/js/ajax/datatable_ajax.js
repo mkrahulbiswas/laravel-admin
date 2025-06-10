@@ -296,7 +296,7 @@
         });
 
 
-        /*------( Role Main Listing )--------*/
+        /*------( Main Role Listing )--------*/
         $('#adminRelated-rolePermission-manageRole-mainRole').DataTable({
             processing: true,
             serverSide: true,
@@ -330,7 +330,7 @@
             ]
         });
 
-        /*------( Permission Role Main Listing )--------*/
+        /*------( Permission Main Role Listing )--------*/
         $('#managePanel-manageAccess-permissionRoleMain').DataTable({
             paging: false,
             ordering: false,
@@ -347,7 +347,7 @@
             }]
         });
 
-        /*------( Role Sub Listing )--------*/
+        /*------( Sub Role Listing )--------*/
         $('#adminRelated-rolePermission-manageRole-subRole').DataTable({
             processing: true,
             serverSide: true,
@@ -384,7 +384,7 @@
             ]
         });
 
-        /*------( Permission Role Sub Listing )--------*/
+        /*------( Permission Sub Role Listing )--------*/
         $('#managePanel-manageAccess-permissionRoleSub').DataTable({
             paging: false,
             ordering: false,

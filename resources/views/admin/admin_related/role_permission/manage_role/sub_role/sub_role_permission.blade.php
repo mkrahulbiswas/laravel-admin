@@ -9,7 +9,7 @@
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Panel</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Access</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('admin.show.roleSub') }}">Role Sub</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.show.roleSub') }}">Sub Role</a></li>
                             <li class="breadcrumb-item active">Permission</li>
                         </ol>
                     </div>

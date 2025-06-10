@@ -76,10 +76,10 @@
                                                             <div class="validation-error" id="phoneErr"></div>
                                                         </div>
                                                         <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-3">
-                                                            <label for="roleMain" class="form-label">Role Main <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <label for="roleMain" class="form-label">Main Role <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                             <div class="form-icon set-validation">
                                                                 <select name="roleMain" id="roleMain" class="selectTwo select2-roleMain roleMainDDD" data-action="{{ route('admin.get.roleSubDDD') }}">
-                                                                    <option value="">Select Role Main</option>
+                                                                    <option value="">Select Main Role</option>
                                                                     @foreach ($data['roleMain'] as $item)
                                                                         <option value="{{ $item['id'] }}" {{ decrypt($data['adminUsers']['roleMain']['id']) == decrypt($item['id']) ? 'selected' : '' }} data-exist="{{ $item['extraData']['hasRoleSub'] }}">{{ $item['name'] }}</option>
                                                                     @endforeach
@@ -89,10 +89,10 @@
                                                             <div class="validation-error" id="roleMainErr"></div>
                                                         </div>
                                                         <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4" style="display: {{ $data['adminUsers']['roleMain']['extraData']['hasRoleSub'] > 0 ? 'block' : 'none' }};">
-                                                            <label for="roleSub" class="form-label">Role Sub <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <label for="roleSub" class="form-label">Sub Role <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                             <div class="form-icon set-validation">
                                                                 <select name="roleSub" id="roleSub" class="selectTwo select2-roleSub roleSubDDD">
-                                                                    <option value="">Select Role Sub</option>
+                                                                    <option value="">Select Sub Role</option>
                                                                     @foreach ($data['roleSub'] as $item)
                                                                         <option value="{{ $item['id'] }}" {{ decrypt($data['adminUsers']['roleSub']['id']) == decrypt($item['id']) ? 'selected' : '' }}>{{ $item['name'] }}</option>
                                                                     @endforeach

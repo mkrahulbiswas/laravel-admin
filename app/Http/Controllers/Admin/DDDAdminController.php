@@ -94,7 +94,7 @@ class DDDAdminController extends Controller
         }
     }
 
-    /*------ ( Get Role Sub ) -------*/
+    /*------ ( Get Sub Role ) -------*/
     public function getRoleSub($roleMainId)
     {
         try {
@@ -121,7 +121,7 @@ class DDDAdminController extends Controller
             ];
 
             if ($data) {
-                return Response()->Json(['status' => 1, 'msg' => 'Role sub is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
+                return Response()->Json(['status' => 1, 'msg' => 'Sub role is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
             } else {
                 return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
             }
@@ -159,7 +159,7 @@ class DDDAdminController extends Controller
                     'assignBroad' => $assignBroad
                 ];
                 if ($data) {
-                    return Response()->Json(['status' => 1, 'msg' => 'Role sub is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
+                    return Response()->Json(['status' => 1, 'msg' => 'Sub role is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
                 } else {
                     return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg'), 'data' => (object)[]], Config::get('constants.errorCode.ok'));
                 }
@@ -193,7 +193,7 @@ class DDDAdminController extends Controller
                 'mainCategory' => $mainCategory
             ];
             if ($data) {
-                return Response()->Json(['status' => 1, 'msg' => 'Role sub is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
+                return Response()->Json(['status' => 1, 'msg' => 'Sub role is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
             } else {
                 return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg'), 'data' => (object)[]], Config::get('constants.errorCode.ok'));
             }

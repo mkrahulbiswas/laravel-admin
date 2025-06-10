@@ -4,12 +4,12 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-sm-0">
-                    <h4>Role Main</h4>
+                    <h4>Main Role</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Panel</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Access</a></li>
-                            <li class="breadcrumb-item active">Role Main</li>
+                            <li class="breadcrumb-item active">Main Role</li>
                         </ol>
                     </div>
                 </div>
@@ -145,7 +145,7 @@
                 <form id="saveMainRoleForm" action="{{ route('admin.save.mainRole') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Add Role Main</h5>
+                        <h5 class="modal-title" id="myModalLabel">Add Main Role</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -196,7 +196,7 @@
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Edit Role Main</h5>
+                        <h5 class="modal-title" id="myModalLabel">Edit Main Role</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -244,7 +244,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Details Role Main</h5>
+                    <h5 class="modal-title" id="myModalLabel">Details Main Role</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

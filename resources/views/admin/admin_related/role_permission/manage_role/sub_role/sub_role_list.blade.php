@@ -4,12 +4,12 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-sm-0">
-                    <h4>Role Sub</h4>
+                    <h4>Sub Role</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Panel</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Access</a></li>
-                            <li class="breadcrumb-item active">Role Sub</li>
+                            <li class="breadcrumb-item active">Sub Role</li>
                         </ol>
                     </div>
                 </div>
@@ -125,8 +125,8 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Unique Id</th>
-                                            <th>Role Main Name</th>
-                                            <th>Role Sub Name</th>
+                                            <th>Main Role Name</th>
+                                            <th>Sub Role Name</th>
                                             <th>Description</th>
                                             <th>Status</th>
                                             <th>Actions</th>
@@ -137,8 +137,8 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Unique Id</th>
-                                            <th>Role Main Name</th>
-                                            <th>Role Sub Name</th>
+                                            <th>Main Role Name</th>
+                                            <th>Sub Role Name</th>
                                             <th>Description</th>
                                             <th>Status</th>
                                             <th>Actions</th>
@@ -152,6 +152,7 @@
             </div>
         </div>
     </div>
+    </div>
 
     <div id="con-add-modal" class="modal fade con-add-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
@@ -159,13 +160,13 @@
                 <form id="saveSubRoleForm" action="{{ route('admin.save.subRole') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Add Role Sub</h5>
+                        <h5 class="modal-title" id="myModalLabel">Add Sub Role</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
-                                <label for="name" class="form-label">Role Main Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="name" class="form-label">Main Role Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <select class="selectTwo form-control form-control-icon select2-roleMain-addModal" name="roleMain" id="roleMain">
                                         <option value="">Select One</option>
@@ -223,13 +224,13 @@
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Edit Role Sub</h5>
+                        <h5 class="modal-title" id="myModalLabel">Edit Sub Role</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
-                                <label for="name" class="form-label">Role Main Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="name" class="form-label">Main Role Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <select class="selectTwo form-control form-control-icon select2-roleMain-editModal" name="roleMain" id="roleMain2">
                                         @foreach ($data['roleMain'] as $key)
@@ -283,7 +284,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Details Role Sub</h5>
+                    <h5 class="modal-title" id="myModalLabel">Details Sub Role</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -297,7 +298,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Role Main :</label>
+                                    <label class="details-label form-label mb-1">Main Role :</label>
                                     <span class="detail-span d-block mb-0" id="roleMain"></span>
                                 </div>
                             </div>
@@ -311,7 +312,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Role Sub :</label>
+                                    <label class="details-label form-label mb-1">Sub Role :</label>
                                     <span class="detail-span d-block mb-0" id="name"></span>
                                 </div>
                             </div>

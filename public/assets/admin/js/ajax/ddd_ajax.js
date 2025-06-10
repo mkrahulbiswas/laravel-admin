@@ -107,7 +107,7 @@
         /*--========================= ( Manage Access START ) =========================--*/
         $('.roleMainDDD').change(function () {
             if ($(this).attr('data-action') != undefined) {
-                var html = '<option value="">Select Role Sub</option>';
+                var html = '<option value="">Select sub role</option>';
                 $('.roleSubDDD').text('');
                 if ($(this).val() == '') {
                     $('.roleSubDDD').append(html);
@@ -147,7 +147,7 @@
         /*--========================= ( Property Related START ) =========================--*/
         $('.propertyTypeDDD').change(function () {
             if ($(this).attr('data-action') != undefined) {
-                var html = '<option value="">Select Role Sub</option>';
+                var html = '<option value="">Select sub role</option>';
                 $('.assignBroadDDD').text('');
                 if ($(this).val() == '') {
                     $('.assignBroadDDD').append(html);
@@ -199,7 +199,7 @@
 
         $('.mainCategoryDDD').change(function () {
             if ($(this).attr('data-action') != undefined) {
-                var html = '<option value="">Select Role Sub</option>';
+                var html = '<option value="">Select sub role</option>';
                 $('.subCategoryDDD').text('');
                 if ($(this).val() == '') {
                     $('.subCategoryDDD').append(html);
