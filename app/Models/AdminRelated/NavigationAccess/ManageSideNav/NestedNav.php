@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models\ManagePanel\ManageNav;
+namespace App\Models\AdminRelated\NavigationAccess\ManageSideNav;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class NavSub extends Model
+class NestedNav extends Model
 {
     use SoftDeletes;
-    protected $table = 'nav_sub';
+    protected $table = 'nested_nav';
     protected $fillable = array(
         'status',
     );
