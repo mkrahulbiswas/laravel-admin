@@ -78,7 +78,7 @@
                                                         <div class="form-icon set-validation">
                                                             <select name="navType" id="navTypeFilter" class="selectTwo select2-navType navTypeDDD" data-action="{{ route('admin.get.navMainDDD') }}">
                                                                 <option value="">Select Nav Type</option>
-                                                                @foreach ($data[Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type')] as $item)
+                                                                @foreach ($data[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')] as $item)
                                                                     <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                                                                 @endforeach
                                                             </select>

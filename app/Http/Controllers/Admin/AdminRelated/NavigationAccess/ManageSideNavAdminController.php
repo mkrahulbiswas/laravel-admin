@@ -47,7 +47,7 @@ class ManageSideNavAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -58,7 +58,7 @@ class ManageSideNavAdminController extends Controller
                         ]
                     ],
                 ],
-            ])[Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
@@ -268,7 +268,7 @@ class ManageSideNavAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -282,7 +282,7 @@ class ManageSideNavAdminController extends Controller
             ]);
 
             $data = [
-                Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type') => $navType[Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
+                Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type') => $navType[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
             ];
 
             return view('admin.admin_related.navigation_access.manage_side_nav.main_nav.main_nav_list', ['data' => $data]);
@@ -298,7 +298,7 @@ class ManageSideNavAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
-                        'for' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.mainNav.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -310,7 +310,7 @@ class ManageSideNavAdminController extends Controller
                         ]
                     ],
                 ],
-            ])[Config::get('constants.adminRelated.navigationAccess.manageSideNav.mainNav.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
             $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
@@ -322,7 +322,7 @@ class ManageSideNavAdminController extends Controller
             return Datatables::of($navMain)
                 ->addIndexColumn()
                 ->addColumn('navType', function ($data) {
-                    $navType = $data[Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type')]['name'];
+                    $navType = $data[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')]['name'];
                     return $navType;
                 })
                 ->addColumn('uniqueId', function ($data) {
@@ -496,7 +496,7 @@ class ManageSideNavAdminController extends Controller
                             ],
                             'otherDataPasses' => [
                                 'getNavAccessList' => $getNavAccessList,
-                                'for' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.mainNav.type'),
+                                'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type'),
                                 'id' => $id,
                             ]
                         ]
@@ -601,7 +601,7 @@ class ManageSideNavAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -615,7 +615,7 @@ class ManageSideNavAdminController extends Controller
             ]);
 
             $data = [
-                'navType' => $navType[Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
+                'navType' => $navType[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
             ];
 
             return view('admin.admin_related.navigation_access.manage_side_nav.sub_nav.sub_nav_list', ['data' => $data]);
@@ -631,7 +631,7 @@ class ManageSideNavAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
-                        'for' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.subNav.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -644,7 +644,7 @@ class ManageSideNavAdminController extends Controller
                         ]
                     ],
                 ],
-            ])[Config::get('constants.adminRelated.navigationAccess.manageSideNav.subNav.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
             $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
@@ -656,11 +656,11 @@ class ManageSideNavAdminController extends Controller
             return Datatables::of($navSub)
                 ->addIndexColumn()
                 ->addColumn('navType', function ($data) {
-                    $navType = $data[Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type')]['name'];
+                    $navType = $data[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')]['name'];
                     return $navType;
                 })
                 ->addColumn('navMain', function ($data) {
-                    $navMain = $data[Config::get('constants.adminRelated.navigationAccess.manageSideNav.mainNav.type')]['name'];
+                    $navMain = $data[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')]['name'];
                     return $navMain;
                 })
                 ->addColumn('uniqueId', function ($data) {
@@ -836,7 +836,7 @@ class ManageSideNavAdminController extends Controller
                             ],
                             'otherDataPasses' => [
                                 'getNavAccessList' => $getNavAccessList,
-                                'for' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.subNav.type'),
+                                'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type'),
                                 'id' => $id,
                             ]
                         ]
@@ -934,7 +934,7 @@ class ManageSideNavAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -948,7 +948,7 @@ class ManageSideNavAdminController extends Controller
             ]);
 
             $data = [
-                'navType' => $navType[Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
+                'navType' => $navType[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
             ];
 
             return view('admin.admin_related.navigation_access.manage_side_nav.nested_nav.nested_nav_list', ['data' => $data]);
@@ -964,7 +964,7 @@ class ManageSideNavAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
-                        'for' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.nestedNav.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -978,7 +978,7 @@ class ManageSideNavAdminController extends Controller
                         ]
                     ],
                 ],
-            ])[Config::get('constants.adminRelated.navigationAccess.manageSideNav.nestedNav.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
             $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
@@ -990,15 +990,15 @@ class ManageSideNavAdminController extends Controller
             return Datatables::of($navNested)
                 ->addIndexColumn()
                 ->addColumn('navType', function ($data) {
-                    $navType = $data[Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type')]['name'];
+                    $navType = $data[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')]['name'];
                     return $navType;
                 })
                 ->addColumn('navMain', function ($data) {
-                    $navMain = $data[Config::get('constants.adminRelated.navigationAccess.manageSideNav.mainNav.type')]['name'];
+                    $navMain = $data[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')]['name'];
                     return $navMain;
                 })
                 ->addColumn('navSub', function ($data) {
-                    $navSub = $data[Config::get('constants.adminRelated.navigationAccess.manageSideNav.subNav.type')]['name'];
+                    $navSub = $data[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')]['name'];
                     return $navSub;
                 })
                 ->addColumn('uniqueId', function ($data) {
@@ -1176,7 +1176,7 @@ class ManageSideNavAdminController extends Controller
                             ],
                             'otherDataPasses' => [
                                 'getNavAccessList' => $getNavAccessList,
-                                'for' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.nestedNav.type'),
+                                'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type'),
                                 'id' => $id,
                             ]
                         ]

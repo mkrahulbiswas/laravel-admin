@@ -320,7 +320,7 @@ class ManageRoleAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -334,7 +334,7 @@ class ManageRoleAdminController extends Controller
             ]);
 
             $data = [
-                'navType' => $navType[Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
+                'navType' => $navType[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
                 'mainRoleId' => $mainRoleId
             ];
 
@@ -735,7 +735,7 @@ class ManageRoleAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -749,7 +749,7 @@ class ManageRoleAdminController extends Controller
             ]);
 
             $data = [
-                'navType' => $navType[Config::get('constants.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
+                'navType' => $navType[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
                 'subRoleId' => $subRoleId
             ];
 
