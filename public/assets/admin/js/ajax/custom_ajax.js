@@ -713,10 +713,10 @@
 
 
         //---- ( Main Nav Save ) ----//
-        $("#saveNavMainForm").submit(function (event) {
+        $("#saveMainNavForm").submit(function (event) {
 
             submitForm = $(this);
-            submitBtn = $(this).find('#saveNavMainBtn');
+            submitBtn = $(this).find('#saveMainNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -822,9 +822,9 @@
         });
 
         //---- ( Main Nav Update ) ----//
-        $("#updateNavMainForm").submit(function (event) {
+        $("#updateMainNavForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updateNavMainBtn');
+            submitBtn = $(this).find('#updateMainNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -929,9 +929,9 @@
         });
 
         //---- ( Main Nav Access ) ----//
-        $("#accessNavMainForm").submit(function (event) {
+        $("#accessMainNavForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#accessNavMainBtn');
+            submitBtn = $(this).find('#accessMainNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -1121,10 +1121,10 @@
 
 
         //---- ( Sub Nav Save ) ----//
-        $("#saveNavSubForm").submit(function (event) {
+        $("#saveSubNavForm").submit(function (event) {
 
             submitForm = $(this);
-            submitBtn = $(this).find('#saveNavSubBtn');
+            submitBtn = $(this).find('#saveSubNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -1181,8 +1181,8 @@
                         $.each(msg.errors.navType, function (i) {
                             submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.navMain, function (i) {
-                            submitForm.find("#navMainErr").text(msg.errors.navMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.mainNav, function (i) {
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
                             submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
@@ -1233,9 +1233,9 @@
         });
 
         //---- ( Sub Nav Update ) ----//
-        $("#updateNavSubForm").submit(function (event) {
+        $("#updateSubNavForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updateNavSubBtn');
+            submitBtn = $(this).find('#updateSubNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -1291,8 +1291,8 @@
                         $.each(msg.errors.navType, function (i) {
                             submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.navMain, function (i) {
-                            submitForm.find("#navMainErr").text(msg.errors.navMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.mainNav, function (i) {
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
                             submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
@@ -1343,9 +1343,9 @@
         });
 
         //---- ( Sub Nav Access ) ----//
-        $("#accessNavSubForm").submit(function (event) {
+        $("#accessSubNavForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#accessNavSubBtn');
+            submitBtn = $(this).find('#accessSubNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -1484,7 +1484,7 @@
                 id.find('#description').val(data.description);
                 id.find("#navType2 option[data-name='" + data.navType.name + "']").prop("selected", true).trigger('change');
                 setTimeout(() => {
-                    id.find("#navMain2 option[data-name='" + data.navMain.name + "']").prop("selected", true).trigger('change');
+                    id.find("#mainNav2 option[data-name='" + data.mainNav.name + "']").prop("selected", true).trigger('change');
                 }, 1000);
             } else if (type == 'access') {
                 data = JSON.parse($(this).attr('data-array'));
@@ -1519,7 +1519,7 @@
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
                 id.find('#navType').text(data.navType.name);
-                id.find('#navMain').text(data.navMain.name);
+                id.find('#mainNav').text(data.mainNav.name);
                 id.find('#icon').html('<i class="' + data.icon + '"></i>');
                 id.find('#description').text(data.description);
                 if (data.access != null) {
@@ -1539,10 +1539,10 @@
 
 
         //---- ( Nested Nav Save ) ----//
-        $("#saveNavNestedForm").submit(function (event) {
+        $("#saveNestedNavForm").submit(function (event) {
 
             submitForm = $(this);
-            submitBtn = $(this).find('#saveNavNestedBtn');
+            submitBtn = $(this).find('#saveNestedNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -1599,11 +1599,11 @@
                         $.each(msg.errors.navType, function (i) {
                             submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.navMain, function (i) {
-                            submitForm.find("#navMainErr").text(msg.errors.navMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.mainNav, function (i) {
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.navSub, function (i) {
-                            submitForm.find("#navSubErr").text(msg.errors.navSub[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.subNav, function (i) {
+                            submitForm.find("#subNavErr").text(msg.errors.subNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
                             submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
@@ -1654,9 +1654,9 @@
         });
 
         //---- ( Nested Nav Update ) ----//
-        $("#updateNavNestedForm").submit(function (event) {
+        $("#updateNestedNavForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updateNavNestedBtn');
+            submitBtn = $(this).find('#updateNestedNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -1712,11 +1712,11 @@
                         $.each(msg.errors.navType, function (i) {
                             submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.navMain, function (i) {
-                            submitForm.find("#navMainErr").text(msg.errors.navMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.mainNav, function (i) {
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.navSub, function (i) {
-                            submitForm.find("#navSubErr").text(msg.errors.navSub[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.subNav, function (i) {
+                            submitForm.find("#subNavErr").text(msg.errors.subNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
                             submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
@@ -1767,9 +1767,9 @@
         });
 
         //---- ( Nested Nav Access ) ----//
-        $("#accessNavNestedForm").submit(function (event) {
+        $("#accessNestedNavForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#accessNavNestedBtn');
+            submitBtn = $(this).find('#accessNestedNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -1908,10 +1908,10 @@
                 id.find('#description').val(data.description);
                 id.find("#navType2 option[data-name='" + data.navType.name + "']").prop("selected", true).trigger('change');
                 setTimeout(() => {
-                    id.find("#navMain2 option[data-name='" + data.navMain.name + "']").prop("selected", true).trigger('change');
+                    id.find("#mainNav2 option[data-name='" + data.mainNav.name + "']").prop("selected", true).trigger('change');
                 }, 1000);
                 setTimeout(() => {
-                    id.find("#navSub2 option[data-name='" + data.navSub.name + "']").prop("selected", true).trigger('change');
+                    id.find("#subNav2 option[data-name='" + data.subNav.name + "']").prop("selected", true).trigger('change');
                 }, 2000);
             } else if (type == 'access') {
                 data = JSON.parse($(this).attr('data-array'));
@@ -1930,8 +1930,8 @@
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#name').text(data.name);
                 id.find('#navType').text(data.navType.name);
-                id.find('#navMain').text(data.navMain.name);
-                id.find('#navSub').text(data.navSub.name);
+                id.find('#mainNav').text(data.mainNav.name);
+                id.find('#subNav').text(data.subNav.name);
                 id.find('#icon').html('<i class="' + data.icon + '"></i>');
                 id.find('#description').text(data.description);
                 if (data.access != null) {

@@ -287,7 +287,7 @@ trait CommonTrait
                             $navHtml .= '<div class="npbType"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempTwo['name'] . '</span></div><div class="npbhRight">Nav Type (No Main nav Found)</div></div></div>';
                         } else {
                             $navHtml .= '<div class="npbType"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempTwo['name'] . '</span></div></div>';
-                            foreach ($tempTwo['navMain'] as $tempThree) {
+                            foreach ($tempTwo['mainNav'] as $tempThree) {
                                 $permission = ManageRoleHelper::getDetail([
                                     [
                                         'getDetail' => [
@@ -327,7 +327,7 @@ trait CommonTrait
                                     $navHtml .= '</div></div></div></div>';
                                 } else {
                                     $navHtml .= '<div class="npbMain"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempThree['name'] . '</span></div></div>';
-                                    foreach ($tempThree['navSub'] as $tempFour) {
+                                    foreach ($tempThree['subNav'] as $tempFour) {
                                         $permission = ManageRoleHelper::getDetail([
                                             [
                                                 'getDetail' => [
@@ -368,7 +368,7 @@ trait CommonTrait
                                             $navHtml .= '</div></div></div></div>';
                                         } else {
                                             $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight"></div></div>';
-                                            foreach ($tempFour['navNested'] as $tempFive) {
+                                            foreach ($tempFour['nestedNav'] as $tempFive) {
                                                 $permission = ManageRoleHelper::getDetail([
                                                     [
                                                         'getDetail' => [

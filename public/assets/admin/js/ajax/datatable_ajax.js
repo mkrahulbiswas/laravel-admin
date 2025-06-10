@@ -232,7 +232,7 @@
                     data: "navType"
                 },
                 {
-                    data: "navMain"
+                    data: "mainNav"
                 },
                 {
                     data: "name"
@@ -272,10 +272,10 @@
                     data: "navType"
                 },
                 {
-                    data: "navMain"
+                    data: "mainNav"
                 },
                 {
-                    data: "navSub"
+                    data: "subNav"
                 },
                 {
                     data: "name"

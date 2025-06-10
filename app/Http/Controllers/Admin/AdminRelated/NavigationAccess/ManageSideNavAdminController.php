@@ -291,7 +291,7 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function getNavMain(Request $request)
+    public function getMainNav(Request $request)
     {
         try {
             $mainNav = GetManageNavHelper::getList([
@@ -394,13 +394,13 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function saveNavMain(Request $request)
+    public function saveMainNav(Request $request)
     {
         try {
             $values = $request->only('name', 'icon', 'navType', 'description');
             //--Checking The Validation--//
 
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveNavMain', 'id' => 0, 'platform' => $this->platform]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveMainNav', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
@@ -427,7 +427,7 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function updateNavMain(Request $request)
+    public function updateMainNav(Request $request)
     {
         $values = $request->only('id', 'name', 'icon', 'navType', 'description');
 
@@ -438,7 +438,7 @@ class ManageSideNavAdminController extends Controller
         }
 
         try {
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateNavMain', 'id' => $id, 'platform' => $this->platform]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateMainNav', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
@@ -462,7 +462,7 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function accessNavMain(Request $request)
+    public function accessMainNav(Request $request)
     {
         DB::beginTransaction();
         $values = $request->only('id', 'name', 'access');
@@ -521,7 +521,7 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function statusNavMain($id)
+    public function statusMainNav($id)
     {
         try {
             $id = decrypt($id);
@@ -546,7 +546,7 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function deleteNavMain($id)
+    public function deleteMainNav($id)
     {
         try {
             $id = decrypt($id);
@@ -624,7 +624,7 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function getNavSub(Request $request)
+    public function getSubNav(Request $request)
     {
         try {
             $subNav = GetManageNavHelper::getList([
@@ -637,7 +637,7 @@ class ManageSideNavAdminController extends Controller
                         'filterData' => [
                             'status' => $request->status,
                             'navTypeId' => $request->navType,
-                            'mainNavId' => $request->navMain
+                            'mainNavId' => $request->mainNav
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -659,7 +659,7 @@ class ManageSideNavAdminController extends Controller
                     $navType = $data[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')]['name'];
                     return $navType;
                 })
-                ->addColumn('navMain', function ($data) {
+                ->addColumn('mainNav', function ($data) {
                     $mainNav = $data[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')]['name'];
                     return $mainNav;
                 })
@@ -725,20 +725,20 @@ class ManageSideNavAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['navType', 'navMain', 'uniqueId', 'statInfo', 'icon', 'action'])
+                ->rawColumns(['navType', 'mainNav', 'uniqueId', 'statInfo', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
         }
     }
 
-    public function saveNavSub(Request $request)
+    public function saveSubNav(Request $request)
     {
         try {
-            $values = $request->only('name', 'icon', 'navType', 'navMain', 'description');
+            $values = $request->only('name', 'icon', 'navType', 'mainNav', 'description');
             //--Checking The Validation--//
 
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveNavSub', 'id' => 0, 'platform' => $this->platform]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveSubNav', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
@@ -747,12 +747,12 @@ class ManageSideNavAdminController extends Controller
                 $subNav->name = $values['name'];
                 $subNav->icon = $values['icon'];
                 $subNav->navTypeId = decrypt($values['navType']);
-                $subNav->mainNavId = decrypt($values['navMain']);
+                $subNav->mainNavId = decrypt($values['mainNav']);
                 $subNav->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $subNav->uniqueId = $this->generateCode(['preString' => 'NS', 'length' => 6, 'model' => SubNav::class, 'field' => '']);
                 $subNav->status = Config::get('constants.status')['active'];
                 $subNav->position = SubNav::max('position') + 1;
-                $subNav->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['navMain']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
+                $subNav->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['mainNav']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
                 $subNav->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
 
                 if ($subNav->save()) {
@@ -766,9 +766,9 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function updateNavSub(Request $request)
+    public function updateSubNav(Request $request)
     {
-        $values = $request->only('id', 'name', 'icon', 'navType', 'navMain', 'description');
+        $values = $request->only('id', 'name', 'icon', 'navType', 'mainNav', 'description');
 
         try {
             $id = decrypt($values['id']);
@@ -777,7 +777,7 @@ class ManageSideNavAdminController extends Controller
         }
 
         try {
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateNavSub', 'id' => $id, 'platform' => $this->platform]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateSubNav', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
@@ -786,9 +786,9 @@ class ManageSideNavAdminController extends Controller
                 $subNav->name = $values['name'];
                 $subNav->icon = $values['icon'];
                 $subNav->navTypeId = decrypt($values['navType']);
-                $subNav->mainNavId = decrypt($values['navMain']);
+                $subNav->mainNavId = decrypt($values['mainNav']);
                 $subNav->description = ($values['description'] == '') ? 'NA' : $values['description'];;
-                $subNav->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['navMain']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
+                $subNav->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['mainNav']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
                 $subNav->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
 
                 if ($subNav->update()) {
@@ -802,7 +802,7 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function accessNavSub(Request $request)
+    public function accessSubNav(Request $request)
     {
         DB::beginTransaction();
         $values = $request->only('id', 'name', 'access');
@@ -861,7 +861,7 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function statusNavSub($id)
+    public function statusSubNav($id)
     {
         try {
             $id = decrypt($id);
@@ -886,7 +886,7 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function deleteNavSub($id)
+    public function deleteSubNav($id)
     {
         try {
             $id = decrypt($id);
@@ -957,7 +957,7 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function getNavNested(Request $request)
+    public function getNestedNav(Request $request)
     {
         try {
             $nestedNav = GetManageNavHelper::getList([
@@ -970,8 +970,8 @@ class ManageSideNavAdminController extends Controller
                         'filterData' => [
                             'status' => $request->status,
                             'navTypeId' => $request->navType,
-                            'mainNavId' => $request->navMain,
-                            'subNavId' => $request->navSub,
+                            'mainNavId' => $request->mainNav,
+                            'subNavId' => $request->subNav,
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -993,11 +993,11 @@ class ManageSideNavAdminController extends Controller
                     $navType = $data[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')]['name'];
                     return $navType;
                 })
-                ->addColumn('navMain', function ($data) {
+                ->addColumn('mainNav', function ($data) {
                     $mainNav = $data[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')]['name'];
                     return $mainNav;
                 })
-                ->addColumn('navSub', function ($data) {
+                ->addColumn('subNav', function ($data) {
                     $subNav = $data[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')]['name'];
                     return $subNav;
                 })
@@ -1063,20 +1063,20 @@ class ManageSideNavAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['navType', 'navMain', 'navSub', 'uniqueId', 'statInfo', 'icon', 'action'])
+                ->rawColumns(['navType', 'mainNav', 'subNav', 'uniqueId', 'statInfo', 'icon', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
         }
     }
 
-    public function saveNavNested(Request $request)
+    public function saveNestedNav(Request $request)
     {
         try {
-            $values = $request->only('name', 'icon', 'navType', 'navMain', 'navSub', 'description');
+            $values = $request->only('name', 'icon', 'navType', 'mainNav', 'subNav', 'description');
             //--Checking The Validation--//
 
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveNavNested', 'id' => 0, 'platform' => $this->platform]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveNestedNav', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
@@ -1085,13 +1085,13 @@ class ManageSideNavAdminController extends Controller
                 $nestedNav->name = $values['name'];
                 $nestedNav->icon = $values['icon'];
                 $nestedNav->navTypeId = decrypt($values['navType']);
-                $nestedNav->mainNavId = decrypt($values['navMain']);
-                $nestedNav->subNavId = decrypt($values['navSub']);
+                $nestedNav->mainNavId = decrypt($values['mainNav']);
+                $nestedNav->subNavId = decrypt($values['subNav']);
                 $nestedNav->description = ($values['description'] == '') ? 'NA' : $values['description'];
                 $nestedNav->uniqueId = $this->generateCode(['preString' => 'NN', 'length' => 6, 'model' => NestedNav::class, 'field' => '']);
                 $nestedNav->status = Config::get('constants.status')['active'];
                 $nestedNav->position = NestedNav::max('position') + 1;
-                $nestedNav->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['navMain']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", SubNav::where('id', decrypt($values['navSub']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
+                $nestedNav->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['mainNav']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", SubNav::where('id', decrypt($values['subNav']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
                 $nestedNav->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
 
                 if ($nestedNav->save()) {
@@ -1105,9 +1105,9 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function updateNavNested(Request $request)
+    public function updateNestedNav(Request $request)
     {
-        $values = $request->only('id', 'name', 'icon', 'navType', 'navMain', 'navSub', 'description');
+        $values = $request->only('id', 'name', 'icon', 'navType', 'mainNav', 'subNav', 'description');
 
         try {
             $id = decrypt($values['id']);
@@ -1116,7 +1116,7 @@ class ManageSideNavAdminController extends Controller
         }
 
         try {
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateNavNested', 'id' => $id, 'platform' => $this->platform]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateNestedNav', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
@@ -1125,10 +1125,10 @@ class ManageSideNavAdminController extends Controller
                 $nestedNav->name = $values['name'];
                 $nestedNav->icon = $values['icon'];
                 $nestedNav->navTypeId = decrypt($values['navType']);
-                $nestedNav->mainNavId = decrypt($values['navMain']);
-                $nestedNav->subNavId = decrypt($values['navSub']);
+                $nestedNav->mainNavId = decrypt($values['mainNav']);
+                $nestedNav->subNavId = decrypt($values['subNav']);
                 $nestedNav->description = ($values['description'] == '') ? 'NA' : $values['description'];;
-                $nestedNav->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['navMain']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", SubNav::where('id', decrypt($values['navSub']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
+                $nestedNav->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['mainNav']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", SubNav::where('id', decrypt($values['subNav']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
                 $nestedNav->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
 
                 if ($nestedNav->update()) {
@@ -1142,7 +1142,7 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function accessNavNested(Request $request)
+    public function accessNestedNav(Request $request)
     {
         DB::beginTransaction();
         $values = $request->only('id', 'name', 'access');
@@ -1201,7 +1201,7 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function statusNavNested($id)
+    public function statusNestedNav($id)
     {
         try {
             $id = decrypt($id);
@@ -1226,7 +1226,7 @@ class ManageSideNavAdminController extends Controller
         }
     }
 
-    public function deleteNavNested($id)
+    public function deleteNestedNav($id)
     {
         try {
             $id = decrypt($id);
@@ -1285,7 +1285,7 @@ class ManageSideNavAdminController extends Controller
     public function updateArrangeNav(Request $request)
     {
         DB::beginTransaction();
-        $values = $request->only('navType', 'navMain', 'navSub', 'navNested');
+        $values = $request->only('navType', 'mainNav', 'subNav', 'nestedNav');
 
         try {
             foreach ($values['navType'] as $key => $temp) {
@@ -1298,7 +1298,7 @@ class ManageSideNavAdminController extends Controller
                     goto next;
                 }
             }
-            foreach ($values['navMain'] as $key => $temp) {
+            foreach ($values['mainNav'] as $key => $temp) {
                 if (MainNav::where('id', $temp)->update([
                     'position' => ($key + 1)
                 ])) {
@@ -1308,7 +1308,7 @@ class ManageSideNavAdminController extends Controller
                     goto next;
                 }
             }
-            foreach ($values['navSub'] as $key => $temp) {
+            foreach ($values['subNav'] as $key => $temp) {
                 if (SubNav::where('id', $temp)->update([
                     'position' => ($key + 1)
                 ])) {
@@ -1318,7 +1318,7 @@ class ManageSideNavAdminController extends Controller
                     goto next;
                 }
             }
-            foreach ($values['navNested'] as $key => $temp) {
+            foreach ($values['nestedNav'] as $key => $temp) {
                 if (NestedNav::where('id', $temp)->update([
                     'position' => ($key + 1)
                 ])) {

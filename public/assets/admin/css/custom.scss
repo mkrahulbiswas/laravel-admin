@@ -555,15 +555,15 @@
                                         }
                                     }
 
-                                    .navMainInner {
+                                    .mainNavInner {
                                         flex-direction: row;
                                         flex-wrap: wrap;
 
-                                        .navMainList {
+                                        .mainNavList {
                                             background-color: var(--vz-nav-orderable-main-bg);
                                             border: 2px solid var(--vz-nav-orderable-main-br);
 
-                                            .navMainHeading {
+                                            .mainNavHeading {
                                                 .navHeadingTop {
                                                     i {}
                                                 }
@@ -577,15 +577,15 @@
                                                 }
                                             }
 
-                                            .navSubInner {
+                                            .subNavInner {
                                                 flex-direction: row;
                                                 flex-wrap: wrap;
 
-                                                .navSubList {
+                                                .subNavList {
                                                     background-color: var(--vz-nav-orderable-sub-bg);
                                                     border: 2px solid var(--vz-nav-orderable-sub-br);
 
-                                                    .navSubHeading {
+                                                    .subNavHeading {
                                                         .navHeadingTop {
                                                             i {}
                                                         }
@@ -599,15 +599,15 @@
                                                         }
                                                     }
 
-                                                    .navNestedInner {
+                                                    .nestedNavInner {
                                                         flex-direction: row;
                                                         flex-wrap: wrap;
 
-                                                        .navNestedList {
+                                                        .nestedNavList {
                                                             background-color: var(--vz-nav-orderable-nested-bg);
                                                             border: 2px solid var(--vz-nav-orderable-nested-br);
 
-                                                            .navNestedHeading {
+                                                            .nestedNavHeading {
                                                                 .navHeadingTop {
                                                                     i {}
                                                                 }

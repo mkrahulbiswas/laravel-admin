@@ -154,7 +154,7 @@ trait ValidationTrait
                 break;
 
             //---- ( Main Nav )
-            case 'saveNavMain':
+            case 'saveMainNav':
                 $rules = [
                     'navType' => 'required',
                     'icon' => 'required|max:150',
@@ -167,7 +167,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            case 'updateNavMain':
+            case 'updateMainNav':
                 $rules = [
                     'navType' => 'required',
                     'icon' => 'required|max:150',
@@ -181,66 +181,66 @@ trait ValidationTrait
                 break;
 
             //---- ( Sub Nav )
-            case 'saveNavSub':
+            case 'saveSubNav':
                 $rules = [
                     'navType' => 'required',
-                    'navMain' => 'required',
+                    'mainNav' => 'required',
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type'),
                         'navTypeId' => $data['input']['navType'],
-                        'mainNavId' => $data['input']['navMain']
+                        'mainNavId' => $data['input']['mainNav']
                     ])],
                     'description' => 'max:500',
                 ];
                 break;
 
-            case 'updateNavSub':
+            case 'updateSubNav':
                 $rules = [
                     'navType' => 'required',
-                    'navMain' => 'required',
+                    'mainNav' => 'required',
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type'),
                         'navTypeId' => $data['input']['navType'],
-                        'mainNavId' => $data['input']['navMain']
+                        'mainNavId' => $data['input']['mainNav']
                     ])],
                     'description' => 'max:500',
                 ];
                 break;
 
             //---- ( Nested Nav )
-            case 'saveNavNested':
+            case 'saveNestedNav':
                 $rules = [
                     'navType' => 'required',
-                    'navMain' => 'required',
-                    'navSub' => 'required',
+                    'mainNav' => 'required',
+                    'subNav' => 'required',
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type'),
                         'navTypeId' => $data['input']['navType'],
-                        'mainNavId' => $data['input']['navMain'],
-                        'subNavId' => $data['input']['navSub'],
+                        'mainNavId' => $data['input']['mainNav'],
+                        'subNavId' => $data['input']['subNav'],
                     ])],
                     'description' => 'max:500',
                 ];
                 break;
 
-            case 'updateNavNested':
+            case 'updateNestedNav':
                 $rules = [
                     'navType' => 'required',
-                    'navMain' => 'required',
-                    'navSub' => 'required',
+                    'mainNav' => 'required',
+                    'subNav' => 'required',
                     'icon' => 'required|max:150',
                     'name' => ['required', 'max:20', new UniqueManageNav([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type'),
                         'navTypeId' => $data['input']['navType'],
-                        'mainNavId' => $data['input']['navMain'],
-                        'subNavId' => $data['input']['navSub'],
+                        'mainNavId' => $data['input']['mainNav'],
+                        'subNavId' => $data['input']['subNav'],
                     ])],
                     'description' => 'max:500',
                 ];

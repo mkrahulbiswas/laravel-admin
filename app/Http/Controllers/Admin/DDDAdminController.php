@@ -23,7 +23,7 @@ class DDDAdminController extends Controller
 
 
     /*------ ( Get Main Nav ) -------*/
-    public function getNavMain($navTypeId)
+    public function getMainNav($navTypeId)
     {
         try {
             $mainNav = GetManageNavHelper::getList([
@@ -59,7 +59,7 @@ class DDDAdminController extends Controller
     }
 
     /*------ ( Get Sub Nav ) -------*/
-    public function getNavSub($mainNavId)
+    public function getSubNav($mainNavId)
     {
         try {
             $subNav = GetManageNavHelper::getList([
@@ -81,7 +81,7 @@ class DDDAdminController extends Controller
             ]);
 
             $data = [
-                'navSub' => $subNav[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
+                'subNav' => $subNav[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
             ];
 
             if ($data) {
