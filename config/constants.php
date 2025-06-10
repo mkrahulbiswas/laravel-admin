@@ -60,6 +60,24 @@ return [
 
     //--Type Check
     'typeCheck' => [
+        'adminRelated' => [
+            'type' => 'adminRelated',
+            'rolePermission' => [
+                'type' => 'rolePermission',
+                'manageRole' => [
+                    'type' => 'manageRole',
+                    'mainRole' => [
+                        'type' => 'mainRole'
+                    ],
+                    'subRole' => [
+                        'type' => 'subRole'
+                    ],
+                    'permission' => [
+                        'type' => 'permission'
+                    ],
+                ],
+            ]
+        ],
         'manageNav' => [
             'navType' => [
                 'type' => 'navType'
@@ -248,12 +266,6 @@ return [
             ]
         ],
         'manageAccess' => [
-            'roleMain' => [
-                'type' => 'roleMain'
-            ],
-            'roleSub' => [
-                'type' => 'roleSub'
-            ],
             'permission' => [
                 'type' => 'permission'
             ],

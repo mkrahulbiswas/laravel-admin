@@ -102,7 +102,7 @@ class DDDAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -117,7 +117,7 @@ class DDDAdminController extends Controller
             ]);
 
             $data = [
-                'roleSub' => $navSub[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
+                'roleSub' => $navSub[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
             ];
 
             if ($data) {

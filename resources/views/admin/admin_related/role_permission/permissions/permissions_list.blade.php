@@ -82,7 +82,7 @@
                                                         <div class="form-icon set-validation">
                                                             <select class="form-control form-control-icon select2-roleMain" name="roleMain" id="roleMainFilter">
                                                                 <option value="">Select One</option>
-                                                                @foreach ($data[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $key)
+                                                                @foreach ($data[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $key)
                                                                     <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
                                                                 @endforeach
                                                             </select>

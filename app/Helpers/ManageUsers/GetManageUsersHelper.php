@@ -160,25 +160,25 @@ class GetManageUsersHelper
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                                     ],
                                     'otherDataPasses' => [
                                         'id' => encrypt($adminUsers->roleMainId)
                                     ]
                                 ],
-                            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                             if ($adminUsers->roleSubId != null) {
                                 $roleSub = GetManageAccessHelper::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                            'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                                            'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                                         ],
                                         'otherDataPasses' => [
                                             'id' => encrypt($adminUsers->roleSubId)
                                         ]
                                     ],
-                                ])[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                                ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                             } else {
                                 $roleSub = [];
                             }

@@ -40,7 +40,7 @@ class AdminUsersAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -51,7 +51,7 @@ class AdminUsersAdminController extends Controller
             ]);
 
             $data = [
-                'roleMain' => $roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')],
+                'roleMain' => $roleMain[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')],
             ];
 
             return view('admin.manage_users.admin_users.admin_users_list', ['data' => $data]);
@@ -154,7 +154,7 @@ class AdminUsersAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -163,7 +163,7 @@ class AdminUsersAdminController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $data = [
                 'roleMain' => $roleMain,
@@ -260,7 +260,7 @@ class AdminUsersAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -269,7 +269,7 @@ class AdminUsersAdminController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $adminUsers = GetManageUsersHelper::getDetail([
                 [
@@ -287,7 +287,7 @@ class AdminUsersAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -296,7 +296,7 @@ class AdminUsersAdminController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $data = [
                 'roleMain' => $roleMain,

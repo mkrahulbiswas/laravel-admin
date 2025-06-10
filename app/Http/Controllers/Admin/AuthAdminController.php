@@ -67,7 +67,7 @@ class AuthAdminController extends Controller
                             [
                                 'getDetail' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                    'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                                    'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                                 ],
                                 'otherDataPasses' => [
                                     'id' => encrypt($adminUsers->roleMainId)
@@ -77,13 +77,13 @@ class AuthAdminController extends Controller
                         if ($roleMain == false) {
                             return response()->json(['status' => 0, 'msg' => 'Oops! we could not detect your role (main), please contact with administrator.'], Config::get('constants.errorCode.ok'));
                         } else {
-                            $roleMain = $roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            $roleMain = $roleMain[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                             if ($roleMain['extraData']['hasRoleSub'] > 0) {
                                 $roleSub = GetManageAccessHelper::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                            'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                                            'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                                         ],
                                         'otherDataPasses' => [
                                             'id' => encrypt($adminUsers->roleSubId)

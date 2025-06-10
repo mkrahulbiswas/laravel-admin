@@ -87,7 +87,7 @@ trait ValidationTrait
                 $rules = [
                     'name' => ['required', 'max:20', new UniqueManageRole([
                         'targetId' => $data['id'],
-                        'type' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                        'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ])],
                     'description' => 'required',
                 ];
@@ -97,7 +97,7 @@ trait ValidationTrait
                 $rules = [
                     'name' => ['required', 'max:20', new UniqueManageRole([
                         'targetId' => $data['id'],
-                        'type' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                        'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ])],
                     'description' => 'required',
                 ];
@@ -108,7 +108,7 @@ trait ValidationTrait
                 $rules = [
                     'name' => ['required', 'max:20', new UniqueManageRole([
                         'targetId' => $data['id'],
-                        'type' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                        'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                         'roleMainId' => $data['input']['roleMain']
                     ])],
                     'roleMain' => 'required',
@@ -120,7 +120,7 @@ trait ValidationTrait
                 $rules = [
                     'name' => ['required', 'max:20', new UniqueManageRole([
                         'targetId' => $data['id'],
-                        'type' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                        'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                         'roleMainId' => $data['input']['roleMain']
                     ])],
                     'roleMain' => 'required',
@@ -283,13 +283,13 @@ trait ValidationTrait
                         [
                             'getDetail' => [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                                'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                             ],
                             'otherDataPasses' => [
                                 'id' => $data['input']['roleMain']
                             ]
                         ],
-                    ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                    ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                     if ($getDetail['extraData']['hasRoleSub'] > 0) {
                         $rules['roleSub'] = 'required';
                     }
@@ -314,13 +314,13 @@ trait ValidationTrait
                         [
                             'getDetail' => [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                                'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                             ],
                             'otherDataPasses' => [
                                 'id' => $data['input']['roleMain']
                             ]
                         ],
-                    ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                    ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                     if ($getDetail['extraData']['hasRoleSub'] > 0) {
                         $rules['roleSub'] = 'required';
                     }

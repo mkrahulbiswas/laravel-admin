@@ -45,7 +45,7 @@ class ManageRoleAdminController extends Controller
             [
                 'getList' => [
                     'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                    'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                    'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                 ],
                 'otherDataPasses' => [
                     'filterData' => [
@@ -57,7 +57,7 @@ class ManageRoleAdminController extends Controller
                     ],
                 ],
             ],
-        ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+        ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
         $getPrivilege = GetManageAccessHelper::getPrivilege([
             [
@@ -453,7 +453,7 @@ class ManageRoleAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -462,7 +462,7 @@ class ManageRoleAdminController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $data = [
                 'roleMain' => $roleMain,
@@ -481,7 +481,7 @@ class ManageRoleAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -493,7 +493,7 @@ class ManageRoleAdminController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
             $getPrivilege = GetManageAccessHelper::getPrivilege([
                 [
@@ -516,8 +516,8 @@ class ManageRoleAdminController extends Controller
                     $status = $data['customizeInText']['status']['custom'];
                     return $status;
                 })
-                ->addColumn(Config::get('constants.typeCheck.manageAccess.roleMain.type'), function ($data) {
-                    $roleMain = $data[Config::get('constants.typeCheck.manageAccess.roleMain.type')]['name'];
+                ->addColumn(Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'), function ($data) {
+                    $roleMain = $data[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')]['name'];
                     return $roleMain;
                 })
                 ->addColumn('action', function ($data) use ($getPrivilege) {
@@ -569,7 +569,7 @@ class ManageRoleAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['description', Config::get('constants.typeCheck.manageAccess.roleMain.type'), 'uniqueId', 'status', 'action'])
+                ->rawColumns(['description', Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'), 'uniqueId', 'status', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -882,7 +882,7 @@ class ManageRoleAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -896,7 +896,7 @@ class ManageRoleAdminController extends Controller
                 ],
             ]);
 
-            return Datatables::of($roleSub[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
+            return Datatables::of($roleSub[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -910,8 +910,8 @@ class ManageRoleAdminController extends Controller
                     $status = $data['customizeInText']['status']['custom'];
                     return $status;
                 })
-                ->addColumn(Config::get('constants.typeCheck.manageAccess.roleMain.type'), function ($data) {
-                    $roleMain = $data[Config::get('constants.typeCheck.manageAccess.roleMain.type')]['name'];
+                ->addColumn(Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'), function ($data) {
+                    $roleMain = $data[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')]['name'];
                     return $roleMain;
                 })
                 ->addColumn('action', function ($data) {
@@ -962,7 +962,7 @@ class ManageRoleAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['description', Config::get('constants.typeCheck.manageAccess.roleMain.type'), 'uniqueId', 'status', 'action'])
+                ->rawColumns(['description', Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'), 'uniqueId', 'status', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');

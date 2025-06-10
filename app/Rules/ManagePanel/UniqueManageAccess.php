@@ -19,7 +19,7 @@ class UniqueManageAccess implements ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail, array $parameters = []): void
     {
-        if ($this->data['type'] == Config::get('constants.typeCheck.manageAccess.roleMain.type')) {
+        if ($this->data['type'] == Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = MainRole::where('name', $value)->get();
             } else {
@@ -33,7 +33,7 @@ class UniqueManageAccess implements ValidationRule
             }
         }
 
-        if ($this->data['type'] == Config::get('constants.typeCheck.manageAccess.roleSub.type')) {
+        if ($this->data['type'] == Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')) {
             if ($this->data['targetId'] == '') {
                 $isExist = SubRole::where('name', $value)->get();
             } else {
