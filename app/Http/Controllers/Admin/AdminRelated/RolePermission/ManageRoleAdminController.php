@@ -41,126 +41,126 @@ class ManageRoleAdminController extends Controller
 
     public function getMainRole(Request $request)
     {
-        // try {
-        $mainRole = ManageRoleHelper::getList([
-            [
-                'getList' => [
-                    'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                    'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
-                ],
-                'otherDataPasses' => [
-                    'filterData' => [
-                        'status' => $request->status,
-                        'uniqueId' => Config::get('constants.superAdminCheck')['mainRole'],
+        try {
+            $mainRole = ManageRoleHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ],
-                    'orderBy' => [
-                        'id' => 'desc'
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => $request->status,
+                            'uniqueId' => Config::get('constants.superAdminCheck')['mainRole'],
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ],
                     ],
                 ],
-            ],
-        ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-        $getPrivilege = ManagePermissionHelper::getPrivilege([
-            [
-                'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
-                'otherDataPasses' => []
-            ]
-        ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                    'otherDataPasses' => []
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
 
-        return Datatables::of($mainRole)
-            ->addIndexColumn()
-            ->addColumn('description', function ($data) {
-                $description = $this->subStrString(40, $data['description'], '....');
-                return $description;
-            })
-            ->addColumn('uniqueId', function ($data) {
-                $uniqueId = $data['uniqueId']['raw'];
-                return $uniqueId;
-            })
-            ->addColumn('statInfo', function ($data) {
-                $statInfo = $this->dynamicHtmlPurse([
-                    [
-                        'type' => 'dtMultiData',
-                        'data' => $data['customizeInText']
-                    ]
-                ])['dtMultiData']['custom'];
-                return $statInfo;
-            })
-            ->addColumn('action', function ($data) use ($getPrivilege) {
-                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
-                    if ($getPrivilege['status']['permission'] == true) {
-                        if ($data['status'] == Config::get('constants.status')['inactive']) {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.mainRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+            return Datatables::of($mainRole)
+                ->addIndexColumn()
+                ->addColumn('description', function ($data) {
+                    $description = $this->subStrString(40, $data['description'], '....');
+                    return $description;
+                })
+                ->addColumn('uniqueId', function ($data) {
+                    $uniqueId = $data['uniqueId']['raw'];
+                    return $uniqueId;
+                })
+                ->addColumn('statInfo', function ($data) {
+                    $statInfo = $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'dtMultiData',
+                            'data' => $data['customizeInText']
+                        ]
+                    ])['dtMultiData']['custom'];
+                    return $statInfo;
+                })
+                ->addColumn('action', function ($data) use ($getPrivilege) {
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
+                        if ($getPrivilege['status']['permission'] == true) {
+                            if ($data['status'] == Config::get('constants.status')['inactive']) {
+                                $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.mainRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                            } else {
+                                $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.mainRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                            }
                         } else {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.mainRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                            $status = '';
                         }
                     } else {
                         $status = '';
                     }
-                } else {
-                    $status = '';
-                }
 
-                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
-                    if ($getPrivilege['edit']['permission'] == true) {
-                        $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
+                        if ($getPrivilege['edit']['permission'] == true) {
+                            $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                        } else {
+                            $edit = '';
+                        }
                     } else {
                         $edit = '';
                     }
-                } else {
-                    $edit = '';
-                }
 
-                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
-                    if ($getPrivilege['delete']['permission'] == true) {
-                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.mainRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
+                        if ($getPrivilege['delete']['permission'] == true) {
+                            $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.mainRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                        } else {
+                            $delete = '';
+                        }
                     } else {
                         $delete = '';
                     }
-                } else {
-                    $delete = '';
-                }
 
 
-                if ($getPrivilege['info']['permission'] == true) {
-                    $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
-                } else {
-                    $info = '';
-                }
+                    if ($getPrivilege['info']['permission'] == true) {
+                        $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
+                    } else {
+                        $info = '';
+                    }
 
-                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
-                    if ($getPrivilege['permission']['permission'] == true) {
-                        if ($data['extraData']['hasSubRole'] <= 0) {
-                            if ($data['extraData']['hasPermission'] <= 0) {
-                                $permission = '<a href="JavaScript:void(0);" data-type="setPermission" data-action="' . route('admin.permission.mainRole') . '/' . $data['id'] . '" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apple-keyboard-command"></i><span>Set Permission</span></a>';
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
+                        if ($getPrivilege['permission']['permission'] == true) {
+                            if ($data['extraData']['hasSubRole'] <= 0) {
+                                if ($data['extraData']['hasPermission'] <= 0) {
+                                    $permission = '<a href="JavaScript:void(0);" data-type="setPermission" data-action="' . route('admin.permission.mainRole') . '/' . $data['id'] . '" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apple-keyboard-command"></i><span>Set Permission</span></a>';
+                                } else {
+                                    $permission = '<a href="' .  route('admin.show.permissionMainRole') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                                }
                             } else {
-                                $permission = '<a href="' .  route('admin.show.permissionMainRole') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                                $permission = '<a href="JavaScript:void(0);" data-type="permission" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
                             }
                         } else {
-                            $permission = '<a href="JavaScript:void(0);" data-type="permission" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                            $permission = '';
                         }
                     } else {
                         $permission = '';
                     }
-                } else {
-                    $permission = '';
-                }
 
-                return $this->dynamicHtmlPurse([
-                    [
-                        'type' => 'dtAction',
-                        'data' => [
-                            'primary' => [$status, $edit, $delete, $info],
-                            'secondary' => ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) ? [$permission] : [],
+                    return $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'dtAction',
+                            'data' => [
+                                'primary' => [$status, $edit, $delete, $info],
+                                'secondary' => ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) ? [$permission] : [],
+                            ]
                         ]
-                    ]
-                ])['dtAction']['custom'];
-            })
-            ->rawColumns(['description', 'uniqueId', 'statInfo', 'action'])
-            ->make(true);
-        // } catch (Exception $e) {
-        //     return redirect()->back()->with('error', 'Something went wrong.');
-        // }
+                    ])['dtAction']['custom'];
+                })
+                ->rawColumns(['description', 'uniqueId', 'statInfo', 'action'])
+                ->make(true);
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
     }
 
     public function saveMainRole(Request $request)

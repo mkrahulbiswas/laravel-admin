@@ -237,7 +237,7 @@ Route::controller(AuthAdminController::class)->group(function () {
         Route::controller(DDDAdminController::class)->prefix('ddd')->group(function () {
             Route::get('nav-main/{navTypeId?}', 'getNavMain')->name('admin.get.navMainDDD');
             Route::get('nav-sub/{navMainId?}', 'getNavSub')->name('admin.get.navSubDDD');
-            Route::get('role-sub/{mainRoleId?}', 'getSubRole')->name('admin.get.subRoleDDD');
+            Route::get('sub-role/{mainRoleId?}', 'getSubRole')->name('admin.get.subRoleDDD');
             Route::get('assign-broad/{propertyTypeId?}', 'getAssignBroad')->name('admin.get.assignBroadDDD');
             Route::get('manage-category/{mainCategoryId?}', 'getMainCategory')->name('admin.get.mainCategoryDDD');
         });
