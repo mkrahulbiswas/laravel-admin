@@ -1950,10 +1950,10 @@
         });
 
 
-        //---- ( Arrange Nav Update ) ----//
-        $("#updateArrangeNavForm").submit(function (event) {
+        //---- ( Arrange Side Nav Update ) ----//
+        $("#updateArrangeSideNavForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updateArrangeNavBtn');
+            submitBtn = $(this).find('#updateArrangeSideNavBtn');
 
             event.preventDefault();
             $.ajax({

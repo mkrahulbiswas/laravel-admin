@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminRelated\NavigationAccess\ArrangeSideNavAdminController;
 use App\Http\Controllers\Admin\AdminRelated\NavigationAccess\ManageSideNavAdminController;
 use App\Http\Controllers\Admin\AdminRelated\RolePermission\ManageRoleAdminController;
 use App\Http\Controllers\Admin\AuthAdminController;
@@ -104,9 +105,11 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::post('nested-nav/edit/access', 'accessNestedNav')->name('admin.access.nestedNav');
                 Route::patch('nested-nav/status/{id?}', 'statusNestedNav')->name('admin.status.nestedNav');
                 Route::delete('nested-nav/delete/{id?}', 'deleteNestedNav')->name('admin.delete.nestedNav');
+            });
 
-                Route::get('arrange-nav', 'showArrangeNav')->name('admin.show.arrangeNav');
-                Route::post('arrange-nav/edit/update', 'updateArrangeNav')->name('admin.update.arrangeNav');
+            Route::controller(ArrangeSideNavAdminController::class)->group(function () {
+                Route::get('arrange-side-nav', 'showArrangeSideNav')->name('admin.show.arrangeSideNav');
+                Route::post('arrange-side-nav/edit/update', 'updateArrangeSideNav')->name('admin.update.arrangeSideNav');
             });
         });
 
