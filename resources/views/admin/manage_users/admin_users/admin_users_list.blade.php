@@ -157,7 +157,7 @@
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
                                     <label class="details-label form-label mb-1">Main Role:</label>
-                                    <span class="detail-span d-block mb-0" id="roleMain"></span>
+                                    <span class="detail-span d-block mb-0" id="mainRole"></span>
                                 </div>
                             </div>
                         </div>

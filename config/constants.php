@@ -49,7 +49,7 @@ return [
     'loaderVideo' => 'Video Type Loader',
 
     'superAdminCheck' => [
-        'roleMain' => 'RM-500077',
+        'mainRole' => 'RM-500077',
         'admin' => 'AU-500077'
     ],
 

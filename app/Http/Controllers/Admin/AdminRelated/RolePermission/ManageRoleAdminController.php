@@ -50,7 +50,7 @@ class ManageRoleAdminController extends Controller
                 'otherDataPasses' => [
                     'filterData' => [
                         'status' => $request->status,
-                        'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
+                        'uniqueId' => Config::get('constants.superAdminCheck')['mainRole'],
                     ],
                     'orderBy' => [
                         'id' => 'desc'
@@ -86,7 +86,7 @@ class ManageRoleAdminController extends Controller
                 return $statInfo;
             })
             ->addColumn('action', function ($data) use ($getPrivilege) {
-                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
                     if ($getPrivilege['status']['permission'] == true) {
                         if ($data['status'] == Config::get('constants.status')['inactive']) {
                             $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.mainRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
@@ -100,7 +100,7 @@ class ManageRoleAdminController extends Controller
                     $status = '';
                 }
 
-                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
                     if ($getPrivilege['edit']['permission'] == true) {
                         $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
                     } else {
@@ -110,7 +110,7 @@ class ManageRoleAdminController extends Controller
                     $edit = '';
                 }
 
-                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
                     if ($getPrivilege['delete']['permission'] == true) {
                         $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.mainRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     } else {
@@ -127,7 +127,7 @@ class ManageRoleAdminController extends Controller
                     $info = '';
                 }
 
-                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
                     if ($getPrivilege['permission']['permission'] == true) {
                         if ($data['extraData']['hasSubRole'] <= 0) {
                             if ($data['extraData']['hasPermission'] <= 0) {
@@ -150,7 +150,7 @@ class ManageRoleAdminController extends Controller
                         'type' => 'dtAction',
                         'data' => [
                             'primary' => [$status, $edit, $delete, $info],
-                            'secondary' => ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) ? [$permission] : [],
+                            'secondary' => ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) ? [$permission] : [],
                         ]
                     ]
                 ])['dtAction']['custom'];
@@ -458,14 +458,14 @@ class ManageRoleAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
-                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
+                            'uniqueId' => Config::get('constants.superAdminCheck')['mainRole'],
                         ],
                     ],
                 ],
             ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $data = [
-                'roleMain' => $mainRole,
+                'mainRole' => $mainRole,
             ];
 
             return view('admin.admin_related.role_permission.manage_role.sub_role.sub_role_list', ['data' => $data]);
@@ -486,7 +486,7 @@ class ManageRoleAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $request->status,
-                            'mainRoleId' => $request->roleMain
+                            'mainRoleId' => $request->mainRole
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -579,19 +579,19 @@ class ManageRoleAdminController extends Controller
     public function saveSubRole(Request $request)
     {
         try {
-            $values = $request->only('name', 'roleMain', 'description');
+            $values = $request->only('name', 'mainRole', 'description');
             //--Checking The Validation--//
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveSubRole', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                if (MainRole::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
+                if (MainRole::where('id', decrypt($values['mainRole']))->first()->uniqueId == Config::get('constants.superAdminCheck')['mainRole']) {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Sub role", 'msg' => __('messages.notAllowMsg')], Config::get('constants.errorCode.ok'));
                 } else {
                     $subRole = new SubRole();
                     $subRole->name = $values['name'];
-                    $subRole->mainRoleId = decrypt($values['roleMain']);
+                    $subRole->mainRoleId = decrypt($values['mainRole']);
                     $subRole->description = $values['description'];
                     $subRole->uniqueId = $this->generateCode(['preString' => 'RS', 'length' => 6, 'model' => SubRole::class, 'field' => '']);
                     $subRole->status = Config::get('constants.status')['active'];
@@ -610,7 +610,7 @@ class ManageRoleAdminController extends Controller
 
     public function updateSubRole(Request $request)
     {
-        $values = $request->only('id', 'name', 'roleMain', 'description');
+        $values = $request->only('id', 'name', 'mainRole', 'description');
 
         try {
             $id = decrypt($values['id']);
@@ -626,7 +626,7 @@ class ManageRoleAdminController extends Controller
                 $subRole = SubRole::find($id);
 
                 $subRole->name = $values['name'];
-                $subRole->mainRoleId = decrypt($values['roleMain']);
+                $subRole->mainRoleId = decrypt($values['mainRole']);
                 $subRole->description = $values['description'];
 
                 if ($subRole->update()) {
@@ -887,7 +887,7 @@ class ManageRoleAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $request->status,
-                            'mainRoleId' => $request->roleMain
+                            'mainRoleId' => $request->mainRole
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -971,7 +971,7 @@ class ManageRoleAdminController extends Controller
 
     public function updatePermissions(Request $request)
     {
-        $values = $request->only('id', 'name', 'roleMain', 'description');
+        $values = $request->only('id', 'name', 'mainRole', 'description');
 
         try {
             $id = decrypt($values['id']);
@@ -980,19 +980,14 @@ class ManageRoleAdminController extends Controller
         }
 
         try {
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'updateRoleSub',
-                'id' => $id,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateSubRole', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
                 $subRole = SubRole::find($id);
 
                 $subRole->name = $values['name'];
-                $subRole->mainRoleId = decrypt($values['roleMain']);
+                $subRole->mainRoleId = decrypt($values['mainRole']);
                 $subRole->description = $values['description'];
 
                 if ($subRole->update()) {

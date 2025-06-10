@@ -79,12 +79,12 @@
             }
         })
 
-        $('body').delegate('#updateAdminUsersForm #roleMain, #saveAdminUsersForm #roleMain', 'change', function () {
+        $('body').delegate('#updateAdminUsersForm #mainRole, #saveAdminUsersForm #mainRole', 'change', function () {
             let targetId = $(this);
             if (targetId.find(':selected').attr('data-exist') > 0) {
-                targetId.closest('form').find('#roleSub').closest('.form-element').fadeIn(500);
+                targetId.closest('form').find('#subRole').closest('.form-element').fadeIn(500);
             } else {
-                targetId.closest('form').find('#roleSub').closest('.form-element').fadeOut(500);
+                targetId.closest('form').find('#subRole').closest('.form-element').fadeOut(500);
             }
         })
 

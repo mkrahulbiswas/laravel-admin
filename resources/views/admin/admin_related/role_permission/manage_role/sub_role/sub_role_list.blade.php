@@ -67,7 +67,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="tdFilterForm p-3">
-                                            <form id="filterRoleSubForm" method="POST" action="{{ route('admin.get.subRole') }}" class="m-b-20">
+                                            <form id="filterSubRoleForm" method="POST" action="{{ route('admin.get.subRole') }}" class="m-b-20">
                                                 @csrf
                                                 <div class="row gap-2">
 
@@ -84,9 +84,9 @@
 
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <div class="form-icon set-validation">
-                                                            <select class="form-control form-control-icon select2-roleMain" name="roleMain" id="roleMainFilter">
+                                                            <select class="form-control form-control-icon select2-mainRole" name="mainRole" id="mainRoleFilter">
                                                                 <option value="">Select One</option>
-                                                                @foreach ($data['roleMain'] as $key)
+                                                                @foreach ($data['mainRole'] as $key)
                                                                     <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
                                                                 @endforeach
                                                             </select>
@@ -97,13 +97,13 @@
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <div class="form-group d-flex flex-row justify-content-start">
                                                             @if ($permission['search']['permission'] == true)
-                                                                <button type="button" class="btn btn-info btn-label waves-effect waves-light filterRoleSubBtn" title="Search">
+                                                                <button type="button" class="btn btn-info btn-label waves-effect waves-light filterSubRoleBtn" title="Search">
                                                                     <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
                                                                     <span>Search</span>
                                                                 </button>
                                                             @endif
                                                             @if ($permission['reset']['permission'] == true)
-                                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterRoleSubBtn ms-2" title="Reload">
+                                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterSubRoleBtn ms-2" title="Reload">
                                                                     <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
                                                                     <span>Reset</span>
                                                                 </button>
@@ -168,15 +168,15 @@
                             <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="name" class="form-label">Main Role Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select class="selectTwo form-control form-control-icon select2-roleMain-addModal" name="roleMain" id="roleMain">
+                                    <select class="selectTwo form-control form-control-icon select2-mainRole-addModal" name="mainRole" id="mainRole">
                                         <option value="">Select One</option>
-                                        @foreach ($data['roleMain'] as $key)
+                                        @foreach ($data['mainRole'] as $key)
                                             <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
                                         @endforeach
                                     </select>
                                     <i class="bx bx-receipt"></i>
                                 </div>
-                                <div class="validation-error" id="roleMainErr"></div>
+                                <div class="validation-error" id="mainRoleErr"></div>
                             </div>
                             <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="name" class="form-label">Sub Role Name<span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
@@ -206,7 +206,7 @@
                             </button>
                         @endif
                         @if ($permission['save']['permission'] == true)
-                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="saveRoleSubBtn">
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="saveSubRoleBtn">
                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                 <span>Save</span>
                             </button>
@@ -232,14 +232,14 @@
                             <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="name" class="form-label">Main Role Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select class="selectTwo form-control form-control-icon select2-roleMain-editModal" name="roleMain" id="roleMain2">
-                                        @foreach ($data['roleMain'] as $key)
+                                    <select class="selectTwo form-control form-control-icon select2-mainRole-editModal" name="mainRole" id="mainRole2">
+                                        @foreach ($data['mainRole'] as $key)
                                             <option value="{{ $key['id'] }}" data-name="{{ $key['name'] }}">{{ $key['name'] }}</option>
                                         @endforeach
                                     </select>
                                     <i class="bx bx-receipt"></i>
                                 </div>
-                                <div class="validation-error" id="roleMainErr"></div>
+                                <div class="validation-error" id="mainRoleErr"></div>
                             </div>
                             <div class="form-element col-sm-12 col-md-6 col-xl-6 col-lg-6 mb-3">
                                 <label for="name" class="form-label">Sub Role Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
@@ -269,7 +269,7 @@
                             </button>
                         @endif
                         @if ($permission['update']['permission'] == true)
-                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateRoleSubBtn">
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateSubRoleBtn">
                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                 <span>Update</span>
                             </button>
@@ -299,7 +299,7 @@
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
                                     <label class="details-label form-label mb-1">Main Role :</label>
-                                    <span class="detail-span d-block mb-0" id="roleMain"></span>
+                                    <span class="detail-span d-block mb-0" id="mainRole"></span>
                                 </div>
                             </div>
                         </div>

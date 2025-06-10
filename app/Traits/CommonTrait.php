@@ -419,7 +419,7 @@ trait CommonTrait
 
                     $html = '<div class="navPermissionMain">
                         <div class="navPermissionSub">
-                            <div class="npRoleMain">
+                            <div class="npMainRole">
                                 <div class="npGo">
                                     <span>Click for set permission</span>
                                 </div>

@@ -190,8 +190,8 @@ class GetManageUsersHelper
                                     'fileName' => $adminUsers->image,
                                     'storage' => Config::get('constants.storage')['adminUsers']
                                 ]),
-                                'roleMain' =>  $mainRole,
-                                'roleSub' =>  $subRole,
+                                'mainRole' =>  $mainRole,
+                                'subRole' =>  $subRole,
                                 'email' =>  $adminUsers->email,
                                 'phone' =>  $adminUsers->phone,
                                 'pinCode' =>  $usersInfo->pinCode,

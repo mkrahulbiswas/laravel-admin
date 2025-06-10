@@ -229,7 +229,7 @@
         });
 
         //------ ( Main Role )
-        $('#filterRoleMainForm').find('#statusFilter, .filterRoleMainBtn').on('change click', function () {
+        $('#filterMainRoleForm').find('#statusFilter, .filterMainRoleBtn').on('change click', function () {
             var formId = $(this).closest('form'),
                 dataTableId = $('#adminRelated-rolePermission-manageRole-mainRole'),
 
@@ -265,14 +265,14 @@
         });
 
         //------ ( Permission Main Role )
-        $('#filterPermissionRoleMainForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, .filterPermissionRoleMainBtn').on('change click', function () {
+        $('#filterPermissionMainRoleForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, .filterPermissionMainRoleBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageAccess-permissionRoleMain'),
+                dataTableId = $('#managePanel-manageAccess-permissionMainRole'),
 
                 navType = (formId.find("#navTypeFilter").val() == '' || formId.find("#navTypeFilter").val() == null) ? '' : formId.find("#navTypeFilter").val(),
                 navMain = (formId.find("#navMainFilter").val() == '' || formId.find("#navMainFilter").val() == null) ? '' : formId.find("#navMainFilter").val(),
                 navSub = (formId.find("#navSubFilter").val() == '' || formId.find("#navSubFilter").val() == null) ? '' : formId.find("#navSubFilter").val(),
-                mainRoleId = $('#managePanel-manageAccess-permissionRoleMain').attr('data-id'),
+                mainRoleId = $('#managePanel-manageAccess-permissionMainRole').attr('data-id'),
 
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?mainRoleId=" + mainRoleId + "&navType=" + navType + "&navMain=" + navMain + "&navSub=" + navSub;
@@ -304,15 +304,15 @@
         });
 
         //------ ( Sub Role )
-        $('#filterRoleSubForm').find('#statusFilter, #roleMainFilter, .filterRoleSubBtn').on('change click', function () {
+        $('#filterSubRoleForm').find('#statusFilter, #mainRoleFilter, .filterSubRoleBtn').on('change click', function () {
             var formId = $(this).closest('form'),
                 dataTableId = $('#adminRelated-rolePermission-manageRole-subRole'),
 
                 status = formId.find("#statusFilter").val(),
-                roleMain = (formId.find("#roleMainFilter").val() == '' || formId.find("#roleMainFilter").val() == null) ? '' : formId.find("#roleMainFilter").val(),
+                mainRole = (formId.find("#mainRoleFilter").val() == '' || formId.find("#mainRoleFilter").val() == null) ? '' : formId.find("#mainRoleFilter").val(),
 
                 action = $(this).closest('form').attr('action').split('/'),
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&roleMain=" + roleMain;
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&mainRole=" + mainRole;
             if ($(this).attr('title') == 'Reload') {
                 commonAction({
                     targetId: {
@@ -323,7 +323,7 @@
                         selectTwo: {},
                     }
                 })
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&roleMain=" + '';
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&mainRole=" + '';
             }
             commonAction({
                 targetId: {
@@ -341,14 +341,14 @@
         });
 
         //------ ( Permission Sub Role )
-        $('#filterPermissionRoleSubForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, .filterPermissionRoleSubBtn').on('change click', function () {
+        $('#filterPermissionSubRoleForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, .filterPermissionSubRoleBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageAccess-permissionRoleSub'),
+                dataTableId = $('#managePanel-manageAccess-permissionSubRole'),
 
                 navType = (formId.find("#navTypeFilter").val() == '' || formId.find("#navTypeFilter").val() == null) ? '' : formId.find("#navTypeFilter").val(),
                 navMain = (formId.find("#navMainFilter").val() == '' || formId.find("#navMainFilter").val() == null) ? '' : formId.find("#navMainFilter").val(),
                 navSub = (formId.find("#navSubFilter").val() == '' || formId.find("#navSubFilter").val() == null) ? '' : formId.find("#navSubFilter").val(),
-                subRoleId = $('#managePanel-manageAccess-permissionRoleSub').attr('data-id'),
+                subRoleId = $('#managePanel-manageAccess-permissionSubRole').attr('data-id'),
 
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?subRoleId=" + subRoleId + "&navType=" + navType + "&navMain=" + navMain + "&navSub=" + navSub;

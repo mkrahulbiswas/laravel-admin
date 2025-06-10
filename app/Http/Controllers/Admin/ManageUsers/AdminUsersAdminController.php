@@ -51,7 +51,7 @@ class AdminUsersAdminController extends Controller
             ]);
 
             $data = [
-                'roleMain' => $mainRole[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')],
+                'mainRole' => $mainRole[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')],
             ];
 
             return view('admin.manage_users.admin_users.admin_users_list', ['data' => $data]);
@@ -159,14 +159,14 @@ class AdminUsersAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
-                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
+                            'uniqueId' => Config::get('constants.superAdminCheck')['mainRole'],
                         ],
                     ],
                 ],
             ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $data = [
-                'roleMain' => $mainRole,
+                'mainRole' => $mainRole,
             ];
 
             return view('admin.manage_users.admin_users.admin_users_add', ['data' => $data]);
@@ -179,7 +179,7 @@ class AdminUsersAdminController extends Controller
     {
         try {
             DB::beginTransaction();
-            $values = $request->only('name', 'email', 'phone', 'roleMain', 'roleSub', 'pinCode', 'state', 'country', 'address', 'about');
+            $values = $request->only('name', 'email', 'phone', 'mainRole', 'subRole', 'pinCode', 'state', 'country', 'address', 'about');
             $file = $request->file('file');
             $password = 123456;
 
@@ -187,7 +187,7 @@ class AdminUsersAdminController extends Controller
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                if (MainRole::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
+                if (MainRole::where('id', decrypt($values['mainRole']))->first()->uniqueId == Config::get('constants.superAdminCheck')['mainRole']) {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save", 'msg' => __('messages.notAllowMsg')], Config::get('constants.errorCode.ok'));
                 } else {
                     if ($file) {
@@ -210,9 +210,9 @@ class AdminUsersAdminController extends Controller
                     $adminUsers->email = $values['email'];
                     $adminUsers->phone = $values['phone'];
                     $adminUsers->status = Config::get('constants.status')['active'];
-                    $adminUsers->mainRoleId = decrypt($values['roleMain']);
-                    if ($values['roleSub'] != '') {
-                        $adminUsers->subRoleId = decrypt($values['roleSub']);
+                    $adminUsers->mainRoleId = decrypt($values['mainRole']);
+                    if ($values['subRole'] != '') {
+                        $adminUsers->subRoleId = decrypt($values['subRole']);
                     }
                     $adminUsers->password = Hash::make($password);
                     if ($file) {
@@ -265,7 +265,7 @@ class AdminUsersAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
-                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
+                            'uniqueId' => Config::get('constants.superAdminCheck')['mainRole'],
                         ],
                     ],
                 ],
@@ -292,15 +292,15 @@ class AdminUsersAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
-                            'mainRoleId' => $adminUsers['roleMain']['id']
+                            'mainRoleId' => $adminUsers['mainRole']['id']
                         ],
                     ],
                 ],
             ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $data = [
-                'roleMain' => $mainRole,
-                'roleSub' => $subRole,
+                'mainRole' => $mainRole,
+                'subRole' => $subRole,
                 'adminUsers' => $adminUsers,
             ];
 
@@ -312,7 +312,7 @@ class AdminUsersAdminController extends Controller
 
     public function updateAdminUsers(Request $request)
     {
-        $values = $request->only('id', 'name', 'email', 'phone', 'roleMain', 'roleSub', 'pinCode', 'state', 'country', 'address', 'about');
+        $values = $request->only('id', 'name', 'email', 'phone', 'mainRole', 'subRole', 'pinCode', 'state', 'country', 'address', 'about');
         $file = $request->file('file');
 
         try {
@@ -323,14 +323,14 @@ class AdminUsersAdminController extends Controller
 
         try {
             DB::beginTransaction();
-            $values = $request->only('name', 'email', 'phone', 'roleMain', 'roleSub', 'pinCode', 'state', 'country', 'address', 'about');
+            $values = $request->only('name', 'email', 'phone', 'mainRole', 'subRole', 'pinCode', 'state', 'country', 'address', 'about');
             $file = $request->file('file');
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateAdminUsers', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                if (MainRole::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
+                if (MainRole::where('id', decrypt($values['mainRole']))->first()->uniqueId == Config::get('constants.superAdminCheck')['mainRole']) {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update", 'msg' => __('messages.notAllowMsg')], Config::get('constants.errorCode.ok'));
                 } else {
                     $adminUsers = AdminUsers::findOrFail($id);
@@ -351,9 +351,9 @@ class AdminUsersAdminController extends Controller
                     $adminUsers->email = $values['email'];
                     $adminUsers->phone = $values['phone'];
                     $adminUsers->status = Config::get('constants.status')['active'];
-                    $adminUsers->mainRoleId = decrypt($values['roleMain']);
-                    if ($values['roleSub'] != '') {
-                        $adminUsers->subRoleId = decrypt($values['roleSub']);
+                    $adminUsers->mainRoleId = decrypt($values['mainRole']);
+                    if ($values['subRole'] != '') {
+                        $adminUsers->subRoleId = decrypt($values['subRole']);
                     }
                     $adminUsers->password = Hash::make(123456);
                     if ($adminUsers->update()) {

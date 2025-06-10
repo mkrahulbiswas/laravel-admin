@@ -109,9 +109,9 @@ trait ValidationTrait
                     'name' => ['required', 'max:20', new UniqueManageRole([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
-                        'mainRoleId' => $data['input']['roleMain']
+                        'mainRoleId' => $data['input']['mainRole']
                     ])],
-                    'roleMain' => 'required',
+                    'mainRole' => 'required',
                     'description' => 'required',
                 ];
                 break;
@@ -121,9 +121,9 @@ trait ValidationTrait
                     'name' => ['required', 'max:20', new UniqueManageRole([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
-                        'mainRoleId' => $data['input']['roleMain']
+                        'mainRoleId' => $data['input']['mainRole']
                     ])],
-                    'roleMain' => 'required',
+                    'mainRole' => 'required',
                     'description' => 'required',
                 ];
                 break;
@@ -271,14 +271,14 @@ trait ValidationTrait
                     'email' => 'required|email|max:100|unique:admins',
                     'phone' => 'required|max:100|unique:admins,phone|digits:10',
                     'name' => 'required|max:255',
-                    'roleMain' => 'required',
+                    'mainRole' => 'required',
                     'pinCode' => 'required|max:7',
                     'state' => 'required|max:50',
                     'country' => 'required|max:50',
                     'address' => 'required|max:150',
                     'about' => 'max:500',
                 ];
-                if ($data['input']['roleMain'] != '') {
+                if ($data['input']['mainRole'] != '') {
                     $getDetail = GetManageAccessHelper::getDetail([
                         [
                             'getDetail' => [
@@ -286,12 +286,12 @@ trait ValidationTrait
                                 'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                             ],
                             'otherDataPasses' => [
-                                'id' => $data['input']['roleMain']
+                                'id' => $data['input']['mainRole']
                             ]
                         ],
                     ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                     if ($getDetail['extraData']['hasSubRole'] > 0) {
-                        $rules['roleSub'] = 'required';
+                        $rules['subRole'] = 'required';
                     }
                 }
                 break;
@@ -302,14 +302,14 @@ trait ValidationTrait
                     'email' => 'required|email|max:100|unique:admins,email,' . $data['id'],
                     'phone' => 'required|max:100|digits:10|unique:admins,phone,' . $data['id'],
                     'name' => 'required|max:255',
-                    'roleMain' => 'required',
+                    'mainRole' => 'required',
                     'pinCode' => 'required|max:7',
                     'state' => 'required|max:50',
                     'country' => 'required|max:50',
                     'address' => 'required|max:150',
                     'about' => 'max:500',
                 ];
-                if ($data['input']['roleMain'] != '') {
+                if ($data['input']['mainRole'] != '') {
                     $getDetail = GetManageAccessHelper::getDetail([
                         [
                             'getDetail' => [
@@ -317,12 +317,12 @@ trait ValidationTrait
                                 'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                             ],
                             'otherDataPasses' => [
-                                'id' => $data['input']['roleMain']
+                                'id' => $data['input']['mainRole']
                             ]
                         ],
                     ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                     if ($getDetail['extraData']['hasSubRole'] > 0) {
-                        $rules['roleSub'] = 'required';
+                        $rules['subRole'] = 'required';
                     }
                 }
                 break;

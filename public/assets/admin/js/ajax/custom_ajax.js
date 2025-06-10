@@ -220,11 +220,11 @@
                         $.each(msg.errors.phone, function (i) {
                             submitForm.find("#phoneErr").text(msg.errors.phone[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.roleMain, function (i) {
-                            submitForm.find("#roleMainErr").text(msg.errors.roleMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.mainRole, function (i) {
+                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.roleSub, function (i) {
-                            submitForm.find("#roleSubErr").text(msg.errors.roleSub[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.subRole, function (i) {
+                            submitForm.find("#subRoleErr").text(msg.errors.subRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.pinCode, function (i) {
                             submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
@@ -343,11 +343,11 @@
                         $.each(msg.errors.phone, function (i) {
                             submitForm.find("#phoneErr").text(msg.errors.phone[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.roleMain, function (i) {
-                            submitForm.find("#roleMainErr").text(msg.errors.roleMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.mainRole, function (i) {
+                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.roleSub, function (i) {
-                            submitForm.find("#roleSubErr").text(msg.errors.roleSub[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.subRole, function (i) {
+                            submitForm.find("#subRoleErr").text(msg.errors.subRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.pinCode, function (i) {
                             submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
@@ -2038,7 +2038,7 @@
         $("#saveMainRoleForm").submit(function (event) {
 
             submitForm = $(this);
-            submitBtn = $(this).find('#saveRoleMainBtn');
+            submitBtn = $(this).find('#saveMainRoleBtn');
 
             event.preventDefault();
             $.ajax({
@@ -2140,7 +2140,7 @@
         //---- ( Main Role Update ) ----//
         $("#updateMainRoleForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updateRoleMainBtn');
+            submitBtn = $(this).find('#updateMainRoleBtn');
 
             event.preventDefault();
             $.ajax({
@@ -2239,9 +2239,9 @@
         });
 
         //---- ( Permission Main Role Update ) ----//
-        $("#updatePermissionRoleMainForm").submit(function (event) {
+        $("#updatePermissionMainRoleForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updatePermissionRoleMainBtn');
+            submitBtn = $(this).find('#updatePermissionMainRoleBtn');
 
             event.preventDefault();
             $.ajax({
@@ -2309,7 +2309,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageAccess-permissionRoleMain')
+                                    targetId: $('#managePanel-manageAccess-permissionMainRole')
                                 }
                             }
                         })
@@ -2393,7 +2393,7 @@
                             position: 'center-center',
                             icon: 'warning',
                             title: 'Oops....!',
-                            html: 'There some sub role found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.roleSubRoute + '">sub role</a>',
+                            html: 'There some sub role found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.subRoleRoute + '">sub role</a>',
                             showConfirmButton: false,
                             timer: 10000
                         }
@@ -2422,7 +2422,7 @@
         $("#saveSubRoleForm").submit(function (event) {
 
             submitForm = $(this);
-            submitBtn = $(this).find('#saveRoleSubBtn');
+            submitBtn = $(this).find('#saveSubRoleBtn');
 
             event.preventDefault();
             $.ajax({
@@ -2479,8 +2479,8 @@
                         $.each(msg.errors.name, function (i) {
                             submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.roleMain, function (i) {
-                            submitForm.find("#roleMainErr").text(msg.errors.roleMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.mainRole, function (i) {
+                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
                             submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
@@ -2527,7 +2527,7 @@
         //---- ( Sub Role Update ) ----//
         $("#updateSubRoleForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updateRoleSubBtn');
+            submitBtn = $(this).find('#updateSubRoleBtn');
 
             event.preventDefault();
             $.ajax({
@@ -2583,8 +2583,8 @@
                         $.each(msg.errors.name, function (i) {
                             submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                        $.each(msg.errors.roleMain, function (i) {
-                            submitForm.find("#roleMainErr").text(msg.errors.roleMain[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.mainRole, function (i) {
+                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
                             submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
@@ -2629,9 +2629,9 @@
         });
 
         //---- ( Permission Sub Role Update ) ----//
-        $("#updatePermissionRoleSubForm").submit(function (event) {
+        $("#updatePermissionSubRoleForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updatePermissionRoleSubBtn');
+            submitBtn = $(this).find('#updatePermissionSubRoleBtn');
 
             event.preventDefault();
             $.ajax({
@@ -2699,7 +2699,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-manageAccess-permissionRoleSub')
+                                    targetId: $('#managePanel-manageAccess-permissionSubRole')
                                 }
                             }
                         })
@@ -2768,12 +2768,12 @@
                 id.find('#id').val(data.id);
                 id.find('#name').val(data.name);
                 id.find('#description').val(data.description);
-                id.find("#roleMain2 option[data-name='" + data.roleMain.name + "']").prop("selected", true).trigger('change');
+                id.find("#mainRole2 option[data-name='" + data.mainRole.name + "']").prop("selected", true).trigger('change');
             } else if (type == 'info') {
                 id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
-                id.find('#roleMain').text(data.roleMain.name);
+                id.find('#mainRole').text(data.mainRole.name);
                 id.find('#name').text(data.name);
                 id.find('#description').text(data.description);
             } else if (type == 'setPermission') {

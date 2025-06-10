@@ -335,7 +335,7 @@ class GetManageAccessHelper
                         ]),
                         'extraData' => [
                             'hasSubRole' => $hasSubRole,
-                            'roleSubRoute' => route('admin.show.subRole'),
+                            'subRoleRoute' => route('admin.show.subRole'),
                             'hasPermission' => $permission,
                         ]
                     ];
@@ -809,7 +809,7 @@ class GetManageAccessHelper
                             'name' => $tempOne->name,
                             'status' =>  $tempOne->status,
                             'description' =>  $tempOne->description,
-                            'roleSub' => $subRole,
+                            'subRole' => $subRole,
                             'nav' => $getNav
                         ];
                         $subRole = array();

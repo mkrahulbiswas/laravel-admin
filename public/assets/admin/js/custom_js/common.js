@@ -206,22 +206,22 @@ function initCallSelect2() {
         dropdownParent: $('#con-edit-modal')
     });
 
-    $('.select2-roleMain').select2({
+    $('.select2-mainRole').select2({
         tags: false,
         placeholder: "Select main role"
     });
-    $('.select2-roleMain-addModal').select2({
+    $('.select2-mainRole-addModal').select2({
         tags: false,
         placeholder: "Select main role",
         dropdownParent: $('#con-add-modal')
     });
-    $('.select2-roleMain-editModal').select2({
+    $('.select2-mainRole-editModal').select2({
         tags: false,
         placeholder: "Select main role",
         dropdownParent: $('#con-edit-modal')
     });
 
-    $('.select2-roleSub').select2({
+    $('.select2-subRole').select2({
         tags: false,
         placeholder: "Select sub role"
     });

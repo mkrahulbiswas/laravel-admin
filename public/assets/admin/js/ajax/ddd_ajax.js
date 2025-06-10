@@ -105,12 +105,12 @@
         /*--========================= ( Manage Nav END ) =========================--*/
 
         /*--========================= ( Manage Access START ) =========================--*/
-        $('.roleMainDDD').change(function () {
+        $('.mainRoleDDD').change(function () {
             if ($(this).attr('data-action') != undefined) {
                 var html = '<option value="">Select sub role</option>';
-                $('.roleSubDDD').text('');
+                $('.subRoleDDD').text('');
                 if ($(this).val() == '') {
-                    $('.roleSubDDD').append(html);
+                    $('.subRoleDDD').append(html);
                 } else {
                     $.ajax({
                         url: $(this).attr('data-action') + '/' + $(this).val(),
@@ -130,12 +130,12 @@
                                 }
                             })
                             if (msg.status == 0) {
-                                $('.roleSubDDD').append(html);
+                                $('.subRoleDDD').append(html);
                             } else {
-                                $.each(msg.data.roleSub, function (key, value) {
+                                $.each(msg.data.subRole, function (key, value) {
                                     html += '<option value="' + value['id'] + '" data-name="' + value['name'] + '">' + value['name'] + '</option>'
                                 });
-                                $('.roleSubDDD').append(html);
+                                $('.subRoleDDD').append(html);
                             }
                         }
                     });
