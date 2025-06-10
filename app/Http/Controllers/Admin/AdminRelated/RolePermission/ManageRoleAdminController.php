@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\AdminRelated\RolePermission;
 
 use App\Http\Controllers\Controller;
 
+use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
 use App\Helpers\ManagePanel\GetManageNavHelper;
 
@@ -59,7 +60,7 @@ class ManageRoleAdminController extends Controller
             ],
         ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-        $getPrivilege = ManageRoleHelper::getPrivilege([
+        $getPrivilege = ManagePermissionHelper::getPrivilege([
             [
                 'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                 'otherDataPasses' => []
@@ -230,7 +231,7 @@ class ManageRoleAdminController extends Controller
         }
 
         try {
-            $setPermission = ManageRoleHelper::setPermission([
+            $setPermission = ManagePermissionHelper::setPermission([
                 [
                     'checkFirst' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
@@ -363,7 +364,7 @@ class ManageRoleAdminController extends Controller
                 ]
             ]);
 
-            $getPrivilege = ManageRoleHelper::getPrivilege([
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -495,7 +496,7 @@ class ManageRoleAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            $getPrivilege = ManageRoleHelper::getPrivilege([
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -649,7 +650,7 @@ class ManageRoleAdminController extends Controller
         }
 
         // try {
-        $setPermission = ManageRoleHelper::setPermission([
+        $setPermission = ManagePermissionHelper::setPermission([
             [
                 'checkFirst' => [
                     'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
@@ -778,7 +779,7 @@ class ManageRoleAdminController extends Controller
                 ]
             ]);
 
-            $getPrivilege = ManageRoleHelper::getPrivilege([
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -865,7 +866,7 @@ class ManageRoleAdminController extends Controller
     public function showPermissions()
     {
         // try {
-        $getPrivilege = ManageRoleHelper::getPrivilege([
+        $getPrivilege = ManagePermissionHelper::getPrivilege([
             ['type' => [Config::get('constants.typeCheck.helperCommon.privilege.np')]]
         ])[Config::get('constants.typeCheck.helperCommon.privilege.np')];
         dd($getPrivilege);

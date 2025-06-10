@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\ManagePanel;
 
 use App\Http\Controllers\Controller;
 
-use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
+use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
 use App\Helpers\ManagePanel\GetQuickSettingsHelper;
 
 use App\Traits\CommonTrait;
@@ -61,7 +61,7 @@ class QuickSettingsAdminController extends Controller
                     ],
                 ],
             ])[Config::get('constants.typeCheck.quickSettings.logo.type')][Config::get('constants.typeCheck.helperCommon.get.inf')]['list'];
-            $getPrivilege = ManageRoleHelper::getPrivilege([
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\ManageUsers;
 
+use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
 use App\Http\Controllers\Controller;
 
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
@@ -80,7 +81,7 @@ class AdminUsersAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $getPrivilege = ManageRoleHelper::getPrivilege([
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []

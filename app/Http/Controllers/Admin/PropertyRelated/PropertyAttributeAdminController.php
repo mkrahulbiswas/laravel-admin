@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\PropertyRelated;
 
 use App\Http\Controllers\Controller;
 
-use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
+use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
 use App\Helpers\PropertyRelated\GetPropertyAttributeHelper;
 
 use App\Traits\CommonTrait;
@@ -57,7 +57,7 @@ class PropertyAttributeAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.propertyRelated.propertyAttribute.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $getPrivilege = ManageRoleHelper::getPrivilege([
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
