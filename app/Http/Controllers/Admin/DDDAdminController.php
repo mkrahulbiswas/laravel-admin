@@ -26,7 +26,7 @@ class DDDAdminController extends Controller
     public function getNavMain($navTypeId)
     {
         try {
-            $navMain = GetManageNavHelper::getList([
+            $mainNav = GetManageNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -45,7 +45,7 @@ class DDDAdminController extends Controller
             ]);
 
             $data = [
-                'navMain' => $navMain[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
+                'mainNav' => $mainNav[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
             ];
 
             if ($data) {
@@ -62,7 +62,7 @@ class DDDAdminController extends Controller
     public function getNavSub($mainNavId)
     {
         try {
-            $navSub = GetManageNavHelper::getList([
+            $subNav = GetManageNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -81,7 +81,7 @@ class DDDAdminController extends Controller
             ]);
 
             $data = [
-                'navSub' => $navSub[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
+                'navSub' => $subNav[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
             ];
 
             if ($data) {
@@ -98,7 +98,7 @@ class DDDAdminController extends Controller
     public function getSubRole($mainRoleId)
     {
         try {
-            $navSub = ManageRoleHelper::getList([
+            $subNav = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -117,7 +117,7 @@ class DDDAdminController extends Controller
             ]);
 
             $data = [
-                'subRole' => $navSub[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
+                'subRole' => $subNav[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
             ];
 
             if ($data) {

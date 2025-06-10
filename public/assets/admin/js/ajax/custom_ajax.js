@@ -1071,7 +1071,7 @@
                 id.find('#description').val(data.description);
             } else if (type == 'access') {
                 data = JSON.parse($(this).attr('data-array'));
-                if (data.extraData.hasNavSub > 0) {
+                if (data.extraData.hasSubNav > 0) {
                     commonAction({
                         swal: {
                             type: 'basic',
@@ -1079,7 +1079,7 @@
                                 position: 'center-center',
                                 icon: 'warning',
                                 title: 'Oops....!',
-                                html: 'There some sub nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navSubRoute + '">sub nav</a>',
+                                html: 'There some sub nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.subNavRoute + '">sub nav</a>',
                                 showConfirmButton: false,
                                 timer: 10000
                             }
@@ -1488,7 +1488,7 @@
                 }, 1000);
             } else if (type == 'access') {
                 data = JSON.parse($(this).attr('data-array'));
-                if (data.extraData.hasNavNested > 0) {
+                if (data.extraData.hasNestedNav > 0) {
                     commonAction({
                         swal: {
                             type: 'basic',
@@ -1496,7 +1496,7 @@
                                 position: 'center-center',
                                 icon: 'warning',
                                 title: 'Oops....!',
-                                html: 'There some nested nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.navNestedRoute + '">nested nav</a>',
+                                html: 'There some nested nav found, please set permission from <a class="linkHrefRoute" href="' + data.extraData.nestedNavRoute + '">nested nav</a>',
                                 showConfirmButton: false,
                                 timer: 10000
                             }
