@@ -178,38 +178,38 @@ class AuthAdminController extends Controller
 
 
 
-    public function changePasswordLogin(Request $request)
-    {
-        $values = $request->only('id', 'password', 'password_confirmation');
-        $id = decrypt($values['id']);
+    // public function changePasswordLogin(Request $request)
+    // {
+    //     $values = $request->only('id', 'password', 'password_confirmation');
+    //     $id = decrypt($values['id']);
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'password' => 'required|min:6|max:20|confirmed',
-            ],
-            [
-                'password.required' => 'This field is required.',
-                'password.min' => 'Password should be minimum 6 characters.',
-                'password.max' => 'Password should be maximum 20 characters.'
-            ]
-        );
+    //     $validator = Validator::make(
+    //         $request->all(),
+    //         [
+    //             'password' => 'required|min:6|max:20|confirmed',
+    //         ],
+    //         [
+    //             'password.required' => 'This field is required.',
+    //             'password.min' => 'Password should be minimum 6 characters.',
+    //             'password.max' => 'Password should be maximum 20 characters.'
+    //         ]
+    //     );
 
-        if ($validator->fails()) {
-            return view('admin.auth.change_password', ['id' => $id])->withErrors($validator);
-            //return redirect('/admin/changePassword')->withErrors($validator);
-        } else {
-            $admin = AdminUsers::findOrFail($id);
-            $admin->password = Hash::make($values['password']);
-            $admin->isPwChange = '1';
-            if ($admin->update()) {
-                Auth::guard('admin')->loginUsingId($id);
-                return redirect('admin/dashboard');
-            } else {
-                return redirect('/admin/changePassword')->with('loginErr', 'Something went wrong a.');
-            }
-        }
-    }
+    //     if ($validator->fails()) {
+    //         return view('admin.auth.change_password', ['id' => $id])->withErrors($validator);
+    //         //return redirect('/admin/changePassword')->withErrors($validator);
+    //     } else {
+    //         $admin = AdminUsers::findOrFail($id);
+    //         $admin->password = Hash::make($values['password']);
+    //         $admin->isPwChange = '1';
+    //         if ($admin->update()) {
+    //             Auth::guard('admin')->loginUsingId($id);
+    //             return redirect('admin/dashboard');
+    //         } else {
+    //             return redirect('/admin/changePassword')->with('loginErr', 'Something went wrong a.');
+    //         }
+    //     }
+    // }
 
     public function showChangePassword()
     {
