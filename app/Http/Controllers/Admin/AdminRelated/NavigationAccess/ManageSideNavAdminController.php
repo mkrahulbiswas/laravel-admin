@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin\AdminRelated\NavigationAccess;
 
 use App\Http\Controllers\Controller;
 
+use App\Helpers\AdminRelated\NavigationAccess\ManageSideNavHelper;
 use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
-use App\Helpers\ManagePanel\GetManageNavHelper;
 
 use App\Models\AdminRelated\NavigationAccess\ManageSideNav\MainNav;
 use App\Models\AdminRelated\NavigationAccess\ManageSideNav\NestedNav;
@@ -43,7 +43,7 @@ class ManageSideNavAdminController extends Controller
     public function getNavType(Request $request)
     {
         try {
-            $navType = GetManageNavHelper::getList([
+            $navType = ManageSideNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -264,7 +264,7 @@ class ManageSideNavAdminController extends Controller
     public function showMainNav()
     {
         try {
-            $navType = GetManageNavHelper::getList([
+            $navType = ManageSideNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -294,7 +294,7 @@ class ManageSideNavAdminController extends Controller
     public function getMainNav(Request $request)
     {
         try {
-            $mainNav = GetManageNavHelper::getList([
+            $mainNav = ManageSideNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
@@ -597,7 +597,7 @@ class ManageSideNavAdminController extends Controller
     public function showSubNav()
     {
         try {
-            $navType = GetManageNavHelper::getList([
+            $navType = ManageSideNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -627,7 +627,7 @@ class ManageSideNavAdminController extends Controller
     public function getSubNav(Request $request)
     {
         try {
-            $subNav = GetManageNavHelper::getList([
+            $subNav = ManageSideNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
@@ -930,7 +930,7 @@ class ManageSideNavAdminController extends Controller
     public function showNestedNav()
     {
         try {
-            $navType = GetManageNavHelper::getList([
+            $navType = ManageSideNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -960,7 +960,7 @@ class ManageSideNavAdminController extends Controller
     public function getNestedNav(Request $request)
     {
         try {
-            $nestedNav = GetManageNavHelper::getList([
+            $nestedNav = ManageSideNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
@@ -1262,7 +1262,7 @@ class ManageSideNavAdminController extends Controller
     public function showArrangeNav()
     {
         try {
-            $getNav = GetManageNavHelper::getNav([
+            $getNav = ManageSideNavHelper::getNav([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.nav.sn')],
                     'otherDataPasses' => [

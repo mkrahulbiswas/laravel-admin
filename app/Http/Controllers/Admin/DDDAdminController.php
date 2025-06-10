@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Helpers\AdminRelated\NavigationAccess\ManageSideNavHelper;
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
-use App\Helpers\ManagePanel\GetManageNavHelper;
 use App\Helpers\PropertyRelated\GetManageBroadHelper;
 use App\Helpers\PropertyRelated\GetPropertyCategoryHelper;
 
@@ -26,7 +26,7 @@ class DDDAdminController extends Controller
     public function getMainNav($navTypeId)
     {
         try {
-            $mainNav = GetManageNavHelper::getList([
+            $mainNav = ManageSideNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -62,7 +62,7 @@ class DDDAdminController extends Controller
     public function getSubNav($mainNavId)
     {
         try {
-            $subNav = GetManageNavHelper::getList([
+            $subNav = ManageSideNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],

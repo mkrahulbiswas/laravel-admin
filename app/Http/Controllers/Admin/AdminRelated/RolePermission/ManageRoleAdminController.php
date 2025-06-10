@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin\AdminRelated\RolePermission;
 
 use App\Http\Controllers\Controller;
 
+use App\Helpers\AdminRelated\NavigationAccess\ManageSideNavHelper;
 use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
-use App\Helpers\ManagePanel\GetManageNavHelper;
 
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
@@ -316,7 +316,7 @@ class ManageRoleAdminController extends Controller
     public function showPermissionMainRole($mainRoleId)
     {
         try {
-            $navType = GetManageNavHelper::getList([
+            $navType = ManageSideNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -347,7 +347,7 @@ class ManageRoleAdminController extends Controller
     public function getPermissionMainRole(Request $request)
     {
         try {
-            $getNav = GetManageNavHelper::getNav([
+            $getNav = ManageSideNavHelper::getNav([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.nav.np')],
                     'otherDataPasses' => [
@@ -731,7 +731,7 @@ class ManageRoleAdminController extends Controller
     public function showPermissionSubRole($subRoleId)
     {
         try {
-            $navType = GetManageNavHelper::getList([
+            $navType = ManageSideNavHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -762,7 +762,7 @@ class ManageRoleAdminController extends Controller
     public function getPermissionSubRole(Request $request)
     {
         try {
-            $getNav = GetManageNavHelper::getNav([
+            $getNav = ManageSideNavHelper::getNav([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.nav.np')],
                     'otherDataPasses' => [

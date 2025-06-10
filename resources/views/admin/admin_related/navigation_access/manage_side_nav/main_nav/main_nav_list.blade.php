@@ -7,8 +7,9 @@
                     <h4>Main Nav</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Panel</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Nav</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Admin Related</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Navigation Access</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Side Nav</a></li>
                             <li class="breadcrumb-item active">Main Nav</li>
                         </ol>
                     </div>

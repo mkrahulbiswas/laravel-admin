@@ -2,7 +2,7 @@
 
 namespace App\Helpers\AdminRelated\RolePermission;
 
-use App\Helpers\ManagePanel\GetManageNavHelper;
+use App\Helpers\AdminRelated\NavigationAccess\ManageSideNavHelper;
 
 use App\Models\ManagePanel\ManageAccess\Permission;
 
@@ -48,7 +48,7 @@ class ManagePermissionHelper
                             $targetTypeField = 'navTypeId';
                         }
 
-                        $getDetail = GetManageNavHelper::getDetail([
+                        $getDetail = ManageSideNavHelper::getDetail([
                             [
                                 'getDetail' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
@@ -167,7 +167,7 @@ class ManagePermissionHelper
                     }
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.set.pfr'), $checkFirst['type'])) {
-                        $getNav = GetManageNavHelper::getNav([
+                        $getNav = ManageSideNavHelper::getNav([
                             [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.nav.np')],
                                 'otherDataPasses' => [
@@ -296,7 +296,7 @@ class ManagePermissionHelper
                 if (in_array(Config::get('constants.typeCheck.helperCommon.privilege.np'), $type)) {
                     $mainRole = $subRole = array();
 
-                    $getNav = GetManageNavHelper::getNav([
+                    $getNav = ManageSideNavHelper::getNav([
                         [
                             'type' => [Config::get('constants.typeCheck.helperCommon.nav.np')],
                             'otherDataPasses' => [
@@ -388,7 +388,7 @@ class ManagePermissionHelper
                         // dd($permission);
                         foreach ($permission as $tempTwo) {
                             if ($tempTwo->navTypeId != null && $tempTwo->mainNavId != null && $tempTwo->subNavId != null && $tempTwo->nestedNavId != null) {
-                                $getDetail = GetManageNavHelper::getDetail([
+                                $getDetail = ManageSideNavHelper::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
@@ -400,7 +400,7 @@ class ManagePermissionHelper
                                     ]
                                 ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type')][Config::get('constants.typeCheck.helperCommon.detail.rnd')]['detail'];
                             } else if ($tempTwo->navTypeId != null && $tempTwo->mainNavId != null && $tempTwo->subNavId != null && $tempTwo->nestedNavId == null) {
-                                $getDetail = GetManageNavHelper::getDetail([
+                                $getDetail = ManageSideNavHelper::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
@@ -412,7 +412,7 @@ class ManagePermissionHelper
                                     ]
                                 ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')][Config::get('constants.typeCheck.helperCommon.detail.rnd')]['detail'];
                             } else if ($tempTwo->navTypeId != null && $tempTwo->mainNavId != null && $tempTwo->subNavId == null && $tempTwo->nestedNavId == null) {
-                                $getDetail = GetManageNavHelper::getDetail([
+                                $getDetail = ManageSideNavHelper::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
@@ -424,7 +424,7 @@ class ManagePermissionHelper
                                     ]
                                 ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')][Config::get('constants.typeCheck.helperCommon.detail.rnd')]['detail'];
                             } else {
-                                $getDetail = GetManageNavHelper::getDetail([
+                                $getDetail = ManageSideNavHelper::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
