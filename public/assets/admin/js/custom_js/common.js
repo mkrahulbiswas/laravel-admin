@@ -53,31 +53,31 @@ function initCallSelectPicker() {
 function initCallSelect2() {
     $('.select2-navType').select2({
         tags: false,
-        placeholder: "Select Nav Type"
+        placeholder: "Select nav type"
     });
     $('.select2-navType-addModal').select2({
         tags: false,
-        placeholder: "Select Nav Type",
+        placeholder: "Select nav type",
         dropdownParent: $('#con-add-modal')
     });
     $('.select2-navType-editModal').select2({
         tags: false,
-        placeholder: "Select Nav Type",
+        placeholder: "Select nav type",
         dropdownParent: $('#con-edit-modal')
     });
 
     $('.select2-navMain').select2({
         tags: false,
-        placeholder: "Select Nav Main"
+        placeholder: "Select main nav"
     });
     $('.select2-navMain-addModal').select2({
         tags: false,
-        placeholder: "Select Nav Main",
+        placeholder: "Select main nav",
         dropdownParent: $('#con-add-modal')
     });
     $('.select2-navMain-editModal').select2({
         tags: false,
-        placeholder: "Select Nav Main",
+        placeholder: "Select main nav",
         dropdownParent: $('#con-edit-modal')
     });
 
@@ -178,31 +178,31 @@ function initCallSelect2() {
 
     $('.select2-navSub').select2({
         tags: false,
-        placeholder: "Select Nav Sub"
+        placeholder: "Select sub nav"
     });
     $('.select2-navSub-addModal').select2({
         tags: false,
-        placeholder: "Select Nav Sub",
+        placeholder: "Select sub nav",
         dropdownParent: $('#con-add-modal')
     });
     $('.select2-navSub-editModal').select2({
         tags: false,
-        placeholder: "Select Nav Sub",
+        placeholder: "Select sub nav",
         dropdownParent: $('#con-edit-modal')
     });
 
     $('.select2-navNested').select2({
         tags: false,
-        placeholder: "Select Nav Nested"
+        placeholder: "Select nested nav"
     });
     $('.select2-navNested-addModal').select2({
         tags: false,
-        placeholder: "Select Nav Nested",
+        placeholder: "Select nested nav",
         dropdownParent: $('#con-add-modal')
     });
     $('.select2-navNested-editModal').select2({
         tags: false,
-        placeholder: "Select Nav Nested",
+        placeholder: "Select nested nav",
         dropdownParent: $('#con-edit-modal')
     });
 

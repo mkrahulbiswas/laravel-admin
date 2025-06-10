@@ -29,7 +29,7 @@
         /*--========================= ( Manage Nav START ) =========================--*/
         $('.navTypeDDD').change(function () {
             if ($(this).attr('data-action') != undefined) {
-                var html = '<option value="">Select Nav Main</option>';
+                var html = '<option value="">Select main nav</option>';
                 $('.navMainDDD').text('');
                 if ($(this).val() == '') {
                     $('.navMainDDD').append(html);
@@ -67,7 +67,7 @@
 
         $('.navMainDDD').change(function () {
             if ($(this).attr('data-action') != undefined) {
-                var html = '<option value="">Select Nav Sub</option>';
+                var html = '<option value="">Select sub nav</option>';
                 $('.navSubDDD').text('');
                 if ($(this).val() == '') {
                     $('.navSubDDD').append(html);

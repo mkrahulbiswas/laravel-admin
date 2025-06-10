@@ -114,7 +114,7 @@
             })
         });
 
-        //------ ( Nav Main )
+        //------ ( Main Nav )
         $('#filterNavMainForm').find('#navTypeFilter, #statusFilter, .filterNavMainBtn').on('change click', function () {
             var formId = $(this).closest('form'),
                 dataTableId = $('#managePanel-manageNav-navMain'),
@@ -151,7 +151,7 @@
             })
         });
 
-        //------ ( Nav Sub )
+        //------ ( Sub Nav )
         $('#filterNavSubForm').find('#navTypeFilter, #navMainFilter, #statusFilter, .filterNavSubBtn').on('change click', function () {
             var formId = $(this).closest('form'),
                 dataTableId = $('#managePanel-manageNav-navSub'),
@@ -189,7 +189,7 @@
             })
         });
 
-        //------ ( Nav Nested )
+        //------ ( Nested Nav )
         $('#filterNavNestedForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, #statusFilter, .filterNavNestedBtn').on('change click', function () {
             var formId = $(this).closest('form'),
                 dataTableId = $('#managePanel-manageNav-navNested'),

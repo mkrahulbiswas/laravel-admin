@@ -712,7 +712,7 @@
         });
 
 
-        //---- ( Nav Main Save ) ----//
+        //---- ( Main Nav Save ) ----//
         $("#saveNavMainForm").submit(function (event) {
 
             submitForm = $(this);
@@ -821,7 +821,7 @@
             });
         });
 
-        //---- ( Nav Main Update ) ----//
+        //---- ( Main Nav Update ) ----//
         $("#updateNavMainForm").submit(function (event) {
             submitForm = $(this);
             submitBtn = $(this).find('#updateNavMainBtn');
@@ -928,7 +928,7 @@
             });
         });
 
-        //---- ( Nav Main Access ) ----//
+        //---- ( Main Nav Access ) ----//
         $("#accessNavMainForm").submit(function (event) {
             submitForm = $(this);
             submitBtn = $(this).find('#accessNavMainBtn');
@@ -1025,7 +1025,7 @@
             });
         });
 
-        //---- ( Nav Main Status, Edit, Detail ) ----//
+        //---- ( Main Nav Status, Edit, Detail ) ----//
         $('body').delegate('#managePanel-manageNav-navMain .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
@@ -1120,7 +1120,7 @@
         });
 
 
-        //---- ( Nav Sub Save ) ----//
+        //---- ( Sub Nav Save ) ----//
         $("#saveNavSubForm").submit(function (event) {
 
             submitForm = $(this);
@@ -1232,7 +1232,7 @@
             });
         });
 
-        //---- ( Nav Sub Update ) ----//
+        //---- ( Sub Nav Update ) ----//
         $("#updateNavSubForm").submit(function (event) {
             submitForm = $(this);
             submitBtn = $(this).find('#updateNavSubBtn');
@@ -1342,7 +1342,7 @@
             });
         });
 
-        //---- ( Nav Sub Access ) ----//
+        //---- ( Sub Nav Access ) ----//
         $("#accessNavSubForm").submit(function (event) {
             submitForm = $(this);
             submitBtn = $(this).find('#accessNavSubBtn');
@@ -1439,7 +1439,7 @@
             });
         });
 
-        //---- ( Nav Sub Status, Edit, Detail ) ----//
+        //---- ( Sub Nav Status, Edit, Detail ) ----//
         $('body').delegate('#managePanel-manageNav-navSub .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
@@ -1538,7 +1538,7 @@
         });
 
 
-        //---- ( Nav Nested Save ) ----//
+        //---- ( Nested Nav Save ) ----//
         $("#saveNavNestedForm").submit(function (event) {
 
             submitForm = $(this);
@@ -1653,7 +1653,7 @@
             });
         });
 
-        //---- ( Nav Nested Update ) ----//
+        //---- ( Nested Nav Update ) ----//
         $("#updateNavNestedForm").submit(function (event) {
             submitForm = $(this);
             submitBtn = $(this).find('#updateNavNestedBtn');
@@ -1766,7 +1766,7 @@
             });
         });
 
-        //---- ( Nav Nested Access ) ----//
+        //---- ( Nested Nav Access ) ----//
         $("#accessNavNestedForm").submit(function (event) {
             submitForm = $(this);
             submitBtn = $(this).find('#accessNavNestedBtn');
@@ -1863,7 +1863,7 @@
             });
         });
 
-        //---- ( Nav Nested Status, Edit, Detail ) ----//
+        //---- ( Nested Nav Status, Edit, Detail ) ----//
         $('body').delegate('#managePanel-manageNav-navNested .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),

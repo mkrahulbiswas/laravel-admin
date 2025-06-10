@@ -22,7 +22,7 @@ class DDDAdminController extends Controller
     public $platform = 'backend';
 
 
-    /*------ ( Get Nav Main ) -------*/
+    /*------ ( Get Main Nav ) -------*/
     public function getNavMain($navTypeId)
     {
         try {
@@ -49,7 +49,7 @@ class DDDAdminController extends Controller
             ];
 
             if ($data) {
-                return Response()->Json(['status' => 1, 'msg' => 'Nav main is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
+                return Response()->Json(['status' => 1, 'msg' => 'Main nav is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
             } else {
                 return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
             }
@@ -58,7 +58,7 @@ class DDDAdminController extends Controller
         }
     }
 
-    /*------ ( Get Nav Sub ) -------*/
+    /*------ ( Get Sub Nav ) -------*/
     public function getNavSub($navMainId)
     {
         try {
@@ -85,7 +85,7 @@ class DDDAdminController extends Controller
             ];
 
             if ($data) {
-                return Response()->Json(['status' => 1, 'msg' => 'Nav sub is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
+                return Response()->Json(['status' => 1, 'msg' => 'Sub nav is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
             } else {
                 return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
             }

@@ -243,9 +243,9 @@ class ManageRoleAdminController extends Controller
                 ]
             ]);
             if ($setPermission) {
-                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], Config::get('constants.errorCode.ok'));
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Main nav", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Main nav", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
             return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
@@ -663,9 +663,9 @@ class ManageRoleAdminController extends Controller
             ]
         ]);
         if ($setPermission) {
-            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Sub nav", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], Config::get('constants.errorCode.ok'));
         } else {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Sub nav", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
         }
         // } catch (Exception $e) {
         //     return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));

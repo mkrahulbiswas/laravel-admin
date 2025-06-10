@@ -4,12 +4,12 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-sm-0">
-                    <h4>Nav Nested</h4>
+                    <h4>Nested type</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Panel</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Nav</a></li>
-                            <li class="breadcrumb-item active">Nav Nested</li>
+                            <li class="breadcrumb-item active">Nested type</li>
                         </ol>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                             @if ($permission['add']['permission'] == true)
                                 <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">
                                     <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
-                                    <span>Add Nav Nested</span>
+                                    <span>Add Nested type</span>
                                 </button>
                             @endif
                             @if ($permission['filter']['permission'] == true)
@@ -145,9 +145,9 @@
                                             <th>#</th>
                                             <th>Unique Id</th>
                                             <th>Nav Type</th>
-                                            <th>Nav Main</th>
-                                            <th>Nav Sub</th>
-                                            <th>Nav Nested</th>
+                                            <th>Main Nav</th>
+                                            <th>Sub Nav</th>
+                                            <th>Nested type</th>
                                             <th>Nav Icon</th>
                                             <th>Stat Info</th>
                                             <th>Actions</th>
@@ -159,9 +159,9 @@
                                             <th>#</th>
                                             <th>Unique Id</th>
                                             <th>Nav Type</th>
-                                            <th>Nav Main</th>
-                                            <th>Nav Sub</th>
-                                            <th>Nav Nested</th>
+                                            <th>Main Nav</th>
+                                            <th>Sub Nav</th>
+                                            <th>Nested type</th>
                                             <th>Nav Icon</th>
                                             <th>Stat Info</th>
                                             <th>Actions</th>
@@ -182,7 +182,7 @@
                 <form id="saveNavNestedForm" action="{{ route('admin.save.navNested') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Add Nav Nested</h5>
+                        <h5 class="modal-title" id="myModalLabel">Add Nested type</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -201,7 +201,7 @@
                                 <div class="validation-error" id="navTypeErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
-                                <label for="navMain" class="form-label">Nav Main <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="navMain" class="form-label">Main Nav <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <select name="navMain" id="navMain" class="selectTwo select2-navMain-addModal navMainDDD" data-action="{{ route('admin.get.navSubDDD') }}"></select>
                                     <i class="bx bx-bar-chart-square"></i>
@@ -209,7 +209,7 @@
                                 <div class="validation-error" id="navMainErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
-                                <label for="navSub" class="form-label">Nav Sub <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="navSub" class="form-label">Sub Nav <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <select name="navSub" id="navSub" class="selectTwo select2-navSub-addModal navSubDDD"></select>
                                     <i class="bx bx-list-ul"></i>
@@ -270,7 +270,7 @@
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Edit Nav Nested</h5>
+                        <h5 class="modal-title" id="myModalLabel">Edit Nested type</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -290,7 +290,7 @@
                                 <div class="validation-error" id="navTypeErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
-                                <label for="navMain" class="form-label">Nav Main <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="navMain" class="form-label">Main Nav <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <select name="navMain" id="navMain2" class="selectTwo select2-navMain-editModal navMainDDD" data-action="{{ route('admin.get.navSubDDD') }}"></select>
                                     <i class="bx bx-bar-chart-square"></i>
@@ -298,7 +298,7 @@
                                 <div class="validation-error" id="navMainErr"></div>
                             </div>
                             <div class="form-element col-12 mb-3">
-                                <label for="navSub" class="form-label">Nav Sub <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="navSub" class="form-label">Sub Nav <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <select name="navSub" id="navSub2" class="selectTwo select2-navSub-editModal navSubDDD"></select>
                                     <i class="bx bx-list-ul"></i>
@@ -407,7 +407,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Details Nav Nested</h5>
+                    <h5 class="modal-title" id="myModalLabel">Details Nested type</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -435,7 +435,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Nav Main :</label>
+                                    <label class="details-label form-label mb-1">Main Nav :</label>
                                     <span class="detail-span d-block mb-0" id="navMain"></span>
                                 </div>
                             </div>
@@ -449,7 +449,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Nav Sub :</label>
+                                    <label class="details-label form-label mb-1">Sub Nav :</label>
                                     <span class="detail-span d-block mb-0" id="navSub"></span>
                                 </div>
                             </div>

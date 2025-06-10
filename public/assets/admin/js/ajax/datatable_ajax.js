@@ -175,7 +175,7 @@
             ]
         });
 
-        /*------( Nav Main Listing )--------*/
+        /*------( Main Nav Listing )--------*/
         $('#managePanel-manageNav-navMain').DataTable({
             processing: true,
             serverSide: true,
@@ -212,7 +212,7 @@
             ]
         });
 
-        /*------( Nav Sub Listing )--------*/
+        /*------( Sub Nav Listing )--------*/
         $('#managePanel-manageNav-navSub').DataTable({
             processing: true,
             serverSide: true,
@@ -252,7 +252,7 @@
             ]
         });
 
-        /*------( Nav Nested Listing )--------*/
+        /*------( Nested Nav Listing )--------*/
         $('#managePanel-manageNav-navNested').DataTable({
             processing: true,
             serverSide: true,

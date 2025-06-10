@@ -4,12 +4,12 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-sm-0">
-                    <h4>Nav Main</h4>
+                    <h4>Main Nav</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Panel</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Nav</a></li>
-                            <li class="breadcrumb-item active">Nav Main</li>
+                            <li class="breadcrumb-item active">Main Nav</li>
                         </ol>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                             @if ($permission['add']['permission'] == true)
                                 <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">
                                     <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
-                                    <span>Add Nav Main</span>
+                                    <span>Add Main Nav</span>
                                 </button>
                             @endif
                             @if ($permission['filter']['permission'] == true)
@@ -129,7 +129,7 @@
                                             <th>#</th>
                                             <th>Unique Id</th>
                                             <th>Nav Type</th>
-                                            <th>Nav Main</th>
+                                            <th>Main Nav</th>
                                             <th>Nav Icon</th>
                                             <th>Stat Info</th>
                                             <th>Actions</th>
@@ -141,7 +141,7 @@
                                             <th>#</th>
                                             <th>Unique Id</th>
                                             <th>Nav Type</th>
-                                            <th>Nav Main</th>
+                                            <th>Main Nav</th>
                                             <th>Nav Icon</th>
                                             <th>Stat Info</th>
                                             <th>Actions</th>
@@ -162,7 +162,7 @@
                 <form id="saveNavMainForm" action="{{ route('admin.save.navMain') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Add Nav Main</h5>
+                        <h5 class="modal-title" id="myModalLabel">Add Main Nav</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -235,7 +235,7 @@
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Edit Nav Main</h5>
+                        <h5 class="modal-title" id="myModalLabel">Edit Main Nav</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -308,13 +308,13 @@
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Set Nav Main Access</h5>
+                        <h5 class="modal-title" id="myModalLabel">Set Main Nav Access</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-element col-12 mb-3">
-                                <label for="name" class="form-label">Nav Main Name</label>
+                                <label for="name" class="form-label">Main Nav Name</label>
                                 <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Nav type" readonly>
                             </div>
                             <div class="form-element col-12">
@@ -356,7 +356,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Details Nav Main</h5>
+                    <h5 class="modal-title" id="myModalLabel">Details Main Nav</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

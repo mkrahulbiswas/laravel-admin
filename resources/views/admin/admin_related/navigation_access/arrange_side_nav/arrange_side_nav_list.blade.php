@@ -41,13 +41,13 @@
                                                 <span class="no_noteText">Color <span class="no_colorType"></span> is denote to <b>Nav Type</b></span>
                                             </div>
                                             <div class="no_noteCommon bg-info-subtle">
-                                                <span class="no_noteText">Color <span class="no_colorMain"></span> is denote to <b>Nav Main</b></span>
+                                                <span class="no_noteText">Color <span class="no_colorMain"></span> is denote to <b>Main Nav</b></span>
                                             </div>
                                             <div class="no_noteCommon bg-info-subtle">
-                                                <span class="no_noteText">Color <span class="no_colorSub"></span> is denote to <b>Nav Sub</b></span>
+                                                <span class="no_noteText">Color <span class="no_colorSub"></span> is denote to <b>Sub Nav</b></span>
                                             </div>
                                             <div class="no_noteCommon bg-info-subtle">
-                                                <span class="no_noteText">Color <span class="no_colorNested"></span> is denote to <b>Nav Nested</b></span>
+                                                <span class="no_noteText">Color <span class="no_colorNested"></span> is denote to <b>Nested type</b></span>
                                             </div>
                                         </div>
                                     </dd>

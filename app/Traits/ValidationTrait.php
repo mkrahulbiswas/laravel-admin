@@ -153,7 +153,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            //---- ( Nav Main )
+            //---- ( Main Nav )
             case 'saveNavMain':
                 $rules = [
                     'navType' => 'required',
@@ -180,7 +180,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            //---- ( Nav Sub )
+            //---- ( Sub Nav )
             case 'saveNavSub':
                 $rules = [
                     'navType' => 'required',
@@ -211,7 +211,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            //---- ( Nav Nested )
+            //---- ( Nested Nav )
             case 'saveNavNested':
                 $rules = [
                     'navType' => 'required',
