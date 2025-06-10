@@ -72,7 +72,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="alert-content">
-                                                    <p class="mb-0">To add main category <a class="btn btn-sm btn-success" href="{{ route('admin.show.propertyType') }}">click me</a></p>
+                                                    <p class="mb-0">To add manage category <a class="btn btn-sm btn-success" href="{{ route('admin.show.propertyType') }}">click me</a></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -87,12 +87,12 @@
                                                         </div>
                                                         <div class="flex-grow-1">
                                                             <h5 class="alert-heading">Note!</h5>
-                                                            <p class="mb-0">There is a problem that is we did not found any <b>main category</b>. For manage <b>Assign Category</b> section you must entry <b>main category</b> first.</p>
+                                                            <p class="mb-0">There is a problem that is we did not found any <b>manage category</b>. For manage <b>Assign Category</b> section you must entry <b>manage category</b> first.</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="alert-content">
-                                                    <p class="mb-0">To add main category <a class="btn btn-sm btn-success" href="{{ route('admin.show.mainCategory') }}">click me</a></p>
+                                                    <p class="mb-0">To add manage category <a class="btn btn-sm btn-success" href="{{ route('admin.show.manageCategory') }}">click me</a></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,7 +123,7 @@
                                                         <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                             <div class="form-icon set-validation">
                                                                 <select class="selectTwo form-control form-control-icon select2-mainCategory" name="mainCategory" id="mainCategoryFilter">
-                                                                    <option value="">Select main category</option>
+                                                                    <option value="">Select manage category</option>
                                                                     @foreach ($data['mainCategory'] as $key)
                                                                         <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
                                                                     @endforeach
@@ -201,8 +201,8 @@
                                             </a>
                                         </span>
                                         <span class="no_noteText">
-                                            <a href="{{ route('admin.show.mainCategory') }}" class="btn btn-sm btn-info">
-                                                <b>Main category list</b>
+                                            <a href="{{ route('admin.show.manageCategory') }}" class="btn btn-sm btn-info">
+                                                <b>Manage category list</b>
                                             </a>
                                         </span>
                                     </p>
@@ -256,10 +256,10 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-element col-12 mb-3">
-                                <label for="name" class="form-label">Main category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="name" class="form-label">Manage category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <select class="selectTwo form-control form-control-icon select2-mainCategory-addModal" name="mainCategory" id="mainCategory">
-                                        <option value="">Select main category</option>
+                                        <option value="">Select manage category</option>
                                         @foreach ($data['mainCategory'] as $key)
                                             <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
                                         @endforeach
@@ -335,10 +335,10 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="form-element col-12 mb-3">
-                                <label for="name" class="form-label">Main category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <label for="name" class="form-label">Manage category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <select class="selectTwo form-control form-control-icon select2-mainCategory-editModal" name="mainCategory" id="mainCategory2">
-                                        <option value="">Select main category</option>
+                                        <option value="">Select manage category</option>
                                         @foreach ($data['mainCategory'] as $key)
                                             <option value="{{ $key['id'] }}" data-name="{{ $key['name'] }}">{{ $key['name'] }}</option>
                                         @endforeach

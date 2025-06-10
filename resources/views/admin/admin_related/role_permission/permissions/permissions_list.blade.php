@@ -63,7 +63,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="tdFilterForm p-3">
-                                            <form id="filterRoleSubForm" method="POST" action="{{ route('admin.get.roleSub') }}" class="m-b-20">
+                                            <form id="filterSubRoleForm" method="POST" action="{{ route('admin.get.subRole') }}" class="m-b-20">
                                                 @csrf
                                                 <div class="row gap-2">
 
@@ -80,9 +80,9 @@
 
                                                     {{-- <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         <div class="form-icon set-validation">
-                                                            <select class="form-control form-control-icon select2-roleMain" name="roleMain" id="roleMainFilter">
+                                                            <select class="form-control form-control-icon select2-mainRole" name="mainRole" id="mainRoleFilter">
                                                                 <option value="">Select One</option>
-                                                                @foreach ($data[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $key)
+                                                                @foreach ($data[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'] as $key)
                                                                     <option value="{{ $key['id'] }}">{{ $key['name'] }}</option>
                                                                 @endforeach
                                                             </select>
@@ -92,11 +92,11 @@
 
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3 m-t-5">
                                                         <div class="form-group d-flex flex-row justify-content-start">
-                                                            <button type="button" class="btn btn-info btn-label waves-effect waves-light filterRoleSubBtn" title="Search">
+                                                            <button type="button" class="btn btn-info btn-label waves-effect waves-light filterSubRoleBtn" title="Search">
                                                                 <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
                                                                 <span>Search</span>
                                                             </button>
-                                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterRoleSubBtn ms-2" title="Reload">
+                                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterSubRoleBtn ms-2" title="Reload">
                                                                 <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
                                                                 <span>Reset</span>
                                                             </button>
@@ -112,13 +112,13 @@
                         </div>
                         <div class="col-md-12 tdContentMain">
                             <div class="tdContentSub">
-                                <table id="managePanel-manageAccess-roleSub" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
+                                <table id="adminRelated-rolePermission-manageRole-subRole" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>#</th>
                                             <th>Unique Id</th>
-                                            <th>Role Main Name</th>
-                                            <th>Role Sub Name</th>
+                                            <th>Main Role Name</th>
+                                            <th>Sub Role Name</th>
                                             <th>Description</th>
                                             <th>Status</th>
                                             <th>Actions</th>
@@ -129,8 +129,8 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Unique Id</th>
-                                            <th>Role Main Name</th>
-                                            <th>Role Sub Name</th>
+                                            <th>Main Role Name</th>
+                                            <th>Sub Role Name</th>
                                             <th>Description</th>
                                             <th>Status</th>
                                             <th>Actions</th>
@@ -149,7 +149,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Details Role Sub</h5>
+                    <h5 class="modal-title" id="myModalLabel">Details Sub Role</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -163,8 +163,8 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Role Main :</label>
-                                    <span class="detail-span d-block mb-0" id="roleMain"></span>
+                                    <label class="details-label form-label mb-1">Main Role:</label>
+                                    <span class="detail-span d-block mb-0" id="mainRole"></span>
                                 </div>
                             </div>
                         </div>
@@ -177,7 +177,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Role Sub :</label>
+                                    <label class="details-label form-label mb-1">Sub Role:</label>
                                     <span class="detail-span d-block mb-0" id="name"></span>
                                 </div>
                             </div>

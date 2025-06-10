@@ -47,9 +47,20 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="tdFilterForm p-3">
-                                        <form id="filterSubCategoryForm" method="POST" action="{{ route('admin.get.manageCategory') }}" class="m-b-20">
+                                        <form id="filterManageCategoryForm" method="POST" action="{{ route('admin.get.manageCategory') }}" class="filterManageCategoryForm" data-type="{{ Config::get('constants.status.category.sub') }}">
                                             @csrf
                                             <div class="row gap-2">
+                                                <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
+                                                    <div class="form-icon set-validation">
+                                                        <select name="mainCategory" id="mainCategoryFilter" class="selectTwo select2-mainCategory form-control">
+                                                            <option value="">Select Nav Type</option>
+                                                            @foreach ($data['mainCategory'] as $item)
+                                                                <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <i class="mdi mdi-list-status"></i>
+                                                    </div>
+                                                </div>
                                                 <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                     <div class="form-icon set-validation">
                                                         <select name="status" id="statusFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any status">
@@ -62,13 +73,13 @@
                                                 <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
                                                     <div class="form-group d-flex flex-row justify-content-start">
                                                         @if ($permission['search']['permission'] == true)
-                                                            <button type="button" class="btn btn-info btn-label waves-effect waves-light filterSubCategoryBtn" title="Search">
+                                                            <button type="button" class="btn btn-info btn-label waves-effect waves-light filterManageCategoryBtn" title="Search">
                                                                 <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
                                                                 <span>Search</span>
                                                             </button>
                                                         @endif
                                                         @if ($permission['reset']['permission'] == true)
-                                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterSubCategoryBtn ms-2" title="Reload">
+                                                            <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterManageCategoryBtn ms-2" title="Reload">
                                                                 <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
                                                                 <span>Reset</span>
                                                             </button>
@@ -89,8 +100,8 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Unique Id</th>
-                                        <th>Name</th>
-                                        <th>About</th>
+                                        <th>Main Category</th>
+                                        <th>Sub Category</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -100,8 +111,8 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Unique Id</th>
-                                        <th>Name</th>
-                                        <th>About</th>
+                                        <th>Main Category</th>
+                                        <th>Sub Category</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>

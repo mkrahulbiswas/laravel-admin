@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+
+use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
 
 use App\Traits\FileTrait;
 use App\Traits\ValidationTrait;
 
-use App\Helpers\ManagePanel\GetManageAccessHelper;
-
 use App\Models\User;
 use App\Models\ManageUsers\AdminUsers;
-use App\Models\ManagePanel\ManageAccess\RoleMain;
-use App\Models\ManagePanel\ManageAccess\RoleSub;
 
 use Validator;
 use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgotPassword;
@@ -65,34 +63,34 @@ class AuthAdminController extends Controller
                     if ($adminUsers->status == 0) {
                         return response()->json(['status' => 0, 'msg' => 'You are blocked by admin'], Config::get('constants.errorCode.ok'));
                     } else {
-                        $roleMain = GetManageAccessHelper::getDetail([
+                        $mainRole = ManageRoleHelper::getDetail([
                             [
                                 'getDetail' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                    'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                                    'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                                 ],
                                 'otherDataPasses' => [
-                                    'id' => encrypt($adminUsers->roleMainId)
+                                    'id' => encrypt($adminUsers->mainRoleId)
                                 ]
                             ],
                         ]);
-                        if ($roleMain == false) {
+                        if ($mainRole == false) {
                             return response()->json(['status' => 0, 'msg' => 'Oops! we could not detect your role (main), please contact with administrator.'], Config::get('constants.errorCode.ok'));
                         } else {
-                            $roleMain = $roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
-                            if ($roleMain['extraData']['hasRoleSub'] > 0) {
-                                $roleSub = GetManageAccessHelper::getDetail([
+                            $mainRole = $mainRole[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            if ($mainRole['extraData']['hasSubRole'] > 0) {
+                                $subRole = ManageRoleHelper::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                            'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                                            'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                                         ],
                                         'otherDataPasses' => [
-                                            'id' => encrypt($adminUsers->roleSubId)
+                                            'id' => encrypt($adminUsers->subRoleId)
                                         ]
                                     ],
                                 ]);
-                                if ($roleSub == false) {
+                                if ($subRole == false) {
                                     return response()->json(['status' => 0, 'msg' => 'Oops! we could not detect your role (sub), please contact with administrator.'], Config::get('constants.errorCode.ok'));
                                 } else {
                                     goto login;
@@ -180,38 +178,38 @@ class AuthAdminController extends Controller
 
 
 
-    public function changePasswordLogin(Request $request)
-    {
-        $values = $request->only('id', 'password', 'password_confirmation');
-        $id = decrypt($values['id']);
+    // public function changePasswordLogin(Request $request)
+    // {
+    //     $values = $request->only('id', 'password', 'password_confirmation');
+    //     $id = decrypt($values['id']);
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'password' => 'required|min:6|max:20|confirmed',
-            ],
-            [
-                'password.required' => 'This field is required.',
-                'password.min' => 'Password should be minimum 6 characters.',
-                'password.max' => 'Password should be maximum 20 characters.'
-            ]
-        );
+    //     $validator = Validator::make(
+    //         $request->all(),
+    //         [
+    //             'password' => 'required|min:6|max:20|confirmed',
+    //         ],
+    //         [
+    //             'password.required' => 'This field is required.',
+    //             'password.min' => 'Password should be minimum 6 characters.',
+    //             'password.max' => 'Password should be maximum 20 characters.'
+    //         ]
+    //     );
 
-        if ($validator->fails()) {
-            return view('admin.auth.change_password', ['id' => $id])->withErrors($validator);
-            //return redirect('/admin/changePassword')->withErrors($validator);
-        } else {
-            $admin = AdminUsers::findOrFail($id);
-            $admin->password = Hash::make($values['password']);
-            $admin->isPwChange = '1';
-            if ($admin->update()) {
-                Auth::guard('admin')->loginUsingId($id);
-                return redirect('admin/dashboard');
-            } else {
-                return redirect('/admin/changePassword')->with('loginErr', 'Something went wrong a.');
-            }
-        }
-    }
+    //     if ($validator->fails()) {
+    //         return view('admin.auth.change_password', ['id' => $id])->withErrors($validator);
+    //         //return redirect('/admin/changePassword')->withErrors($validator);
+    //     } else {
+    //         $admin = AdminUsers::findOrFail($id);
+    //         $admin->password = Hash::make($values['password']);
+    //         $admin->isPwChange = '1';
+    //         if ($admin->update()) {
+    //             Auth::guard('admin')->loginUsingId($id);
+    //             return redirect('admin/dashboard');
+    //         } else {
+    //             return redirect('/admin/changePassword')->with('loginErr', 'Something went wrong a.');
+    //         }
+    //     }
+    // }
 
     public function showChangePassword()
     {

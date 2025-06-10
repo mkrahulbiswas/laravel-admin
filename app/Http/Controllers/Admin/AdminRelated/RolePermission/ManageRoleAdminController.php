@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Admin\ManagePanel;
+namespace App\Http\Controllers\Admin\AdminRelated\RolePermission;
 
 use App\Http\Controllers\Controller;
+
+use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
+use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
+use App\Helpers\ManagePanel\GetManageNavHelper;
 
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\ManagePanel\ManageAccess\RoleMain;
-use App\Models\ManagePanel\ManageAccess\RoleSub;
 use App\Models\ManagePanel\ManageAccess\Permission;
-
-use App\Helpers\ManagePanel\GetManageAccessHelper;
-use App\Helpers\ManagePanel\GetManageNavHelper;
+use App\Models\AdminRelated\RolePermission\ManageRole\MainRole;
+use App\Models\AdminRelated\RolePermission\ManageRole\SubRole;
 
 use Exception;
 use Yajra\DataTables\DataTables;
@@ -21,52 +22,52 @@ use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
-class ManageAccessAdminController extends Controller
+class ManageRoleAdminController extends Controller
 {
 
     use ValidationTrait, CommonTrait;
     public $platform = 'backend';
 
 
-    /*---- ( Role Main ) ----*/
-    public function showRoleMain()
+    /*---- ( Main Role ) ----*/
+    public function showMainRole()
     {
         try {
-            return view('admin.manage_panel.manage_access.role_main.role_main_list');
+            return view('admin.admin_related.role_permission.manage_role.main_role.main_role_list');
         } catch (Exception $e) {
             abort(500);
         }
     }
 
-    public function getRoleMain(Request $request)
+    public function getMainRole(Request $request)
     {
         try {
-            $roleMain = GetManageAccessHelper::getList([
+            $mainRole = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $request->status,
-                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
+                            'uniqueId' => Config::get('constants.superAdminCheck')['mainRole'],
                         ],
                         'orderBy' => [
                             'id' => 'desc'
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
                 ]
             ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
 
-            return Datatables::of($roleMain)
+            return Datatables::of($mainRole)
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -86,12 +87,12 @@ class ManageAccessAdminController extends Controller
                     return $statInfo;
                 })
                 ->addColumn('action', function ($data) use ($getPrivilege) {
-                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
                         if ($getPrivilege['status']['permission'] == true) {
                             if ($data['status'] == Config::get('constants.status')['inactive']) {
-                                $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                                $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.mainRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                             } else {
-                                $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                                $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.mainRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                             }
                         } else {
                             $status = '';
@@ -100,7 +101,7 @@ class ManageAccessAdminController extends Controller
                         $status = '';
                     }
 
-                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
                         if ($getPrivilege['edit']['permission'] == true) {
                             $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
                         } else {
@@ -110,9 +111,9 @@ class ManageAccessAdminController extends Controller
                         $edit = '';
                     }
 
-                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
                         if ($getPrivilege['delete']['permission'] == true) {
-                            $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleMain') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                            $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.mainRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                         } else {
                             $delete = '';
                         }
@@ -127,13 +128,13 @@ class ManageAccessAdminController extends Controller
                         $info = '';
                     }
 
-                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) {
+                    if ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) {
                         if ($getPrivilege['permission']['permission'] == true) {
-                            if ($data['extraData']['hasRoleSub'] <= 0) {
+                            if ($data['extraData']['hasSubRole'] <= 0) {
                                 if ($data['extraData']['hasPermission'] <= 0) {
-                                    $permission = '<a href="JavaScript:void(0);" data-type="setPermission" data-action="' . route('admin.permission.roleMain') . '/' . $data['id'] . '" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apple-keyboard-command"></i><span>Set Permission</span></a>';
+                                    $permission = '<a href="JavaScript:void(0);" data-type="setPermission" data-action="' . route('admin.permission.mainRole') . '/' . $data['id'] . '" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apple-keyboard-command"></i><span>Set Permission</span></a>';
                                 } else {
-                                    $permission = '<a href="' .  route('admin.show.permissionRoleMain') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                                    $permission = '<a href="' .  route('admin.show.permissionMainRole') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
                                 }
                             } else {
                                 $permission = '<a href="JavaScript:void(0);" data-type="permission" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
@@ -150,7 +151,7 @@ class ManageAccessAdminController extends Controller
                             'type' => 'dtAction',
                             'data' => [
                                 'primary' => [$status, $edit, $delete, $info],
-                                'secondary' => ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.roleMain')) ? [$permission] : [],
+                                'secondary' => ($data['uniqueId']['raw'] != Config::get('constants.superAdminCheck.mainRole')) ? [$permission] : [],
                             ]
                         ]
                     ])['dtAction']['custom'];
@@ -162,92 +163,82 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function saveRoleMain(Request $request)
+    public function saveMainRole(Request $request)
     {
         try {
             $values = $request->only('name', 'description');
             //--Checking The Validation--//
 
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'saveRoleMain',
-                'id' => 0,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveMainRole', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
 
-                $roleMain = new RoleMain();
-                $roleMain->name = $values['name'];
-                $roleMain->description = $values['description'];
-                $roleMain->uniqueId = $this->generateCode(['preString' => 'RM', 'length' => 6, 'model' => RoleMain::class, 'field' => '']);
-                $roleMain->status = Config::get('constants.status')['active'];
+                $mainRole = new MainRole();
+                $mainRole->name = $values['name'];
+                $mainRole->description = $values['description'];
+                $mainRole->uniqueId = $this->generateCode(['preString' => 'RM', 'length' => 6, 'model' => MainRole::class, 'field' => '']);
+                $mainRole->status = Config::get('constants.status')['active'];
 
-                if ($roleMain->save()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Role Main", 'msg' => __('messages.saveMsg', ['type' => 'Role Main'])['success']], Config::get('constants.errorCode.ok'));
+                if ($mainRole->save()) {
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Main role", 'msg' => __('messages.saveMsg', ['type' => 'Main role'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Main", 'msg' => __('messages.saveMsg', ['type' => 'Role Main'])['failed']], Config::get('constants.errorCode.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Main role", 'msg' => __('messages.saveMsg', ['type' => 'Main role'])['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Main", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
-    public function updateRoleMain(Request $request)
+    public function updateMainRole(Request $request)
     {
         $values = $request->only('id', 'name', 'description');
 
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Main", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Main role", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'updateRoleMain',
-                'id' => $id,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateMainRole', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                $roleMain = RoleMain::find($id);
+                $mainRole = MainRole::find($id);
 
-                $roleMain->name = $values['name'];
-                $roleMain->description = $values['description'];
+                $mainRole->name = $values['name'];
+                $mainRole->description = $values['description'];
 
-                if ($roleMain->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Role Main", 'msg' => __('messages.updateMsg', ['type' => 'Role Main'])['success']], Config::get('constants.errorCode.ok'));
+                if ($mainRole->update()) {
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Main role", 'msg' => __('messages.updateMsg', ['type' => 'Main role'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Main", 'msg' => __('messages.updateMsg', ['type' => 'Role Main'])['failed']], Config::get('constants.errorCode.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Main role", 'msg' => __('messages.updateMsg', ['type' => 'Main role'])['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Main", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
-    public function permissionRoleMain($id)
+    public function permissionMainRole($id)
     {
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Main", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Main role", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
-            $setPermission = GetManageAccessHelper::setPermission([
+            $setPermission = ManagePermissionHelper::setPermission([
                 [
                     'checkFirst' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
                         'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
                     ],
                     'otherDataPasses' => [
-                        'roleMainId' => $id,
+                        'mainRoleId' => $id,
                     ]
                 ]
             ]);
@@ -257,11 +248,11 @@ class ManageAccessAdminController extends Controller
                 return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Main", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Main", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
-    public function statusRoleMain($id)
+    public function statusMainRole($id)
     {
         try {
             $id = decrypt($id);
@@ -272,21 +263,21 @@ class ManageAccessAdminController extends Controller
         try {
             $result = $this->changeStatus([
                 'targetId' => $id,
-                "targetModel" => RoleMain::class,
+                "targetModel" => MainRole::class,
                 'targetField' => [],
                 'type' => Config::get('constants.action.status.smsf')
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Role Main'])['success']], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Main role'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Role Main'])['failed']], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Main role'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
-    public function deleteRoleMain($id)
+    public function deleteMainRole($id)
     {
         try {
             $id = decrypt($id);
@@ -297,32 +288,32 @@ class ManageAccessAdminController extends Controller
         try {
             $result = $this->deleteItem([
                 [
-                    'model' => RoleMain::class,
+                    'model' => MainRole::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
                 ],
                 [
-                    'model' => RoleSub::class,
+                    'model' => SubRole::class,
                     'picUrl' => [],
-                    'filter' => [['search' => $id, 'field' => 'roleMainId']],
+                    'filter' => [['search' => $id, 'field' => 'mainRoleId']],
                 ],
                 [
                     'model' => Permission::class,
                     'picUrl' => [],
-                    'filter' => [['search' => $id, 'field' => 'roleMainId']],
+                    'filter' => [['search' => $id, 'field' => 'mainRoleId']],
                 ],
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Role Main'])['success']], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Main role'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Role Main'])['failed']], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Main role'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
-    public function showPermissionRoleMain($roleMainId)
+    public function showPermissionMainRole($mainRoleId)
     {
         try {
             $navType = GetManageNavHelper::getList([
@@ -344,16 +335,16 @@ class ManageAccessAdminController extends Controller
 
             $data = [
                 'navType' => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
-                'roleMainId' => $roleMainId
+                'mainRoleId' => $mainRoleId
             ];
 
-            return view('admin.manage_panel.manage_access.role_main.role_main_permission', ['data' => $data]);
+            return view('admin.admin_related.role_permission.manage_role.main_role.main_role_permission', ['data' => $data]);
         } catch (Exception $e) {
             abort(500);
         }
     }
 
-    public function getPermissionRoleMain(Request $request)
+    public function getPermissionMainRole(Request $request)
     {
         try {
             $getNav = GetManageNavHelper::getNav([
@@ -373,7 +364,7 @@ class ManageAccessAdminController extends Controller
                 ]
             ]);
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -390,7 +381,7 @@ class ManageAccessAdminController extends Controller
                             'otherDataPasses' => [
                                 'permission' => [
                                     'model' => Permission::class,
-                                    'roleMainId' => request()->roleMainId
+                                    'mainRoleId' => request()->mainRoleId
                                 ],
                                 'getPrivilege' => $getPrivilege
                             ]
@@ -405,11 +396,11 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function updatePermissionRoleMain(Request $request)
+    public function updatePermissionMainRole(Request $request)
     {
         try {
             foreach ($request->get('id') as $keyOne => $tempOne) {
-                $permission = GetManageAccessHelper::getDetail([
+                $permission = ManageRoleHelper::getDetail([
                     [
                         'getDetail' => [
                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -455,64 +446,64 @@ class ManageAccessAdminController extends Controller
     }
 
 
-    /*---- ( Role Sub ) ----*/
-    public function showRoleSub()
+    /*---- ( Sub Role ) ----*/
+    public function showSubRole()
     {
         try {
-            $roleMain = GetManageAccessHelper::getList([
+            $mainRole = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
-                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
+                            'uniqueId' => Config::get('constants.superAdminCheck')['mainRole'],
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $data = [
-                'roleMain' => $roleMain,
+                'mainRole' => $mainRole,
             ];
 
-            return view('admin.manage_panel.manage_access.role_sub.role_sub_list', ['data' => $data]);
+            return view('admin.admin_related.role_permission.manage_role.sub_role.sub_role_list', ['data' => $data]);
         } catch (Exception $e) {
             abort(500);
         }
     }
 
-    public function getRoleSub(Request $request)
+    public function getSubRole(Request $request)
     {
         try {
-            $roleSub = GetManageAccessHelper::getList([
+            $subRole = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $request->status,
-                            'roleMainId' => $request->roleMain
+                            'mainRoleId' => $request->mainRole
                         ],
                         'orderBy' => [
                             'id' => 'desc'
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
                 ]
             ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
 
-            return Datatables::of($roleSub)
+            return Datatables::of($subRole)
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -526,16 +517,16 @@ class ManageAccessAdminController extends Controller
                     $status = $data['customizeInText']['status']['custom'];
                     return $status;
                 })
-                ->addColumn(Config::get('constants.typeCheck.manageAccess.roleMain.type'), function ($data) {
-                    $roleMain = $data[Config::get('constants.typeCheck.manageAccess.roleMain.type')]['name'];
-                    return $roleMain;
+                ->addColumn(Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'), function ($data) {
+                    $mainRole = $data[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')]['name'];
+                    return $mainRole;
                 })
                 ->addColumn('action', function ($data) use ($getPrivilege) {
                     if ($getPrivilege['status']['permission'] == true) {
                         if ($data['status'] == Config::get('constants.status')['inactive']) {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.subRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                         } else {
-                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                            $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.subRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                         }
                     } else {
                         $status = '';
@@ -548,7 +539,7 @@ class ManageAccessAdminController extends Controller
                     }
 
                     if ($getPrivilege['delete']['permission'] == true) {
-                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.subRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     } else {
                         $delete = '';
                     }
@@ -561,9 +552,9 @@ class ManageAccessAdminController extends Controller
 
                     if ($getPrivilege['permission']['permission'] == true) {
                         if ($data['extraData']['hasPermission'] <= 0) {
-                            $permission = '<a href="JavaScript:void(0);" data-type="setPermission" data-action="' . route('admin.permission.roleSub') . '/' . $data['id'] . '" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apple-keyboard-command"></i><span>Set Permission</span></a>';
+                            $permission = '<a href="JavaScript:void(0);" data-type="setPermission" data-action="' . route('admin.permission.subRole') . '/' . $data['id'] . '" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apple-keyboard-command"></i><span>Set Permission</span></a>';
                         } else {
-                            $permission = '<a href="' .  route('admin.show.permissionRoleSub') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
+                            $permission = '<a href="' .  route('admin.show.permissionSubRole') . '/' .  $data['id'] . '" data-type="permission" title="Permission" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-apache-kafka"></i><span>Change Permission</span></a>';
                         }
                     } else {
                         $permission = '';
@@ -579,119 +570,109 @@ class ManageAccessAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['description', Config::get('constants.typeCheck.manageAccess.roleMain.type'), 'uniqueId', 'status', 'action'])
+                ->rawColumns(['description', Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'), 'uniqueId', 'status', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
         }
     }
 
-    public function saveRoleSub(Request $request)
+    public function saveSubRole(Request $request)
     {
         try {
-            $values = $request->only('name', 'roleMain', 'description');
+            $values = $request->only('name', 'mainRole', 'description');
             //--Checking The Validation--//
 
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'saveRoleSub',
-                'id' => 0,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveSubRole', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                if (RoleMain::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Sub", 'msg' => __('messages.notAllowMsg')], Config::get('constants.errorCode.ok'));
+                if (MainRole::where('id', decrypt($values['mainRole']))->first()->uniqueId == Config::get('constants.superAdminCheck')['mainRole']) {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Sub role", 'msg' => __('messages.notAllowMsg')], Config::get('constants.errorCode.ok'));
                 } else {
-                    $roleSub = new RoleSub();
-                    $roleSub->name = $values['name'];
-                    $roleSub->roleMainId = decrypt($values['roleMain']);
-                    $roleSub->description = $values['description'];
-                    $roleSub->uniqueId = $this->generateCode(['preString' => 'RS', 'length' => 6, 'model' => RoleSub::class, 'field' => '']);
-                    $roleSub->status = Config::get('constants.status')['active'];
+                    $subRole = new SubRole();
+                    $subRole->name = $values['name'];
+                    $subRole->mainRoleId = decrypt($values['mainRole']);
+                    $subRole->description = $values['description'];
+                    $subRole->uniqueId = $this->generateCode(['preString' => 'RS', 'length' => 6, 'model' => SubRole::class, 'field' => '']);
+                    $subRole->status = Config::get('constants.status')['active'];
 
-                    if ($roleSub->save()) {
-                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Role Sub", 'msg' => __('messages.saveMsg', ['type' => 'Role Sub'])['success']], Config::get('constants.errorCode.ok'));
+                    if ($subRole->save()) {
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Sub role", 'msg' => __('messages.saveMsg', ['type' => 'Sub role'])['success']], Config::get('constants.errorCode.ok'));
                     } else {
-                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Sub", 'msg' => __('messages.saveMsg', ['type' => 'Role Sub'])['failed']], Config::get('constants.errorCode.ok'));
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Sub role", 'msg' => __('messages.saveMsg', ['type' => 'Sub role'])['failed']], Config::get('constants.errorCode.ok'));
                     }
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Sub", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
-    public function updateRoleSub(Request $request)
+    public function updateSubRole(Request $request)
     {
-        $values = $request->only('id', 'name', 'roleMain', 'description');
+        $values = $request->only('id', 'name', 'mainRole', 'description');
 
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Sub", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Sub role", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'updateRoleSub',
-                'id' => $id,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateSubRole', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                $roleSub = RoleSub::find($id);
+                $subRole = SubRole::find($id);
 
-                $roleSub->name = $values['name'];
-                $roleSub->roleMainId = decrypt($values['roleMain']);
-                $roleSub->description = $values['description'];
+                $subRole->name = $values['name'];
+                $subRole->mainRoleId = decrypt($values['mainRole']);
+                $subRole->description = $values['description'];
 
-                if ($roleSub->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Role Sub", 'msg' => __('messages.updateMsg', ['type' => 'Role Sub'])['success']], Config::get('constants.errorCode.ok'));
+                if ($subRole->update()) {
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Sub role", 'msg' => __('messages.updateMsg', ['type' => 'Sub role'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Sub", 'msg' => __('messages.updateMsg', ['type' => 'Role Sub'])['failed']], Config::get('constants.errorCode.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Sub role", 'msg' => __('messages.updateMsg', ['type' => 'Sub role'])['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Sub", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
-    public function permissionRoleSub($id)
+    public function permissionSubRole($id)
     {
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Sub", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Sub role", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
-        try {
-            $setPermission = GetManageAccessHelper::setPermission([
-                [
-                    'checkFirst' => [
-                        'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
-                        'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
-                    ],
-                    'otherDataPasses' => [
-                        'roleMainId' => RoleSub::where('id', $id)->first()->roleMainId,
-                        'roleSubId' => $id,
-                    ]
+        // try {
+        $setPermission = ManagePermissionHelper::setPermission([
+            [
+                'checkFirst' => [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
+                    'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
+                ],
+                'otherDataPasses' => [
+                    'mainRoleId' => SubRole::where('id', $id)->first()->mainRoleId,
+                    'subRoleId' => $id,
                 ]
-            ]);
-            if ($setPermission) {
-                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], Config::get('constants.errorCode.ok'));
-            } else {
-                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
-            }
-        } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Sub", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            ]
+        ]);
+        if ($setPermission) {
+            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], Config::get('constants.errorCode.ok'));
+        } else {
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Nav Sub", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
         }
+        // } catch (Exception $e) {
+        //     return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        // }
     }
 
-    public function statusRoleSub($id)
+    public function statusSubRole($id)
     {
         try {
             $id = decrypt($id);
@@ -702,21 +683,21 @@ class ManageAccessAdminController extends Controller
         try {
             $result = $this->changeStatus([
                 'targetId' => $id,
-                "targetModel" => RoleSub::class,
+                "targetModel" => SubRole::class,
                 'targetField' => [],
                 'type' => Config::get('constants.action.status.smsf')
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Role Sub'])['success']], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Sub role'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Role Sub'])['failed']], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Sub role'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
-    public function deleteRoleSub($id)
+    public function deleteSubRole($id)
     {
         try {
             $id = decrypt($id);
@@ -727,27 +708,27 @@ class ManageAccessAdminController extends Controller
         try {
             $result = $this->deleteItem([
                 [
-                    'model' => RoleSub::class,
+                    'model' => SubRole::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
                 ],
                 [
                     'model' => Permission::class,
                     'picUrl' => [],
-                    'filter' => [['search' => $id, 'field' => 'roleSubId']],
+                    'filter' => [['search' => $id, 'field' => 'subRoleId']],
                 ],
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Role Sub'])['success']], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Sub role'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Role Sub'])['failed']], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Sub role'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
-    public function showPermissionRoleSub($roleSubId)
+    public function showPermissionSubRole($subRoleId)
     {
         try {
             $navType = GetManageNavHelper::getList([
@@ -769,16 +750,16 @@ class ManageAccessAdminController extends Controller
 
             $data = [
                 'navType' => $navType[Config::get('constants.typeCheck.manageNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'],
-                'roleSubId' => $roleSubId
+                'subRoleId' => $subRoleId
             ];
 
-            return view('admin.manage_panel.manage_access.role_sub.role_sub_permission', ['data' => $data]);
+            return view('admin.admin_related.role_permission.manage_role.sub_role.sub_role_permission', ['data' => $data]);
         } catch (Exception $e) {
             abort(500);
         }
     }
 
-    public function getPermissionRoleSub(Request $request)
+    public function getPermissionSubRole(Request $request)
     {
         try {
             $getNav = GetManageNavHelper::getNav([
@@ -798,7 +779,7 @@ class ManageAccessAdminController extends Controller
                 ]
             ]);
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -815,8 +796,8 @@ class ManageAccessAdminController extends Controller
                             'otherDataPasses' => [
                                 'permission' => [
                                     'model' => Permission::class,
-                                    'roleMainId' => encrypt(RoleSub::where('id', decrypt(request()->roleSubId))->first()->roleMainId),
-                                    'roleSubId' => request()->roleSubId
+                                    'mainRoleId' => encrypt(SubRole::where('id', decrypt(request()->subRoleId))->first()->mainRoleId),
+                                    'subRoleId' => request()->subRoleId
                                 ],
                                 'getPrivilege' => $getPrivilege
                             ]
@@ -831,11 +812,11 @@ class ManageAccessAdminController extends Controller
         }
     }
 
-    public function updatePermissionRoleSub(Request $request)
+    public function updatePermissionSubRole(Request $request)
     {
         try {
             foreach ($request->get('id') as $keyOne => $tempOne) {
-                $permission = GetManageAccessHelper::getDetail([
+                $permission = ManageRoleHelper::getDetail([
                     [
                         'getDetail' => [
                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -885,7 +866,7 @@ class ManageAccessAdminController extends Controller
     public function showPermissions()
     {
         // try {
-        $getPrivilege = GetManageAccessHelper::getPrivilege([
+        $getPrivilege = ManagePermissionHelper::getPrivilege([
             ['type' => [Config::get('constants.typeCheck.helperCommon.privilege.np')]]
         ])[Config::get('constants.typeCheck.helperCommon.privilege.np')];
         dd($getPrivilege);
@@ -898,16 +879,16 @@ class ManageAccessAdminController extends Controller
     public function getPermissions(Request $request)
     {
         try {
-            $roleSub = GetManageAccessHelper::getList([
+            $subRole = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $request->status,
-                            'roleMainId' => $request->roleMain
+                            'mainRoleId' => $request->mainRole
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -916,7 +897,7 @@ class ManageAccessAdminController extends Controller
                 ],
             ]);
 
-            return Datatables::of($roleSub[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
+            return Datatables::of($subRole[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'])
                 ->addIndexColumn()
                 ->addColumn('description', function ($data) {
                     $description = $this->subStrString(40, $data['description'], '....');
@@ -930,9 +911,9 @@ class ManageAccessAdminController extends Controller
                     $status = $data['customizeInText']['status']['custom'];
                     return $status;
                 })
-                ->addColumn(Config::get('constants.typeCheck.manageAccess.roleMain.type'), function ($data) {
-                    $roleMain = $data[Config::get('constants.typeCheck.manageAccess.roleMain.type')]['name'];
-                    return $roleMain;
+                ->addColumn(Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'), function ($data) {
+                    $mainRole = $data[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')]['name'];
+                    return $mainRole;
                 })
                 ->addColumn('action', function ($data) {
 
@@ -940,9 +921,9 @@ class ManageAccessAdminController extends Controller
 
                     // if ($itemPermission['status_item'] == '1') {
                     if ($data['status'] == Config::get('constants.status')['inactive']) {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="unblock" data-action="' . route('admin.status.subRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Unblock"><i class="las la-lock-open"></i></a>';
                     } else {
-                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
+                        $status = '<a href="JavaScript:void(0);" data-type="status" data-status="block" data-action="' . route('admin.status.subRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Block"><i class="las la-lock"></i></a>';
                     }
                     // } else {
                     //     $status = '';
@@ -955,7 +936,7 @@ class ManageAccessAdminController extends Controller
                     // }
 
                     // if ($itemPermission['delete_item'] == '1') {
-                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.roleSub') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.subRole') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
                     // } else {
                     //     $delete = '';
                     // }
@@ -982,7 +963,7 @@ class ManageAccessAdminController extends Controller
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['description', Config::get('constants.typeCheck.manageAccess.roleMain.type'), 'uniqueId', 'status', 'action'])
+                ->rawColumns(['description', Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'), 'uniqueId', 'status', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -991,38 +972,33 @@ class ManageAccessAdminController extends Controller
 
     public function updatePermissions(Request $request)
     {
-        $values = $request->only('id', 'name', 'roleMain', 'description');
+        $values = $request->only('id', 'name', 'mainRole', 'description');
 
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Sub", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Sub role", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
-            $validator = $this->isValid([
-                'input' => $request->all(),
-                'for' => 'updateRoleSub',
-                'id' => $id,
-                'platform' => $this->platform
-            ]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateSubRole', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                $roleSub = RoleSub::find($id);
+                $subRole = SubRole::find($id);
 
-                $roleSub->name = $values['name'];
-                $roleSub->roleMainId = decrypt($values['roleMain']);
-                $roleSub->description = $values['description'];
+                $subRole->name = $values['name'];
+                $subRole->mainRoleId = decrypt($values['mainRole']);
+                $subRole->description = $values['description'];
 
-                if ($roleSub->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Role Sub", 'msg' => __('messages.updateMsg', ['type' => 'Role Sub'])['success']], Config::get('constants.errorCode.ok'));
+                if ($subRole->update()) {
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Sub role", 'msg' => __('messages.updateMsg', ['type' => 'Sub role'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Role Sub", 'msg' => __('messages.updateMsg', ['type' => 'Role Sub'])['failed']], Config::get('constants.errorCode.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Sub role", 'msg' => __('messages.updateMsg', ['type' => 'Sub role'])['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Role Sub", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 }

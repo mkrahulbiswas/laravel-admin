@@ -296,11 +296,11 @@
         });
 
 
-        /*------( Role Main Listing )--------*/
-        $('#managePanel-manageAccess-roleMain').DataTable({
+        /*------( Main Role Listing )--------*/
+        $('#adminRelated-rolePermission-manageRole-mainRole').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "role-main/ajaxGetList",
+            ajax: "main-role/ajaxGetList",
             language: {
                 searchPlaceholder: "None"
             },
@@ -330,14 +330,14 @@
             ]
         });
 
-        /*------( Permission Role Main Listing )--------*/
-        $('#managePanel-manageAccess-permissionRoleMain').DataTable({
+        /*------( Permission Main Role Listing )--------*/
+        $('#managePanel-manageAccess-permissionMainRole').DataTable({
             paging: false,
             ordering: false,
             info: false,
             searching: false,
             serverSide: true,
-            ajax: "role-main/ajaxGetList/?roleMainId=" + $('#managePanel-manageAccess-permissionRoleMain').attr('data-id'),
+            ajax: "main-role/ajaxGetList/?mainRoleId=" + $('#managePanel-manageAccess-permissionMainRole').attr('data-id'),
             language: {
                 searchPlaceholder: "None"
             },
@@ -347,11 +347,11 @@
             }]
         });
 
-        /*------( Role Sub Listing )--------*/
-        $('#managePanel-manageAccess-roleSub').DataTable({
+        /*------( Sub Role Listing )--------*/
+        $('#adminRelated-rolePermission-manageRole-subRole').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "role-sub/ajaxGetList",
+            ajax: "sub-role/ajaxGetList",
             language: {
                 searchPlaceholder: "None"
             },
@@ -364,7 +364,7 @@
                     data: "uniqueId"
                 },
                 {
-                    data: "roleMain"
+                    data: "mainRole"
                 },
                 {
                     data: "name"
@@ -384,14 +384,14 @@
             ]
         });
 
-        /*------( Permission Role Sub Listing )--------*/
-        $('#managePanel-manageAccess-permissionRoleSub').DataTable({
+        /*------( Permission Sub Role Listing )--------*/
+        $('#managePanel-manageAccess-permissionSubRole').DataTable({
             paging: false,
             ordering: false,
             info: false,
             searching: false,
             serverSide: true,
-            ajax: "role-sub/ajaxGetList/?roleSubId=" + $('#managePanel-manageAccess-permissionRoleSub').attr('data-id'),
+            ajax: "sub-role/ajaxGetList/?subRoleId=" + $('#managePanel-manageAccess-permissionSubRole').attr('data-id'),
             language: {
                 searchPlaceholder: "None"
             },
@@ -644,10 +644,13 @@
                     data: "uniqueId"
                 },
                 {
-                    data: "name"
+                    data: "mainCategory",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.name).text();
+                    }
                 },
                 {
-                    data: "about"
+                    data: "name"
                 },
                 {
                     data: "customizeInText",
@@ -680,10 +683,19 @@
                     data: "uniqueId"
                 },
                 {
-                    data: "name"
+                    data: "mainCategory",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.name).text();
+                    }
                 },
                 {
-                    data: "about"
+                    data: "subCategory",
+                    render: function (data, type, row) {
+                        return $('<div/>').html(data.name).text();
+                    }
+                },
+                {
+                    data: "name"
                 },
                 {
                     data: "customizeInText",

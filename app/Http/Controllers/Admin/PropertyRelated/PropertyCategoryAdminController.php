@@ -4,19 +4,20 @@ namespace App\Http\Controllers\Admin\PropertyRelated;
 
 use App\Http\Controllers\Controller;
 
+use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
+use App\Helpers\PropertyRelated\GetPropertyCategoryHelper;
+use App\Helpers\PropertyRelated\GetPropertyTypeHelper;
+
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
-
-use App\Helpers\ManagePanel\GetManageAccessHelper;
-use App\Helpers\PropertyRelated\GetPropertyCategoryHelper;
-use App\Helpers\PropertyRelated\GetPropertyTypeHelper;
 
 use App\Models\PropertyRelated\ManageBroad\AssignBroad;
 use App\Models\PropertyRelated\PropertyCategory\AssignCategory;
 use App\Models\PropertyRelated\PropertyCategory\ManageCategory;
 
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -28,7 +29,7 @@ class PropertyCategoryAdminController extends Controller
     public $platform = 'backend';
 
 
-    /*---- ( Main Category ) ----*/
+    /*---- ( Manage category ) ----*/
     public function showManageCategory()
     {
         try {
@@ -67,7 +68,9 @@ class PropertyCategoryAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $request->status,
-                            'type' => $request['type'],
+                            'type' => $request->type,
+                            'mainCategory' => $request->mainCategory,
+                            'subCategory' => $request->subCategory,
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -76,7 +79,7 @@ class PropertyCategoryAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -160,9 +163,9 @@ class PropertyCategoryAdminController extends Controller
                 }
                 $manageCategory->uniqueId = $this->generateCode(['preString' => 'PRMC', 'length' => 6, 'model' => ManageCategory::class, 'field' => '']);
                 if ($manageCategory->save()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Main category'])['success']], Config::get('constants.errorCode.ok'));
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Manage category'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Main category'])['failed']], Config::get('constants.errorCode.ok'));
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Manage category'])['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {
@@ -172,6 +175,7 @@ class PropertyCategoryAdminController extends Controller
 
     public function updateManageCategory(Request $request)
     {
+        DB::beginTransaction();
         $values = $request->only('id', 'name', 'about', 'mainCategory', 'subCategory', 'type');
 
         try {
@@ -191,17 +195,21 @@ class PropertyCategoryAdminController extends Controller
                 $manageCategory->type = $values['type'];
                 if ($values['type'] == Config::get('constants.status.category.sub') || $values['type'] == Config::get('constants.status.category.nested')) {
                     $manageCategory->mainCategoryId = decrypt($values['mainCategory']);
+                    ManageCategory::where('subCategoryId', $id)->update(['mainCategoryId' => decrypt($values['mainCategory'])]);
                 }
                 if ($values['type'] == Config::get('constants.status.category.nested')) {
                     $manageCategory->subCategoryId = decrypt($values['subCategory']);
                 }
                 if ($manageCategory->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Main category'])['success']], Config::get('constants.errorCode.ok'));
+                    DB::commit();
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Manage category'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Main category'])['failed']], Config::get('constants.errorCode.ok'));
+                    DB::roleBack();
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Manage category'])['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {
+            DB::roleBack();
             return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
@@ -222,9 +230,9 @@ class PropertyCategoryAdminController extends Controller
                 'type' => Config::get('constants.action.status.smsf')
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Main category'])['success']], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Manage category'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Main category'])['failed']], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Manage category'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Change status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
@@ -240,17 +248,46 @@ class PropertyCategoryAdminController extends Controller
         }
 
         try {
-            $result = $this->deleteItem([
-                [
-                    'model' => ManageCategory::class,
-                    'picUrl' => [],
-                    'filter' => [['search' => $id, 'field' => '']],
-                ],
-            ]);
-            if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Main category'])['success']], Config::get('constants.errorCode.ok'));
+            $manageCategory = ManageCategory::where('id', $id)->first();
+            if ($manageCategory->type == Config::get('constants.status.category.main')) {
+                $result = $this->deleteItem([
+                    [
+                        'model' => ManageCategory::class,
+                        'picUrl' => [],
+                        'filter' => [['search' => $id, 'field' => '']],
+                    ],
+                    [
+                        'model' => ManageCategory::class,
+                        'picUrl' => [],
+                        'filter' => [['search' => $id, 'field' => 'mainCategoryId']],
+                    ],
+                ]);
+            } elseif ($manageCategory->type == Config::get('constants.status.category.sub')) {
+                $result = $this->deleteItem([
+                    [
+                        'model' => ManageCategory::class,
+                        'picUrl' => [],
+                        'filter' => [['search' => $id, 'field' => ''],],
+                    ],
+                    [
+                        'model' => ManageCategory::class,
+                        'picUrl' => [],
+                        'filter' => [['search' => $id, 'field' => 'subCategoryId']],
+                    ],
+                ]);
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Main category'])['failed']], Config::get('constants.errorCode.ok'));
+                $result = $this->deleteItem([
+                    [
+                        'model' => ManageCategory::class,
+                        'picUrl' => [],
+                        'filter' => [['search' => $id, 'field' => '']],
+                    ],
+                ]);
+            }
+            if ($result === true) {
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Manage category'])['success']], Config::get('constants.errorCode.ok'));
+            } else {
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Manage category'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
@@ -282,7 +319,10 @@ class PropertyCategoryAdminController extends Controller
                         'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
                     ],
                     'otherDataPasses' => [
-                        'filterData' => ['status' => Config::get('constants.status.active'), 'type' => Config::get('constants.status.category.main')],
+                        'filterData' => [
+                            'status' => Config::get('constants.status.active'),
+                            'type' => Config::get('constants.status.category.main')
+                        ],
                         'orderBy' => ['id' => 'desc'],
                     ],
                 ],
@@ -323,7 +363,7 @@ class PropertyCategoryAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []

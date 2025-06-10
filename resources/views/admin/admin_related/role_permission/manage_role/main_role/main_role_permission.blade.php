@@ -9,14 +9,14 @@
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Panel</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Access</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('admin.show.roleMain') }}">Role Main</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.show.mainRole') }}">Main Role</a></li>
                             <li class="breadcrumb-item active">Permission</li>
                         </ol>
                     </div>
                 </div>
                 <div class="d-sm-flex align-items-center justify-content-between">
                     @if ($permission['back']['permission'] == true)
-                        <a href="{{ route('admin.show.roleMain') }}" class="btn btn-warning btn-label waves-effect waves-light">
+                        <a href="{{ route('admin.show.mainRole') }}" class="btn btn-warning btn-label waves-effect waves-light">
                             <i class="las la-backward label-icon align-middle fs-16 me-2"></i>
                             <span>Back</span>
                         </a>
@@ -69,7 +69,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="tdFilterForm p-3">
-                                            <form id="filterPermissionRoleMainForm" method="POST" action="{{ route('admin.get.permissionRoleMain') }}" class="m-b-20">
+                                            <form id="filterPermissionMainRoleForm" method="POST" action="{{ route('admin.get.permissionMainRole') }}" class="m-b-20">
                                                 @csrf
                                                 <div class="row gap-2">
 
@@ -105,13 +105,13 @@
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <div class="form-group d-flex flex-row justify-content-start">
                                                             @if ($permission['search']['permission'] == true)
-                                                                <button type="button" class="btn btn-info btn-label waves-effect waves-light filterPermissionRoleMainBtn" title="Search">
+                                                                <button type="button" class="btn btn-info btn-label waves-effect waves-light filterPermissionMainRoleBtn" title="Search">
                                                                     <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
                                                                     <span>Search</span>
                                                                 </button>
                                                             @endif
                                                             @if ($permission['reset']['permission'] == true)
-                                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterPermissionRoleMainBtn ms-2" title="Reload">
+                                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterPermissionMainRoleBtn ms-2" title="Reload">
                                                                     <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
                                                                     <span>Reset</span>
                                                                 </button>
@@ -128,10 +128,10 @@
                         </div>
                         <div class="col-md-12 tdContentMain">
                             <div class="tdContentSub">
-                                <form action="{{ route('admin.update.permissionRoleMain') }}" method="POST" id="updatePermissionRoleMainForm">
+                                <form action="{{ route('admin.update.permissionMainRole') }}" method="POST" id="updatePermissionMainRoleForm">
                                     @csrf
-                                    <input type="hidden" name="roleMainId" value="{{ $data['roleMainId'] }}">
-                                    <table id="managePanel-manageAccess-permissionRoleMain" data-id="{{ $data['roleMainId'] }}" class="table table-bordered dt-responsive nowrap align-middle" cellspacing="0" width="100%">
+                                    <input type="hidden" name="mainRoleId" value="{{ $data['mainRoleId'] }}">
+                                    <table id="managePanel-manageAccess-permissionMainRole" data-id="{{ $data['mainRoleId'] }}" class="table table-bordered dt-responsive nowrap align-middle" cellspacing="0" width="100%">
                                         <tbody></tbody>
                                     </table>
                                 </form>
@@ -142,10 +142,16 @@
             </div>
         </div>
     </div>
+@endsection
 
+@section('headStyle')
     <style>
-        #managePanel-manageAccess-permissionRoleMain thead {
+        #managePanel-manageAccess-permissionMainRole thead {
             display: none;
         }
+
+        #managePanel-manageAccess-permissionMainRole tbody tr td {
+            padding: 0;
+        }
     </style>
-@endsection
+@stop

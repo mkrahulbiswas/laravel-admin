@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin\ManagePanel;
 
 use App\Http\Controllers\Controller;
 
+use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
+use App\Helpers\ManagePanel\GetQuickSettingsHelper;
+
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
 use App\Models\ManagePanel\QuickSettings\Logo;
-
-use App\Helpers\ManagePanel\GetManageAccessHelper;
-use App\Helpers\ManagePanel\GetQuickSettingsHelper;
 
 use Exception;
 use Yajra\DataTables\DataTables;
@@ -61,7 +61,7 @@ class QuickSettingsAdminController extends Controller
                     ],
                 ],
             ])[Config::get('constants.typeCheck.quickSettings.logo.type')][Config::get('constants.typeCheck.helperCommon.get.inf')]['list'];
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -224,7 +224,7 @@ class QuickSettingsAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Role Main", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Logo", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {

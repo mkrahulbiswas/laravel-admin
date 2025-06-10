@@ -75,27 +75,27 @@
                                                             <div class="validation-error" id="phoneErr"></div>
                                                         </div>
                                                         <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-3">
-                                                            <label for="roleMain" class="form-label">Role Main <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <label for="mainRole" class="form-label">Main Role <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                             <div class="form-icon set-validation">
-                                                                <select name="roleMain" id="roleMain" class="selectTwo select2-roleMain roleMainDDD" data-action="{{ route('admin.get.roleSubDDD') }}">
-                                                                    <option value="">Select Role Main</option>
-                                                                    @foreach ($data['roleMain'] as $item)
-                                                                        <option value="{{ $item['id'] }}" data-exist="{{ $item['extraData']['hasRoleSub'] }}">{{ $item['name'] }}</option>
+                                                                <select name="mainRole" id="mainRole" class="selectTwo select2-mainRole mainRoleDDD" data-action="{{ route('admin.get.subRoleDDD') }}">
+                                                                    <option value="">Select Main Role</option>
+                                                                    @foreach ($data['mainRole'] as $item)
+                                                                        <option value="{{ $item['id'] }}" data-exist="{{ $item['extraData']['hasSubRole'] }}">{{ $item['name'] }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 <i class="bx bx-receipt"></i>
                                                             </div>
-                                                            <div class="validation-error" id="roleMainErr"></div>
+                                                            <div class="validation-error" id="mainRoleErr"></div>
                                                         </div>
                                                         <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4" style="display: none;">
-                                                            <label for="roleSub" class="form-label">Role Sub <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <label for="subRole" class="form-label">Sub Role <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                             <div class="form-icon set-validation">
-                                                                <select name="roleSub" id="roleSub" class="selectTwo select2-roleSub roleSubDDD">
-                                                                    <option value="">Select Role Sub</option>
+                                                                <select name="subRole" id="subRole" class="selectTwo select2-subRole subRoleDDD">
+                                                                    <option value="">Select Sub Role</option>
                                                                 </select>
                                                                 <i class="bx bx-bar-chart-square"></i>
                                                             </div>
-                                                            <div class="validation-error" id="roleSubErr"></div>
+                                                            <div class="validation-error" id="subRoleErr"></div>
                                                         </div>
                                                     </div>
                                                 </div>

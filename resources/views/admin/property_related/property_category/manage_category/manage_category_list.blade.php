@@ -157,10 +157,10 @@
                             <div class="form-element col-12 mb-3">
                                 <label for="mainCategory" class="form-label">Main Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="mainCategory" id="mainCategory2" class="selectTwo select2-mainCategory-addModal mainCategoryDDD" data-action="{{ route('admin.get.mainCategoryDDD') }}">
+                                    <select name="mainCategory" id="mainCategory2" class="selectTwo select2-mainCategory-editModal mainCategoryDDD" data-action="{{ route('admin.get.mainCategoryDDD') }}">
                                         <option value="">Select Nav Type</option>
                                         @foreach ($data['mainCategory'] as $item)
-                                            <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                                            <option value="{{ $item['id'] }}" data-name="{{ $item['name'] }}">{{ $item['name'] }}</option>
                                         @endforeach
                                     </select>
                                     <i class="bx bx-receipt"></i>
@@ -170,7 +170,7 @@
                             <div class="form-element col-12 mb-3">
                                 <label for="subCategory" class="form-label">Sub Category <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="subCategory" id="subCategory2" class="selectTwo select2-subCategory-addModal subDDD"></select>
+                                    <select name="subCategory" id="subCategory2" class="selectTwo select2-subCategory-editModal subCategoryDDD"></select>
                                     <i class="bx bx-bar-chart-square"></i>
                                 </div>
                                 <div class="validation-error" id="subCategoryErr"></div>
@@ -299,7 +299,7 @@
 
             $('.con-common-modal .myModalLabel').text(textToChange);
             $('.con-common-modal .type').val(typeToChange);
-            $('.con-common-modal').find('#mainCategory, #subCategory').closest('.form-element, .col-12').hide();
+            $('.con-common-modal').find('[name="mainCategory"], [name="subCategory"]').closest('.form-element, .col-12').hide();
 
             $('.tabClick').click(function() {
                 targetClass = $(this);
@@ -307,16 +307,16 @@
                 if (targetClass.attr('data-type') == '{{ Config::get('constants.status.category.main') }}') {
                     textToChange = 'Main Category';
                     $('#propertyRelated-propertyCategory-manageCategory-main').DataTable().ajax.reload(null, false)
-                    $('.con-common-modal').find('#mainCategory, #subCategory').closest('.form-element, .col-12').hide();
+                    $('.con-common-modal').find('[name="mainCategory"], [name="subCategory"]').closest('.form-element, .col-12').hide();
                 } else if (targetClass.attr('data-type') == '{{ Config::get('constants.status.category.sub') }}') {
                     textToChange = 'Sub Category';
                     $('#propertyRelated-propertyCategory-manageCategory-sub').DataTable().ajax.reload(null, false)
-                    $('.con-common-modal').find('#mainCategory').closest('.form-element, .col-12').show();
-                    $('.con-common-modal').find('#subCategory').closest('.form-element, .col-12').hide();
+                    $('.con-common-modal').find('[name="mainCategory"]').closest('.form-element, .col-12').show();
+                    $('.con-common-modal').find('[name="subCategory"]').closest('.form-element, .col-12').hide();
                 } else if (targetClass.attr('data-type') == '{{ Config::get('constants.status.category.nested') }}') {
                     textToChange = 'Nested Category';
                     $('#propertyRelated-propertyCategory-manageCategory-nested').DataTable().ajax.reload(null, false)
-                    $('.con-common-modal').find('#mainCategory, #subCategory').closest('.form-element, .col-12').show();
+                    $('.con-common-modal').find('[name="mainCategory"], [name="subCategory"]').closest('.form-element, .col-12').show();
                 }
                 targetClass.closest('#container-fluid-inside').find('.myModalLabel').text(textToChange);
                 targetClass.closest('#container-fluid-inside').find('.con-common-modal .type').val(typeToChange);

@@ -105,12 +105,12 @@
         /*--========================= ( Manage Nav END ) =========================--*/
 
         /*--========================= ( Manage Access START ) =========================--*/
-        $('.roleMainDDD').change(function () {
+        $('.mainRoleDDD').change(function () {
             if ($(this).attr('data-action') != undefined) {
-                var html = '<option value="">Select Role Sub</option>';
-                $('.roleSubDDD').text('');
+                var html = '<option value="">Select sub role</option>';
+                $('.subRoleDDD').text('');
                 if ($(this).val() == '') {
-                    $('.roleSubDDD').append(html);
+                    $('.subRoleDDD').append(html);
                 } else {
                     $.ajax({
                         url: $(this).attr('data-action') + '/' + $(this).val(),
@@ -130,12 +130,12 @@
                                 }
                             })
                             if (msg.status == 0) {
-                                $('.roleSubDDD').append(html);
+                                $('.subRoleDDD').append(html);
                             } else {
-                                $.each(msg.data.roleSub, function (key, value) {
+                                $.each(msg.data.subRole, function (key, value) {
                                     html += '<option value="' + value['id'] + '" data-name="' + value['name'] + '">' + value['name'] + '</option>'
                                 });
-                                $('.roleSubDDD').append(html);
+                                $('.subRoleDDD').append(html);
                             }
                         }
                     });
@@ -147,7 +147,7 @@
         /*--========================= ( Property Related START ) =========================--*/
         $('.propertyTypeDDD').change(function () {
             if ($(this).attr('data-action') != undefined) {
-                var html = '<option value="">Select Role Sub</option>';
+                var html = '<option value="">Select sub role</option>';
                 $('.assignBroadDDD').text('');
                 if ($(this).val() == '') {
                     $('.assignBroadDDD').append(html);
@@ -199,7 +199,7 @@
 
         $('.mainCategoryDDD').change(function () {
             if ($(this).attr('data-action') != undefined) {
-                var html = '<option value="">Select Role Sub</option>';
+                var html = '<option value="">Select sub role</option>';
                 $('.subCategoryDDD').text('');
                 if ($(this).val() == '') {
                     $('.subCategoryDDD').append(html);

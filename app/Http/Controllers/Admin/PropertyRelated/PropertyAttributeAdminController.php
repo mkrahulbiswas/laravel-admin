@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin\PropertyRelated;
 
 use App\Http\Controllers\Controller;
 
+use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
+use App\Helpers\PropertyRelated\GetPropertyAttributeHelper;
+
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
 use App\Models\PropertyRelated\PropertyAttribute;
-
-use App\Helpers\ManagePanel\GetManageAccessHelper;
-use App\Helpers\PropertyRelated\GetPropertyAttributeHelper;
 
 use Exception;
 use Yajra\DataTables\DataTables;
@@ -57,7 +57,7 @@ class PropertyAttributeAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.propertyRelated.propertyAttribute.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []

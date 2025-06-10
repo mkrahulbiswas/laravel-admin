@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
-use App\Helpers\ManagePanel\GetManageAccessHelper;
+use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
 use App\Helpers\ManagePanel\GetManageNavHelper;
 use App\Helpers\PropertyRelated\GetManageBroadHelper;
 use App\Helpers\PropertyRelated\GetPropertyCategoryHelper;
@@ -94,20 +94,20 @@ class DDDAdminController extends Controller
         }
     }
 
-    /*------ ( Get Role Sub ) -------*/
-    public function getRoleSub($roleMainId)
+    /*------ ( Get Sub Role ) -------*/
+    public function getSubRole($mainRoleId)
     {
         try {
-            $navSub = GetManageAccessHelper::getList([
+            $navSub = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
-                            'roleMainId' => $roleMainId,
+                            'mainRoleId' => $mainRoleId,
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -117,11 +117,11 @@ class DDDAdminController extends Controller
             ]);
 
             $data = [
-                'roleSub' => $navSub[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
+                'subRole' => $navSub[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list']
             ];
 
             if ($data) {
-                return Response()->Json(['status' => 1, 'msg' => 'Role sub is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
+                return Response()->Json(['status' => 1, 'msg' => 'Sub role is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
             } else {
                 return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
             }
@@ -159,7 +159,7 @@ class DDDAdminController extends Controller
                     'assignBroad' => $assignBroad
                 ];
                 if ($data) {
-                    return Response()->Json(['status' => 1, 'msg' => 'Role sub is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
+                    return Response()->Json(['status' => 1, 'msg' => 'Sub role is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
                 } else {
                     return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg'), 'data' => (object)[]], Config::get('constants.errorCode.ok'));
                 }
@@ -193,7 +193,7 @@ class DDDAdminController extends Controller
                 'mainCategory' => $mainCategory
             ];
             if ($data) {
-                return Response()->Json(['status' => 1, 'msg' => 'Role sub is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
+                return Response()->Json(['status' => 1, 'msg' => 'Sub role is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
             } else {
                 return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg'), 'data' => (object)[]], Config::get('constants.errorCode.ok'));
             }

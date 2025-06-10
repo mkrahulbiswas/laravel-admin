@@ -37,7 +37,8 @@ function initCallOnModalClose() {
             'saveNavNestedForm', 'updateNavNestedForm',
             'savePropertyAttributeForm', 'updatePropertyAttributeForm',
             'savePropertyTypeForm', 'updatePropertyTypeForm',
-            'saveRoleSubForm', 'updateRoleSubForm',
+            'saveMainRoleForm', 'updateMainRoleForm',
+            'saveSubRoleForm', 'updateSubRoleForm',
         ];
         var idArrayToString = '#' + idArray.join(', #');
         $(idArrayToString).find(".validation-error").text('');
@@ -205,24 +206,24 @@ function initCallSelect2() {
         dropdownParent: $('#con-edit-modal')
     });
 
-    $('.select2-roleMain').select2({
+    $('.select2-mainRole').select2({
         tags: false,
-        placeholder: "Select Role Main"
+        placeholder: "Select main role"
     });
-    $('.select2-roleMain-addModal').select2({
+    $('.select2-mainRole-addModal').select2({
         tags: false,
-        placeholder: "Select Role Main",
+        placeholder: "Select main role",
         dropdownParent: $('#con-add-modal')
     });
-    $('.select2-roleMain-editModal').select2({
+    $('.select2-mainRole-editModal').select2({
         tags: false,
-        placeholder: "Select Role Main",
+        placeholder: "Select main role",
         dropdownParent: $('#con-edit-modal')
     });
 
-    $('.select2-roleSub').select2({
+    $('.select2-subRole').select2({
         tags: false,
-        placeholder: "Select Role Sub"
+        placeholder: "Select sub role"
     });
 }
 

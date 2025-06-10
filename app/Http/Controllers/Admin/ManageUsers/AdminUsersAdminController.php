@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Admin\ManageUsers;
 
+use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
 use App\Http\Controllers\Controller;
+
+use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
+use App\Helpers\ManageUsers\GetManageUsersHelper;
 
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\ManagePanel\ManageAccess\RoleMain;
+use App\Models\AdminRelated\RolePermission\ManageRole\MainRole;
 use App\Models\ManageUsers\AdminUsers;
 use App\Models\ManageUsers\UsersInfo;
-
-use App\Helpers\ManagePanel\GetManageAccessHelper;
-use App\Helpers\ManageUsers\GetManageUsersHelper;
 
 use Exception;
 use Throwable;
@@ -36,11 +37,11 @@ class AdminUsersAdminController extends Controller
     public function showAdminUsers()
     {
         try {
-            $roleMain = GetManageAccessHelper::getList([
+            $mainRole = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -51,7 +52,7 @@ class AdminUsersAdminController extends Controller
             ]);
 
             $data = [
-                'roleMain' => $roleMain[Config::get('constants.typeCheck.manageAccess.roleMain.type')],
+                'mainRole' => $mainRole[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')],
             ];
 
             return view('admin.manage_users.admin_users.admin_users_list', ['data' => $data]);
@@ -80,7 +81,7 @@ class AdminUsersAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $getPrivilege = GetManageAccessHelper::getPrivilege([
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
                     'otherDataPasses' => []
@@ -150,23 +151,23 @@ class AdminUsersAdminController extends Controller
     public function addAdminUsers()
     {
         try {
-            $roleMain = GetManageAccessHelper::getList([
+            $mainRole = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
-                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
+                            'uniqueId' => Config::get('constants.superAdminCheck')['mainRole'],
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $data = [
-                'roleMain' => $roleMain,
+                'mainRole' => $mainRole,
             ];
 
             return view('admin.manage_users.admin_users.admin_users_add', ['data' => $data]);
@@ -179,7 +180,7 @@ class AdminUsersAdminController extends Controller
     {
         try {
             DB::beginTransaction();
-            $values = $request->only('name', 'email', 'phone', 'roleMain', 'roleSub', 'pinCode', 'state', 'country', 'address', 'about');
+            $values = $request->only('name', 'email', 'phone', 'mainRole', 'subRole', 'pinCode', 'state', 'country', 'address', 'about');
             $file = $request->file('file');
             $password = 123456;
 
@@ -187,7 +188,7 @@ class AdminUsersAdminController extends Controller
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                if (RoleMain::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
+                if (MainRole::where('id', decrypt($values['mainRole']))->first()->uniqueId == Config::get('constants.superAdminCheck')['mainRole']) {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save", 'msg' => __('messages.notAllowMsg')], Config::get('constants.errorCode.ok'));
                 } else {
                     if ($file) {
@@ -210,9 +211,9 @@ class AdminUsersAdminController extends Controller
                     $adminUsers->email = $values['email'];
                     $adminUsers->phone = $values['phone'];
                     $adminUsers->status = Config::get('constants.status')['active'];
-                    $adminUsers->roleMainId = decrypt($values['roleMain']);
-                    if ($values['roleSub'] != '') {
-                        $adminUsers->roleSubId = decrypt($values['roleSub']);
+                    $adminUsers->mainRoleId = decrypt($values['mainRole']);
+                    if ($values['subRole'] != '') {
+                        $adminUsers->subRoleId = decrypt($values['subRole']);
                     }
                     $adminUsers->password = Hash::make($password);
                     if ($file) {
@@ -256,20 +257,20 @@ class AdminUsersAdminController extends Controller
     public function editAdminUsers($id)
     {
         try {
-            $roleMain = GetManageAccessHelper::getList([
+            $mainRole = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleMain.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
-                            'uniqueId' => Config::get('constants.superAdminCheck')['roleMain'],
+                            'uniqueId' => Config::get('constants.superAdminCheck')['mainRole'],
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageAccess.roleMain.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $adminUsers = GetManageUsersHelper::getDetail([
                 [
@@ -283,24 +284,24 @@ class AdminUsersAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
 
-            $roleSub = GetManageAccessHelper::getList([
+            $subRole = ManageRoleHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageAccess.roleSub.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status')['active'],
-                            'roleMainId' => $adminUsers['roleMain']['id']
+                            'mainRoleId' => $adminUsers['mainRole']['id']
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageAccess.roleSub.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $data = [
-                'roleMain' => $roleMain,
-                'roleSub' => $roleSub,
+                'mainRole' => $mainRole,
+                'subRole' => $subRole,
                 'adminUsers' => $adminUsers,
             ];
 
@@ -312,7 +313,7 @@ class AdminUsersAdminController extends Controller
 
     public function updateAdminUsers(Request $request)
     {
-        $values = $request->only('id', 'name', 'email', 'phone', 'roleMain', 'roleSub', 'pinCode', 'state', 'country', 'address', 'about');
+        $values = $request->only('id', 'name', 'email', 'phone', 'mainRole', 'subRole', 'pinCode', 'state', 'country', 'address', 'about');
         $file = $request->file('file');
 
         try {
@@ -323,14 +324,14 @@ class AdminUsersAdminController extends Controller
 
         try {
             DB::beginTransaction();
-            $values = $request->only('name', 'email', 'phone', 'roleMain', 'roleSub', 'pinCode', 'state', 'country', 'address', 'about');
+            $values = $request->only('name', 'email', 'phone', 'mainRole', 'subRole', 'pinCode', 'state', 'country', 'address', 'about');
             $file = $request->file('file');
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateAdminUsers', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                if (RoleMain::where('id', decrypt($values['roleMain']))->first()->uniqueId == Config::get('constants.superAdminCheck')['roleMain']) {
+                if (MainRole::where('id', decrypt($values['mainRole']))->first()->uniqueId == Config::get('constants.superAdminCheck')['mainRole']) {
                     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update", 'msg' => __('messages.notAllowMsg')], Config::get('constants.errorCode.ok'));
                 } else {
                     $adminUsers = AdminUsers::findOrFail($id);
@@ -351,9 +352,9 @@ class AdminUsersAdminController extends Controller
                     $adminUsers->email = $values['email'];
                     $adminUsers->phone = $values['phone'];
                     $adminUsers->status = Config::get('constants.status')['active'];
-                    $adminUsers->roleMainId = decrypt($values['roleMain']);
-                    if ($values['roleSub'] != '') {
-                        $adminUsers->roleSubId = decrypt($values['roleSub']);
+                    $adminUsers->mainRoleId = decrypt($values['mainRole']);
+                    if ($values['subRole'] != '') {
+                        $adminUsers->subRoleId = decrypt($values['subRole']);
                     }
                     $adminUsers->password = Hash::make(123456);
                     if ($adminUsers->update()) {

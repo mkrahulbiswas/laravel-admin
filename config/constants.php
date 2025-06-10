@@ -49,7 +49,7 @@ return [
     'loaderVideo' => 'Video Type Loader',
 
     'superAdminCheck' => [
-        'roleMain' => 'RM-500077',
+        'mainRole' => 'RM-500077',
         'admin' => 'AU-500077'
     ],
 
@@ -60,6 +60,24 @@ return [
 
     //--Type Check
     'typeCheck' => [
+        'adminRelated' => [
+            'type' => 'adminRelated',
+            'rolePermission' => [
+                'type' => 'rolePermission',
+                'manageRole' => [
+                    'type' => 'manageRole',
+                    'mainRole' => [
+                        'type' => 'mainRole'
+                    ],
+                    'subRole' => [
+                        'type' => 'subRole'
+                    ],
+                    'permission' => [
+                        'type' => 'permission'
+                    ],
+                ],
+            ]
+        ],
         'manageNav' => [
             'navType' => [
                 'type' => 'navType'
@@ -107,6 +125,122 @@ return [
                         'type' => 'locationAdvantages',
                         'name' => 'Location Advantages'
                     ],
+                    'propertyFacing' => [
+                        'type' => 'propertyFacing',
+                        'name' => 'propertyFacing'
+                    ],
+                    'uploadedPhotoType' => [
+                        'type' => 'uploadedPhotoType',
+                        'name' => 'Uploaded Photo Type'
+                    ],
+                    'typesOfUsers' => [
+                        'type' => 'typesOfUsers',
+                        'name' => 'Types Of Users'
+                    ],
+                    'ownership' => [
+                        'type' => 'ownership',
+                        'name' => 'Ownership'
+                    ],
+                    'measurementsUnits' => [
+                        'type' => 'measurementsUnits',
+                        'name' => 'Measurements Units'
+                    ],
+                    'qualityRating' => [
+                        'type' => 'qualityRating',
+                        'name' => 'Quality Rating'
+                    ],
+                    'otherRooms' => [
+                        'type' => 'otherRooms',
+                        'name' => 'Other Rooms'
+                    ],
+                    'availabilityStatus' => [
+                        'type' => 'availabilityStatus',
+                        'name' => 'Availability Status'
+                    ],
+                    'furnishing' => [
+                        'type' => 'furnishing',
+                        'name' => 'Furnishing'
+                    ],
+                    'propertyProvided' => [
+                        'type' => 'propertyProvided',
+                        'name' => 'Property provided'
+                    ],
+                    'yourApartment' => [
+                        'type' => 'yourApartment',
+                        'name' => 'Your Apartment is'
+                    ],
+                    'additionalFeature' => [
+                        'type' => 'additionalFeature',
+                        'name' => 'Additional Feature'
+                    ],
+                    'suitableType' => [
+                        'type' => 'suitableType',
+                        'name' => 'Suitable type'
+                    ],
+                    'washroomDetails' => [
+                        'type' => 'washroomDetails',
+                        'name' => 'Washroom details'
+                    ],
+                    'facilityAvailable' => [
+                        'type' => 'facilityAvailable',
+                        'name' => 'Facility Available'
+                    ],
+                    'ageOfProperty' => [
+                        'type' => 'ageOfProperty',
+                        'name' => 'Age of property'
+                    ],
+                    'waterSource' => [
+                        'type' => 'waterSource',
+                        'name' => 'Water Source'
+                    ],
+                    'overlooking' => [
+                        'type' => 'overlooking',
+                        'name' => 'Overlooking'
+                    ],
+                    'otherFeature' => [
+                        'type' => 'otherFeature',
+                        'name' => 'Other Feature'
+                    ],
+                    'powerBackup' => [
+                        'type' => 'powerBackup',
+                        'name' => 'Power Backup'
+                    ],
+                    'constructionDone' => [
+                        'type' => 'constructionDone',
+                        'name' => 'construction done'
+                    ],
+                    'propertyApproved' => [
+                        'type' => 'propertyApproved',
+                        'name' => 'property approved'
+                    ],
+                    'locationInside' => [
+                        'type' => 'locationInside',
+                        'name' => 'Location Inside'
+                    ],
+                    'zoneType' => [
+                        'type' => 'zoneType',
+                        'name' => 'Zone Type'
+                    ],
+                    'constructionStatus' => [
+                        'type' => 'constructionStatus',
+                        'name' => 'Construction Status'
+                    ],
+                    'fireSafety' => [
+                        'type' => 'fireSafety',
+                        'name' => 'Fire safety'
+                    ],
+                    'previouslyUsed' => [
+                        'type' => 'previouslyUsed',
+                        'name' => 'Previously used for'
+                    ],
+                    'approvedType' => [
+                        'type' => 'approvedType',
+                        'name' => 'Approved type'
+                    ],
+                    'buildingFeature' => [
+                        'type' => 'buildingFeature',
+                        'name' => 'Building feature'
+                    ],
                 ]
             ],
             'propertyType' => [
@@ -132,12 +266,6 @@ return [
             ]
         ],
         'manageAccess' => [
-            'roleMain' => [
-                'type' => 'roleMain'
-            ],
-            'roleSub' => [
-                'type' => 'roleSub'
-            ],
             'permission' => [
                 'type' => 'permission'
             ],
@@ -180,12 +308,10 @@ return [
                 'gp' => 'getPermission'
             ],
             'access' => [
-                'al' => 'allYes',
+                'ay' => 'allYes',
                 'an' => 'allNo',
-                'bm' => [
-                    'fns' => 'fromNavSide',
-                    'frs' => 'fromRoleSide'
-                ],
+                'fns' => 'fromNavSide',
+                'frs' => 'fromRoleSide'
             ],
         ],
         'customizeInText' => [

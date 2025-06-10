@@ -228,10 +228,10 @@
             })
         });
 
-        //------ ( Role Main )
-        $('#filterRoleMainForm').find('#statusFilter, .filterRoleMainBtn').on('change click', function () {
+        //------ ( Main Role )
+        $('#filterMainRoleForm').find('#statusFilter, .filterMainRoleBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageAccess-roleMain'),
+                dataTableId = $('#adminRelated-rolePermission-manageRole-mainRole'),
 
                 status = formId.find("#statusFilter").val(),
 
@@ -264,18 +264,18 @@
             })
         });
 
-        //------ ( Permission Role Main )
-        $('#filterPermissionRoleMainForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, .filterPermissionRoleMainBtn').on('change click', function () {
+        //------ ( Permission Main Role )
+        $('#filterPermissionMainRoleForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, .filterPermissionMainRoleBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageAccess-permissionRoleMain'),
+                dataTableId = $('#managePanel-manageAccess-permissionMainRole'),
 
                 navType = (formId.find("#navTypeFilter").val() == '' || formId.find("#navTypeFilter").val() == null) ? '' : formId.find("#navTypeFilter").val(),
                 navMain = (formId.find("#navMainFilter").val() == '' || formId.find("#navMainFilter").val() == null) ? '' : formId.find("#navMainFilter").val(),
                 navSub = (formId.find("#navSubFilter").val() == '' || formId.find("#navSubFilter").val() == null) ? '' : formId.find("#navSubFilter").val(),
-                roleMainId = $('#managePanel-manageAccess-permissionRoleMain').attr('data-id'),
+                mainRoleId = $('#managePanel-manageAccess-permissionMainRole').attr('data-id'),
 
                 action = $(this).closest('form').attr('action').split('/'),
-                newUrl = action[action.length - 2] + "/ajaxGetList?roleMainId=" + roleMainId + "&navType=" + navType + "&navMain=" + navMain + "&navSub=" + navSub;
+                newUrl = action[action.length - 2] + "/ajaxGetList?mainRoleId=" + mainRoleId + "&navType=" + navType + "&navMain=" + navMain + "&navSub=" + navSub;
             if ($(this).attr('title') == 'Reload') {
                 commonAction({
                     targetId: {
@@ -286,7 +286,7 @@
                         selectTwo: {},
                     }
                 })
-                newUrl = action[action.length - 2] + "/ajaxGetList?roleMainId=" + roleMainId + "&navType=" + '' + "&navMain=" + '' + "&navSub=" + '';
+                newUrl = action[action.length - 2] + "/ajaxGetList?mainRoleId=" + mainRoleId + "&navType=" + '' + "&navMain=" + '' + "&navSub=" + '';
             }
             commonAction({
                 targetId: {
@@ -303,16 +303,16 @@
             })
         });
 
-        //------ ( Role Sub )
-        $('#filterRoleSubForm').find('#statusFilter, #roleMainFilter, .filterRoleSubBtn').on('change click', function () {
+        //------ ( Sub Role )
+        $('#filterSubRoleForm').find('#statusFilter, #mainRoleFilter, .filterSubRoleBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageAccess-roleSub'),
+                dataTableId = $('#adminRelated-rolePermission-manageRole-subRole'),
 
                 status = formId.find("#statusFilter").val(),
-                roleMain = (formId.find("#roleMainFilter").val() == '' || formId.find("#roleMainFilter").val() == null) ? '' : formId.find("#roleMainFilter").val(),
+                mainRole = (formId.find("#mainRoleFilter").val() == '' || formId.find("#mainRoleFilter").val() == null) ? '' : formId.find("#mainRoleFilter").val(),
 
                 action = $(this).closest('form').attr('action').split('/'),
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&roleMain=" + roleMain;
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&mainRole=" + mainRole;
             if ($(this).attr('title') == 'Reload') {
                 commonAction({
                     targetId: {
@@ -323,7 +323,7 @@
                         selectTwo: {},
                     }
                 })
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&roleMain=" + '';
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&mainRole=" + '';
             }
             commonAction({
                 targetId: {
@@ -340,18 +340,18 @@
             })
         });
 
-        //------ ( Permission Role Sub )
-        $('#filterPermissionRoleSubForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, .filterPermissionRoleSubBtn').on('change click', function () {
+        //------ ( Permission Sub Role )
+        $('#filterPermissionSubRoleForm').find('#navTypeFilter, #navMainFilter, #navSubFilter, .filterPermissionSubRoleBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#managePanel-manageAccess-permissionRoleSub'),
+                dataTableId = $('#managePanel-manageAccess-permissionSubRole'),
 
                 navType = (formId.find("#navTypeFilter").val() == '' || formId.find("#navTypeFilter").val() == null) ? '' : formId.find("#navTypeFilter").val(),
                 navMain = (formId.find("#navMainFilter").val() == '' || formId.find("#navMainFilter").val() == null) ? '' : formId.find("#navMainFilter").val(),
                 navSub = (formId.find("#navSubFilter").val() == '' || formId.find("#navSubFilter").val() == null) ? '' : formId.find("#navSubFilter").val(),
-                roleSubId = $('#managePanel-manageAccess-permissionRoleSub').attr('data-id'),
+                subRoleId = $('#managePanel-manageAccess-permissionSubRole').attr('data-id'),
 
                 action = $(this).closest('form').attr('action').split('/'),
-                newUrl = action[action.length - 2] + "/ajaxGetList?roleSubId=" + roleSubId + "&navType=" + navType + "&navMain=" + navMain + "&navSub=" + navSub;
+                newUrl = action[action.length - 2] + "/ajaxGetList?subRoleId=" + subRoleId + "&navType=" + navType + "&navMain=" + navMain + "&navSub=" + navSub;
             if ($(this).attr('title') == 'Reload') {
                 commonAction({
                     targetId: {
@@ -362,7 +362,7 @@
                         selectTwo: {},
                     }
                 })
-                newUrl = action[action.length - 2] + "/ajaxGetList?roleSubId=" + roleSubId + "&navType=" + '' + "&navMain=" + '' + "&navSub=" + '';
+                newUrl = action[action.length - 2] + "/ajaxGetList?subRoleId=" + subRoleId + "&navType=" + '' + "&navMain=" + '' + "&navSub=" + '';
             }
             commonAction({
                 targetId: {
@@ -533,15 +533,26 @@
             })
         });
 
-        //------ ( Main Category )
-        $('#filterMainCategoryForm').find('#statusFilter, .filterMainCategoryBtn').on('change click', function () {
+        //------ ( Manage Category )
+        $('.filterManageCategoryForm').find('#statusFilter, #mainCategoryFilter, #subCategoryFilter, .filterManageCategoryBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('.propertyRelated-propertyCategory-manageCategory'),
+                dataTableId = '',
 
                 status = formId.find("#statusFilter").val(),
+                mainCategory = (formId.find("#mainCategoryFilter").val() == '' || formId.find("#mainCategoryFilter").val() == null) ? '' : formId.find("#mainCategoryFilter").val(),
+                subCategory = (formId.find("#subCategoryFilter").val() == '' || formId.find("#subCategoryFilter").val() == null) ? '' : formId.find("#mainCategoryFilter").val(),
+                type = formId.attr('data-type'),
 
                 action = $(this).closest('form').attr('action').split('/'),
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status;
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&mainCategory=" + mainCategory + "&subCategory=" + subCategory + "&type=" + type;
+
+            if (formId.attr('data-type') == 'MAIN') {
+                dataTableId = $('#propertyRelated-propertyCategory-manageCategory-main')
+            } else if (formId.attr('data-type') == 'SUB') {
+                dataTableId = $('#propertyRelated-propertyCategory-manageCategory-sub')
+            } else {
+                dataTableId = $('#propertyRelated-propertyCategory-manageCategory-nested')
+            }
             if ($(this).attr('title') == 'Reload') {
                 commonAction({
                     targetId: {
@@ -552,7 +563,7 @@
                         selectTwo: {},
                     }
                 })
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&mainCategory=" + '' + "&subCategory=" + '' + "&type=" + type;
             }
             commonAction({
                 targetId: {
