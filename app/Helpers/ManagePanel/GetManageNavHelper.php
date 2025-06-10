@@ -1428,7 +1428,7 @@ class GetManageNavHelper
                                                 ],
                                             ],
                                         ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')][Config::get('constants.typeCheck.helperCommon.detail.rnd')]['detail'],
-                                        'navNested' => $nav3,
+                                        'nestedNav' => $nav3,
                                     ];
                                     $nav3 = [];
                                 }
@@ -1447,7 +1447,7 @@ class GetManageNavHelper
                                         ],
                                     ],
                                 ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')][Config::get('constants.typeCheck.helperCommon.detail.rnd')]['detail'],
-                                'navSub' => $nav2,
+                                'subNav' => $nav2,
                             ];
                             $nav2 = [];
                         }
@@ -1616,7 +1616,7 @@ class GetManageNavHelper
                                                 ],
                                             ],
                                         ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                                        'navNested' => $nav3,
+                                        'nestedNav' => $nav3,
                                     ];
                                     $nav3 = [];
                                 }
@@ -1635,7 +1635,7 @@ class GetManageNavHelper
                                         ],
                                     ],
                                 ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                                'navSub' => $nav2,
+                                'subNav' => $nav2,
                             ];
                             $nav2 = [];
                         }

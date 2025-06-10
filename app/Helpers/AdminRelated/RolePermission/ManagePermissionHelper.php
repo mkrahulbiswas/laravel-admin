@@ -95,7 +95,7 @@ class ManagePermissionHelper
                                     }
                                     if ($otherDataPasses['for'] == Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type')) {
                                         $permission->nestedNavId = decrypt($getDetail['id']);
-                                        $permission->subNavId = decrypt($getDetail['navSub']['id']);
+                                        $permission->subNavId = decrypt($getDetail['subNav']['id']);
                                         $permission->mainNavId = decrypt($getDetail['mainNav']['id']);
                                     }
                                     $permission->navTypeId = decrypt($getDetail['navType']['id']);
@@ -134,7 +134,7 @@ class ManagePermissionHelper
                                         }
                                         if ($otherDataPasses['for'] == Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type')) {
                                             $permission->nestedNavId = decrypt($getDetail['id']);
-                                            $permission->subNavId = decrypt($getDetail['navSub']['id']);
+                                            $permission->subNavId = decrypt($getDetail['subNav']['id']);
                                             $permission->mainNavId = decrypt($getDetail['mainNav']['id']);
                                         }
                                         $permission->navTypeId = decrypt($getDetail['navType']['id']);
@@ -179,9 +179,9 @@ class ManagePermissionHelper
                         foreach ($getNav as $tempTwo) {
                             foreach ($tempTwo['mainNav'] as $tempThree) {
                                 if ($tempThree['extraData']['hasSubNav'] > 0) {
-                                    foreach ($tempThree['navSub'] as $tempFour) {
+                                    foreach ($tempThree['subNav'] as $tempFour) {
                                         if ($tempFour['extraData']['hasNestedNav'] > 0) {
-                                            foreach ($tempFour['navNested'] as $tempFive) {
+                                            foreach ($tempFour['nestedNav'] as $tempFive) {
                                                 $getNavAccessList = CommonTrait::getNavAccessList([
                                                     [
                                                         'checkFirst' => [
