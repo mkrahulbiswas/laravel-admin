@@ -7,8 +7,9 @@
                     <h4>Logo</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Panel</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Quick Settings</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Admin Related</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Quick Setting</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Site Setting</a></li>
                             <li class="breadcrumb-item active">Logo</li>
                         </ol>
                     </div>
@@ -41,7 +42,7 @@
                     <div class="row">
                         <div class="col-md-12 tdContentMain">
                             <div class="tdContentSub">
-                                <table id="managePanel-quickSettings-logo" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
+                                <table id="adminRelated-quickSetting-siteSetting-logo" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>#</th>

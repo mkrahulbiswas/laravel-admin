@@ -77,7 +77,7 @@
 
 
 
-        /*--========================= ( Manage Panel START ) =========================--*/
+        /*--========================= ( Navigation & Access START ) =========================--*/
         //------ ( Nav Type )
         $('#filterNavTypeForm').find('#statusFilter, .filterNavTypeBtn').on('change click', function () {
             var formId = $(this).closest('form'),
@@ -227,7 +227,10 @@
                 filterApply: {}
             })
         });
+        /*--========================= ( Navigation & Access END ) =========================--*/
 
+
+        /*--========================= ( Role & Permission START ) =========================--*/
         //------ ( Main Role )
         $('#filterMainRoleForm').find('#statusFilter, .filterMainRoleBtn').on('change click', function () {
             var formId = $(this).closest('form'),
@@ -378,7 +381,7 @@
                 filterApply: {}
             })
         });
-        /*--========================= ( Manage Panel END ) =========================--*/
+        /*--========================= ( Role & Permission END ) =========================--*/
 
 
 

@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminRelated\NavigationAccess\ArrangeSideNavAdminController;
 use App\Http\Controllers\Admin\AdminRelated\NavigationAccess\ManageSideNavAdminController;
+use App\Http\Controllers\Admin\AdminRelated\QuickSettings\SiteSettingAdminController;
 use App\Http\Controllers\Admin\AdminRelated\RolePermission\ManageRoleAdminController;
 use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\DDDAdminController;
 use App\Http\Controllers\Admin\Dashboard\DashboardAdminController;
-use App\Http\Controllers\Admin\ManagePanel\QuickSettingsAdminController;
 use App\Http\Controllers\Admin\ManageUsers\AdminUsersAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\ManageBroadAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyAttributeAdminController;
@@ -113,8 +113,8 @@ Route::controller(AuthAdminController::class)->group(function () {
             });
         });
 
-        Route::group(['prefix' => 'manage-panel'], function () {
-            Route::controller(QuickSettingsAdminController::class)->prefix('quick-settings')->group(function () {
+        Route::prefix('quick-setting')->group(function () {
+            Route::controller(SiteSettingAdminController::class)->prefix('site-setting')->group(function () {
                 Route::get('logo', 'showLogo')->name('admin.show.logo');
                 Route::get('logo/ajaxGetList', 'getLogo')->name('admin.get.logo');
                 Route::post('logo/add/save', 'saveLogo')->name('admin.save.logo');

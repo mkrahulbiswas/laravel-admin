@@ -83,7 +83,7 @@ trait ValidationTrait
                 break;
 
 
-            /*------ ( Manage Panel Start ) ------*/
+            /*------ ( Role & Permission START ) ------*/
             //---- ( Main Role )
             case 'saveMainRole':
                 $rules = [
@@ -129,7 +129,10 @@ trait ValidationTrait
                     'description' => 'required',
                 ];
                 break;
+            /*------ ( Role & Permission END ) ------*/
 
+
+            /*------ ( Navigation & Access START ) ------*/
             //---- ( Nav Type )
             case 'saveNavType':
                 $rules = [
@@ -245,7 +248,10 @@ trait ValidationTrait
                     'description' => 'max:500',
                 ];
                 break;
+            /*------ ( Navigation & Access END ) ------*/
 
+
+            /*------ ( Quick Setting START ) ------*/
             //---- ( Logo )
             case 'saveLogo':
                 $rules = [
@@ -262,7 +268,7 @@ trait ValidationTrait
                     'favicon' => 'image|mimes:jpeg,jpg,png',
                 ];
                 break;
-            /*------ ( Manage Panel End ) ------*/
+            /*------ ( Quick Setting End ) ------*/
 
 
             /*------ ( Manage Users Start ) ------*/
