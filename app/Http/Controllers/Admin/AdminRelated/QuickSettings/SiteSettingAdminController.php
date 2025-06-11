@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\ManagePanel;
+namespace App\Http\Controllers\Admin\AdminRelated\QuickSettings;
 
 use App\Http\Controllers\Controller;
 
@@ -18,29 +18,18 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Encryption\DecryptException;
 
-class QuickSettingsAdminController extends Controller
+class SiteSettingAdminController extends Controller
 {
 
     use ValidationTrait, CommonTrait;
     public $platform = 'backend';
 
 
-    /*---- ( Templates ) ----*/
-    public function showTemplates()
-    {
-        try {
-            return view('admin.manage_panel.quick_settings.templates.templates_list');
-        } catch (Exception $e) {
-            abort(500);
-        }
-    }
-
-
     /*---- ( Logo ) ----*/
     public function showLogo()
     {
         try {
-            return view('admin.manage_panel.quick_settings.logo.logo_list');
+            return view('admin.admin_related.quick_setting.site_setting.logo.logo_list');
         } catch (Exception $e) {
             abort(500);
         }

@@ -1,12 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminRelated\NavigationAccess\ArrangeSideNavAdminController;
 use App\Http\Controllers\Admin\AdminRelated\NavigationAccess\ManageSideNavAdminController;
+use App\Http\Controllers\Admin\AdminRelated\QuickSettings\SiteSettingAdminController;
 use App\Http\Controllers\Admin\AdminRelated\RolePermission\ManageRoleAdminController;
 use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\DDDAdminController;
 use App\Http\Controllers\Admin\Dashboard\DashboardAdminController;
-use App\Http\Controllers\Admin\ManagePanel\QuickSettingsAdminController;
 use App\Http\Controllers\Admin\ManageUsers\AdminUsersAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\ManageBroadAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyAttributeAdminController;
@@ -104,14 +105,16 @@ Route::controller(AuthAdminController::class)->group(function () {
                 Route::post('nested-nav/edit/access', 'accessNestedNav')->name('admin.access.nestedNav');
                 Route::patch('nested-nav/status/{id?}', 'statusNestedNav')->name('admin.status.nestedNav');
                 Route::delete('nested-nav/delete/{id?}', 'deleteNestedNav')->name('admin.delete.nestedNav');
+            });
 
-                Route::get('arrange-nav', 'showArrangeNav')->name('admin.show.arrangeNav');
-                Route::post('arrange-nav/edit/update', 'updateArrangeNav')->name('admin.update.arrangeNav');
+            Route::controller(ArrangeSideNavAdminController::class)->group(function () {
+                Route::get('arrange-side-nav', 'showArrangeSideNav')->name('admin.show.arrangeSideNav');
+                Route::post('arrange-side-nav/edit/update', 'updateArrangeSideNav')->name('admin.update.arrangeSideNav');
             });
         });
 
-        Route::group(['prefix' => 'manage-panel'], function () {
-            Route::controller(QuickSettingsAdminController::class)->prefix('quick-settings')->group(function () {
+        Route::prefix('quick-setting')->group(function () {
+            Route::controller(SiteSettingAdminController::class)->prefix('site-setting')->group(function () {
                 Route::get('logo', 'showLogo')->name('admin.show.logo');
                 Route::get('logo/ajaxGetList', 'getLogo')->name('admin.get.logo');
                 Route::post('logo/add/save', 'saveLogo')->name('admin.save.logo');

@@ -56,88 +56,7 @@
 
 
 
-        /*--========================= ( Manage Panel START ) =========================--*/
-        /*------( Role Listing )--------*/
-        $('#setupAdmin-role-listing').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "ajax": "roles/ajaxGetList",
-            "language": {
-                "searchPlaceholder": "None"
-            },
-            "columns": [{
-                    "data": "DT_RowIndex",
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    "data": "role"
-                },
-                {
-                    "data": "description"
-                },
-                {
-                    "data": "status",
-                },
-                {
-                    data: 'action',
-                    name: 'actions',
-                    orderable: false,
-                    searchable: false
-                }
-            ]
-        });
-
-        /*------( Permission Listing )--------*/
-        $('#setupAdmin-permission-listing').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "ajax": "ajaxGetList",
-            searching: false,
-            paging: false,
-            info: false,
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "All"]
-            ],
-            "language": {
-                "searchPlaceholder": "None"
-            },
-            "columns": [{
-                    "data": "DT_RowIndex",
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    "data": "module_name"
-                },
-                {
-                    "data": "sub_module_name"
-                },
-                {
-                    "data": "accessItem"
-                },
-                {
-                    "data": "addAction"
-                },
-                {
-                    "data": "editAction"
-                },
-                {
-                    "data": "deleteAction"
-                },
-                {
-                    "data": "detailsAction"
-                },
-                {
-                    "data": "statusAction"
-                },
-                {
-                    "data": "otherAction"
-                }
-            ]
-        });
-
+        /*--========================= ( Navigation & Access START ) =========================--*/
         /*------( Nav Type Listing )--------*/
         $('#adminRelated-navigationAccess-manageSideNav-navType').DataTable({
             processing: true,
@@ -294,8 +213,10 @@
                 }
             ]
         });
+        /*--========================= ( Navigation & Access END ) =========================--*/
 
 
+        /*--========================= ( Role & Permission START ) =========================--*/
         /*------( Main Role Listing )--------*/
         $('#adminRelated-rolePermission-manageRole-mainRole').DataTable({
             processing: true,
@@ -400,10 +321,12 @@
                 orderable: false,
             }]
         });
+        /*--========================= ( Role & Permission END ) =========================--*/
 
 
+        /*--========================= ( Quick Setting START ) =========================--*/
         /*------( Logo Listing )--------*/
-        $('#managePanel-quickSettings-logo').DataTable({
+        $('#adminRelated-quickSetting-siteSetting-logo').DataTable({
             processing: true,
             serverSide: true,
             ajax: "logo/ajaxGetList",
@@ -438,8 +361,7 @@
                 }
             ]
         });
-        /*--========================= ( Manage Panel END ) =========================--*/
-
+        /*--========================= ( Quick Setting END ) =========================--*/
 
 
         /*--========================= ( Property Related START ) =========================--*/

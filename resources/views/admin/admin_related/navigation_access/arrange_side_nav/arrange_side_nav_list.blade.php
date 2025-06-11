@@ -4,12 +4,12 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-sm-0">
-                    <h4>Arrange Nav</h4>
+                    <h4>Arrange Side Nav</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Panel</a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Nav</a></li>
-                            <li class="breadcrumb-item active">Arrange Nav</li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Admin Related</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Navigation Access</a></li>
+                            <li class="breadcrumb-item active">Arrange Side Nav</li>
                         </ol>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                         </div>
                         <div class="col-md-12 no_listMain">
                             <div class="no_listSub">
-                                <form method="post" id="updateArrangeNavForm" action="{{ route('admin.update.arrangeNav') }}">
+                                <form method="post" id="updateArrangeSideNavForm" action="{{ route('admin.update.arrangeSideNav') }}">
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="navTypeInner allNavCommon">
@@ -138,7 +138,7 @@
                                             </div>
                                         </div>
                                         <div class="col-12 text-end mt-3">
-                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateArrangeNavBtn">
+                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateArrangeSideNavBtn">
                                                 <i class="las la-save label-icon align-middle fs-16"></i>
                                                 <span>Save</span>
                                             </button>

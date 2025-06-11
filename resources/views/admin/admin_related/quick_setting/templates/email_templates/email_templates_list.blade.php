@@ -4,14 +4,14 @@
             <div class="card-header cardHeader">
                 <div class="d-sm-flex align-items-center justify-content-between">
                     <div class="mb-3 mb-sm-0">
-                        <h5 class="card-title mb-1">SMS Templates</h5>
-                        <span>From this section you can manage sms templates.</span>
+                        <h5 class="card-title mb-1">Email Templates</h5>
+                        <span>From this section you can manage email templates.</span>
                     </div>
                     <div class="d-sm-flex align-items-center justify-content-between">
                         @if ($permission['add']['permission'] == true)
                             <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">
                                 <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
-                                <span>Add SMS Template</span>
+                                <span>Add Email Template</span>
                             </button>
                         @endif
                     </div>
@@ -21,15 +21,13 @@
                 <div class="row">
                     <div class="col-md-12 tdContentMain">
                         <div class="tdContentSub">
-                            <table id="managePanel-quickSettings-logo" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
+                            <table id="managePanel-quickSettings-emailTemplate" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Unique Id</th>
-                                        <th>Big Logo</th>
-                                        <th>Small Logo</th>
-                                        <th>Favicon</th>
-                                        <th>Default</th>
+                                        <th>Subject</th>
+                                        <th>Content</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -38,10 +36,8 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Unique Id</th>
-                                        <th>Big Logo</th>
-                                        <th>Small Logo</th>
-                                        <th>Favicon</th>
-                                        <th>Default</th>
+                                        <th>Subject</th>
+                                        <th>Content</th>
                                         <th>Actions</th>
                                     </tr>
                                 </tfoot>
@@ -54,7 +50,7 @@
     </div>
 </div>
 
-<div id="con-add-modal" class="modal fade con-add-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div id="con-email-add-modal" class="modal fade con-add-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <form id="saveManageCategoryForm" action="{{ route('admin.save.manageCategory') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
@@ -128,7 +124,7 @@
     </div>
 </div>
 
-<div id="con-edit-modal" class="modal fade con-edit-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div id="con-email-edit-modal" class="modal fade con-edit-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <form id="updateManageCategoryForm" action="{{ route('admin.update.manageCategory') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
@@ -201,7 +197,7 @@
     </div>
 </div>
 
-<div id="con-info-modal" class="modal fade con-info-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div id="con-email-info-modal" class="modal fade con-info-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

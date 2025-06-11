@@ -447,7 +447,7 @@
 
 
 
-        /*--========================= ( Manage Panel START ) =========================--*/
+        /*--========================= ( Navigation & Access START ) =========================--*/
         //---- ( Nav Type Save ) ----//
         $("#saveNavTypeForm").submit(function (event) {
 
@@ -1950,10 +1950,10 @@
         });
 
 
-        //---- ( Arrange Nav Update ) ----//
-        $("#updateArrangeNavForm").submit(function (event) {
+        //---- ( Arrange Side Nav Update ) ----//
+        $("#updateArrangeSideNavForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#updateArrangeNavBtn');
+            submitBtn = $(this).find('#updateArrangeSideNavBtn');
 
             event.preventDefault();
             $.ajax({
@@ -2032,8 +2032,10 @@
                 }
             });
         });
+        /*--========================= ( Navigation & Access END ) =========================--*/
 
 
+        /*--========================= ( Role & Permission START ) =========================--*/
         //---- ( Main Role Save ) ----//
         $("#saveMainRoleForm").submit(function (event) {
 
@@ -2793,8 +2795,11 @@
                 })
             } else {}
         });
+        /*--========================= ( Role & Permission END ) =========================--*/
 
 
+
+        /*--========================= ( Quick Setting START ) =========================--*/
         //---- ( Logo Save ) ----//
         $("#saveLogoForm").submit(function (event) {
 
@@ -2874,7 +2879,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-quickSettings-logo')
+                                    targetId: $('#adminRelated-quickSetting-siteSetting-logo')
                                 }
                             }
                         })
@@ -2978,7 +2983,7 @@
                             },
                             dataTable: {
                                 reload: {
-                                    targetId: $('#managePanel-quickSettings-logo')
+                                    targetId: $('#adminRelated-quickSetting-siteSetting-logo')
                                 }
                             }
                         })
@@ -3006,10 +3011,10 @@
         });
 
         //---- ( Logo Status, Edit, Detail ) ----//
-        $('body').delegate('#managePanel-quickSettings-logo .actionDatatable', 'click', function () {
+        $('body').delegate('#adminRelated-quickSetting-siteSetting-logo .actionDatatable', 'click', function () {
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
-                targetTableId = $('#managePanel-quickSettings-logo'),
+                targetTableId = $('#adminRelated-quickSetting-siteSetting-logo'),
                 data = '';
 
             if (type == 'default') {
@@ -3072,7 +3077,7 @@
                 })
             } else {}
         });
-        /*--========================= ( Manage Panel END ) =========================--*/
+        /*--========================= ( Quick Setting END ) =========================--*/
 
 
 
