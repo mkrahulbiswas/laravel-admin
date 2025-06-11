@@ -134,7 +134,15 @@ class ManageBroadAdminController extends Controller
                 $broadType = new BroadType();
                 $broadType->name = $values['name'];
                 $broadType->about = $values['about'];
-                $broadType->uniqueId = $this->generateYourChoice([['preString' => 'PRBT', 'length' => 6, 'model' => BroadType::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
+                $broadType->uniqueId = $this->generateYourChoice([
+                    [
+                        'preString' => 'PRBT',
+                        'length' => 6,
+                        'model' => BroadType::class,
+                        'field' => '',
+                        'type' => Config::get('constants.generateType.uniqueId')
+                    ]
+                ])[Config::get('constants.generateType.uniqueId')]['result'];
 
                 if ($broadType->save()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Broad type'])['success']], Config::get('constants.errorCode.ok'));
@@ -391,7 +399,15 @@ class ManageBroadAdminController extends Controller
                     $assignBroad->propertyTypeId = decrypt($values['propertyType']);
                     $assignBroad->broadTypeId = decrypt($values['broadType']);
                     $assignBroad->about = $values['about'];
-                    $assignBroad->uniqueId = $this->generateYourChoice([['preString' => 'PRAB', 'length' => 6, 'model' => AssignBroad::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
+                    $assignBroad->uniqueId = $this->generateYourChoice([
+                        [
+                            'preString' => 'PRAB',
+                            'length' => 6,
+                            'model' => AssignBroad::class,
+                            'field' => '',
+                            'type' => Config::get('constants.generateType.uniqueId')
+                        ]
+                    ])[Config::get('constants.generateType.uniqueId')]['result'];
 
                     if ($assignBroad->save()) {
                         return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Assign broad'])['success']], Config::get('constants.errorCode.ok'));

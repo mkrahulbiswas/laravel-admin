@@ -190,7 +190,15 @@ class SiteSettingAdminController extends Controller
                 $logo->bigLogo = $bigLogo;
                 $logo->smallLogo = $smallLogo;
                 $logo->favicon = $favicon;
-                $logo->uniqueId = $this->generateYourChoice([['preString' => 'LOGO', 'length' => 6, 'model' => Logo::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
+                $logo->uniqueId = $this->generateYourChoice([
+                    [
+                        'preString' => 'LOGO',
+                        'length' => 6,
+                        'model' => Logo::class,
+                        'field' => '',
+                        'type' => Config::get('constants.generateType.uniqueId')
+                    ]
+                ])[Config::get('constants.generateType.uniqueId')]['result'];
 
                 if ($logo->save()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Logo'])['success']], Config::get('constants.errorCode.ok'));

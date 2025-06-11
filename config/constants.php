@@ -390,10 +390,10 @@ return [
 
     //--Generate Your Choice Type
     'generateType' => [
-        'uniqueId' => 'UNIQUE_ID',
-        'route' => 'ROUTE',
-        'lastSegment' => 'LAST_SEGMENT',
-        'slug' => 'SLUG',
+        'uniqueId' => 'uniqueId',
+        'route' => 'route',
+        'lastSegment' => 'lastSegment',
+        'slug' => 'slug',
     ],
 
 

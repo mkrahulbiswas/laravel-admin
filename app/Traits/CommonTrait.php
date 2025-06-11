@@ -723,30 +723,72 @@ trait CommonTrait
 
     public static function generateYourChoice($params)
     {
-        foreach ($params as $value) {
-            if ($value['type'] == Config::get('constants.generateType.uniqueId')) {
+        $return = array();
+        foreach ($params as $tempOne) {
+            if ($tempOne['type'] == Config::get('constants.generateType.uniqueId')) {
                 $start = '1';
                 $end = '9';
-                $field = $params['field'] == '' ? 'uniqueId' : $params['field'];
-
-                for ($i = 1; $i < $params['length']; $i++) {
+                $field = $tempOne['field'] == '' ? 'uniqueId' : $tempOne['field'];
+                for ($i = 1; $i < $tempOne['length']; $i++) {
                     $start .= '0';
                     $end .= '9';
                 }
-
-                a:
-                if ($params['preString'] == '') {
+                repeatAgain1:
+                if ($tempOne['preString'] == '') {
                     $result = mt_rand($start, $end);
                 } else {
-                    $result = $params['preString'] . '-' . mt_rand($start, $end);
+                    $result = $tempOne['preString'] . '-' . mt_rand($start, $end);
                 }
-                if (app($params['model'])::where($field, $result)->count() == 0) {
-                    return $result;
+                if (app($tempOne['model'])::where($field, $result)->count() == 0) {
+                    $return[Config::get('constants.generateType.uniqueId')] = [
+                        'length' => $tempOne['length'],
+                        'preString' => $tempOne['preString'],
+                        'result' => $result,
+                    ];
                 } else {
-                    goto a;
+                    goto repeatAgain1;
+                }
+            }
+
+            if ($tempOne['type'] == Config::get('constants.generateType.route')) {
+                $return[Config::get('constants.generateType.route')] = 'aa';
+            }
+
+            if ($tempOne['type'] == Config::get('constants.generateType.lastSegment')) {
+                $tempCount = 1;
+                $afterRemove = preg_replace('/[^A-Za-z0-9 ]/', '', $tempOne['name']);
+                $afterTrim = Str::trim($afterRemove);
+                $afterLower = Str::lower($afterTrim);
+                static $result = Str::slug($afterLower, '-');
+                $lastSegment = $result;
+                repeatAgain2:
+                $resp = app($tempOne['model'])::where(
+                    function ($query) use ($tempOne, $lastSegment) {
+                        if ($tempOne['targetId'] == '') {
+                            return $query->where($tempOne['field'], $lastSegment);
+                        } else {
+                            return $query->where([
+                                [$tempOne['field'], $lastSegment],
+                                ['id', '!=', $tempOne['targetId']]
+                            ]);
+                        }
+                    }
+                )->get();
+                if ($resp->count() >= 1) {
+                    $lastSegment = $result . '-' . $tempCount;
+                    $tempCount++;
+                    goto repeatAgain2;
+                } else {
+                    $return[Config::get('constants.generateType.lastSegment')] = [
+                        'afterRemove' => $afterRemove,
+                        'afterTrim' => $afterTrim,
+                        'afterLower' => $afterLower,
+                        'result' => $lastSegment,
+                    ];
                 }
             }
         }
+        return $return;
     }
 
     public function generateSlug($title, $column_name, $table, $operation, $id)

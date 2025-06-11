@@ -161,7 +161,15 @@ class PropertyCategoryAdminController extends Controller
                 if ($values['type'] == Config::get('constants.status.category.nested')) {
                     $manageCategory->subCategoryId = decrypt($values['subCategory']);
                 }
-                $manageCategory->uniqueId = $this->generateYourChoice([['preString' => 'PRMC', 'length' => 6, 'model' => ManageCategory::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
+                $manageCategory->uniqueId = $this->generateYourChoice([
+                    [
+                        'preString' => 'PRMC',
+                        'length' => 6,
+                        'model' => ManageCategory::class,
+                        'field' => '',
+                        'type' => Config::get('constants.generateType.uniqueId')
+                    ]
+                ])[Config::get('constants.generateType.uniqueId')]['result'];
                 if ($manageCategory->save()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Manage category'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
@@ -463,7 +471,15 @@ class PropertyCategoryAdminController extends Controller
                     $assignCategory->assignBroadId = decrypt($values['assignBroad']);
                     $assignCategory->broadTypeId = AssignBroad::where('id', decrypt($values['assignBroad']))->value('broadTypeId');
                     $assignCategory->about = $values['about'];
-                    $assignCategory->uniqueId = $this->generateYourChoice([['preString' => 'PRAC', 'length' => 6, 'model' => AssignCategory::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
+                    $assignCategory->uniqueId = $this->generateYourChoice([
+                        [
+                            'preString' => 'PRAC',
+                            'length' => 6,
+                            'model' => AssignCategory::class,
+                            'field' => '',
+                            'type' => Config::get('constants.generateType.uniqueId')
+                        ]
+                    ])[Config::get('constants.generateType.uniqueId')]['result'];
 
                     if ($assignCategory->save()) {
                         return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Assign Category'])['success']], Config::get('constants.errorCode.ok'));

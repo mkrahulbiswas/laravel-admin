@@ -34,18 +34,28 @@ class ManageSideNavAdminController extends Controller
     public function showNavType()
     {
         // try {
-        dd($this->generateYourChoice([
-            [
-                'name' => 'AA df',
-                'model' => NavType::class,
-                'type' => Config::get('constants.generateType.uniqueId')
-            ],
-            [
-                'name' => 'AA df',
-                'model' => NavType::class,
-                'type' => Config::get('constants.generateType.uniqueId')
-            ],
-        ]));
+        // dd($this->generateYourChoice([
+        //     [
+        //         'name' => 'AA & aa @',
+        //         'model' => NavType::class,
+        //         'field' => 'lastSegment',
+        //         'targetId' => '',
+        //         'type' => Config::get('constants.generateType.lastSegment')
+        //     ],
+        //     [
+        //         'name' => 'BB bb',
+        //         'model' => NavType::class,
+        //         'field' => 'route',
+        //         'type' => Config::get('constants.generateType.route')
+        //     ],
+        //     [
+        //         'preString' => 'NT',
+        //         'length' => 6,
+        //         'model' => NavType::class,
+        //         'field' => '',
+        //         'type' => Config::get('constants.generateType.uniqueId')
+        //     ]
+        // ])[Config::get('constants.generateType.lastSegment')]['result']);
         return view('admin.admin_related.navigation_access.manage_side_nav.nav_type.nav_type_list');
         // } catch (Exception $e) {
         //     abort(500);
@@ -156,9 +166,26 @@ class ManageSideNavAdminController extends Controller
                 $navType->name = $values['name'];
                 $navType->icon = $values['icon'];
                 $navType->description = ($values['description'] == '') ? 'NA' : $values['description'];;
-                $navType->uniqueId = $this->generateYourChoice([['preString' => 'NT', 'length' => 6, 'model' => NavType::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
+                $navType->uniqueId = $this->generateYourChoice([
+                    [
+                        'preString' => 'NT',
+                        'length' => 6,
+                        'model' => NavType::class,
+                        'field' => '',
+                        'type' => Config::get('constants.generateType.uniqueId')
+                    ]
+                ])[Config::get('constants.generateType.uniqueId')]['result'];
                 $navType->status = Config::get('constants.status')['active'];
                 $navType->position = NavType::max('position') + 1;
+                $navType->lastSegment = $this->generateYourChoice([
+                    [
+                        'name' => $values['name'],
+                        'model' => NavType::class,
+                        'field' => 'lastSegment',
+                        'targetId' => '',
+                        'type' => Config::get('constants.generateType.lastSegment')
+                    ]
+                ])[Config::get('constants.generateType.lastSegment')]['result'];
 
                 if ($navType->save()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Type", 'msg' => __('messages.saveMsg', ['type' => 'Nav type'])['success']], Config::get('constants.errorCode.ok'));
@@ -190,7 +217,16 @@ class ManageSideNavAdminController extends Controller
 
                 $navType->name = $values['name'];
                 $navType->icon = $values['icon'];
-                $navType->description = ($values['description'] == '') ? 'NA' : $values['description'];;
+                $navType->description = ($values['description'] == '') ? 'NA' : $values['description'];
+                $navType->lastSegment = $this->generateYourChoice([
+                    [
+                        'name' => $values['name'],
+                        'model' => NavType::class,
+                        'field' => 'lastSegment',
+                        'targetId' => $id,
+                        'type' => Config::get('constants.generateType.lastSegment')
+                    ]
+                ])[Config::get('constants.generateType.lastSegment')]['result'];
 
                 if ($navType->update()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nav Type", 'msg' => __('messages.updateMsg', ['type' => 'Nav type'])['success']], Config::get('constants.errorCode.ok'));
@@ -418,11 +454,27 @@ class ManageSideNavAdminController extends Controller
                 $mainNav->icon = $values['icon'];
                 $mainNav->navTypeId = decrypt($values['navType']);
                 $mainNav->description = ($values['description'] == '') ? 'NA' : $values['description'];;
-                $mainNav->uniqueId = $this->generateYourChoice([['preString' => 'NM', 'length' => 6, 'model' => MainNav::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
+                $mainNav->uniqueId = $this->generateYourChoice([
+                    [
+                        'preString' => 'NM',
+                        'length' => 6,
+                        'model' => MainNav::class,
+                        'field' => '',
+                        'type' => Config::get('constants.generateType.uniqueId')
+                    ]
+                ])[Config::get('constants.generateType.uniqueId')]['result'];
                 $mainNav->status = Config::get('constants.status')['active'];
                 $mainNav->position = MainNav::max('position') + 1;
                 $mainNav->route = strtolower(str_replace(" ", "-", $values['name']));
-                $mainNav->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
+                $mainNav->lastSegment = $this->generateYourChoice([
+                    [
+                        'name' => $values['name'],
+                        'model' => MainNav::class,
+                        'field' => 'lastSegment',
+                        'targetId' => '',
+                        'type' => Config::get('constants.generateType.lastSegment')
+                    ]
+                ])[Config::get('constants.generateType.lastSegment')]['result'];
 
                 if ($mainNav->save()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Main nav", 'msg' => __('messages.saveMsg', ['type' => 'Main nav'])['success']], Config::get('constants.errorCode.ok'));
@@ -457,7 +509,15 @@ class ManageSideNavAdminController extends Controller
                 $mainNav->navTypeId = decrypt($values['navType']);
                 $mainNav->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $mainNav->route = strtolower(str_replace(" ", "-", $values['name']));
-                $mainNav->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
+                $mainNav->lastSegment = $this->generateYourChoice([
+                    [
+                        'name' => $values['name'],
+                        'model' => MainNav::class,
+                        'field' => 'lastSegment',
+                        'targetId' => $id,
+                        'type' => Config::get('constants.generateType.lastSegment')
+                    ]
+                ])[Config::get('constants.generateType.lastSegment')]['result'];
 
                 if ($mainNav->update()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Main nav", 'msg' => __('messages.updateMsg', ['type' => 'Main nav'])['success']], Config::get('constants.errorCode.ok'));
@@ -756,11 +816,27 @@ class ManageSideNavAdminController extends Controller
                 $subNav->navTypeId = decrypt($values['navType']);
                 $subNav->mainNavId = decrypt($values['mainNav']);
                 $subNav->description = ($values['description'] == '') ? 'NA' : $values['description'];;
-                $subNav->uniqueId = $this->generateYourChoice([['preString' => 'NS', 'length' => 6, 'model' => SubNav::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
+                $subNav->uniqueId = $this->generateYourChoice([
+                    [
+                        'preString' => 'NS',
+                        'length' => 6,
+                        'model' => SubNav::class,
+                        'field' => '',
+                        'type' => Config::get('constants.generateType.uniqueId')
+                    ]
+                ])[Config::get('constants.generateType.uniqueId')]['result'];
                 $subNav->status = Config::get('constants.status')['active'];
                 $subNav->position = SubNav::max('position') + 1;
                 $subNav->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['mainNav']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
-                $subNav->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
+                $subNav->lastSegment = $this->generateYourChoice([
+                    [
+                        'name' => $values['name'],
+                        'model' => SubNav::class,
+                        'field' => 'lastSegment',
+                        'targetId' => '',
+                        'type' => Config::get('constants.generateType.lastSegment')
+                    ]
+                ])[Config::get('constants.generateType.lastSegment')]['result'];
 
                 if ($subNav->save()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Sub nav", 'msg' => __('messages.saveMsg', ['type' => 'Sub nav'])['success']], Config::get('constants.errorCode.ok'));
@@ -796,7 +872,15 @@ class ManageSideNavAdminController extends Controller
                 $subNav->mainNavId = decrypt($values['mainNav']);
                 $subNav->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $subNav->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['mainNav']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
-                $subNav->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
+                $subNav->lastSegment = $this->generateYourChoice([
+                    [
+                        'name' => $values['name'],
+                        'model' => SubNav::class,
+                        'field' => 'lastSegment',
+                        'targetId' => $id,
+                        'type' => Config::get('constants.generateType.lastSegment')
+                    ]
+                ])[Config::get('constants.generateType.lastSegment')]['result'];
 
                 if ($subNav->update()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Sub nav", 'msg' => __('messages.updateMsg', ['type' => 'Sub nav'])['success']], Config::get('constants.errorCode.ok'));
@@ -1094,11 +1178,27 @@ class ManageSideNavAdminController extends Controller
                 $nestedNav->mainNavId = decrypt($values['mainNav']);
                 $nestedNav->subNavId = decrypt($values['subNav']);
                 $nestedNav->description = ($values['description'] == '') ? 'NA' : $values['description'];
-                $nestedNav->uniqueId = $this->generateYourChoice([['preString' => 'NN', 'length' => 6, 'model' => NestedNav::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
+                $nestedNav->uniqueId = $this->generateYourChoice([
+                    [
+                        'preString' => 'NN',
+                        'length' => 6,
+                        'model' => NestedNav::class,
+                        'field' => '',
+                        'type' => Config::get('constants.generateType.uniqueId')
+                    ]
+                ])[Config::get('constants.generateType.uniqueId')]['result'];
                 $nestedNav->status = Config::get('constants.status')['active'];
                 $nestedNav->position = NestedNav::max('position') + 1;
                 $nestedNav->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['mainNav']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", SubNav::where('id', decrypt($values['subNav']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
-                $nestedNav->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
+                $nestedNav->lastSegment = $this->generateYourChoice([
+                    [
+                        'name' => $values['name'],
+                        'model' => NestedNav::class,
+                        'field' => 'lastSegment',
+                        'targetId' => '',
+                        'type' => Config::get('constants.generateType.lastSegment')
+                    ]
+                ])[Config::get('constants.generateType.lastSegment')]['result'];
 
                 if ($nestedNav->save()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nested nav", 'msg' => __('messages.saveMsg', ['type' => 'Nested nav'])['success']], Config::get('constants.errorCode.ok'));
@@ -1135,7 +1235,15 @@ class ManageSideNavAdminController extends Controller
                 $nestedNav->subNavId = decrypt($values['subNav']);
                 $nestedNav->description = ($values['description'] == '') ? 'NA' : $values['description'];;
                 $nestedNav->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['mainNav']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", SubNav::where('id', decrypt($values['subNav']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
-                $nestedNav->lastSegment = strtolower(str_replace(" ", "-", $values['name']));
+                $nestedNav->lastSegment = $this->generateYourChoice([
+                    [
+                        'name' => $values['name'],
+                        'model' => NestedNav::class,
+                        'field' => 'lastSegment',
+                        'targetId' => $id,
+                        'type' => Config::get('constants.generateType.lastSegment')
+                    ]
+                ])[Config::get('constants.generateType.lastSegment')]['result'];
 
                 if ($nestedNav->update()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Nested nav", 'msg' => __('messages.updateMsg', ['type' => 'Nested nav'])['success']], Config::get('constants.errorCode.ok'));
