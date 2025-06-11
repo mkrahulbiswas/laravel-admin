@@ -206,7 +206,7 @@ class AdminUsersAdminController extends Controller
                         $fileName = 'NA';
                     }
                     $adminUsers = new AdminUsers();
-                    $adminUsers->uniqueId = $this->generateYourChoice(['preString' => 'AU', 'length' => 6, 'model' => AdminUsers::class, 'field' => '']);;
+                    $adminUsers->uniqueId = $this->generateYourChoice([['preString' => 'AU', 'length' => 6, 'model' => AdminUsers::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
                     $adminUsers->name = $values['name'];
                     $adminUsers->email = $values['email'];
                     $adminUsers->phone = $values['phone'];
@@ -347,7 +347,7 @@ class AdminUsersAdminController extends Controller
                             $adminUsers->image = $uploadFile['name'];
                         }
                     }
-                    $adminUsers->uniqueId = $this->generateYourChoice(['preString' => 'AU', 'length' => 6, 'model' => AdminUsers::class, 'field' => '']);;
+                    $adminUsers->uniqueId = $this->generateYourChoice([['preString' => 'AU', 'length' => 6, 'model' => AdminUsers::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
                     $adminUsers->name = $values['name'];
                     $adminUsers->email = $values['email'];
                     $adminUsers->phone = $values['phone'];

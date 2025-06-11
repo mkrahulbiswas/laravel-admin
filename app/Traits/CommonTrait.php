@@ -723,25 +723,29 @@ trait CommonTrait
 
     public static function generateYourChoice($params)
     {
-        $start = '1';
-        $end = '9';
-        $field = $params['field'] == '' ? 'uniqueId' : $params['field'];
+        foreach ($params as $value) {
+            if ($value['type'] == Config::get('constants.generateType.uniqueId')) {
+                $start = '1';
+                $end = '9';
+                $field = $params['field'] == '' ? 'uniqueId' : $params['field'];
 
-        for ($i = 1; $i < $params['length']; $i++) {
-            $start .= '0';
-            $end .= '9';
-        }
+                for ($i = 1; $i < $params['length']; $i++) {
+                    $start .= '0';
+                    $end .= '9';
+                }
 
-        a:
-        if ($params['preString'] == '') {
-            $result = mt_rand($start, $end);
-        } else {
-            $result = $params['preString'] . '-' . mt_rand($start, $end);
-        }
-        if (app($params['model'])::where($field, $result)->count() == 0) {
-            return $result;
-        } else {
-            goto a;
+                a:
+                if ($params['preString'] == '') {
+                    $result = mt_rand($start, $end);
+                } else {
+                    $result = $params['preString'] . '-' . mt_rand($start, $end);
+                }
+                if (app($params['model'])::where($field, $result)->count() == 0) {
+                    return $result;
+                } else {
+                    goto a;
+                }
+            }
         }
     }
 

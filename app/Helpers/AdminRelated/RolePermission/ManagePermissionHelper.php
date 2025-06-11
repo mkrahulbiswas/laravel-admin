@@ -101,7 +101,7 @@ class ManagePermissionHelper
                                     $permission->navTypeId = decrypt($getDetail['navType']['id']);
                                     $permission->mainRoleId = decrypt($tempTwo['id']);
                                     $permission->privilege = json_encode($otherDataPasses['getNavAccessList']['privilege']);
-                                    $permission->uniqueId = CommonTrait::generateYourChoice(['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '']);
+                                    $permission->uniqueId = CommonTrait::generateYourChoice([['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
                                     if ($permission->save()) {
                                         $response = true;
                                     } else {
@@ -141,7 +141,7 @@ class ManagePermissionHelper
                                         $permission->mainRoleId = decrypt($tempTwo['id']);
                                         $permission->subRoleId = decrypt($tempThree['id']);
                                         $permission->privilege = json_encode($otherDataPasses['getNavAccessList']['privilege']);
-                                        $permission->uniqueId = CommonTrait::generateYourChoice(['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '']);
+                                        $permission->uniqueId = CommonTrait::generateYourChoice([['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
                                         if ($permission->save()) {
                                             $response = true;
                                         } else {
@@ -200,7 +200,7 @@ class ManagePermissionHelper
                                                 $permission->mainRoleId = $otherDataPasses['mainRoleId'];
                                                 $permission->subRoleId = isset($otherDataPasses['subRoleId']) ? $otherDataPasses['subRoleId'] : null;
                                                 $permission->privilege = json_encode($getNavAccessList);
-                                                $permission->uniqueId = CommonTrait::generateYourChoice(['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '']);
+                                                $permission->uniqueId = CommonTrait::generateYourChoice([['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
                                                 if ($permission->save()) {
                                                     $response = true;
                                                 } else {
@@ -226,7 +226,7 @@ class ManagePermissionHelper
                                             $permission->mainRoleId = $otherDataPasses['mainRoleId'];
                                             $permission->subRoleId = isset($otherDataPasses['subRoleId']) ? $otherDataPasses['subRoleId'] : null;
                                             $permission->privilege = json_encode($getNavAccessList);
-                                            $permission->uniqueId = CommonTrait::generateYourChoice(['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '']);
+                                            $permission->uniqueId = CommonTrait::generateYourChoice([['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
                                             if ($permission->save()) {
                                                 $response = true;
                                             } else {
@@ -252,7 +252,7 @@ class ManagePermissionHelper
                                     $permission->mainRoleId = $otherDataPasses['mainRoleId'];
                                     $permission->subRoleId = isset($otherDataPasses['subRoleId']) ? $otherDataPasses['subRoleId'] : null;
                                     $permission->privilege = json_encode($getNavAccessList);
-                                    $permission->uniqueId = CommonTrait::generateYourChoice(['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '']);
+                                    $permission->uniqueId = CommonTrait::generateYourChoice([['preString' => 'PER', 'length' => 6, 'model' => Permission::class, 'field' => '', 'type' => Config::get('constants.generateType.uniqueId')]]);
                                     if ($permission->save()) {
                                         $response = true;
                                     } else {
