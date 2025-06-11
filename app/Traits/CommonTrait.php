@@ -750,32 +750,29 @@ trait CommonTrait
                 }
             }
 
-            if ($tempOne['type'] == Config::get('constants.generateType.route')) {
-                $return[Config::get('constants.generateType.route')] = 'aa';
-            }
-
             if ($tempOne['type'] == Config::get('constants.generateType.lastSegment')) {
-                $tempCount = 1;
+                $field = $tempOne['field'] == '' ? 'slug' : $tempOne['field'];
                 $afterRemove = preg_replace('/[^A-Za-z0-9 ]/', '', $tempOne['name']);
                 $afterTrim = Str::trim($afterRemove);
                 $afterLower = Str::lower($afterTrim);
-                static $result = Str::slug($afterLower, '-');
-                $lastSegment = $result;
+                static $staticLastSegment = Str::slug($afterLower, '-');
+                $lastSegment = $staticLastSegment;
+                $tempCount = 1;
                 repeatAgain2:
                 $resp = app($tempOne['model'])::where(
-                    function ($query) use ($tempOne, $lastSegment) {
+                    function ($query) use ($tempOne, $lastSegment, $field) {
                         if ($tempOne['targetId'] == '') {
-                            return $query->where($tempOne['field'], $lastSegment);
+                            return $query->where($field, $lastSegment);
                         } else {
                             return $query->where([
-                                [$tempOne['field'], $lastSegment],
+                                [$field, $lastSegment],
                                 ['id', '!=', $tempOne['targetId']]
                             ]);
                         }
                     }
                 )->get();
                 if ($resp->count() >= 1) {
-                    $lastSegment = $result . '-' . $tempCount;
+                    $lastSegment = $staticLastSegment . '-' . $tempCount;
                     $tempCount++;
                     goto repeatAgain2;
                 } else {
@@ -787,52 +784,51 @@ trait CommonTrait
                     ];
                 }
             }
+
+            if ($tempOne['type'] == Config::get('constants.generateType.route')) {
+                $field = $tempOne['field'] == '' ? 'slug' : $tempOne['field'];
+                $afterSlug = '';
+                $eachStageData = array();
+                foreach ($tempOne['name'] as $tempTwo) {
+                    $afterRemove = preg_replace('/[^A-Za-z0-9 ]/', '', $tempTwo);
+                    $afterTrim = Str::trim($afterRemove);
+                    $afterLower = Str::lower($afterTrim);
+                    $afterSlug .= Str::slug($afterLower, '-') . '/';
+                    $eachStageData[] = [
+                        'afterRemove' => $afterRemove,
+                        'afterTrim' => $afterTrim,
+                        'afterLower' => $afterLower,
+                    ];
+                }
+                static $staticRoute =  Str::rtrim($afterSlug, '/');
+                $route = $staticRoute;
+                $tempCount = 1;
+                repeatAgain3:
+                $resp = app($tempOne['model'])::where(
+                    function ($query) use ($tempOne, $route, $field) {
+                        if ($tempOne['targetId'] == '') {
+                            return $query->where($field, $route);
+                        } else {
+                            return $query->where([
+                                [$field, $route],
+                                ['id', '!=', $tempOne['targetId']]
+                            ]);
+                        }
+                    }
+                )->get();
+                if ($resp->count() >= 1) {
+                    $route = $staticRoute . '-' . $tempCount;
+                    $tempCount++;
+                    goto repeatAgain3;
+                } else {
+                    $return[Config::get('constants.generateType.route')] = [
+                        'eachStageData' => $eachStageData,
+                        'result' => $route,
+                    ];
+                }
+            }
         }
         return $return;
-    }
-
-    public function generateSlug($title, $column_name, $table, $operation, $id)
-    {
-        if ($operation == 'insert') {
-            $slugExist = DB::table($table)->where($column_name, $title)->get();
-            $count = $slugExist->count();
-            if ($count > 0) {
-                $slug2 = Str::slug($title, '-');
-                $slug = $slug2 . '-' . $count;
-
-                b:
-                $slugExist = DB::table($table)->where('slug', $slug)->get();
-                if ($slugExist->count() > 0) {
-                    $slug = $slug2 . '-' . $count++;
-                    goto b;
-                }
-            } else {
-                $slug = Str::slug($title, '-');
-            }
-        } else {
-            $slugExist = DB::table($table)->where($column_name, $title)->where('id', $id)->get();
-            $count = $slugExist->count();
-            if ($count > 0) {
-                $slug = $slugExist[0]->slug;
-            } else {
-                $slugExist = DB::table($table)->where($column_name, $title)->get();
-                $count = $slugExist->count();
-                if ($count > 0) {
-                    $slug2 = Str::slug($title, '-');
-                    $slug = $slug2 . '-' . $count;
-
-                    a:
-                    $slugExist = DB::table($table)->where('slug', $slug)->get();
-                    if ($slugExist->count() > 0) {
-                        $slug = $slug2 . '-' . $count++;
-                        goto a;
-                    }
-                } else {
-                    $slug = Str::slug($title, '-');
-                }
-            }
-        }
-        return $slug;
     }
 
     public function cleanStr($string)
