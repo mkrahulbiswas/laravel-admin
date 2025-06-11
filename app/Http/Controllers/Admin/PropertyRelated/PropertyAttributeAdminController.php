@@ -157,7 +157,7 @@ class PropertyAttributeAdminController extends Controller
                 $propertyAttribute->name = $values['name'];
                 $propertyAttribute->about = $values['about'];
                 $propertyAttribute->type = $values['type'];
-                $propertyAttribute->uniqueId = $this->generateCode(['preString' => 'PRPA', 'length' => 6, 'model' => PropertyAttribute::class, 'field' => '']);
+                $propertyAttribute->uniqueId = $this->generateYourChoice(['preString' => 'PRPA', 'length' => 6, 'model' => PropertyAttribute::class, 'field' => '']);
                 $propertyAttribute->status = Config::get('constants.status')['active'];
 
                 if ($propertyAttribute->save()) {

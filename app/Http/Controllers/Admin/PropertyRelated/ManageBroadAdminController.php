@@ -134,7 +134,7 @@ class ManageBroadAdminController extends Controller
                 $broadType = new BroadType();
                 $broadType->name = $values['name'];
                 $broadType->about = $values['about'];
-                $broadType->uniqueId = $this->generateCode(['preString' => 'PRBT', 'length' => 6, 'model' => BroadType::class, 'field' => '']);
+                $broadType->uniqueId = $this->generateYourChoice(['preString' => 'PRBT', 'length' => 6, 'model' => BroadType::class, 'field' => '']);
 
                 if ($broadType->save()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Broad type'])['success']], Config::get('constants.errorCode.ok'));
@@ -391,7 +391,7 @@ class ManageBroadAdminController extends Controller
                     $assignBroad->propertyTypeId = decrypt($values['propertyType']);
                     $assignBroad->broadTypeId = decrypt($values['broadType']);
                     $assignBroad->about = $values['about'];
-                    $assignBroad->uniqueId = $this->generateCode(['preString' => 'PRAB', 'length' => 6, 'model' => AssignBroad::class, 'field' => '']);
+                    $assignBroad->uniqueId = $this->generateYourChoice(['preString' => 'PRAB', 'length' => 6, 'model' => AssignBroad::class, 'field' => '']);
 
                     if ($assignBroad->save()) {
                         return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Assign broad'])['success']], Config::get('constants.errorCode.ok'));

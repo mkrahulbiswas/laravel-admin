@@ -33,11 +33,15 @@ class ManageSideNavAdminController extends Controller
     /*---- ( Nav Type ) ----*/
     public function showNavType()
     {
-        try {
-            return view('admin.admin_related.navigation_access.manage_side_nav.nav_type.nav_type_list');
-        } catch (Exception $e) {
-            abort(500);
-        }
+        // try {
+        dd($this->generateYourChoice([
+            'name' => $values['name'],
+            'model' => NavType::class,
+        ]));
+        return view('admin.admin_related.navigation_access.manage_side_nav.nav_type.nav_type_list');
+        // } catch (Exception $e) {
+        //     abort(500);
+        // }
     }
 
     public function getNavType(Request $request)
@@ -135,18 +139,16 @@ class ManageSideNavAdminController extends Controller
     {
         try {
             $values = $request->only('name', 'icon', 'description');
-            //--Checking The Validation--//
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveNavType', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-
                 $navType = new NavType;
                 $navType->name = $values['name'];
                 $navType->icon = $values['icon'];
                 $navType->description = ($values['description'] == '') ? 'NA' : $values['description'];;
-                $navType->uniqueId = $this->generateCode(['preString' => 'NT', 'length' => 6, 'model' => NavType::class, 'field' => '']);
+                $navType->uniqueId = $this->generateYourChoice(['preString' => 'NT', 'length' => 6, 'model' => NavType::class, 'field' => '']);
                 $navType->status = Config::get('constants.status')['active'];
                 $navType->position = NavType::max('position') + 1;
 
@@ -398,19 +400,17 @@ class ManageSideNavAdminController extends Controller
     {
         try {
             $values = $request->only('name', 'icon', 'navType', 'description');
-            //--Checking The Validation--//
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveMainNav', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-
                 $mainNav = new MainNav();
                 $mainNav->name = $values['name'];
                 $mainNav->icon = $values['icon'];
                 $mainNav->navTypeId = decrypt($values['navType']);
                 $mainNav->description = ($values['description'] == '') ? 'NA' : $values['description'];;
-                $mainNav->uniqueId = $this->generateCode(['preString' => 'NM', 'length' => 6, 'model' => MainNav::class, 'field' => '']);
+                $mainNav->uniqueId = $this->generateYourChoice(['preString' => 'NM', 'length' => 6, 'model' => MainNav::class, 'field' => '']);
                 $mainNav->status = Config::get('constants.status')['active'];
                 $mainNav->position = MainNav::max('position') + 1;
                 $mainNav->route = strtolower(str_replace(" ", "-", $values['name']));
@@ -736,7 +736,6 @@ class ManageSideNavAdminController extends Controller
     {
         try {
             $values = $request->only('name', 'icon', 'navType', 'mainNav', 'description');
-            //--Checking The Validation--//
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveSubNav', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
@@ -749,7 +748,7 @@ class ManageSideNavAdminController extends Controller
                 $subNav->navTypeId = decrypt($values['navType']);
                 $subNav->mainNavId = decrypt($values['mainNav']);
                 $subNav->description = ($values['description'] == '') ? 'NA' : $values['description'];;
-                $subNav->uniqueId = $this->generateCode(['preString' => 'NS', 'length' => 6, 'model' => SubNav::class, 'field' => '']);
+                $subNav->uniqueId = $this->generateYourChoice(['preString' => 'NS', 'length' => 6, 'model' => SubNav::class, 'field' => '']);
                 $subNav->status = Config::get('constants.status')['active'];
                 $subNav->position = SubNav::max('position') + 1;
                 $subNav->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['mainNav']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));
@@ -1074,7 +1073,6 @@ class ManageSideNavAdminController extends Controller
     {
         try {
             $values = $request->only('name', 'icon', 'navType', 'mainNav', 'subNav', 'description');
-            //--Checking The Validation--//
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveNestedNav', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
@@ -1088,7 +1086,7 @@ class ManageSideNavAdminController extends Controller
                 $nestedNav->mainNavId = decrypt($values['mainNav']);
                 $nestedNav->subNavId = decrypt($values['subNav']);
                 $nestedNav->description = ($values['description'] == '') ? 'NA' : $values['description'];
-                $nestedNav->uniqueId = $this->generateCode(['preString' => 'NN', 'length' => 6, 'model' => NestedNav::class, 'field' => '']);
+                $nestedNav->uniqueId = $this->generateYourChoice(['preString' => 'NN', 'length' => 6, 'model' => NestedNav::class, 'field' => '']);
                 $nestedNav->status = Config::get('constants.status')['active'];
                 $nestedNav->position = NestedNav::max('position') + 1;
                 $nestedNav->route = strtolower(str_replace(" ", "-", MainNav::where('id', decrypt($values['mainNav']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", SubNav::where('id', decrypt($values['subNav']))->value('name'))) . '/' . strtolower(str_replace(" ", "-", $values['name']));

@@ -388,6 +388,14 @@ return [
         'na' => 'NA'
     ],
 
+    //--Generate Your Choice Type
+    'generateType' => [
+        'uniqueId' => 'UNIQUE_ID',
+        'route' => 'ROUTE',
+        'lastSegment' => 'LAST_SEGMENT',
+        'slug' => 'SLUG',
+    ],
+
 
     //Admin Role
     'superAdmin' => 1,

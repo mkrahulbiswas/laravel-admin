@@ -111,7 +111,6 @@ class UserAdminController extends Controller
             $values = $request->only('name', 'phone', 'altPhone', 'email', 'address', 'businessName', 'businessEmail', 'businessAddress');
             $file = $request->file('file');
 
-            //--Checking The Validation--//
             $validator = $this->isValid($request->all(), 'saveClient', 0, $this->platform);
             if ($validator->fails()) {
                 return response()->json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
@@ -126,7 +125,7 @@ class UserAdminController extends Controller
                 }
 
                 $user = new User();
-                $user->uniqueId = $this->generateCode('CLI', 6, User::class, 'uniqueId');
+                $user->uniqueId = $this->generateYourChoice('CLI', 6, User::class, 'uniqueId');
                 $user->businessName = $values['businessName'];
                 $user->businessEmail = $values['businessEmail'];
                 $user->businessAddress = $values['businessAddress'];

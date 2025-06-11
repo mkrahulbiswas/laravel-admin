@@ -152,7 +152,7 @@ class PropertyTypeAdminController extends Controller
                 $propertyType = new PropertyType();
                 $propertyType->name = $values['name'];
                 $propertyType->about = $values['about'];
-                $propertyType->uniqueId = $this->generateCode(['preString' => 'PRPT', 'length' => 6, 'model' => PropertyType::class, 'field' => '']);
+                $propertyType->uniqueId = $this->generateYourChoice(['preString' => 'PRPT', 'length' => 6, 'model' => PropertyType::class, 'field' => '']);
                 $propertyType->status = Config::get('constants.status')['active'];
 
                 if ($propertyType->save()) {

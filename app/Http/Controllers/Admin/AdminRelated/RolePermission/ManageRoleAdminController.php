@@ -167,7 +167,6 @@ class ManageRoleAdminController extends Controller
     {
         try {
             $values = $request->only('name', 'description');
-            //--Checking The Validation--//
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveMainRole', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
@@ -177,7 +176,7 @@ class ManageRoleAdminController extends Controller
                 $mainRole = new MainRole();
                 $mainRole->name = $values['name'];
                 $mainRole->description = $values['description'];
-                $mainRole->uniqueId = $this->generateCode(['preString' => 'RM', 'length' => 6, 'model' => MainRole::class, 'field' => '']);
+                $mainRole->uniqueId = $this->generateYourChoice(['preString' => 'RM', 'length' => 6, 'model' => MainRole::class, 'field' => '']);
                 $mainRole->status = Config::get('constants.status')['active'];
 
                 if ($mainRole->save()) {
@@ -581,7 +580,6 @@ class ManageRoleAdminController extends Controller
     {
         try {
             $values = $request->only('name', 'mainRole', 'description');
-            //--Checking The Validation--//
 
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveSubRole', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
@@ -594,7 +592,7 @@ class ManageRoleAdminController extends Controller
                     $subRole->name = $values['name'];
                     $subRole->mainRoleId = decrypt($values['mainRole']);
                     $subRole->description = $values['description'];
-                    $subRole->uniqueId = $this->generateCode(['preString' => 'RS', 'length' => 6, 'model' => SubRole::class, 'field' => '']);
+                    $subRole->uniqueId = $this->generateYourChoice(['preString' => 'RS', 'length' => 6, 'model' => SubRole::class, 'field' => '']);
                     $subRole->status = Config::get('constants.status')['active'];
 
                     if ($subRole->save()) {

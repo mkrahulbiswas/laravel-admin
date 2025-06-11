@@ -67,60 +67,60 @@ trait CommonTrait
 
     public static function setDefault($params)
     {
-        // try {
-        DB::beginTransaction();
-        if ($params['type'] == Config::get('constants.action.status.smsfa')) {
-            $field = ($params['targetField'] == null) ? 'default' : $params['targetField'][0];
-            $data = app($params['targetModel'])::where('id', $params['targetId'])->first();
-            app($params['targetModel'])::where($field, config('constants.status')['yes'])->update([$field => config('constants.status')['no']]);
-            if ($data->$field == config('constants.status')['no']) {
-                $data->$field = config('constants.status')['yes'];
-                if ($data->update()) {
-                    DB::commit();
-                    return true;
+        try {
+            DB::beginTransaction();
+            if ($params['type'] == Config::get('constants.action.status.smsfa')) {
+                $field = ($params['targetField'] == null) ? 'default' : $params['targetField'][0];
+                $data = app($params['targetModel'])::where('id', $params['targetId'])->first();
+                app($params['targetModel'])::where($field, config('constants.status')['yes'])->update([$field => config('constants.status')['no']]);
+                if ($data->$field == config('constants.status')['no']) {
+                    $data->$field = config('constants.status')['yes'];
+                    if ($data->update()) {
+                        DB::commit();
+                        return true;
+                    } else {
+                        DB::rollBack();
+                        return false;
+                    }
                 } else {
-                    DB::rollBack();
-                    return false;
+                    $data->$field = config('constants.status')['no'];
+                    if ($data->update()) {
+                        DB::commit();
+                        return true;
+                    } else {
+                        DB::rollBack();
+                        return false;
+                    }
                 }
+            } elseif ($params['type'] == Config::get('constants.action.status.smsfs')) {
+                $field = ($params['targetField'] == null) ? 'default' : $params['targetField'][0];
+                $data = app($params['targetModel'])::where('id', $params['targetId'])->first();
+                if ($data->$field == config('constants.status')['no']) {
+                    $data->$field = config('constants.status')['yes'];
+                    if ($data->update()) {
+                        DB::commit();
+                        return true;
+                    } else {
+                        DB::rollBack();
+                        return false;
+                    }
+                } else {
+                    $data->$field = config('constants.status')['no'];
+                    if ($data->update()) {
+                        DB::commit();
+                        return true;
+                    } else {
+                        DB::rollBack();
+                        return false;
+                    }
+                }
+            } elseif ($params['type'] == Config::get('constants.action.status.mmsf')) {
             } else {
-                $data->$field = config('constants.status')['no'];
-                if ($data->update()) {
-                    DB::commit();
-                    return true;
-                } else {
-                    DB::rollBack();
-                    return false;
-                }
             }
-        } elseif ($params['type'] == Config::get('constants.action.status.smsfs')) {
-            $field = ($params['targetField'] == null) ? 'default' : $params['targetField'][0];
-            $data = app($params['targetModel'])::where('id', $params['targetId'])->first();
-            if ($data->$field == config('constants.status')['no']) {
-                $data->$field = config('constants.status')['yes'];
-                if ($data->update()) {
-                    DB::commit();
-                    return true;
-                } else {
-                    DB::rollBack();
-                    return false;
-                }
-            } else {
-                $data->$field = config('constants.status')['no'];
-                if ($data->update()) {
-                    DB::commit();
-                    return true;
-                } else {
-                    DB::rollBack();
-                    return false;
-                }
-            }
-        } elseif ($params['type'] == Config::get('constants.action.status.mmsf')) {
-        } else {
+        } catch (Exception $e) {
+            DB::rollBack();
+            return false;
         }
-        // } catch (Exception $e) {
-        //     DB::rollBack();
-        //     return false;
-        // }
     }
 
     public static function deleteItem($params)
@@ -597,82 +597,33 @@ trait CommonTrait
 
     public static function getNavAccessList($params = null)
     {
-        // try {
-        $finalData = array();
-        foreach ($params as $tempOne) {
-            [
-                'checkFirst' => $checkFirst,
-                'otherDataPasses' => $otherDataPasses,
-            ] = $tempOne;
-            if (Config::get('constants.typeCheck.helperCommon.access.ay') == $checkFirst['type']) {
-                $access = $privilege = $finalData = array();
-                foreach (Config::get('constants.rolePermission.accessType') as $temp) {
-                    $access = Arr::prepend($access, true, $temp);
-                    $privilege = Arr::prepend(
-                        $privilege,
-                        [
-                            'allowed' => true,
-                            'permission' => true
-                        ],
-                        $temp
-                    );
-                }
-                $finalData[Config::get('constants.typeCheck.helperCommon.access.ay')] = [
-                    'access' => $access,
-                    'privilege' => $privilege,
-                ];
-            }
-            if (Config::get('constants.typeCheck.helperCommon.access.an') == $checkFirst['type']) {
-                $access = $privilege = $finalData = array();
-                foreach (Config::get('constants.rolePermission.accessType') as $temp) {
-                    $access = Arr::prepend($access, false, $temp);
-                    $privilege = Arr::prepend(
-                        $privilege,
-                        [
-                            'allowed' => false,
-                            'permission' => false
-                        ],
-                        $temp
-                    );
-                }
-                $finalData[Config::get('constants.typeCheck.helperCommon.access.an')] = [
-                    'access' => $access,
-                    'privilege' => $privilege,
-                ];
-            }
-            if (Config::get('constants.typeCheck.helperCommon.access.fns') == $checkFirst['type']) {
-                $access = $privilege = $finalData = array();
-                foreach (Config::get('constants.rolePermission.accessType') as $temp) {
-                    if (Arr::only($otherDataPasses['access'], [$temp])) {
+        try {
+            $finalData = array();
+            foreach ($params as $tempOne) {
+                [
+                    'checkFirst' => $checkFirst,
+                    'otherDataPasses' => $otherDataPasses,
+                ] = $tempOne;
+                if (Config::get('constants.typeCheck.helperCommon.access.ay') == $checkFirst['type']) {
+                    $access = $privilege = $finalData = array();
+                    foreach (Config::get('constants.rolePermission.accessType') as $temp) {
                         $access = Arr::prepend($access, true, $temp);
                         $privilege = Arr::prepend(
                             $privilege,
                             [
                                 'allowed' => true,
-                                'permission' => false
-                            ],
-                            $temp
-                        );
-                    } else {
-                        $access = Arr::prepend($access, false, $temp);
-                        $privilege = Arr::prepend(
-                            $privilege,
-                            [
-                                'allowed' => false,
-                                'permission' => false
+                                'permission' => true
                             ],
                             $temp
                         );
                     }
+                    $finalData[Config::get('constants.typeCheck.helperCommon.access.ay')] = [
+                        'access' => $access,
+                        'privilege' => $privilege,
+                    ];
                 }
-                $finalData[Config::get('constants.typeCheck.helperCommon.access.fns')] = [
-                    'access' => $access,
-                    'privilege' => $privilege,
-                ];
-            }
-            if (Config::get('constants.typeCheck.helperCommon.access.frs') == $checkFirst['type']) {
-                $access = $privilege = $finalData = array();
-                if ($otherDataPasses['access'] == null) {
+                if (Config::get('constants.typeCheck.helperCommon.access.an') == $checkFirst['type']) {
+                    $access = $privilege = $finalData = array();
                     foreach (Config::get('constants.rolePermission.accessType') as $temp) {
                         $access = Arr::prepend($access, false, $temp);
                         $privilege = Arr::prepend(
@@ -684,117 +635,113 @@ trait CommonTrait
                             $temp
                         );
                     }
-                } else {
-                    foreach ($otherDataPasses['access'] as $key => $temp) {
-                        if ($temp == true) {
-                            $access = Arr::prepend($access, true, $key);
+                    $finalData[Config::get('constants.typeCheck.helperCommon.access.an')] = [
+                        'access' => $access,
+                        'privilege' => $privilege,
+                    ];
+                }
+                if (Config::get('constants.typeCheck.helperCommon.access.fns') == $checkFirst['type']) {
+                    $access = $privilege = $finalData = array();
+                    foreach (Config::get('constants.rolePermission.accessType') as $temp) {
+                        if (Arr::only($otherDataPasses['access'], [$temp])) {
+                            $access = Arr::prepend($access, true, $temp);
                             $privilege = Arr::prepend(
                                 $privilege,
                                 [
                                     'allowed' => true,
                                     'permission' => false
                                 ],
-                                $key
+                                $temp
                             );
                         } else {
-                            $access = Arr::prepend($access, false, $key);
+                            $access = Arr::prepend($access, false, $temp);
                             $privilege = Arr::prepend(
                                 $privilege,
                                 [
                                     'allowed' => false,
                                     'permission' => false
                                 ],
-                                $key
+                                $temp
                             );
                         }
                     }
+                    $finalData[Config::get('constants.typeCheck.helperCommon.access.fns')] = [
+                        'access' => $access,
+                        'privilege' => $privilege,
+                    ];
                 }
-                $finalData[Config::get('constants.typeCheck.helperCommon.access.frs')] = [
-                    'access' => $access,
-                    'privilege' => $privilege,
-                ];
-            }
-        }
-        return $finalData;
-        // } catch (Exception $e) {
-        //     return false;
-        // }
-    }
-
-    // public static function getNavAccessList($params = null)
-    // {
-    //     try {
-    //         $access = $privilege = array();
-    //         if ($params == null) {
-    //             foreach (Config::get('constants.rolePermission.accessType') as $temp) {
-    //                 $access = Arr::prepend($access, false, $temp);
-    //                 $privilege = Arr::prepend(
-    //                     $privilege,
-    //                     [
-    //                         'allowed' => true,
-    //                         'permission' => true
-    //                     ],
-    //                     $temp
-    //                 );
-    //             }
-    //         } else {
-    //             foreach (Config::get('constants.rolePermission.accessType') as $temp) {
-    //                 if (Arr::only($params, [$temp])) {
-    //                     $access = Arr::prepend($access, true, $temp);
-    //                     $privilege = Arr::prepend(
-    //                         $privilege,
-    //                         [
-    //                             'allowed' => true,
-    //                             'permission' => false
-    //                         ],
-    //                         $temp
-    //                     );
-    //                 } else {
-    //                     $access = Arr::prepend($access, false, $temp);
-    //                     $privilege = Arr::prepend(
-    //                         $privilege,
-    //                         [
-    //                             'allowed' => false,
-    //                             'permission' => false
-    //                         ],
-    //                         $temp
-    //                     );
-    //                 }
-    //             }
-    //         }
-    //         return [
-    //             'access' => $access,
-    //             'privilege' => $privilege,
-    //         ];
-    //     } catch (Exception $e) {
-    //         return false;
-    //     }
-    // }
-
-    public function getCommaSeparatedString($string, $model)
-    {
-        try {
-            $data = '';
-            $arr = explode(",", $string);
-            foreach ($arr as $temp) {
-                if ($string == 'NA') {
-                    $data = 'NA';
-                    goto a;
-                } else {
-                    $value = app("App\\Models\\$model")::findOrFail($temp);
-                }
-
-                if ($model == 'LifestyleDisorders') {
-                    $data .= $value->disorderName . ", ";
-                } elseif ($model == 'Tests') {
-                    $data .= $value->testName . ", ";
+                if (Config::get('constants.typeCheck.helperCommon.access.frs') == $checkFirst['type']) {
+                    $access = $privilege = $finalData = array();
+                    if ($otherDataPasses['access'] == null) {
+                        foreach (Config::get('constants.rolePermission.accessType') as $temp) {
+                            $access = Arr::prepend($access, false, $temp);
+                            $privilege = Arr::prepend(
+                                $privilege,
+                                [
+                                    'allowed' => false,
+                                    'permission' => false
+                                ],
+                                $temp
+                            );
+                        }
+                    } else {
+                        foreach ($otherDataPasses['access'] as $key => $temp) {
+                            if ($temp == true) {
+                                $access = Arr::prepend($access, true, $key);
+                                $privilege = Arr::prepend(
+                                    $privilege,
+                                    [
+                                        'allowed' => true,
+                                        'permission' => false
+                                    ],
+                                    $key
+                                );
+                            } else {
+                                $access = Arr::prepend($access, false, $key);
+                                $privilege = Arr::prepend(
+                                    $privilege,
+                                    [
+                                        'allowed' => false,
+                                        'permission' => false
+                                    ],
+                                    $key
+                                );
+                            }
+                        }
+                    }
+                    $finalData[Config::get('constants.typeCheck.helperCommon.access.frs')] = [
+                        'access' => $access,
+                        'privilege' => $privilege,
+                    ];
                 }
             }
-            $data = rtrim($data, ", ");
-            a:
-            return $data;
+            return $finalData;
         } catch (Exception $e) {
             return false;
+        }
+    }
+
+    public static function generateYourChoice($params)
+    {
+        $start = '1';
+        $end = '9';
+        $field = $params['field'] == '' ? 'uniqueId' : $params['field'];
+
+        for ($i = 1; $i < $params['length']; $i++) {
+            $start .= '0';
+            $end .= '9';
+        }
+
+        a:
+        if ($params['preString'] == '') {
+            $result = mt_rand($start, $end);
+        } else {
+            $result = $params['preString'] . '-' . mt_rand($start, $end);
+        }
+        if (app($params['model'])::where($field, $result)->count() == 0) {
+            return $result;
+        } else {
+            goto a;
         }
     }
 
@@ -842,43 +789,6 @@ trait CommonTrait
         return $slug;
     }
 
-    public function generateNo($model, $column)
-    {
-        a:
-        $no = mt_rand(1111, 9999);
-        $exist = app("App\\Models\\$model")::where($column, $no)->get();
-        $count = $exist->count();
-        if ($count > 0) {
-            goto a;
-        } else {
-            return $no;
-        }
-    }
-
-    public function generateBookingNo()
-    {
-        $micro_time = microtime(true);
-        $micro_time = explode(".", $micro_time);
-        $micro_time = implode("", $micro_time);
-
-        for ($i = strlen($micro_time); $i < 14; $i++) {
-            $micro_time = $micro_time . '0';
-        }
-        return $micro_time;
-    }
-
-    public function generateAlphaNumericString()
-    {
-        $character = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@#<!)>';
-        $charactersLength = strlen($character);
-        $string = '';
-        for ($i = 0; $i < 8; $i++) {
-            $string .= $character[mt_rand(0, $charactersLength - 1)];
-        }
-
-        return $string;
-    }
-
     public function cleanStr($string)
     {
         //$string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
@@ -888,113 +798,31 @@ trait CommonTrait
         return $string;
     }
 
-    public static function formatDateTime($datetime)
+    public function getCommaSeparatedString($string, $model)
     {
-        $DateTime = explode(" ", $datetime);
-        $date = date("d-m-Y", strtotime($DateTime[0]));
-        $time = date("g:i A", strtotime($DateTime[1]));
+        try {
+            $data = '';
+            $arr = explode(",", $string);
+            foreach ($arr as $temp) {
+                if ($string == 'NA') {
+                    $data = 'NA';
+                    goto a;
+                } else {
+                    $value = app("App\\Models\\$model")::findOrFail($temp);
+                }
 
-        $date_time = array("date" => $date, "time" => $time);
-
-        return $date_time;
-    }
-
-    public static function formatDate($date)
-    {
-        $date = date("d-m-Y", strtotime($date));
-        return $date;
-    }
-
-    public static function formatTime($time)
-    {
-        $time = date("g:i A", strtotime($time));
-        return $time;
-    }
-
-    public function getNextDayName($noOfDay, $countryId)
-    {
-        $timeZone = $this->getTimeZone($countryId);
-        date_default_timezone_set($timeZone);
-
-        $dayName = array();
-        $date = time();
-        $next = strtotime('+' . $noOfDay . ' days');
-        while ($date < $next) { // loop until next six
-            $dayName[] = date('l', $date); // push the day name
-            $date = strtotime('+1 day', $date); // add +1 on $date
+                if ($model == 'LifestyleDisorders') {
+                    $data .= $value->disorderName . ", ";
+                } elseif ($model == 'Tests') {
+                    $data .= $value->testName . ", ";
+                }
+            }
+            $data = rtrim($data, ", ");
+            a:
+            return $data;
+        } catch (Exception $e) {
+            return false;
         }
-
-        return $dayName;
-    }
-
-    public function getNextDate($noOfDate, $countryId)
-    {
-        $timeZone = $this->getTimeZone($countryId);
-        date_default_timezone_set($timeZone);
-
-        $dates = array();
-        $date = time();
-        $next = strtotime('+' . $noOfDate . ' days');
-        while ($date < $next) { // loop until next six
-            $dates[] = date('Y-m-d', $date); // push the day name
-            $date = strtotime('+1 day', $date); // add +1 on $date
-        }
-        return $dates;
-    }
-
-    public function checkNull($data)
-    {
-        if ($data == null) {
-            $data = 'NA';
-        }
-
-        return $data;
-    }
-
-    public function numberAlign($number, $type)
-    {
-        if ($type == 'pin') {
-            $x = strlen($number) / 2;
-            return substr($number, 0, $x) . ' ' . substr($number, -$x);
-        } else if ($type == 'phone') {
-            $x = strlen($number) / 2;
-            return substr($number, 0, $x) . ' ' . substr($number, -$x);
-        } else {
-            return 'No Function Found';
-        }
-    }
-
-
-    public static function generateCode($data)
-    {
-        $start = '1';
-        $end = '9';
-        $field = $data['field'] == '' ? 'uniqueId' : $data['field'];
-
-        for ($i = 1; $i < $data['length']; $i++) {
-            $start .= '0';
-            $end .= '9';
-        }
-
-        a:
-        if ($data['preString'] == '') {
-            $result = mt_rand($start, $end);
-        } else {
-            $result = $data['preString'] . '-' . mt_rand($start, $end);
-        }
-        if (app($data['model'])::where($field, $result)->count() == 0) {
-            return $result;
-        } else {
-            goto a;
-        }
-    }
-
-
-    public function convertDateTimeByTimeZone($fromTimeZone, $toTimeZone, $dateTime)
-    {
-        $date = new DateTime($dateTime, new DateTimeZone($fromTimeZone));
-        $date->setTimezone(new DateTimeZone($toTimeZone));
-        return $date->format('Y-m-d H:i:s');
     }
 
     public static function subStrString($length, $text, $with)
@@ -1009,25 +837,5 @@ trait CommonTrait
                 return substr($finalText, 0, $length) . $with;
             }
         }
-    }
-
-    public function getDifferentBetweenTwoTimeStamp($from, $to, $type)
-    {
-        $from = ($from == '') ? new DateTime(date('Y-m-d H:i:s', strtotime(Carbon::now()))) : new DateTime(date('Y-m-d H:i:s', strtotime($from)));
-        $to = ($to == '') ? new DateTime(date('Y-m-d H:i:s', strtotime(Carbon::now()))) : new DateTime(date('Y-m-d H:i:s', strtotime($to)));
-        if ($type == 'minute') {
-            $different = [
-                'res' => $to->diff($from)->format('%i'),
-                'from' => $from,
-                'to' => $to,
-            ];
-        } else {
-            $different = [
-                'res' => $to->diff($from),
-                'from' => $from,
-                'to' => $to,
-            ];
-        }
-        return $different;
     }
 }
