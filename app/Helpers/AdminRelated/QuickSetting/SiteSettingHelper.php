@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Helpers\ManagePanel;
+namespace App\Helpers\AdminRelated\QuickSetting;
 
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 
-use App\Models\ManagePanel\QuickSettings\Logo;
+use App\Models\AdminRelated\QuickSetting\SiteSetting\Logo;
 
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
-class GetQuickSettingsHelper
+class SiteSettingHelper
 {
     use FileTrait, CommonTrait;
     public $platform = 'backend';
@@ -69,7 +69,7 @@ class GetQuickSettingsHelper
                             }
                         }
                         foreach (Logo::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $logo[] = GetQuickSettingsHelper::getDetail([
+                            $logo[] = SiteSettingHelper::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],

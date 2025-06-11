@@ -4,13 +4,13 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-sm-0">
-                    <h4>Nested type</h4>
+                    <h4>Nested Nav</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Admin Related</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Navigation Access</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Side Nav</a></li>
-                            <li class="breadcrumb-item active">Nested type</li>
+                            <li class="breadcrumb-item active">Nested Nav</li>
                         </ol>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                             @if ($permission['add']['permission'] == true)
                                 <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">
                                     <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
-                                    <span>Add Nested type</span>
+                                    <span>Add Nested Nav</span>
                                 </button>
                             @endif
                             @if ($permission['filter']['permission'] == true)
@@ -148,7 +148,7 @@
                                             <th>Nav Type</th>
                                             <th>Main Nav</th>
                                             <th>Sub Nav</th>
-                                            <th>Nested type</th>
+                                            <th>Nested Nav</th>
                                             <th>Nav Icon</th>
                                             <th>Stat Info</th>
                                             <th>Actions</th>
@@ -162,7 +162,7 @@
                                             <th>Nav Type</th>
                                             <th>Main Nav</th>
                                             <th>Sub Nav</th>
-                                            <th>Nested type</th>
+                                            <th>Nested Nav</th>
                                             <th>Nav Icon</th>
                                             <th>Stat Info</th>
                                             <th>Actions</th>
@@ -183,7 +183,7 @@
                 <form id="saveNestedNavForm" action="{{ route('admin.save.nestedNav') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Add Nested type</h5>
+                        <h5 class="modal-title" id="myModalLabel">Add Nested Nav</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -271,7 +271,7 @@
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Edit Nested type</h5>
+                        <h5 class="modal-title" id="myModalLabel">Edit Nested Nav</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -408,7 +408,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Details Nested type</h5>
+                    <h5 class="modal-title" id="myModalLabel">Details Nested Nav</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

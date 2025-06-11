@@ -5,23 +5,19 @@ namespace App\Http\Controllers\Admin\AdminRelated\NavigationAccess;
 use App\Http\Controllers\Controller;
 
 use App\Helpers\AdminRelated\NavigationAccess\ManageSideNavHelper;
-use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
 
 use App\Models\AdminRelated\NavigationAccess\ManageSideNav\MainNav;
 use App\Models\AdminRelated\NavigationAccess\ManageSideNav\NestedNav;
 use App\Models\AdminRelated\NavigationAccess\ManageSideNav\SubNav;
 use App\Models\AdminRelated\NavigationAccess\ManageSideNav\NavType;
-use App\Models\ManagePanel\ManageAccess\Permission;
 
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
 use Exception;
-use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\Encryption\DecryptException;
 
 class ArrangeSideNavAdminController extends Controller
 {

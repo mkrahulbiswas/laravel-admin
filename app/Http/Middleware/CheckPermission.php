@@ -11,11 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CheckPermission
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
         // $role_id = Auth::guard('admin')->user()->role_id;
