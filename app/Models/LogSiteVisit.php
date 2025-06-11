@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class LogSiteVisit extends Model
 {
-    protected $table = 'logSiteVisit';
+    protected $table = 'log_site_visit';
     protected $fillable = array('state');
 }

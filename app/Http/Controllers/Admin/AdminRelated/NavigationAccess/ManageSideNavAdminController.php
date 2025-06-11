@@ -11,7 +11,7 @@ use App\Models\AdminRelated\NavigationAccess\ManageSideNav\MainNav;
 use App\Models\AdminRelated\NavigationAccess\ManageSideNav\NestedNav;
 use App\Models\AdminRelated\NavigationAccess\ManageSideNav\SubNav;
 use App\Models\AdminRelated\NavigationAccess\ManageSideNav\NavType;
-use App\Models\ManagePanel\ManageAccess\Permission;
+use App\Models\AdminRelated\RolePermission\ManagePermission\Permission;
 
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;

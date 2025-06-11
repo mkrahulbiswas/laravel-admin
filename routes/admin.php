@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\PropertyRelated\PropertyCategoryAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyTypeAdminController;
 use App\Http\Middleware\CheckPermission;
 
-Route::controller(AuthAdminController::class)->group(function () {
+Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin'])->group(function () {
     Route::get('/', 'showLogin')->name('show.login');
     Route::post('check-login',  'checkLogin')->name('check.login');
     Route::post('forgot-Password/otp',  'saveForgotPassword')->name('save.forgotPassword');

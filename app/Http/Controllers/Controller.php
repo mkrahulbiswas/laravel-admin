@@ -8,12 +8,12 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Config;
 
+use App\Models\AdminRelated\QuickSetting\SiteSetting\Logo;
 use App\Models\AboutUs;
 use App\Models\ContactUs;
 use App\Models\CustomizeAdmin\CustomizeButton;
 use App\Models\CustomizeAdmin\CustomizeTable;
 use App\Models\CustomizeAdmin\Loader;
-use App\Models\ManagePanel\QuickSettings\Logo;
 
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;

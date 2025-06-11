@@ -11,7 +11,7 @@ use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\ManagePanel\ManageAccess\Permission;
+use App\Models\AdminRelated\RolePermission\ManagePermission\Permission;
 use App\Models\AdminRelated\RolePermission\ManageRole\MainRole;
 use App\Models\AdminRelated\RolePermission\ManageRole\SubRole;
 

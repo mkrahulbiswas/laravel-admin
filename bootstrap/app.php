@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Middleware\AppUserSatus;
+use App\Http\Middleware\AppUserStatus;
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckPermission;
-use App\Http\Middleware\LogSiteVisitBy;
 use App\Http\Middleware\LogSiteVisitMiddleware;
 use App\Http\Middleware\SetLocale;
 use App\Http\Middleware\VersionControlMiddleware;
@@ -38,7 +37,7 @@ $app = Application::configure(basePath: dirname(__DIR__))
             'checkAdmin' => CheckAdmin::class,
             'setLocale' => SetLocale::class,
             'logSiteVisitBy' => LogSiteVisitMiddleware::class,
-            'userStatus' => AppUserSatus::class,
+            'userStatus' => AppUserStatus::class,
             'checkPermission' => CheckPermission::class,
             'versionControlMiddleware' => VersionControlMiddleware::class,
         ]);

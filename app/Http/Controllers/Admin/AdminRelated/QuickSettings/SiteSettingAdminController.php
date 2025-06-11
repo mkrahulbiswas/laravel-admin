@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin\AdminRelated\QuickSettings;
 
 use App\Http\Controllers\Controller;
 
+use App\Helpers\AdminRelated\QuickSetting\SiteSettingHelper;
 use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
-use App\Helpers\ManagePanel\GetQuickSettingsHelper;
+
+use App\Models\AdminRelated\QuickSetting\SiteSetting\Logo;
 
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
-
-use App\Models\ManagePanel\QuickSettings\Logo;
 
 use Exception;
 use Yajra\DataTables\DataTables;
@@ -38,7 +38,7 @@ class SiteSettingAdminController extends Controller
     public function getLogo()
     {
         try {
-            $logo = GetQuickSettingsHelper::getList([
+            $logo = SiteSettingHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.inf')],

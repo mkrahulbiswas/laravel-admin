@@ -10,12 +10,7 @@ use App\Models\LogSiteVisit;
 
 class LogSiteVisitMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, $visitTo): Response
     {
         $ip = null;
         $deep_detect = TRUE;
@@ -56,33 +51,7 @@ class LogSiteVisitMiddleware
             'currencySymbol' => $xml['geoplugin_currencySymbol'],
             'currencySymbol_UTF8' => $xml['geoplugin_currencySymbol_UTF8'],
             'currencyConverter' => $xml['geoplugin_currencyConverter'],
-
-            // +"geoplugin_request": "49.47.157.46"
-            // +"geoplugin_status": "200"
-            // +"geoplugin_delay": "2ms"
-            // +"geoplugin_credit": "Some of the returned data includes GeoLite2 data created by MaxMind, available from <a href='https://www.maxmind.com'>https://www.maxmind.com</a>."
-            // +"geoplugin_city": "Kharagpur"
-            // +"geoplugin_region": "West Bengal"
-            // +"geoplugin_regionCode": "WB"
-            // +"geoplugin_regionName": "West Bengal"
-            // +"geoplugin_areaCode": SimpleXMLElement {#712}
-            // +"geoplugin_dmaCode": SimpleXMLElement {#713}
-            // +"geoplugin_countryCode": "IN"
-            // +"geoplugin_countryName": "India"
-            // +"geoplugin_inEU": "0"
-            // +"geoplugin_euVATrate": SimpleXMLElement {#714}
-            // +"geoplugin_continentCode": "AS"
-            // +"geoplugin_continentName": "Asia"
-            // +"geoplugin_latitude": "22.3448"
-            // +"geoplugin_longitude": "87.33"
-            // +"geoplugin_locationAccuracyRadius": "500"
-            // +"geoplugin_timezone": "Asia/Kolkata"
-            // +"geoplugin_currencyCode": "INR"
-            // +"geoplugin_currencySymbol": "&#8377;"
-            // +"geoplugin_currencySymbol_UTF8": "₹"
-            // +"geoplugin_currencyConverter": "83.0163"
         ];
-
 
         $u_agent = $_SERVER['HTTP_USER_AGENT'];
         $bname = $platform = $ub = "Unknown";
@@ -153,16 +122,16 @@ class LogSiteVisitMiddleware
             'pattern'    => $pattern
         );
 
-
-        $logSiteVisit = new LogSiteVisit;
-        $logSiteVisit->country = ($locationInfo['countryName'] == []) ? 'NA' : $locationInfo['countryName'];
-        $logSiteVisit->city = ($locationInfo['city'] == []) ? 'NA' : $locationInfo['city'];
-        $logSiteVisit->state = ($locationInfo['region'] == []) ? 'NA' : $locationInfo['region'];
+        $logSiteVisit = new LogSiteVisit();
+        $logSiteVisit->country = ($locationInfo['countryName'] == []) ? 'Unknown' : $locationInfo['countryName'];
+        $logSiteVisit->city = ($locationInfo['city'] == []) ? 'Unknown' : $locationInfo['city'];
+        $logSiteVisit->state = ($locationInfo['region'] == []) ? 'Unknown' : $locationInfo['region'];
         $logSiteVisit->ip = request()->ip();
         $logSiteVisit->url = URL::full();
         $logSiteVisit->platform = $finalBrowserArray['platform'];
         $logSiteVisit->browserName = $finalBrowserArray['name'];
         $logSiteVisit->browserVersion = $finalBrowserArray['version'];
+        $logSiteVisit->visitTo = $visitTo;
         $logSiteVisit->browserInfo = json_encode($finalBrowserArray);
         $logSiteVisit->locationInfo = json_encode($locationInfo);
         $logSiteVisit->save();

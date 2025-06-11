@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\ManagePanel\QuickSettings;
+namespace App\Models\AdminRelated\QuickSetting\SiteSetting;
 
 use Illuminate\Database\Eloquent\Model;
 

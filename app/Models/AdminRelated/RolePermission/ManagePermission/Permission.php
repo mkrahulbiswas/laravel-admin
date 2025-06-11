@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\ManagePanel\ManageAccess;
+namespace App\Models\AdminRelated\RolePermission\ManagePermission;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

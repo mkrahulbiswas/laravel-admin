@@ -4,7 +4,7 @@ namespace App\Helpers\AdminRelated\RolePermission;
 
 use App\Helpers\AdminRelated\NavigationAccess\ManageSideNavHelper;
 
-use App\Models\ManagePanel\ManageAccess\Permission;
+use App\Models\AdminRelated\RolePermission\ManagePermission\Permission;
 
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
