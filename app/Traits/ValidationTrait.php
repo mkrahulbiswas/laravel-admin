@@ -2,6 +2,7 @@
 
 namespace app\Traits;
 
+
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
 
 use App\Models\ManageUsers\AdminUsers;
@@ -10,9 +11,10 @@ use App\Models\PropertyRelated\ManageBroad\BroadType;
 use App\Models\PropertyRelated\PropertyCategory\ManageCategory;
 use App\Models\AdminRelated\QuickSetting\CustomizedAlert\AlertType;
 
-use App\Rules\ManagePanel\UniqueManageNav;
+use App\Rules\AdminRelated\NavigationAccess\ManageSideNavRules;
+use App\Rules\AdminRelated\QuickSetting\CustomizedAlertRules;
+use App\Rules\AdminRelated\RolePermission\ManageRoleRules;
 use App\Rules\PropertyRelated\UniquePropertyAttribute;
-use App\Rules\AdminRelated\RolePermission\UniqueManageRole;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
@@ -93,7 +95,7 @@ trait ValidationTrait
             //---- ( Main Role )
             case 'saveMainRole':
                 $rules = [
-                    'name' => ['required', 'max:20', new UniqueManageRole([
+                    'name' => ['required', 'max:20', new ManageRoleRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ])],
@@ -103,7 +105,7 @@ trait ValidationTrait
 
             case 'updateMainRole':
                 $rules = [
-                    'name' => ['required', 'max:20', new UniqueManageRole([
+                    'name' => ['required', 'max:20', new ManageRoleRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ])],
@@ -114,7 +116,7 @@ trait ValidationTrait
             //---- ( Sub Role )
             case 'saveSubRole':
                 $rules = [
-                    'name' => ['required', 'max:20', new UniqueManageRole([
+                    'name' => ['required', 'max:20', new ManageRoleRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                         'mainRoleId' => $data['input']['mainRole']
@@ -126,7 +128,7 @@ trait ValidationTrait
 
             case 'updateSubRole':
                 $rules = [
-                    'name' => ['required', 'max:20', new UniqueManageRole([
+                    'name' => ['required', 'max:20', new ManageRoleRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                         'mainRoleId' => $data['input']['mainRole']
@@ -143,7 +145,7 @@ trait ValidationTrait
             case 'saveNavType':
                 $rules = [
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:30', new UniqueManageNav([
+                    'name' => ['required', 'max:30', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type'),
                     ])],
@@ -154,7 +156,7 @@ trait ValidationTrait
             case 'updateNavType':
                 $rules = [
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:30', new UniqueManageNav([
+                    'name' => ['required', 'max:30', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type'),
                     ])],
@@ -167,7 +169,7 @@ trait ValidationTrait
                 $rules = [
                     'navType' => 'required',
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:20', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type'),
                         'navTypeId' => $data['input']['navType']
@@ -180,7 +182,7 @@ trait ValidationTrait
                 $rules = [
                     'navType' => 'required',
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:20', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type'),
                         'navTypeId' => $data['input']['navType']
@@ -195,7 +197,7 @@ trait ValidationTrait
                     'navType' => 'required',
                     'mainNav' => 'required',
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:20', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type'),
                         'navTypeId' => $data['input']['navType'],
@@ -210,7 +212,7 @@ trait ValidationTrait
                     'navType' => 'required',
                     'mainNav' => 'required',
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:20', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type'),
                         'navTypeId' => $data['input']['navType'],
@@ -227,7 +229,7 @@ trait ValidationTrait
                     'mainNav' => 'required',
                     'subNav' => 'required',
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:20', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type'),
                         'navTypeId' => $data['input']['navType'],
@@ -244,7 +246,7 @@ trait ValidationTrait
                     'mainNav' => 'required',
                     'subNav' => 'required',
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:20', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type'),
                         'navTypeId' => $data['input']['navType'],
@@ -278,13 +280,36 @@ trait ValidationTrait
             //---- ( Alert Type )
             case 'saveAlertType':
                 $rules = [
-                    'name' => 'required|unique:' . AlertType::class . ',name',
+                    'name' => 'required|max:30|unique:' . AlertType::class . ',name',
                 ];
                 break;
 
             case 'updateAlertType':
                 $rules = [
-                    'name' => 'required|unique:' . AlertType::class . ',name,' . $data['id'],
+                    'name' => 'required|max:30|unique:' . AlertType::class . ',name,' . $data['id'],
+                ];
+                break;
+
+            //---- ( Alert For )
+            case 'saveAlertFor':
+                $rules = [
+                    'alertType' => 'required',
+                    'name' => ['required', 'max:50', new CustomizedAlertRules([
+                        'targetId' => $data['id'],
+                        'alertType' => $data['input']['alertType'],
+                        'type' => Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertFor.type'),
+                    ])],
+                ];
+                break;
+
+            case 'updateAlertFor':
+                $rules = [
+                    'alertType' => 'required',
+                    'name' => ['required', 'max:50', new CustomizedAlertRules([
+                        'targetId' => $data['id'],
+                        'alertType' => $data['input']['alertType'],
+                        'type' => Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertFor.type'),
+                    ])],
                 ];
                 break;
             /*------ ( Quick Setting End ) ------*/

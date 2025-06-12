@@ -385,6 +385,47 @@
 
 
 
+        /*--========================= ( Quick Setting START ) =========================--*/
+        //------ ( Alert For )
+        $('#filterAlertForForm').find('#alertTypeFilter, #statusFilter, .filterAlertForBtn').on('change click', function () {
+            var formId = $(this).closest('form'),
+                dataTableId = $('#adminRelated-quickSetting-customizedAlert-alertFor'),
+
+                alertType = formId.find("#alertTypeFilter").val(),
+                status = formId.find("#statusFilter").val(),
+
+                action = $(this).closest('form').attr('action').split('/'),
+                newUrl = action[action.length - 2] + "/ajaxGetList?alertType=" + alertType + "&status=" + status;
+            if ($(this).attr('title') == 'Reload') {
+                commonAction({
+                    targetId: {
+                        submitForm: formId,
+                    },
+                    resetFormFields: {
+                        selectPicker: {},
+                        selectTwo: {},
+                    }
+                })
+                newUrl = action[action.length - 2] + "/ajaxGetList?alertType=" + '' + "&status=" + '';
+            }
+            commonAction({
+                targetId: {
+                    submitForm: formId,
+                    actionType: $(this).attr('title'),
+                },
+                dataTable: {
+                    load: {
+                        targetId: dataTableId,
+                        url: newUrl,
+                    }
+                },
+                filterApply: {}
+            })
+        });
+        /*--========================= ( Quick Setting END ) =========================--*/
+
+
+
         /*--========================= ( Property Related START ) =========================--*/
         //------ ( Property Attribute )
         $('#filterPropertyAttributeForm').find('#statusFilter, #typeFilter, #defaultFilter, .filterPropertyAttributeBtn').on('change click', function () {

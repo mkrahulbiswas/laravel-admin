@@ -392,6 +392,40 @@
                 }
             ]
         });
+
+        /*------( Alert For )--------*/
+        $('#adminRelated-quickSetting-customizedAlert-alertFor').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "alert-for/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "alertType"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "status",
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
         /*--========================= ( Quick Setting END ) =========================--*/
 
 
