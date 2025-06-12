@@ -4,6 +4,12 @@ namespace app\Traits;
 
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
 
+use App\Models\ManageUsers\AdminUsers;
+use App\Models\PropertyRelated\PropertyType;
+use App\Models\PropertyRelated\ManageBroad\BroadType;
+use App\Models\PropertyRelated\PropertyCategory\ManageCategory;
+use App\Models\AdminRelated\QuickSetting\CustomizedAlert\AlertType;
+
 use App\Rules\ManagePanel\UniqueManageNav;
 use App\Rules\PropertyRelated\UniquePropertyAttribute;
 use App\Rules\AdminRelated\RolePermission\UniqueManageRole;
@@ -68,9 +74,9 @@ trait ValidationTrait
             case 'updateProfile':
                 $rules = [
                     'file' => 'image|mimes:jpeg,jpg,png',
-                    'name' => 'required|max:255|unique:admins,name,' . $data['id'],
-                    'phone' => 'required|digits:10|unique:admins,phone,' . $data['id'],
-                    'email' => 'required|email|max:100|unique:admins,email,' . $data['id'],
+                    'name' => 'required|max:255|unique:' . AdminUsers::class . ',name,' . $data['id'],
+                    'phone' => 'required|digits:10|unique:' . AdminUsers::class . ',phone,' . $data['id'],
+                    'email' => 'required|email|max:100|unique:' . AdminUsers::class . ',email,' . $data['id'],
                 ];
                 break;
 
@@ -268,6 +274,19 @@ trait ValidationTrait
                     'favicon' => 'image|mimes:jpeg,jpg,png',
                 ];
                 break;
+
+            //---- ( Alert Type )
+            case 'saveAlertType':
+                $rules = [
+                    'name' => 'required|unique:' . AlertType::class . ',name',
+                ];
+                break;
+
+            case 'updateAlertType':
+                $rules = [
+                    'name' => 'required|unique:' . AlertType::class . ',name,' . $data['id'],
+                ];
+                break;
             /*------ ( Quick Setting End ) ------*/
 
 
@@ -276,8 +295,8 @@ trait ValidationTrait
             case 'saveAdminUsers':
                 $rules = [
                     'file' => 'image|mimes:jpeg,jpg,png',
-                    'email' => 'required|email|max:100|unique:admins',
-                    'phone' => 'required|max:100|unique:admins,phone|digits:10',
+                    'email' => 'required|email|max:100|unique:' . AdminUsers::class . '',
+                    'phone' => 'required|max:100|unique:' . AdminUsers::class . ',phone|digits:10',
                     'name' => 'required|max:255',
                     'mainRole' => 'required',
                     'pinCode' => 'required|max:7',
@@ -307,8 +326,8 @@ trait ValidationTrait
             case 'updateAdminUsers':
                 $rules = [
                     'file' => 'image|mimes:jpeg,jpg,png',
-                    'email' => 'required|email|max:100|unique:admins,email,' . $data['id'],
-                    'phone' => 'required|max:100|digits:10|unique:admins,phone,' . $data['id'],
+                    'email' => 'required|email|max:100|unique:' . AdminUsers::class . ',email,' . $data['id'],
+                    'phone' => 'required|max:100|digits:10|unique:' . AdminUsers::class . ',phone,' . $data['id'],
                     'name' => 'required|max:255',
                     'mainRole' => 'required',
                     'pinCode' => 'required|max:7',
@@ -363,13 +382,13 @@ trait ValidationTrait
             //---- ( Property Type )
             case 'savePropertyType':
                 $rules = [
-                    'name' => 'required|max:255|unique:property_type,name',
+                    'name' => 'required|max:255|unique:' . PropertyType::class . ',name',
                     'about' => 'max:500',
                 ];
                 break;
             case 'updatePropertyType':
                 $rules = [
-                    'name' => 'required|max:255|unique:property_type,name,' . $data['id'],
+                    'name' => 'required|max:255|unique:' . PropertyType::class . ',name,' . $data['id'],
                     'about' => 'max:500',
                 ];
                 break;
@@ -377,13 +396,13 @@ trait ValidationTrait
             //---- ( Broad Type )
             case 'saveBroadType':
                 $rules = [
-                    'name' => 'required|max:255|unique:broad_type,name',
+                    'name' => 'required|max:255|unique:' . BroadType::class . ',name',
                     'about' => 'max:500',
                 ];
                 break;
             case 'updateBroadType':
                 $rules = [
-                    'name' => 'required|max:255|unique:broad_type,name,' . $data['id'],
+                    'name' => 'required|max:255|unique:' . BroadType::class . ',name,' . $data['id'],
                     'about' => 'max:500',
                 ];
                 break;
@@ -407,7 +426,7 @@ trait ValidationTrait
             //---- ( Manage Category )
             case 'saveManageCategory':
                 $rules = [
-                    'name' => 'required|max:255|unique:manage_category,name',
+                    'name' => 'required|max:255|unique:' . ManageCategory::class . ',name',
                     'about' => 'max:500',
                 ];
                 if ($data['input']['type'] == Config::get('constants.status.category.sub')) {
@@ -424,7 +443,7 @@ trait ValidationTrait
 
             case 'updateManageCategory':
                 $rules = [
-                    'name' => 'required|max:255|unique:manage_category,name,' . $data['id'],
+                    'name' => 'required|max:255|unique:' . ManageCategory::class . ',name,' . $data['id'],
                     'about' => 'max:500',
                 ];
                 if ($data['input']['type'] == Config::get('constants.status.category.sub')) {

@@ -27,7 +27,7 @@
                     <div class="card-header cardHeader">
                         <div class="d-sm-flex align-items-center justify-content-between">
                             <div class="mb-3 mb-sm-0">
-                                <h5 class="card-title mb-0">Basic Datatables</h5>
+                                <h5 class="card-title mb-0">Basic Data Tables</h5>
                                 <span>Test</span>
                             </div>
                             <div class="d-sm-flex align-items-center justify-content-between">

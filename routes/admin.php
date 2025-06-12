@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminRelated\NavigationAccess\ArrangeSideNavAdminController;
 use App\Http\Controllers\Admin\AdminRelated\NavigationAccess\ManageSideNavAdminController;
+use App\Http\Controllers\Admin\AdminRelated\QuickSettings\CustomizedAlertAdminController;
 use App\Http\Controllers\Admin\AdminRelated\QuickSettings\SiteSettingAdminController;
 use App\Http\Controllers\Admin\AdminRelated\RolePermission\ManageRoleAdminController;
 use App\Http\Controllers\Admin\AuthAdminController;
@@ -132,6 +133,29 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin
                     Route::post('templates/edit/update', 'updateTemplates')->name('admin.update.templates');
                     Route::patch('templates/status/{id?}', 'statusTemplates')->name('admin.status.templates');
                     Route::delete('templates/delete/{id?}', 'deleteTemplates')->name('admin.delete.templates');
+                });
+                Route::controller(CustomizedAlertAdminController::class)->prefix('customized-alert')->group(function () {
+                    Route::get('alert-type', 'showAlertType')->name('admin.show.alertType');
+                    Route::get('alert-type/ajaxGetList', 'getAlertType')->name('admin.get.alertType');
+                    Route::post('alert-type/add/save', 'saveAlertType')->name('admin.save.alertType');
+                    Route::post('alert-type/edit/update', 'updateAlertType')->name('admin.update.alertType');
+                    Route::patch('alert-type/status/{id?}', 'statusAlertType')->name('admin.status.alertType');
+                    Route::delete('alert-type/delete/{id?}', 'deleteAlertType')->name('admin.delete.alertType');
+
+                    Route::get('alert-for', 'showAlertFor')->name('admin.show.alertFor');
+                    Route::get('alert-for/ajaxGetList', 'getAlertFor')->name('admin.get.alertFor');
+                    Route::post('alert-for/add/save', 'saveAlertFor')->name('admin.save.alertFor');
+                    Route::post('alert-for/edit/update', 'updateAlertFor')->name('admin.update.alertFor');
+                    Route::patch('alert-for/status/{id?}', 'statusAlertFor')->name('admin.status.alertFor');
+                    Route::delete('alert-for/delete/{id?}', 'deleteAlertFor')->name('admin.delete.alertFor');
+
+                    Route::get('alert-template', 'showAlertTemplate')->name('admin.show.alertTemplate');
+                    Route::get('alert-template/ajaxGetList', 'getAlertTemplate')->name('admin.get.alertTemplate');
+                    Route::post('alert-template/add/save', 'saveAlertTemplate')->name('admin.save.alertTemplate');
+                    Route::post('alert-template/edit/update', 'updateAlertTemplate')->name('admin.update.alertTemplate');
+                    Route::patch('alert-template/status/{id?}', 'statusAlertTemplate')->name('admin.status.alertTemplate');
+                    Route::patch('alert-template/default/{id?}', 'defaultAlertTemplate')->name('admin.default.alertTemplate');
+                    Route::delete('alert-template/delete/{id?}', 'deleteAlertTemplate')->name('admin.delete.alertTemplate');
                 });
             });
         });
