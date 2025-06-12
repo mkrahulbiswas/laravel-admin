@@ -42,14 +42,14 @@ class SiteSettingAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.inf')],
-                        'for' => Config::get('constants.typeCheck.quickSettings.logo.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.quickSetting.siteSetting.logo.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [],
                         'orderBy' => ['id' => 'desc'],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.quickSettings.logo.type')][Config::get('constants.typeCheck.helperCommon.get.inf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.quickSetting.siteSetting.logo.type')][Config::get('constants.typeCheck.helperCommon.get.inf')]['list'];
             $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],

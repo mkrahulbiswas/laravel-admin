@@ -292,7 +292,7 @@ trait CommonTrait
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                            'for' => Config::get('constants.typeCheck.manageAccess.permission.type'),
+                                            'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type'),
                                         ],
                                         'otherDataPasses' => [
                                             'filterData' => [
@@ -303,7 +303,7 @@ trait CommonTrait
                                             ]
                                         ]
                                     ],
-                                ])[Config::get('constants.typeCheck.manageAccess.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                                ])[Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                                 if ($tempThree['extraData']['hasSubNav'] <= 0) {
                                     $navHtml .= '<div class="npbMain"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempThree['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                     if ($permission == null) {
@@ -332,7 +332,7 @@ trait CommonTrait
                                             [
                                                 'getDetail' => [
                                                     'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                                    'for' => Config::get('constants.typeCheck.manageAccess.permission.type'),
+                                                    'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type'),
                                                 ],
                                                 'otherDataPasses' => [
                                                     'filterData' => [
@@ -344,7 +344,7 @@ trait CommonTrait
                                                     ]
                                                 ]
                                             ],
-                                        ])[Config::get('constants.typeCheck.manageAccess.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                                        ])[Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                                         if ($tempFour['extraData']['hasNestedNav'] <= 0) {
                                             $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                             if ($permission == null) {
@@ -373,7 +373,7 @@ trait CommonTrait
                                                     [
                                                         'getDetail' => [
                                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                                            'for' => Config::get('constants.typeCheck.manageAccess.permission.type'),
+                                                            'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type'),
                                                         ],
                                                         'otherDataPasses' => [
                                                             'filterData' => [
@@ -386,7 +386,7 @@ trait CommonTrait
                                                             ]
                                                         ]
                                                     ],
-                                                ])[Config::get('constants.typeCheck.manageAccess.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                                                ])[Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                                                 $navHtml .= '<div class="npbNested"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFive['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                                 if ($permission == null) {
                                                     $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>nested nav</b>, please set access before set permission.</span></div>';

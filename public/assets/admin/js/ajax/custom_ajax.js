@@ -3284,7 +3284,7 @@
                 targetTableId = $('#adminRelated-quickSetting-customizedAlert-alertType'),
                 data = '';
 
-            if (type == 'default') {
+            if (type == 'status') {
                 commonMethod({
                     type: 'common',
                     action: action,
@@ -3292,7 +3292,7 @@
                     targetTableId: targetTableId,
                     swalData: {
                         title: 'Are you sure?',
-                        text: 'By this action the current default will change!',
+                        text: 'By this action the status wil change!',
                         icon: 'warning',
                         confirmButtonText: 'Yes, do it!',
                         cancelButtonText: 'No, cancel',
@@ -3317,31 +3317,7 @@
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
                 id.find('#id').val(data.id);
-                id.find('#bigLogo').closest('.set-validation').find('img').attr('src', data.bigLogo);
-                id.find('#smallLogo').closest('.set-validation').find('img').attr('src', data.smallLogo);
-                id.find('#favicon').closest('.set-validation').find('img').attr('src', data.favicon);
-            } else if (type == 'info') {
-                id = $('#con-info-modal');
-                id.modal('show');
-                data = JSON.parse($(this).attr('data-array'));
-                id.find('#bigLogo img').attr('src', data.bigLogo);
-                id.find('#smallLogo img').attr('src', data.smallLogo);
-                id.find('#favicon img').attr('src', data.favicon);
-            } else if (type == 'setPermission') {
-                data = JSON.parse($(this).attr('data-array'));
-                commonMethod({
-                    type: 'common',
-                    action: action,
-                    method: 'patch',
-                    targetTableId: targetTableId,
-                    swalData: {
-                        title: 'Are you sure?',
-                        text: "Are you sure to create permission set against of all side nav, of this particular role type '" + data.name + "'",
-                        icon: 'warning',
-                        confirmButtonText: 'Yes, do it!',
-                        cancelButtonText: 'No, cancel',
-                    }
-                })
+                id.find('#name').val(data.name);
             } else {}
         });
         /*--========================= ( Quick Setting END ) =========================--*/

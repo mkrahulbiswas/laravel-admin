@@ -76,6 +76,12 @@ return [
                         'type' => 'permission'
                     ],
                 ],
+                'managePermission' => [
+                    'type' => 'managePermission',
+                    'permission' => [
+                        'type' => 'permission'
+                    ],
+                ],
             ],
             'navigationAccess' => [
                 'type' => 'navigationAccess',
@@ -94,6 +100,27 @@ return [
                         'type' => 'nestedNav'
                     ],
                 ],
+            ],
+            'quickSetting' => [
+                'type' => 'quickSetting',
+                'siteSetting' => [
+                    'type' => "siteSetting",
+                    'logo' => [
+                        'type' => "logo"
+                    ]
+                ],
+                'customizedAlert' => [
+                    'type' => "customizedAlert",
+                    'alertType' => [
+                        'type' => "alertType"
+                    ],
+                    'alertFor' => [
+                        'type' => "alertFor"
+                    ],
+                    'alertTemplate' => [
+                        'type' => "alertTemplate"
+                    ],
+                ]
             ],
         ],
         'propertyRelated' => [
@@ -267,16 +294,6 @@ return [
                 'assignCategory' => [
                     'type' => 'assignCategory'
                 ],
-            ]
-        ],
-        'manageAccess' => [
-            'permission' => [
-                'type' => 'permission'
-            ],
-        ],
-        'quickSettings' => [
-            'logo' => [
-                'type' => "logo"
             ]
         ],
         'manageUsers' => [

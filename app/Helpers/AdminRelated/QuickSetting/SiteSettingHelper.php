@@ -22,7 +22,7 @@ class SiteSettingHelper
         try {
             $finalData = array();
             foreach ($params as $tempOne) {
-                if (Config::get('constants.typeCheck.quickSettings.logo.type') == $tempOne['getList']['for']) {
+                if (Config::get('constants.typeCheck.adminRelated.quickSetting.siteSetting.logo.type') == $tempOne['getList']['for']) {
                     $data = array();
                     if (in_array(Config::get('constants.typeCheck.helperCommon.get.inf'), $tempOne['getList']['type'])) {
                         $logo = array();
@@ -73,13 +73,13 @@ class SiteSettingHelper
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                        'for' => Config::get('constants.typeCheck.quickSettings.logo.type'),
+                                        'for' => Config::get('constants.typeCheck.adminRelated.quickSetting.siteSetting.logo.type'),
                                     ],
                                     'otherDataPasses' => [
                                         'id' => encrypt($tempTwo->id)
                                     ]
                                 ],
-                            ])[Config::get('constants.typeCheck.quickSettings.logo.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            ])[Config::get('constants.typeCheck.adminRelated.quickSetting.siteSetting.logo.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                         }
                         $data[Config::get('constants.typeCheck.helperCommon.get.bnf')] = [
                             'list' => $logo
@@ -91,7 +91,7 @@ class SiteSettingHelper
                             $data[Config::get('constants.typeCheck.helperCommon.get.bnf')]['orderBy'] = $tempOne['otherDataPasses']['orderBy'];
                         }
                     }
-                    $finalData[Config::get('constants.typeCheck.quickSettings.logo.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.adminRelated.quickSetting.siteSetting.logo.type')] = $data;
                 }
             }
             return $finalData;
@@ -113,7 +113,7 @@ class SiteSettingHelper
                     ]
                 ] = $tempOne;
 
-                if (Config::get('constants.typeCheck.quickSettings.logo.type') == $for) {
+                if (Config::get('constants.typeCheck.adminRelated.quickSetting.siteSetting.logo.type') == $for) {
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
@@ -135,7 +135,7 @@ class SiteSettingHelper
                         }
                     }
 
-                    $finalData[Config::get('constants.typeCheck.quickSettings.logo.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.adminRelated.quickSetting.siteSetting.logo.type')] = $data;
                 }
             }
             return $finalData;

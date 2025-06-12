@@ -402,7 +402,7 @@ class ManageRoleHelper
                     $finalData[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')] = $data;
                 }
 
-                if (Config::get('constants.typeCheck.manageAccess.permission.type') == $for) {
+                if (Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type') == $for) {
                     $data = array();
                     $whereRaw = "`created_at` is not null";
 
@@ -464,7 +464,7 @@ class ManageRoleHelper
                         }
                     }
 
-                    $finalData[Config::get('constants.typeCheck.manageAccess.permission.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type')] = $data;
                 }
             }
             return $finalData;
