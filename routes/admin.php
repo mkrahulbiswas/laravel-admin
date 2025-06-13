@@ -153,7 +153,6 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin
                     Route::get('alert-template/ajaxGetList', 'getAlertTemplate')->name('admin.get.alertTemplate');
                     Route::post('alert-template/add/save', 'saveAlertTemplate')->name('admin.save.alertTemplate');
                     Route::post('alert-template/edit/update', 'updateAlertTemplate')->name('admin.update.alertTemplate');
-                    Route::patch('alert-template/status/{id?}', 'statusAlertTemplate')->name('admin.status.alertTemplate');
                     Route::patch('alert-template/default/{id?}', 'defaultAlertTemplate')->name('admin.default.alertTemplate');
                     Route::delete('alert-template/delete/{id?}', 'deleteAlertTemplate')->name('admin.delete.alertTemplate');
                 });
@@ -243,6 +242,7 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin
             Route::get('sub-role/{mainRoleId?}', 'getSubRole')->name('admin.get.subRoleDDD');
             Route::get('assign-broad/{propertyTypeId?}', 'getAssignBroad')->name('admin.get.assignBroadDDD');
             Route::get('manage-category/{mainCategoryId?}', 'getMainCategory')->name('admin.get.mainCategoryDDD');
+            Route::get('alert-for/{alertTypeId?}', 'getAlertFor')->name('admin.get.alertForDDD');
         });
 
         /*======== (-- Error Page --) ========*/

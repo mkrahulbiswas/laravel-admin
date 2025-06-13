@@ -69,6 +69,21 @@ function initCallSelect2() {
         dropdownParent: $('#con-edit-modal')
     });
 
+    $('.select2-alertFor').select2({
+        tags: false,
+        placeholder: "Select alert for"
+    });
+    $('.select2-alertFor-addModal').select2({
+        tags: false,
+        placeholder: "Select alert for",
+        dropdownParent: $('#con-add-modal')
+    });
+    $('.select2-alertFor-editModal').select2({
+        tags: false,
+        placeholder: "Select alert for",
+        dropdownParent: $('#con-edit-modal')
+    });
+
     $('.select2-mainNav').select2({
         tags: false,
         placeholder: "Select main nav"
@@ -244,6 +259,18 @@ function initDropify() {
 
 function initSummernote() {
     $('.sn-adminUser-about').summernote({
+        height: 145,
+        width: '100%',
+        focus: false,
+        placeholder: 'Paste content here...',
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+        ]
+    });
+    $('.sn-alertTemplate-content').summernote({
         height: 145,
         width: '100%',
         focus: false,

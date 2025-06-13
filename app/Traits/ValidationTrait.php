@@ -312,6 +312,25 @@ trait ValidationTrait
                     ])],
                 ];
                 break;
+
+            //---- ( Alert Template )
+            case 'saveAlertTemplate':
+                $rules = [
+                    'alertType' => 'required',
+                    'alertFor' => 'required',
+                    'heading' => 'required|max:150',
+                    'content' => 'required',
+                ];
+                break;
+
+            case 'updateAlertTemplate':
+                $rules = [
+                    'alertType' => 'required',
+                    'alertFor' => 'required',
+                    'heading' => 'required|max:150',
+                    'content' => 'required',
+                ];
+                break;
             /*------ ( Quick Setting End ) ------*/
 
 

@@ -10,6 +10,6 @@ class AlertTemplate extends Model
     use SoftDeletes;
     protected $table = 'alert_template';
     protected $fillable = array(
-        'status',
+        'default',
     );
 }

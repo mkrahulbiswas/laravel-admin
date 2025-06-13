@@ -4,13 +4,13 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-sm-0">
-                    <h4>Alert For</h4>
+                    <h4>Alert Template</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Admin Related</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Quick Setting</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Customized Alert</a></li>
-                            <li class="breadcrumb-item active">Alert For</li>
+                            <li class="breadcrumb-item active">Alert Template</li>
                         </ol>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                             @if ($permission['add']['permission'] == true)
                                 <button type="button" class="btn btn-success btn-label waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#con-add-modal">
                                     <i class="las la-plus-circle label-icon align-middle fs-16 me-2"></i>
-                                    <span>Add Alert For</span>
+                                    <span>Add Alert Template</span>
                                 </button>
                             @endif
                             @if ($permission['filter']['permission'] == true)
@@ -70,13 +70,13 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="tdFilterForm p-3">
-                                            <form id="filterAlertForForm" method="POST" action="{{ route('admin.get.alertFor') }}" class="m-b-20">
+                                            <form id="filterAlertTemplateForm" method="POST" action="{{ route('admin.get.alertTemplate') }}" class="m-b-20">
                                                 @csrf
                                                 <div class="row gap-2">
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <div class="form-icon set-validation">
-                                                            <select name="alertType" id="alertTypeFilter" class="selectPicker form-control" data-style="btn-light" title="Select alert type">
-                                                                <option value="">Select Nav Type</option>
+                                                            <select name="alertType" id="alertTypeFilter" class="selectPicker form-control alertTypeDDD" data-style="btn-light" title="Select alert type" data-action="{{ route('admin.get.alertForDDD') }}">
+                                                                <option value="">Select Alert Type</option>
                                                                 @foreach ($data['alertType'] as $item)
                                                                     <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                                                                 @endforeach
@@ -86,9 +86,15 @@
                                                     </div>
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <div class="form-icon set-validation">
-                                                            <select name="status" id="statusFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any status">
-                                                                <option value="{{ config('constants.status')['active'] }}">{{ config('constants.status')['active'] }}</option>
-                                                                <option value="{{ config('constants.status')['inactive'] }}">{{ config('constants.status')['inactive'] }}</option>
+                                                            <select name="alertFor" id="alertForFilter" class="selectTwo select2-alertFor form-control alertForDDD"></select>
+                                                            <i class="mdi mdi-list-status"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
+                                                        <div class="form-icon set-validation">
+                                                            <select name="default" id="defaultFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any status">
+                                                                <option value="{{ config('constants.status')['yes'] }}">{{ config('constants.status')['yes'] }}</option>
+                                                                <option value="{{ config('constants.status')['no'] }}">{{ config('constants.status')['no'] }}</option>
                                                             </select>
                                                             <i class="mdi mdi-list-status"></i>
                                                         </div>
@@ -96,13 +102,13 @@
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-5 col-xl-4 col-xxl-3">
                                                         <div class="form-group d-flex flex-row justify-content-start">
                                                             @if ($permission['search']['permission'] == true)
-                                                                <button type="button" class="btn btn-info btn-label waves-effect waves-light filterAlertForBtn" title="Search">
+                                                                <button type="button" class="btn btn-info btn-label waves-effect waves-light filterAlertTemplateBtn" title="Search">
                                                                     <i class="mdi mdi-briefcase-search-outline label-icon align-middle fs-16 me-2"></i>
                                                                     <span>Search</span>
                                                                 </button>
                                                             @endif
                                                             @if ($permission['reset']['permission'] == true)
-                                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterAlertForBtn ms-2" title="Reload">
+                                                                <button type="button" class="btn btn-danger btn-label waves-effect waves-light filterAlertTemplateBtn ms-2" title="Reload">
                                                                     <i class="bx bx-reset label-icon align-middle fs-16 me-2"></i>
                                                                     <span>Reset</span>
                                                                 </button>
@@ -118,14 +124,14 @@
                         </div>
                         <div class="col-md-12 tdContentMain">
                             <div class="tdContentSub">
-                                <table id="adminRelated-quickSetting-customizedAlert-alertFor" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
+                                <table id="adminRelated-quickSetting-customizedAlert-alertTemplate" class="table table-bordered dt-responsive nowrap table-striped align-middle" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>#</th>
                                             <th>Unique Id</th>
                                             <th>Alert Type</th>
                                             <th>Alert For</th>
-                                            <th>Stats</th>
+                                            <th>Default</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -136,7 +142,7 @@
                                             <th>Unique Id</th>
                                             <th>Alert Type</th>
                                             <th>Alert For</th>
-                                            <th>Stats</th>
+                                            <th>Default</th>
                                             <th>Actions</th>
                                         </tr>
                                     </tfoot>
@@ -149,22 +155,22 @@
         </div>
     </div>
 
-    <div id="con-add-modal" class="modal fade con-add-modal con-common-modal bs-example-modal-sm" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-sm">
+    <div id="con-add-modal" class="modal fade con-add-modal con-common-modal bs-example-modal-lg" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form id="saveAlertForForm" action="{{ route('admin.save.alertFor') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="saveAlertTemplateForm" action="{{ route('admin.save.alertTemplate') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Add Alert For</h5>
+                        <h5 class="modal-title" id="myModalLabel">Add Alert Template</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="form-element col-12 mb-3">
+                            <div class="form-element col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
                                 <label for="alertType" class="form-label">Alert type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="alertType" id="alertType" class="form-control form-control-icon">
-                                        <option value="">Select alert type</option>
+                                    <select name="alertType" id="alertType" class="form-control form-control-icon alertTypeDDD" data-action="{{ route('admin.get.alertForDDD') }}">
+                                        <option value="">Select Alert Type</option>
                                         @foreach ($data['alertType'] as $item)
                                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                                         @endforeach
@@ -173,13 +179,28 @@
                                 </div>
                                 <div class="validation-error" id="alertTypeErr"></div>
                             </div>
-                            <div class="form-element col-12 mb-3">
-                                <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                            <div class="form-element col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
+                                <label for="alertFor" class="form-label">Alert for <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Alert For">
+                                    <select name="alertFor" id="alertFor" class="selectTwo select2-alertFor-addModal form-control form-control-icon alertForDDD"></select>
                                     <i class="bx bx-message-edit"></i>
                                 </div>
-                                <div class="validation-error" id="nameErr"></div>
+                                <div class="validation-error" id="alertForErr"></div>
+                            </div>
+                            <div class="form-element col-12 mb-3">
+                                <label for="heading" class="form-label">Heading / Subject / Title <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <div class="form-icon set-validation">
+                                    <input type="text" name="heading" class="form-control form-control-icon" id="heading" placeholder="Heading">
+                                    <i class="bx bx-message-edit"></i>
+                                </div>
+                                <div class="validation-error" id="headingErr"></div>
+                            </div>
+                            <div class="form-element col-12 mb-3">
+                                <label for="content" class="form-label">Content / Body <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <div class="set-validation">
+                                    <textarea name="content" class="form-control sn-alertTemplate-content summernote" aria-label="With textarea" id="content" placeholder="Content"></textarea>
+                                </div>
+                                <div class="validation-error" id="contentErr"></div>
                             </div>
                         </div>
                     </div>
@@ -191,7 +212,7 @@
                             </button>
                         @endif
                         @if ($permission['save']['permission'] == true)
-                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="saveAlertForBtn">
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="saveAlertTemplateBtn">
                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                 <span>Save</span>
                             </button>
@@ -202,23 +223,23 @@
         </div>
     </div>
 
-    <div id="con-edit-modal" class="modal fade con-edit-modal con-common-modal bs-example-modal-sm" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-sm">
+    <div id="con-edit-modal" class="modal fade con-edit-modal con-common-modal bs-example-modal-lg" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form id="updateAlertForForm" action="{{ route('admin.update.alertFor') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                <form id="updateAlertTemplateForm" action="{{ route('admin.update.alertTemplate') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                     @csrf
                     <input type="hidden" name="id" id="id" value="">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">Edit Alert For</h5>
+                        <h5 class="modal-title" id="myModalLabel">Edit Alert Template</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="form-element col-12 mb-3">
+                            <div class="form-element col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
                                 <label for="alertType" class="form-label">Alert type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <select name="alertType" id="alertType" class="form-control form-control-icon">
-                                        <option value="">Select alert type</option>
+                                    <select name="alertType" id="alertType" class="form-control form-control-icon alertTypeDDD" data-action="{{ route('admin.get.alertForDDD') }}">
+                                        <option value="">Select Alert Type</option>
                                         @foreach ($data['alertType'] as $item)
                                             <option value="{{ $item['id'] }}" data-name="{{ $item['name'] }}">{{ $item['name'] }}</option>
                                         @endforeach
@@ -227,13 +248,28 @@
                                 </div>
                                 <div class="validation-error" id="alertTypeErr"></div>
                             </div>
-                            <div class="form-element col-12 mb-3">
-                                <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                            <div class="form-element col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
+                                <label for="alertFor" class="form-label">Alert for <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
-                                    <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Alert For">
+                                    <select name="alertFor" id="alertFor2" class="selectTwo select2-alertFor-editModal form-control form-control-icon alertForDDD"></select>
                                     <i class="bx bx-message-edit"></i>
                                 </div>
-                                <div class="validation-error" id="nameErr"></div>
+                                <div class="validation-error" id="alertForErr"></div>
+                            </div>
+                            <div class="form-element col-12 mb-3">
+                                <label for="heading" class="form-label">Heading / Subject / Title <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <div class="form-icon set-validation">
+                                    <input type="text" name="heading" class="form-control form-control-icon" id="heading" placeholder="Heading">
+                                    <i class="bx bx-message-edit"></i>
+                                </div>
+                                <div class="validation-error" id="headingErr"></div>
+                            </div>
+                            <div class="form-element col-12 mb-3">
+                                <label for="content" class="form-label">Content / Body <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                <div class="set-validation">
+                                    <textarea name="content" class="form-control sn-alertTemplate-content summernote" aria-label="With textarea" id="content" placeholder="Content"></textarea>
+                                </div>
+                                <div class="validation-error" id="contentErr"></div>
                             </div>
                         </div>
                     </div>
@@ -245,7 +281,7 @@
                             </button>
                         @endif
                         @if ($permission['update']['permission'] == true)
-                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateAlertForBtn">
+                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateAlertTemplateBtn">
                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                 <span>Update</span>
                             </button>

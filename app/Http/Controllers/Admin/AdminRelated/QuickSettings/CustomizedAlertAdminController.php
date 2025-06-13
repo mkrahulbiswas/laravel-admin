@@ -8,6 +8,7 @@ use App\Helpers\AdminRelated\QuickSetting\CustomizedAlertHelper;
 use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
 
 use App\Models\AdminRelated\QuickSetting\CustomizedAlert\AlertFor;
+use App\Models\AdminRelated\QuickSetting\CustomizedAlert\AlertTemplate;
 use App\Models\AdminRelated\QuickSetting\CustomizedAlert\AlertType;
 
 use App\Traits\CommonTrait;
@@ -119,7 +120,7 @@ class CustomizedAlertAdminController extends Controller
                 $alertType->name = $values['name'];
                 $alertType->uniqueId = $this->generateYourChoice([
                     [
-                        'preString' => 'ALT',
+                        'preString' => 'ALTY',
                         'length' => 6,
                         'model' => AlertType::class,
                         'field' => '',
@@ -252,7 +253,7 @@ class CustomizedAlertAdminController extends Controller
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
-                            'alertType' => $request->alertType,
+                            'alertTypeId' => $request->alertType,
                             'status' => $request->status,
                         ],
                         'orderBy' => [
@@ -337,7 +338,7 @@ class CustomizedAlertAdminController extends Controller
                 $alertFor->name = $values['name'];
                 $alertFor->uniqueId = $this->generateYourChoice([
                     [
-                        'preString' => 'AFT',
+                        'preString' => 'ALFO',
                         'length' => 6,
                         'model' => AlertFor::class,
                         'field' => '',
@@ -429,6 +430,243 @@ class CustomizedAlertAdminController extends Controller
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Alert for'])['success']], Config::get('constants.errorCode.ok'));
             } else {
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Alert for'])['failed']], Config::get('constants.errorCode.ok'));
+            }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+    }
+
+
+    /*---- ( Alert Template ) ----*/
+    public function showAlertTemplate()
+    {
+        try {
+            $getList = CustomizedAlertHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.inf')],
+                        'for' => Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertType.type'),
+                    ],
+                    'otherDataPasses' => [],
+                ],
+            ])[Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertType.type')][Config::get('constants.typeCheck.helperCommon.get.inf')]['list'];
+
+            $data = [
+                'alertType' => $getList
+            ];
+
+            return view('admin.admin_related.quick_setting.customized_alert.alert_template.alert_template_list', ['data' => $data]);
+        } catch (Exception $e) {
+            abort(500);
+        }
+    }
+
+    public function getAlertTemplate(Request $request)
+    {
+        try {
+            $alertTemplate = CustomizedAlertHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
+                        'for' => Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertTemplate.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'alertType' => $request->alertType,
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ],
+                    ],
+                ],
+            ])[Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertTemplate.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
+
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                    'otherDataPasses' => []
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+
+            return Datatables::of($alertTemplate)
+                ->addIndexColumn()
+                ->addColumn('uniqueId', function ($data) {
+                    $uniqueId = $data['uniqueId']['raw'];
+                    return $uniqueId;
+                })
+                ->addColumn('alertType', function ($data) {
+                    $alertType = $data['alertType']['name'];
+                    return $alertType;
+                })
+                ->addColumn('alertFor', function ($data) {
+                    $alertFor = $data['alertFor']['name'];
+                    return $alertFor;
+                })
+                ->addColumn('default', function ($data) {
+                    $default = $data['customizeInText']['default']['custom'];
+                    return $default;
+                })
+                ->addColumn('action', function ($data) use ($getPrivilege) {
+                    if ($getPrivilege['edit']['permission'] == true) {
+                        $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                    } else {
+                        $edit = '';
+                    }
+
+                    if ($getPrivilege['delete']['permission'] == true) {
+                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.alertTemplate') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                    } else {
+                        $delete = '';
+                    }
+
+                    if ($getPrivilege['info']['permission'] == true) {
+                        $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
+                    } else {
+                        $info = '';
+                    }
+
+                    if ($getPrivilege['default']['permission'] == true) {
+                        if ($data['customizeInText']['default']['raw'] == Config::get('constants.status')['no']) {
+                            $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.alertTemplate') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-open-outline"></i></a>';
+                        } else {
+                            $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.alertTemplate') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-outline"></i></a>';
+                        }
+                    } else {
+                        $default = '';
+                    }
+
+                    return $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'dtAction',
+                            'data' => [
+                                'primary' => [$default, $edit, $delete, $info],
+                                'secondary' => [],
+                            ]
+                        ]
+                    ])['dtAction']['custom'];
+                })
+                ->rawColumns(['uniqueId', 'alertType', 'alertFor', 'default', 'action'])
+                ->make(true);
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
+    }
+
+    public function saveAlertTemplate(Request $request)
+    {
+        try {
+            $values = $request->only('alertType', 'alertFor', 'heading', 'content');
+
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveAlertTemplate', 'id' => 0, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
+            } else {
+                $alertTemplate = new AlertTemplate();
+                $alertTemplate->alertTypeId = decrypt($values['alertType']);
+                $alertTemplate->alertForId = decrypt($values['alertFor']);
+                $alertTemplate->heading = $values['heading'];
+                $alertTemplate->content = $values['content'];
+                $alertTemplate->default = AlertTemplate::where([
+                    ['alertTypeId', decrypt($values['alertType'])],
+                    ['alertForId', decrypt($values['alertFor'])],
+                    ['default', Config::get('constants.status.yes')],
+                ])->get()->count() > 0 ? Config::get('constants.status.no') : Config::get('constants.status.yes');
+                $alertTemplate->uniqueId = $this->generateYourChoice([
+                    [
+                        'preString' => 'ALTE',
+                        'length' => 6,
+                        'model' => AlertTemplate::class,
+                        'field' => '',
+                        'type' => Config::get('constants.generateType.uniqueId')
+                    ]
+                ])[Config::get('constants.generateType.uniqueId')]['result'];
+                if ($alertTemplate->save()) {
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Alert template'])['success']], Config::get('constants.errorCode.ok'));
+                } else {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save data", 'msg' => __('messages.saveMsg', ['type' => 'Alert template'])['failed']], Config::get('constants.errorCode.ok'));
+                }
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+    }
+
+    public function updateAlertTemplate(Request $request)
+    {
+        $values = $request->only('id', 'alertType', 'alertFor', 'heading', 'content');
+
+        try {
+            $id = decrypt($values['id']);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Update data", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateAlertTemplate', 'id' => $id, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
+            } else {
+                $alertTemplate = AlertTemplate::find($id);
+                $alertTemplate->alertTypeId = decrypt($values['alertType']);
+                $alertTemplate->alertForId = decrypt($values['alertFor']);
+                $alertTemplate->heading = $values['heading'];
+                $alertTemplate->content = $values['content'];
+                if ($alertTemplate->update()) {
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Alert template'])['success']], Config::get('constants.errorCode.ok'));
+                } else {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Alert template'])['failed']], Config::get('constants.errorCode.ok'));
+                }
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+    }
+
+    public function defaultAlertTemplate($id)
+    {
+        try {
+            $id = decrypt($id);
+        } catch (DecryptException $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+
+        try {
+            $result = $this->changeStatus([
+                'targetId' => $id,
+                "targetModel" => AlertTemplate::class,
+                'targetField' => [],
+                'type' => Config::get('constants.action.status.smsf')
+            ]);
+            if ($result === true) {
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Alert template'])['success']], Config::get('constants.errorCode.ok'));
+            } else {
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Alert template'])['failed']], Config::get('constants.errorCode.ok'));
+            }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Change status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+    }
+
+    public function deleteAlertTemplate($id)
+    {
+        try {
+            $id = decrypt($id);
+        } catch (DecryptException $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+
+        try {
+            $result = $this->deleteItem([
+                [
+                    'model' => AlertTemplate::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => '']],
+                ],
+            ]);
+            if ($result === true) {
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Alert template'])['success']], Config::get('constants.errorCode.ok'));
+            } else {
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Alert template'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete data", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
