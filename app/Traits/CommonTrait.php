@@ -69,10 +69,34 @@ trait CommonTrait
     {
         try {
             DB::beginTransaction();
-            if ($params['type'] == Config::get('constants.action.status.smsfa')) {
-                $field = ($params['targetField'] == null) ? 'default' : $params['targetField'][0];
-                $data = app($params['targetModel'])::where('id', $params['targetId'])->first();
-                app($params['targetModel'])::where($field, config('constants.status')['yes'])->update([$field => config('constants.status')['no']]);
+            foreach ($params as $tempOne) {
+                [
+                    'targetId' => $targetId,
+                    'model' => $model,
+                    'field' => $field,
+                    'filter' => $filter,
+                    'type' => $type,
+                ] = $tempOne;
+                $field = ($field == null) ? 'default' : $field[0];
+                $data = app($model)::where('id', $targetId)->first();
+                if ($type == Config::get('constants.action.default.smyon')) {
+                    $whereRaw = "`created_at` is not null";
+                    if (!empty($filter)) {
+                        foreach ($filter as $tempTwo) {
+                            $key = ($tempTwo['key'] == '') ? 'id' : $tempTwo['key'];
+                            if (gettype($tempTwo['value']) == 'integer') {
+                                $whereRaw .= " and `" . $key . "` = " . $tempTwo['value'];
+                            }
+                            if (gettype($tempTwo['value']) == 'string') {
+                                $whereRaw .= " and `" . $key . "` = '" . $tempTwo['value'] . "'";
+                            }
+                            if (gettype($tempTwo['value']) == 'NULL') {
+                                $whereRaw .= " and `" . $key . "` is null";
+                            }
+                        }
+                    }
+                    app($model)::whereRaw($whereRaw)->update([$field => config('constants.status')['no']]);
+                }
                 if ($data->$field == config('constants.status')['no']) {
                     $data->$field = config('constants.status')['yes'];
                     if ($data->update()) {
@@ -92,30 +116,6 @@ trait CommonTrait
                         return false;
                     }
                 }
-            } elseif ($params['type'] == Config::get('constants.action.status.smsfs')) {
-                $field = ($params['targetField'] == null) ? 'default' : $params['targetField'][0];
-                $data = app($params['targetModel'])::where('id', $params['targetId'])->first();
-                if ($data->$field == config('constants.status')['no']) {
-                    $data->$field = config('constants.status')['yes'];
-                    if ($data->update()) {
-                        DB::commit();
-                        return true;
-                    } else {
-                        DB::rollBack();
-                        return false;
-                    }
-                } else {
-                    $data->$field = config('constants.status')['no'];
-                    if ($data->update()) {
-                        DB::commit();
-                        return true;
-                    } else {
-                        DB::rollBack();
-                        return false;
-                    }
-                }
-            } elseif ($params['type'] == Config::get('constants.action.status.mmsf')) {
-            } else {
             }
         } catch (Exception $e) {
             DB::rollBack();

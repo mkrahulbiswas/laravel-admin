@@ -19,6 +19,7 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Str;
 
 class CustomizedAlertAdminController extends Controller
 {
@@ -529,7 +530,7 @@ class CustomizedAlertAdminController extends Controller
                         if ($data['customizeInText']['default']['raw'] == Config::get('constants.status')['no']) {
                             $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.alertTemplate') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-open-outline"></i></a>';
                         } else {
-                            $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.alertTemplate') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-outline"></i></a>';
+                            $default = '';
                         }
                     } else {
                         $default = '';
@@ -561,11 +562,13 @@ class CustomizedAlertAdminController extends Controller
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
+                preg_match_all('/\[~([a-zA-Z\s]+)~\]/', $values['content'], $matches);
                 $alertTemplate = new AlertTemplate();
                 $alertTemplate->alertTypeId = decrypt($values['alertType']);
                 $alertTemplate->alertForId = decrypt($values['alertFor']);
                 $alertTemplate->heading = $values['heading'];
                 $alertTemplate->content = $values['content'];
+                $alertTemplate->variable = json_encode($matches[0]);
                 $alertTemplate->default = AlertTemplate::where([
                     ['alertTypeId', decrypt($values['alertType'])],
                     ['alertForId', decrypt($values['alertFor'])],
@@ -606,11 +609,41 @@ class CustomizedAlertAdminController extends Controller
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
+                preg_match_all('/\[~([a-zA-Z\s]+)~\]/', $values['content'], $matches);
                 $alertTemplate = AlertTemplate::find($id);
+                if ($alertTemplate->default == Config::get('constants.status.yes')) {
+                    if ($alertTemplate->alertTypeId == decrypt($values['alertType']) && $alertTemplate->alertForId == decrypt($values['alertFor'])) {
+                        goto pass;
+                    } else {
+                        if (AlertTemplate::where([
+                            ['alertTypeId', $alertTemplate->alertTypeId],
+                            ['alertForId', $alertTemplate->alertForId],
+                            ['default', Config::get('constants.status.no')],
+                        ])->get()->count() > 0) {
+                            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update data a", 'msg' => __('messages.changeOriginMsg', ['type' => 'Alert template'])['failed']], Config::get('constants.errorCode.ok'));
+                        } else {
+                            $alertTemplate->default = AlertTemplate::where([
+                                ['alertTypeId', decrypt($values['alertType'])],
+                                ['alertForId', decrypt($values['alertFor'])],
+                                ['default', Config::get('constants.status.yes')],
+                            ])->get()->count() > 0 ? Config::get('constants.status.no') : Config::get('constants.status.yes');
+                            goto pass;
+                        }
+                    }
+                } else {
+                    $alertTemplate->default = AlertTemplate::where([
+                        ['alertTypeId', decrypt($values['alertType'])],
+                        ['alertForId', decrypt($values['alertFor'])],
+                        ['default', Config::get('constants.status.yes')],
+                    ])->get()->count() > 0 ? Config::get('constants.status.no') : Config::get('constants.status.yes');
+                    goto pass;
+                }
+                pass:
                 $alertTemplate->alertTypeId = decrypt($values['alertType']);
                 $alertTemplate->alertForId = decrypt($values['alertFor']);
                 $alertTemplate->heading = $values['heading'];
                 $alertTemplate->content = $values['content'];
+                $alertTemplate->variable = json_encode($matches[0]);
                 if ($alertTemplate->update()) {
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update data", 'msg' => __('messages.updateMsg', ['type' => 'Alert template'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
@@ -627,23 +660,30 @@ class CustomizedAlertAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Default", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
         try {
-            $result = $this->changeStatus([
-                'targetId' => $id,
-                "targetModel" => AlertTemplate::class,
-                'targetField' => [],
-                'type' => Config::get('constants.action.status.smsf')
+            $alertTemplate = AlertTemplate::where('id', $id)->first();
+            $result = $this->setDefault([
+                [
+                    'targetId' => $id,
+                    "model" => AlertTemplate::class,
+                    'field' => '',
+                    'type' => Config::get('constants.action.default.smyon'),
+                    'filter' => [
+                        ['value' => $alertTemplate->alertTypeId, 'key' => 'alertTypeId'],
+                        ['value' => $alertTemplate->alertForId, 'key' => 'alertForId']
+                    ],
+                ]
             ]);
             if ($result === true) {
-                return response()->json(['status' => 1, 'type' => "success", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Alert template'])['success']], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Set default", 'msg' => __('messages.statusMsg', ['type' => 'Alert template'])['success']], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Change status", 'msg' => __('messages.statusMsg', ['type' => 'Alert template'])['failed']], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Set default", 'msg' => __('messages.statusMsg', ['type' => 'Alert template'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Change status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Set default", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 

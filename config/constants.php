@@ -374,6 +374,7 @@ return [
         'status' => [
             'smsfa' => 'SINGLE_MODEL_SINGLE_FIELD_ALL',
             'smsfs' => 'SINGLE_MODEL_SINGLE_FIELD_SELECTED',
+            'smsfw' => 'SINGLE_MODEL_SINGLE_FIELD_WITH',
             'smsf' => 'SINGLE_MODEL_SINGLE_FIELD',
             'smmf' => 'SINGLE_MODEL_MULTIPLE_FIELD',
             'mmsf' => 'MULTIPLE_MODEL_SINGLE_FIELD',
@@ -381,6 +382,10 @@ return [
         ],
         'nn' => 'noNested',
         'yn' => 'YesNested',
+        'default' => [
+            'smyon' => 'singleModelYesOtherNo',
+            'smyn' => 'singleModelYesNo',
+        ],
     ],
 
     //--Status For

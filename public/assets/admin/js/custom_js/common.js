@@ -275,12 +275,6 @@ function initSummernote() {
         width: '100%',
         focus: false,
         placeholder: 'Paste content here...',
-        toolbar: [
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['font', ['strikethrough', 'superscript', 'subscript']],
-            ['fontsize', ['fontsize']],
-            ['color', ['color']],
-        ]
     });
 }
 

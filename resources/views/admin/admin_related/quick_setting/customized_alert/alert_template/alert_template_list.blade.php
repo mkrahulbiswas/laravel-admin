@@ -291,4 +291,79 @@
             </div>
         </div>
     </div>
+
+    <div id="con-info-modal" class="modal fade bs-example-modal-lg con-info-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Details Alert Template</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row info-page-data">
+                        <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                            <div class="d-flex mb-4 each-detail-box">
+                                <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                                    <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
+                                        <i class="bx bx-message-edit"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <label class="details-label form-label mb-1">Alert Type: :</label>
+                                    <span class="detail-span d-block mb-0" id="alertType"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                            <div class="d-flex mb-4 each-detail-box">
+                                <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                                    <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
+                                        <i class="bx bx-message-edit"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <label class="details-label form-label mb-1">Alert For: :</label>
+                                    <span class="detail-span d-block mb-0" id="alertFor"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex mb-4 each-detail-box">
+                                <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                                    <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
+                                        <i class="bx bx-message-edit"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <label class="details-label form-label mb-1">Heading / Subject / Title: :</label>
+                                    <span class="detail-span d-block mb-0" id="heading"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex mb-4 each-detail-box">
+                                <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                                    <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
+                                        <i class="bx bx-message-edit"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <label class="details-label form-label mb-1">Content / Body: :</label>
+                                    <span class="detail-span d-block mb-0" id="content"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @if ($permission['close']['permission'] == true)
+                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
+                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
+                            <span>Close</span>
+                        </button>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

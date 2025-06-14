@@ -63,6 +63,10 @@ return [
         'success' => 'Your :type is already exist.',
         'failed' => 'Your :type is not exist.',
     ],
+    'changeOriginMsg' => [
+        'success' => 'Your :type is already exist.',
+        'failed' => 'Your :type the previous selected types defied we found there with same type other data present pleas make its yeas ans than change.',
+    ],
 
     'registerSuccess' => 'Successfully registered, just need to verify your OTP.',
     'loginSuccess' => 'Successfully logged in.',
