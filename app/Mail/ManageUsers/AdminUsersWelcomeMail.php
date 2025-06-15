@@ -24,8 +24,8 @@ class AdminUsersWelcomeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Admin Users Welcome Mail',
-            // from: new Address(env('MAIL_FROM_ADDRESS', 'hello@example.com'), env('MAIL_FROM_NAME', 'Example')),
+            subject: $this->data['subject'],
+            from: new Address(env('MAIL_FROM_ADDRESS', 'hello@example.com'), env('MAIL_FROM_NAME', 'Example')),
             // replyTo: [
             //     new Address('taylor@example.com', 'Taylor Otwell'),
             // ],
@@ -41,10 +41,7 @@ class AdminUsersWelcomeMail extends Mailable
         return new Content(
             view: 'admin.mail.admin_users_welcome_mail', //For Complex Html
             // text: 'admin.mail.admin_users_welcome_mail' //For Simple Text
-            // with: [
-            //     'orderName' => 'Rahul',
-            //     'orderPrice' => '100',
-            // ],
+            with: $this->data,
         );
     }
 

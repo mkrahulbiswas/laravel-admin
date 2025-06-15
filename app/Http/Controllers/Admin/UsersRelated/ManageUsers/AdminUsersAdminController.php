@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
+use App\Helpers\CommonHelper;
 use App\Helpers\UsersRelated\ManageUsers\ManageUsersHelper;
 
 use App\Traits\CommonTrait;
@@ -14,8 +15,6 @@ use App\Traits\ValidationTrait;
 use App\Models\UsersRelated\UsersInfo;
 use App\Models\UsersRelated\ManageUsers\AdminUsers;
 use App\Models\AdminRelated\RolePermission\ManageRole\MainRole;
-use App\Models\AdminRelated\QuickSetting\CustomizedAlert\AlertFor;
-use App\Models\AdminRelated\QuickSetting\CustomizedAlert\AlertType;
 
 use Exception;
 use Throwable;
@@ -186,10 +185,25 @@ class AdminUsersAdminController extends Controller
         $file = $request->file('file');
         $password = 123456;
 
-        AlertType::first();
-        AlertFor::first();
 
-        $data = array('name' => $values['name'], 'phone' => $values['phone'], 'password' => $password);
+        $replaceVariableWithValue = CommonHelper::replaceVariableWithValue([
+            'replaceData' => [
+                ['key' => '[~password~]', 'value' => $password],
+                ['key' => '[~phone~]', 'value' => $values['phone']],
+                ['key' => '[~name~]', 'value' => $values['name']],
+            ],
+            'alertType' => 'ALTY-894165',
+            'alertFor' => 'ALFO-580923',
+        ]);
+
+        $data = array(
+            'subject' => $replaceVariableWithValue['heading'],
+            'content' => $replaceVariableWithValue['content'],
+            'name' => $values['name'],
+            'phone' => $values['phone'],
+            'password' => $password
+        );
+
         Mail::to($values['email'])->send(new AdminUsersWelcomeMail($data));
         dd();
 
