@@ -112,6 +112,16 @@
                 $(this).closest('.lcs_wrap').find('.lcSwitch').val(1);
             }
         });
+
+        $('body').delegate('#variable span', 'click', function () {
+            var text = $(this).attr('data-variable');
+            var tempInput = $('<input>');
+            $('body').append(tempInput);
+            tempInput.val(text).select();
+            document.execCommand('copy');
+            tempInput.remove();
+            console.log(text);
+        });
     });
 
 })(jQuery);

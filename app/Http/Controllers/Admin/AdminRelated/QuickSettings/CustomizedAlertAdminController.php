@@ -473,7 +473,9 @@ class CustomizedAlertAdminController extends Controller
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
-                            'alertType' => $request->alertType,
+                            'alertTypeId' => $request->alertType,
+                            'alertForId' => $request->alertFor,
+                            'default' => $request->default,
                         ],
                         'orderBy' => [
                             'id' => 'desc'

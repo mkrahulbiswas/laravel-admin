@@ -92,7 +92,7 @@
                                                     </div>
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <div class="form-icon set-validation">
-                                                            <select name="default" id="defaultFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any status">
+                                                            <select name="default" id="defaultFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any default type">
                                                                 <option value="{{ config('constants.status')['yes'] }}">{{ config('constants.status')['yes'] }}</option>
                                                                 <option value="{{ config('constants.status')['no'] }}">{{ config('constants.status')['no'] }}</option>
                                                             </select>
@@ -309,7 +309,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Alert Type: :</label>
+                                    <label class="details-label form-label mb-1">Alert Type:</label>
                                     <span class="detail-span d-block mb-0" id="alertType"></span>
                                 </div>
                             </div>
@@ -322,7 +322,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Alert For: :</label>
+                                    <label class="details-label form-label mb-1">Alert For:</label>
                                     <span class="detail-span d-block mb-0" id="alertFor"></span>
                                 </div>
                             </div>
@@ -335,7 +335,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Heading / Subject / Title: :</label>
+                                    <label class="details-label form-label mb-1">Heading / Subject / Title:</label>
                                     <span class="detail-span d-block mb-0" id="heading"></span>
                                 </div>
                             </div>
@@ -348,8 +348,21 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden">
-                                    <label class="details-label form-label mb-1">Content / Body: :</label>
+                                    <label class="details-label form-label mb-1">Content / Body:</label>
                                     <span class="detail-span d-block mb-0" id="content"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex mb-4 each-detail-box">
+                                <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                                    <div class="avatar-title bg-light rounded-circle fs-16 text-primary">
+                                        <i class="bx bx-message-edit"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <label class="details-label form-label mb-1">Variable</label>
+                                    <div class="detail-span d-block mb-0" id="variable"></div>
                                 </div>
                             </div>
                         </div>

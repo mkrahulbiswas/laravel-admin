@@ -3701,16 +3701,16 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        // loader: {
-                        //     isSet: true
-                        // },
+                        loader: {
+                            isSet: true
+                        },
                         resetValidation: {},
-                        // submitBtnState: {
-                        //     dataPass: {
-                        //         text: 'Please wait...',
-                        //         disabled: true
-                        //     }
-                        // }
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
                     })
                 },
                 success: function (msg) {
@@ -3719,9 +3719,9 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        // loader: {
-                        //     isSet: false
-                        // },
+                        loader: {
+                            isSet: false
+                        },
                         toaster: {
                             dataPass: {
                                 title: msg.title,
@@ -3729,12 +3729,12 @@
                                 type: msg.type
                             }
                         },
-                        // submitBtnState: {
-                        //     dataPass: {
-                        //         text: 'Update',
-                        //         disabled: false
-                        //     }
-                        // }
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Update',
+                                disabled: false
+                            }
+                        }
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.alertType, function (i) {
@@ -3793,7 +3793,8 @@
             var type = $(this).attr('data-type'),
                 action = $(this).attr('data-action'),
                 targetTableId = $('#adminRelated-quickSetting-customizedAlert-alertTemplate'),
-                data = '';
+                data = '',
+                html = '';
 
             if (type == 'default') {
                 commonMethod({
@@ -3838,10 +3839,21 @@
                 id = $('#con-info-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
+                console.log(data.variable);
                 id.find('#alertType').text(data.alertType.name);
                 id.find('#alertFor').text(data.alertFor.name);
                 id.find('#heading').text(data.heading);
                 id.find('#content').html(data.content);
+                if (data.variable.length <= 0) {
+                    id.find('#variable').html('<span>No variable found</span>');
+                } else {
+                    html += '<div class="variable">'
+                    data.variable.forEach((val) => {
+                        html += '<span data-variable="' + val + '">' + val + '</span>'
+                    })
+                    html += '</div>'
+                    id.find('#variable').html('').append(html);
+                }
             }
         });
         /*--========================= ( Quick Setting END ) =========================--*/

@@ -342,6 +342,7 @@ return [
             'access' => 'access',
             'child' => 'hasChild',
             'permission' => 'hasPermission',
+            'variable' => 'variable',
         ]
     ],
 

@@ -69,6 +69,7 @@ class CustomizedAlertHelper
 
                     $finalData[Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertType.type')] = $data;
                 }
+
                 if (Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertFor.type') == $tempOne['getList']['for']) {
                     $data = array();
 
@@ -171,6 +172,7 @@ class CustomizedAlertHelper
 
                     $finalData[Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertFor.type')] = $data;
                 }
+
                 if (Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertTemplate.type') == $tempOne['getList']['for']) {
                     $data = array();
 
@@ -221,16 +223,22 @@ class CustomizedAlertHelper
                         $orderByRaw = "`id` DESC";
 
                         if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
-                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
-                                $status = $tempOne['otherDataPasses']['filterData']['status'];
-                                if (!empty($status)) {
-                                    $whereRaw .= " and `status` = '" . $status . "'";
-                                }
-                            }
                             if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'alertTypeId')) {
                                 $alertTypeId = $tempOne['otherDataPasses']['filterData']['alertTypeId'];
                                 if (!empty($alertTypeId)) {
                                     $whereRaw .= " and `alertTypeId` = " . decrypt($alertTypeId);
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'alertForId')) {
+                                $alertForId = $tempOne['otherDataPasses']['filterData']['alertForId'];
+                                if (!empty($alertForId)) {
+                                    $whereRaw .= " and `alertForId` = " . decrypt($alertForId);
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'default')) {
+                                $default = $tempOne['otherDataPasses']['filterData']['default'];
+                                if (!empty($default)) {
+                                    $whereRaw .= " and `default` = '" . $default . "'";
                                 }
                             }
                         }
@@ -383,6 +391,7 @@ class CustomizedAlertHelper
                                 'id' => encrypt($alertTemplate->id),
                                 'heading' => $alertTemplate->heading,
                                 'content' => $alertTemplate->content,
+                                'variable' => json_decode($alertTemplate->variable),
                                 'alertType' => CustomizedAlertHelper::getDetail([
                                     [
                                         'getDetail' => [
