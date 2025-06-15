@@ -9,11 +9,11 @@ use App\Http\Controllers\Admin\AdminRelated\RolePermission\ManageRoleAdminContro
 use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\DDDAdminController;
 use App\Http\Controllers\Admin\Dashboard\DashboardAdminController;
-use App\Http\Controllers\Admin\ManageUsers\AdminUsersAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\ManageBroadAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyAttributeAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyCategoryAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyTypeAdminController;
+use App\Http\Controllers\Admin\UsersRelated\ManageUsers\AdminUsersAdminController;
 use App\Http\Middleware\CheckPermission;
 
 Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin'])->group(function () {
@@ -219,7 +219,7 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin
         });
 
         /*======== (-- Users Related --) ========*/
-        Route::group(['prefix' => 'users-releted'], function () {
+        Route::group(['prefix' => 'users-related'], function () {
             Route::group(['prefix' => 'manage-users'], function () {
                 Route::controller(AdminUsersAdminController::class)->group(function () {
                     Route::get('admin-users', 'showAdminUsers')->name('admin.show.adminUsers');

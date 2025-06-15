@@ -5,11 +5,11 @@ namespace app\Traits;
 
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
 
-use App\Models\ManageUsers\AdminUsers;
 use App\Models\PropertyRelated\PropertyType;
 use App\Models\PropertyRelated\ManageBroad\BroadType;
 use App\Models\PropertyRelated\PropertyCategory\ManageCategory;
 use App\Models\AdminRelated\QuickSetting\CustomizedAlert\AlertType;
+use App\Models\UsersRelated\ManageUsers\AdminUsers;
 
 use App\Rules\AdminRelated\NavigationAccess\ManageSideNavRules;
 use App\Rules\AdminRelated\QuickSetting\CustomizedAlertRules;

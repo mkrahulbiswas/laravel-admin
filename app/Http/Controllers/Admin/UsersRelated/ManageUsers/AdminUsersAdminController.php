@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Admin\ManageUsers;
+namespace App\Http\Controllers\Admin\UsersRelated\ManageUsers;
 
-use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
 use App\Http\Controllers\Controller;
 
+use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
-use App\Helpers\ManageUsers\GetManageUsersHelper;
+use App\Helpers\UsersRelated\ManageUsers\ManageUsersHelper;
 
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
+use App\Models\UsersRelated\UsersInfo;
+use App\Models\UsersRelated\ManageUsers\AdminUsers;
 use App\Models\AdminRelated\RolePermission\ManageRole\MainRole;
-use App\Models\ManageUsers\AdminUsers;
-use App\Models\ManageUsers\UsersInfo;
+use App\Models\AdminRelated\QuickSetting\CustomizedAlert\AlertFor;
+use App\Models\AdminRelated\QuickSetting\CustomizedAlert\AlertType;
 
 use Exception;
 use Throwable;
@@ -64,7 +66,7 @@ class AdminUsersAdminController extends Controller
     public function getAdminUsers(Request $request)
     {
         try {
-            $adminUsers = GetManageUsersHelper::getList([
+            $adminUsers = ManageUsersHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
@@ -178,88 +180,95 @@ class AdminUsersAdminController extends Controller
 
     public function saveAdminUsers(Request $request)
     {
-        try {
-            DB::beginTransaction();
-            $values = $request->only('name', 'email', 'phone', 'mainRole', 'subRole', 'pinCode', 'state', 'country', 'address', 'about');
-            $file = $request->file('file');
-            $password = 123456;
+        // try {
+        DB::beginTransaction();
+        $values = $request->only('name', 'email', 'phone', 'mainRole', 'subRole', 'pinCode', 'state', 'country', 'address', 'about');
+        $file = $request->file('file');
+        $password = 123456;
 
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveAdminUsers', 'id' => 0, 'platform' => $this->platform]);
-            if ($validator->fails()) {
-                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
+        AlertType::first();
+        AlertFor::first();
+
+        $data = array('name' => $values['name'], 'phone' => $values['phone'], 'password' => $password);
+        Mail::to($values['email'])->send(new AdminUsersWelcomeMail($data));
+        dd();
+
+        $validator = $this->isValid(['input' => $request->all(), 'for' => 'saveAdminUsers', 'id' => 0, 'platform' => $this->platform]);
+        if ($validator->fails()) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
+        } else {
+            if (MainRole::where('id', decrypt($values['mainRole']))->first()->uniqueId == Config::get('constants.superAdminCheck')['mainRole']) {
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save", 'msg' => __('messages.notAllowMsg')], Config::get('constants.errorCode.ok'));
             } else {
-                if (MainRole::where('id', decrypt($values['mainRole']))->first()->uniqueId == Config::get('constants.superAdminCheck')['mainRole']) {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save", 'msg' => __('messages.notAllowMsg')], Config::get('constants.errorCode.ok'));
-                } else {
-                    if ($file) {
-                        $uploadFile = $this->uploadFile([
-                            'file' => ['current' => $file, 'previous' => ''],
-                            'platform' => $this->platform,
-                            'storage' => Config::get('constants.storage')['adminUsers']
-                        ]);
-                        if ($uploadFile['type'] == false) {
-                            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], Config::get('constants.errorCode.ok'));
-                        } else {
-                            $fileName = $uploadFile['name'];
-                        }
+                if ($file) {
+                    $uploadFile = $this->uploadFile([
+                        'file' => ['current' => $file, 'previous' => ''],
+                        'platform' => $this->platform,
+                        'storage' => Config::get('constants.storage')['adminUsers']
+                    ]);
+                    if ($uploadFile['type'] == false) {
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], Config::get('constants.errorCode.ok'));
                     } else {
-                        $fileName = 'NA';
+                        $fileName = $uploadFile['name'];
                     }
-                    $adminUsers = new AdminUsers();
-                    $adminUsers->uniqueId = $this->generateYourChoice([
-                        [
-                            'preString' => 'AU',
-                            'length' => 6,
-                            'model' => AdminUsers::class,
-                            'field' => '',
-                            'type' => Config::get('constants.generateType.uniqueId')
-                        ]
-                    ])[Config::get('constants.generateType.uniqueId')]['result'];
-                    $adminUsers->name = $values['name'];
-                    $adminUsers->email = $values['email'];
-                    $adminUsers->phone = $values['phone'];
-                    $adminUsers->status = Config::get('constants.status')['active'];
-                    $adminUsers->mainRoleId = decrypt($values['mainRole']);
-                    if ($values['subRole'] != '') {
-                        $adminUsers->subRoleId = decrypt($values['subRole']);
-                    }
-                    $adminUsers->password = Hash::make($password);
-                    if ($file) {
-                        $adminUsers->image = $fileName;
-                    }
-                    if ($adminUsers->save()) {
-                        $usersInfo = new UsersInfo();
-                        $usersInfo->userId = $adminUsers->id;
-                        $usersInfo->pinCode = $values['pinCode'];
-                        $usersInfo->state = $values['state'];
-                        $usersInfo->country = $values['country'];
-                        $usersInfo->address = $values['address'];
-                        $usersInfo->userType = Config::get('constants.userType')['admin'];
-                        $usersInfo->about = ($values['about'] == '') ? 'NA' : $values['about'];
-                        if ($usersInfo->save()) {
-                            $data = array('name' => $values['name'], 'phone' => $values['phone'], 'password' => $password);
-                            try {
-                                Mail::to($values['email'])->send(new AdminUsersWelcomeMail($data));
-                                DB::commit();
-                                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save", 'msg' => __('messages.saveMsg', ['type' => 'Admin Users'])['success']], Config::get('constants.errorCode.ok'));
-                            } catch (Throwable $th) {
-                                DB::rollback();
-                                return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
-                            }
-                        } else {
+                } else {
+                    $fileName = 'NA';
+                }
+                $adminUsers = new AdminUsers();
+                $adminUsers->uniqueId = $this->generateYourChoice([
+                    [
+                        'preString' => 'AU',
+                        'length' => 6,
+                        'model' => AdminUsers::class,
+                        'field' => '',
+                        'type' => Config::get('constants.generateType.uniqueId')
+                    ]
+                ])[Config::get('constants.generateType.uniqueId')]['result'];
+                $adminUsers->name = $values['name'];
+                $adminUsers->email = $values['email'];
+                $adminUsers->phone = $values['phone'];
+                $adminUsers->status = Config::get('constants.status')['active'];
+                $adminUsers->mainRoleId = decrypt($values['mainRole']);
+                if ($values['subRole'] != '') {
+                    $adminUsers->subRoleId = decrypt($values['subRole']);
+                }
+                $adminUsers->password = Hash::make($password);
+                if ($file) {
+                    $adminUsers->image = $fileName;
+                }
+                if ($adminUsers->save()) {
+                    $usersInfo = new UsersInfo();
+                    $usersInfo->userId = $adminUsers->id;
+                    $usersInfo->pinCode = $values['pinCode'];
+                    $usersInfo->state = $values['state'];
+                    $usersInfo->country = $values['country'];
+                    $usersInfo->address = $values['address'];
+                    $usersInfo->userType = Config::get('constants.userType')['admin'];
+                    $usersInfo->about = ($values['about'] == '') ? 'NA' : $values['about'];
+                    if ($usersInfo->save()) {
+                        $data = array('name' => $values['name'], 'phone' => $values['phone'], 'password' => $password);
+                        try {
+                            Mail::to($values['email'])->send(new AdminUsersWelcomeMail($data));
+                            DB::commit();
+                            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Save", 'msg' => __('messages.saveMsg', ['type' => 'Admin Users'])['success']], Config::get('constants.errorCode.ok'));
+                        } catch (Throwable $th) {
                             DB::rollback();
-                            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save", 'msg' => __('messages.saveMsg', ['type' => 'Admin Users'])['failed']], Config::get('constants.errorCode.ok'));
+                            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
                         }
                     } else {
                         DB::rollback();
                         return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save", 'msg' => __('messages.saveMsg', ['type' => 'Admin Users'])['failed']], Config::get('constants.errorCode.ok'));
                     }
+                } else {
+                    DB::rollback();
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Save", 'msg' => __('messages.saveMsg', ['type' => 'Admin Users'])['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
-        } catch (Exception $e) {
-            DB::rollback();
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
+        // } catch (Exception $e) {
+        //     DB::rollback();
+        //     return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        // }
     }
 
     public function editAdminUsers($id)
@@ -280,7 +289,7 @@ class AdminUsersAdminController extends Controller
                 ],
             ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
-            $adminUsers = GetManageUsersHelper::getDetail([
+            $adminUsers = ManageUsersHelper::getDetail([
                 [
                     'getDetail' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],

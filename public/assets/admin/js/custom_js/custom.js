@@ -113,14 +113,18 @@
             }
         });
 
-        $('body').delegate('#variable span', 'click', function () {
+        $('body').delegate('#variable .variableItem', 'click', function () {
             var text = $(this).attr('data-variable');
-            var tempInput = $('<input>');
-            $('body').append(tempInput);
-            tempInput.val(text).select();
-            document.execCommand('copy');
-            tempInput.remove();
-            console.log(text);
+            navigator.clipboard.writeText(text)
+            $.toast({
+                heading: 'Copied successfully.',
+                text: 'Clicked text "' + text + '" copied successfully.',
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 3000,
+                stack: 0,
+                position: 'top-right',
+            });
         });
     });
 

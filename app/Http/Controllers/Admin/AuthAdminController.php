@@ -10,9 +10,8 @@ use App\Traits\FileTrait;
 use App\Traits\ValidationTrait;
 
 use App\Models\User;
-use App\Models\ManageUsers\AdminUsers;
+use App\Models\UsersRelated\ManageUsers\AdminUsers;
 
-use Validator;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

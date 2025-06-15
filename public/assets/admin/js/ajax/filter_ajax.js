@@ -506,13 +506,13 @@
         //------ ( Property Type )
         $('#filterPropertyTypeForm').find('#statusFilter, #defaultFilter, .filterPropertyTypeBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#propertyRelated-propertyAttribute'),
+                dataTableId = $('#propertyRelated-propertyType'),
 
                 status = formId.find("#statusFilter").val(),
-                defaul = formId.find("#defaultFilter").val(),
+                defaultType = formId.find("#defaultFilter").val(),
 
                 action = $(this).closest('form').attr('action').split('/'),
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&default=" + defaul;
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&default=" + defaultType;
             if ($(this).attr('title') == 'Reload') {
                 commonAction({
                     targetId: {

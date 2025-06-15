@@ -1,22 +1,21 @@
 <?php
 
-namespace App\Helpers\ManageUsers;
+namespace App\Helpers\UsersRelated\ManageUsers;
 
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
 
-use App\Models\ManageUsers\AdminUsers;
-use App\Models\ManageUsers\UsersInfo;
+use App\Models\UsersRelated\UsersInfo;
+use App\Models\UsersRelated\ManageUsers\AdminUsers;
 
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 
-class GetManageUsersHelper
+class ManageUsersHelper
 {
     use FileTrait, CommonTrait;
     public $platform = 'backend';
@@ -60,7 +59,7 @@ class GetManageUsersHelper
                         }
 
                         foreach (AdminUsers::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $adminUsers[] = GetManageUsersHelper::getDetail([
+                            $adminUsers[] = ManageUsersHelper::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
