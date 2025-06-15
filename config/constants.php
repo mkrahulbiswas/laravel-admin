@@ -417,6 +417,7 @@ return [
         'route' => 'route',
         'lastSegment' => 'lastSegment',
         'slug' => 'slug',
+        'alpNum' => 'alphaNumerical',
     ],
 
 

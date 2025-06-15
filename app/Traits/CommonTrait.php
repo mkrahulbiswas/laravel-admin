@@ -196,211 +196,170 @@ trait CommonTrait
 
     public static function dynamicHtmlPurse($params)
     {
-        // try {
-        $return = array();
-        foreach ($params as $tempOne) {
-            if ($tempOne['type'] == 'dtMultiData') {
-                $appendHtml = '';
+        try {
+            $return = array();
+            foreach ($params as $tempOne) {
+                if ($tempOne['type'] == 'dtMultiData') {
+                    $appendHtml = '';
 
-                foreach ($tempOne['data'] as $tempTwo) {
-                    if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.status')) {
-                        $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataStatus"><label>Status:</label>' . $tempTwo['custom'] . '</div>';
+                    foreach ($tempOne['data'] as $tempTwo) {
+                        if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.status')) {
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataStatus"><label>Status:</label>' . $tempTwo['custom'] . '</div>';
+                        }
+
+                        if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.default')) {
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataDefault"><label>Default:</label>' . $tempTwo['custom'] . '</div>';
+                        }
+
+                        if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.access')) {
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Access:</label>' . $tempTwo['custom'] . '</div>';
+                        }
+
+                        if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.hasChild')) {
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Child:</label>' . $tempTwo['custom'] . '</div>';
+                        }
+
+                        if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.hasPermission')) {
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Permission:</label>' . $tempTwo['custom'] . '</div>';
+                        }
+
+                        if ($tempTwo['type'] == Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertType.type')) {
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Alert Name:</label>' . $tempTwo['value']['name'] . '</div>';
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Unique Id:</label>' . $tempTwo['value']['uniqueId'] . '</div>';
+                        }
+
+                        if ($tempTwo['type'] == Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertFor.type')) {
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Alert Name:</label>' . $tempTwo['value']['name'] . '</div>';
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Unique Id:</label>' . $tempTwo['value']['uniqueId'] . '</div>';
+                        }
                     }
 
-                    if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.default')) {
-                        $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataDefault"><label>Default:</label>' . $tempTwo['custom'] . '</div>';
-                    }
+                    $html = '<div class="dtMultiData"><div class="dtMultiDataContent">' . $appendHtml . '</div></div>';
 
-                    if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.access')) {
-                        $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Access:</label>' . $tempTwo['custom'] . '</div>';
-                    }
-
-                    if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.hasChild')) {
-                        $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Child:</label>' . $tempTwo['custom'] . '</div>';
-                    }
-
-                    if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.hasPermission')) {
-                        $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Permission:</label>' . $tempTwo['custom'] . '</div>';
-                    }
-
-                    if ($tempTwo['type'] == Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertType.type')) {
-                        $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Alert Name:</label>' . $tempTwo['value']['name'] . '</div>';
-                        $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Unique Id:</label>' . $tempTwo['value']['uniqueId'] . '</div>';
-                    }
-
-                    if ($tempTwo['type'] == Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertFor.type')) {
-                        $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Alert Name:</label>' . $tempTwo['value']['name'] . '</div>';
-                        $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Unique Id:</label>' . $tempTwo['value']['uniqueId'] . '</div>';
-                    }
+                    $return['dtMultiData'] = [
+                        'custom' => $html,
+                        'raw' => $tempOne['data']
+                    ];
                 }
 
-                $html = '<div class="dtMultiData"><div class="dtMultiDataContent">' . $appendHtml . '</div></div>';
+                if ($tempOne['type'] == 'dtAction') {
+                    $primaryAction = $secondaryAction = '';
 
-                $return['dtMultiData'] = [
-                    'custom' => $html,
-                    'raw' => $tempOne['data']
-                ];
-            }
-
-            if ($tempOne['type'] == 'dtAction') {
-                $primaryAction = $secondaryAction = '';
-
-                foreach ($tempOne['data']['primary'] as $tempTwo) {
-                    if (Str::contains($tempTwo, 'data-type="status"')) {
-                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonStatus">' . $tempTwo . '</div>';
+                    foreach ($tempOne['data']['primary'] as $tempTwo) {
+                        if (Str::contains($tempTwo, 'data-type="status"')) {
+                            $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonStatus">' . $tempTwo . '</div>';
+                        }
+                        if (Str::contains($tempTwo, 'data-type="edit"')) {
+                            $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonEdit">' . $tempTwo . '</div>';
+                        }
+                        if (Str::contains($tempTwo, 'data-type="delete"')) {
+                            $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonDelete">' . $tempTwo . '</div>';
+                        }
+                        if (Str::contains($tempTwo, 'data-type="info"')) {
+                            $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonInfo">' . $tempTwo . '</div>';
+                        }
+                        if (Str::contains($tempTwo, 'data-type="access"')) {
+                            $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonAccess">' . $tempTwo . '</div>';
+                        }
+                        if (Str::contains($tempTwo, 'data-type="default"')) {
+                            $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonDefault">' . $tempTwo . '</div>';
+                        }
                     }
-                    if (Str::contains($tempTwo, 'data-type="edit"')) {
-                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonEdit">' . $tempTwo . '</div>';
-                    }
-                    if (Str::contains($tempTwo, 'data-type="delete"')) {
-                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonDelete">' . $tempTwo . '</div>';
-                    }
-                    if (Str::contains($tempTwo, 'data-type="info"')) {
-                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonInfo">' . $tempTwo . '</div>';
-                    }
-                    if (Str::contains($tempTwo, 'data-type="access"')) {
-                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonAccess">' . $tempTwo . '</div>';
-                    }
-                    if (Str::contains($tempTwo, 'data-type="default"')) {
-                        $primaryAction .= '<div class="tdActionButtonCommon tdActionButtonDefault">' . $tempTwo . '</div>';
-                    }
-                }
 
-                foreach ($tempOne['data']['secondary'] as $tempTwo) {
-                    if ($tempTwo != '') {
-                        $secondaryAction .= '<div class="tdActionInnerCommon">' . $tempTwo . '</div>';
+                    foreach ($tempOne['data']['secondary'] as $tempTwo) {
+                        if ($tempTwo != '') {
+                            $secondaryAction .= '<div class="tdActionInnerCommon">' . $tempTwo . '</div>';
+                        }
                     }
-                }
 
-                if ($secondaryAction != '') {
-                    $toggleButton = '<div class="tdActionButtonCommon tdActionButtonToggle"><a type="button" class="btn btn-sm"><i class="mdi mdi-menu-open"></i></a></div>';
-                } else {
-                    $toggleButton = '';
-                }
-
-                if ($primaryAction == '' && $secondaryAction == '') {
-                    $html = '<div class="tdAction"><div class="tdActionButton">No Action Found</div><div class="tdActionInner"></div></div>';
-                } else {
-                    $html = '<div class="tdAction"><div class="tdActionButton">' . $primaryAction . $toggleButton . '</div><div class="tdActionInner">' . $secondaryAction . '</div></div>';
-                }
-
-                $return['dtAction'] = [
-                    'custom' => $html,
-                    'raw' => $tempOne['data']
-                ];
-            }
-
-            if ($tempOne['type'] == 'dtNavPermission') {
-                $navHtml = '';
-
-                foreach ($tempOne['data'] as $tempTwo) {
-                    if ($tempTwo['extraData']['hasMainNav'] <= 0) {
-                        $navHtml .= '<div class="npbType"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempTwo['name'] . '</span></div><div class="npbhRight">Nav Type (No Main nav Found)</div></div></div>';
+                    if ($secondaryAction != '') {
+                        $toggleButton = '<div class="tdActionButtonCommon tdActionButtonToggle"><a type="button" class="btn btn-sm"><i class="mdi mdi-menu-open"></i></a></div>';
                     } else {
-                        $navHtml .= '<div class="npbType"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempTwo['name'] . '</span></div></div>';
-                        foreach ($tempTwo['mainNav'] as $tempThree) {
-                            $permission = ManageRoleHelper::getDetail([
-                                [
-                                    'getDetail' => [
-                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type'),
-                                    ],
-                                    'otherDataPasses' => [
-                                        'filterData' => [
-                                            'navTypeId' => $tempTwo['id'],
-                                            'mainNavId' => $tempThree['id'],
-                                            'subRoleId' => isset($tempOne['otherDataPasses']['permission']['subRoleId']) ? $tempOne['otherDataPasses']['permission']['subRoleId'] : '',
-                                            'mainRoleId' => $tempOne['otherDataPasses']['permission']['mainRoleId'],
-                                        ]
-                                    ]
-                                ],
-                            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
-                            if ($tempThree['extraData']['hasSubNav'] <= 0) {
-                                $navHtml .= '<div class="npbMain"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempThree['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
-                                if ($permission == null) {
-                                    $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>main nav</b>, please set access before set permission.</span></div>';
-                                } else {
-                                    foreach ($permission['privilege'] as $keySix => $tempSix) {
-                                        $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
-                                        if ($tempSix['allowed'] == true) {
-                                            if ($tempSix['permission'] == true) {
-                                                $navHtml .= '<input type="checkbox" name="' . $permission['uniqueId'] . '[' . $keySix . ']" value="1" checked class="lcSwitch" autocomplete="off" />';
-                                            } else {
-                                                $navHtml .= '<input type="checkbox" name="' . $permission['uniqueId'] . '[' . $keySix . ']" value="0" class="lcSwitch" autocomplete="off" />';
-                                            }
-                                        } else {
-                                            $navHtml .= '<span><i class=" las la-low-vision"></i></span>';
-                                        }
-                                        $navHtml .= '</div></div>';
-                                    }
-                                    $navHtml .= '<input type="hidden" name="id[' . $permission['uniqueId'] . ']" value="' . $permission['id'] . '">';
-                                }
-                                $navHtml .= '</div></div></div></div>';
-                            } else {
-                                $navHtml .= '<div class="npbMain"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempThree['name'] . '</span></div></div>';
-                                foreach ($tempThree['subNav'] as $tempFour) {
-                                    $permission = ManageRoleHelper::getDetail([
-                                        [
-                                            'getDetail' => [
-                                                'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                                'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type'),
-                                            ],
-                                            'otherDataPasses' => [
-                                                'filterData' => [
-                                                    'navTypeId' => $tempTwo['id'],
-                                                    'mainNavId' => $tempThree['id'],
-                                                    'subNavId' => $tempFour['id'],
-                                                    'subRoleId' => isset($tempOne['otherDataPasses']['permission']['subRoleId']) ? $tempOne['otherDataPasses']['permission']['subRoleId'] : '',
-                                                    'mainRoleId' => $tempOne['otherDataPasses']['permission']['mainRoleId'],
-                                                ]
-                                            ]
+                        $toggleButton = '';
+                    }
+
+                    if ($primaryAction == '' && $secondaryAction == '') {
+                        $html = '<div class="tdAction"><div class="tdActionButton">No Action Found</div><div class="tdActionInner"></div></div>';
+                    } else {
+                        $html = '<div class="tdAction"><div class="tdActionButton">' . $primaryAction . $toggleButton . '</div><div class="tdActionInner">' . $secondaryAction . '</div></div>';
+                    }
+
+                    $return['dtAction'] = [
+                        'custom' => $html,
+                        'raw' => $tempOne['data']
+                    ];
+                }
+
+                if ($tempOne['type'] == 'dtNavPermission') {
+                    $navHtml = '';
+
+                    foreach ($tempOne['data'] as $tempTwo) {
+                        if ($tempTwo['extraData']['hasMainNav'] <= 0) {
+                            $navHtml .= '<div class="npbType"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempTwo['name'] . '</span></div><div class="npbhRight">Nav Type (No Main nav Found)</div></div></div>';
+                        } else {
+                            $navHtml .= '<div class="npbType"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempTwo['name'] . '</span></div></div>';
+                            foreach ($tempTwo['mainNav'] as $tempThree) {
+                                $permission = ManageRoleHelper::getDetail([
+                                    [
+                                        'getDetail' => [
+                                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                            'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type'),
                                         ],
-                                    ])[Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
-                                    if ($tempFour['extraData']['hasNestedNav'] <= 0) {
-                                        $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
-                                        if ($permission == null) {
-                                            $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>sub nav</b>, please set access before set permission.</span></div>';
-                                        } else {
-                                            foreach ($permission['privilege'] as $keySix => $tempSix) {
-                                                $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
-                                                if ($tempSix['allowed'] == true) {
-                                                    if ($tempSix['permission'] == true) {
-                                                        $navHtml .= '<input type="checkbox" name="' . $permission['uniqueId'] . '[' . $keySix . ']" value="1" checked class="lcSwitch" autocomplete="off" />';
-                                                    } else {
-                                                        $navHtml .= '<input type="checkbox" name="' . $permission['uniqueId'] . '[' . $keySix . ']" value="0" class="lcSwitch" autocomplete="off" />';
-                                                    }
-                                                } else {
-                                                    $navHtml .= '<span><i class=" las la-low-vision"></i></span>';
-                                                }
-                                                $navHtml .= '</div></div>';
-                                            }
-                                            $navHtml .= '<input type="hidden" name="id[' . $permission['uniqueId'] . ']" value="' . $permission['id'] . '">';
-                                        }
-                                        $navHtml .= '</div></div></div></div>';
+                                        'otherDataPasses' => [
+                                            'filterData' => [
+                                                'navTypeId' => $tempTwo['id'],
+                                                'mainNavId' => $tempThree['id'],
+                                                'subRoleId' => isset($tempOne['otherDataPasses']['permission']['subRoleId']) ? $tempOne['otherDataPasses']['permission']['subRoleId'] : '',
+                                                'mainRoleId' => $tempOne['otherDataPasses']['permission']['mainRoleId'],
+                                            ]
+                                        ]
+                                    ],
+                                ])[Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                                if ($tempThree['extraData']['hasSubNav'] <= 0) {
+                                    $navHtml .= '<div class="npbMain"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempThree['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
+                                    if ($permission == null) {
+                                        $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>main nav</b>, please set access before set permission.</span></div>';
                                     } else {
-                                        $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight"></div></div>';
-                                        foreach ($tempFour['nestedNav'] as $tempFive) {
-                                            $permission = ManageRoleHelper::getDetail([
-                                                [
-                                                    'getDetail' => [
-                                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type'),
-                                                    ],
-                                                    'otherDataPasses' => [
-                                                        'filterData' => [
-                                                            'navTypeId' => $tempTwo['id'],
-                                                            'mainNavId' => $tempThree['id'],
-                                                            'subNavId' => $tempFour['id'],
-                                                            'nestedNavId' => $tempFive['id'],
-                                                            'subRoleId' => isset($tempOne['otherDataPasses']['permission']['subRoleId']) ? $tempOne['otherDataPasses']['permission']['subRoleId'] : '',
-                                                            'mainRoleId' => $tempOne['otherDataPasses']['permission']['mainRoleId'],
-                                                        ]
-                                                    ]
+                                        foreach ($permission['privilege'] as $keySix => $tempSix) {
+                                            $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
+                                            if ($tempSix['allowed'] == true) {
+                                                if ($tempSix['permission'] == true) {
+                                                    $navHtml .= '<input type="checkbox" name="' . $permission['uniqueId'] . '[' . $keySix . ']" value="1" checked class="lcSwitch" autocomplete="off" />';
+                                                } else {
+                                                    $navHtml .= '<input type="checkbox" name="' . $permission['uniqueId'] . '[' . $keySix . ']" value="0" class="lcSwitch" autocomplete="off" />';
+                                                }
+                                            } else {
+                                                $navHtml .= '<span><i class=" las la-low-vision"></i></span>';
+                                            }
+                                            $navHtml .= '</div></div>';
+                                        }
+                                        $navHtml .= '<input type="hidden" name="id[' . $permission['uniqueId'] . ']" value="' . $permission['id'] . '">';
+                                    }
+                                    $navHtml .= '</div></div></div></div>';
+                                } else {
+                                    $navHtml .= '<div class="npbMain"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempThree['name'] . '</span></div></div>';
+                                    foreach ($tempThree['subNav'] as $tempFour) {
+                                        $permission = ManageRoleHelper::getDetail([
+                                            [
+                                                'getDetail' => [
+                                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                                    'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type'),
                                                 ],
-                                            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
-                                            $navHtml .= '<div class="npbNested"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFive['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
+                                                'otherDataPasses' => [
+                                                    'filterData' => [
+                                                        'navTypeId' => $tempTwo['id'],
+                                                        'mainNavId' => $tempThree['id'],
+                                                        'subNavId' => $tempFour['id'],
+                                                        'subRoleId' => isset($tempOne['otherDataPasses']['permission']['subRoleId']) ? $tempOne['otherDataPasses']['permission']['subRoleId'] : '',
+                                                        'mainRoleId' => $tempOne['otherDataPasses']['permission']['mainRoleId'],
+                                                    ]
+                                                ]
+                                            ],
+                                        ])[Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                                        if ($tempFour['extraData']['hasNestedNav'] <= 0) {
+                                            $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                             if ($permission == null) {
-                                                $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>nested nav</b>, please set access before set permission.</span></div>';
+                                                $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>sub nav</b>, please set access before set permission.</span></div>';
                                             } else {
                                                 foreach ($permission['privilege'] as $keySix => $tempSix) {
                                                     $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
@@ -418,18 +377,59 @@ trait CommonTrait
                                                 $navHtml .= '<input type="hidden" name="id[' . $permission['uniqueId'] . ']" value="' . $permission['id'] . '">';
                                             }
                                             $navHtml .= '</div></div></div></div>';
+                                        } else {
+                                            $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight"></div></div>';
+                                            foreach ($tempFour['nestedNav'] as $tempFive) {
+                                                $permission = ManageRoleHelper::getDetail([
+                                                    [
+                                                        'getDetail' => [
+                                                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                                            'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type'),
+                                                        ],
+                                                        'otherDataPasses' => [
+                                                            'filterData' => [
+                                                                'navTypeId' => $tempTwo['id'],
+                                                                'mainNavId' => $tempThree['id'],
+                                                                'subNavId' => $tempFour['id'],
+                                                                'nestedNavId' => $tempFive['id'],
+                                                                'subRoleId' => isset($tempOne['otherDataPasses']['permission']['subRoleId']) ? $tempOne['otherDataPasses']['permission']['subRoleId'] : '',
+                                                                'mainRoleId' => $tempOne['otherDataPasses']['permission']['mainRoleId'],
+                                                            ]
+                                                        ]
+                                                    ],
+                                                ])[Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                                                $navHtml .= '<div class="npbNested"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFive['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
+                                                if ($permission == null) {
+                                                    $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>nested nav</b>, please set access before set permission.</span></div>';
+                                                } else {
+                                                    foreach ($permission['privilege'] as $keySix => $tempSix) {
+                                                        $navHtml .= '<div class="npbCheckYesAccess"><div class="npbcHeading"><span>' . $keySix . '</span></div><div class="npbcbInput">';
+                                                        if ($tempSix['allowed'] == true) {
+                                                            if ($tempSix['permission'] == true) {
+                                                                $navHtml .= '<input type="checkbox" name="' . $permission['uniqueId'] . '[' . $keySix . ']" value="1" checked class="lcSwitch" autocomplete="off" />';
+                                                            } else {
+                                                                $navHtml .= '<input type="checkbox" name="' . $permission['uniqueId'] . '[' . $keySix . ']" value="0" class="lcSwitch" autocomplete="off" />';
+                                                            }
+                                                        } else {
+                                                            $navHtml .= '<span><i class=" las la-low-vision"></i></span>';
+                                                        }
+                                                        $navHtml .= '</div></div>';
+                                                    }
+                                                    $navHtml .= '<input type="hidden" name="id[' . $permission['uniqueId'] . ']" value="' . $permission['id'] . '">';
+                                                }
+                                                $navHtml .= '</div></div></div></div>';
+                                            }
+                                            $navHtml .= '</div>';
                                         }
-                                        $navHtml .= '</div>';
                                     }
+                                    $navHtml .= '</div>';
                                 }
-                                $navHtml .= '</div>';
                             }
+                            $navHtml .= '</div>';
                         }
-                        $navHtml .= '</div>';
                     }
-                }
 
-                $html = '<div class="navPermissionMain">
+                    $html = '<div class="navPermissionMain">
                         <div class="navPermissionSub">
                             <div class="npMainRole">
                                 <div class="npGo">
@@ -449,21 +449,21 @@ trait CommonTrait
                                 <div class="npFoot">
                                     <div class="npfLeft"></div>
                                     <div class="npfRight mt-3 text-end">';
-                if ($tempOne['otherDataPasses']['getPrivilege']['update']['permission'] == true) {
-                    $html .= '<button class="btn btn-success">Update</button>';
-                }
-                $html .= '</div></div></div></div></div>';
+                    if ($tempOne['otherDataPasses']['getPrivilege']['update']['permission'] == true) {
+                        $html .= '<button class="btn btn-success">Update</button>';
+                    }
+                    $html .= '</div></div></div></div></div>';
 
-                $return['dtNavPermission'] = [
-                    'custom' => $html,
-                    'raw' => $tempOne['data']
-                ];
+                    $return['dtNavPermission'] = [
+                        'custom' => $html,
+                        'raw' => $tempOne['data']
+                    ];
+                }
             }
+            return $return;
+        } catch (Exception $e) {
+            return false;
         }
-        return $return;
-        // } catch (Exception $e) {
-        //     return false;
-        // }
     }
 
     public static function customizeInText($params)
@@ -837,6 +837,14 @@ trait CommonTrait
                         'result' => $route,
                     ];
                 }
+            }
+
+            if ($tempOne['type'] == Config::get('constants.generateType.alpNum')) {
+                $alpNum = Str::substr(str_shuffle(Str::repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', $tempOne['length'])), 0, $tempOne['length']);
+                $return[Config::get('constants.generateType.alpNum')] = [
+                    'length' => $tempOne['length'],
+                    'result' => $alpNum,
+                ];
             }
         }
         return $return;
