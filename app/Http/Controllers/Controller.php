@@ -98,34 +98,34 @@ abstract class Controller
 
             View::share('reqData', $data);
         } else {
-            $pageLoader = Loader::where('pageLoader', '1')->first();
-            $pageLoaderData = array(
-                'raw' => json_decode($pageLoader->raw),
-                'loaderType' => $pageLoader->loaderType,
-            );
+            // $pageLoader = Loader::where('pageLoader', '1')->first();
+            // $pageLoaderData = array(
+            //     'raw' => json_decode($pageLoader->raw),
+            //     'loaderType' => $pageLoader->loaderType,
+            // );
 
-            $logo = Logo::where('status', '1')->first();
+            // $logo = Logo::where('status', '1')->first();
 
-            $contactUs = ContactUs::first();
-            $aboutUs = AboutUs::first();
+            // $contactUs = ContactUs::first();
+            // $aboutUs = AboutUs::first();
 
-            $data = array(
-                'contactUs' => array(
-                    'phone' => $contactUs->phone,
-                    'email' => $contactUs->email,
-                ),
-                'aboutUs' => array(
-                    'content' => '',
-                    // 'content' => $this->substarString(150, $aboutUs->content, '....'),
-                ),
-                'appName' => str_replace('_', ' ', config('app.name')),
-                'bigLogo' => $this->picUrl($logo->bigLogo, 'bigLogoPic', $this->platform),
-                'smallLogo' => $this->picUrl($logo->smallLogo, 'smallLogoPic', $this->platform),
-                'favIcon' => $this->picUrl($logo->favIcon, 'favIconPic', $this->platform),
-                'customizeLoader' => $pageLoaderData,
-            );
+            // $data = array(
+            //     'contactUs' => array(
+            //         'phone' => $contactUs->phone,
+            //         'email' => $contactUs->email,
+            //     ),
+            //     'aboutUs' => array(
+            //         'content' => '',
+            //         // 'content' => $this->substarString(150, $aboutUs->content, '....'),
+            //     ),
+            //     'appName' => str_replace('_', ' ', config('app.name')),
+            //     'bigLogo' => $this->picUrl($logo->bigLogo, 'bigLogoPic', $this->platform),
+            //     'smallLogo' => $this->picUrl($logo->smallLogo, 'smallLogoPic', $this->platform),
+            //     'favIcon' => $this->picUrl($logo->favIcon, 'favIconPic', $this->platform),
+            //     'customizeLoader' => $pageLoaderData,
+            // );
 
-            View::share('reqData', $data);
+            // View::share('reqData', $data);
         }
     }
 }

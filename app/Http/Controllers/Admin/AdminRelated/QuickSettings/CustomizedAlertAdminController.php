@@ -464,121 +464,121 @@ class CustomizedAlertAdminController extends Controller
 
     public function getAlertTemplate(Request $request)
     {
-        // try {
-        $alertTemplate = CustomizedAlertHelper::getList([
-            [
-                'getList' => [
-                    'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
-                    'for' => Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertTemplate.type'),
-                ],
-                'otherDataPasses' => [
-                    'filterData' => [
-                        'alertTypeId' => $request->alertType,
-                        'alertForId' => $request->alertFor,
-                        'default' => $request->default,
+        try {
+            $alertTemplate = CustomizedAlertHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
+                        'for' => Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertTemplate.type'),
                     ],
-                    'orderBy' => [
-                        'id' => 'desc'
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'alertTypeId' => $request->alertType,
+                            'alertForId' => $request->alertFor,
+                            'default' => $request->default,
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ],
                     ],
                 ],
-            ],
-        ])[Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertTemplate.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertTemplate.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
-        $getPrivilege = ManagePermissionHelper::getPrivilege([
-            [
-                'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
-                'otherDataPasses' => []
-            ]
-        ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
+            $getPrivilege = ManagePermissionHelper::getPrivilege([
+                [
+                    'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
+                    'otherDataPasses' => []
+                ]
+            ])[Config::get('constants.typeCheck.helperCommon.privilege.gp')];
 
-        return Datatables::of($alertTemplate)
-            ->addIndexColumn()
-            ->addColumn('uniqueId', function ($data) {
-                $uniqueId = $data['uniqueId']['raw'];
-                return $uniqueId;
-            })
-            ->addColumn('alertType', function ($data) {
-                $alertType = $this->dynamicHtmlPurse([
-                    [
-                        'type' => 'dtMultiData',
-                        'data' => [
-                            [
-                                'type' => Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertType.type'),
-                                'value' => [
-                                    'name' => $data['alertType']['name'],
-                                    'uniqueId' => $data['alertType']['uniqueId']['raw']
+            return Datatables::of($alertTemplate)
+                ->addIndexColumn()
+                ->addColumn('uniqueId', function ($data) {
+                    $uniqueId = $data['uniqueId']['raw'];
+                    return $uniqueId;
+                })
+                ->addColumn('alertType', function ($data) {
+                    $alertType = $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'dtMultiData',
+                            'data' => [
+                                [
+                                    'type' => Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertType.type'),
+                                    'value' => [
+                                        'name' => $data['alertType']['name'],
+                                        'uniqueId' => $data['alertType']['uniqueId']['raw']
+                                    ]
                                 ]
                             ]
                         ]
-                    ]
-                ])['dtMultiData']['custom'];
-                return $alertType;
-            })
-            ->addColumn('alertFor', function ($data) {
-                $alertFor = $this->dynamicHtmlPurse([
-                    [
-                        'type' => 'dtMultiData',
-                        'data' => [
-                            [
-                                'type' => Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertFor.type'),
-                                'value' => [
-                                    'name' => $data['alertFor']['name'],
-                                    'uniqueId' => $data['alertFor']['uniqueId']['raw']
+                    ])['dtMultiData']['custom'];
+                    return $alertType;
+                })
+                ->addColumn('alertFor', function ($data) {
+                    $alertFor = $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'dtMultiData',
+                            'data' => [
+                                [
+                                    'type' => Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertFor.type'),
+                                    'value' => [
+                                        'name' => $data['alertFor']['name'],
+                                        'uniqueId' => $data['alertFor']['uniqueId']['raw']
+                                    ]
                                 ]
                             ]
                         ]
-                    ]
-                ])['dtMultiData']['custom'];
-                return $alertFor;
-            })
-            ->addColumn('default', function ($data) {
-                $default = $data['customizeInText']['default']['custom'];
-                return $default;
-            })
-            ->addColumn('action', function ($data) use ($getPrivilege) {
-                if ($getPrivilege['edit']['permission'] == true) {
-                    $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
-                } else {
-                    $edit = '';
-                }
+                    ])['dtMultiData']['custom'];
+                    return $alertFor;
+                })
+                ->addColumn('default', function ($data) {
+                    $default = $data['customizeInText']['default']['custom'];
+                    return $default;
+                })
+                ->addColumn('action', function ($data) use ($getPrivilege) {
+                    if ($getPrivilege['edit']['permission'] == true) {
+                        $edit = '<a href="JavaScript:void(0);" data-type="edit" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Update"><i class="las la-edit"></i></a>';
+                    } else {
+                        $edit = '';
+                    }
 
-                if ($getPrivilege['delete']['permission'] == true) {
-                    $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.alertTemplate') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
-                } else {
-                    $delete = '';
-                }
+                    if ($getPrivilege['delete']['permission'] == true) {
+                        $delete = '<a href="JavaScript:void(0);" data-type="delete" data-action="' . route('admin.delete.alertTemplate') . '/' . $data['id'] . '" class="btn btn-sm waves-effect waves-light actionDatatable" title="Delete"><i class="las la-trash"></i></a>';
+                    } else {
+                        $delete = '';
+                    }
 
-                if ($getPrivilege['info']['permission'] == true) {
-                    $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
-                } else {
-                    $info = '';
-                }
+                    if ($getPrivilege['info']['permission'] == true) {
+                        $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
+                    } else {
+                        $info = '';
+                    }
 
-                if ($getPrivilege['default']['permission'] == true) {
-                    if ($data['customizeInText']['default']['raw'] == Config::get('constants.status')['no']) {
-                        $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.alertTemplate') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-open-outline"></i></a>';
+                    if ($getPrivilege['default']['permission'] == true) {
+                        if ($data['customizeInText']['default']['raw'] == Config::get('constants.status')['no']) {
+                            $default = '<a href="JavaScript:void(0);" data-type="default" data-default="unblock" data-action="' . route('admin.default.alertTemplate') . '/' . $data['id'] . '" title="Default" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="mdi mdi-shield-lock-open-outline"></i></a>';
+                        } else {
+                            $default = '';
+                        }
                     } else {
                         $default = '';
                     }
-                } else {
-                    $default = '';
-                }
 
-                return $this->dynamicHtmlPurse([
-                    [
-                        'type' => 'dtAction',
-                        'data' => [
-                            'primary' => [$default, $edit, $delete, $info],
-                            'secondary' => [],
+                    return $this->dynamicHtmlPurse([
+                        [
+                            'type' => 'dtAction',
+                            'data' => [
+                                'primary' => [$default, $edit, $delete, $info],
+                                'secondary' => [],
+                            ]
                         ]
-                    ]
-                ])['dtAction']['custom'];
-            })
-            ->rawColumns(['uniqueId', 'alertType', 'alertFor', 'default', 'action'])
-            ->make(true);
-        // } catch (Exception $e) {
-        //     return redirect()->back()->with('error', 'Something went wrong.');
-        // }
+                    ])['dtAction']['custom'];
+                })
+                ->rawColumns(['uniqueId', 'alertType', 'alertFor', 'default', 'action'])
+                ->make(true);
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
     }
 
     public function saveAlertTemplate(Request $request)
