@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\UsersRelated\ManageUsers\ManageUsersHelper;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -9,14 +10,13 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Config;
 
 use App\Models\AdminRelated\QuickSetting\SiteSetting\Logo;
-use App\Models\AboutUs;
-use App\Models\ContactUs;
 use App\Models\CustomizeAdmin\CustomizeButton;
 use App\Models\CustomizeAdmin\CustomizeTable;
 use App\Models\CustomizeAdmin\Loader;
-
+use App\Models\UsersRelated\ManageUsers\AdminUsers;
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
+use Illuminate\Support\Facades\Auth;
 
 abstract class Controller
 {
@@ -75,6 +75,18 @@ abstract class Controller
                 'internalLoader' => $internalLoaderData,
             );
 
+            $admin = ManageUsersHelper::getDetail([
+                [
+                    'getDetail' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                        'for' => Config::get('constants.typeCheck.manageUsers.adminUsers.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'id' => encrypt(Auth::guard('admin')->user()->id)
+                    ]
+                ],
+            ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+
             $logo = Logo::where('default', Config::get('constants.status.yes'))->first();
 
             $data = array(
@@ -94,38 +106,10 @@ abstract class Controller
                 'customizeButton' => $customizeButton,
                 'customizeTable' => $customizeTable,
                 'customizeLoader' => $loader,
+                'adminInfo' => $admin
             );
 
             View::share('reqData', $data);
-        } else {
-            // $pageLoader = Loader::where('pageLoader', '1')->first();
-            // $pageLoaderData = array(
-            //     'raw' => json_decode($pageLoader->raw),
-            //     'loaderType' => $pageLoader->loaderType,
-            // );
-
-            // $logo = Logo::where('status', '1')->first();
-
-            // $contactUs = ContactUs::first();
-            // $aboutUs = AboutUs::first();
-
-            // $data = array(
-            //     'contactUs' => array(
-            //         'phone' => $contactUs->phone,
-            //         'email' => $contactUs->email,
-            //     ),
-            //     'aboutUs' => array(
-            //         'content' => '',
-            //         // 'content' => $this->substarString(150, $aboutUs->content, '....'),
-            //     ),
-            //     'appName' => str_replace('_', ' ', config('app.name')),
-            //     'bigLogo' => $this->picUrl($logo->bigLogo, 'bigLogoPic', $this->platform),
-            //     'smallLogo' => $this->picUrl($logo->smallLogo, 'smallLogoPic', $this->platform),
-            //     'favIcon' => $this->picUrl($logo->favIcon, 'favIconPic', $this->platform),
-            //     'customizeLoader' => $pageLoaderData,
-            // );
-
-            // View::share('reqData', $data);
         }
     }
 }

@@ -7,7 +7,7 @@ use App\Http\Middleware\LogSiteVisitMiddleware;
 use App\Http\Middleware\SetLocale;
 use App\Http\Middleware\VersionControlMiddleware;
 
-use App\Providers\AdminAppServiceProvider;
+use App\Providers\AdminServiceProvider;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 $isApi = str_starts_with(Request::capture()->path(), 'api/');
+$isAdmin = str_starts_with(Request::capture()->path(), 'admin/');
 
 $app = Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -49,7 +50,10 @@ $app = Application::configure(basePath: dirname(__DIR__))
         // $middleware->append(LogSiteVisitMiddleware::class);
     })
     ->withProviders(
-        !$isApi ? [AdminAppServiceProvider::class] : [],
+        $isApi ? [] : [],
+    )
+    ->withProviders(
+        $isAdmin ? [AdminServiceProvider::class] : [],
     )
     ->withExceptions(function (Exceptions $exceptions) {
         //

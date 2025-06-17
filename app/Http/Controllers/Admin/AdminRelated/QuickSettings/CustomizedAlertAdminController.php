@@ -19,7 +19,6 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Encryption\DecryptException;
-use Illuminate\Support\Str;
 
 class CustomizedAlertAdminController extends Controller
 {

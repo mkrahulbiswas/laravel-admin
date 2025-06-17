@@ -210,32 +210,6 @@ class AuthAdminController extends Controller
     //     }
     // }
 
-    public function showChangePassword()
-    {
-        return view('admin.auth.passwordChange');
-    }
-
-    public function updatePassword(Request $request)
-    {
-        $values = $request->only('currentPassword', 'password');
-        $validator = $this->isValid($request->all(), 'changePassword', 0, $this->platform);
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Validation error occurs.');
-        }
-
-        if (Hash::check($values['currentPassword'], Auth::guard('admin')->user()->password)) {
-            $user = AdminUsers::find(Auth::guard('admin')->user()->id);
-            $user->password = Hash::make($values['password']);
-            if ($user->update()) {
-                return redirect()->back()->with('success', 'Password successfully changed.');
-            } else {
-                return redirect()->back()->with('error', 'Failed to change Password.');
-            }
-        } else {
-            return redirect()->back()->with('error', 'Current password does not match.');
-        }
-    }
-
     public function logout()
     {
         Auth::guard('admin')->logout();
@@ -243,25 +217,21 @@ class AuthAdminController extends Controller
     }
 
 
+    /*------- ( Profile ) -------*/
     public function showProfile()
     {
         try {
-            $admin = AdminUsers::where('id', Auth::guard('admin')->user()->id)->first();
-            $data = array(
-                'id' => encrypt($admin->id),
-                'name' => $admin->name,
-                'email' => $admin->email,
-                'phone' => $admin->phone,
-                'address' => $admin->address,
-                'orgName' => $admin->orgName,
-                'orgAddress' => $admin->orgAddress,
-                'orgEmail' => $admin->orgEmail,
-                'orgPhone' => $admin->orgPhone,
-                'image' => $this->picUrl($admin->profilePic, 'adminPic', $this->platform),
-            );
-            return view('admin.auth.profileChange', ['data' => $data]);
-        } catch (DecryptException $e) {
-            return redirect()->back()->with('error', 'Something went wrong.');
+            return view('admin.auth.profile.show_profile');
+        } catch (Exception $e) {
+            abort(500);
+        }
+    }
+    public function editProfile()
+    {
+        try {
+            return view('admin.auth.profile.edit_profile');
+        } catch (Exception $e) {
+            abort(500);
         }
     }
 

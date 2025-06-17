@@ -26,8 +26,11 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin
     Route::middleware(['checkAdmin', CheckPermission::class])->group(function () {
 
         Route::post('logout',  'logout')->name('logout');
-        Route::get('profile/',  'showProfile')->name('profile.show');
-        Route::post('profile/update',  'updateProfile')->name('profile.update');
+
+        Route::get('profile/',  'showProfile')->name('admin.show.profile');
+        Route::get('profile/edit',  'editProfile')->name('admin.edit.profile');
+        Route::post('profile/edit/update',  'updateProfile')->name('admin.update.profile');
+
         Route::get('change-password/',  'showChangePassword')->name('password.show');
         Route::post('change-password/update',  'updatePassword')->name('password.update');
 
@@ -35,8 +38,8 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin
         Route::group(['prefix' => 'dashboard-related'], function () {
             Route::group(['prefix' => 'dashboard'], function () {
                 Route::controller(DashboardAdminController::class)->group(function () {
-                    Route::get('quick-overview', 'showAdminQuickOverview')->name('admin.show.QuickOverview');
-                    Route::get('charts-view', 'showAdminChartsView')->name('admin.show.ChartsView');
+                    Route::get('quick-overview', 'showQuickOverview')->name('admin.show.QuickOverview');
+                    Route::get('charts-view', 'showChartsView')->name('admin.show.ChartsView');
                 });
             });
         });
