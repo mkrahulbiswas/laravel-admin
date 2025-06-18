@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
+use App\Helpers\UsersRelated\ManageUsers\ManageUsersHelper;
 
 use App\Traits\FileTrait;
 use App\Traits\ValidationTrait;
@@ -221,7 +222,23 @@ class AuthAdminController extends Controller
     public function showProfile()
     {
         try {
-            return view('admin.auth.profile.show_profile');
+            $adminUsers = ManageUsersHelper::getDetail([
+                [
+                    'getDetail' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                        'for' => Config::get('constants.typeCheck.manageUsers.adminUsers.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'id' => encrypt(Auth::guard('admin')->user()->id)
+                    ]
+                ],
+            ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+
+            $data = [
+                'detail' => $adminUsers
+            ];
+            // dd($data);
+            return view('admin.auth.profile.show_profile', ['data' => $data]);
         } catch (Exception $e) {
             abort(500);
         }

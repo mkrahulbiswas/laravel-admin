@@ -43,6 +43,7 @@
                                 <form id="updateAdminUsersForm" action="{{ route('admin.update.adminUsers') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $data['adminUsers']['id'] }}">
+                                    <input type="hidden" name="uniqueId" value="{{ $data['adminUsers']['uniqueId']['raw'] }}">
                                     <div class="row">
                                         <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-4">
                                             <div class="card cardForm">
@@ -78,12 +79,17 @@
                                                         <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-3">
                                                             <label for="mainRole" class="form-label">Main Role <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                             <div class="form-icon set-validation">
-                                                                <select name="mainRole" id="mainRole" class="selectTwo select2-mainRole mainRoleDDD" data-action="{{ route('admin.get.subRoleDDD') }}">
-                                                                    <option value="">Select Main Role</option>
-                                                                    @foreach ($data['mainRole'] as $item)
-                                                                        <option value="{{ $item['id'] }}" {{ decrypt($data['adminUsers']['mainRole']['id']) == decrypt($item['id']) ? 'selected' : '' }} data-exist="{{ $item['extraData']['hasSubRole'] }}">{{ $item['name'] }}</option>
-                                                                    @endforeach
-                                                                </select>
+                                                                @if ($data['adminUsers']['uniqueId']['raw'] == Config::get('constants.superAdminCheck.admin'))
+                                                                    <input type="hidden" name="mainRole" id="mainRole" value={{ $data['adminUsers']['mainRole']['id'] }}>
+                                                                    <input type="text" class="form-control form-control-icon" value={{ $data['adminUsers']['mainRole']['name'] }} readonly>
+                                                                @else
+                                                                    <select name="mainRole" id="mainRole" class="selectTwo select2-mainRole mainRoleDDD" data-action="{{ route('admin.get.subRoleDDD') }}">
+                                                                        <option value="">Select Main Role</option>
+                                                                        @foreach ($data['mainRole'] as $item)
+                                                                            <option value="{{ $item['id'] }}" {{ decrypt($data['adminUsers']['mainRole']['id']) == decrypt($item['id']) ? 'selected' : '' }} data-exist="{{ $item['extraData']['hasSubRole'] }}">{{ $item['name'] }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                @endif
                                                                 <i class="bx bx-receipt"></i>
                                                             </div>
                                                             <div class="validation-error" id="mainRoleErr"></div>

@@ -50,7 +50,7 @@ return [
 
     'superAdminCheck' => [
         'mainRole' => 'RM-500077',
-        'admin' => 'AU-500077'
+        'admin' => 'AU-390101'
     ],
 
     //--Banner For

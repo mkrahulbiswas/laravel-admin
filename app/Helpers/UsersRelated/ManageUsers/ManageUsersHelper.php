@@ -198,6 +198,7 @@ class ManageUsersHelper
                                 'country' =>  $usersInfo->country,
                                 'address' =>  $usersInfo->address,
                                 'about' =>  $usersInfo->about,
+                                'date' =>  date('d-m-Y', strtotime($adminUsers->created_at)),
                                 'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $adminUsers->uniqueId]),
                                 'customizeInText' => CommonTrait::customizeInText([
                                     [

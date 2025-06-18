@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\UsersRelated\ManageUsers\ManageUsersHelper;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Config;
 
 use App\Models\AdminRelated\QuickSetting\SiteSetting\Logo;
 use App\Models\CustomizeAdmin\CustomizeButton;
 use App\Models\CustomizeAdmin\CustomizeTable;
 use App\Models\CustomizeAdmin\Loader;
-use App\Models\UsersRelated\ManageUsers\AdminUsers;
+
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
+
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Auth;
 
 abstract class Controller
@@ -31,6 +32,7 @@ abstract class Controller
         if (in_array("admin", $data)) {
             $customizeButton = array();
             $customizeTable = array();
+            $admin = array();
 
             foreach (CustomizeButton::where('status', '1')->get() as $temp) {
                 $customizeButton[] = array(
@@ -75,17 +77,19 @@ abstract class Controller
                 'internalLoader' => $internalLoaderData,
             );
 
-            $admin = ManageUsersHelper::getDetail([
-                [
-                    'getDetail' => [
-                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
-                        'for' => Config::get('constants.typeCheck.manageUsers.adminUsers.type'),
+            if (Auth::guard('admin')->check()) {
+                $admin = ManageUsersHelper::getDetail([
+                    [
+                        'getDetail' => [
+                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                            'for' => Config::get('constants.typeCheck.manageUsers.adminUsers.type'),
+                        ],
+                        'otherDataPasses' => [
+                            'id' => encrypt(Auth::guard('admin')->user()->id)
+                        ]
                     ],
-                    'otherDataPasses' => [
-                        'id' => encrypt(Auth::guard('admin')->user()->id)
-                    ]
-                ],
-            ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+                ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+            }
 
             $logo = Logo::where('default', Config::get('constants.status.yes'))->first();
 

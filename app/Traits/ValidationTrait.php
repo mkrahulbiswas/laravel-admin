@@ -16,6 +16,7 @@ use App\Rules\AdminRelated\QuickSetting\CustomizedAlertRules;
 use App\Rules\AdminRelated\RolePermission\ManageRoleRules;
 use App\Rules\PropertyRelated\UniquePropertyAttribute;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
@@ -373,27 +374,29 @@ trait ValidationTrait
                     'email' => 'required|email|max:100|unique:' . AdminUsers::class . ',email,' . $data['id'],
                     'phone' => 'required|max:100|digits:10|unique:' . AdminUsers::class . ',phone,' . $data['id'],
                     'name' => 'required|max:255',
-                    'mainRole' => 'required',
                     'pinCode' => 'required|max:7',
                     'state' => 'required|max:50',
                     'country' => 'required|max:50',
                     'address' => 'required|max:150',
                     'about' => 'max:500',
                 ];
-                if ($data['input']['mainRole'] != '') {
-                    $getDetail = ManageRoleHelper::getDetail([
-                        [
-                            'getDetail' => [
-                                'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
+                if ($data['input']['uniqueId'] != Config::get('constants.superAdminCheck.admin')) {
+                    $rules['mainRole'] = 'required';
+                    if ($data['input']['mainRole'] != '') {
+                        $getDetail = ManageRoleHelper::getDetail([
+                            [
+                                'getDetail' => [
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                    'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
+                                ],
+                                'otherDataPasses' => [
+                                    'id' => $data['input']['mainRole']
+                                ]
                             ],
-                            'otherDataPasses' => [
-                                'id' => $data['input']['mainRole']
-                            ]
-                        ],
-                    ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
-                    if ($getDetail['extraData']['hasSubRole'] > 0) {
-                        $rules['subRole'] = 'required';
+                        ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                        if ($getDetail['extraData']['hasSubRole'] > 0) {
+                            $rules['subRole'] = 'required';
+                        }
                     }
                 }
                 break;
