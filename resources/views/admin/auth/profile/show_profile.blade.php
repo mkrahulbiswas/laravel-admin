@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('content')
-    <div class="profile-foreground position-relative mt-n4">
+    <div class="profile-foreground position-relative profileCover mt-n4">
         <div class="profile-wid-bg">
             <img src="{{ asset('assets/media/admin/images/profile-bg.jpg') }}" alt="" class="profile-wid-img" />
         </div>
@@ -51,7 +51,7 @@
                         </li>
                     </ul>
                     <div class="flex-shrink-0">
-                        <a href="{{ route('admin.edit.profile') }}" class="btn btn-success"><i class="ri-edit-box-line align-bottom"></i> Edit Profile</a>
+                        <a href="{{ route('admin.edit.authProfile') }}" class="btn btn-success"><i class="ri-edit-box-line align-bottom"></i> Edit Profile</a>
                     </div>
                 </div>
                 <div class="tab-content pt-4 text-muted">

@@ -74,20 +74,30 @@ trait ValidationTrait
                 break;
 
 
-            case 'updateProfile':
+            case 'updateAuthProfile':
                 $rules = [
-                    'file' => 'image|mimes:jpeg,jpg,png',
-                    'name' => 'required|max:255|unique:' . AdminUsers::class . ',name,' . $data['id'],
-                    'phone' => 'required|digits:10|unique:' . AdminUsers::class . ',phone,' . $data['id'],
-                    'email' => 'required|email|max:100|unique:' . AdminUsers::class . ',email,' . $data['id'],
+                    'name' => 'required|max:255',
+                    'pinCode' => 'required|max:7',
+                    'state' => 'required|max:50',
+                    'country' => 'required|max:50',
+                    'address' => 'required|max:150',
+                    'about' => 'max:500',
                 ];
                 break;
 
-            case 'changePassword':
+            case 'changeAuthPassword':
                 $rules = [
-                    'currentPassword' => 'required',
-                    'password_confirmation' => 'required',
-                    'password' => 'required|min:6|max:20|confirmed',
+                    'oldPassword' => 'required',
+                    'newPassword' => 'min:6|max:20|different:oldPassword|required_with:confirmPassword',
+                    'confirmPassword' => 'min:6|max:20|same:newPassword',
+                ];
+                break;
+
+            case 'changeAuthPin':
+                $rules = [
+                    'oldPin' => 'required',
+                    'newPin' => 'min:6|max:10|different:oldPin|required_with:confirmPin',
+                    'confirmPin' => 'min:6|max:10|same:newPin',
                 ];
                 break;
 

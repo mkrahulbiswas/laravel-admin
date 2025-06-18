@@ -231,6 +231,7 @@ class AdminUsersAdminController extends Controller
                         $adminUsers->subRoleId = decrypt($values['subRole']);
                     }
                     $adminUsers->password = Hash::make($password);
+                    $adminUsers->pin = Hash::make($password);
                     if ($file) {
                         $adminUsers->image = $fileName;
                     }

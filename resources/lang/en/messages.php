@@ -9,6 +9,7 @@ return [
     'serverErrMsg' => 'Something went wrong.',
     'successMsg' => 'Success.',
     'noDataFound' => 'Oops!! No data found',
+    'oldPassPinNotMatch' => 'Oops!! the old :type is not matched, please try again.',
 
     'fileUploadMsg' => [
         'fileDelete' => [
@@ -46,6 +47,10 @@ return [
         'success' => ':type successfully set.',
         'failed' => ':type failed to set.',
         'validation' => ':type you must select one access type.',
+    ],
+    'changeMsg' => [
+        'success' => ':type successfully changed.',
+        'failed' => ':type failed to change.',
     ],
     'statusMsg' => [
         'success' => ':type status successfully changed.',
