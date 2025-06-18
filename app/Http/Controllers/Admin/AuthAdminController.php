@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Helpers\CommonHelper;
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
 use App\Helpers\UsersRelated\ManageUsers\ManageUsersHelper;
 
@@ -13,13 +14,15 @@ use App\Traits\ValidationTrait;
 use App\Models\UsersRelated\ManageUsers\AdminUsers;
 use App\Models\UsersRelated\UsersInfo;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ForgotPassword;
+use App\Mail\ResetAuthSendOtpMail;
+
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ForgotPassword;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Config;
 
@@ -374,6 +377,50 @@ class AuthAdminController extends Controller
                     return Response()->Json(['status' => 2, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.oldPassPinNotMatch', ['type' => 'Password'])], Config::get('constants.errorCode.ok'));
                 }
             }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.changeMsg', ['type' => 'PIN'])['failed']], Config::get('constants.errorCode.ok'));
+        }
+    }
+
+    public function resetAuthSendOtp(Request $request)
+    {
+        $values = $request->only('id', 'oldPin', 'newPin', 'confirmPin');
+
+        try {
+            $id = decrypt($values['id']);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+
+        try {
+            $adminUsers = AdminUsers::where('id', $id)->first();
+
+            if ($values['type'] == 'pin') {
+                $alertFor = 'ALFO-799299';
+            } else {
+                $alertFor = 'ALFO-928865';
+            }
+
+            $replaceVariableWithValue = CommonHelper::replaceVariableWithValue([
+                'replaceData' => [
+                    ['key' => '[~password~]', 'value' => 123465],
+                    ['key' => '[~phone~]', 'value' => $adminUsers->phone],
+                    ['key' => '[~name~]', 'value' => $adminUsers->name],
+                ],
+                'alertType' => 'ALTY-894165',
+                'alertFor' => $alertFor,
+            ]);
+
+            $data = array(
+                'subject' => $replaceVariableWithValue['heading'],
+                'content' => $replaceVariableWithValue['content'],
+                'name' => $adminUsers->name,
+                'phone' => $adminUsers->phone,
+                'password' => 123465
+            );
+
+            Mail::to($adminUsers->email)->send(new ResetAuthSendOtpMail($data));
+            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Change", 'msg' => __('messages.changeMsg', ['type' => 'PIN'])['success']], Config::get('constants.errorCode.ok'));
         } catch (Exception $e) {
             return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.changeMsg', ['type' => 'PIN'])['failed']], Config::get('constants.errorCode.ok'));
         }

@@ -367,6 +367,7 @@ return [
             'close',
             'save',
             'update',
+            'verify',
         ],
     ],
 

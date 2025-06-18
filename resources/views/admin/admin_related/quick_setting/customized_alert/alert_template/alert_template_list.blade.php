@@ -179,7 +179,7 @@
                                 </div>
                                 <div class="validation-error" id="alertTypeErr"></div>
                             </div>
-                            <div class="form-element col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
+                            <div class="form-element col-12 col-sm-12 col-md-6 col-lg-8 col-xl-8 mb-3">
                                 <label for="alertFor" class="form-label">Alert for <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <select name="alertFor" id="alertFor" class="selectTwo select2-alertFor-addModal form-control form-control-icon alertForDDD"></select>
@@ -248,7 +248,7 @@
                                 </div>
                                 <div class="validation-error" id="alertTypeErr"></div>
                             </div>
-                            <div class="form-element col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-3">
+                            <div class="form-element col-12 col-sm-12 col-md-6 col-lg-8 col-xl-8 mb-3">
                                 <label for="alertFor" class="form-label">Alert for <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                 <div class="form-icon set-validation">
                                     <select name="alertFor" id="alertFor2" class="selectTwo select2-alertFor-editModal form-control form-control-icon alertForDDD"></select>

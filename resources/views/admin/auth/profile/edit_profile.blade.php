@@ -32,6 +32,8 @@
                                 </label>
                             </div>
                         </div>
+                        <a href="javascript:void(0);" class="link-primary changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="password">Forgot password?</a>
+                        <a href="javascript:void(0);" class="link-primary changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="pin">Forgot pin?</a>
                         <h5 class="fs-16 mb-1">{{ $data['detail']['name'] }}</h5>
                         <p class="text-muted mb-0">{{ $data['detail']['subRole'] == [] ? $data['detail']['mainRole']['name'] : $data['detail']['subRole']['name'] }}</p>
                     </div>
@@ -82,6 +84,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-xxl-9">
             <div class="card mt-xxl-n5">
                 <div class="card-header">
@@ -94,16 +97,6 @@
                         <li class="nav-item">
                             <a class="nav-link" data-bs-toggle="tab" href="#changePasswordPin" role="tab">
                                 <i class="far fa-user"></i> Change Password & Pin
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#experience" role="tab">
-                                <i class="far fa-envelope"></i> Experience
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" href="#privacy" role="tab">
-                                <i class="far fa-envelope"></i> Privacy Policy
                             </a>
                         </li>
                     </ul>
@@ -210,7 +203,6 @@
                             </form>
                         </div>
                         <div class="tab-pane" id="changePasswordPin" role="tabpanel">
-
                             <div class="row">
                                 <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                                     <div class="card border card-border-warning">
@@ -313,7 +305,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="mt-4 mb-3 border-bottom pb-2">
                                 <div class="float-end">
                                     <a href="javascript:void(0);" class="link-primary">All Logout</a>
@@ -381,254 +372,115 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="experience" role="tabpanel">
-                            <form>
-                                <div id="newlink">
-                                    <div id="1">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="mb-3">
-                                                    <label for="jobTitle" class="form-label">Job
-                                                        Title</label>
-                                                    <input type="text" class="form-control" id="jobTitle" placeholder="Job title" value="Lead Designer / Developer">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label for="companyName" class="form-label">Company
-                                                        Name</label>
-                                                    <input type="text" class="form-control" id="companyName" placeholder="Company name" value="Themesbrand">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="mb-3">
-                                                    <label for="experienceYear" class="form-label">Experience Years</label>
-                                                    <div class="row">
-                                                        <div class="col-lg-5">
-                                                            <select class="form-control" data-choices data-choices-search-false name="experienceYear" id="experienceYear">
-                                                                <option value="">Select years</option>
-                                                                <option value="Choice 1">2001</option>
-                                                                <option value="Choice 2">2002</option>
-                                                                <option value="Choice 3">2003</option>
-                                                                <option value="Choice 4">2004</option>
-                                                                <option value="Choice 5">2005</option>
-                                                                <option value="Choice 6">2006</option>
-                                                                <option value="Choice 7">2007</option>
-                                                                <option value="Choice 8">2008</option>
-                                                                <option value="Choice 9">2009</option>
-                                                                <option value="Choice 10">2010</option>
-                                                                <option value="Choice 11">2011</option>
-                                                                <option value="Choice 12">2012</option>
-                                                                <option value="Choice 13">2013</option>
-                                                                <option value="Choice 14">2014</option>
-                                                                <option value="Choice 15">2015</option>
-                                                                <option value="Choice 16">2016</option>
-                                                                <option value="Choice 17" selected>2017
-                                                                </option>
-                                                                <option value="Choice 18">2018</option>
-                                                                <option value="Choice 19">2019</option>
-                                                                <option value="Choice 20">2020</option>
-                                                                <option value="Choice 21">2021</option>
-                                                                <option value="Choice 22">2022</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-auto align-self-center">
-                                                            to
-                                                        </div>
-                                                        <div class="col-lg-5">
-                                                            <select class="form-control" data-choices data-choices-search-false name="choices-single-default2">
-                                                                <option value="">Select years</option>
-                                                                <option value="Choice 1">2001</option>
-                                                                <option value="Choice 2">2002</option>
-                                                                <option value="Choice 3">2003</option>
-                                                                <option value="Choice 4">2004</option>
-                                                                <option value="Choice 5">2005</option>
-                                                                <option value="Choice 6">2006</option>
-                                                                <option value="Choice 7">2007</option>
-                                                                <option value="Choice 8">2008</option>
-                                                                <option value="Choice 9">2009</option>
-                                                                <option value="Choice 10">2010</option>
-                                                                <option value="Choice 11">2011</option>
-                                                                <option value="Choice 12">2012</option>
-                                                                <option value="Choice 13">2013</option>
-                                                                <option value="Choice 14">2014</option>
-                                                                <option value="Choice 15">2015</option>
-                                                                <option value="Choice 16">2016</option>
-                                                                <option value="Choice 17">2017</option>
-                                                                <option value="Choice 18">2018</option>
-                                                                <option value="Choice 19">2019</option>
-                                                                <option value="Choice 20" selected>2020
-                                                                </option>
-                                                                <option value="Choice 21">2021</option>
-                                                                <option value="Choice 22">2022</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="mb-3">
-                                                    <label for="jobDescription" class="form-label">Job
-                                                        Description</label>
-                                                    <textarea class="form-control" id="jobDescription" rows="3" placeholder="Enter description">You always want to make sure that your fonts work well together and try to limit the number of fonts you use to three or less. Experiment and play around with the fonts that you already have in the software you're working with reputable font websites. </textarea>
-                                                </div>
-                                            </div>
-                                            <div class="hstack gap-2 justify-content-end">
-                                                <a class="btn btn-success" href="javascript:deleteEl(1)">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="newForm" style="display: none;">
-
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="hstack gap-2">
-                                        <button type="submit" class="btn btn-success">Update</button>
-                                        <a href="javascript:new_link()" class="btn btn-primary">Add
-                                            New</a>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="tab-pane" id="privacy" role="tabpanel">
-                            <div class="mb-4 pb-2">
-                                <h5 class="card-title text-decoration-underline mb-3">Security:</h5>
-                                <div class="d-flex flex-column flex-sm-row mb-4 mb-sm-0">
-                                    <div class="flex-grow-1">
-                                        <h6 class="fs-14 mb-1">Two-factor Authentication</h6>
-                                        <p class="text-muted">Two-factor authentication is an enhanced
-                                            security meansur. Once enabled, you'll be required to give
-                                            two types of identification when you log into Google
-                                            Authentication and SMS are Supported.</p>
-                                    </div>
-                                    <div class="flex-shrink-0 ms-sm-3">
-                                        <a href="javascript:void(0);" class="btn btn-sm btn-primary">Enable Two-facor
-                                            Authentication</a>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-column flex-sm-row mb-4 mb-sm-0 mt-2">
-                                    <div class="flex-grow-1">
-                                        <h6 class="fs-14 mb-1">Secondary Verification</h6>
-                                        <p class="text-muted">The first factor is a password and the
-                                            second commonly includes a text with a code sent to your
-                                            smartphone, or biometrics using your fingerprint, face, or
-                                            retina.</p>
-                                    </div>
-                                    <div class="flex-shrink-0 ms-sm-3">
-                                        <a href="javascript:void(0);" class="btn btn-sm btn-primary">Set
-                                            up secondary method</a>
-                                    </div>
-                                </div>
-                                <div class="d-flex flex-column flex-sm-row mb-4 mb-sm-0 mt-2">
-                                    <div class="flex-grow-1">
-                                        <h6 class="fs-14 mb-1">Backup Codes</h6>
-                                        <p class="text-muted mb-sm-0">A backup code is automatically
-                                            generated for you when you turn on two-factor authentication
-                                            through your iOS or Android Twitter app. You can also
-                                            generate a backup code on twitter.com.</p>
-                                    </div>
-                                    <div class="flex-shrink-0 ms-sm-3">
-                                        <a href="javascript:void(0);" class="btn btn-sm btn-primary">Generate backup codes</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <h5 class="card-title text-decoration-underline mb-3">Application
-                                    Notifications:</h5>
-                                <ul class="list-unstyled mb-0">
-                                    <li class="d-flex">
-                                        <div class="flex-grow-1">
-                                            <label for="directMessage" class="form-check-label fs-14">Direct messages</label>
-                                            <p class="text-muted">Messages from people you follow</p>
-                                        </div>
-                                        <div class="flex-shrink-0">
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="directMessage" checked />
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="d-flex mt-2">
-                                        <div class="flex-grow-1">
-                                            <label class="form-check-label fs-14" for="desktopNotification">
-                                                Show desktop notifications
-                                            </label>
-                                            <p class="text-muted">Choose the option you want as your
-                                                default setting. Block a site: Next to "Not allowed to
-                                                send notifications," click Add.</p>
-                                        </div>
-                                        <div class="flex-shrink-0">
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="desktopNotification" checked />
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="d-flex mt-2">
-                                        <div class="flex-grow-1">
-                                            <label class="form-check-label fs-14" for="emailNotification">
-                                                Show email notifications
-                                            </label>
-                                            <p class="text-muted"> Under Settings, choose Notifications.
-                                                Under Select an account, choose the account to enable
-                                                notifications for. </p>
-                                        </div>
-                                        <div class="flex-shrink-0">
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="emailNotification" />
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="d-flex mt-2">
-                                        <div class="flex-grow-1">
-                                            <label class="form-check-label fs-14" for="chatNotification">
-                                                Show chat notifications
-                                            </label>
-                                            <p class="text-muted">To prevent duplicate mobile
-                                                notifications from the Gmail and Chat apps, in settings,
-                                                turn off Chat notifications.</p>
-                                        </div>
-                                        <div class="flex-shrink-0">
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="chatNotification" />
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="d-flex mt-2">
-                                        <div class="flex-grow-1">
-                                            <label class="form-check-label fs-14" for="purchaesNotification">
-                                                Show purchase notifications
-                                            </label>
-                                            <p class="text-muted">Get real-time purchase alerts to
-                                                protect yourself from fraudulent charges.</p>
-                                        </div>
-                                        <div class="flex-shrink-0">
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" role="switch" id="purchaesNotification" />
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h5 class="card-title text-decoration-underline mb-3">Delete This
-                                    Account:</h5>
-                                <p class="text-muted">Go to the Data & Privacy section of your profile
-                                    Account. Scroll to "Your data & privacy options." Delete your
-                                    Profile Account. Follow the instructions to delete your account :
-                                </p>
-                                <div>
-                                    <input type="password" class="form-control" id="passwordInput" placeholder="Enter your password" value="make@321654987" style="max-width: 265px;">
-                                </div>
-                                <div class="hstack gap-2 mt-3">
-                                    <a href="javascript:void(0);" class="btn btn-soft-danger">Close &
-                                        Delete This Account</a>
-                                    <a href="javascript:void(0);" class="btn btn-light">Cancel</a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="con-change-modal" class="modal fade con-change-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Forget <span class="changeType"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 sendOtp">
+                            <div class="card m-0">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-1 text-success">Trying to reset <span class="changeType"></span></h5>
+                                    <p class="card-text">To reset your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
+                                    <p class="card-text">1) You need to click on <b>Next</b> button to start first step, where an <b>OTP</b> send to your registered email ({{ $data['detail']['email'] }}).</p>
+                                    {{-- <p class="card-text">2) Next you need to verify OTP. For thant you need to  and click on <b>Verify</b> button</p> --}}
+                                    <p class="card-text">
+                                        <small class="text-warning">Note: this steps is to send OTP</small>
+                                    </p>
+                                    <form id="resetAuthSendOtpForm" action="{{ route('admin.reset.authSendOtp') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
+                                        <input type="hidden" name="type" id="type" value="">
+                                        <div class="text-end">
+                                            <button type='submit' class="btn btn-sm link-danger fw-medium resetAuthSendOtpBtn">Next <i class="ri-arrow-right-line align-middle"></i></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 verifyOtp d-none">
+                            <div class="card m-0">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-1 text-success">Trying to reset <span class="changeType"></span></h5>
+                                    <p class="card-text">To reset your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
+                                    <p class="card-text">2) Next you need to verify <b>OTP</b>. For that you need to put the <b>OTP</b> inside the form and need to click on <b>Verify</b> button.</p>
+                                    <p class="card-text">
+                                        <small class="text-warning">Note: this steps to verify OTP</small>
+                                    </p>
+                                    <div class="d-flex flex-row justify-content-between">
+                                        <button type="button" class="btn btn-sm link-danger fw-medium align-self-center"><i class="ri-arrow-left-line align-middle"></i> Back</button>
+                                        @if ($permission['verify']['permission'] == true)
+                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateBroadTypeBtn">
+                                                <i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                                                <span>Verify OTP</span>
+                                            </button>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 resetPassword d-none">
+                            <div class="card m-0">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-1 text-success">Trying to reset <span class="changeType"></span></h5>
+                                    <p class="card-text">To reset your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
+                                    <p class="card-text">3) New you need to give valid <b>password</b> inside the form and after that you need to click on <b>update password</b> button.</p>
+                                    <p class="card-text">
+                                        <small class="text-warning">Note: this steps to reset <span class="changeType"></span></small>
+                                    </p>
+                                    <div class="d-flex flex-row justify-content-between">
+                                        <button type="button" class="btn btn-sm link-danger fw-medium align-self-center"><i class="ri-arrow-left-line align-middle"></i> Back</button>
+                                        @if ($permission['update']['permission'] == true)
+                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateBroadTypeBtn">
+                                                <i class="las la-save label-icon align-middle fs-16 me-2"></i>
+                                                <span class="changeButtonType">Update</span>
+                                            </button>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @if ($permission['close']['permission'] == true)
+                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
+                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
+                            <span>Close</span>
+                        </button>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+
+@section('footScripts')
+    <script>
+        $('document').ready(function() {
+            let targetModal = $('#con-change-modal');
+            $('.changeModal').click(function() {
+                let targetClass = $(this),
+                    type = targetClass.attr('data-type');
+                if (type == 'pin') {
+                    changeButtonType = 'Update PIN'
+                } else {
+                    changeButtonType = 'Update Password'
+                }
+                targetModal.find('.changeType, #myModalLabel').text(type)
+                targetModal.find('.changeButtonType').text(changeButtonType)
+                targetModal.find('.sendOtp #type').val(type)
+            })
+        });
+    </script>
+@stop

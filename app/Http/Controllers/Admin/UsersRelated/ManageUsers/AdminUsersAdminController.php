@@ -16,6 +16,9 @@ use App\Models\UsersRelated\UsersInfo;
 use App\Models\UsersRelated\ManageUsers\AdminUsers;
 use App\Models\AdminRelated\RolePermission\ManageRole\MainRole;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ManageUsers\AdminUsersWelcomeMail;
+
 use Exception;
 use Throwable;
 use Yajra\DataTables\DataTables;
@@ -23,8 +26,6 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ManageUsers\AdminUsersWelcomeMail;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Auth;
 

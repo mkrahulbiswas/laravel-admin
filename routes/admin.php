@@ -32,6 +32,7 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin
         Route::post('auth-profile/edit/update',  'updateAuthProfile')->name('admin.update.authProfile');
         Route::post('auth-profile/change/password',  'changeAuthPassword')->name('admin.change.authPassword');
         Route::post('auth-profile/change/pin',  'changeAuthPin')->name('admin.change.authPin');
+        Route::post('auth-profile/reset/send-otp',  'resetAuthSendOtp')->name('admin.reset.authSendOtp');
 
         Route::get('change-password/',  'showChangePassword')->name('password.show');
         Route::post('change-password/update',  'updatePassword')->name('password.update');

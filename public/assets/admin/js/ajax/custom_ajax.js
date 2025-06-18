@@ -318,7 +318,7 @@
                             submitForm.find("#confirmPasswordErr").text(msg.errors.confirmPassword[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 2) {
-                        submitForm.find("#oldPasswordErr").text(msg.msg).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        submitForm.find("#oldPasswordErr").html(msg.msg + ' <a href="javascript:void(0);" class="link-primary changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="password">Forgot password?</a>').closest('.form-element').find(errorClassList).addClass('invalid-input');
                     } else {
                         commonAction({
                             targetId: {
@@ -418,7 +418,7 @@
                             submitForm.find("#confirmPinErr").text(msg.errors.confirmPin[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 2) {
-                        submitForm.find("#oldPinErr").text(msg.msg).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        submitForm.find("#oldPinErr").text(msg.msg + ' <a href="javascript:void(0);" class="link-primary changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="pin">Forgot pin?</a>').closest('.form-element').find(errorClassList).addClass('invalid-input');
                     } else {
                         commonAction({
                             targetId: {
@@ -430,6 +430,83 @@
                             },
                         })
                     }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        loader: {
+                            isSet: false
+                        },
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        //---- ( Auth Reset Send Otp ) ----//
+        $("#resetAuthSendOtpForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#resetAuthSendOtpBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: new FormData(this),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: true
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        loader: {
+                            isSet: false
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Update PIN',
+                                disabled: false
+                            }
+                        }
+                    })
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
