@@ -398,13 +398,13 @@
                                         <small class="text-warning">Note: this steps is to send OTP</small>
                                     </p>
                                     <div class="col-md border border-1 border-bottom border-success-subtle mb-2"></div>
-                                    <form id="resetAuthSendOtpForm" action="{{ route('admin.reset.authSendOtp') }}" method="POST">
+                                    <form id="resetAuthSendForm" action="{{ route('admin.reset.authSend') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
                                         <input type="hidden" name="type" class="type" value="">
                                         <div class="text-end">
                                             @if ($permission['send']['permission'] == true)
-                                                <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="resetAuthSendOtpBtn">
+                                                <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="resetAuthSendBtn">
                                                     <span>Click to send OTP</span>
                                                 </button>
                                             @endif
@@ -422,7 +422,7 @@
                                     <p class="card-text">
                                         <small class="text-warning">Note: this steps to verify OTP</small>
                                     </p>
-                                    <form id="resetAuthVerifyOtpForm" action="{{ route('admin.reset.authVerifyOtp') }}" method="POST">
+                                    <form id="resetAuthVerifyForm" action="{{ route('admin.reset.authVerify') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
                                         <input type="hidden" name="type" class="type" value="">
@@ -442,7 +442,7 @@
                                                 <div class="d-flex flex-row justify-content-between">
                                                     <button type="button" class="btn btn-sm link-danger fw-medium align-self-center"><i class="ri-arrow-left-line align-middle"></i> Back</button>
                                                     @if ($permission['verify']['permission'] == true)
-                                                        <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="resetAuthVerifyOtpBtn">
+                                                        <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="resetAuthVerifyBtn">
                                                             <span>Verify OTP</span>
                                                         </button>
                                                     @endif

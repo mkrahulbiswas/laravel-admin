@@ -16,7 +16,7 @@ use App\Models\UsersRelated\UsersInfo;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgotPassword;
-use App\Mail\ResetAuthSendOtpMail;
+use App\Mail\resetAuthSendMail;
 
 use Exception;
 use Illuminate\Http\Request;
@@ -389,7 +389,7 @@ class AuthAdminController extends Controller
         }
     }
 
-    public function resetAuthSendOtp(Request $request)
+    public function resetAuthSend(Request $request)
     {
         $values = $request->only('id', 'type');
 
@@ -431,7 +431,7 @@ class AuthAdminController extends Controller
                     'content' => $replaceVariableWithValue['content'],
                 );
 
-                Mail::to($adminUsers->email)->send(new ResetAuthSendOtpMail($data));
+                Mail::to($adminUsers->email)->send(new resetAuthSendMail($data));
                 return Response()->Json(['status' => 1, 'type' => "success", 'title' => "OTP", 'msg' => __('messages.otpMsg')['success']], Config::get('constants.errorCode.ok'));
             } else {
                 return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "OTP", 'msg' => __('messages.otpMsg')['failed']], Config::get('constants.errorCode.ok'));
@@ -441,7 +441,7 @@ class AuthAdminController extends Controller
         }
     }
 
-    public function resetAuthVerifyOtp(Request $request)
+    public function resetAuthVerify(Request $request)
     {
         $values = $request->only('id', 'type', 'otp');
 
@@ -452,7 +452,7 @@ class AuthAdminController extends Controller
         }
 
         try {
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'resetAuthVerifyOtp', 'id' => $id, 'platform' => $this->platform]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'resetAuthVerify', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
@@ -479,7 +479,7 @@ class AuthAdminController extends Controller
         }
 
         try {
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'resetAuthVerifyOtp', 'id' => $id, 'platform' => $this->platform]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'resetAuthVerify', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {

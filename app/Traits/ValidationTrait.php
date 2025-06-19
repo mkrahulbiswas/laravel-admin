@@ -101,7 +101,7 @@ trait ValidationTrait
                 ];
                 break;
 
-            case 'resetAuthVerifyOtp':
+            case 'resetAuthVerify':
                 $rules = [
                     'otp' => 'required|digits:6',
                 ];

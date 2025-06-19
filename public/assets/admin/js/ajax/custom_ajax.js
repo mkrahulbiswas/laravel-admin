@@ -453,9 +453,9 @@
         });
 
         //---- ( Auth Reset Send Otp ) ----//
-        $("#resetAuthSendOtpForm").submit(function (event) {
+        $("#resetAuthSendForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#resetAuthSendOtpBtn');
+            submitBtn = $(this).find('#resetAuthSendBtn');
 
             event.preventDefault();
             $.ajax({
@@ -517,9 +517,9 @@
         });
 
         //---- ( Auth Reset Verify Otp ) ----//
-        $("#resetAuthVerifyOtpForm").submit(function (event) {
+        $("#resetAuthVerifyForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#resetAuthVerifyOtpBtn');
+            submitBtn = $(this).find('#resetAuthVerifyBtn');
 
             event.preventDefault();
             $.ajax({
@@ -593,9 +593,9 @@
         });
 
         //---- ( Auth Reset Verify Otp ) ----//
-        $("#resetAuthVerifyOtpForm").submit(function (event) {
+        $("#resetAuthVerifyForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#resetAuthVerifyOtpBtn');
+            submitBtn = $(this).find('#resetAuthVerifyBtn');
 
             event.preventDefault();
             $.ajax({
