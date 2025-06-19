@@ -32,7 +32,7 @@ class ResetAuthSendOtpMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'admin.mail.admin_users_welcome_mail',
+            view: 'admin.mail.reset_otp_mail',
             with: $this->data,
         );
     }

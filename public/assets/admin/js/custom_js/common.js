@@ -17,7 +17,7 @@
 
 
 function initCallOnModalClose() {
-    $('.con-add-modal, .con-edit-modal, .con-access-modal').on("hidden.bs.modal", function () {
+    $('.con-add-modal, .con-edit-modal, .con-access-modal, .con-change-modal').on("hidden.bs.modal", function () {
         $(this).find('form')[0].reset();
         $(this).find('[type="checkbox"]').attr('checked', false);
         $(this).find('.dropify-clear').trigger('click');
@@ -42,6 +42,7 @@ function initCallOnModalClose() {
             'saveAlertTypeForm', 'updateAlertTypeForm',
             'saveAlertForForm', 'updateAlertForForm',
             'saveAlertTemplateForm', 'updateAlertTemplateForm',
+            'resetAuthVerifyOtpForm',
         ];
         var idArrayToString = '#' + idArray.join(', #');
         $(idArrayToString).find(".validation-error").text('');

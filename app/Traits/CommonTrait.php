@@ -846,6 +846,14 @@ trait CommonTrait
                     'result' => $alpNum,
                 ];
             }
+
+            if ($tempOne['type'] == Config::get('constants.generateType.otp')) {
+                $number = Str::random($tempOne['length']);
+                $return[Config::get('constants.generateType.otp')] = [
+                    'length' => $tempOne['length'],
+                    'result' => $number,
+                ];
+            }
         }
         return $return;
     }

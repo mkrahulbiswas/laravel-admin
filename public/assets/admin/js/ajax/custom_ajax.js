@@ -468,12 +468,73 @@
                 processData: false,
                 beforeSend: function () {
                     commonAction({
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        loader: {
-                            isSet: true
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Click to send OTP',
+                                disabled: true
+                            }
+                        },
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                    })
+                    if (msg.status == 1) {
+                        submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
+                        submitForm.closest('.con-change-modal').find('.verifyOtp').show()
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        //---- ( Auth Reset Verify Otp ) ----//
+        $("#resetAuthVerifyOtpForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#resetAuthVerifyOtpBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: new FormData(this),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
                         },
                         resetValidation: {},
                         submitBtnState: {
@@ -490,8 +551,81 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        loader: {
-                            isSet: false
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Verify OTP',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.otp, function (i) {
+                            submitForm.find("#otpErr").text(msg.errors.otp[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else {
+                        submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
+                        submitForm.closest('.con-change-modal').find('.resetPassword').show()
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        //---- ( Auth Reset Verify Otp ) ----//
+        $("#resetAuthVerifyOtpForm").submit(function (event) {
+            submitForm = $(this);
+            submitBtn = $(this).find('#resetAuthVerifyOtpBtn');
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: new FormData(this),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        resetValidation: {},
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
                         },
                         toaster: {
                             dataPass: {
@@ -502,17 +636,22 @@
                         },
                         submitBtnState: {
                             dataPass: {
-                                text: 'Update PIN',
+                                text: 'Verify OTP',
                                 disabled: false
                             }
                         }
                     })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.otp, function (i) {
+                            submitForm.find("#otpErr").text(msg.errors.otp[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else {
+                        submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
+                        submitForm.closest('.con-change-modal').find('.resetPassword').show()
+                    }
                 },
                 error: function (xhr, textStatus, error) {
                     commonAction({
-                        loader: {
-                            isSet: false
-                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,

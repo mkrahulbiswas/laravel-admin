@@ -10,6 +10,7 @@ return [
     'successMsg' => 'Success.',
     'noDataFound' => 'Oops!! No data found',
     'oldPassPinNotMatch' => 'Oops!! the old :type is not matched, please try again.',
+    'otpNotMatch' => 'Oops!! the provided otp is not matched, please check again.',
 
     'fileUploadMsg' => [
         'fileDelete' => [
@@ -71,6 +72,14 @@ return [
     'changeOriginMsg' => [
         'success' => 'Your :type is already exist.',
         'failed' => 'Your :type the previous selected types defied we found there with same type other data present pleas make its yeas ans than change.',
+    ],
+    'otpMsg' => [
+        'success' => 'OTP send successfully.',
+        'failed' => 'Failed to send otp.',
+    ],
+    'otpVerify' => [
+        'success' => 'OTP verified successfully.',
+        'failed' => 'Failed to verify otp.',
     ],
 
     'registerSuccess' => 'Successfully registered, just need to verify your OTP.',

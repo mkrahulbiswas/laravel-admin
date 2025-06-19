@@ -101,6 +101,12 @@ trait ValidationTrait
                 ];
                 break;
 
+            case 'resetAuthVerifyOtp':
+                $rules = [
+                    'otp' => 'required|digits:6',
+                ];
+                break;
+
 
             /*------ ( Role & Permission START ) ------*/
             //---- ( Main Role )

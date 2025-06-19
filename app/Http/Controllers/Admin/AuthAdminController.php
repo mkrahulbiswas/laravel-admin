@@ -225,6 +225,13 @@ class AuthAdminController extends Controller
     public function showAuthProfile()
     {
         try {
+            // dd($this->generateYourChoice([
+            //     [
+            //         'length' => 6,
+            //         'type' => Config::get('constants.generateType.otp')
+            //     ]
+            // ])[Config::get('constants.generateType.otp')]);
+
             $adminUsers = ManageUsersHelper::getDetail([
                 [
                     'getDetail' => [
@@ -314,7 +321,7 @@ class AuthAdminController extends Controller
             }
         } catch (Exception $e) {
             DB::rollback();
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update", 'msg' => __('messages.updateMsg', ['type' => 'Profile'])['failed']], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -346,7 +353,7 @@ class AuthAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.changeMsg', ['type' => 'Password'])['failed']], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
@@ -378,13 +385,13 @@ class AuthAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.changeMsg', ['type' => 'PIN'])['failed']], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 
     public function resetAuthSendOtp(Request $request)
     {
-        $values = $request->only('id', 'oldPin', 'newPin', 'confirmPin');
+        $values = $request->only('id', 'type');
 
         try {
             $id = decrypt($values['id']);
@@ -393,36 +400,98 @@ class AuthAdminController extends Controller
         }
 
         try {
-            $adminUsers = AdminUsers::where('id', $id)->first();
-
+            // $otp = $this->generateYourChoice([
+            //     [
+            //         'length' => 6,
+            //         'type' => Config::get('constants.generateType.otp')
+            //     ]
+            // ])[Config::get('constants.generateType.otp')]['result'];
+            $otp = 123456;
             if ($values['type'] == 'pin') {
                 $alertFor = 'ALFO-799299';
             } else {
                 $alertFor = 'ALFO-928865';
             }
 
-            $replaceVariableWithValue = CommonHelper::replaceVariableWithValue([
-                'replaceData' => [
-                    ['key' => '[~password~]', 'value' => 123465],
-                    ['key' => '[~phone~]', 'value' => $adminUsers->phone],
-                    ['key' => '[~name~]', 'value' => $adminUsers->name],
-                ],
-                'alertType' => 'ALTY-894165',
-                'alertFor' => $alertFor,
-            ]);
+            $adminUsers = AdminUsers::where('id', $id)->first();
+            $adminUsers->otp = $otp;
 
-            $data = array(
-                'subject' => $replaceVariableWithValue['heading'],
-                'content' => $replaceVariableWithValue['content'],
-                'name' => $adminUsers->name,
-                'phone' => $adminUsers->phone,
-                'password' => 123465
-            );
+            if ($adminUsers->update()) {
+                $replaceVariableWithValue = CommonHelper::replaceVariableWithValue([
+                    'replaceData' => [
+                        ['key' => '[~otp~]', 'value' => $otp],
+                        ['key' => '[~name~]', 'value' => $adminUsers->name],
+                    ],
+                    'alertType' => 'ALTY-894165',
+                    'alertFor' => $alertFor,
+                ]);
 
-            Mail::to($adminUsers->email)->send(new ResetAuthSendOtpMail($data));
-            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Change", 'msg' => __('messages.changeMsg', ['type' => 'PIN'])['success']], Config::get('constants.errorCode.ok'));
+                $data = array(
+                    'subject' => $replaceVariableWithValue['heading'],
+                    'content' => $replaceVariableWithValue['content'],
+                );
+
+                Mail::to($adminUsers->email)->send(new ResetAuthSendOtpMail($data));
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "OTP", 'msg' => __('messages.otpMsg')['success']], Config::get('constants.errorCode.ok'));
+            } else {
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "OTP", 'msg' => __('messages.otpMsg')['failed']], Config::get('constants.errorCode.ok'));
+            }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.changeMsg', ['type' => 'PIN'])['failed']], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "OTP", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+    }
+
+    public function resetAuthVerifyOtp(Request $request)
+    {
+        $values = $request->only('id', 'type', 'otp');
+
+        try {
+            $id = decrypt($values['id']);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'resetAuthVerifyOtp', 'id' => $id, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
+            } else {
+                $adminUsers = AdminUsers::where('id', $id)->first();
+                if ($adminUsers->otp == $values['otp']) {
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Verification", 'msg' => __('messages.otpVerify')['success']], Config::get('constants.errorCode.ok'));
+                } else {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verification", 'msg' => __('messages.otpNotMatch')], Config::get('constants.errorCode.ok'));
+                }
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verification", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+    }
+
+    public function resetAuthPassPin(Request $request)
+    {
+        $values = $request->only('id', 'type', 'otp');
+
+        try {
+            $id = decrypt($values['id']);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'resetAuthVerifyOtp', 'id' => $id, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
+            } else {
+                $adminUsers = AdminUsers::where('id', $id)->first();
+                if ($adminUsers->otp == $values['otp']) {
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Verification", 'msg' => __('messages.otpVerify')['success']], Config::get('constants.errorCode.ok'));
+                } else {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verification", 'msg' => __('messages.otpNotMatch')], Config::get('constants.errorCode.ok'));
+                }
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verification", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 }

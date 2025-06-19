@@ -368,6 +368,7 @@ return [
             'save',
             'update',
             'verify',
+            'send',
         ],
     ],
 
@@ -419,6 +420,9 @@ return [
         'lastSegment' => 'lastSegment',
         'slug' => 'slug',
         'alpNum' => 'alphaNumerical',
+        'number' => 'number',
+        'password' => 'password',
+        'otp' => 'otp',
     ],
 
 

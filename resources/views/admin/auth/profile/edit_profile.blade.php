@@ -397,18 +397,23 @@
                                     <p class="card-text">
                                         <small class="text-warning">Note: this steps is to send OTP</small>
                                     </p>
+                                    <div class="col-md border border-1 border-bottom border-success-subtle mb-2"></div>
                                     <form id="resetAuthSendOtpForm" action="{{ route('admin.reset.authSendOtp') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
-                                        <input type="hidden" name="type" id="type" value="">
+                                        <input type="hidden" name="type" class="type" value="">
                                         <div class="text-end">
-                                            <button type='submit' class="btn btn-sm link-danger fw-medium resetAuthSendOtpBtn">Next <i class="ri-arrow-right-line align-middle"></i></button>
+                                            @if ($permission['send']['permission'] == true)
+                                                <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="resetAuthSendOtpBtn">
+                                                    <span>Click to send OTP</span>
+                                                </button>
+                                            @endif
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 verifyOtp d-none">
+                        <div class="col-12 verifyOtp">
                             <div class="card m-0">
                                 <div class="card-body">
                                     <h5 class="card-title mb-1 text-success">Trying to reset <span class="changeType"></span></h5>
@@ -417,19 +422,38 @@
                                     <p class="card-text">
                                         <small class="text-warning">Note: this steps to verify OTP</small>
                                     </p>
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <button type="button" class="btn btn-sm link-danger fw-medium align-self-center"><i class="ri-arrow-left-line align-middle"></i> Back</button>
-                                        @if ($permission['verify']['permission'] == true)
-                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateBroadTypeBtn">
-                                                <i class="las la-save label-icon align-middle fs-16 me-2"></i>
-                                                <span>Verify OTP</span>
-                                            </button>
-                                        @endif
-                                    </div>
+                                    <form id="resetAuthVerifyOtpForm" action="{{ route('admin.reset.authVerifyOtp') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
+                                        <input type="hidden" name="type" class="type" value="">
+                                        <div class="row">
+                                            <div class="form-element col-12 w-75 m-auto mb-4 bg-info-subtle p-3 rounded-2">
+                                                <label for="otp" class="form-label">Please Put Your OTP <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                <div class="form-icon set-validation">
+                                                    <input type="text" name="otp" class="form-control form-control-icon" id="otp" placeholder="Your OTP" value="">
+                                                    <i class="bx bx-message-edit"></i>
+                                                </div>
+                                                <div class="validation-error" id="otpErr"></div>
+                                            </div>
+                                            <div class="col-12 mb-3">
+                                                <div class="col-md border border-1 border-bottom border-success-subtle"></div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="d-flex flex-row justify-content-between">
+                                                    <button type="button" class="btn btn-sm link-danger fw-medium align-self-center"><i class="ri-arrow-left-line align-middle"></i> Back</button>
+                                                    @if ($permission['verify']['permission'] == true)
+                                                        <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="resetAuthVerifyOtpBtn">
+                                                            <span>Verify OTP</span>
+                                                        </button>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 resetPassword d-none">
+                        <div class="col-12 resetPassword">
                             <div class="card m-0">
                                 <div class="card-body">
                                     <h5 class="card-title mb-1 text-success">Trying to reset <span class="changeType"></span></h5>
@@ -438,6 +462,9 @@
                                     <p class="card-text">
                                         <small class="text-warning">Note: this steps to reset <span class="changeType"></span></small>
                                     </p>
+                                    <div class="col-12 mb-3">
+                                        <div class="col-md border border-1 border-bottom border-success-subtle"></div>
+                                    </div>
                                     <div class="d-flex flex-row justify-content-between">
                                         <button type="button" class="btn btn-sm link-danger fw-medium align-self-center"><i class="ri-arrow-left-line align-middle"></i> Back</button>
                                         @if ($permission['update']['permission'] == true)
@@ -452,14 +479,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    @if ($permission['close']['permission'] == true)
-                        <button type="button" class="btn btn-danger btn-label waves-effect waves-light" data-bs-dismiss="modal">
-                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
-                            <span>Close</span>
-                        </button>
-                    @endif
-                </div>
             </div>
         </div>
     </div>
@@ -469,6 +488,7 @@
     <script>
         $('document').ready(function() {
             let targetModal = $('#con-change-modal');
+            // targetModal.find('.verifyOtp, .resetPassword').hide()
             $('.changeModal').click(function() {
                 let targetClass = $(this),
                     type = targetClass.attr('data-type');
@@ -479,7 +499,7 @@
                 }
                 targetModal.find('.changeType, #myModalLabel').text(type)
                 targetModal.find('.changeButtonType').text(changeButtonType)
-                targetModal.find('.sendOtp #type').val(type)
+                targetModal.find('.sendOtp .type').val(type)
             })
         });
     </script>
