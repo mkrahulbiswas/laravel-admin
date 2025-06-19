@@ -221,10 +221,13 @@ class PropertyAttributeAdminController extends Controller
 
         try {
             $result = $this->setDefault([
-                'targetId' => $id,
-                "targetModel" => PropertyAttribute::class,
-                'targetField' => [],
-                'type' => Config::get('constants.action.status.smsfs')
+                [
+                    'targetId' => $id,
+                    "model" => PropertyAttribute::class,
+                    'field' => '',
+                    'type' => Config::get('constants.action.default.smyn'),
+                    'filter' => [],
+                ]
             ]);
             if ($result === true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Property attribute'])['success']], Config::get('constants.errorCode.ok'));

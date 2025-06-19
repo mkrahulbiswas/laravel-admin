@@ -17,7 +17,7 @@
 
 
 function initCallOnModalClose() {
-    $('.con-add-modal, .con-edit-modal, .con-access-modal').on("hidden.bs.modal", function () {
+    $('.con-add-modal, .con-edit-modal, .con-access-modal, .con-change-modal').on("hidden.bs.modal", function () {
         $(this).find('form')[0].reset();
         $(this).find('[type="checkbox"]').attr('checked', false);
         $(this).find('.dropify-clear').trigger('click');
@@ -39,6 +39,10 @@ function initCallOnModalClose() {
             'savePropertyTypeForm', 'updatePropertyTypeForm',
             'saveMainRoleForm', 'updateMainRoleForm',
             'saveSubRoleForm', 'updateSubRoleForm',
+            'saveAlertTypeForm', 'updateAlertTypeForm',
+            'saveAlertForForm', 'updateAlertForForm',
+            'saveAlertTemplateForm', 'updateAlertTemplateForm',
+            'resetAuthVerifyForm', 'resetAuthUpdateForm',
         ];
         var idArrayToString = '#' + idArray.join(', #');
         $(idArrayToString).find(".validation-error").text('');
@@ -63,6 +67,21 @@ function initCallSelect2() {
     $('.select2-navType-editModal').select2({
         tags: false,
         placeholder: "Select nav type",
+        dropdownParent: $('#con-edit-modal')
+    });
+
+    $('.select2-alertFor').select2({
+        tags: false,
+        placeholder: "Select alert for"
+    });
+    $('.select2-alertFor-addModal').select2({
+        tags: false,
+        placeholder: "Select alert for",
+        dropdownParent: $('#con-add-modal')
+    });
+    $('.select2-alertFor-editModal').select2({
+        tags: false,
+        placeholder: "Select alert for",
         dropdownParent: $('#con-edit-modal')
     });
 
@@ -251,6 +270,12 @@ function initSummernote() {
             ['fontsize', ['fontsize']],
             ['color', ['color']],
         ]
+    });
+    $('.sn-alertTemplate-content').summernote({
+        height: 145,
+        width: '100%',
+        focus: false,
+        placeholder: 'Paste content here...',
     });
 }
 

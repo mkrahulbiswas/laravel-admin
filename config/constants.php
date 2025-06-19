@@ -50,7 +50,7 @@ return [
 
     'superAdminCheck' => [
         'mainRole' => 'RM-500077',
-        'admin' => 'AU-500077'
+        'admin' => 'AU-390101'
     ],
 
     //--Banner For
@@ -76,6 +76,12 @@ return [
                         'type' => 'permission'
                     ],
                 ],
+                'managePermission' => [
+                    'type' => 'managePermission',
+                    'permission' => [
+                        'type' => 'permission'
+                    ],
+                ],
             ],
             'navigationAccess' => [
                 'type' => 'navigationAccess',
@@ -94,6 +100,27 @@ return [
                         'type' => 'nestedNav'
                     ],
                 ],
+            ],
+            'quickSetting' => [
+                'type' => 'quickSetting',
+                'siteSetting' => [
+                    'type' => "siteSetting",
+                    'logo' => [
+                        'type' => "logo"
+                    ]
+                ],
+                'customizedAlert' => [
+                    'type' => "customizedAlert",
+                    'alertType' => [
+                        'type' => "alertType"
+                    ],
+                    'alertFor' => [
+                        'type' => "alertFor"
+                    ],
+                    'alertTemplate' => [
+                        'type' => "alertTemplate"
+                    ],
+                ]
             ],
         ],
         'propertyRelated' => [
@@ -269,16 +296,6 @@ return [
                 ],
             ]
         ],
-        'manageAccess' => [
-            'permission' => [
-                'type' => 'permission'
-            ],
-        ],
-        'quickSettings' => [
-            'logo' => [
-                'type' => "logo"
-            ]
-        ],
         'manageUsers' => [
             'adminUsers' => [
                 'type' => 'adminUsers'
@@ -325,6 +342,7 @@ return [
             'access' => 'access',
             'child' => 'hasChild',
             'permission' => 'hasPermission',
+            'variable' => 'variable',
         ]
     ],
 
@@ -349,6 +367,8 @@ return [
             'close',
             'save',
             'update',
+            'verify',
+            'send',
         ],
     ],
 
@@ -357,6 +377,7 @@ return [
         'status' => [
             'smsfa' => 'SINGLE_MODEL_SINGLE_FIELD_ALL',
             'smsfs' => 'SINGLE_MODEL_SINGLE_FIELD_SELECTED',
+            'smsfw' => 'SINGLE_MODEL_SINGLE_FIELD_WITH',
             'smsf' => 'SINGLE_MODEL_SINGLE_FIELD',
             'smmf' => 'SINGLE_MODEL_MULTIPLE_FIELD',
             'mmsf' => 'MULTIPLE_MODEL_SINGLE_FIELD',
@@ -364,6 +385,10 @@ return [
         ],
         'nn' => 'noNested',
         'yn' => 'YesNested',
+        'default' => [
+            'smyon' => 'singleModelYesOtherNo',
+            'smyn' => 'singleModelYesNo',
+        ],
     ],
 
     //--Status For
@@ -394,6 +419,10 @@ return [
         'route' => 'route',
         'lastSegment' => 'lastSegment',
         'slug' => 'slug',
+        'alpNum' => 'alphaNumerical',
+        'number' => 'number',
+        'password' => 'password',
+        'otp' => 'otp',
     ],
 
 

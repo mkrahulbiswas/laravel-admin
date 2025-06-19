@@ -88,6 +88,7 @@
     --vz-ulNavList-buttonActive-bg: #c1f7ff;
     --vz-ulNavList-button-col: rgb(43 127 137);
     --vz-ulNavList-buttonHover-bg: rgb(197 197 197);
+    --vz-variable-bg: #e9e9e9;
 }
 
 [data-bs-theme=dark] {
@@ -114,6 +115,7 @@
     --vz-td-inner-hover-bg: #1f1f20;
     --vz-select2-bg: #262a2f;
     --vz-select2-br: #131314;
+    --vz-variable-bg: #3b3b40;
     --vz-dataTable-bg: #14141a;
     --vz-dataTable-br: #373742;
     --vz-topNavBar-bg: #292e32;
@@ -335,7 +337,9 @@
                                 }
 
                                 .dtMultiDataAccess {
-                                    label {}
+                                    label {
+                                        margin-right: 5px;
+                                    }
 
                                     span {}
                                 }
@@ -813,6 +817,22 @@
                         border-radius: var(--border-radios);
                         text-transform: capitalize;
                     }
+
+                    .variable {
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        justify-content: flex-start;
+                        gap: 10px;
+
+                        span {
+                            display: block;
+                            padding: 3px 5px;
+                            border-radius: var(--border-radios);
+                            background-color: var(--vz-variable-bg);
+                            cursor: pointer;
+                        }
+                    }
                 }
             }
         }
@@ -882,6 +902,11 @@
                 }
             }
         }
+
+        .profileCover {
+            margin-right: -.75rem;
+            margin-left: -.75rem;
+        }
     }
 
     #page-topbar {
@@ -898,6 +923,10 @@ table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before,
 table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
     top: 50% !important;
     transform: translate(0%, -50%);
+}
+
+.note-editor .note-editable {
+    background-color: rgb(247, 232, 205);
 }
 
 /*---- ( Forced Css Apply End ) ----*/

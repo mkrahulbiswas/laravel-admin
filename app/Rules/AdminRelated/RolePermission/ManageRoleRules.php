@@ -8,7 +8,7 @@ use App\Models\AdminRelated\RolePermission\ManageRole\SubRole;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Config;
 
-class UniqueManageRole implements ValidationRule
+class ManageRoleRules implements ValidationRule
 {
     private $data;
 

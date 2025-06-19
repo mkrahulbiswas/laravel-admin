@@ -385,6 +385,85 @@
 
 
 
+        /*--========================= ( Quick Setting START ) =========================--*/
+        //------ ( Alert For )
+        $('#filterAlertForForm').find('#alertTypeFilter, #statusFilter, .filterAlertForBtn').on('change click', function () {
+            var formId = $(this).closest('form'),
+                dataTableId = $('#adminRelated-quickSetting-customizedAlert-alertFor'),
+
+                alertType = formId.find("#alertTypeFilter").val(),
+                status = formId.find("#statusFilter").val(),
+
+                action = $(this).closest('form').attr('action').split('/'),
+                newUrl = action[action.length - 2] + "/ajaxGetList?alertType=" + alertType + "&status=" + status;
+            if ($(this).attr('title') == 'Reload') {
+                commonAction({
+                    targetId: {
+                        submitForm: formId,
+                    },
+                    resetFormFields: {
+                        selectPicker: {},
+                        selectTwo: {},
+                    }
+                })
+                newUrl = action[action.length - 2] + "/ajaxGetList?alertType=" + '' + "&status=" + '';
+            }
+            commonAction({
+                targetId: {
+                    submitForm: formId,
+                    actionType: $(this).attr('title'),
+                },
+                dataTable: {
+                    load: {
+                        targetId: dataTableId,
+                        url: newUrl,
+                    }
+                },
+                filterApply: {}
+            })
+        });
+
+        //------ ( Alert Template )
+        $('#filterAlertTemplateForm').find('#alertTypeFilter, #alertForFilter, #defaultFilter, .filterAlertTemplateBtn').on('change click', function () {
+            var formId = $(this).closest('form'),
+                dataTableId = $('#adminRelated-quickSetting-customizedAlert-alertTemplate'),
+
+                alertType = (formId.find("#alertTypeFilter").val() == '' || formId.find("#alertTypeFilter").val() == null) ? '' : formId.find("#alertTypeFilter").val(),
+                alertFor = (formId.find("#alertForFilter").val() == '' || formId.find("#alertForFilter").val() == null) ? '' : formId.find("#alertForFilter").val(),
+                defaultVal = formId.find("#defaultFilter").val(),
+
+                action = $(this).closest('form').attr('action').split('/'),
+                newUrl = action[action.length - 2] + "/ajaxGetList?alertType=" + alertType + "&alertFor=" + alertFor + "&default=" + defaultVal;
+            if ($(this).attr('title') == 'Reload') {
+                commonAction({
+                    targetId: {
+                        submitForm: formId,
+                    },
+                    resetFormFields: {
+                        selectPicker: {},
+                        selectTwo: {},
+                    }
+                })
+                newUrl = action[action.length - 2] + "/ajaxGetList?alertType=" + '' + "&alertFor=" + '' + "&default=" + '';
+            }
+            commonAction({
+                targetId: {
+                    submitForm: formId,
+                    actionType: $(this).attr('title'),
+                },
+                dataTable: {
+                    load: {
+                        targetId: dataTableId,
+                        url: newUrl,
+                    }
+                },
+                filterApply: {}
+            })
+        });
+        /*--========================= ( Quick Setting END ) =========================--*/
+
+
+
         /*--========================= ( Property Related START ) =========================--*/
         //------ ( Property Attribute )
         $('#filterPropertyAttributeForm').find('#statusFilter, #typeFilter, #defaultFilter, .filterPropertyAttributeBtn').on('change click', function () {
@@ -427,13 +506,13 @@
         //------ ( Property Type )
         $('#filterPropertyTypeForm').find('#statusFilter, #defaultFilter, .filterPropertyTypeBtn').on('change click', function () {
             var formId = $(this).closest('form'),
-                dataTableId = $('#propertyRelated-propertyAttribute'),
+                dataTableId = $('#propertyRelated-propertyType'),
 
                 status = formId.find("#statusFilter").val(),
-                defaul = formId.find("#defaultFilter").val(),
+                defaultType = formId.find("#defaultFilter").val(),
 
                 action = $(this).closest('form').attr('action').split('/'),
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&default=" + defaul;
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&default=" + defaultType;
             if ($(this).attr('title') == 'Reload') {
                 commonAction({
                     targetId: {

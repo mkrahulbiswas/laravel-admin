@@ -112,6 +112,20 @@
                 $(this).closest('.lcs_wrap').find('.lcSwitch').val(1);
             }
         });
+
+        $('body').delegate('#variable .variableItem', 'click', function () {
+            var text = $(this).attr('data-variable');
+            navigator.clipboard.writeText(text)
+            $.toast({
+                heading: 'Copied successfully.',
+                text: 'Clicked text "' + text + '" copied successfully.',
+                showHideTransition: 'slide',
+                icon: 'success',
+                hideAfter: 3000,
+                stack: 0,
+                position: 'top-right',
+            });
+        });
     });
 
 })(jQuery);

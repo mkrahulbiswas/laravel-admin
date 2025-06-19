@@ -3,16 +3,17 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminRelated\NavigationAccess\ArrangeSideNavAdminController;
 use App\Http\Controllers\Admin\AdminRelated\NavigationAccess\ManageSideNavAdminController;
+use App\Http\Controllers\Admin\AdminRelated\QuickSettings\CustomizedAlertAdminController;
 use App\Http\Controllers\Admin\AdminRelated\QuickSettings\SiteSettingAdminController;
 use App\Http\Controllers\Admin\AdminRelated\RolePermission\ManageRoleAdminController;
 use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\DDDAdminController;
 use App\Http\Controllers\Admin\Dashboard\DashboardAdminController;
-use App\Http\Controllers\Admin\ManageUsers\AdminUsersAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\ManageBroadAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyAttributeAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyCategoryAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyTypeAdminController;
+use App\Http\Controllers\Admin\UsersRelated\ManageUsers\AdminUsersAdminController;
 use App\Http\Middleware\CheckPermission;
 
 Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin'])->group(function () {
@@ -25,8 +26,16 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin
     Route::middleware(['checkAdmin', CheckPermission::class])->group(function () {
 
         Route::post('logout',  'logout')->name('logout');
-        Route::get('profile/',  'showProfile')->name('profile.show');
-        Route::post('profile/update',  'updateProfile')->name('profile.update');
+
+        Route::get('auth-profile/',  'showAuthProfile')->name('admin.show.authProfile');
+        Route::get('auth-profile/edit',  'editAuthProfile')->name('admin.edit.authProfile');
+        Route::post('auth-profile/edit/update',  'updateAuthProfile')->name('admin.update.authProfile');
+        Route::post('auth-profile/change/password',  'changeAuthPassword')->name('admin.change.authPassword');
+        Route::post('auth-profile/change/pin',  'changeAuthPin')->name('admin.change.authPin');
+        Route::post('auth-profile/reset/send',  'resetAuthSend')->name('admin.reset.authSend');
+        Route::post('auth-profile/reset/verify',  'resetAuthVerify')->name('admin.reset.authVerify');
+        Route::post('auth-profile/reset/update',  'resetAuthUpdate')->name('admin.reset.authUpdate');
+
         Route::get('change-password/',  'showChangePassword')->name('password.show');
         Route::post('change-password/update',  'updatePassword')->name('password.update');
 
@@ -34,8 +43,8 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin
         Route::group(['prefix' => 'dashboard-related'], function () {
             Route::group(['prefix' => 'dashboard'], function () {
                 Route::controller(DashboardAdminController::class)->group(function () {
-                    Route::get('quick-overview', 'showAdminQuickOverview')->name('admin.show.QuickOverview');
-                    Route::get('charts-view', 'showAdminChartsView')->name('admin.show.ChartsView');
+                    Route::get('quick-overview', 'showQuickOverview')->name('admin.show.QuickOverview');
+                    Route::get('charts-view', 'showChartsView')->name('admin.show.ChartsView');
                 });
             });
         });
@@ -133,6 +142,28 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin
                     Route::patch('templates/status/{id?}', 'statusTemplates')->name('admin.status.templates');
                     Route::delete('templates/delete/{id?}', 'deleteTemplates')->name('admin.delete.templates');
                 });
+                Route::controller(CustomizedAlertAdminController::class)->prefix('customized-alert')->group(function () {
+                    Route::get('alert-type', 'showAlertType')->name('admin.show.alertType');
+                    Route::get('alert-type/ajaxGetList', 'getAlertType')->name('admin.get.alertType');
+                    Route::post('alert-type/add/save', 'saveAlertType')->name('admin.save.alertType');
+                    Route::post('alert-type/edit/update', 'updateAlertType')->name('admin.update.alertType');
+                    Route::patch('alert-type/status/{id?}', 'statusAlertType')->name('admin.status.alertType');
+                    Route::delete('alert-type/delete/{id?}', 'deleteAlertType')->name('admin.delete.alertType');
+
+                    Route::get('alert-for', 'showAlertFor')->name('admin.show.alertFor');
+                    Route::get('alert-for/ajaxGetList', 'getAlertFor')->name('admin.get.alertFor');
+                    Route::post('alert-for/add/save', 'saveAlertFor')->name('admin.save.alertFor');
+                    Route::post('alert-for/edit/update', 'updateAlertFor')->name('admin.update.alertFor');
+                    Route::patch('alert-for/status/{id?}', 'statusAlertFor')->name('admin.status.alertFor');
+                    Route::delete('alert-for/delete/{id?}', 'deleteAlertFor')->name('admin.delete.alertFor');
+
+                    Route::get('alert-template', 'showAlertTemplate')->name('admin.show.alertTemplate');
+                    Route::get('alert-template/ajaxGetList', 'getAlertTemplate')->name('admin.get.alertTemplate');
+                    Route::post('alert-template/add/save', 'saveAlertTemplate')->name('admin.save.alertTemplate');
+                    Route::post('alert-template/edit/update', 'updateAlertTemplate')->name('admin.update.alertTemplate');
+                    Route::patch('alert-template/default/{id?}', 'defaultAlertTemplate')->name('admin.default.alertTemplate');
+                    Route::delete('alert-template/delete/{id?}', 'deleteAlertTemplate')->name('admin.delete.alertTemplate');
+                });
             });
         });
 
@@ -196,7 +227,7 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin
         });
 
         /*======== (-- Users Related --) ========*/
-        Route::group(['prefix' => 'users-releted'], function () {
+        Route::group(['prefix' => 'users-related'], function () {
             Route::group(['prefix' => 'manage-users'], function () {
                 Route::controller(AdminUsersAdminController::class)->group(function () {
                     Route::get('admin-users', 'showAdminUsers')->name('admin.show.adminUsers');
@@ -219,6 +250,7 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin
             Route::get('sub-role/{mainRoleId?}', 'getSubRole')->name('admin.get.subRoleDDD');
             Route::get('assign-broad/{propertyTypeId?}', 'getAssignBroad')->name('admin.get.assignBroadDDD');
             Route::get('manage-category/{mainCategoryId?}', 'getMainCategory')->name('admin.get.mainCategoryDDD');
+            Route::get('alert-for/{alertTypeId?}', 'getAlertFor')->name('admin.get.alertForDDD');
         });
 
         /*======== (-- Error Page --) ========*/

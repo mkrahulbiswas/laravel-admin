@@ -411,11 +411,11 @@ class ManageRoleAdminController extends Controller
                     [
                         'getDetail' => [
                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                            'for' => Config::get('constants.typeCheck.manageAccess.permission.type'),
+                            'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type'),
                         ],
                         'otherDataPasses' => ['filterData' => ['id' => $tempOne]]
                     ],
-                ])[Config::get('constants.typeCheck.manageAccess.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                ])[Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                 $finalArray = [];
                 foreach ($permission['privilege'] as $keyTwo => $tempTwo) {
                     if ($request->get($keyOne) == []) {
@@ -834,11 +834,11 @@ class ManageRoleAdminController extends Controller
                     [
                         'getDetail' => [
                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                            'for' => Config::get('constants.typeCheck.manageAccess.permission.type'),
+                            'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type'),
                         ],
                         'otherDataPasses' => ['filterData' => ['id' => $tempOne]]
                     ],
-                ])[Config::get('constants.typeCheck.manageAccess.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                ])[Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                 $finalArray = [];
                 foreach ($permission['privilege'] as $keyTwo => $tempTwo) {
                     if ($request->get($keyOne) == []) {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Helpers\AdminRelated\NavigationAccess\ManageSideNavHelper;
+use App\Helpers\AdminRelated\QuickSetting\CustomizedAlertHelper;
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
 use App\Helpers\PropertyRelated\GetManageBroadHelper;
 use App\Helpers\PropertyRelated\GetPropertyCategoryHelper;
@@ -130,7 +131,7 @@ class DDDAdminController extends Controller
         }
     }
 
-    /*------ ( Property Category ) -------*/
+    /*------ ( Get Assign Broad ) -------*/
     public function getAssignBroad($propertyTypeId)
     {
         try {
@@ -169,6 +170,7 @@ class DDDAdminController extends Controller
         }
     }
 
+    /*------ ( Get Main Category ) -------*/
     public function getMainCategory($mainCategoryId)
     {
         try {
@@ -194,6 +196,40 @@ class DDDAdminController extends Controller
             ];
             if ($data) {
                 return Response()->Json(['status' => 1, 'msg' => 'Sub role is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
+            } else {
+                return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg'), 'data' => (object)[]], Config::get('constants.errorCode.ok'));
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+    }
+
+    /*------ ( Get Alert For ) -------*/
+    public function getAlertFor($alertTypeId)
+    {
+        try {
+            $alertFor = CustomizedAlertHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
+                        'for' => Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertFor.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status.active'),
+                            'alertTypeId' => $alertTypeId,
+                        ],
+                        'orderBy' => ['id' => 'desc'],
+                    ],
+                ],
+            ])[Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertFor.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+
+            $data = [
+                'alertFor' => $alertFor
+            ];
+
+            if ($data) {
+                return Response()->Json(['status' => 1, 'msg' => 'Alert for is found.', 'data' => $data], Config::get('constants.errorCode.ok'));
             } else {
                 return Response()->Json(['status' => 0, 'msg' => __('messages.serverErrMsg'), 'data' => (object)[]], Config::get('constants.errorCode.ok'));
             }

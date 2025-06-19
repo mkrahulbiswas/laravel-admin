@@ -20,7 +20,7 @@ class DashboardAdminController extends Controller
     public $platform = 'backend';
 
 
-    public function showAdminQuickOverview()
+    public function showQuickOverview()
     {
         try {
             return view('admin.dashboard.quick_overview.quick_overview_info');
@@ -29,7 +29,7 @@ class DashboardAdminController extends Controller
         }
     }
 
-    public function showAdminChartsView()
+    public function showChartsView()
     {
         try {
             return view('admin.dashboard.charts_view.charts_view_info');

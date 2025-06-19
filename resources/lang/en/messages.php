@@ -9,6 +9,9 @@ return [
     'serverErrMsg' => 'Something went wrong.',
     'successMsg' => 'Success.',
     'noDataFound' => 'Oops!! No data found',
+    'oldPassPinNotMatchMsg' => 'Oops!! the old :type is not matched, please try again.',
+    'otpNotMatchMsg' => 'Oops!! the provided otp is not matched, please check again.',
+    'otpNotVerifiedMsg' => 'Its look you are not verified OTP but try to change something.',
 
     'fileUploadMsg' => [
         'fileDelete' => [
@@ -47,6 +50,10 @@ return [
         'failed' => ':type failed to set.',
         'validation' => ':type you must select one access type.',
     ],
+    'changeMsg' => [
+        'success' => ':type successfully changed.',
+        'failed' => ':type failed to change.',
+    ],
     'statusMsg' => [
         'success' => ':type status successfully changed.',
         'failed' => ':type status failed to change.',
@@ -62,6 +69,22 @@ return [
     'existMsg' => [
         'success' => 'Your :type is already exist.',
         'failed' => 'Your :type is not exist.',
+    ],
+    'changeOriginMsg' => [
+        'success' => 'Your :type is already exist.',
+        'failed' => 'Your :type the previous selected types defied we found there with same type other data present pleas make its yeas ans than change.',
+    ],
+    'otpMsg' => [
+        'success' => 'OTP send successfully.',
+        'failed' => 'Failed to send otp.',
+    ],
+    'otpVerifyMsg' => [
+        'success' => 'OTP verified successfully.',
+        'failed' => 'Failed to verify otp.',
+    ],
+    'resetMsg' => [
+        'success' => ':type reset successfully.',
+        'failed' => 'Failed to reset :type.',
     ],
 
     'registerSuccess' => 'Successfully registered, just need to verify your OTP.',

@@ -2,12 +2,21 @@
 
 namespace app\Traits;
 
+
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
 
-use App\Rules\ManagePanel\UniqueManageNav;
-use App\Rules\PropertyRelated\UniquePropertyAttribute;
-use App\Rules\AdminRelated\RolePermission\UniqueManageRole;
+use App\Models\PropertyRelated\PropertyType;
+use App\Models\PropertyRelated\ManageBroad\BroadType;
+use App\Models\PropertyRelated\PropertyCategory\ManageCategory;
+use App\Models\AdminRelated\QuickSetting\CustomizedAlert\AlertType;
+use App\Models\UsersRelated\ManageUsers\AdminUsers;
 
+use App\Rules\AdminRelated\NavigationAccess\ManageSideNavRules;
+use App\Rules\AdminRelated\QuickSetting\CustomizedAlertRules;
+use App\Rules\AdminRelated\RolePermission\ManageRoleRules;
+use App\Rules\PropertyRelated\UniquePropertyAttribute;
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
@@ -65,20 +74,50 @@ trait ValidationTrait
                 break;
 
 
-            case 'updateProfile':
+            case 'updateAuthProfile':
                 $rules = [
-                    'file' => 'image|mimes:jpeg,jpg,png',
-                    'name' => 'required|max:255|unique:admins,name,' . $data['id'],
-                    'phone' => 'required|digits:10|unique:admins,phone,' . $data['id'],
-                    'email' => 'required|email|max:100|unique:admins,email,' . $data['id'],
+                    'name' => 'required|max:255',
+                    'pinCode' => 'required|max:7',
+                    'state' => 'required|max:50',
+                    'country' => 'required|max:50',
+                    'address' => 'required|max:150',
+                    'about' => 'max:500',
                 ];
                 break;
 
-            case 'changePassword':
+            case 'changeAuthPassword':
                 $rules = [
-                    'currentPassword' => 'required',
-                    'password_confirmation' => 'required',
-                    'password' => 'required|min:6|max:20|confirmed',
+                    'oldPassword' => 'required',
+                    'newPassword' => 'min:6|max:20|different:oldPassword|required_with:confirmPassword',
+                    'confirmPassword' => 'min:6|max:20|same:newPassword',
+                ];
+                break;
+
+            case 'changeAuthPin':
+                $rules = [
+                    'oldPin' => 'required',
+                    'newPin' => 'min:6|max:10|different:oldPin|required_with:confirmPin',
+                    'confirmPin' => 'min:6|max:10|same:newPin',
+                ];
+                break;
+
+            case 'resetAuthVerify':
+                $rules = [
+                    'otp' => 'required|digits:6',
+                ];
+                break;
+
+            case 'resetAuthPassword':
+                $rules = [
+                    'newPassword' => 'min:6|max:20|different:oldPassword|required_with:confirmPassword',
+                    'confirmPassword' => 'min:6|max:20|same:newPassword',
+                ];
+                break;
+
+            case 'resetAuthPin':
+                $rules = [
+                    'newPin' => 'min:6|max:10|different:oldPin|required_with:confirmPin',
+                    'confirmPin' => 'min:6|max:10|same:newPin',
                 ];
                 break;
 
@@ -87,7 +126,7 @@ trait ValidationTrait
             //---- ( Main Role )
             case 'saveMainRole':
                 $rules = [
-                    'name' => ['required', 'max:20', new UniqueManageRole([
+                    'name' => ['required', 'max:20', new ManageRoleRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ])],
@@ -97,7 +136,7 @@ trait ValidationTrait
 
             case 'updateMainRole':
                 $rules = [
-                    'name' => ['required', 'max:20', new UniqueManageRole([
+                    'name' => ['required', 'max:20', new ManageRoleRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
                     ])],
@@ -108,7 +147,7 @@ trait ValidationTrait
             //---- ( Sub Role )
             case 'saveSubRole':
                 $rules = [
-                    'name' => ['required', 'max:20', new UniqueManageRole([
+                    'name' => ['required', 'max:20', new ManageRoleRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                         'mainRoleId' => $data['input']['mainRole']
@@ -120,7 +159,7 @@ trait ValidationTrait
 
             case 'updateSubRole':
                 $rules = [
-                    'name' => ['required', 'max:20', new UniqueManageRole([
+                    'name' => ['required', 'max:20', new ManageRoleRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
                         'mainRoleId' => $data['input']['mainRole']
@@ -137,7 +176,7 @@ trait ValidationTrait
             case 'saveNavType':
                 $rules = [
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:30', new UniqueManageNav([
+                    'name' => ['required', 'max:30', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type'),
                     ])],
@@ -148,7 +187,7 @@ trait ValidationTrait
             case 'updateNavType':
                 $rules = [
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:30', new UniqueManageNav([
+                    'name' => ['required', 'max:30', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type'),
                     ])],
@@ -161,7 +200,7 @@ trait ValidationTrait
                 $rules = [
                     'navType' => 'required',
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:20', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type'),
                         'navTypeId' => $data['input']['navType']
@@ -174,7 +213,7 @@ trait ValidationTrait
                 $rules = [
                     'navType' => 'required',
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:20', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type'),
                         'navTypeId' => $data['input']['navType']
@@ -189,7 +228,7 @@ trait ValidationTrait
                     'navType' => 'required',
                     'mainNav' => 'required',
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:20', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type'),
                         'navTypeId' => $data['input']['navType'],
@@ -204,7 +243,7 @@ trait ValidationTrait
                     'navType' => 'required',
                     'mainNav' => 'required',
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:20', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type'),
                         'navTypeId' => $data['input']['navType'],
@@ -221,7 +260,7 @@ trait ValidationTrait
                     'mainNav' => 'required',
                     'subNav' => 'required',
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:20', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type'),
                         'navTypeId' => $data['input']['navType'],
@@ -238,7 +277,7 @@ trait ValidationTrait
                     'mainNav' => 'required',
                     'subNav' => 'required',
                     'icon' => 'required|max:150',
-                    'name' => ['required', 'max:20', new UniqueManageNav([
+                    'name' => ['required', 'max:20', new ManageSideNavRules([
                         'targetId' => $data['id'],
                         'type' => Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type'),
                         'navTypeId' => $data['input']['navType'],
@@ -268,6 +307,61 @@ trait ValidationTrait
                     'favicon' => 'image|mimes:jpeg,jpg,png',
                 ];
                 break;
+
+            //---- ( Alert Type )
+            case 'saveAlertType':
+                $rules = [
+                    'name' => 'required|max:30|unique:' . AlertType::class . ',name',
+                ];
+                break;
+
+            case 'updateAlertType':
+                $rules = [
+                    'name' => 'required|max:30|unique:' . AlertType::class . ',name,' . $data['id'],
+                ];
+                break;
+
+            //---- ( Alert For )
+            case 'saveAlertFor':
+                $rules = [
+                    'alertType' => 'required',
+                    'name' => ['required', 'max:50', new CustomizedAlertRules([
+                        'targetId' => $data['id'],
+                        'alertType' => $data['input']['alertType'],
+                        'type' => Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertFor.type'),
+                    ])],
+                ];
+                break;
+
+            case 'updateAlertFor':
+                $rules = [
+                    'alertType' => 'required',
+                    'name' => ['required', 'max:50', new CustomizedAlertRules([
+                        'targetId' => $data['id'],
+                        'alertType' => $data['input']['alertType'],
+                        'type' => Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertFor.type'),
+                    ])],
+                ];
+                break;
+
+            //---- ( Alert Template )
+            case 'saveAlertTemplate':
+                $rules = [
+                    'alertType' => 'required',
+                    'alertFor' => 'required',
+                    'heading' => 'required|max:150',
+                    'content' => 'required',
+                ];
+                break;
+
+            case 'updateAlertTemplate':
+                $rules = [
+                    'alertType' => 'required',
+                    'alertFor' => 'required',
+                    'heading' => 'required|max:150',
+                    'content' => 'required',
+                ];
+                break;
             /*------ ( Quick Setting End ) ------*/
 
 
@@ -276,8 +370,8 @@ trait ValidationTrait
             case 'saveAdminUsers':
                 $rules = [
                     'file' => 'image|mimes:jpeg,jpg,png',
-                    'email' => 'required|email|max:100|unique:admins',
-                    'phone' => 'required|max:100|unique:admins,phone|digits:10',
+                    'email' => 'required|email|max:100|unique:' . AdminUsers::class . '',
+                    'phone' => 'required|max:100|unique:' . AdminUsers::class . ',phone|digits:10',
                     'name' => 'required|max:255',
                     'mainRole' => 'required',
                     'pinCode' => 'required|max:7',
@@ -307,30 +401,32 @@ trait ValidationTrait
             case 'updateAdminUsers':
                 $rules = [
                     'file' => 'image|mimes:jpeg,jpg,png',
-                    'email' => 'required|email|max:100|unique:admins,email,' . $data['id'],
-                    'phone' => 'required|max:100|digits:10|unique:admins,phone,' . $data['id'],
+                    'email' => 'required|email|max:100|unique:' . AdminUsers::class . ',email,' . $data['id'],
+                    'phone' => 'required|max:100|digits:10|unique:' . AdminUsers::class . ',phone,' . $data['id'],
                     'name' => 'required|max:255',
-                    'mainRole' => 'required',
                     'pinCode' => 'required|max:7',
                     'state' => 'required|max:50',
                     'country' => 'required|max:50',
                     'address' => 'required|max:150',
                     'about' => 'max:500',
                 ];
-                if ($data['input']['mainRole'] != '') {
-                    $getDetail = ManageRoleHelper::getDetail([
-                        [
-                            'getDetail' => [
-                                'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
+                if ($data['input']['uniqueId'] != Config::get('constants.superAdminCheck.admin')) {
+                    $rules['mainRole'] = 'required';
+                    if ($data['input']['mainRole'] != '') {
+                        $getDetail = ManageRoleHelper::getDetail([
+                            [
+                                'getDetail' => [
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
+                                    'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
+                                ],
+                                'otherDataPasses' => [
+                                    'id' => $data['input']['mainRole']
+                                ]
                             ],
-                            'otherDataPasses' => [
-                                'id' => $data['input']['mainRole']
-                            ]
-                        ],
-                    ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
-                    if ($getDetail['extraData']['hasSubRole'] > 0) {
-                        $rules['subRole'] = 'required';
+                        ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                        if ($getDetail['extraData']['hasSubRole'] > 0) {
+                            $rules['subRole'] = 'required';
+                        }
                     }
                 }
                 break;
@@ -363,13 +459,13 @@ trait ValidationTrait
             //---- ( Property Type )
             case 'savePropertyType':
                 $rules = [
-                    'name' => 'required|max:255|unique:property_type,name',
+                    'name' => 'required|max:255|unique:' . PropertyType::class . ',name',
                     'about' => 'max:500',
                 ];
                 break;
             case 'updatePropertyType':
                 $rules = [
-                    'name' => 'required|max:255|unique:property_type,name,' . $data['id'],
+                    'name' => 'required|max:255|unique:' . PropertyType::class . ',name,' . $data['id'],
                     'about' => 'max:500',
                 ];
                 break;
@@ -377,13 +473,13 @@ trait ValidationTrait
             //---- ( Broad Type )
             case 'saveBroadType':
                 $rules = [
-                    'name' => 'required|max:255|unique:broad_type,name',
+                    'name' => 'required|max:255|unique:' . BroadType::class . ',name',
                     'about' => 'max:500',
                 ];
                 break;
             case 'updateBroadType':
                 $rules = [
-                    'name' => 'required|max:255|unique:broad_type,name,' . $data['id'],
+                    'name' => 'required|max:255|unique:' . BroadType::class . ',name,' . $data['id'],
                     'about' => 'max:500',
                 ];
                 break;
@@ -407,7 +503,7 @@ trait ValidationTrait
             //---- ( Manage Category )
             case 'saveManageCategory':
                 $rules = [
-                    'name' => 'required|max:255|unique:manage_category,name',
+                    'name' => 'required|max:255|unique:' . ManageCategory::class . ',name',
                     'about' => 'max:500',
                 ];
                 if ($data['input']['type'] == Config::get('constants.status.category.sub')) {
@@ -424,7 +520,7 @@ trait ValidationTrait
 
             case 'updateManageCategory':
                 $rules = [
-                    'name' => 'required|max:255|unique:manage_category,name,' . $data['id'],
+                    'name' => 'required|max:255|unique:' . ManageCategory::class . ',name,' . $data['id'],
                     'about' => 'max:500',
                 ];
                 if ($data['input']['type'] == Config::get('constants.status.category.sub')) {

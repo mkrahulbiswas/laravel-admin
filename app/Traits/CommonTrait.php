@@ -69,10 +69,34 @@ trait CommonTrait
     {
         try {
             DB::beginTransaction();
-            if ($params['type'] == Config::get('constants.action.status.smsfa')) {
-                $field = ($params['targetField'] == null) ? 'default' : $params['targetField'][0];
-                $data = app($params['targetModel'])::where('id', $params['targetId'])->first();
-                app($params['targetModel'])::where($field, config('constants.status')['yes'])->update([$field => config('constants.status')['no']]);
+            foreach ($params as $tempOne) {
+                [
+                    'targetId' => $targetId,
+                    'model' => $model,
+                    'field' => $field,
+                    'filter' => $filter,
+                    'type' => $type,
+                ] = $tempOne;
+                $field = ($field == null) ? 'default' : $field[0];
+                $data = app($model)::where('id', $targetId)->first();
+                if ($type == Config::get('constants.action.default.smyon')) {
+                    $whereRaw = "`created_at` is not null";
+                    if (!empty($filter)) {
+                        foreach ($filter as $tempTwo) {
+                            $key = ($tempTwo['key'] == '') ? 'id' : $tempTwo['key'];
+                            if (gettype($tempTwo['value']) == 'integer') {
+                                $whereRaw .= " and `" . $key . "` = " . $tempTwo['value'];
+                            }
+                            if (gettype($tempTwo['value']) == 'string') {
+                                $whereRaw .= " and `" . $key . "` = '" . $tempTwo['value'] . "'";
+                            }
+                            if (gettype($tempTwo['value']) == 'NULL') {
+                                $whereRaw .= " and `" . $key . "` is null";
+                            }
+                        }
+                    }
+                    app($model)::whereRaw($whereRaw)->update([$field => config('constants.status')['no']]);
+                }
                 if ($data->$field == config('constants.status')['no']) {
                     $data->$field = config('constants.status')['yes'];
                     if ($data->update()) {
@@ -92,30 +116,6 @@ trait CommonTrait
                         return false;
                     }
                 }
-            } elseif ($params['type'] == Config::get('constants.action.status.smsfs')) {
-                $field = ($params['targetField'] == null) ? 'default' : $params['targetField'][0];
-                $data = app($params['targetModel'])::where('id', $params['targetId'])->first();
-                if ($data->$field == config('constants.status')['no']) {
-                    $data->$field = config('constants.status')['yes'];
-                    if ($data->update()) {
-                        DB::commit();
-                        return true;
-                    } else {
-                        DB::rollBack();
-                        return false;
-                    }
-                } else {
-                    $data->$field = config('constants.status')['no'];
-                    if ($data->update()) {
-                        DB::commit();
-                        return true;
-                    } else {
-                        DB::rollBack();
-                        return false;
-                    }
-                }
-            } elseif ($params['type'] == Config::get('constants.action.status.mmsf')) {
-            } else {
             }
         } catch (Exception $e) {
             DB::rollBack();
@@ -201,25 +201,36 @@ trait CommonTrait
             foreach ($params as $tempOne) {
                 if ($tempOne['type'] == 'dtMultiData') {
                     $appendHtml = '';
+
                     foreach ($tempOne['data'] as $tempTwo) {
                         if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.status')) {
-                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataStatus"><label>Status:</label>' . $tempOne['data']['status']['custom'] . '</div>';
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataStatus"><label>Status:</label>' . $tempTwo['custom'] . '</div>';
                         }
 
                         if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.default')) {
-                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataDefault"><label>Default:</label>' . $tempOne['data']['default']['custom'] . '</div>';
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataDefault"><label>Default:</label>' . $tempTwo['custom'] . '</div>';
                         }
 
                         if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.access')) {
-                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Access:</label>' . $tempOne['data']['access']['custom'] . '</div>';
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Access:</label>' . $tempTwo['custom'] . '</div>';
                         }
 
                         if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.hasChild')) {
-                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Child:</label>' . $tempOne['data']['hasChild']['custom'] . '</div>';
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Child:</label>' . $tempTwo['custom'] . '</div>';
                         }
 
                         if ($tempTwo['type'] == Config::get('constants.typeCheck.customizeInText.hasPermission')) {
-                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Permission:</label>' . $tempOne['data']['hasPermission']['custom'] . '</div>';
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Permission:</label>' . $tempTwo['custom'] . '</div>';
+                        }
+
+                        if ($tempTwo['type'] == Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertType.type')) {
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Alert Name:</label>' . $tempTwo['value']['name'] . '</div>';
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Unique Id:</label>' . $tempTwo['value']['uniqueId'] . '</div>';
+                        }
+
+                        if ($tempTwo['type'] == Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertFor.type')) {
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Alert Name:</label>' . $tempTwo['value']['name'] . '</div>';
+                            $appendHtml .= '<div class="dtMultiDataCommon dtMultiDataAccess"><label>Unique Id:</label>' . $tempTwo['value']['uniqueId'] . '</div>';
                         }
                     }
 
@@ -292,7 +303,7 @@ trait CommonTrait
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                            'for' => Config::get('constants.typeCheck.manageAccess.permission.type'),
+                                            'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type'),
                                         ],
                                         'otherDataPasses' => [
                                             'filterData' => [
@@ -303,7 +314,7 @@ trait CommonTrait
                                             ]
                                         ]
                                     ],
-                                ])[Config::get('constants.typeCheck.manageAccess.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                                ])[Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                                 if ($tempThree['extraData']['hasSubNav'] <= 0) {
                                     $navHtml .= '<div class="npbMain"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempThree['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                     if ($permission == null) {
@@ -332,7 +343,7 @@ trait CommonTrait
                                             [
                                                 'getDetail' => [
                                                     'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                                    'for' => Config::get('constants.typeCheck.manageAccess.permission.type'),
+                                                    'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type'),
                                                 ],
                                                 'otherDataPasses' => [
                                                     'filterData' => [
@@ -344,7 +355,7 @@ trait CommonTrait
                                                     ]
                                                 ]
                                             ],
-                                        ])[Config::get('constants.typeCheck.manageAccess.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                                        ])[Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                                         if ($tempFour['extraData']['hasNestedNav'] <= 0) {
                                             $navHtml .= '<div class="npbSub"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFour['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                             if ($permission == null) {
@@ -373,7 +384,7 @@ trait CommonTrait
                                                     [
                                                         'getDetail' => [
                                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                                            'for' => Config::get('constants.typeCheck.manageAccess.permission.type'),
+                                                            'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type'),
                                                         ],
                                                         'otherDataPasses' => [
                                                             'filterData' => [
@@ -386,7 +397,7 @@ trait CommonTrait
                                                             ]
                                                         ]
                                                     ],
-                                                ])[Config::get('constants.typeCheck.manageAccess.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                                                ])[Config::get('constants.typeCheck.adminRelated.rolePermission.managePermission.permission.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                                                 $navHtml .= '<div class="npbNested"><div class="npbHeading"><div class="npbhLeft"><span>' . $tempFive['name'] . '</span></div><div class="npbhRight"><div class="npbCheckCommon">';
                                                 if ($permission == null) {
                                                     $navHtml .= '<div class="npbCheckNoAccess"><span>No access is set yet for <b>nested nav</b>, please set access before set permission.</span></div>';
@@ -826,6 +837,22 @@ trait CommonTrait
                         'result' => $route,
                     ];
                 }
+            }
+
+            if ($tempOne['type'] == Config::get('constants.generateType.alpNum')) {
+                $alpNum = Str::substr(str_shuffle(Str::repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', $tempOne['length'])), 0, $tempOne['length']);
+                $return[Config::get('constants.generateType.alpNum')] = [
+                    'length' => $tempOne['length'],
+                    'result' => $alpNum,
+                ];
+            }
+
+            if ($tempOne['type'] == Config::get('constants.generateType.otp')) {
+                $number = Str::random($tempOne['length']);
+                $return[Config::get('constants.generateType.otp')] = [
+                    'length' => $tempOne['length'],
+                    'result' => $number,
+                ];
             }
         }
         return $return;

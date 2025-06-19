@@ -42,14 +42,14 @@ class SiteSettingAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.inf')],
-                        'for' => Config::get('constants.typeCheck.quickSettings.logo.type'),
+                        'for' => Config::get('constants.typeCheck.adminRelated.quickSetting.siteSetting.logo.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [],
                         'orderBy' => ['id' => 'desc'],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.quickSettings.logo.type')][Config::get('constants.typeCheck.helperCommon.get.inf')]['list'];
+            ])[Config::get('constants.typeCheck.adminRelated.quickSetting.siteSetting.logo.type')][Config::get('constants.typeCheck.helperCommon.get.inf')]['list'];
             $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
                     'type' => [Config::get('constants.typeCheck.helperCommon.privilege.gp')],
@@ -290,21 +290,24 @@ class SiteSettingAdminController extends Controller
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Default", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
-        // try {
-        $result = $this->setDefault([
-            'targetId' => $id,
-            "targetModel" => Logo::class,
-            'targetField' => [],
-            'type' => Config::get('constants.action.status.smsfa')
-        ]);
-        if ($result === true) {
-            return response()->json(['status' => 1, 'type' => "success", 'title' => "Default", 'msg' => __('messages.defaultMsg', ['type' => 'Logo'])['success']], Config::get('constants.errorCode.ok'));
-        } else {
-            return response()->json(['status' => 0, 'type' => "warning", 'title' => "Default", 'msg' => __('messages.defaultMsg', ['type' => 'Logo'])['failed']], Config::get('constants.errorCode.ok'));
+        try {
+            $result = $this->setDefault([
+                [
+                    'targetId' => $id,
+                    "model" => Logo::class,
+                    'field' => '',
+                    'type' => Config::get('constants.action.default.smyon'),
+                    'filter' => [],
+                ]
+            ]);
+            if ($result === true) {
+                return response()->json(['status' => 1, 'type' => "success", 'title' => "Default", 'msg' => __('messages.defaultMsg', ['type' => 'Logo'])['success']], Config::get('constants.errorCode.ok'));
+            } else {
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Default", 'msg' => __('messages.defaultMsg', ['type' => 'Logo'])['failed']], Config::get('constants.errorCode.ok'));
+            }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Default", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
-        // } catch (Exception $e) {
-        //     return response()->json(['status' => 0, 'type' => "error", 'title' => "Default", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
-        // }
     }
 
     public function deleteLogo($id)

@@ -361,6 +361,105 @@
                 }
             ]
         });
+
+        /*------( Alert Type )--------*/
+        $('#adminRelated-quickSetting-customizedAlert-alertType').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "alert-type/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "status",
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        /*------( Alert For )--------*/
+        $('#adminRelated-quickSetting-customizedAlert-alertFor').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "alert-for/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "alertType"
+                },
+                {
+                    data: "name"
+                },
+                {
+                    data: "status",
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        /*------( Alert For )--------*/
+        $('#adminRelated-quickSetting-customizedAlert-alertTemplate').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "alert-template/ajaxGetList",
+            language: {
+                searchPlaceholder: "None"
+            },
+            columns: [{
+                    data: "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "uniqueId"
+                },
+                {
+                    data: "alertType"
+                },
+                {
+                    data: "alertFor"
+                },
+                {
+                    data: "default",
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
         /*--========================= ( Quick Setting END ) =========================--*/
 
 

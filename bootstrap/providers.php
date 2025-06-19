@@ -1,6 +1,6 @@
 <?php
 
 return [
-    App\Providers\AppServiceProvider::class,
+    // App\Providers\AdminServiceProvider::class,
     Yajra\DataTables\DataTablesServiceProvider::class,
 ];

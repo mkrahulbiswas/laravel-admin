@@ -45,7 +45,7 @@
     background-color: var(--vz-header-bg);
     -webkit-transition: all .1s ease-out;
     transition: all .1s ease-out;
-    border-bottom: 1px solid var(--vz-header-border)
+    /* border-bottom: 1px solid var(--vz-header-border) */
 }
 
 #page-topbar.topbar-shadow {

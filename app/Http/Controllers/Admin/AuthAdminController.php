@@ -4,22 +4,25 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Helpers\CommonHelper;
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
+use App\Helpers\UsersRelated\ManageUsers\ManageUsersHelper;
 
 use App\Traits\FileTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\User;
-use App\Models\ManageUsers\AdminUsers;
+use App\Models\UsersRelated\ManageUsers\AdminUsers;
+use App\Models\UsersRelated\UsersInfo;
 
-use Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ForgotPassword;
+use App\Mail\resetAuthSendMail;
+
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ForgotPassword;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Config;
 
@@ -211,32 +214,6 @@ class AuthAdminController extends Controller
     //     }
     // }
 
-    public function showChangePassword()
-    {
-        return view('admin.auth.passwordChange');
-    }
-
-    public function updatePassword(Request $request)
-    {
-        $values = $request->only('currentPassword', 'password');
-        $validator = $this->isValid($request->all(), 'changePassword', 0, $this->platform);
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Validation error occurs.');
-        }
-
-        if (Hash::check($values['currentPassword'], Auth::guard('admin')->user()->password)) {
-            $user = AdminUsers::find(Auth::guard('admin')->user()->id);
-            $user->password = Hash::make($values['password']);
-            if ($user->update()) {
-                return redirect()->back()->with('success', 'Password successfully changed.');
-            } else {
-                return redirect()->back()->with('error', 'Failed to change Password.');
-            }
-        } else {
-            return redirect()->back()->with('error', 'Current password does not match.');
-        }
-    }
-
     public function logout()
     {
         Auth::guard('admin')->logout();
@@ -244,75 +221,288 @@ class AuthAdminController extends Controller
     }
 
 
-    public function showProfile()
+    /*------- ( Profile ) -------*/
+    public function showAuthProfile()
     {
         try {
-            $admin = AdminUsers::where('id', Auth::guard('admin')->user()->id)->first();
-            $data = array(
-                'id' => encrypt($admin->id),
-                'name' => $admin->name,
-                'email' => $admin->email,
-                'phone' => $admin->phone,
-                'address' => $admin->address,
-                'orgName' => $admin->orgName,
-                'orgAddress' => $admin->orgAddress,
-                'orgEmail' => $admin->orgEmail,
-                'orgPhone' => $admin->orgPhone,
-                'image' => $this->picUrl($admin->profilePic, 'adminPic', $this->platform),
-            );
-            return view('admin.auth.profileChange', ['data' => $data]);
-        } catch (DecryptException $e) {
-            return redirect()->back()->with('error', 'Something went wrong.');
+            dd($this->generateYourChoice([
+                [
+                    'length' => 6,
+                    'type' => Config::get('constants.generateType.otp')
+                ]
+            ])[Config::get('constants.generateType.otp')]);
+
+            $adminUsers = ManageUsersHelper::getDetail([
+                [
+                    'getDetail' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                        'for' => Config::get('constants.typeCheck.manageUsers.adminUsers.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'id' => encrypt(Auth::guard('admin')->user()->id)
+                    ]
+                ],
+            ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+
+            $data = [
+                'detail' => $adminUsers
+            ];
+
+            return view('admin.auth.profile.show_profile', ['data' => $data]);
+        } catch (Exception $e) {
+            abort(500);
         }
     }
 
-    public function updateProfile(Request $request)
+    public function editAuthProfile()
+    {
+        try {
+            $adminUsers = ManageUsersHelper::getDetail([
+                [
+                    'getDetail' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                        'for' => Config::get('constants.typeCheck.manageUsers.adminUsers.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'id' => encrypt(Auth::guard('admin')->user()->id)
+                    ]
+                ],
+            ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+
+            $data = [
+                'detail' => $adminUsers
+            ];
+
+            return view('admin.auth.profile.edit_profile', ['data' => $data]);
+        } catch (Exception $e) {
+            abort(500);
+        }
+    }
+
+    public function updateAuthProfile(Request $request)
     {
         DB::beginTransaction();
+        $values = $request->only('id', 'name', 'about', 'pinCode', 'state', 'country', 'address');
+
         try {
-            $values = $request->only('address', 'name', 'email', 'phone', 'orgName', 'orgAddress', 'orgEmail', 'orgPhone');
-            $file = $request->file('file');
+            $id = decrypt($values['id']);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
 
-            $admin = AdminUsers::find(Auth::guard('admin')->id());
-
-            $validator = $this->isValid($request->all(), 'updateProfile', $admin->id, $this->platform);
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateAuthProfile', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
-            }
-
-
-            if ($file) {
-                $imgType = 'adminPic';
-                $previousImg = $admin->profilePic;
-                $image = $this->uploadPicture($file, $previousImg, $this->platform, $imgType);
-                if ($image === false) {
-                    return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            } else {
+                $adminUsers = AdminUsers::find($id);
+                $adminUsers->name = $values['name'];
+                if ($adminUsers->update()) {
+                    $usersInfo = UsersInfo::where([
+                        ['userId', $adminUsers->id],
+                        ['userType', Config::get('constants.userType.admin')],
+                    ])->first();
+                    $usersInfo->pinCode = $values['pinCode'];
+                    $usersInfo->state = $values['state'];
+                    $usersInfo->country = $values['country'];
+                    $usersInfo->about = $values['about'];
+                    $usersInfo->address = $values['address'];
+                    if ($usersInfo->update()) {
+                        DB::commit();
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update", 'msg' => __('messages.updateMsg', ['type' => 'Profile'])['success']], Config::get('constants.errorCode.ok'));
+                    } else {
+                        DB::rollback();
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update", 'msg' => __('messages.updateMsg', ['type' => 'Profile'])['failed']], Config::get('constants.errorCode.ok'));
+                    }
+                } else {
+                    DB::rollback();
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update", 'msg' => __('messages.updateMsg', ['type' => 'Profile'])['failed']], Config::get('constants.errorCode.ok'));
                 }
-            }
-
-            $admin->name = $values['name'];
-            $admin->email = $values['email'];
-            $admin->phone = $values['phone'];
-            $admin->orgName = $values['orgName'];
-            $admin->orgAddress = $values['orgAddress'];
-            $admin->orgEmail = $values['orgEmail'];
-            $admin->orgPhone = $values['orgPhone'];
-            if ($file) {
-                $admin->profilePic = $image;
-            }
-            if ($admin->update()) {
-                $user = User::where('id', $admin->id)->first();
-                $user->name = $values['name'];
-                $user->email = $values['email'];
-                $user->phone = $values['phone'];
-                $user->update();
-
-                DB::commit();
-                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Update Profile", 'msg' => 'Profile successfully update.'], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
             DB::rollback();
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update Sub Admin", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+    }
+
+    public function changeAuthPassword(Request $request)
+    {
+        $values = $request->only('id', 'oldPassword', 'newPassword', 'confirmPassword');
+
+        try {
+            $id = decrypt($values['id']);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'changeAuthPassword', 'id' => $id, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
+            } else {
+                $adminUsers = AdminUsers::find($id);
+                if (Hash::check($values['oldPassword'], Auth::guard('admin')->user()->password)) {
+                    $adminUsers->password = Hash::make($values['newPassword']);
+                    if ($adminUsers->update()) {
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Change", 'msg' => __('messages.changeMsg', ['type' => 'Password'])['success']], Config::get('constants.errorCode.ok'));
+                    } else {
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.changeMsg', ['type' => 'Password'])['failed']], Config::get('constants.errorCode.ok'));
+                    }
+                } else {
+                    return Response()->Json(['status' => 2, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.oldPassPinNotMatchMsg', ['type' => 'Password'])], Config::get('constants.errorCode.ok'));
+                }
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+    }
+
+    public function changeAuthPin(Request $request)
+    {
+        $values = $request->only('id', 'oldPin', 'newPin', 'confirmPin');
+
+        try {
+            $id = decrypt($values['id']);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'changeAuthPin', 'id' => $id, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
+            } else {
+                if (Hash::check($values['oldPin'], Auth::guard('admin')->user()->pin)) {
+                    $adminUsers = AdminUsers::find($id);
+                    $adminUsers->pin = Hash::make($values['newPin']);
+                    if ($adminUsers->update()) {
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Change", 'msg' => __('messages.changeMsg', ['type' => 'PIN'])['success']], Config::get('constants.errorCode.ok'));
+                    } else {
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.changeMsg', ['type' => 'PIN'])['failed']], Config::get('constants.errorCode.ok'));
+                    }
+                } else {
+                    return Response()->Json(['status' => 2, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.oldPassPinNotMatchMsg', ['type' => 'Password'])], Config::get('constants.errorCode.ok'));
+                }
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+    }
+
+    public function resetAuthSend(Request $request)
+    {
+        $values = $request->only('id', 'type');
+
+        try {
+            $id = decrypt($values['id']);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+
+        try {
+            // $otp = $this->generateYourChoice([
+            //     [
+            //         'length' => 6,
+            //         'type' => Config::get('constants.generateType.otp')
+            //     ]
+            // ])[Config::get('constants.generateType.otp')]['result'];
+            $otp = 123456;
+            if ($values['type'] == 'pin') {
+                $alertFor = 'ALFO-799299';
+            } else {
+                $alertFor = 'ALFO-928865';
+            }
+            $adminUsers = AdminUsers::where('id', $id)->first();
+            $adminUsers->otp = $otp;
+            if ($adminUsers->update()) {
+                $replaceVariableWithValue = CommonHelper::replaceVariableWithValue([
+                    'replaceData' => [
+                        ['key' => '[~otp~]', 'value' => $otp],
+                        ['key' => '[~name~]', 'value' => $adminUsers->name],
+                    ],
+                    'alertType' => 'ALTY-894165',
+                    'alertFor' => $alertFor,
+                ]);
+                $data = array(
+                    'subject' => $replaceVariableWithValue['heading'],
+                    'content' => $replaceVariableWithValue['content'],
+                );
+                Mail::to($adminUsers->email)->send(new resetAuthSendMail($data));
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "OTP", 'msg' => __('messages.otpMsg')['success']], Config::get('constants.errorCode.ok'));
+            } else {
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "OTP", 'msg' => __('messages.otpMsg')['failed']], Config::get('constants.errorCode.ok'));
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "OTP", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+    }
+
+    public function resetAuthVerify(Request $request)
+    {
+        $values = $request->only('id', 'type', 'otp');
+
+        try {
+            $id = decrypt($values['id']);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'resetAuthVerify', 'id' => $id, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
+            } else {
+                $adminUsers = AdminUsers::where('id', $id)->first();
+                if ($adminUsers->otp == $values['otp']) {
+                    $adminUsers->isOtpVerified = date('d-m-y H:m:s');
+                    if ($adminUsers->update()) {
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Verification", 'msg' => __('messages.otpVerifyMsg')['success']], Config::get('constants.errorCode.ok'));
+                    } else {
+                        return Response()->Json(['status' => 0, 'type' => "success", 'title' => "Verification", 'msg' => __('messages.otpVerifyMsg')['failed']], Config::get('constants.errorCode.ok'));
+                    }
+                } else {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verification", 'msg' => __('messages.otpNotMatchMsg')], Config::get('constants.errorCode.ok'));
+                }
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verification", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+    }
+
+    public function resetAuthUpdate(Request $request)
+    {
+        $values = $request->only('id', 'type', 'newPin', 'confirmPin', 'newPassword', 'confirmPassword');
+
+        try {
+            $id = decrypt($values['id']);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => (($values['type'] == 'pin') ? 'resetAuthPin' : 'resetAuthPassword'), 'id' => $id, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
+            } else {
+                $adminUsers = AdminUsers::where('id', $id)->first();
+                if ($adminUsers->isOtpVerified != null) {
+                    $adminUsers->isOtpVerified = null;
+                    if ($values['type'] == 'pin') {
+                        $adminUsers->pin = Hash::make($values['newPin']);
+                    } else {
+                        $adminUsers->password = Hash::make($values['newPassword']);
+                    }
+                    if ($adminUsers->update()) {
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Verification", 'msg' => __('messages.resetMsg', ['type' => $values['type']])['success']], Config::get('constants.errorCode.ok'));
+                    } else {
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verification", 'msg' => __('messages.resetMsg', ['type' => $values['type']])['failed']], Config::get('constants.errorCode.ok'));
+                    }
+                } else {
+                    return Response()->Json(['status' => 2, 'type' => "warning", 'title' => "Verification", 'msg' => __('messages.otpNotVerifiedMsg')], Config::get('constants.errorCode.ok'));
+                }
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verification", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
     }
 }

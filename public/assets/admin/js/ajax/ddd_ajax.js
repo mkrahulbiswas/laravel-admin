@@ -144,6 +144,46 @@
         });
         /*--========================= ( Manage Access END ) =========================--*/
 
+        /*--========================= ( Customized Alert START ) =========================--*/
+        $('.alertTypeDDD').change(function () {
+            if ($(this).attr('data-action') != undefined) {
+                var html = '<option value="">Select alert for</option>';
+                $('.alertForDDD').text('');
+                if ($(this).val() == '') {
+                    $('.alertForDDD').append(html);
+                } else {
+                    $.ajax({
+                        url: $(this).attr('data-action') + '/' + $(this).val(),
+                        type: 'get',
+                        dataType: 'json',
+                        beforeSend: function () {
+                            commonAction({
+                                loader: {
+                                    isSet: true
+                                }
+                            })
+                        },
+                        success: function (msg) {
+                            commonAction({
+                                loader: {
+                                    isSet: false
+                                }
+                            })
+                            if (msg.status == 0) {
+                                $('.alertForDDD').append(html);
+                            } else {
+                                $.each(msg.data.alertFor, function (key, value) {
+                                    html += '<option value="' + value['id'] + '" data-name="' + value['name'] + '">' + value['name'] + '</option>'
+                                });
+                                $('.alertForDDD').append(html);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        /*--========================= ( Customized Alert END ) =========================--*/
+
         /*--========================= ( Property Related START ) =========================--*/
         $('.propertyTypeDDD').change(function () {
             if ($(this).attr('data-action') != undefined) {

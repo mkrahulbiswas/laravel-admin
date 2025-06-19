@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\ManageUsers\AdminUsers;
 use App\Models\User;
+use App\Models\UsersRelated\ManageUsers\AdminUsers;
 
 return [
 

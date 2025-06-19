@@ -471,10 +471,13 @@ class ManageBroadAdminController extends Controller
 
         try {
             $result = $this->setDefault([
-                'targetId' => $id,
-                "targetModel" => AssignBroad::class,
-                'targetField' => [],
-                'type' => Config::get('constants.action.status.smsfs')
+                [
+                    'targetId' => $id,
+                    "model" => AssignBroad::class,
+                    'field' => '',
+                    'type' => Config::get('constants.action.default.smyn'),
+                    'filter' => [],
+                ]
             ]);
             if ($result === true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Set default", 'msg' => __('messages.defaultMsg', ['type' => 'Assign broad'])['success']], Config::get('constants.errorCode.ok'));
