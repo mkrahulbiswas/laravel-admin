@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 
 class AuthAdminController extends Controller
 {
@@ -225,13 +226,6 @@ class AuthAdminController extends Controller
     public function showAuthProfile()
     {
         try {
-            dd($this->generateYourChoice([
-                [
-                    'length' => 6,
-                    'type' => Config::get('constants.generateType.otp')
-                ]
-            ])[Config::get('constants.generateType.otp')]);
-
             $adminUsers = ManageUsersHelper::getDetail([
                 [
                     'getDetail' => [
@@ -357,6 +351,50 @@ class AuthAdminController extends Controller
         }
     }
 
+    public function changeAuthImage(Request $request)
+    {
+        $values = $request->only('id', 'for');
+        $file = $request->file('file');
+
+        try {
+            $id = decrypt($values['id']);
+        } catch (DecryptException $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        }
+
+        // try {
+        $validator = $this->isValid(['input' => $request->all(), 'for' => 'changeAuthImage', 'id' => $id, 'platform' => $this->platform]);
+        if ($validator->fails()) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
+        } else {
+            $adminUsers = AdminUsers::find($id);
+            if ($file) {
+                $uploadFile = $this->uploadFile([
+                    'file' => ['current' => $file, 'previous' => $adminUsers->image],
+                    'platform' => $this->platform,
+                    'storage' => Config::get('constants.storage')['adminUsers']
+                ]);
+                if ($uploadFile['type'] == false) {
+                    return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], Config::get('constants.errorCode.ok'));
+                } else {
+                    $adminUsers->image = $uploadFile['name'];
+                }
+            }
+            if ($adminUsers->update()) {
+                $getFile = FileTrait::getFile([
+                    'fileName' => AdminUsers::where('id', $id)->first()->image,
+                    'storage' => Config::get('constants.storage')['adminUsers']
+                ])['public']['fullPath']['asset'];
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Change", 'data' => ['image' => $getFile], 'msg' => __('messages.changeMsg', ['type' => 'Profile pic'])['success']], Config::get('constants.errorCode.ok'));
+            } else {
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.changeMsg', ['type' => 'Profile pic'])['failed']], Config::get('constants.errorCode.ok'));
+            }
+        }
+        // } catch (Exception $e) {
+        //     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+        // }
+    }
+
     public function changeAuthPin(Request $request)
     {
         $values = $request->only('id', 'oldPin', 'newPin', 'confirmPin');
@@ -400,13 +438,12 @@ class AuthAdminController extends Controller
         }
 
         try {
-            // $otp = $this->generateYourChoice([
-            //     [
-            //         'length' => 6,
-            //         'type' => Config::get('constants.generateType.otp')
-            //     ]
-            // ])[Config::get('constants.generateType.otp')]['result'];
-            $otp = 123456;
+            $otp = $this->generateYourChoice([
+                [
+                    'length' => 6,
+                    'type' => Config::get('constants.generateType.number')
+                ]
+            ])[Config::get('constants.generateType.number')]['result'];
             if ($values['type'] == 'pin') {
                 $alertFor = 'ALFO-799299';
             } else {

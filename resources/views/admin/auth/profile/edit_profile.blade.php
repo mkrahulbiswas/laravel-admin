@@ -21,19 +21,23 @@
             <div class="card mt-n5">
                 <div class="card-body p-4">
                     <div class="text-center">
-                        <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                            <img src="{{ $data['detail']['getFile']['public']['fullPath']['asset'] }}" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
-                            <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                                <input id="profile-img-file-input" type="file" class="profile-img-file-input">
-                                <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
-                                    <span class="avatar-title rounded-circle bg-light text-body">
-                                        <i class="ri-camera-fill"></i>
-                                    </span>
-                                </label>
+                        <form id="changeAuthImageForm" action="{{ route('admin.change.authImage') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
+                            <input type="hidden" name="for" value="profile">
+                            <div class="validation-error mb-2" id="fileErr"></div>
+                            <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                                <img src="{{ $data['detail']['getFile']['public']['fullPath']['asset'] }}" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
+                                <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                                    <input id="profile-img-file-input" type="file" name="file" class="profile-img-file-input">
+                                    <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
+                                        <span class="avatar-title rounded-circle bg-light text-body">
+                                            <i class="ri-camera-fill"></i>
+                                        </span>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <a href="javascript:void(0);" class="link-primary changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="password">Forgot password?</a>
-                        <a href="javascript:void(0);" class="link-primary changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="pin">Forgot pin?</a>
+                        </form>
                         <h5 class="fs-16 mb-1">{{ $data['detail']['name'] }}</h5>
                         <p class="text-muted mb-0">{{ $data['detail']['subRole'] == [] ? $data['detail']['mainRole']['name'] : $data['detail']['subRole']['name'] }}</p>
                     </div>
@@ -84,7 +88,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-xxl-9">
             <div class="card mt-xxl-n5">
                 <div class="card-header">
@@ -210,7 +213,7 @@
                                             <h6 class="card-title mb-0">Change login password</h6>
                                         </div>
                                         <div class="card-body">
-                                            <form id="updateAuthPasswordForm" action="{{ route('admin.change.authPassword') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                                            <form id="changeAuthPasswordForm" action="{{ route('admin.change.authPassword') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
                                                 <div class="row">
@@ -243,7 +246,7 @@
                                                     </div>
                                                     <div class="form-element col-12 text-center mt-3">
                                                         @if ($permission['update']['permission'] == true)
-                                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light ms-2" id="updateAuthPasswordBtn">
+                                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light ms-2" id="changeAuthPasswordBtn">
                                                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                                                 <span>Update Password</span>
                                                             </button>
@@ -260,7 +263,7 @@
                                             <h6 class="card-title mb-0">Change profile pin</h6>
                                         </div>
                                         <div class="card-body">
-                                            <form id="updateAuthPinForm" action="{{ route('admin.change.authPin') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                                            <form id="changeAuthPinForm" action="{{ route('admin.change.authPin') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
                                                 <div class="row">
@@ -293,7 +296,7 @@
                                                     </div>
                                                     <div class="form-element col-12 text-center mt-3">
                                                         @if ($permission['update']['permission'] == true)
-                                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light ms-2" id="updateAuthPinBtn">
+                                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light ms-2" id="changeAuthPinBtn">
                                                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                                                 <span>Update PIN</span>
                                                             </button>
@@ -538,8 +541,8 @@
     <script>
         $('document').ready(function() {
             let targetModal = $('#con-change-modal');
-            $('.changeModal').click(function() {
-                targetModal.find('.verifyOtp, .resetPassword, .pinForm, .passwordForm').hide()
+            targetModal.find('.verifyOtp, .resetPassword, .pinForm, .passwordForm').hide()
+            $('body').delegate('.changeModal', 'click', function() {
                 let targetClass = $(this),
                     type = targetClass.attr('data-type');
                 if (type == 'pin') {
@@ -556,6 +559,9 @@
             targetModal.on("hidden.bs.modal", function() {
                 targetModal.find('.verifyOtp, .resetPassword, .pinForm, .passwordForm').hide()
                 targetModal.find('.sendOtp').show()
+            })
+            $('.profile-img-file-input').change(function() {
+                $('#changeAuthImageForm').submit()
             })
         });
     </script>

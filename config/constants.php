@@ -421,8 +421,6 @@ return [
         'slug' => 'slug',
         'alpNum' => 'alphaNumerical',
         'number' => 'number',
-        'password' => 'password',
-        'otp' => 'otp',
     ],
 
 

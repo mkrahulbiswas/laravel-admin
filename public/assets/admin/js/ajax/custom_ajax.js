@@ -155,7 +155,7 @@
         /*--========================= ( Profile START ) =========================--*/
         //---- ( Auth Profile Update ) ----//
         $("#updateAuthProfileForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateAuthProfileBtn');
 
             event.preventDefault();
@@ -252,10 +252,10 @@
             });
         });
 
-        //---- ( Auth Password Update ) ----//
-        $("#updateAuthPasswordForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateAuthPasswordBtn');
+        //---- ( Auth Change Password ) ----//
+        $("#changeAuthPasswordForm").submit(function (event) {
+            let submitForm = $(this);
+            submitBtn = $(this).find('#changeAuthPasswordBtn');
 
             event.preventDefault();
             $.ajax({
@@ -352,10 +352,10 @@
             });
         });
 
-        //---- ( Auth Pin Update ) ----//
-        $("#updateAuthPinForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateAuthPinBtn');
+        //---- ( Auth Change Pin ) ----//
+        $("#changeAuthPinForm").submit(function (event) {
+            let submitForm = $(this);
+            submitBtn = $(this).find('#changeAuthPinBtn');
 
             event.preventDefault();
             $.ajax({
@@ -418,7 +418,7 @@
                             submitForm.find("#confirmPinErr").text(msg.errors.confirmPin[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 2) {
-                        submitForm.find("#oldPinErr").text(msg.msg + ' <a href="javascript:void(0);" class="link-primary changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="pin">Forgot pin?</a>').closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        submitForm.find("#oldPinErr").html(msg.msg + ' <a href="javascript:void(0);" class="link-primary changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="pin">Forgot pin?</a>').closest('.form-element').find(errorClassList).addClass('invalid-input');
                     } else {
                         commonAction({
                             targetId: {
@@ -454,7 +454,7 @@
 
         //---- ( Auth Reset Send ) ----//
         $("#resetAuthSendForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#resetAuthSendBtn');
 
             event.preventDefault();
@@ -485,7 +485,14 @@
                         submitBtnState: {
                             dataPass: {
                                 text: 'Click to send OTP',
-                                disabled: true
+                                disabled: false
+                            }
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
                             }
                         },
                         targetId: {
@@ -518,7 +525,7 @@
 
         //---- ( Auth Reset Verify ) ----//
         $("#resetAuthVerifyForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#resetAuthVerifyBtn');
 
             event.preventDefault();
@@ -594,7 +601,7 @@
 
         //---- ( Auth Reset Update ) ----//
         $("#resetAuthUpdateForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#resetAuthUpdateBtn');
 
             event.preventDefault();
@@ -678,14 +685,83 @@
                 }
             });
         });
+
+        //---- ( Auth Change Image ) ----//
+        $("#changeAuthImageForm").submit(function (event) {
+            let submitForm = $(this);
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: new FormData(this),
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    commonAction({
+                        loader: {
+                            isSet: true
+                        },
+                        targetId: {
+                            submitForm: submitForm,
+                        },
+                        resetValidation: {},
+                    })
+                },
+                success: function (msg) {
+                    commonAction({
+                        loader: {
+                            isSet: false
+                        },
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.file, function (i) {
+                            submitForm.find("#fileErr").text(msg.errors.file[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else {
+                        submitForm.find('.user-profile-image').attr('src', msg.data.image)
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    commonAction({
+                        loader: {
+                            isSet: false
+                        },
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
         /*--========================= ( Profile END ) =========================--*/
 
 
         /*--========================= ( Manage Users START ) =========================--*/
         //---- ( Admin Users Save ) ----//
         $("#saveAdminUsersForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#saveAdminUsersBtn');
 
             event.preventDefault();
@@ -809,7 +885,7 @@
 
         //---- ( Admin Users Update ) ----//
         $("#updateAdminUsersForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateAdminUsersBtn');
 
             event.preventDefault();
@@ -979,8 +1055,7 @@
         /*--========================= ( Navigation & Access START ) =========================--*/
         //---- ( Nav Type Save ) ----//
         $("#saveNavTypeForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#saveNavTypeBtn');
 
             event.preventDefault();
@@ -1085,7 +1160,7 @@
 
         //---- ( Nav Type Update ) ----//
         $("#updateNavTypeForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateNavTypeBtn');
 
             event.preventDefault();
@@ -1243,8 +1318,7 @@
 
         //---- ( Main Nav Save ) ----//
         $("#saveMainNavForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#saveMainNavBtn');
 
             event.preventDefault();
@@ -1352,7 +1426,7 @@
 
         //---- ( Main Nav Update ) ----//
         $("#updateMainNavForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateMainNavBtn');
 
             event.preventDefault();
@@ -1459,7 +1533,7 @@
 
         //---- ( Main Nav Access ) ----//
         $("#accessMainNavForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#accessMainNavBtn');
 
             event.preventDefault();
@@ -1651,8 +1725,7 @@
 
         //---- ( Sub Nav Save ) ----//
         $("#saveSubNavForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#saveSubNavBtn');
 
             event.preventDefault();
@@ -1763,7 +1836,7 @@
 
         //---- ( Sub Nav Update ) ----//
         $("#updateSubNavForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateSubNavBtn');
 
             event.preventDefault();
@@ -1873,7 +1946,7 @@
 
         //---- ( Sub Nav Access ) ----//
         $("#accessSubNavForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#accessSubNavBtn');
 
             event.preventDefault();
@@ -2069,8 +2142,7 @@
 
         //---- ( Nested Nav Save ) ----//
         $("#saveNestedNavForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#saveNestedNavBtn');
 
             event.preventDefault();
@@ -2184,7 +2256,7 @@
 
         //---- ( Nested Nav Update ) ----//
         $("#updateNestedNavForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateNestedNavBtn');
 
             event.preventDefault();
@@ -2297,7 +2369,7 @@
 
         //---- ( Nested Nav Access ) ----//
         $("#accessNestedNavForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#accessNestedNavBtn');
 
             event.preventDefault();
@@ -2481,7 +2553,7 @@
 
         //---- ( Arrange Side Nav Update ) ----//
         $("#updateArrangeSideNavForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateArrangeSideNavBtn');
 
             event.preventDefault();
@@ -2567,8 +2639,7 @@
         /*--========================= ( Role & Permission START ) =========================--*/
         //---- ( Main Role Save ) ----//
         $("#saveMainRoleForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#saveMainRoleBtn');
 
             event.preventDefault();
@@ -2670,7 +2741,7 @@
 
         //---- ( Main Role Update ) ----//
         $("#updateMainRoleForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateMainRoleBtn');
 
             event.preventDefault();
@@ -2771,7 +2842,7 @@
 
         //---- ( Permission Main Role Update ) ----//
         $("#updatePermissionMainRoleForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updatePermissionMainRoleBtn');
 
             event.preventDefault();
@@ -2951,8 +3022,7 @@
 
         //---- ( Sub Role Save ) ----//
         $("#saveSubRoleForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#saveSubRoleBtn');
 
             event.preventDefault();
@@ -3057,7 +3127,7 @@
 
         //---- ( Sub Role Update ) ----//
         $("#updateSubRoleForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateSubRoleBtn');
 
             event.preventDefault();
@@ -3161,7 +3231,7 @@
 
         //---- ( Permission Sub Role Update ) ----//
         $("#updatePermissionSubRoleForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updatePermissionSubRoleBtn');
 
             event.preventDefault();
@@ -3331,8 +3401,7 @@
         /*--========================= ( Quick Setting START ) =========================--*/
         //---- ( Logo Save ) ----//
         $("#saveLogoForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#saveLogoBtn');
 
             event.preventDefault();
@@ -3437,7 +3506,7 @@
 
         //---- ( Logo Update ) ----//
         $("#updateLogoForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateLogoBtn');
 
             event.preventDefault();
@@ -3610,8 +3679,7 @@
 
         //---- ( Alert Type Save ) ----//
         $("#saveAlertTypeForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#saveAlertTypeBtn');
 
             event.preventDefault();
@@ -3710,7 +3778,7 @@
 
         //---- ( Alert Type Update ) ----//
         $("#updateAlertTypeForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateAlertTypeBtn');
 
             event.preventDefault();
@@ -3853,8 +3921,7 @@
 
         //---- ( Alert For Save ) ----//
         $("#saveAlertForForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#saveAlertForBtn');
 
             event.preventDefault();
@@ -3956,7 +4023,7 @@
 
         //---- ( Alert For Update ) ----//
         $("#updateAlertForForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateAlertForBtn');
 
             event.preventDefault();
@@ -4103,8 +4170,7 @@
 
         //---- ( Alert Template Save ) ----//
         $("#saveAlertTemplateForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#saveAlertTemplateBtn');
 
             event.preventDefault();
@@ -4212,7 +4278,7 @@
 
         //---- ( Alert Template Update ) ----//
         $("#updateAlertTemplateForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateAlertTemplateBtn');
 
             event.preventDefault();
@@ -4392,8 +4458,7 @@
         /*--========================= ( Property Related START ) =========================--*/
         //---- ( Property Attribute Save ) ----//
         $("#savePropertyAttributeForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#savePropertyAttributeBtn');
 
             event.preventDefault();
@@ -4498,7 +4563,7 @@
 
         //---- ( Property Attribute Update ) ----//
         $("#updatePropertyAttributeForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updatePropertyAttributeBtn');
 
             event.preventDefault();
@@ -4670,8 +4735,7 @@
 
         //---- ( Property Type Save ) ----//
         $("#savePropertyTypeForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#savePropertyTypeBtn');
 
             event.preventDefault();
@@ -4773,7 +4837,7 @@
 
         //---- ( Property Type Update ) ----//
         $("#updatePropertyTypeForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updatePropertyTypeBtn');
 
             event.preventDefault();
@@ -4940,8 +5004,7 @@
 
         //---- ( Broad Type Save ) ----//
         $("#saveBroadTypeForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#saveBroadTypeBtn');
 
             event.preventDefault();
@@ -5043,7 +5106,7 @@
 
         //---- ( Broad Type Update ) ----//
         $("#updateBroadTypeForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateBroadTypeBtn');
 
             event.preventDefault();
@@ -5210,8 +5273,7 @@
 
         //---- ( Assign Broad Save ) ----//
         $("#saveAssignBroadForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#saveAssignBroadBtn');
 
             event.preventDefault();
@@ -5316,7 +5378,7 @@
 
         //---- ( Assign Broad Update ) ----//
         $("#updateAssignBroadForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateAssignBroadBtn');
 
             event.preventDefault();
@@ -5488,8 +5550,7 @@
 
         //---- ( Manage Category Save ) ----//
         $("#saveManageCategoryForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#saveManageCategoryBtn');
 
             event.preventDefault();
@@ -5597,7 +5658,7 @@
 
         //---- ( Manage Category Update ) ----//
         $("#updateManageCategoryForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateManageCategoryBtn');
 
             event.preventDefault();
@@ -5798,8 +5859,7 @@
 
         //---- ( Assign Category Save ) ----//
         $("#saveAssignCategoryForm").submit(function (event) {
-
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#saveAssignCategoryBtn');
 
             event.preventDefault();
@@ -5913,7 +5973,7 @@
 
         //---- ( Assign Category Update ) ----//
         $("#updateAssignCategoryForm").submit(function (event) {
-            submitForm = $(this);
+            let submitForm = $(this);
             submitBtn = $(this).find('#updateAssignCategoryBtn');
 
             event.preventDefault();

@@ -121,6 +121,12 @@ trait ValidationTrait
                 ];
                 break;
 
+            case 'changeAuthImage':
+                $rules = [
+                    'file' => 'image|mimes:jpeg,jpg,png',
+                ];
+                break;
+
 
             /*------ ( Role & Permission START ) ------*/
             //---- ( Main Role )
