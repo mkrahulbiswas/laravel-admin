@@ -385,7 +385,7 @@
                     <h5 class="modal-title">Forget <span class="changeType"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body rounded-bottom-2">
                     <div class="row">
                         <div class="col-12 sendOtp">
                             <div class="card m-0">
@@ -427,26 +427,29 @@
                                         <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
                                         <input type="hidden" name="type" class="type" value="">
                                         <div class="row">
-                                            <div class="form-element col-12 w-75 m-auto mb-4 bg-info-subtle p-3 rounded-2">
-                                                <label for="otp" class="form-label">Please Put Your OTP <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                                                <div class="form-icon set-validation">
-                                                    <input type="text" name="otp" class="form-control form-control-icon" id="otp" placeholder="Your OTP" value="">
-                                                    <i class="bx bx-message-edit"></i>
+                                            <div class="col-12 mb-4">
+                                                <div class="bg-info-subtle p-3 rounded-2">
+                                                    <div class="row justify-content-center">
+                                                        <div class="form-element col-10">
+                                                            <label for="otp" class="form-label">Please Put Your OTP <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="otp" class="form-control form-control-icon" id="otp" placeholder="Your OTP" value="">
+                                                                <i class="bx bx-message-edit"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="otpErr"></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="validation-error" id="otpErr"></div>
                                             </div>
-                                            <div class="col-12 mb-3">
+                                            <div class="col-12 mb-2">
                                                 <div class="col-md border border-1 border-bottom border-success-subtle"></div>
                                             </div>
-                                            <div class="col-12">
-                                                <div class="d-flex flex-row justify-content-between">
-                                                    <button type="button" class="btn btn-sm link-danger fw-medium align-self-center"><i class="ri-arrow-left-line align-middle"></i> Back</button>
-                                                    @if ($permission['verify']['permission'] == true)
-                                                        <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="resetAuthVerifyBtn">
-                                                            <span>Verify OTP</span>
-                                                        </button>
-                                                    @endif
-                                                </div>
+                                            <div class="col-12 text-end">
+                                                @if ($permission['verify']['permission'] == true)
+                                                    <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="resetAuthVerifyBtn">
+                                                        <span>Verify OTP</span>
+                                                    </button>
+                                                @endif
                                             </div>
                                         </div>
                                     </form>
@@ -462,18 +465,65 @@
                                     <p class="card-text">
                                         <small class="text-warning">Note: this steps to reset <span class="changeType"></span></small>
                                     </p>
-                                    <div class="col-12 mb-3">
-                                        <div class="col-md border border-1 border-bottom border-success-subtle"></div>
-                                    </div>
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <button type="button" class="btn btn-sm link-danger fw-medium align-self-center"><i class="ri-arrow-left-line align-middle"></i> Back</button>
-                                        @if ($permission['update']['permission'] == true)
-                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light" id="updateBroadTypeBtn">
-                                                <i class="las la-save label-icon align-middle fs-16 me-2"></i>
-                                                <span class="changeButtonType">Update</span>
-                                            </button>
-                                        @endif
-                                    </div>
+                                    <form id="resetAuthUpdateForm" action="{{ route('admin.reset.authUpdate') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
+                                        <input type="hidden" name="type" class="type" value="">
+                                        <div class="row">
+                                            <div class="col-12 mb-4">
+                                                <div class="bg-info-subtle p-3 rounded-2 pinForm">
+                                                    <div class="row justify-content-center">
+                                                        <div class="form-element col-sm-12 col-md-12 col-lg-10 col-xl-10 mb-3">
+                                                            <label for="newPin" class="form-label">New Pin <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="newPin" class="form-control form-control-icon" id="newPin" placeholder="New Pin" value="">
+                                                                <i class="bx bx-message-edit"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="newPinErr"></div>
+                                                        </div>
+                                                        <div class="form-element col-sm-12 col-md-12 col-lg-10 col-xl-10">
+                                                            <label for="confirmPin" class="form-label">Confirm Pin <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="confirmPin" class="form-control form-control-icon" id="confirmPin" placeholder="Confirm Pin" value="">
+                                                                <i class="bx bx-message-edit"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="confirmPinErr"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="bg-info-subtle p-3 rounded-2 passwordForm">
+                                                    <div class="row justify-content-center">
+                                                        <div class="form-element col-sm-12 col-md-12 col-lg-10 col-xl-10 mb-3">
+                                                            <label for="newPassword" class="form-label">New Password <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="newPassword" class="form-control form-control-icon" id="newPassword" placeholder="New Password" value="">
+                                                                <i class="bx bx-message-edit"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="newPasswordErr"></div>
+                                                        </div>
+                                                        <div class="form-element col-sm-12 col-md-12 col-lg-10 col-xl-10">
+                                                            <label for="confirmPassword" class="form-label">Confirm Password <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="confirmPassword" class="form-control form-control-icon" id="confirmPassword" placeholder="Confirm Password" value="">
+                                                                <i class="bx bx-message-edit"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="confirmPasswordErr"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mb-2">
+                                                <div class="col-md border border-1 border-bottom border-success-subtle"></div>
+                                            </div>
+                                            <div class="col-12 text-end">
+                                                @if ($permission['update']['permission'] == true)
+                                                    <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="resetAuthUpdateBtn">
+                                                        <span>Update and change</span>
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -488,18 +538,24 @@
     <script>
         $('document').ready(function() {
             let targetModal = $('#con-change-modal');
-            // targetModal.find('.verifyOtp, .resetPassword').hide()
             $('.changeModal').click(function() {
+                targetModal.find('.verifyOtp, .resetPassword, .pinForm, .passwordForm').hide()
                 let targetClass = $(this),
                     type = targetClass.attr('data-type');
                 if (type == 'pin') {
                     changeButtonType = 'Update PIN'
+                    targetModal.find('.pinForm').show()
                 } else {
                     changeButtonType = 'Update Password'
+                    targetModal.find('.passwordForm').show()
                 }
                 targetModal.find('.changeType, #myModalLabel').text(type)
                 targetModal.find('.changeButtonType').text(changeButtonType)
-                targetModal.find('.sendOtp .type').val(type)
+                targetModal.find('.type').val(type)
+            })
+            targetModal.on("hidden.bs.modal", function() {
+                targetModal.find('.verifyOtp, .resetPassword, .pinForm, .passwordForm').hide()
+                targetModal.find('.sendOtp').show()
             })
         });
     </script>

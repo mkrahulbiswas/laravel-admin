@@ -9,8 +9,9 @@ return [
     'serverErrMsg' => 'Something went wrong.',
     'successMsg' => 'Success.',
     'noDataFound' => 'Oops!! No data found',
-    'oldPassPinNotMatch' => 'Oops!! the old :type is not matched, please try again.',
-    'otpNotMatch' => 'Oops!! the provided otp is not matched, please check again.',
+    'oldPassPinNotMatchMsg' => 'Oops!! the old :type is not matched, please try again.',
+    'otpNotMatchMsg' => 'Oops!! the provided otp is not matched, please check again.',
+    'otpNotVerifiedMsg' => 'Its look you are not verified OTP but try to change something.',
 
     'fileUploadMsg' => [
         'fileDelete' => [
@@ -77,9 +78,13 @@ return [
         'success' => 'OTP send successfully.',
         'failed' => 'Failed to send otp.',
     ],
-    'otpVerify' => [
+    'otpVerifyMsg' => [
         'success' => 'OTP verified successfully.',
         'failed' => 'Failed to verify otp.',
+    ],
+    'resetMsg' => [
+        'success' => ':type reset successfully.',
+        'failed' => 'Failed to reset :type.',
     ],
 
     'registerSuccess' => 'Successfully registered, just need to verify your OTP.',

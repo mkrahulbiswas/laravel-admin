@@ -107,6 +107,20 @@ trait ValidationTrait
                 ];
                 break;
 
+            case 'resetAuthPassword':
+                $rules = [
+                    'newPassword' => 'min:6|max:20|different:oldPassword|required_with:confirmPassword',
+                    'confirmPassword' => 'min:6|max:20|same:newPassword',
+                ];
+                break;
+
+            case 'resetAuthPin':
+                $rules = [
+                    'newPin' => 'min:6|max:10|different:oldPin|required_with:confirmPin',
+                    'confirmPin' => 'min:6|max:10|same:newPin',
+                ];
+                break;
+
 
             /*------ ( Role & Permission START ) ------*/
             //---- ( Main Role )

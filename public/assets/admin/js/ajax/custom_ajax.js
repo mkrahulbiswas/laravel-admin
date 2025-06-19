@@ -452,7 +452,7 @@
             });
         });
 
-        //---- ( Auth Reset Send Otp ) ----//
+        //---- ( Auth Reset Send ) ----//
         $("#resetAuthSendForm").submit(function (event) {
             submitForm = $(this);
             submitBtn = $(this).find('#resetAuthSendBtn');
@@ -516,7 +516,7 @@
             });
         });
 
-        //---- ( Auth Reset Verify Otp ) ----//
+        //---- ( Auth Reset Verify ) ----//
         $("#resetAuthVerifyForm").submit(function (event) {
             submitForm = $(this);
             submitBtn = $(this).find('#resetAuthVerifyBtn');
@@ -592,10 +592,10 @@
             });
         });
 
-        //---- ( Auth Reset Verify Otp ) ----//
-        $("#resetAuthVerifyForm").submit(function (event) {
+        //---- ( Auth Reset Update ) ----//
+        $("#resetAuthUpdateForm").submit(function (event) {
             submitForm = $(this);
-            submitBtn = $(this).find('#resetAuthVerifyBtn');
+            submitBtn = $(this).find('#resetAuthUpdateBtn');
 
             event.preventDefault();
             $.ajax({
@@ -636,18 +636,29 @@
                         },
                         submitBtnState: {
                             dataPass: {
-                                text: 'Verify OTP',
+                                text: 'Update and change',
                                 disabled: false
                             }
                         }
                     })
                     if (msg.status == 0) {
-                        $.each(msg.errors.otp, function (i) {
-                            submitForm.find("#otpErr").text(msg.errors.otp[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        $.each(msg.errors.newPin, function (i) {
+                            submitForm.find("#newPinErr").text(msg.errors.newPin[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
-                    } else {
+                        $.each(msg.errors.confirmPin, function (i) {
+                            submitForm.find("#confirmPinErr").text(msg.errors.confirmPin[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.newPassword, function (i) {
+                            submitForm.find("#newPasswordErr").text(msg.errors.newPassword[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.confirmPassword, function (i) {
+                            submitForm.find("#confirmPasswordErr").text(msg.errors.confirmPassword[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        });
+                    } else if (msg.status == 2) {
                         submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
-                        submitForm.closest('.con-change-modal').find('.resetPassword').show()
+                        submitForm.closest('.con-change-modal').find('.sendOtp').show()
+                    } else {
+                        submitForm.closest('#con-change-modal').modal('hide');
                     }
                 },
                 error: function (xhr, textStatus, error) {
