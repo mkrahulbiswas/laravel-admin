@@ -43,7 +43,7 @@ function initCallOnModalClose() {
             'saveAlertForForm', 'updateAlertForForm',
             'saveAlertTemplateForm', 'updateAlertTemplateForm',
             'resetAuthVerifyForm', 'resetAuthUpdateForm',
-            'changeAuthSendForm',
+            'changeAuthSendForm', 'changeAuthVerifyForm',
         ];
         var idArrayToString = '#' + idArray.join(', #');
         $(idArrayToString).find(".validation-error").text('');

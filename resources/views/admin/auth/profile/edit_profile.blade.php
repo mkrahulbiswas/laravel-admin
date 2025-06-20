@@ -540,14 +540,15 @@
                                 <div class="card-body">
                                     <h5 class="card-title mb-1 text-success">Trying to change <span class="changeType"></span></h5>
                                     <p class="card-text">To change your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
-                                    <p class="card-text"><b>2)</b> Next you need to verify <b>OTP</b>. For that you need to put the <b>OTP</b> inside the form and need to click on <b>Verify</b> button.</p>
+                                    <p class="card-text"><b>2)</b> Next you need to verify <b>OTP</b> and update <b><span class="changeType"></span></b>. For that you need to put the <b>OTP</b> inside the form and need to click on <b>Verify</b> button.</p>
                                     <p class="card-text">
-                                        <small class="text-warning">Note: this steps to verify OTP</small>
+                                        <small class="text-warning">Note: this steps to verify OTP and update <b><span class="changeType"></span></b></small>
                                     </p>
                                     <form id="changeAuthVerifyForm" action="{{ route('admin.change.authVerify') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
                                         <input type="hidden" name="type" class="type" value="">
+                                        <input type="hidden" name="changeValue" id="changeValue" value="">
                                         <div class="row">
                                             <div class="col-12 mb-4">
                                                 <div class="bg-info-subtle p-3 rounded-2">
@@ -570,77 +571,6 @@
                                                 @if ($permission['verify']['permission'] == true)
                                                     <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="changeAuthVerifyBtn">
                                                         <span>Verify OTP</span>
-                                                    </button>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 changePassword">
-                            <div class="card m-0">
-                                <div class="card-body">
-                                    <h5 class="card-title mb-1 text-success">Trying to change <span class="changeType"></span></h5>
-                                    <p class="card-text">To change your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
-                                    <p class="card-text"><b>3)</b> New you need to give valid <b>password</b> inside the form and after that you need to click on <b>update password</b> button.</p>
-                                    <p class="card-text">
-                                        <small class="text-warning">Note: this steps to change <span class="changeType"></span></small>
-                                    </p>
-                                    <form id="changeAuthUpdateForm" action="{{ route('admin.change.authUpdate') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
-                                        <input type="hidden" name="type" class="type" value="">
-                                        <div class="row">
-                                            <div class="col-12 mb-4">
-                                                <div class="bg-info-subtle p-3 rounded-2 pinForm">
-                                                    <div class="row justify-content-center">
-                                                        <div class="form-element col-sm-12 col-md-12 col-lg-10 col-xl-10 mb-3">
-                                                            <label for="newPin" class="form-label">New Pin <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                                                            <div class="form-icon set-validation">
-                                                                <input type="text" name="newPin" class="form-control form-control-icon" id="newPin" placeholder="New Pin" value="">
-                                                                <i class="bx bx-message-edit"></i>
-                                                            </div>
-                                                            <div class="validation-error" id="newPinErr"></div>
-                                                        </div>
-                                                        <div class="form-element col-sm-12 col-md-12 col-lg-10 col-xl-10">
-                                                            <label for="confirmPin" class="form-label">Confirm Pin <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                                                            <div class="form-icon set-validation">
-                                                                <input type="text" name="confirmPin" class="form-control form-control-icon" id="confirmPin" placeholder="Confirm Pin" value="">
-                                                                <i class="bx bx-message-edit"></i>
-                                                            </div>
-                                                            <div class="validation-error" id="confirmPinErr"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="bg-info-subtle p-3 rounded-2 passwordForm">
-                                                    <div class="row justify-content-center">
-                                                        <div class="form-element col-sm-12 col-md-12 col-lg-10 col-xl-10 mb-3">
-                                                            <label for="newPassword" class="form-label">New Password <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                                                            <div class="form-icon set-validation">
-                                                                <input type="text" name="newPassword" class="form-control form-control-icon" id="newPassword" placeholder="New Password" value="">
-                                                                <i class="bx bx-message-edit"></i>
-                                                            </div>
-                                                            <div class="validation-error" id="newPasswordErr"></div>
-                                                        </div>
-                                                        <div class="form-element col-sm-12 col-md-12 col-lg-10 col-xl-10">
-                                                            <label for="confirmPassword" class="form-label">Confirm Password <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                                                            <div class="form-icon set-validation">
-                                                                <input type="text" name="confirmPassword" class="form-control form-control-icon" id="confirmPassword" placeholder="Confirm Password" value="">
-                                                                <i class="bx bx-message-edit"></i>
-                                                            </div>
-                                                            <div class="validation-error" id="confirmPasswordErr"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 mb-2">
-                                                <div class="col-md border border-1 border-bottom border-success-subtle"></div>
-                                            </div>
-                                            <div class="col-12 text-end">
-                                                @if ($permission['update']['permission'] == true)
-                                                    <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="changeAuthUpdateBtn">
-                                                        <span>Update and change</span>
                                                     </button>
                                                 @endif
                                             </div>
@@ -676,14 +606,14 @@
                 resetTargetModal.find('.type').val(type)
             })
             resetTargetModal.on("hidden.bs.modal", function() {
-                targetModal.find('.verifyOtp, .resetPassword, .pinForm, .passwordForm').hide()
-                targetModal.find('.sendOtp').show()
+                resetTargetModal.find('.sendOtp, .verifyOtp, .resetPassword, .pinForm, .passwordForm').hide()
+                resetTargetModal.find('.sendOtp').show()
             })
             $('.profile-img-file-input').change(function() {
                 $('#changeAuthImageForm').submit()
             })
             let changeTargetModal = $('#con-change-modal');
-            // changeTargetModal.find('.verifyOtp, .resetPassword, .pinForm, .passwordForm').hide()
+            changeTargetModal.find('.verifyOtp').hide()
             $('.changeModal').click(function() {
                 changeTargetModal.find('#changeAuthSendForm .phone, #changeAuthSendForm .email').hide()
                 let targetClass = $(this),
@@ -696,6 +626,10 @@
                 changeTargetModal.find('#changeAuthSendForm .form-label').attr('for', type)
                 changeTargetModal.find('.changeType, #myModalLabel').text(type)
                 changeTargetModal.find('.type').val(type)
+            })
+            changeTargetModal.on("hidden.bs.modal", function() {
+                changeTargetModal.find('.verifyOtp, .sendOtp').hide()
+                changeTargetModal.find('.sendOtp').show()
             })
         });
     </script>

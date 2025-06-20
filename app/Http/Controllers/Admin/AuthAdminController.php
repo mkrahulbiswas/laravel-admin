@@ -442,44 +442,50 @@ class AuthAdminController extends Controller
             if ($validator->fails()) {
                 return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
             } else {
-                if ($values['type'] == 'email') {
-                    $otp = $this->generateYourChoice([
-                        [
-                            'length' => 6,
-                            'type' => Config::get('constants.generateType.number')
-                        ]
-                    ])[Config::get('constants.generateType.number')]['result'];
-                    if ($values['type'] == 'phone') {
-                        // $alertType = 'ALTY-756816';
-                        // $alertFor = 'ALFO-237854';
-                        $alertType = 'ALTY-894165';
-                        $alertFor = 'ALFO-471078';
-                    } else {
-                        $alertType = 'ALTY-894165';
-                        $alertFor = 'ALFO-471078';
-                    }
-                    $adminUsers = AdminUsers::where('id', $id)->first();
-                    $adminUsers->otp = $otp;
-                    $adminUsers->otpVerifiedAt = null;
-                    $adminUsers->otpVerifiedType = Str::upper($values['type']);
-                    if ($adminUsers->update()) {
-                        $replaceVariableWithValue = CommonHelper::replaceVariableWithValue([
-                            'replaceData' => [
-                                ['key' => '[~otp~]', 'value' => $otp],
-                                ['key' => '[~name~]', 'value' => $adminUsers->name],
-                            ],
-                            'alertType' => $alertType,
-                            'alertFor' => $alertFor,
-                        ]);
-                        $data = array(
-                            'subject' => $replaceVariableWithValue['heading'],
-                            'content' => $replaceVariableWithValue['content'],
-                        );
-                        Mail::to([$adminUsers->email, $values['email']])->send(new resetAuthSendMail($data));
-                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "OTP", 'msg' => __('messages.otpMsg')['success']], Config::get('constants.errorCode.ok'));
-                    } else {
-                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "OTP", 'msg' => __('messages.otpMsg')['failed']], Config::get('constants.errorCode.ok'));
-                    }
+                $otp = $this->generateYourChoice([
+                    [
+                        'length' => 6,
+                        'type' => Config::get('constants.generateType.number')
+                    ]
+                ])[Config::get('constants.generateType.number')]['result'];
+                if ($values['type'] == 'phone') {
+                    // $alertType = 'ALTY-756816';
+                    // $alertFor = 'ALFO-237854';
+                    $alertType = 'ALTY-894165';
+                    $alertFor = 'ALFO-471078';
+                } else {
+                    $alertType = 'ALTY-894165';
+                    $alertFor = 'ALFO-471078';
+                }
+                $adminUsers = AdminUsers::where('id', $id)->first();
+                $adminUsers->otp = $otp;
+                $adminUsers->otpVerifiedAt = null;
+                $adminUsers->otpVerifiedType = Str::upper($values['type']);
+                if ($adminUsers->update()) {
+                    $replaceVariableWithValue = CommonHelper::replaceVariableWithValue([
+                        'replaceData' => [
+                            ['key' => '[~otp~]', 'value' => $otp],
+                            ['key' => '[~name~]', 'value' => $adminUsers->name],
+                        ],
+                        'alertType' => $alertType,
+                        'alertFor' => $alertFor,
+                    ]);
+                    $data = array(
+                        'subject' => $replaceVariableWithValue['heading'],
+                        'content' => $replaceVariableWithValue['content'],
+                    );
+                    Mail::to([$values['email']])->send(new resetAuthSendMail($data));
+                    return Response()->Json([
+                        'status' => 1,
+                        'type' => "success",
+                        'title' => "OTP",
+                        'data' => [
+                            'changeValue' => ($values['type'] == 'email') ? encrypt($values['email']) : encrypt($values['phone'])
+                        ],
+                        'msg' => __('messages.otpMsg')['success']
+                    ], Config::get('constants.errorCode.ok'));
+                } else {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "OTP", 'msg' => __('messages.otpMsg')['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {
@@ -489,7 +495,7 @@ class AuthAdminController extends Controller
 
     public function changeAuthVerify(Request $request)
     {
-        $values = $request->only('id', 'type', 'otp');
+        $values = $request->only('id', 'type', 'otp', 'changeValue');
 
         try {
             $id = decrypt($values['id']);
@@ -505,9 +511,19 @@ class AuthAdminController extends Controller
                 $adminUsers = AdminUsers::where('id', $id)->first();
                 if ($adminUsers->otpVerifiedType == Str::upper($values['type'])) {
                     if ($adminUsers->otp == $values['otp']) {
-                        $adminUsers->isOtpVerified = date('d-m-y H:m:s');
+                        $adminUsers->otpVerifiedType = 'NA';
+                        if ($values['type'] == 'phone') {
+                            $adminUsers->phone = decrypt($values['changeValue']);
+                        } else {
+                            $adminUsers->email = decrypt($values['changeValue']);
+                        }
                         if ($adminUsers->update()) {
-                            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Verification", 'msg' => __('messages.otpVerifyMsg')['success']], Config::get('constants.errorCode.ok'));
+                            return Response()->Json([
+                                'status' => 1,
+                                'type' => "success",
+                                'title' => "Verification",
+                                'msg' => __('messages.otpVerifyMsg')['success'] . ' Also' . $values['type'] . ' is changed.'
+                            ], Config::get('constants.errorCode.ok'));
                         } else {
                             return Response()->Json(['status' => 0, 'type' => "success", 'title' => "Verification", 'msg' => __('messages.otpVerifyMsg')['failed']], Config::get('constants.errorCode.ok'));
                         }
@@ -550,6 +566,9 @@ class AuthAdminController extends Controller
             $adminUsers->otpVerifiedAt = null;
             $adminUsers->otpVerifiedType = Str::upper($values['type']);
             if ($adminUsers->update()) {
+                // $singleMail = SendMailHelper::singleMail([
+
+                // ]);
                 $replaceVariableWithValue = CommonHelper::replaceVariableWithValue([
                     'replaceData' => [
                         ['key' => '[~otp~]', 'value' => $otp],

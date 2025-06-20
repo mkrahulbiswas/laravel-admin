@@ -814,8 +814,9 @@
                             submitForm.find("#emailErr").text(msg.errors.email[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        submitForm.closest('.con-reset-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
-                        submitForm.closest('.con-reset-modal').find('.verifyOtp').show()
+                        submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp').hide()
+                        submitForm.closest('.con-change-modal').find('.verifyOtp').show()
+                        submitForm.closest('.con-change-modal').find('#changeValue').val(msg.data.changeValue)
                     }
                 },
                 error: function (xhr, textStatus, error) {
@@ -890,8 +891,8 @@
                             submitForm.find("#otpErr").text(msg.errors.otp[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        submitForm.closest('.con-reset-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
-                        submitForm.closest('.con-reset-modal').find('.resetPassword').show()
+                        submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp').hide()
+                        submitForm.closest('.con-change-modal').find('.sendOtp').show()
                     }
                 },
                 error: function (xhr, textStatus, error) {
