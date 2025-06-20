@@ -126,7 +126,7 @@
                                                 <label for="phone" class="form-label">Phone <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                 <div class="form-icon set-validation">
                                                     <div class="input-group">
-                                                        <input type="text" name="phone" class="form-control form-control-icon" id="phone" placeholder="Phone" value="{{ $data['detail']['phone'] }}" readonly>
+                                                        <input type="text" name="phone" class="form-control form-control-icon" placeholder="Phone" value="{{ $data['detail']['phone'] }}" readonly>
                                                         <button type="button" class="btn btn-light btn-icon waves-effect waves-light border-start-0 border-secondary-subtle changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="phone">
                                                             <i class="mdi mdi-file-replace"></i>
                                                         </button>
@@ -138,12 +138,12 @@
                                                 <label for="email" class="form-label">Email <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                 <div class="form-icon set-validation">
                                                     <div class="input-group">
-                                                        <input type="text" name="email" class="form-control form-control-icon" id="email" placeholder="Email" value="{{ $data['detail']['email'] }}" readonly>
+                                                        <input type="text" name="email" class="form-control form-control-icon" placeholder="Email" value="{{ $data['detail']['email'] }}" readonly>
                                                         <button type="button" class="btn btn-light btn-icon waves-effect waves-light border-start-0 border-secondary-subtle changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="email">
                                                             <i class="mdi mdi-file-replace"></i>
                                                         </button>
                                                     </div>
-                                                    <i class="las la-mail-bulk"></i>
+                                                    <i class="mdi mdi-email-check-outline"></i>
                                                 </div>
                                             </div>
                                             <div class="form-element col-12 mb-3">
@@ -337,7 +337,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title mb-1 text-success">Trying to reset <span class="changeType"></span></h5>
                                     <p class="card-text">To reset your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
-                                    <p class="card-text">1) You need to click on <b>Next</b> button to start first step, where an <b>OTP</b> send to your registered email ({{ $data['detail']['email'] }}).</p>
+                                    <p class="card-text"><b>1)</b> You need to click on <b>Next</b> button to start first step, where an <b>OTP</b> send to your registered email ({{ $data['detail']['email'] }}).</p>
                                     {{-- <p class="card-text">2) Next you need to verify OTP. For thant you need to  and click on <b>Verify</b> button</p> --}}
                                     <p class="card-text">
                                         <small class="text-warning">Note: this steps is to send OTP</small>
@@ -363,7 +363,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title mb-1 text-success">Trying to reset <span class="changeType"></span></h5>
                                     <p class="card-text">To reset your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
-                                    <p class="card-text">2) Next you need to verify <b>OTP</b>. For that you need to put the <b>OTP</b> inside the form and need to click on <b>Verify</b> button.</p>
+                                    <p class="card-text"><b>2)</b> Next you need to verify <b>OTP</b>. For that you need to put the <b>OTP</b> inside the form and need to click on <b>Verify</b> button.</p>
                                     <p class="card-text">
                                         <small class="text-warning">Note: this steps to verify OTP</small>
                                     </p>
@@ -406,7 +406,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title mb-1 text-success">Trying to reset <span class="changeType"></span></h5>
                                     <p class="card-text">To reset your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
-                                    <p class="card-text">3) New you need to give valid <b>password</b> inside the form and after that you need to click on <b>update password</b> button.</p>
+                                    <p class="card-text"><b>3)</b> New you need to give valid <b>password</b> inside the form and after that you need to click on <b>update password</b> button.</p>
                                     <p class="card-text">
                                         <small class="text-warning">Note: this steps to reset <span class="changeType"></span></small>
                                     </p>
@@ -490,22 +490,44 @@
                         <div class="col-12 sendOtp">
                             <div class="card m-0">
                                 <div class="card-body">
-                                    <h5 class="card-title mb-1 text-success">Trying to reset <span class="changeType"></span></h5>
+                                    <h5 class="card-title mb-1 text-success">Trying to change <span class="changeType"></span></h5>
                                     <p class="card-text">To change your registered <b><span class="changeType"></span></b> you need to follow few steps.</p>
-                                    <p class="card-text">1) You need to click on <b>Next</b> button to start first step, where an <b>OTP</b> send to your registered <span class="changeType"></span>.</p>
-                                    {{-- <p class="card-text">2) Next you need to verify OTP. For thant you need to  and click on <b>Verify</b> button</p> --}}
+                                    <p class="card-text"><b>1)</b> You need to provide the new <b><span class="changeType"></span></b> which you want to replace, than click on <b>continue</b> button to start first step. After click on <b>continue</b> and <b>OTP</b> will send to your previous & new provided <b><span class="changeType"></span></b>.</p>
                                     <p class="card-text">
-                                        <small class="text-warning">Note: this steps is to send OTP</small>
+                                        <small class="text-warning">Note: this steps is to send OTP to new & old both <b><span class="changeType"></span></b></small>
                                     </p>
-                                    <div class="col-md border border-1 border-bottom border-success-subtle mb-2"></div>
-                                    <form id="resetAuthSendForm" action="{{ route('admin.reset.authSend') }}" method="POST">
+                                    <form id="changeAuthSendForm" action="{{ route('admin.change.authSend') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
                                         <input type="hidden" name="type" class="type" value="">
+                                        <div class="col-12 mb-4">
+                                            <div class="bg-info-subtle p-3 rounded-2">
+                                                <div class="row justify-content-center">
+                                                    <div class="form-element col-12">
+                                                        <label for="" class="form-label">Please Put the new <span class="changeType"></span> which you want to replace with previous one <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                        <div class="phone">
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="phone" class="form-control form-control-icon" id="phone" placeholder="Phone" value="">
+                                                                <i class="las la-phone-volume"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="phoneErr"></div>
+                                                        </div>
+                                                        <div class="email">
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="email" class="form-control form-control-icon" id="email" placeholder="Email" value="">
+                                                                <i class="mdi mdi-email-check-outline"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="emailErr"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md border border-1 border-bottom border-success-subtle mb-2"></div>
                                         <div class="text-end">
                                             @if ($permission['send']['permission'] == true)
-                                                <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="resetAuthSendBtn">
-                                                    <span>Click to send OTP</span>
+                                                <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="changeAuthSendBtn">
+                                                    <span>Continue</span>
                                                 </button>
                                             @endif
                                         </div>
@@ -516,13 +538,13 @@
                         <div class="col-12 verifyOtp">
                             <div class="card m-0">
                                 <div class="card-body">
-                                    <h5 class="card-title mb-1 text-success">Trying to reset <span class="changeType"></span></h5>
-                                    <p class="card-text">To reset your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
-                                    <p class="card-text">2) Next you need to verify <b>OTP</b>. For that you need to put the <b>OTP</b> inside the form and need to click on <b>Verify</b> button.</p>
+                                    <h5 class="card-title mb-1 text-success">Trying to change <span class="changeType"></span></h5>
+                                    <p class="card-text">To change your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
+                                    <p class="card-text"><b>2)</b> Next you need to verify <b>OTP</b>. For that you need to put the <b>OTP</b> inside the form and need to click on <b>Verify</b> button.</p>
                                     <p class="card-text">
                                         <small class="text-warning">Note: this steps to verify OTP</small>
                                     </p>
-                                    <form id="resetAuthVerifyForm" action="{{ route('admin.reset.authVerify') }}" method="POST">
+                                    <form id="changeAuthVerifyForm" action="{{ route('admin.change.authVerify') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
                                         <input type="hidden" name="type" class="type" value="">
@@ -546,7 +568,7 @@
                                             </div>
                                             <div class="col-12 text-end">
                                                 @if ($permission['verify']['permission'] == true)
-                                                    <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="resetAuthVerifyBtn">
+                                                    <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="changeAuthVerifyBtn">
                                                         <span>Verify OTP</span>
                                                     </button>
                                                 @endif
@@ -556,16 +578,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 resetPassword">
+                        <div class="col-12 changePassword">
                             <div class="card m-0">
                                 <div class="card-body">
-                                    <h5 class="card-title mb-1 text-success">Trying to reset <span class="changeType"></span></h5>
-                                    <p class="card-text">To reset your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
-                                    <p class="card-text">3) New you need to give valid <b>password</b> inside the form and after that you need to click on <b>update password</b> button.</p>
+                                    <h5 class="card-title mb-1 text-success">Trying to change <span class="changeType"></span></h5>
+                                    <p class="card-text">To change your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
+                                    <p class="card-text"><b>3)</b> New you need to give valid <b>password</b> inside the form and after that you need to click on <b>update password</b> button.</p>
                                     <p class="card-text">
-                                        <small class="text-warning">Note: this steps to reset <span class="changeType"></span></small>
+                                        <small class="text-warning">Note: this steps to change <span class="changeType"></span></small>
                                     </p>
-                                    <form id="resetAuthUpdateForm" action="{{ route('admin.reset.authUpdate') }}" method="POST">
+                                    <form id="changeAuthUpdateForm" action="{{ route('admin.change.authUpdate') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
                                         <input type="hidden" name="type" class="type" value="">
@@ -617,7 +639,7 @@
                                             </div>
                                             <div class="col-12 text-end">
                                                 @if ($permission['update']['permission'] == true)
-                                                    <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="resetAuthUpdateBtn">
+                                                    <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="changeAuthUpdateBtn">
                                                         <span>Update and change</span>
                                                     </button>
                                                 @endif
@@ -663,15 +685,16 @@
             let changeTargetModal = $('#con-change-modal');
             // changeTargetModal.find('.verifyOtp, .resetPassword, .pinForm, .passwordForm').hide()
             $('.changeModal').click(function() {
+                changeTargetModal.find('#changeAuthSendForm .phone, #changeAuthSendForm .email').hide()
                 let targetClass = $(this),
                     type = targetClass.attr('data-type');
                 if (type == 'phone') {
-                    changeButtonType = 'Update PIN'
+                    changeTargetModal.find('#changeAuthSendForm .phone').show()
                 } else {
-                    changeButtonType = 'Update Password'
+                    changeTargetModal.find('#changeAuthSendForm .email').show()
                 }
+                changeTargetModal.find('#changeAuthSendForm .form-label').attr('for', type)
                 changeTargetModal.find('.changeType, #myModalLabel').text(type)
-                // changeTargetModal.find('.changeButtonType').text(changeButtonType)
                 changeTargetModal.find('.type').val(type)
             })
         });

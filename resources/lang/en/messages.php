@@ -11,6 +11,7 @@ return [
     'noDataFound' => 'Oops!! No data found',
     'oldPassPinNotMatchMsg' => 'Oops!! the old :type is not matched, please try again.',
     'otpNotMatchMsg' => 'Oops!! the provided otp is not matched, please check again.',
+    'otpNotTypeMsg' => 'Oops!! its looks like you are trying to change other type of action.',
     'otpNotVerifiedMsg' => 'Its look you are not verified OTP but try to change something.',
 
     'fileUploadMsg' => [

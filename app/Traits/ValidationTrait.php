@@ -114,6 +114,20 @@ trait ValidationTrait
                 ];
                 break;
 
+            case 'changeAuthSend':
+                if ($data['input']['type'] == 'email') {
+                    $rules['email'] = 'required|email|max:100|unique:' . AdminUsers::class . ',email';
+                } else {
+                    $rules['phone'] = 'required|max:100|digits:10|unique:' . AdminUsers::class . ',phone';
+                }
+                break;
+
+            case 'changeAuthVerify':
+                $rules = [
+                    'otp' => 'required|digits:6',
+                ];
+                break;
+
             case 'resetAuthPin':
                 $rules = [
                     'newPin' => 'min:6|max:10|different:oldPin|required_with:confirmPin',

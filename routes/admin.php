@@ -39,6 +39,7 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin
 
             Route::post('change/send',  'changeAuthSend')->name('admin.change.authSend');
             Route::post('change/verify',  'changeAuthVerify')->name('admin.change.authVerify');
+            Route::post('change/update',  'changeAuthUpdate')->name('admin.change.authUpdate');
 
             Route::post('reset/send',  'resetAuthSend')->name('admin.reset.authSend');
             Route::post('reset/verify',  'resetAuthVerify')->name('admin.reset.authVerify');
