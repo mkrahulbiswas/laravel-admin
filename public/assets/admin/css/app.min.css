@@ -8409,7 +8409,7 @@ button {
 }
 
 .form-icon .form-control-icon {
-    padding-left: calc(.9rem * 3);
+    padding-left: calc(.7rem * 3);
     position: relative
 }
 
@@ -8417,7 +8417,7 @@ button {
     position: absolute;
     top: 1px;
     bottom: 0;
-    left: 18px;
+    left: 12px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;

@@ -318,7 +318,7 @@
                             submitForm.find("#confirmPasswordErr").text(msg.errors.confirmPassword[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 2) {
-                        submitForm.find("#oldPasswordErr").html(msg.msg + ' <a href="javascript:void(0);" class="link-primary changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="password">Forgot password?</a>').closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        submitForm.find("#oldPasswordErr").html(msg.msg + ' <a href="javascript:void(0);" class="link-primary resetModal" data-bs-toggle="modal" data-bs-target="#con-reset-modal" data-type="password">Forgot password?</a>').closest('.form-element').find(errorClassList).addClass('invalid-input');
                     } else {
                         commonAction({
                             targetId: {
@@ -418,7 +418,7 @@
                             submitForm.find("#confirmPinErr").text(msg.errors.confirmPin[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 2) {
-                        submitForm.find("#oldPinErr").html(msg.msg + ' <a href="javascript:void(0);" class="link-primary changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="pin">Forgot pin?</a>').closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        submitForm.find("#oldPinErr").html(msg.msg + ' <a href="javascript:void(0);" class="link-primary resetModal" data-bs-toggle="modal" data-bs-target="#con-reset-modal" data-type="pin">Forgot pin?</a>').closest('.form-element').find(errorClassList).addClass('invalid-input');
                     } else {
                         commonAction({
                             targetId: {
@@ -501,8 +501,8 @@
                         },
                     })
                     if (msg.status == 1) {
-                        submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
-                        submitForm.closest('.con-change-modal').find('.verifyOtp').show()
+                        submitForm.closest('.con-reset-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
+                        submitForm.closest('.con-reset-modal').find('.verifyOtp').show()
                     }
                 },
                 error: function (xhr, textStatus, error) {
@@ -577,8 +577,8 @@
                             submitForm.find("#otpErr").text(msg.errors.otp[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
-                        submitForm.closest('.con-change-modal').find('.resetPassword').show()
+                        submitForm.closest('.con-reset-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
+                        submitForm.closest('.con-reset-modal').find('.resetPassword').show()
                     }
                 },
                 error: function (xhr, textStatus, error) {
@@ -662,10 +662,10 @@
                             submitForm.find("#confirmPasswordErr").text(msg.errors.confirmPassword[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 2) {
-                        submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
-                        submitForm.closest('.con-change-modal').find('.sendOtp').show()
+                        submitForm.closest('.con-reset-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
+                        submitForm.closest('.con-reset-modal').find('.sendOtp').show()
                     } else {
-                        submitForm.closest('#con-change-modal').modal('hide');
+                        submitForm.closest('#con-reset-modal').modal('hide');
                     }
                 },
                 error: function (xhr, textStatus, error) {

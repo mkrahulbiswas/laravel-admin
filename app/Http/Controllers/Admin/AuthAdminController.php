@@ -362,37 +362,37 @@ class AuthAdminController extends Controller
             return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
 
-        // try {
-        $validator = $this->isValid(['input' => $request->all(), 'for' => 'changeAuthImage', 'id' => $id, 'platform' => $this->platform]);
-        if ($validator->fails()) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
-        } else {
-            $adminUsers = AdminUsers::find($id);
-            if ($file) {
-                $uploadFile = $this->uploadFile([
-                    'file' => ['current' => $file, 'previous' => $adminUsers->image],
-                    'platform' => $this->platform,
-                    'storage' => Config::get('constants.storage')['adminUsers']
-                ]);
-                if ($uploadFile['type'] == false) {
-                    return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], Config::get('constants.errorCode.ok'));
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'changeAuthImage', 'id' => $id, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
+            } else {
+                $adminUsers = AdminUsers::find($id);
+                if ($file) {
+                    $uploadFile = $this->uploadFile([
+                        'file' => ['current' => $file, 'previous' => $adminUsers->image],
+                        'platform' => $this->platform,
+                        'storage' => Config::get('constants.storage')['adminUsers']
+                    ]);
+                    if ($uploadFile['type'] == false) {
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], Config::get('constants.errorCode.ok'));
+                    } else {
+                        $adminUsers->image = $uploadFile['name'];
+                    }
+                }
+                if ($adminUsers->update()) {
+                    $getFile = FileTrait::getFile([
+                        'fileName' => AdminUsers::where('id', $id)->first()->image,
+                        'storage' => Config::get('constants.storage')['adminUsers']
+                    ])['public']['fullPath']['asset'];
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Change", 'data' => ['image' => $getFile], 'msg' => __('messages.changeMsg', ['type' => 'Profile pic'])['success']], Config::get('constants.errorCode.ok'));
                 } else {
-                    $adminUsers->image = $uploadFile['name'];
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.changeMsg', ['type' => 'Profile pic'])['failed']], Config::get('constants.errorCode.ok'));
                 }
             }
-            if ($adminUsers->update()) {
-                $getFile = FileTrait::getFile([
-                    'fileName' => AdminUsers::where('id', $id)->first()->image,
-                    'storage' => Config::get('constants.storage')['adminUsers']
-                ])['public']['fullPath']['asset'];
-                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Change", 'data' => ['image' => $getFile], 'msg' => __('messages.changeMsg', ['type' => 'Profile pic'])['success']], Config::get('constants.errorCode.ok'));
-            } else {
-                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.changeMsg', ['type' => 'Profile pic'])['failed']], Config::get('constants.errorCode.ok'));
-            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
         }
-        // } catch (Exception $e) {
-        //     return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
-        // }
     }
 
     public function changeAuthPin(Request $request)
