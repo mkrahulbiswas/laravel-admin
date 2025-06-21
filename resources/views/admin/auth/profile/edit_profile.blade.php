@@ -126,7 +126,7 @@
                                                 <label for="phone" class="form-label">Phone <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                 <div class="form-icon set-validation">
                                                     <div class="input-group">
-                                                        <input type="text" name="phone" class="form-control form-control-icon" placeholder="Phone" value="{{ $data['detail']['phone'] }}" readonly>
+                                                        <input type="text" name="phone" class="form-control form-control-icon" placeholder="Phone" value="{{ $data['detail']['formattedPhone'] }}" readonly>
                                                         <button type="button" class="btn btn-light btn-icon waves-effect waves-light border-start-0 border-secondary-subtle changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="phone">
                                                             <i class="mdi mdi-file-replace"></i>
                                                         </button>
@@ -507,7 +507,7 @@
                                                         <label for="" class="form-label">Please Put the new <span class="changeType"></span> which you want to replace with previous one <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                         <div class="phone">
                                                             <div class="form-icon set-validation">
-                                                                <input type="text" name="phone" class="form-control form-control-icon" id="phone" placeholder="Phone" value="">
+                                                                <input type="text" name="phone" class="form-control form-control-icon intl-phone-basic" id="phone" placeholder="Phone" value="">
                                                                 <i class="las la-phone-volume"></i>
                                                             </div>
                                                             <div class="validation-error" id="phoneErr"></div>

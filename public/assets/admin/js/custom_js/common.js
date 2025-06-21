@@ -12,6 +12,7 @@
         initDatePicker()
         initDateRangePicker()
         initTimePicker()
+        initIntlTelInput()
     });
 })(jQuery);
 
@@ -48,6 +49,43 @@ function initCallOnModalClose() {
         var idArrayToString = '#' + idArray.join(', #');
         $(idArrayToString).find(".validation-error").text('');
         $(this).find('.selectTwo').select2('reset');
+    });
+}
+
+function initIntlTelInput() {
+    window.iti = window.intlTelInput(document.querySelector(".intl-phone-basic"), {
+        // allowDropdown: false,
+        // autoPlaceholder: "off",
+        containerClass: "intl-phone-full-width",
+        // countryOrder: ["jp", "kr"],
+        countrySearch: false,
+        // customPlaceholder: function(selectedCountryPlaceholder, selectedCountryData) {
+        //   return "e.g. " + selectedCountryPlaceholder;
+        // },
+        // dropdownContainer: document.querySelector('#custom-container'),
+        // excludeCountries: ["us"],
+        // fixDropdownWidth: false,
+        // formatAsYouType: false,
+        // formatOnDisplay: false,
+        // geoIpLookup: function(callback) {
+        //   fetch("https://ipapi.co/json")
+        //     .then(function(res) { return res.json(); })
+        //     .then(function(data) { callback(data.country_code); })
+        //     .catch(function() { callback(); });
+        // },
+        // hiddenInput: () => ({ phone: "phone_full", country: "country_code" }),
+        // i18n: { 'de': 'Deutschland' },
+        initialCountry: "in",
+        loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"), // leading slash (and http-server) required for this to work in chrome
+        // loadUtils: () => import("/utils.js"),
+        // nationalMode: false,
+        onlyCountries: ['us', 'in', 'ch', 'ca', 'do'],
+        // placeholderNumberType: "MOBILE",
+        // showFlags: false,
+        // separateDialCode: true,
+        // strictMode: true,
+        // useFullscreenPopup: true,
+        // validationNumberTypes: null,
     });
 }
 

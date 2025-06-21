@@ -17,7 +17,6 @@ use App\Models\UsersRelated\UsersInfo;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgotPassword;
 use App\Mail\resetAuthSendMail;
-
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -429,7 +428,7 @@ class AuthAdminController extends Controller
 
     public function changeAuthSend(Request $request)
     {
-        $values = $request->only('id', 'type', 'email', 'phone');
+        $values = $request->only('id', 'type', 'email', 'phone', 'dialCode');
 
         try {
             $id = decrypt($values['id']);

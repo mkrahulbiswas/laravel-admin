@@ -155,14 +155,15 @@
         /*--========================= ( Profile START ) =========================--*/
         //---- ( Auth Profile Update ) ----//
         $("#updateAuthProfileForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateAuthProfileBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateAuthProfileBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
@@ -254,14 +255,15 @@
 
         //---- ( Auth Change Password ) ----//
         $("#changeAuthPasswordForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#changeAuthPasswordBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#changeAuthPasswordBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
@@ -354,14 +356,15 @@
 
         //---- ( Auth Change Pin ) ----//
         $("#changeAuthPinForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#changeAuthPinBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#changeAuthPinBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
@@ -454,14 +457,15 @@
 
         //---- ( Auth Reset Send ) ----//
         $("#resetAuthSendForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#resetAuthSendBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#resetAuthSendBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
@@ -525,14 +529,15 @@
 
         //---- ( Auth Reset Verify ) ----//
         $("#resetAuthVerifyForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#resetAuthVerifyBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#resetAuthVerifyBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
@@ -601,14 +606,15 @@
 
         //---- ( Auth Reset Update ) ----//
         $("#resetAuthUpdateForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#resetAuthUpdateBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#resetAuthUpdateBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
@@ -688,13 +694,14 @@
 
         //---- ( Auth Change Image ) ----//
         $("#changeAuthImageForm").submit(function (event) {
-            let submitForm = $(this);
+            let submitForm = $(this),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
@@ -759,14 +766,15 @@
 
         //---- ( Auth Change Send ) ----//
         $("#changeAuthSendForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#changeAuthSendBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#changeAuthSendBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
@@ -839,14 +847,15 @@
 
         //---- ( Auth Change Verify ) ----//
         $("#changeAuthVerifyForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#changeAuthVerifyBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#changeAuthVerifyBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
@@ -918,13 +927,14 @@
         /*--========================= ( Manage Users START ) =========================--*/
         //---- ( Admin Users Save ) ----//
         $("#saveAdminUsersForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#saveAdminUsersBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveAdminUsersBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -1042,14 +1052,15 @@
 
         //---- ( Admin Users Update ) ----//
         $("#updateAdminUsersForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateAdminUsersBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateAdminUsersBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
@@ -1212,13 +1223,14 @@
         /*--========================= ( Navigation & Access START ) =========================--*/
         //---- ( Nav Type Save ) ----//
         $("#saveNavTypeForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#saveNavTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveNavTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -1317,13 +1329,14 @@
 
         //---- ( Nav Type Update ) ----//
         $("#updateNavTypeForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateNavTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateNavTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -1475,13 +1488,14 @@
 
         //---- ( Main Nav Save ) ----//
         $("#saveMainNavForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#saveMainNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveMainNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -1583,13 +1597,14 @@
 
         //---- ( Main Nav Update ) ----//
         $("#updateMainNavForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateMainNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateMainNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -1690,13 +1705,14 @@
 
         //---- ( Main Nav Access ) ----//
         $("#accessMainNavForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#accessMainNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#accessMainNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -1882,13 +1898,14 @@
 
         //---- ( Sub Nav Save ) ----//
         $("#saveSubNavForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#saveSubNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveSubNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -1993,13 +2010,14 @@
 
         //---- ( Sub Nav Update ) ----//
         $("#updateSubNavForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateSubNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateSubNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -2103,13 +2121,14 @@
 
         //---- ( Sub Nav Access ) ----//
         $("#accessSubNavForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#accessSubNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#accessSubNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -2299,13 +2318,14 @@
 
         //---- ( Nested Nav Save ) ----//
         $("#saveNestedNavForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#saveNestedNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveNestedNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -2413,13 +2433,14 @@
 
         //---- ( Nested Nav Update ) ----//
         $("#updateNestedNavForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateNestedNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateNestedNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -2526,13 +2547,14 @@
 
         //---- ( Nested Nav Access ) ----//
         $("#accessNestedNavForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#accessNestedNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#accessNestedNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -2710,13 +2732,14 @@
 
         //---- ( Arrange Side Nav Update ) ----//
         $("#updateArrangeSideNavForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateArrangeSideNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateArrangeSideNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -2796,13 +2819,14 @@
         /*--========================= ( Role & Permission START ) =========================--*/
         //---- ( Main Role Save ) ----//
         $("#saveMainRoleForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#saveMainRoleBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveMainRoleBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -2898,13 +2922,14 @@
 
         //---- ( Main Role Update ) ----//
         $("#updateMainRoleForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateMainRoleBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateMainRoleBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -2999,13 +3024,14 @@
 
         //---- ( Permission Main Role Update ) ----//
         $("#updatePermissionMainRoleForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updatePermissionMainRoleBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updatePermissionMainRoleBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -3179,13 +3205,14 @@
 
         //---- ( Sub Role Save ) ----//
         $("#saveSubRoleForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#saveSubRoleBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveSubRoleBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -3284,13 +3311,14 @@
 
         //---- ( Sub Role Update ) ----//
         $("#updateSubRoleForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateSubRoleBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateSubRoleBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -3388,13 +3416,14 @@
 
         //---- ( Permission Sub Role Update ) ----//
         $("#updatePermissionSubRoleForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updatePermissionSubRoleBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updatePermissionSubRoleBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -3558,13 +3587,14 @@
         /*--========================= ( Quick Setting START ) =========================--*/
         //---- ( Logo Save ) ----//
         $("#saveLogoForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#saveLogoBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveLogoBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -3663,13 +3693,14 @@
 
         //---- ( Logo Update ) ----//
         $("#updateLogoForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateLogoBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateLogoBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -3836,13 +3867,14 @@
 
         //---- ( Alert Type Save ) ----//
         $("#saveAlertTypeForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#saveAlertTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveAlertTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -3935,13 +3967,14 @@
 
         //---- ( Alert Type Update ) ----//
         $("#updateAlertTypeForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateAlertTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateAlertTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -4078,13 +4111,14 @@
 
         //---- ( Alert For Save ) ----//
         $("#saveAlertForForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#saveAlertForBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveAlertForBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -4180,13 +4214,14 @@
 
         //---- ( Alert For Update ) ----//
         $("#updateAlertForForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateAlertForBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateAlertForBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -4327,13 +4362,14 @@
 
         //---- ( Alert Template Save ) ----//
         $("#saveAlertTemplateForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#saveAlertTemplateBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveAlertTemplateBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -4435,13 +4471,14 @@
 
         //---- ( Alert Template Update ) ----//
         $("#updateAlertTemplateForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateAlertTemplateBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateAlertTemplateBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -4615,13 +4652,14 @@
         /*--========================= ( Property Related START ) =========================--*/
         //---- ( Property Attribute Save ) ----//
         $("#savePropertyAttributeForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#savePropertyAttributeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#savePropertyAttributeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -4720,13 +4758,14 @@
 
         //---- ( Property Attribute Update ) ----//
         $("#updatePropertyAttributeForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updatePropertyAttributeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updatePropertyAttributeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -4892,13 +4931,14 @@
 
         //---- ( Property Type Save ) ----//
         $("#savePropertyTypeForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#savePropertyTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#savePropertyTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -4994,13 +5034,14 @@
 
         //---- ( Property Type Update ) ----//
         $("#updatePropertyTypeForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updatePropertyTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updatePropertyTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -5161,13 +5202,14 @@
 
         //---- ( Broad Type Save ) ----//
         $("#saveBroadTypeForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#saveBroadTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveBroadTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -5263,13 +5305,14 @@
 
         //---- ( Broad Type Update ) ----//
         $("#updateBroadTypeForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateBroadTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateBroadTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -5430,13 +5473,14 @@
 
         //---- ( Assign Broad Save ) ----//
         $("#saveAssignBroadForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#saveAssignBroadBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveAssignBroadBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -5535,13 +5579,14 @@
 
         //---- ( Assign Broad Update ) ----//
         $("#updateAssignBroadForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateAssignBroadBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateAssignBroadBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -5707,13 +5752,14 @@
 
         //---- ( Manage Category Save ) ----//
         $("#saveManageCategoryForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#saveManageCategoryBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveManageCategoryBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -5815,13 +5861,14 @@
 
         //---- ( Manage Category Update ) ----//
         $("#updateManageCategoryForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateManageCategoryBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateManageCategoryBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -6016,13 +6063,14 @@
 
         //---- ( Assign Category Save ) ----//
         $("#saveAssignCategoryForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#saveAssignCategoryBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveAssignCategoryBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -6130,13 +6178,14 @@
 
         //---- ( Assign Category Update ) ----//
         $("#updateAssignCategoryForm").submit(function (event) {
-            let submitForm = $(this);
-            submitBtn = $(this).find('#updateAssignCategoryBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateAssignCategoryBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
