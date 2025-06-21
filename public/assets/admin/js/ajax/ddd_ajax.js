@@ -1,31 +1,6 @@
 (function ($) {
 
     $(function () {
-
-        function commonAction(data) {
-            if (data.loader != undefined) {
-                if (data.loader.isSet == true) {
-                    $("#internalLoader").fadeIn(500);
-                    $('body').css({
-                        'overflow-y': 'hidden'
-                    });
-                } else {
-                    $("#internalLoader").fadeOut(500);
-                    $('body').css({
-                        'overflow-y': 'scroll'
-                    });
-                }
-            }
-
-            if (data.swal != undefined) {
-                if (data.swal.type == 'basic') {
-                    Swal.fire({
-                        ...data.swal.props
-                    });
-                }
-            }
-        }
-
         /*--========================= ( Manage Nav START ) =========================--*/
         $('.navTypeDDD').change(function () {
             if ($(this).attr('data-action') != undefined) {
@@ -39,14 +14,14 @@
                         type: 'get',
                         dataType: 'json',
                         beforeSend: function () {
-                            commonAction({
+                            window.commonAction({
                                 loader: {
                                     isSet: true
                                 }
                             })
                         },
                         success: function (msg) {
-                            commonAction({
+                            window.commonAction({
                                 loader: {
                                     isSet: false
                                 }
@@ -77,14 +52,14 @@
                         type: 'get',
                         dataType: 'json',
                         beforeSend: function () {
-                            commonAction({
+                            window.commonAction({
                                 loader: {
                                     isSet: true
                                 }
                             })
                         },
                         success: function (msg) {
-                            commonAction({
+                            window.commonAction({
                                 loader: {
                                     isSet: false
                                 }
@@ -117,14 +92,14 @@
                         type: 'get',
                         dataType: 'json',
                         beforeSend: function () {
-                            commonAction({
+                            window.commonAction({
                                 loader: {
                                     isSet: true
                                 }
                             })
                         },
                         success: function (msg) {
-                            commonAction({
+                            window.commonAction({
                                 loader: {
                                     isSet: false
                                 }
@@ -157,14 +132,14 @@
                         type: 'get',
                         dataType: 'json',
                         beforeSend: function () {
-                            commonAction({
+                            window.commonAction({
                                 loader: {
                                     isSet: true
                                 }
                             })
                         },
                         success: function (msg) {
-                            commonAction({
+                            window.commonAction({
                                 loader: {
                                     isSet: false
                                 }
@@ -197,14 +172,14 @@
                         type: 'get',
                         dataType: 'json',
                         beforeSend: function () {
-                            commonAction({
+                            window.commonAction({
                                 loader: {
                                     isSet: true
                                 }
                             })
                         },
                         success: function (msg) {
-                            commonAction({
+                            window.commonAction({
                                 loader: {
                                     isSet: false
                                 }
@@ -212,7 +187,7 @@
                             if (msg.status == 0) {
                                 $('.assignBroadDDD').append(html);
                             } else if (msg.status == 2) {
-                                commonAction({
+                                window.commonAction({
                                     swal: {
                                         type: 'basic',
                                         props: {
@@ -249,14 +224,14 @@
                         type: 'get',
                         dataType: 'json',
                         beforeSend: function () {
-                            commonAction({
+                            window.commonAction({
                                 loader: {
                                     isSet: true
                                 }
                             })
                         },
                         success: function (msg) {
-                            commonAction({
+                            window.commonAction({
                                 loader: {
                                     isSet: false
                                 }

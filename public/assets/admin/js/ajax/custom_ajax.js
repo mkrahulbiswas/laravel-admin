@@ -1,155 +1,7 @@
 (function ($) {
 
     $(function () {
-        var pathArray = window.location.pathname.split('/'),
-            submitForm, submitBtn, id = '',
-            errorClassList = '.form-control, .select2-container--default .select2-selection--single, .dropify-wrapper, .note-editor';
-
-        function commonAction(data) {
-            let targetForm = (data.targetId != undefined) ? data.targetId.submitForm : '',
-                targetBtn = (data.targetId != undefined) ? data.targetId.submitBtn : '';
-
-            if (data.afterSuccess != undefined) {
-                if (data.afterSuccess.resetForm == true) {
-                    targetForm[0].reset();
-                    targetForm.find('.dropify-clear').trigger('click')
-                    targetForm.find('.summernote').summernote('reset');
-                }
-                if (data.afterSuccess.hideModal == true) {
-                    targetForm.closest('.con-common-modal').modal('hide');
-                }
-            }
-
-            if (data.dataTable != undefined) {
-                if (data.dataTable.reload != undefined) {
-                    data.dataTable.reload.targetId.DataTable().ajax.reload(null, false);
-                }
-            }
-
-            if (data.loader != undefined) {
-                if (data.loader.isSet == true) {
-                    $("#internalLoader").fadeIn(500);
-                    $('body').css({
-                        'overflow-y': 'hidden'
-                    });
-                } else {
-                    $("#internalLoader").fadeOut(500);
-                    $('body').css({
-                        'overflow-y': 'scroll'
-                    });
-                }
-            }
-
-            if (data.resetValidation != undefined) {
-                targetForm.find(".validation-error").text('');
-                targetForm.find(errorClassList).removeClass('valid-input invalid-input');
-            }
-
-            if (data.submitBtnState != undefined) {
-                targetBtn.attr("disabled", data.submitBtnState.dataPass.disabled).find('span').text(data.submitBtnState.dataPass.text);
-            }
-
-            if (data.toaster != undefined) {
-                $.toast({
-                    heading: (data.toaster.dataPass.title == undefined) ? 'NA' : data.toaster.dataPass.title,
-                    text: (data.toaster.dataPass.msg == undefined) ? 'NA' : data.toaster.dataPass.msg,
-                    showHideTransition: 'slide',
-                    icon: (data.toaster.dataPass.type == undefined) ? 'warning' : data.toaster.dataPass.type,
-                    hideAfter: 10000,
-                    stack: 3,
-                    position: 'top-right',
-                });
-            }
-
-            if (data.swal != undefined) {
-                if (data.swal.type == 'basic') {
-                    Swal.fire({
-                        ...data.swal.props
-                    });
-                }
-                if (data.swal.type == 'confirm') {
-                    Swal.fire({
-                        ...data.swal.props
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            return true
-                        }
-                        return false
-                    });
-                }
-            }
-        }
-
-        function commonMethod(data) {
-            if (data.type == 'common') {
-                Swal.fire({
-                    title: data.swalData.title,
-                    text: data.swalData.text,
-                    icon: data.swalData.icon,
-                    showCancelButton: true,
-                    confirmButtonText: data.swalData.confirmButtonText,
-                    cancelButtonText: data.swalData.cancelButtonText,
-                }).then((result) => {
-                    if (result.value) {
-                        $.ajax({
-                            url: data.action,
-                            type: data.method,
-                            dataType: 'json',
-                            beforeSend: function () {
-                                commonAction({
-                                    loader: {
-                                        isSet: true
-                                    }
-                                })
-                            },
-                            success: function (msg) {
-                                commonAction({
-                                    loader: {
-                                        isSet: false
-                                    },
-                                    toaster: {
-                                        dataPass: {
-                                            title: msg.title,
-                                            msg: msg.msg,
-                                            type: msg.type
-                                        }
-                                    },
-                                })
-                                if (msg.status == 1) {
-                                    commonAction({
-                                        dataTable: {
-                                            reload: {
-                                                targetId: data.targetTableId
-                                            }
-                                        }
-                                    })
-                                }
-                            },
-                            error: function (xhr, textStatus, error) {
-                                commonAction({
-                                    loader: {
-                                        isSet: false
-                                    },
-                                    targetId: {
-                                        submitForm: submitForm,
-                                        submitBtn: submitBtn,
-                                    },
-                                    toaster: {
-                                        dataPass: {
-                                            title: textStatus,
-                                            msg: error,
-                                            type: textStatus
-                                        }
-                                    },
-                                })
-                            }
-                        });
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-
-                    }
-                })
-            }
-        }
+        var submitBtn, id = '';
 
 
         /*--========================= ( Profile START ) =========================--*/
@@ -169,7 +21,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -187,7 +39,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -211,29 +63,29 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.pinCode, function (i) {
-                            submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.state, function (i) {
-                            submitForm.find("#stateErr").text(msg.errors.state[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#stateErr").text(msg.errors.state[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.country, function (i) {
-                            submitForm.find("#countryErr").text(msg.errors.country[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#countryErr").text(msg.errors.country[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.address, function (i) {
-                            submitForm.find("#addressErr").text(msg.errors.address[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#addressErr").text(msg.errors.address[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
                         window.location.reload()
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -269,7 +121,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -287,7 +139,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -311,18 +163,18 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.oldPassword, function (i) {
-                            submitForm.find("#oldPasswordErr").text(msg.errors.oldPassword[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#oldPasswordErr").text(msg.errors.oldPassword[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.newPassword, function (i) {
-                            submitForm.find("#newPasswordErr").text(msg.errors.newPassword[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#newPasswordErr").text(msg.errors.newPassword[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.confirmPassword, function (i) {
-                            submitForm.find("#confirmPasswordErr").text(msg.errors.confirmPassword[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#confirmPasswordErr").text(msg.errors.confirmPassword[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 2) {
-                        submitForm.find("#oldPasswordErr").html(msg.msg + ' <a href="javascript:void(0);" class="link-primary resetModal" data-bs-toggle="modal" data-bs-target="#con-reset-modal" data-type="password">Forgot password?</a>').closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        submitForm.find("#oldPasswordErr").html(msg.msg + ' <a href="javascript:void(0);" class="link-primary resetModal" data-bs-toggle="modal" data-bs-target="#con-reset-modal" data-type="password">Forgot password?</a>').closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -334,7 +186,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -370,7 +222,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -388,7 +240,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -412,18 +264,18 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.oldPin, function (i) {
-                            submitForm.find("#oldPinErr").text(msg.errors.oldPin[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#oldPinErr").text(msg.errors.oldPin[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.newPin, function (i) {
-                            submitForm.find("#newPinErr").text(msg.errors.newPin[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#newPinErr").text(msg.errors.newPin[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.confirmPin, function (i) {
-                            submitForm.find("#confirmPinErr").text(msg.errors.confirmPin[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#confirmPinErr").text(msg.errors.confirmPin[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 2) {
-                        submitForm.find("#oldPinErr").html(msg.msg + ' <a href="javascript:void(0);" class="link-primary resetModal" data-bs-toggle="modal" data-bs-target="#con-reset-modal" data-type="pin">Forgot pin?</a>').closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        submitForm.find("#oldPinErr").html(msg.msg + ' <a href="javascript:void(0);" class="link-primary resetModal" data-bs-toggle="modal" data-bs-target="#con-reset-modal" data-type="pin">Forgot pin?</a>').closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -435,7 +287,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -471,7 +323,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -485,7 +337,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         submitBtnState: {
                             dataPass: {
                                 text: 'Click to send OTP',
@@ -510,7 +362,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -543,7 +395,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -558,7 +410,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -579,7 +431,7 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.otp, function (i) {
-                            submitForm.find("#otpErr").text(msg.errors.otp[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#otpErr").text(msg.errors.otp[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
                         submitForm.closest('.con-reset-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
@@ -587,7 +439,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -620,7 +472,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -635,7 +487,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -656,16 +508,16 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.newPin, function (i) {
-                            submitForm.find("#newPinErr").text(msg.errors.newPin[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#newPinErr").text(msg.errors.newPin[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.confirmPin, function (i) {
-                            submitForm.find("#confirmPinErr").text(msg.errors.confirmPin[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#confirmPinErr").text(msg.errors.confirmPin[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.newPassword, function (i) {
-                            submitForm.find("#newPasswordErr").text(msg.errors.newPassword[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#newPasswordErr").text(msg.errors.newPassword[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.confirmPassword, function (i) {
-                            submitForm.find("#confirmPasswordErr").text(msg.errors.confirmPassword[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#confirmPasswordErr").text(msg.errors.confirmPassword[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 2) {
                         submitForm.closest('.con-reset-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
@@ -675,7 +527,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -707,7 +559,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: true
                         },
@@ -718,7 +570,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -737,14 +589,14 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.file, function (i) {
-                            submitForm.find("#fileErr").text(msg.errors.file[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#fileErr").text(msg.errors.file[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
                         submitForm.find('.user-profile-image').attr('src', msg.data.image)
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -770,6 +622,8 @@
                 submitBtn = $(this).find('#changeAuthSendBtn'),
                 formData = new FormData(this);
 
+            console.log(window.commonAction);
+
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
@@ -780,7 +634,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -794,7 +648,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         submitBtnState: {
                             dataPass: {
                                 text: 'Continue',
@@ -816,10 +670,10 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.phone, function (i) {
-                            submitForm.find("#phoneErr").text(msg.errors.phone[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#phoneErr").text(msg.errors.phone[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.email, function (i) {
-                            submitForm.find("#emailErr").text(msg.errors.email[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#emailErr").text(msg.errors.email[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
                         submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp').hide()
@@ -828,7 +682,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -861,7 +715,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -876,7 +730,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -897,7 +751,7 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.otp, function (i) {
-                            submitForm.find("#otpErr").text(msg.errors.otp[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#otpErr").text(msg.errors.otp[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
                         submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp').hide()
@@ -905,7 +759,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -942,7 +796,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -960,7 +814,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -984,40 +838,40 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.email, function (i) {
-                            submitForm.find("#emailErr").text(msg.errors.email[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#emailErr").text(msg.errors.email[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.phone, function (i) {
-                            submitForm.find("#phoneErr").text(msg.errors.phone[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#phoneErr").text(msg.errors.phone[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainRole, function (i) {
-                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.subRole, function (i) {
-                            submitForm.find("#subRoleErr").text(msg.errors.subRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#subRoleErr").text(msg.errors.subRole[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.pinCode, function (i) {
-                            submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.state, function (i) {
-                            submitForm.find("#stateErr").text(msg.errors.state[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#stateErr").text(msg.errors.state[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.country, function (i) {
-                            submitForm.find("#countryErr").text(msg.errors.country[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#countryErr").text(msg.errors.country[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.address, function (i) {
-                            submitForm.find("#addressErr").text(msg.errors.address[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#addressErr").text(msg.errors.address[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.file, function (i) {
-                            submitForm.find("#fileErr").text(msg.errors.file[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#fileErr").text(msg.errors.file[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -1030,7 +884,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -1066,7 +920,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1084,7 +938,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1108,42 +962,42 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.email, function (i) {
-                            submitForm.find("#emailErr").text(msg.errors.email[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#emailErr").text(msg.errors.email[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.phone, function (i) {
-                            submitForm.find("#phoneErr").text(msg.errors.phone[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#phoneErr").text(msg.errors.phone[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainRole, function (i) {
-                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.subRole, function (i) {
-                            submitForm.find("#subRoleErr").text(msg.errors.subRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#subRoleErr").text(msg.errors.subRole[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.pinCode, function (i) {
-                            submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.state, function (i) {
-                            submitForm.find("#stateErr").text(msg.errors.state[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#stateErr").text(msg.errors.state[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.country, function (i) {
-                            submitForm.find("#countryErr").text(msg.errors.country[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#countryErr").text(msg.errors.country[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.address, function (i) {
-                            submitForm.find("#addressErr").text(msg.errors.address[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#addressErr").text(msg.errors.address[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.file, function (i) {
-                            submitForm.find("#fileErr").text(msg.errors.file[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#fileErr").text(msg.errors.file[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -1171,7 +1025,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -1185,7 +1039,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -1238,7 +1092,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1256,7 +1110,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1280,16 +1134,16 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -1307,7 +1161,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -1343,7 +1197,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1361,7 +1215,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1385,16 +1239,16 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -1412,7 +1266,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -1440,7 +1294,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -1454,7 +1308,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -1503,7 +1357,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1521,7 +1375,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1545,19 +1399,19 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.navType, function (i) {
-                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -1575,7 +1429,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -1611,7 +1465,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1629,7 +1483,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1653,19 +1507,19 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.navType, function (i) {
-                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -1683,7 +1537,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -1719,7 +1573,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1737,7 +1591,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1761,10 +1615,10 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -1781,7 +1635,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -1809,7 +1663,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -1823,7 +1677,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -1848,7 +1702,7 @@
             } else if (type == 'access') {
                 data = JSON.parse($(this).attr('data-array'));
                 if (data.extraData.hasSubNav > 0) {
-                    commonAction({
+                    window.commonAction({
                         swal: {
                             type: 'basic',
                             props: {
@@ -1913,7 +1767,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1931,7 +1785,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1955,22 +1809,22 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.navType, function (i) {
-                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainNav, function (i) {
-                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -1988,7 +1842,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -2024,7 +1878,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2042,7 +1896,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2066,22 +1920,22 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.navType, function (i) {
-                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainNav, function (i) {
-                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -2099,7 +1953,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -2135,7 +1989,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2153,7 +2007,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2177,10 +2031,10 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -2197,7 +2051,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -2225,7 +2079,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -2239,7 +2093,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -2267,7 +2121,7 @@
             } else if (type == 'access') {
                 data = JSON.parse($(this).attr('data-array'));
                 if (data.extraData.hasNestedNav > 0) {
-                    commonAction({
+                    window.commonAction({
                         swal: {
                             type: 'basic',
                             props: {
@@ -2333,7 +2187,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2351,7 +2205,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2375,25 +2229,25 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.navType, function (i) {
-                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainNav, function (i) {
-                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.subNav, function (i) {
-                            submitForm.find("#subNavErr").text(msg.errors.subNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#subNavErr").text(msg.errors.subNav[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -2411,7 +2265,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -2447,7 +2301,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2465,7 +2319,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2489,25 +2343,25 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.navType, function (i) {
-                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainNav, function (i) {
-                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.subNav, function (i) {
-                            submitForm.find("#subNavErr").text(msg.errors.subNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#subNavErr").text(msg.errors.subNav[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -2525,7 +2379,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -2561,7 +2415,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2579,7 +2433,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2603,10 +2457,10 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -2623,7 +2477,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -2651,7 +2505,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -2665,7 +2519,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -2746,7 +2600,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2764,7 +2618,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2794,7 +2648,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -2834,7 +2688,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2852,7 +2706,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2876,13 +2730,13 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -2900,7 +2754,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -2936,7 +2790,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2954,7 +2808,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2978,13 +2832,13 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -3002,7 +2856,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3038,7 +2892,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3056,7 +2910,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3080,10 +2934,10 @@
                     })
                     if (msg.status == 0) {
                         // $.each(msg.errors.name, function (i) {
-                        //     submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        //     submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         // });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -3101,7 +2955,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3129,7 +2983,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -3143,7 +2997,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -3171,7 +3025,7 @@
                 id.find('#description').text(data.description);
             } else if (type == 'permission') {
                 data = JSON.parse($(this).attr('data-array'));
-                commonAction({
+                window.commonAction({
                     swal: {
                         type: 'basic',
                         props: {
@@ -3186,7 +3040,7 @@
                 })
             } else if (type == 'setPermission') {
                 data = JSON.parse($(this).attr('data-array'));
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -3220,7 +3074,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3238,7 +3092,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3262,16 +3116,16 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainRole, function (i) {
-                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -3289,7 +3143,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3325,7 +3179,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3343,7 +3197,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3367,16 +3221,16 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainRole, function (i) {
-                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -3394,7 +3248,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3430,7 +3284,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3448,7 +3302,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3472,10 +3326,10 @@
                     })
                     if (msg.status == 0) {
                         // $.each(msg.errors.name, function (i) {
-                        //     submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        //     submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         // });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -3493,7 +3347,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3521,7 +3375,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -3535,7 +3389,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -3565,7 +3419,7 @@
                 id.find('#description').text(data.description);
             } else if (type == 'setPermission') {
                 data = JSON.parse($(this).attr('data-array'));
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -3602,7 +3456,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3620,7 +3474,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3644,16 +3498,16 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.bigLogo, function (i) {
-                            submitForm.find("#bigLogoErr").text(msg.errors.bigLogo[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#bigLogoErr").text(msg.errors.bigLogo[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.smallLogo, function (i) {
-                            submitForm.find("#smallLogoErr").text(msg.errors.smallLogo[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#smallLogoErr").text(msg.errors.smallLogo[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.favicon, function (i) {
-                            submitForm.find("#faviconErr").text(msg.errors.favicon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#faviconErr").text(msg.errors.favicon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -3671,7 +3525,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3707,7 +3561,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3725,7 +3579,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3749,16 +3603,16 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.bigLogo, function (i) {
-                            submitForm.find("#bigLogoErr").text(msg.errors.bigLogo[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#bigLogoErr").text(msg.errors.bigLogo[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.smallLogo, function (i) {
-                            submitForm.find("#smallLogoErr").text(msg.errors.smallLogo[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#smallLogoErr").text(msg.errors.smallLogo[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.favicon, function (i) {
-                            submitForm.find("#faviconErr").text(msg.errors.favicon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#faviconErr").text(msg.errors.favicon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -3776,7 +3630,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3804,7 +3658,7 @@
                 data = '';
 
             if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -3818,7 +3672,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -3848,7 +3702,7 @@
                 id.find('#favicon img').attr('src', data.favicon);
             } else if (type == 'setPermission') {
                 data = JSON.parse($(this).attr('data-array'));
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -3882,7 +3736,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3900,7 +3754,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3924,10 +3778,10 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -3945,7 +3799,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3981,7 +3835,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3999,7 +3853,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4023,10 +3877,10 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -4044,7 +3898,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -4072,7 +3926,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -4086,7 +3940,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -4126,7 +3980,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4144,7 +3998,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4168,13 +4022,13 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.alertType, function (i) {
-                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -4192,7 +4046,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -4228,7 +4082,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4246,7 +4100,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4270,13 +4124,13 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.alertType, function (i) {
-                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -4294,7 +4148,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -4322,7 +4176,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -4336,7 +4190,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -4377,7 +4231,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4395,7 +4249,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4419,19 +4273,19 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.alertType, function (i) {
-                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.alertFor, function (i) {
-                            submitForm.find("#alertForErr").text(msg.errors.alertFor[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#alertForErr").text(msg.errors.alertFor[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.heading, function (i) {
-                            submitForm.find("#headingErr").text(msg.errors.heading[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#headingErr").text(msg.errors.heading[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.content, function (i) {
-                            submitForm.find("#contentErr").text(msg.errors.content[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#contentErr").text(msg.errors.content[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -4449,7 +4303,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -4485,7 +4339,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4503,7 +4357,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4527,19 +4381,19 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.alertType, function (i) {
-                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.alertFor, function (i) {
-                            submitForm.find("#alertForErr").text(msg.errors.alertFor[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#alertForErr").text(msg.errors.alertFor[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.heading, function (i) {
-                            submitForm.find("#headingErr").text(msg.errors.heading[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#headingErr").text(msg.errors.heading[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.content, function (i) {
-                            submitForm.find("#contentErr").text(msg.errors.content[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#contentErr").text(msg.errors.content[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -4557,7 +4411,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -4586,7 +4440,7 @@
                 html = '';
 
             if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -4600,7 +4454,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -4667,7 +4521,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4685,7 +4539,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4709,16 +4563,16 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.type, function (i) {
-                            submitForm.find("#typeErr").text(msg.errors.type[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#typeErr").text(msg.errors.type[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -4736,7 +4590,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -4772,7 +4626,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4790,7 +4644,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4814,16 +4668,16 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.type, function (i) {
-                            submitForm.find("#typeErr").text(msg.errors.type[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#typeErr").text(msg.errors.type[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -4841,7 +4695,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -4869,7 +4723,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -4883,7 +4737,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -4897,7 +4751,7 @@
                     }
                 })
             } else if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -4946,7 +4800,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4964,7 +4818,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4988,13 +4842,13 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -5012,7 +4866,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -5048,7 +4902,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5066,7 +4920,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5090,13 +4944,13 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -5114,7 +4968,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -5142,7 +4996,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -5156,7 +5010,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -5170,7 +5024,7 @@
                     }
                 })
             } else if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -5217,7 +5071,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5235,7 +5089,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5259,13 +5113,13 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -5283,7 +5137,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -5319,7 +5173,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5337,7 +5191,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5361,13 +5215,13 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -5385,7 +5239,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -5413,7 +5267,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -5427,7 +5281,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -5441,7 +5295,7 @@
                     }
                 })
             } else if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -5488,7 +5342,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5506,7 +5360,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5530,16 +5384,16 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.propertyType, function (i) {
-                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.broadType, function (i) {
-                            submitForm.find("#broadTypeErr").text(msg.errors.broadType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#broadTypeErr").text(msg.errors.broadType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -5557,7 +5411,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -5593,7 +5447,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5611,7 +5465,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5635,16 +5489,16 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.propertyType, function (i) {
-                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.broadType, function (i) {
-                            submitForm.find("#broadTypeErr").text(msg.errors.broadType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#broadTypeErr").text(msg.errors.broadType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -5662,7 +5516,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -5690,7 +5544,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -5704,7 +5558,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -5718,7 +5572,7 @@
                     }
                 })
             } else if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -5767,7 +5621,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5785,7 +5639,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5809,19 +5663,19 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainCategory, function (i) {
-                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.subCategory, function (i) {
-                            submitForm.find("#subCategoryErr").text(msg.errors.subCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#subCategoryErr").text(msg.errors.subCategory[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -5839,7 +5693,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -5875,7 +5729,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5893,7 +5747,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5917,19 +5771,19 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainCategory, function (i) {
-                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.subCategory, function (i) {
-                            submitForm.find("#subCategoryErr").text(msg.errors.subCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#subCategoryErr").text(msg.errors.subCategory[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -5947,7 +5801,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -5975,7 +5829,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -5989,7 +5843,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -6003,7 +5857,7 @@
                     }
                 })
             } else if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -6078,7 +5932,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -6096,7 +5950,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -6120,19 +5974,19 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.mainCategory, function (i) {
-                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.propertyType, function (i) {
-                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.assignBroad, function (i) {
-                            submitForm.find("#assignBroadErr").text(msg.errors.assignBroad[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#assignBroadErr").text(msg.errors.assignBroad[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -6150,7 +6004,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -6192,7 +6046,7 @@
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -6210,7 +6064,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -6234,19 +6088,19 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.mainCategory, function (i) {
-                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.propertyType, function (i) {
-                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.assignBroad, function (i) {
-                            submitForm.find("#assignBroadErr").text(msg.errors.assignBroad[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#assignBroadErr").text(msg.errors.assignBroad[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -6264,7 +6118,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -6292,7 +6146,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -6306,7 +6160,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -6320,7 +6174,7 @@
                     }
                 })
             } else if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
