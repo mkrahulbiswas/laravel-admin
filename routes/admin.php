@@ -27,17 +27,24 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin
 
         Route::post('logout',  'logout')->name('logout');
 
-        Route::get('auth-profile/',  'showAuthProfile')->name('admin.show.authProfile');
-        Route::get('auth-profile/edit',  'editAuthProfile')->name('admin.edit.authProfile');
-        Route::post('auth-profile/edit/update',  'updateAuthProfile')->name('admin.update.authProfile');
-        Route::post('auth-profile/change/password',  'changeAuthPassword')->name('admin.change.authPassword');
-        Route::post('auth-profile/change/pin',  'changeAuthPin')->name('admin.change.authPin');
-        Route::post('auth-profile/reset/send',  'resetAuthSend')->name('admin.reset.authSend');
-        Route::post('auth-profile/reset/verify',  'resetAuthVerify')->name('admin.reset.authVerify');
-        Route::post('auth-profile/reset/update',  'resetAuthUpdate')->name('admin.reset.authUpdate');
+        Route::group(['prefix' => 'auth-profile'], function () {
+            Route::get('/',  'showAuthProfile')->name('admin.show.authProfile');
 
-        Route::get('change-password/',  'showChangePassword')->name('password.show');
-        Route::post('change-password/update',  'updatePassword')->name('password.update');
+            Route::get('edit',  'editAuthProfile')->name('admin.edit.authProfile');
+            Route::post('edit/update',  'updateAuthProfile')->name('admin.update.authProfile');
+
+            Route::post('change/password',  'changeAuthPassword')->name('admin.change.authPassword');
+            Route::post('change/pin',  'changeAuthPin')->name('admin.change.authPin');
+            Route::post('change/image',  'changeAuthImage')->name('admin.change.authImage');
+
+            Route::post('change/send',  'changeAuthSend')->name('admin.change.authSend');
+            Route::post('change/verify',  'changeAuthVerify')->name('admin.change.authVerify');
+            Route::post('change/update',  'changeAuthUpdate')->name('admin.change.authUpdate');
+
+            Route::post('reset/send',  'resetAuthSend')->name('admin.reset.authSend');
+            Route::post('reset/verify',  'resetAuthVerify')->name('admin.reset.authVerify');
+            Route::post('reset/update',  'resetAuthUpdate')->name('admin.reset.authUpdate');
+        });
 
         /*======== (-- Dashboard Related --) ========*/
         Route::group(['prefix' => 'dashboard-related'], function () {

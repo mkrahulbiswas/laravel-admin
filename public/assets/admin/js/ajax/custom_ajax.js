@@ -1,174 +1,27 @@
 (function ($) {
 
     $(function () {
-        var pathArray = window.location.pathname.split('/'),
-            submitForm, submitBtn, id = '',
-            errorClassList = '.form-control, .select2-container--default .select2-selection--single, .dropify-wrapper, .note-editor';
-
-        function commonAction(data) {
-            let targetForm = (data.targetId != undefined) ? data.targetId.submitForm : '',
-                targetBtn = (data.targetId != undefined) ? data.targetId.submitBtn : '';
-
-            if (data.afterSuccess != undefined) {
-                if (data.afterSuccess.resetForm == true) {
-                    targetForm[0].reset();
-                    targetForm.find('.dropify-clear').trigger('click')
-                    targetForm.find('.summernote').summernote('reset');
-                }
-                if (data.afterSuccess.hideModal == true) {
-                    targetForm.closest('.con-common-modal').modal('hide');
-                }
-            }
-
-            if (data.dataTable != undefined) {
-                if (data.dataTable.reload != undefined) {
-                    data.dataTable.reload.targetId.DataTable().ajax.reload(null, false);
-                }
-            }
-
-            if (data.loader != undefined) {
-                if (data.loader.isSet == true) {
-                    $("#internalLoader").fadeIn(500);
-                    $('body').css({
-                        'overflow-y': 'hidden'
-                    });
-                } else {
-                    $("#internalLoader").fadeOut(500);
-                    $('body').css({
-                        'overflow-y': 'scroll'
-                    });
-                }
-            }
-
-            if (data.resetValidation != undefined) {
-                targetForm.find(".validation-error").text('');
-                targetForm.find(errorClassList).removeClass('valid-input invalid-input');
-            }
-
-            if (data.submitBtnState != undefined) {
-                targetBtn.attr("disabled", data.submitBtnState.dataPass.disabled).find('span').text(data.submitBtnState.dataPass.text);
-            }
-
-            if (data.toaster != undefined) {
-                $.toast({
-                    heading: (data.toaster.dataPass.title == undefined) ? 'NA' : data.toaster.dataPass.title,
-                    text: (data.toaster.dataPass.msg == undefined) ? 'NA' : data.toaster.dataPass.msg,
-                    showHideTransition: 'slide',
-                    icon: (data.toaster.dataPass.type == undefined) ? 'warning' : data.toaster.dataPass.type,
-                    hideAfter: 10000,
-                    stack: 3,
-                    position: 'top-right',
-                });
-            }
-
-            if (data.swal != undefined) {
-                if (data.swal.type == 'basic') {
-                    Swal.fire({
-                        ...data.swal.props
-                    });
-                }
-                if (data.swal.type == 'confirm') {
-                    Swal.fire({
-                        ...data.swal.props
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            return true
-                        }
-                        return false
-                    });
-                }
-            }
-        }
-
-        function commonMethod(data) {
-            if (data.type == 'common') {
-                Swal.fire({
-                    title: data.swalData.title,
-                    text: data.swalData.text,
-                    icon: data.swalData.icon,
-                    showCancelButton: true,
-                    confirmButtonText: data.swalData.confirmButtonText,
-                    cancelButtonText: data.swalData.cancelButtonText,
-                }).then((result) => {
-                    if (result.value) {
-                        $.ajax({
-                            url: data.action,
-                            type: data.method,
-                            dataType: 'json',
-                            beforeSend: function () {
-                                commonAction({
-                                    loader: {
-                                        isSet: true
-                                    }
-                                })
-                            },
-                            success: function (msg) {
-                                commonAction({
-                                    loader: {
-                                        isSet: false
-                                    },
-                                    toaster: {
-                                        dataPass: {
-                                            title: msg.title,
-                                            msg: msg.msg,
-                                            type: msg.type
-                                        }
-                                    },
-                                })
-                                if (msg.status == 1) {
-                                    commonAction({
-                                        dataTable: {
-                                            reload: {
-                                                targetId: data.targetTableId
-                                            }
-                                        }
-                                    })
-                                }
-                            },
-                            error: function (xhr, textStatus, error) {
-                                commonAction({
-                                    loader: {
-                                        isSet: false
-                                    },
-                                    targetId: {
-                                        submitForm: submitForm,
-                                        submitBtn: submitBtn,
-                                    },
-                                    toaster: {
-                                        dataPass: {
-                                            title: textStatus,
-                                            msg: error,
-                                            type: textStatus
-                                        }
-                                    },
-                                })
-                            }
-                        });
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-
-                    }
-                })
-            }
-        }
+        var submitBtn, id = '';
 
 
         /*--========================= ( Profile START ) =========================--*/
         //---- ( Auth Profile Update ) ----//
         $("#updateAuthProfileForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateAuthProfileBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateAuthProfileBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -176,7 +29,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -186,7 +41,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -210,29 +65,29 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.pinCode, function (i) {
-                            submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.state, function (i) {
-                            submitForm.find("#stateErr").text(msg.errors.state[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#stateErr").text(msg.errors.state[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.country, function (i) {
-                            submitForm.find("#countryErr").text(msg.errors.country[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#countryErr").text(msg.errors.country[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.address, function (i) {
-                            submitForm.find("#addressErr").text(msg.errors.address[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#addressErr").text(msg.errors.address[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
                         window.location.reload()
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -252,22 +107,23 @@
             });
         });
 
-        //---- ( Auth Password Update ) ----//
-        $("#updateAuthPasswordForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateAuthPasswordBtn');
+        //---- ( Auth Change Password ) ----//
+        $("#changeAuthPasswordForm").submit(function (event) {
+            let submitForm = $(this),
+                submitBtn = $(this).find('#changeAuthPasswordBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -275,7 +131,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -285,7 +143,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -309,30 +167,30 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.oldPassword, function (i) {
-                            submitForm.find("#oldPasswordErr").text(msg.errors.oldPassword[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#oldPasswordErr").text(msg.errors.oldPassword[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.newPassword, function (i) {
-                            submitForm.find("#newPasswordErr").text(msg.errors.newPassword[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#newPasswordErr").text(msg.errors.newPassword[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.confirmPassword, function (i) {
-                            submitForm.find("#confirmPasswordErr").text(msg.errors.confirmPassword[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#confirmPasswordErr").text(msg.errors.confirmPassword[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 2) {
-                        submitForm.find("#oldPasswordErr").html(msg.msg + ' <a href="javascript:void(0);" class="link-primary changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="password">Forgot password?</a>').closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        submitForm.find("#oldPasswordErr").html(msg.msg + ' <a href="javascript:void(0);" class="link-primary resetModal" data-bs-toggle="modal" data-bs-target="#con-reset-modal" data-type="password">Forgot password?</a>').closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
-                            afterSuccess: {
-                                resetForm: true,
+                            resetForm: {
+                                inputField: {}
                             },
                         })
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -352,22 +210,23 @@
             });
         });
 
-        //---- ( Auth Pin Update ) ----//
-        $("#updateAuthPinForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateAuthPinBtn');
+        //---- ( Auth Change Pin ) ----//
+        $("#changeAuthPinForm").submit(function (event) {
+            let submitForm = $(this),
+                submitBtn = $(this).find('#changeAuthPinBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -375,7 +234,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -385,7 +246,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -409,30 +270,30 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.oldPin, function (i) {
-                            submitForm.find("#oldPinErr").text(msg.errors.oldPin[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#oldPinErr").text(msg.errors.oldPin[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.newPin, function (i) {
-                            submitForm.find("#newPinErr").text(msg.errors.newPin[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#newPinErr").text(msg.errors.newPin[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.confirmPin, function (i) {
-                            submitForm.find("#confirmPinErr").text(msg.errors.confirmPin[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#confirmPinErr").text(msg.errors.confirmPin[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 2) {
-                        submitForm.find("#oldPinErr").text(msg.msg + ' <a href="javascript:void(0);" class="link-primary changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="pin">Forgot pin?</a>').closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        submitForm.find("#oldPinErr").html(msg.msg + ' <a href="javascript:void(0);" class="link-primary resetModal" data-bs-toggle="modal" data-bs-target="#con-reset-modal" data-type="pin">Forgot pin?</a>').closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
-                            afterSuccess: {
-                                resetForm: true,
+                            resetForm: {
+                                inputField: {}
                             },
                         })
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -454,20 +315,21 @@
 
         //---- ( Auth Reset Send ) ----//
         $("#resetAuthSendForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#resetAuthSendBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#resetAuthSendBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -481,11 +343,18 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         submitBtnState: {
                             dataPass: {
                                 text: 'Click to send OTP',
-                                disabled: true
+                                disabled: false
+                            }
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
                             }
                         },
                         targetId: {
@@ -494,12 +363,12 @@
                         },
                     })
                     if (msg.status == 1) {
-                        submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
-                        submitForm.closest('.con-change-modal').find('.verifyOtp').show()
+                        submitForm.closest('.con-reset-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
+                        submitForm.closest('.con-reset-modal').find('.verifyOtp').show()
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -518,25 +387,28 @@
 
         //---- ( Auth Reset Verify ) ----//
         $("#resetAuthVerifyForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#resetAuthVerifyBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#resetAuthVerifyBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -546,7 +418,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -567,15 +439,15 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.otp, function (i) {
-                            submitForm.find("#otpErr").text(msg.errors.otp[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#otpErr").text(msg.errors.otp[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
-                        submitForm.closest('.con-change-modal').find('.resetPassword').show()
+                        submitForm.closest('.con-reset-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
+                        submitForm.closest('.con-reset-modal').find('.resetPassword').show()
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -594,25 +466,28 @@
 
         //---- ( Auth Reset Update ) ----//
         $("#resetAuthUpdateForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#resetAuthUpdateBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#resetAuthUpdateBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -622,7 +497,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -643,26 +518,266 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.newPin, function (i) {
-                            submitForm.find("#newPinErr").text(msg.errors.newPin[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#newPinErr").text(msg.errors.newPin[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.confirmPin, function (i) {
-                            submitForm.find("#confirmPinErr").text(msg.errors.confirmPin[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#confirmPinErr").text(msg.errors.confirmPin[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.newPassword, function (i) {
-                            submitForm.find("#newPasswordErr").text(msg.errors.newPassword[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#newPasswordErr").text(msg.errors.newPassword[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.confirmPassword, function (i) {
-                            submitForm.find("#confirmPasswordErr").text(msg.errors.confirmPassword[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#confirmPasswordErr").text(msg.errors.confirmPassword[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 2) {
-                        submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
-                        submitForm.closest('.con-change-modal').find('.sendOtp').show()
+                        submitForm.closest('.con-reset-modal').find('.sendOtp, .verifyOtp, .resetPassword').hide()
+                        submitForm.closest('.con-reset-modal').find('.sendOtp').show()
                     } else {
-                        submitForm.closest('#con-change-modal').modal('hide');
+                        submitForm.closest('#con-reset-modal').modal('hide');
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        //---- ( Auth Change Image ) ----//
+        $("#changeAuthImageForm").submit(function (event) {
+            let submitForm = $(this),
+                formData = new FormData(this);
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    window.commonAction({
+                        loader: {
+                            isSet: true
+                        },
+                        targetId: {
+                            submitForm: submitForm,
+                        },
+                        reset: {
+                            resetValidation: {}
+                        },
+                    })
+                },
+                success: function (msg) {
+                    window.commonAction({
+                        loader: {
+                            isSet: false
+                        },
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        reset: {
+                            resetValidation: {}
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.file, function (i) {
+                            submitForm.find("#fileErr").text(msg.errors.file[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
+                        });
+                    } else {
+                        submitForm.find('.user-profile-image').attr('src', msg.data.image)
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    window.commonAction({
+                        loader: {
+                            isSet: false
+                        },
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        //---- ( Auth Change Send ) ----//
+        $("#changeAuthSendForm").submit(function (event) {
+            let submitForm = $(this),
+                submitBtn = $(this).find('#changeAuthSendBtn'),
+                formData = new FormData(this);
+
+            console.log(window.commonAction);
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    window.commonAction({
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        },
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                    })
+                },
+                success: function (msg) {
+                    window.commonAction({
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Continue',
+                                disabled: false
+                            }
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        reset: {
+                            resetValidation: {}
+                        },
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.phone, function (i) {
+                            submitForm.find("#phoneErr").text(msg.errors.phone[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
+                        });
+                        $.each(msg.errors.email, function (i) {
+                            submitForm.find("#emailErr").text(msg.errors.email[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
+                        });
+                    } else if (msg.status == 1) {
+                        submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp').hide()
+                        submitForm.closest('.con-change-modal').find('.verifyOtp').show()
+                        submitForm.closest('.con-change-modal').find('#changeValue').val(msg.data.changeValue)
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    window.commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: textStatus,
+                                msg: error,
+                                type: textStatus
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        //---- ( Auth Change Verify ) ----//
+        $("#changeAuthVerifyForm").submit(function (event) {
+            let submitForm = $(this),
+                submitBtn = $(this).find('#changeAuthVerifyBtn'),
+                formData = new FormData(this);
+
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    window.commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        reset: {
+                            resetValidation: {}
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Please wait...',
+                                disabled: true
+                            }
+                        }
+                    })
+                },
+                success: function (msg) {
+                    window.commonAction({
+                        targetId: {
+                            submitForm: submitForm,
+                            submitBtn: submitBtn,
+                        },
+                        toaster: {
+                            dataPass: {
+                                title: msg.title,
+                                msg: msg.msg,
+                                type: msg.type
+                            }
+                        },
+                        submitBtnState: {
+                            dataPass: {
+                                text: 'Verify OTP',
+                                disabled: false
+                            }
+                        }
+                    })
+                    if (msg.status == 0) {
+                        $.each(msg.errors.otp, function (i) {
+                            submitForm.find("#otpErr").text(msg.errors.otp[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
+                        });
+                    } else {
+                        submitForm.closest('.con-change-modal').find('.sendOtp, .verifyOtp').hide()
+                        submitForm.closest('.con-change-modal').find('.sendOtp').show()
+                    }
+                },
+                error: function (xhr, textStatus, error) {
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -684,14 +799,14 @@
         /*--========================= ( Manage Users START ) =========================--*/
         //---- ( Admin Users Save ) ----//
         $("#saveAdminUsersForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveAdminUsersBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveAdminUsersBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -699,7 +814,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -707,7 +822,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -717,7 +834,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -741,53 +858,55 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.email, function (i) {
-                            submitForm.find("#emailErr").text(msg.errors.email[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#emailErr").text(msg.errors.email[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.phone, function (i) {
-                            submitForm.find("#phoneErr").text(msg.errors.phone[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#phoneErr").text(msg.errors.phone[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainRole, function (i) {
-                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.subRole, function (i) {
-                            submitForm.find("#subRoleErr").text(msg.errors.subRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#subRoleErr").text(msg.errors.subRole[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.pinCode, function (i) {
-                            submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.state, function (i) {
-                            submitForm.find("#stateErr").text(msg.errors.state[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#stateErr").text(msg.errors.state[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.country, function (i) {
-                            submitForm.find("#countryErr").text(msg.errors.country[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#countryErr").text(msg.errors.country[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.address, function (i) {
-                            submitForm.find("#addressErr").text(msg.errors.address[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#addressErr").text(msg.errors.address[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.file, function (i) {
-                            submitForm.find("#fileErr").text(msg.errors.file[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#fileErr").text(msg.errors.file[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                         })
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -809,20 +928,21 @@
 
         //---- ( Admin Users Update ) ----//
         $("#updateAdminUsersForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateAdminUsersBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateAdminUsersBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
-                data: new FormData(this),
+                data: formData,
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -830,7 +950,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -840,7 +962,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -864,42 +986,42 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.email, function (i) {
-                            submitForm.find("#emailErr").text(msg.errors.email[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#emailErr").text(msg.errors.email[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.phone, function (i) {
-                            submitForm.find("#phoneErr").text(msg.errors.phone[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#phoneErr").text(msg.errors.phone[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainRole, function (i) {
-                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.subRole, function (i) {
-                            submitForm.find("#subRoleErr").text(msg.errors.subRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#subRoleErr").text(msg.errors.subRole[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.pinCode, function (i) {
-                            submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#pinCodeErr").text(msg.errors.pinCode[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.state, function (i) {
-                            submitForm.find("#stateErr").text(msg.errors.state[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#stateErr").text(msg.errors.state[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.country, function (i) {
-                            submitForm.find("#countryErr").text(msg.errors.country[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#countryErr").text(msg.errors.country[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.address, function (i) {
-                            submitForm.find("#addressErr").text(msg.errors.address[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#addressErr").text(msg.errors.address[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.file, function (i) {
-                            submitForm.find("#fileErr").text(msg.errors.file[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#fileErr").text(msg.errors.file[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -927,7 +1049,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -941,7 +1063,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -979,14 +1101,14 @@
         /*--========================= ( Navigation & Access START ) =========================--*/
         //---- ( Nav Type Save ) ----//
         $("#saveNavTypeForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveNavTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveNavTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -994,7 +1116,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1002,7 +1124,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1012,7 +1136,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1036,23 +1160,25 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -1063,7 +1189,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -1085,20 +1211,21 @@
 
         //---- ( Nav Type Update ) ----//
         $("#updateNavTypeForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateNavTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateNavTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1106,7 +1233,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1116,7 +1245,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1140,23 +1269,25 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -1167,7 +1298,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -1195,7 +1326,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -1209,7 +1340,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -1243,14 +1374,14 @@
 
         //---- ( Main Nav Save ) ----//
         $("#saveMainNavForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveMainNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveMainNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -1258,7 +1389,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1266,7 +1397,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1276,7 +1409,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1300,26 +1433,28 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.navType, function (i) {
-                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -1330,7 +1465,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -1352,20 +1487,21 @@
 
         //---- ( Main Nav Update ) ----//
         $("#updateMainNavForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateMainNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateMainNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1373,7 +1509,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1383,7 +1521,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1407,26 +1545,28 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.navType, function (i) {
-                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -1437,7 +1577,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -1459,20 +1599,21 @@
 
         //---- ( Main Nav Access ) ----//
         $("#accessMainNavForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#accessMainNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#accessMainNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1480,7 +1621,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1490,7 +1633,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1514,10 +1657,10 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -1534,7 +1677,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -1562,7 +1705,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -1576,7 +1719,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -1601,7 +1744,7 @@
             } else if (type == 'access') {
                 data = JSON.parse($(this).attr('data-array'));
                 if (data.extraData.hasSubNav > 0) {
-                    commonAction({
+                    window.commonAction({
                         swal: {
                             type: 'basic',
                             props: {
@@ -1651,14 +1794,14 @@
 
         //---- ( Sub Nav Save ) ----//
         $("#saveSubNavForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveSubNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveSubNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -1666,7 +1809,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1674,7 +1817,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1684,7 +1829,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1708,29 +1853,31 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.navType, function (i) {
-                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainNav, function (i) {
-                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -1741,7 +1888,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -1763,20 +1910,21 @@
 
         //---- ( Sub Nav Update ) ----//
         $("#updateSubNavForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateSubNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateSubNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1784,7 +1932,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1794,7 +1944,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1818,29 +1968,31 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.navType, function (i) {
-                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainNav, function (i) {
-                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -1851,7 +2003,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -1873,20 +2025,21 @@
 
         //---- ( Sub Nav Access ) ----//
         $("#accessSubNavForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#accessSubNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#accessSubNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1894,7 +2047,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1904,7 +2059,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -1928,10 +2083,10 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -1948,7 +2103,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -1976,7 +2131,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -1990,7 +2145,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -2018,7 +2173,7 @@
             } else if (type == 'access') {
                 data = JSON.parse($(this).attr('data-array'));
                 if (data.extraData.hasNestedNav > 0) {
-                    commonAction({
+                    window.commonAction({
                         swal: {
                             type: 'basic',
                             props: {
@@ -2069,14 +2224,14 @@
 
         //---- ( Nested Nav Save ) ----//
         $("#saveNestedNavForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveNestedNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveNestedNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -2084,7 +2239,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2092,7 +2247,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2102,7 +2259,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2126,32 +2283,34 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.navType, function (i) {
-                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainNav, function (i) {
-                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.subNav, function (i) {
-                            submitForm.find("#subNavErr").text(msg.errors.subNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#subNavErr").text(msg.errors.subNav[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -2162,7 +2321,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -2184,20 +2343,21 @@
 
         //---- ( Nested Nav Update ) ----//
         $("#updateNestedNavForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateNestedNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateNestedNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2205,7 +2365,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2215,7 +2377,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2239,32 +2401,34 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.navType, function (i) {
-                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#navTypeErr").text(msg.errors.navType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainNav, function (i) {
-                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainNavErr").text(msg.errors.mainNav[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.subNav, function (i) {
-                            submitForm.find("#subNavErr").text(msg.errors.subNav[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#subNavErr").text(msg.errors.subNav[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.icon, function (i) {
-                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#iconErr").text(msg.errors.icon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -2275,7 +2439,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -2297,20 +2461,21 @@
 
         //---- ( Nested Nav Access ) ----//
         $("#accessNestedNavForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#accessNestedNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#accessNestedNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2318,7 +2483,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2328,7 +2495,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2352,10 +2519,10 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
@@ -2372,7 +2539,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -2400,7 +2567,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -2414,7 +2581,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -2481,20 +2648,21 @@
 
         //---- ( Arrange Side Nav Update ) ----//
         $("#updateArrangeSideNavForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateArrangeSideNavBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateArrangeSideNavBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2502,7 +2670,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2512,7 +2682,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2542,7 +2712,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -2567,14 +2737,14 @@
         /*--========================= ( Role & Permission START ) =========================--*/
         //---- ( Main Role Save ) ----//
         $("#saveMainRoleForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveMainRoleBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveMainRoleBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -2582,7 +2752,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2590,7 +2760,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2600,7 +2772,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2624,20 +2796,22 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -2648,7 +2822,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -2670,20 +2844,21 @@
 
         //---- ( Main Role Update ) ----//
         $("#updateMainRoleForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateMainRoleBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateMainRoleBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2691,7 +2866,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2701,7 +2878,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2725,20 +2902,22 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -2749,7 +2928,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -2771,20 +2950,21 @@
 
         //---- ( Permission Main Role Update ) ----//
         $("#updatePermissionMainRoleForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updatePermissionMainRoleBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updatePermissionMainRoleBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2792,7 +2972,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2802,7 +2984,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2826,17 +3008,19 @@
                     })
                     if (msg.status == 0) {
                         // $.each(msg.errors.name, function (i) {
-                        //     submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        //     submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         // });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -2847,7 +3031,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -2875,7 +3059,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -2889,7 +3073,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -2917,7 +3101,7 @@
                 id.find('#description').text(data.description);
             } else if (type == 'permission') {
                 data = JSON.parse($(this).attr('data-array'));
-                commonAction({
+                window.commonAction({
                     swal: {
                         type: 'basic',
                         props: {
@@ -2932,7 +3116,7 @@
                 })
             } else if (type == 'setPermission') {
                 data = JSON.parse($(this).attr('data-array'));
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -2951,14 +3135,14 @@
 
         //---- ( Sub Role Save ) ----//
         $("#saveSubRoleForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveSubRoleBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveSubRoleBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -2966,7 +3150,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -2974,7 +3158,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2984,7 +3170,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3008,23 +3194,25 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainRole, function (i) {
-                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3035,7 +3223,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3057,20 +3245,21 @@
 
         //---- ( Sub Role Update ) ----//
         $("#updateSubRoleForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateSubRoleBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateSubRoleBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3078,7 +3267,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -3088,7 +3279,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3112,23 +3303,25 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainRole, function (i) {
-                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainRoleErr").text(msg.errors.mainRole[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.description, function (i) {
-                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#descriptionErr").text(msg.errors.description[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3139,7 +3332,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3161,20 +3354,21 @@
 
         //---- ( Permission Sub Role Update ) ----//
         $("#updatePermissionSubRoleForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updatePermissionSubRoleBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updatePermissionSubRoleBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3182,7 +3376,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -3192,7 +3388,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3216,17 +3412,19 @@
                     })
                     if (msg.status == 0) {
                         // $.each(msg.errors.name, function (i) {
-                        //     submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                        //     submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         // });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3237,7 +3435,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3265,7 +3463,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -3279,7 +3477,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -3309,7 +3507,7 @@
                 id.find('#description').text(data.description);
             } else if (type == 'setPermission') {
                 data = JSON.parse($(this).attr('data-array'));
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -3331,14 +3529,14 @@
         /*--========================= ( Quick Setting START ) =========================--*/
         //---- ( Logo Save ) ----//
         $("#saveLogoForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveLogoBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveLogoBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -3346,7 +3544,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3354,7 +3552,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -3364,7 +3564,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3388,23 +3588,25 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.bigLogo, function (i) {
-                            submitForm.find("#bigLogoErr").text(msg.errors.bigLogo[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#bigLogoErr").text(msg.errors.bigLogo[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.smallLogo, function (i) {
-                            submitForm.find("#smallLogoErr").text(msg.errors.smallLogo[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#smallLogoErr").text(msg.errors.smallLogo[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.favicon, function (i) {
-                            submitForm.find("#faviconErr").text(msg.errors.favicon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#faviconErr").text(msg.errors.favicon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3415,7 +3617,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3437,20 +3639,21 @@
 
         //---- ( Logo Update ) ----//
         $("#updateLogoForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateLogoBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateLogoBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3458,7 +3661,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -3468,7 +3673,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3492,23 +3697,25 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.bigLogo, function (i) {
-                            submitForm.find("#bigLogoErr").text(msg.errors.bigLogo[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#bigLogoErr").text(msg.errors.bigLogo[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.smallLogo, function (i) {
-                            submitForm.find("#smallLogoErr").text(msg.errors.smallLogo[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#smallLogoErr").text(msg.errors.smallLogo[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.favicon, function (i) {
-                            submitForm.find("#faviconErr").text(msg.errors.favicon[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#faviconErr").text(msg.errors.favicon[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3519,7 +3726,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3547,7 +3754,7 @@
                 data = '';
 
             if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -3561,7 +3768,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -3591,7 +3798,7 @@
                 id.find('#favicon img').attr('src', data.favicon);
             } else if (type == 'setPermission') {
                 data = JSON.parse($(this).attr('data-array'));
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -3610,14 +3817,14 @@
 
         //---- ( Alert Type Save ) ----//
         $("#saveAlertTypeForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveAlertTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveAlertTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -3625,7 +3832,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3633,7 +3840,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -3643,7 +3852,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3667,17 +3876,19 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3688,7 +3899,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3710,20 +3921,21 @@
 
         //---- ( Alert Type Update ) ----//
         $("#updateAlertTypeForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateAlertTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateAlertTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3731,7 +3943,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -3741,7 +3955,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3765,17 +3979,19 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3786,7 +4002,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3814,7 +4030,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -3828,7 +4044,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -3853,14 +4069,14 @@
 
         //---- ( Alert For Save ) ----//
         $("#saveAlertForForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveAlertForBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveAlertForBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -3868,7 +4084,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3876,7 +4092,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -3886,7 +4104,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3910,20 +4128,22 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.alertType, function (i) {
-                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3934,7 +4154,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -3956,20 +4176,21 @@
 
         //---- ( Alert For Update ) ----//
         $("#updateAlertForForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateAlertForBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateAlertForBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -3977,7 +4198,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -3987,7 +4210,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4011,20 +4234,22 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.alertType, function (i) {
-                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -4035,7 +4260,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -4063,7 +4288,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -4077,7 +4302,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -4103,14 +4328,14 @@
 
         //---- ( Alert Template Save ) ----//
         $("#saveAlertTemplateForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveAlertTemplateBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveAlertTemplateBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -4118,7 +4343,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4126,7 +4351,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -4136,7 +4363,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4160,26 +4387,28 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.alertType, function (i) {
-                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.alertFor, function (i) {
-                            submitForm.find("#alertForErr").text(msg.errors.alertFor[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#alertForErr").text(msg.errors.alertFor[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.heading, function (i) {
-                            submitForm.find("#headingErr").text(msg.errors.heading[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#headingErr").text(msg.errors.heading[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.content, function (i) {
-                            submitForm.find("#contentErr").text(msg.errors.content[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#contentErr").text(msg.errors.content[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -4190,7 +4419,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -4212,20 +4441,21 @@
 
         //---- ( Alert Template Update ) ----//
         $("#updateAlertTemplateForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateAlertTemplateBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateAlertTemplateBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4233,7 +4463,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -4243,7 +4475,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4267,26 +4499,28 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.alertType, function (i) {
-                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#alertTypeErr").text(msg.errors.alertType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.alertFor, function (i) {
-                            submitForm.find("#alertForErr").text(msg.errors.alertFor[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#alertForErr").text(msg.errors.alertFor[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.heading, function (i) {
-                            submitForm.find("#headingErr").text(msg.errors.heading[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#headingErr").text(msg.errors.heading[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.content, function (i) {
-                            submitForm.find("#contentErr").text(msg.errors.content[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#contentErr").text(msg.errors.content[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -4297,7 +4531,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -4326,7 +4560,7 @@
                 html = '';
 
             if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -4340,7 +4574,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -4392,14 +4626,14 @@
         /*--========================= ( Property Related START ) =========================--*/
         //---- ( Property Attribute Save ) ----//
         $("#savePropertyAttributeForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#savePropertyAttributeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#savePropertyAttributeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -4407,7 +4641,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4415,7 +4649,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -4425,7 +4661,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4449,23 +4685,25 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.type, function (i) {
-                            submitForm.find("#typeErr").text(msg.errors.type[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#typeErr").text(msg.errors.type[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -4476,7 +4714,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -4498,20 +4736,21 @@
 
         //---- ( Property Attribute Update ) ----//
         $("#updatePropertyAttributeForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updatePropertyAttributeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updatePropertyAttributeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4519,7 +4758,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -4529,7 +4770,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4553,23 +4794,25 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.type, function (i) {
-                            submitForm.find("#typeErr").text(msg.errors.type[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#typeErr").text(msg.errors.type[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -4580,7 +4823,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -4608,7 +4851,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -4622,7 +4865,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -4636,7 +4879,7 @@
                     }
                 })
             } else if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -4670,14 +4913,14 @@
 
         //---- ( Property Type Save ) ----//
         $("#savePropertyTypeForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#savePropertyTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#savePropertyTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -4685,7 +4928,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4693,7 +4936,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -4703,7 +4948,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4727,20 +4972,22 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -4751,7 +4998,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -4773,20 +5020,21 @@
 
         //---- ( Property Type Update ) ----//
         $("#updatePropertyTypeForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updatePropertyTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updatePropertyTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4794,7 +5042,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -4804,7 +5054,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4828,20 +5078,22 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -4852,7 +5104,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -4880,7 +5132,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -4894,7 +5146,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -4908,7 +5160,7 @@
                     }
                 })
             } else if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -4940,14 +5192,14 @@
 
         //---- ( Broad Type Save ) ----//
         $("#saveBroadTypeForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveBroadTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveBroadTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -4955,7 +5207,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4963,7 +5215,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -4973,7 +5227,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -4997,20 +5251,22 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -5021,7 +5277,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -5043,20 +5299,21 @@
 
         //---- ( Broad Type Update ) ----//
         $("#updateBroadTypeForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateBroadTypeBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateBroadTypeBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5064,7 +5321,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -5074,7 +5333,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5098,20 +5357,22 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -5122,7 +5383,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -5150,7 +5411,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -5164,7 +5425,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -5178,7 +5439,7 @@
                     }
                 })
             } else if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -5210,14 +5471,14 @@
 
         //---- ( Assign Broad Save ) ----//
         $("#saveAssignBroadForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveAssignBroadBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveAssignBroadBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -5225,7 +5486,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5233,7 +5494,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -5243,7 +5506,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5267,23 +5530,25 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.propertyType, function (i) {
-                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.broadType, function (i) {
-                            submitForm.find("#broadTypeErr").text(msg.errors.broadType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#broadTypeErr").text(msg.errors.broadType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -5294,7 +5559,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -5316,20 +5581,21 @@
 
         //---- ( Assign Broad Update ) ----//
         $("#updateAssignBroadForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateAssignBroadBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateAssignBroadBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5337,7 +5603,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -5347,7 +5615,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5371,23 +5639,25 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.propertyType, function (i) {
-                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.broadType, function (i) {
-                            submitForm.find("#broadTypeErr").text(msg.errors.broadType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#broadTypeErr").text(msg.errors.broadType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -5398,7 +5668,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -5426,7 +5696,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -5440,7 +5710,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -5454,7 +5724,7 @@
                     }
                 })
             } else if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -5488,14 +5758,14 @@
 
         //---- ( Manage Category Save ) ----//
         $("#saveManageCategoryForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveManageCategoryBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveManageCategoryBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -5503,7 +5773,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5511,7 +5781,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -5521,7 +5793,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5545,26 +5817,28 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainCategory, function (i) {
-                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.subCategory, function (i) {
-                            submitForm.find("#subCategoryErr").text(msg.errors.subCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#subCategoryErr").text(msg.errors.subCategory[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -5575,7 +5849,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -5597,20 +5871,21 @@
 
         //---- ( Manage Category Update ) ----//
         $("#updateManageCategoryForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateManageCategoryBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateManageCategoryBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5618,7 +5893,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -5628,7 +5905,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5652,26 +5929,28 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.name, function (i) {
-                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#nameErr").text(msg.errors.name[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.mainCategory, function (i) {
-                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.subCategory, function (i) {
-                            submitForm.find("#subCategoryErr").text(msg.errors.subCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#subCategoryErr").text(msg.errors.subCategory[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -5682,7 +5961,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -5710,7 +5989,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -5724,7 +6003,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -5738,7 +6017,7 @@
                     }
                 })
             } else if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -5798,14 +6077,14 @@
 
         //---- ( Assign Category Save ) ----//
         $("#saveAssignCategoryForm").submit(function (event) {
-
-            submitForm = $(this);
-            submitBtn = $(this).find('#saveAssignCategoryBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#saveAssignCategoryBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
@@ -5813,7 +6092,7 @@
                 processData: false,
 
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5821,7 +6100,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -5831,7 +6112,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5855,26 +6136,28 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.mainCategory, function (i) {
-                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.propertyType, function (i) {
-                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.assignBroad, function (i) {
-                            submitForm.find("#assignBroadErr").text(msg.errors.assignBroad[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#assignBroadErr").text(msg.errors.assignBroad[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else if (msg.status == 1) {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -5885,7 +6168,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -5913,20 +6196,21 @@
 
         //---- ( Assign Category Update ) ----//
         $("#updateAssignCategoryForm").submit(function (event) {
-            submitForm = $(this);
-            submitBtn = $(this).find('#updateAssignCategoryBtn');
+            let submitForm = $(this),
+                submitBtn = $(this).find('#updateAssignCategoryBtn'),
+                formData = new FormData(this);
 
             event.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
-                data: new FormData(this),
+                data: formData,
                 type: $(this).attr('method'),
                 dataType: 'json',
                 cache: false,
                 contentType: false,
                 processData: false,
                 beforeSend: function () {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5934,7 +6218,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -5944,7 +6230,7 @@
                     })
                 },
                 success: function (msg) {
-                    commonAction({
+                    window.commonAction({
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -5968,26 +6254,28 @@
                     })
                     if (msg.status == 0) {
                         $.each(msg.errors.mainCategory, function (i) {
-                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#mainCategoryErr").text(msg.errors.mainCategory[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.propertyType, function (i) {
-                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#propertyTypeErr").text(msg.errors.propertyType[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.assignBroad, function (i) {
-                            submitForm.find("#assignBroadErr").text(msg.errors.assignBroad[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#assignBroadErr").text(msg.errors.assignBroad[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                         $.each(msg.errors.about, function (i) {
-                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(errorClassList).addClass('invalid-input');
+                            submitForm.find("#aboutErr").text(msg.errors.about[i]).closest('.form-element').find(window.errorClassList).addClass('invalid-input');
                         });
                     } else {
-                        commonAction({
+                        window.commonAction({
                             targetId: {
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -5998,7 +6286,7 @@
                     }
                 },
                 error: function (xhr, textStatus, error) {
-                    commonAction({
+                    window.commonAction({
                         loader: {
                             isSet: false
                         },
@@ -6026,7 +6314,7 @@
                 data = '';
 
             if (type == 'status') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',
@@ -6040,7 +6328,7 @@
                     }
                 })
             } else if (type == 'delete') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'delete',
@@ -6054,7 +6342,7 @@
                     }
                 })
             } else if (type == 'default') {
-                commonMethod({
+                window.commonMethod({
                     type: 'common',
                     action: action,
                     method: 'patch',

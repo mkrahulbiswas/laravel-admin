@@ -21,19 +21,23 @@
             <div class="card mt-n5">
                 <div class="card-body p-4">
                     <div class="text-center">
-                        <div class="profile-user position-relative d-inline-block mx-auto mb-4">
-                            <img src="{{ $data['detail']['getFile']['public']['fullPath']['asset'] }}" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
-                            <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                                <input id="profile-img-file-input" type="file" class="profile-img-file-input">
-                                <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
-                                    <span class="avatar-title rounded-circle bg-light text-body">
-                                        <i class="ri-camera-fill"></i>
-                                    </span>
-                                </label>
+                        <form id="changeAuthImageForm" action="{{ route('admin.change.authImage') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
+                            <input type="hidden" name="for" value="profile">
+                            <div class="validation-error mb-2" id="fileErr"></div>
+                            <div class="profile-user position-relative d-inline-block mx-auto mb-4">
+                                <img src="{{ $data['detail']['getFile']['public']['fullPath']['asset'] }}" class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
+                                <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
+                                    <input id="profile-img-file-input" type="file" name="file" class="profile-img-file-input">
+                                    <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
+                                        <span class="avatar-title rounded-circle bg-light text-body">
+                                            <i class="ri-camera-fill"></i>
+                                        </span>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <a href="javascript:void(0);" class="link-primary changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="password">Forgot password?</a>
-                        <a href="javascript:void(0);" class="link-primary changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="pin">Forgot pin?</a>
+                        </form>
                         <h5 class="fs-16 mb-1">{{ $data['detail']['name'] }}</h5>
                         <p class="text-muted mb-0">{{ $data['detail']['subRole'] == [] ? $data['detail']['mainRole']['name'] : $data['detail']['subRole']['name'] }}</p>
                     </div>
@@ -84,7 +88,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-xxl-9">
             <div class="card mt-xxl-n5">
                 <div class="card-header">
@@ -111,13 +114,37 @@
                                 <div class="row">
                                     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                                         <div class="row">
-                                            <div class="form-element col-12 mb-3">
+                                            <div class="form-element col-sm-12 col-md-12 col-xl-6 col-lg-6 mb-3">
                                                 <label for="name" class="form-label">Name <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                 <div class="form-icon set-validation">
                                                     <input type="text" name="name" class="form-control form-control-icon" id="name" placeholder="Name" value="{{ $data['detail']['name'] }}">
                                                     <i class="bx bx-message-edit"></i>
                                                 </div>
                                                 <div class="validation-error" id="nameErr"></div>
+                                            </div>
+                                            <div class="form-element col-sm-12 col-md-12 col-xl-6 col-lg-6 mb-3">
+                                                <label for="phone" class="form-label">Phone <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                <div class="form-icon set-validation">
+                                                    <div class="input-group">
+                                                        <input type="text" name="phone" class="form-control form-control-icon" placeholder="Phone" value="{{ $data['detail']['formattedPhone'] }}" readonly>
+                                                        <button type="button" class="btn btn-light btn-icon waves-effect waves-light border-start-0 border-secondary-subtle changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="phone">
+                                                            <i class="mdi mdi-file-replace"></i>
+                                                        </button>
+                                                    </div>
+                                                    <i class="las la-phone-volume"></i>
+                                                </div>
+                                            </div>
+                                            <div class="form-element col-12 mb-3">
+                                                <label for="email" class="form-label">Email <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                <div class="form-icon set-validation">
+                                                    <div class="input-group">
+                                                        <input type="text" name="email" class="form-control form-control-icon" placeholder="Email" value="{{ $data['detail']['email'] }}" readonly>
+                                                        <button type="button" class="btn btn-light btn-icon waves-effect waves-light border-start-0 border-secondary-subtle changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="email">
+                                                            <i class="mdi mdi-file-replace"></i>
+                                                        </button>
+                                                    </div>
+                                                    <i class="mdi mdi-email-check-outline"></i>
+                                                </div>
                                             </div>
                                             <div class="form-element col-12 mb-3">
                                                 <label for="about" class="form-label">About</label>
@@ -126,22 +153,6 @@
                                                 </div>
                                                 <div class="validation-error" id="aboutErr"></div>
                                             </div>
-                                            {{-- <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-3">
-                                                <label for="email" class="form-label">Email <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                                                <div class="form-icon set-validation">
-                                                    <input type="text" name="email" class="form-control form-control-icon" id="email" placeholder="Email" value="{{ $data['detail']['email'] }}">
-                                                    <i class="mdi mdi-email-edit-outline"></i>
-                                                </div>
-                                                <div class="validation-error" id="emailErr"></div>
-                                            </div>
-                                            <div class="form-element col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-3">
-                                                <label for="phone" class="form-label">Phone <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
-                                                <div class="form-icon set-validation">
-                                                    <input type="text" name="phone" class="form-control form-control-icon" id="phone" placeholder="Phone" value="{{ $data['detail']['phone'] }}">
-                                                    <i class="mdi mdi-phone"></i>
-                                                </div>
-                                                <div class="validation-error" id="phoneErr"></div>
-                                            </div> --}}
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
@@ -210,7 +221,7 @@
                                             <h6 class="card-title mb-0">Change login password</h6>
                                         </div>
                                         <div class="card-body">
-                                            <form id="updateAuthPasswordForm" action="{{ route('admin.change.authPassword') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                                            <form id="changeAuthPasswordForm" action="{{ route('admin.change.authPassword') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
                                                 <div class="row">
@@ -243,7 +254,7 @@
                                                     </div>
                                                     <div class="form-element col-12 text-center mt-3">
                                                         @if ($permission['update']['permission'] == true)
-                                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light ms-2" id="updateAuthPasswordBtn">
+                                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light ms-2" id="changeAuthPasswordBtn">
                                                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                                                 <span>Update Password</span>
                                                             </button>
@@ -260,7 +271,7 @@
                                             <h6 class="card-title mb-0">Change profile pin</h6>
                                         </div>
                                         <div class="card-body">
-                                            <form id="updateAuthPinForm" action="{{ route('admin.change.authPin') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
+                                            <form id="changeAuthPinForm" action="{{ route('admin.change.authPin') }}" method="POST" enctype="multipart/form-data" novalidate class="common-form">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
                                                 <div class="row">
@@ -293,7 +304,7 @@
                                                     </div>
                                                     <div class="form-element col-12 text-center mt-3">
                                                         @if ($permission['update']['permission'] == true)
-                                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light ms-2" id="updateAuthPinBtn">
+                                                            <button type="submit" class="btn btn-primary btn-label waves-effect waves-light ms-2" id="changeAuthPinBtn">
                                                                 <i class="las la-save label-icon align-middle fs-16 me-2"></i>
                                                                 <span>Update PIN</span>
                                                             </button>
@@ -305,72 +316,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-4 mb-3 border-bottom pb-2">
-                                <div class="float-end">
-                                    <a href="javascript:void(0);" class="link-primary">All Logout</a>
-                                </div>
-                                <h5 class="card-title">Login History</h5>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="flex-shrink-0 avatar-sm">
-                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18">
-                                        <i class="ri-smartphone-line"></i>
-                                    </div>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6>iPhone 12 Pro</h6>
-                                    <p class="text-muted mb-0">Los Angeles, United States - March 16 at
-                                        2:47PM</p>
-                                </div>
-                                <div>
-                                    <a href="javascript:void(0);">Logout</a>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="flex-shrink-0 avatar-sm">
-                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18">
-                                        <i class="ri-tablet-line"></i>
-                                    </div>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6>Apple iPad Pro</h6>
-                                    <p class="text-muted mb-0">Washington, United States - November 06
-                                        at 10:43AM</p>
-                                </div>
-                                <div>
-                                    <a href="javascript:void(0);">Logout</a>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="flex-shrink-0 avatar-sm">
-                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18">
-                                        <i class="ri-smartphone-line"></i>
-                                    </div>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6>Galaxy S21 Ultra 5G</h6>
-                                    <p class="text-muted mb-0">Conneticut, United States - June 12 at
-                                        3:24PM</p>
-                                </div>
-                                <div>
-                                    <a href="javascript:void(0);">Logout</a>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="flex-shrink-0 avatar-sm">
-                                    <div class="avatar-title bg-light text-primary rounded-3 fs-18">
-                                        <i class="ri-macbook-line"></i>
-                                    </div>
-                                </div>
-                                <div class="flex-grow-1 ms-3">
-                                    <h6>Dell Inspiron 14</h6>
-                                    <p class="text-muted mb-0">Phoenix, United States - July 26 at
-                                        8:10AM</p>
-                                </div>
-                                <div>
-                                    <a href="javascript:void(0);">Logout</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -378,7 +323,7 @@
         </div>
     </div>
 
-    <div id="con-change-modal" class="modal fade con-change-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div id="con-reset-modal" class="modal fade con-reset-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -392,7 +337,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title mb-1 text-success">Trying to reset <span class="changeType"></span></h5>
                                     <p class="card-text">To reset your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
-                                    <p class="card-text">1) You need to click on <b>Next</b> button to start first step, where an <b>OTP</b> send to your registered email ({{ $data['detail']['email'] }}).</p>
+                                    <p class="card-text"><b>1)</b> You need to click on <b>Next</b> button to start first step, where an <b>OTP</b> send to your registered email ({{ $data['detail']['email'] }}).</p>
                                     {{-- <p class="card-text">2) Next you need to verify OTP. For thant you need to  and click on <b>Verify</b> button</p> --}}
                                     <p class="card-text">
                                         <small class="text-warning">Note: this steps is to send OTP</small>
@@ -418,7 +363,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title mb-1 text-success">Trying to reset <span class="changeType"></span></h5>
                                     <p class="card-text">To reset your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
-                                    <p class="card-text">2) Next you need to verify <b>OTP</b>. For that you need to put the <b>OTP</b> inside the form and need to click on <b>Verify</b> button.</p>
+                                    <p class="card-text"><b>2)</b> Next you need to verify <b>OTP</b>. For that you need to put the <b>OTP</b> inside the form and need to click on <b>Verify</b> button.</p>
                                     <p class="card-text">
                                         <small class="text-warning">Note: this steps to verify OTP</small>
                                     </p>
@@ -461,7 +406,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title mb-1 text-success">Trying to reset <span class="changeType"></span></h5>
                                     <p class="card-text">To reset your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
-                                    <p class="card-text">3) New you need to give valid <b>password</b> inside the form and after that you need to click on <b>update password</b> button.</p>
+                                    <p class="card-text"><b>3)</b> New you need to give valid <b>password</b> inside the form and after that you need to click on <b>update password</b> button.</p>
                                     <p class="card-text">
                                         <small class="text-warning">Note: this steps to reset <span class="changeType"></span></small>
                                     </p>
@@ -532,30 +477,159 @@
             </div>
         </div>
     </div>
+
+    <div id="con-change-modal" class="modal fade con-change-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Change <span class="changeType"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body rounded-bottom-2">
+                    <div class="row">
+                        <div class="col-12 sendOtp">
+                            <div class="card m-0">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-1 text-success">Trying to change <span class="changeType"></span></h5>
+                                    <p class="card-text">To change your registered <b><span class="changeType"></span></b> you need to follow few steps.</p>
+                                    <p class="card-text"><b>1)</b> You need to provide the new <b><span class="changeType"></span></b> which you want to replace, than click on <b>continue</b> button to start first step. After click on <b>continue</b> and <b>OTP</b> will send to your previous & new provided <b><span class="changeType"></span></b>.</p>
+                                    <p class="card-text">
+                                        <small class="text-warning">Note: this steps is to send OTP to new & old both <b><span class="changeType"></span></b></small>
+                                    </p>
+                                    <form id="changeAuthSendForm" action="{{ route('admin.change.authSend') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
+                                        <input type="hidden" name="type" class="type" value="">
+                                        <div class="col-12 mb-4">
+                                            <div class="bg-info-subtle p-3 rounded-2">
+                                                <div class="row justify-content-center">
+                                                    <div class="form-element col-12">
+                                                        <label for="" class="form-label">Please Put the new <span class="changeType"></span> which you want to replace with previous one <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                        <div class="phone">
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="phone" class="form-control form-control-icon intl-phone-basic" id="phone" placeholder="Phone" value="">
+                                                                <i class="las la-phone-volume"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="phoneErr"></div>
+                                                        </div>
+                                                        <div class="email">
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="email" class="form-control form-control-icon" id="email" placeholder="Email" value="">
+                                                                <i class="mdi mdi-email-check-outline"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="emailErr"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md border border-1 border-bottom border-success-subtle mb-2"></div>
+                                        <div class="text-end">
+                                            @if ($permission['send']['permission'] == true)
+                                                <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="changeAuthSendBtn">
+                                                    <span>Continue</span>
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 verifyOtp">
+                            <div class="card m-0">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-1 text-success">Trying to change <span class="changeType"></span></h5>
+                                    <p class="card-text">To change your profile <b><span class="changeType"></span></b> you need to follow few steps.</p>
+                                    <p class="card-text"><b>2)</b> Next you need to verify <b>OTP</b> and update <b><span class="changeType"></span></b>. For that you need to put the <b>OTP</b> inside the form and need to click on <b>Verify</b> button.</p>
+                                    <p class="card-text">
+                                        <small class="text-warning">Note: this steps to verify OTP and update <b><span class="changeType"></span></b></small>
+                                    </p>
+                                    <form id="changeAuthVerifyForm" action="{{ route('admin.change.authVerify') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $data['detail']['id'] }}">
+                                        <input type="hidden" name="type" class="type" value="">
+                                        <input type="hidden" name="changeValue" id="changeValue" value="">
+                                        <div class="row">
+                                            <div class="col-12 mb-4">
+                                                <div class="bg-info-subtle p-3 rounded-2">
+                                                    <div class="row justify-content-center">
+                                                        <div class="form-element col-10">
+                                                            <label for="otp" class="form-label">Please Put Your OTP <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
+                                                            <div class="form-icon set-validation">
+                                                                <input type="text" name="otp" class="form-control form-control-icon" id="otp" placeholder="Your OTP" value="">
+                                                                <i class="bx bx-message-edit"></i>
+                                                            </div>
+                                                            <div class="validation-error" id="otpErr"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mb-2">
+                                                <div class="col-md border border-1 border-bottom border-success-subtle"></div>
+                                            </div>
+                                            <div class="col-12 text-end">
+                                                @if ($permission['verify']['permission'] == true)
+                                                    <button type="submit" class="btn btn-ghost-primary waves-effect waves-light" id="changeAuthVerifyBtn">
+                                                        <span>Verify OTP</span>
+                                                    </button>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('footScripts')
     <script>
         $('document').ready(function() {
-            let targetModal = $('#con-change-modal');
-            $('.changeModal').click(function() {
-                targetModal.find('.verifyOtp, .resetPassword, .pinForm, .passwordForm').hide()
+            let resetTargetModal = $('#con-reset-modal');
+            resetTargetModal.find('.verifyOtp, .resetPassword, .pinForm, .passwordForm').hide()
+            $('body').delegate('.resetModal', 'click', function() {
                 let targetClass = $(this),
                     type = targetClass.attr('data-type');
                 if (type == 'pin') {
                     changeButtonType = 'Update PIN'
-                    targetModal.find('.pinForm').show()
+                    resetTargetModal.find('.pinForm').show()
                 } else {
                     changeButtonType = 'Update Password'
-                    targetModal.find('.passwordForm').show()
+                    resetTargetModal.find('.passwordForm').show()
                 }
-                targetModal.find('.changeType, #myModalLabel').text(type)
-                targetModal.find('.changeButtonType').text(changeButtonType)
-                targetModal.find('.type').val(type)
+                resetTargetModal.find('.changeType, #myModalLabel').text(type)
+                resetTargetModal.find('.changeButtonType').text(changeButtonType)
+                resetTargetModal.find('.type').val(type)
             })
-            targetModal.on("hidden.bs.modal", function() {
-                targetModal.find('.verifyOtp, .resetPassword, .pinForm, .passwordForm').hide()
-                targetModal.find('.sendOtp').show()
+            resetTargetModal.on("hidden.bs.modal", function() {
+                resetTargetModal.find('.sendOtp, .verifyOtp, .resetPassword, .pinForm, .passwordForm').hide()
+                resetTargetModal.find('.sendOtp').show()
+            })
+            $('.profile-img-file-input').change(function() {
+                $('#changeAuthImageForm').submit()
+            })
+            let changeTargetModal = $('#con-change-modal');
+            changeTargetModal.find('.verifyOtp').hide()
+            $('.changeModal').click(function() {
+                changeTargetModal.find('#changeAuthSendForm .phone, #changeAuthSendForm .email').hide()
+                let targetClass = $(this),
+                    type = targetClass.attr('data-type');
+                if (type == 'phone') {
+                    changeTargetModal.find('#changeAuthSendForm .phone').show()
+                } else {
+                    changeTargetModal.find('#changeAuthSendForm .email').show()
+                }
+                changeTargetModal.find('#changeAuthSendForm .form-label').attr('for', type)
+                changeTargetModal.find('.changeType, #myModalLabel').text(type)
+                changeTargetModal.find('.type').val(type)
+            })
+            changeTargetModal.on("hidden.bs.modal", function() {
+                changeTargetModal.find('.verifyOtp, .sendOtp').hide()
+                changeTargetModal.find('.sendOtp').show()
             })
         });
     </script>

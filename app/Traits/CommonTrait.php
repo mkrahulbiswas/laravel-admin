@@ -6,13 +6,10 @@ use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Exception;
-use DateTimeZone;
-use DateTime;
 
 trait CommonTrait
 {
@@ -847,9 +844,15 @@ trait CommonTrait
                 ];
             }
 
-            if ($tempOne['type'] == Config::get('constants.generateType.otp')) {
-                $number = Str::random($tempOne['length']);
-                $return[Config::get('constants.generateType.otp')] = [
+            if ($tempOne['type'] == Config::get('constants.generateType.number')) {
+                $start = '1';
+                $end = '9';
+                for ($i = 1; $i < $tempOne['length']; $i++) {
+                    $start .= '0';
+                    $end .= '9';
+                }
+                $number = mt_rand($start, $end);
+                $return[Config::get('constants.generateType.number')] = [
                     'length' => $tempOne['length'],
                     'result' => $number,
                 ];

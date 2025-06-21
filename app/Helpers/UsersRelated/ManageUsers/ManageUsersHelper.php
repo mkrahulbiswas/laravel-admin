@@ -9,7 +9,7 @@ use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
 
 use App\Models\UsersRelated\UsersInfo;
 use App\Models\UsersRelated\ManageUsers\AdminUsers;
-
+use DevSarfo\LaraPhone\Models\PhoneNumber;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -110,9 +110,10 @@ class ManageUsersHelper
 
                 if (Config::get('constants.typeCheck.manageUsers.adminUsers.type') == $for) {
                     $data = array();
+                    $adminUsers = AdminUsers::where('id', decrypt($otherDataPasses['id']))->first();
+                    $phone = new PhoneNumber($adminUsers->dialCode . $adminUsers->phone);
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
-                        $adminUsers = AdminUsers::where('id', decrypt($otherDataPasses['id']))->first();
                         if ($adminUsers != null) {
                             $usersInfo = UsersInfo::where([
                                 ['userId', $adminUsers->id],
@@ -130,6 +131,8 @@ class ManageUsersHelper
                                 'subRoleId' =>  $adminUsers->subRoleId,
                                 'email' =>  $adminUsers->email,
                                 'phone' =>  $adminUsers->phone,
+                                'formattedPhone' =>  $phone->formatInternational(),
+                                'dialCode' =>  $adminUsers->dialCode,
                                 'pinCode' =>  $usersInfo->pinCode,
                                 'state' =>  $usersInfo->state,
                                 'country' =>  $usersInfo->country,
@@ -149,7 +152,6 @@ class ManageUsersHelper
                     }
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.yd'), $type)) {
-                        $adminUsers = AdminUsers::where('id', decrypt($otherDataPasses['id']))->first();
                         if ($adminUsers != null) {
                             $usersInfo = UsersInfo::where([
                                 ['userId', $adminUsers->id],
@@ -192,7 +194,9 @@ class ManageUsersHelper
                                 'mainRole' =>  $mainRole,
                                 'subRole' =>  $subRole,
                                 'email' =>  $adminUsers->email,
+                                'dialCode' =>  $adminUsers->dialCode,
                                 'phone' =>  $adminUsers->phone,
+                                'formattedPhone' =>  $phone->formatInternational(),
                                 'pinCode' =>  $usersInfo->pinCode,
                                 'state' =>  $usersInfo->state,
                                 'country' =>  $usersInfo->country,

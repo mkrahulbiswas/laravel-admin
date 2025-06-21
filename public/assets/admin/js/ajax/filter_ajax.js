@@ -1,42 +1,6 @@
 (function ($) {
 
     $(function () {
-
-        function commonAction(data) {
-            let targetForm = (data.targetId != undefined) ? data.targetId.submitForm : '',
-                actionType = (data.targetId != undefined) ? data.targetId.actionType : '';
-
-            if (data.resetFormFields != undefined) {
-                if (data.resetFormFields.selectPicker != undefined) {
-                    targetForm.find('.selectPicker').selectpicker('val', '');
-                }
-                if (data.resetFormFields.selectTwo != undefined) {
-                    targetForm.find('.selectTwo').val(null).trigger('change');
-                    // targetForm.find('.selectTwo').select2('reset');
-                }
-            }
-
-            if (data.filterApply != undefined) {
-                let numberOfFilter = 0;
-                $.each(targetForm.serializeArray(), function (i, field) {
-                    if (field.name != '_token' && field.value != '') {
-                        numberOfFilter += 1;
-                    }
-                })
-                if (actionType == 'Reload') {
-                    $('#filter-applied-count').addClass('d-none').text('')
-                } else {
-                    $('#filter-applied-count').removeClass('d-none').text((numberOfFilter == 0) ? '' : numberOfFilter)
-                }
-            }
-
-            if (data.dataTable != undefined) {
-                if (data.dataTable.load != undefined) {
-                    data.dataTable.load.targetId.DataTable().ajax.url(data.dataTable.load.url).load();
-                }
-            }
-        }
-
         /*--========================= ( Manage Users START ) =========================--*/
         //------ ( Admin Users )
         $('#filterAdminUsersForm').find('#statusFilter, .filterAdminUsersBtn').on('change click', function () {
@@ -48,18 +12,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -88,18 +54,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -125,18 +93,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&navType=" + navType;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&navType=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -163,18 +133,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&navType=" + navType + "&mainNav=" + mainNav;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&navType=" + '' + "&mainNav=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -202,18 +174,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&navType=" + navType + "&mainNav=" + mainNav + "&subNav=" + subNav;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&navType=" + '' + "&mainNav=" + '' + "&subNav=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -241,18 +215,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -280,18 +256,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?mainRoleId=" + mainRoleId + "&navType=" + navType + "&mainNav=" + mainNav + "&subNav=" + subNav;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?mainRoleId=" + mainRoleId + "&navType=" + '' + "&mainNav=" + '' + "&subNav=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -317,18 +295,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&mainRole=" + mainRole;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&mainRole=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -356,18 +336,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?subRoleId=" + subRoleId + "&navType=" + navType + "&mainNav=" + mainNav + "&subNav=" + subNav;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?subRoleId=" + subRoleId + "&navType=" + '' + "&mainNav=" + '' + "&subNav=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -397,18 +379,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?alertType=" + alertType + "&status=" + status;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?alertType=" + '' + "&status=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -435,18 +419,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?alertType=" + alertType + "&alertFor=" + alertFor + "&default=" + defaultVal;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?alertType=" + '' + "&alertFor=" + '' + "&default=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -477,18 +463,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&type=" + type + "&default=" + defaul;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&type=" + '' + "&default=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -514,18 +502,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&default=" + defaultType;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&default=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -550,18 +540,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -589,18 +581,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&default=" + defaul + "&propertyType=" + propertyType + "&broadType=" + broadType;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&default=" + '' + "&propertyType=" + '' + "&broadType=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -636,18 +630,20 @@
                 dataTableId = $('#propertyRelated-propertyCategory-manageCategory-nested')
             }
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&mainCategory=" + '' + "&subCategory=" + '' + "&type=" + type;
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),
@@ -676,18 +672,20 @@
                 action = $(this).closest('form').attr('action').split('/'),
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&default=" + defaul + "&mainCategory=" + mainCategory + "&propertyType=" + propertyType + "&assignBroad=" + assignBroad;
             if ($(this).attr('title') == 'Reload') {
-                commonAction({
+                window.commonAction({
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&default=" + '' + "&mainCategory=" + '' + "&propertyType=" + '' + "&assignBroad=" + '';
             }
-            commonAction({
+            window.commonAction({
                 targetId: {
                     submitForm: formId,
                     actionType: $(this).attr('title'),

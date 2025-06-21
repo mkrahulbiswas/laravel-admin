@@ -125,6 +125,9 @@
         <!-- ( Select2 CDN ) -->
         <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
 
+        <!-- ( Intl Tel Input ) -->
+        <link href="{{ asset('assets/plugins/intl-tel-input/css/intlTelInput.min.css') }}" rel="stylesheet" type="text/css" />
+
         <!-- ( Draggable Nestable List ) -->
         <link href="{{ asset('assets/plugins/draggable-nestable-list/css/DraggableNestableList.min.css') }}" rel="stylesheet" type="text/css" />
 

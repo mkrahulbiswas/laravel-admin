@@ -192,6 +192,9 @@
         <!-- ( Dropify File Selector ) -->
         <script src="{{ asset('assets/plugins/dropify/js/dropify.min.js') }}" type="text/javascript"></script>
 
+        <!-- ( Intl Tel Input ) -->
+        <script src="{{ asset('assets/plugins/intl-tel-input/js/intlTelInputWithUtils.min.js') }}" type="text/javascript"></script>
+
         <!-- ( Summernote Editor ) -->
         <script src="{{ asset('assets/plugins/summernote/js/summernote.min.js') }}"></script>
         {{-- <script src="{{ asset('assets/plugins/summernote/js/summernote-bs4.min.js') }}"></script> --}}

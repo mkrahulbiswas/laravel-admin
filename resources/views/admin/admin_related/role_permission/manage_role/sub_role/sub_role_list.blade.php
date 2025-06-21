@@ -71,18 +71,6 @@
                                             <form id="filterSubRoleForm" method="POST" action="{{ route('admin.get.subRole') }}" class="m-b-20">
                                                 @csrf
                                                 <div class="row gap-2">
-
-                                                    <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
-                                                        {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
-                                                        <div class="form-icon set-validation">
-                                                            <select name="status" id="statusFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any status">
-                                                                <option value="{{ config('constants.status')['active'] }}">{{ config('constants.status')['active'] }}</option>
-                                                                <option value="{{ config('constants.status')['inactive'] }}">{{ config('constants.status')['inactive'] }}</option>
-                                                            </select>
-                                                            <i class="mdi mdi-list-status"></i>
-                                                        </div>
-                                                    </div>
-
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <div class="form-icon set-validation">
                                                             <select class="form-control form-control-icon select2-mainRole" name="mainRole" id="mainRoleFilter">
@@ -94,7 +82,16 @@
                                                             <i class="mdi mdi-list-status"></i>
                                                         </div>
                                                     </div>
-
+                                                    <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
+                                                        {{-- <label for="navType" class="form-label">Nav Type <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label> --}}
+                                                        <div class="form-icon set-validation">
+                                                            <select name="status" id="statusFilter" class="selectPicker" data-style="btn-light btn-custom" title="Select any status">
+                                                                <option value="{{ config('constants.status')['active'] }}">{{ config('constants.status')['active'] }}</option>
+                                                                <option value="{{ config('constants.status')['inactive'] }}">{{ config('constants.status')['inactive'] }}</option>
+                                                            </select>
+                                                            <i class="mdi mdi-list-status"></i>
+                                                        </div>
+                                                    </div>
                                                     <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                         <div class="form-group d-flex flex-row justify-content-start">
                                                             @if ($permission['search']['permission'] == true)
@@ -152,7 +149,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
     <div id="con-add-modal" class="modal fade con-add-modal con-common-modal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
