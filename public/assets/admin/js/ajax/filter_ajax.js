@@ -16,9 +16,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
@@ -56,9 +58,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
@@ -93,9 +97,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&navType=" + '';
@@ -131,9 +137,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&navType=" + '' + "&mainNav=" + '';
@@ -170,9 +178,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&navType=" + '' + "&mainNav=" + '' + "&subNav=" + '';
@@ -209,9 +219,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
@@ -248,9 +260,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?mainRoleId=" + mainRoleId + "&navType=" + '' + "&mainNav=" + '' + "&subNav=" + '';
@@ -285,9 +299,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&mainRole=" + '';
@@ -324,9 +340,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?subRoleId=" + subRoleId + "&navType=" + '' + "&mainNav=" + '' + "&subNav=" + '';
@@ -365,9 +383,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?alertType=" + '' + "&status=" + '';
@@ -403,9 +423,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?alertType=" + '' + "&alertFor=" + '' + "&default=" + '';
@@ -445,9 +467,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&type=" + '' + "&default=" + '';
@@ -482,9 +506,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&default=" + '';
@@ -518,9 +544,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
@@ -557,9 +585,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&default=" + '' + "&propertyType=" + '' + "&broadType=" + '';
@@ -604,9 +634,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&mainCategory=" + '' + "&subCategory=" + '' + "&type=" + type;
@@ -644,9 +676,11 @@
                     targetId: {
                         submitForm: formId,
                     },
-                    resetFormFields: {
-                        selectPicker: {},
-                        selectTwo: {},
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
                     }
                 })
                 newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&default=" + '' + "&mainCategory=" + '' + "&propertyType=" + '' + "&assignBroad=" + '';

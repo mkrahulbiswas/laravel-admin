@@ -29,7 +29,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -129,7 +131,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -179,8 +183,8 @@
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
-                            afterSuccess: {
-                                resetForm: true,
+                            resetForm: {
+                                inputField: {}
                             },
                         })
                     }
@@ -230,7 +234,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -280,8 +286,8 @@
                                 submitForm: submitForm,
                                 submitBtn: submitBtn,
                             },
-                            afterSuccess: {
-                                resetForm: true,
+                            resetForm: {
+                                inputField: {}
                             },
                         })
                     }
@@ -400,7 +406,9 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -477,7 +485,9 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -566,7 +576,9 @@
                         targetId: {
                             submitForm: submitForm,
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                     })
                 },
                 success: function (msg) {
@@ -578,7 +590,9 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         toaster: {
                             dataPass: {
                                 title: msg.title,
@@ -662,7 +676,9 @@
                                 type: msg.type
                             }
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         targetId: {
                             submitForm: submitForm,
                             submitBtn: submitBtn,
@@ -720,7 +736,9 @@
                             submitForm: submitForm,
                             submitBtn: submitBtn,
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -804,7 +822,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -878,7 +898,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                         })
                     }
@@ -928,7 +950,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1100,7 +1124,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1150,7 +1176,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -1205,7 +1233,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1255,7 +1285,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -1365,7 +1397,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1418,7 +1452,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -1473,7 +1509,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1526,7 +1564,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -1581,7 +1621,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1775,7 +1817,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1831,7 +1875,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -1886,7 +1932,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -1942,7 +1990,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -1997,7 +2047,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2195,7 +2247,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2254,7 +2308,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -2309,7 +2365,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2368,7 +2426,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -2423,7 +2483,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2608,7 +2670,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2696,7 +2760,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2743,7 +2809,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -2798,7 +2866,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2845,7 +2915,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -2900,7 +2972,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -2944,7 +3018,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3082,7 +3158,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -3132,7 +3210,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3187,7 +3267,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -3237,7 +3319,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3292,7 +3376,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -3336,7 +3422,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3464,7 +3552,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -3514,7 +3604,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3569,7 +3661,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -3619,7 +3713,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3744,7 +3840,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -3788,7 +3886,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3843,7 +3943,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -3887,7 +3989,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -3988,7 +4092,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -4035,7 +4141,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -4090,7 +4198,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -4137,7 +4247,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -4239,7 +4351,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -4292,7 +4406,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -4347,7 +4463,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -4400,7 +4518,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -4529,7 +4649,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -4579,7 +4701,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -4634,7 +4758,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -4684,7 +4810,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -4808,7 +4936,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -4855,7 +4985,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -4910,7 +5042,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -4957,7 +5091,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -5079,7 +5215,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -5126,7 +5264,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -5181,7 +5321,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -5228,7 +5370,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -5350,7 +5494,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -5400,7 +5546,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -5455,7 +5603,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -5505,7 +5655,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -5629,7 +5781,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -5682,7 +5836,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -5737,7 +5893,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -5790,7 +5948,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -5940,7 +6100,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -5993,7 +6155,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
@@ -6054,7 +6218,9 @@
                         loader: {
                             isSet: true
                         },
-                        resetValidation: {},
+                        reset: {
+                            resetValidation: {}
+                        },
                         submitBtnState: {
                             dataPass: {
                                 text: 'Please wait...',
@@ -6107,7 +6273,9 @@
                             },
                             afterSuccess: {
                                 hideModal: true,
-                                resetForm: true,
+                            },
+                            resetForm: {
+                                inputField: {}
                             },
                             dataTable: {
                                 reload: {
