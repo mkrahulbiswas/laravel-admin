@@ -15,7 +15,7 @@ class VersionControlMiddleware
         $appVersion = $request->header('appVersion');
         if ($appVersion) {
             if ($appVersion != VersionControl::first()->appVersion) {
-                return response()->json(['status' => 3, 'msg' => __('messages.successMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 3, 'msg' => __('messages.appVersionNotMatchMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
             }
         } else {
             return response()->json(['status' => 0, 'msg' => "App version is not send through api header", 'payload' => (object)[]], Config::get('constants.errorCode.ok'));

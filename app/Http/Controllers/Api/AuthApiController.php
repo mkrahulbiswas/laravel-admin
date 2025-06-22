@@ -23,6 +23,16 @@ class AuthApiController extends Controller
     public $platform = 'app';
 
 
+    public function checkUser(Request $request)
+    {
+        // try {
+        $values = $request->only('dialCode', 'phone', 'email', 'checkBy');
+        dd($values);
+        // } catch (Exception $e) {
+        //     return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], config('constants.serverErr'));
+        // }
+    }
+
     public function login(Request $request)
     {
         // try {

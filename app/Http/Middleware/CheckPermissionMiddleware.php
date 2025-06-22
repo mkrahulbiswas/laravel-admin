@@ -9,7 +9,7 @@ use App\Models\SetupAdmin\RolePermission;
 use App\Models\SetupAdmin\SubMenu;
 use Illuminate\Support\Facades\Auth;
 
-class CheckPermission
+class CheckPermissionMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {

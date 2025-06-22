@@ -900,7 +900,9 @@
                                 hideModal: true,
                             },
                             resetForm: {
-                                inputField: {}
+                                inputField: {},
+                                summernote: {},
+                                dropify: {},
                             },
                         })
                     }

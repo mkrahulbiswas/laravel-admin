@@ -8,6 +8,7 @@ return [
     'blockMsg' => 'You account is disabled, please contact with admin',
     'serverErrMsg' => 'Something went wrong.',
     'successMsg' => 'Success.',
+    'appVersionNotMatchMsg' => 'The app version is not match, please update the app.',
     'noDataFound' => 'Oops!! No data found',
     'oldPassPinNotMatchMsg' => 'Oops!! the old :type is not matched, please try again.',
     'otpNotMatchMsg' => 'Oops!! the provided otp is not matched, please check again.',

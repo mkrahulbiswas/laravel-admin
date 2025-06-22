@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Middleware\AppUserStatus;
-use App\Http\Middleware\CheckAdmin;
-use App\Http\Middleware\CheckPermission;
+use App\Http\Middleware\AppUserStatusMiddleware;
+use App\Http\Middleware\CheckAdminMiddleware;
+use App\Http\Middleware\CheckPermissionMiddleware;
 use App\Http\Middleware\LogSiteVisitMiddleware;
-use App\Http\Middleware\SetLocale;
+use App\Http\Middleware\SetLocaleMiddleware;
 use App\Http\Middleware\VersionControlMiddleware;
 
 use App\Providers\AdminServiceProvider;
@@ -40,11 +40,11 @@ $app = Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ]);
         $middleware->alias([
-            'checkAdmin' => CheckAdmin::class,
-            'setLocale' => SetLocale::class,
-            'logSiteVisitBy' => LogSiteVisitMiddleware::class,
-            'userStatus' => AppUserStatus::class,
-            'checkPermission' => CheckPermission::class,
+            'checkAdminMiddleware' => CheckAdminMiddleware::class,
+            'setLocaleMiddleware' => SetLocaleMiddleware::class,
+            'logSiteVisitByMiddleware' => LogSiteVisitMiddleware::class,
+            'userStatusMiddleware' => AppUserStatusMiddleware::class,
+            'checkPermissionMiddleware' => CheckPermissionMiddleware::class,
             'versionControlMiddleware' => VersionControlMiddleware::class,
         ]);
         // $middleware->append(LogSiteVisitMiddleware::class);
