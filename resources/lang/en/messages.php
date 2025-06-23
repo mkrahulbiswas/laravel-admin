@@ -8,11 +8,13 @@ return [
     'blockMsg' => 'You account is disabled, please contact with admin',
     'serverErrMsg' => 'Something went wrong.',
     'successMsg' => 'Success.',
+    'appVersionNotMatchMsg' => 'The app version is not match, please update the app.',
     'noDataFound' => 'Oops!! No data found',
     'oldPassPinNotMatchMsg' => 'Oops!! the old :type is not matched, please try again.',
     'otpNotMatchMsg' => 'Oops!! the provided otp is not matched, please check again.',
     'otpNotTypeMsg' => 'Oops!! its looks like you are trying to change other type of action.',
     'otpNotVerifiedMsg' => 'Its look you are not verified OTP but try to change something.',
+    'checkUserInvalidInputMsg' => 'Note you can not send both email & phone empty or filled. You have to give any one of them.',
 
     'fileUploadMsg' => [
         'fileDelete' => [
@@ -86,6 +88,10 @@ return [
     'resetMsg' => [
         'success' => ':type reset successfully.',
         'failed' => 'Failed to reset :type.',
+    ],
+    'createUserMsg' => [
+        'success' => 'Successfully create user to complete the registration process..',
+        'failed' => 'Failed to create user to complete the registration process, please try again.',
     ],
 
     'registerSuccess' => 'Successfully registered, just need to verify your OTP.',

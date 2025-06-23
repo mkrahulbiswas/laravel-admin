@@ -2,9 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthApiController;
+use App\Http\Middleware\SetLocaleMiddleware;
+use App\Http\Middleware\VersionControlMiddleware;
 
-// Route::group(['middleware' => ['SetLocale', 'versionControlMiddleware']], function () {
-Route::group([], function () {
+
+Route::controller(AuthApiController::class)->middleware(['logSiteVisitByMiddleware', SetLocaleMiddleware::class, VersionControlMiddleware::class])->group(function () {
+    Route::prefix('auth')->group(function () {
+        Route::post('check', 'checkUser')->name('app.auth.checkUser');
+    });
+
     Route::post('auth/signup', [AuthApiController::class, 'register']);
     Route::post('auth/login', [AuthApiController::class, 'login']);
     Route::post('sendRegOtp', [AuthApiController::class, 'sendRegOtp']);

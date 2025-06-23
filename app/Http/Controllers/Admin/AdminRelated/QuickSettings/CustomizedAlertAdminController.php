@@ -206,6 +206,16 @@ class CustomizedAlertAdminController extends Controller
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
                 ],
+                [
+                    'model' => AlertFor::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'alertTypeId']],
+                ],
+                [
+                    'model' => AlertTemplate::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'alertTypeId']],
+                ],
             ]);
             if ($result === true) {
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Delete data", 'msg' => __('messages.deleteMsg', ['type' => 'Alert type'])['success']], Config::get('constants.errorCode.ok'));
@@ -424,6 +434,11 @@ class CustomizedAlertAdminController extends Controller
                     'model' => AlertFor::class,
                     'picUrl' => [],
                     'filter' => [['search' => $id, 'field' => '']],
+                ],
+                [
+                    'model' => AlertTemplate::class,
+                    'picUrl' => [],
+                    'filter' => [['search' => $id, 'field' => 'alertForId']],
                 ],
             ]);
             if ($result === true) {

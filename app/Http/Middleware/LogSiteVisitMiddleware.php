@@ -10,18 +10,19 @@ use App\Models\LogSiteVisit;
 
 class LogSiteVisitMiddleware
 {
-    public function handle(Request $request, Closure $next, $visitTo): Response
+    public function handle(Request $request, Closure $next, $visitTo = null): Response
     {
-        $ip = null;
+        $ip = $request->header('currentIp');
         $deep_detect = TRUE;
-
-        if (filter_var($ip, FILTER_VALIDATE_IP) === FALSE) {
-            $ip = $_SERVER["REMOTE_ADDR"];
-            if ($deep_detect) {
-                if (filter_var(@$_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP))
-                    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-                if (filter_var(@$_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP))
-                    $ip = $_SERVER['HTTP_CLIENT_IP'];
+        if ($ip != null) {
+            if (filter_var($ip, FILTER_VALIDATE_IP) === FALSE) {
+                $ip = $_SERVER["REMOTE_ADDR"];
+                if ($deep_detect) {
+                    if (filter_var(@$_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP))
+                        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                    if (filter_var(@$_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP))
+                        $ip = $_SERVER['HTTP_CLIENT_IP'];
+                }
             }
         }
         $xml = @simplexml_load_file("http://www.geoplugin.net/xml.gp?ip=" . $ip);
@@ -57,16 +58,16 @@ class LogSiteVisitMiddleware
         $bname = $platform = $ub = "Unknown";
         $version = "";
 
-        //First get the platform?
         if (preg_match('/linux/i', $u_agent)) {
             $platform = 'linux';
         } elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
             $platform = 'mac';
         } elseif (preg_match('/windows|win32/i', $u_agent)) {
             $platform = 'windows';
+        } elseif (preg_match('/PostmanRuntime/i', $u_agent)) {
+            $platform = 'postman';
         }
 
-        // Next get the name of the useragent yes seperately and for good reason
         if (preg_match('/MSIE/i', $u_agent) && !preg_match('/Opera/i', $u_agent)) {
             $bname = 'Internet Explorer';
             $ub = "MSIE";
@@ -85,31 +86,26 @@ class LogSiteVisitMiddleware
         } elseif (preg_match('/Netscape/i', $u_agent)) {
             $bname = 'Netscape';
             $ub = "Netscape";
+        } elseif (preg_match('/PostmanRuntime/i', $u_agent)) {
+            $bname = 'Postman Runtime';
+            $ub = "Postman";
         }
 
-        // finally get the correct version number
         $known = array('Version', $ub, 'other');
-        $pattern = '#(?<browser>' . join('|', $known) .
-            ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
-        if (!preg_match_all($pattern, $u_agent, $matches)) {
-            // we have no matching number just continue
-        }
-
-        // see how many we have
-        $i = count($matches['browser']);
-        if ($i != 1) {
-            //we will have two since we are not using 'other' argument yet
-            //see if version is before or after the name
-            if (strripos($u_agent, "Version") < strripos($u_agent, $ub)) {
-                $version = $matches['version'][0];
+        $pattern = '#(?<browser>' . join('|', $known) . ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+        if (preg_match_all($pattern, $u_agent, $matches)) {
+            $i = count($matches['browser']);
+            if ($i != 1) {
+                if (strripos($u_agent, "Version") < strripos($u_agent, $ub)) {
+                    $version = $matches['version'][0];
+                } else {
+                    $version = $matches['version'][1];
+                }
             } else {
-                $version = $matches['version'][1];
+                $version = $matches['version'][0];
             }
-        } else {
-            $version = $matches['version'][0];
         }
 
-        // check if we have a number
         if ($version == null || $version == "") {
             $version = "?";
         }
@@ -126,12 +122,12 @@ class LogSiteVisitMiddleware
         $logSiteVisit->country = ($locationInfo['countryName'] == []) ? 'Unknown' : $locationInfo['countryName'];
         $logSiteVisit->city = ($locationInfo['city'] == []) ? 'Unknown' : $locationInfo['city'];
         $logSiteVisit->state = ($locationInfo['region'] == []) ? 'Unknown' : $locationInfo['region'];
-        $logSiteVisit->ip = request()->ip();
+        $logSiteVisit->ip = ($locationInfo['request'] == '') ? request()->ip() : $locationInfo['request'];
         $logSiteVisit->url = URL::full();
         $logSiteVisit->platform = $finalBrowserArray['platform'];
         $logSiteVisit->browserName = $finalBrowserArray['name'];
         $logSiteVisit->browserVersion = $finalBrowserArray['version'];
-        $logSiteVisit->visitTo = $visitTo;
+        $logSiteVisit->visitTo = ($request->header('platform') == null) ? $visitTo : $request->header('platform');
         $logSiteVisit->browserInfo = json_encode($finalBrowserArray);
         $logSiteVisit->locationInfo = json_encode($locationInfo);
         $logSiteVisit->save();

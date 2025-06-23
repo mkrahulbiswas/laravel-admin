@@ -52,7 +52,7 @@
                                             <div class="row gap-2">
                                                 <div class="form-element col-sm-12 col-md-6 col-lg-4 col-xl-3 col-xxl-2">
                                                     <div class="form-icon set-validation">
-                                                        <select name="mainCategory" id="mainCategoryFilter" class="selectTwo select2-mainCategory form-control">
+                                                        <select name="mainCategory" id="mainCategoryFilter" class="selectTwo select2-mainCategory form-control form-control-icon">
                                                             <option value="">Select Nav Type</option>
                                                             @foreach ($data['mainCategory'] as $item)
                                                                 <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>

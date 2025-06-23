@@ -14,16 +14,17 @@ use App\Http\Controllers\Admin\PropertyRelated\PropertyAttributeAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyCategoryAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyTypeAdminController;
 use App\Http\Controllers\Admin\UsersRelated\ManageUsers\AdminUsersAdminController;
-use App\Http\Middleware\CheckPermission;
+use App\Http\Middleware\CheckAdminMiddleware;
+use App\Http\Middleware\CheckPermissionMiddleware;
 
-Route::controller(AuthAdminController::class)->middleware(['logSiteVisitBy:admin'])->group(function () {
+Route::controller(AuthAdminController::class)->middleware(['logSiteVisitByMiddleware:admin'])->group(function () {
     Route::get('/', 'showLogin')->name('show.login');
     Route::post('check-login',  'checkLogin')->name('check.login');
     Route::post('forgot-Password/otp',  'saveForgotPassword')->name('save.forgotPassword');
     Route::post('reset-Password/reset',  'updateResetPassword')->name('update.resetPassword');
     Route::post('changePassword',  'changePasswordLogin');
 
-    Route::middleware(['checkAdmin', CheckPermission::class])->group(function () {
+    Route::middleware([CheckAdminMiddleware::class, CheckPermissionMiddleware::class])->group(function () {
 
         Route::post('logout',  'logout')->name('logout');
 

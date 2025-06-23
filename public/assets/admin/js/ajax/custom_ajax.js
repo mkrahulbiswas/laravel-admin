@@ -900,7 +900,9 @@
                                 hideModal: true,
                             },
                             resetForm: {
-                                inputField: {}
+                                inputField: {},
+                                summernote: {},
+                                dropify: {},
                             },
                         })
                     }
@@ -4408,7 +4410,7 @@
                                 hideModal: true,
                             },
                             resetForm: {
-                                inputField: {}
+                                inputField: {},
                             },
                             dataTable: {
                                 reload: {
