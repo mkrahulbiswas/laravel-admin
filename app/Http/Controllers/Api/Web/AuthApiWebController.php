@@ -26,7 +26,7 @@ use Illuminate\Support\Str;
 class AuthApiWebController extends Controller
 {
     use ValidationTrait, ProfileTrait, CommonTrait;
-    public $platform = 'app';
+    public $platform = 'web';
 
 
     public function checkUser(Request $request)

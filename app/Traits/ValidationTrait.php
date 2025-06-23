@@ -642,6 +642,11 @@ trait ValidationTrait
                     ];
                 }
                 break;
+            case 'verifyUser':
+                $rules = [
+                    'otp' => 'required|digits:6',
+                ];
+                break;
 
             case 'login':
             default:

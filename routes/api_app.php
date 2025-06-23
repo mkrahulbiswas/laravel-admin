@@ -13,6 +13,7 @@ Route::controller(AuthApiAppController::class)->middleware([
 ])->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('check', 'checkUser')->name('app.auth.checkUser');
+        Route::post('verify', 'verifyUser')->name('app.auth.verifyUser');
     });
 
     Route::post('auth/signup', [AuthApiAppController::class, 'register']);
