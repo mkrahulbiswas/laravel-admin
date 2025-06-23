@@ -16,7 +16,6 @@ use App\Rules\AdminRelated\QuickSetting\CustomizedAlertRules;
 use App\Rules\AdminRelated\RolePermission\ManageRoleRules;
 use App\Rules\PropertyRelated\UniquePropertyAttribute;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,15 +28,13 @@ trait ValidationTrait
             $validator = Validator::make($data['input'], $response['rules'], $response['messages']);
             return $validator;
         } elseif ($data['platform'] == 'web') {
-            $validator = Validator::make($data['input'], $this->vRulesWeb($data['input'], $data['for'], $data['id'], 'rule'), $this->vRulesWeb($data['input'], $data['for'], $data['id'], 'message'));
+            $response = $this->vRulesWeb($data);
+            $validator = Validator::make($data['input'], $response['rules'], $response['messages']);
             return $validator;
         } elseif ($data['platform'] == 'app') {
-            $validator = Validator::make($data['input'], $this->vRulesApp($data['input'], $data['for'], $data['id'], 'rule'), $this->vRulesApp($data['input'], $data['for'], $data['id'], 'message'));
-            if ($validator->passes()) {
-                return true;
-            }
-            $this->vErrors = $validator->messages();
-            return false;
+            $response = $this->vRulesApp($data);
+            $validator = Validator::make($data['input'], $response['rules'], $response['messages']);
+            return $validator;
         } else {
         }
         //$validation->setAttributeNames(static::$niceNames);
@@ -592,12 +589,11 @@ trait ValidationTrait
         return ['rules' => $rules, 'messages' => $messages];
     }
 
-    public function vRulesWeb($input, $case = 'create', $id = 0, $type)
+    public function vRulesWeb($data)
     {
         $rules = [];
         $messages = [];
-
-        switch ($case) {
+        switch ($data['for']) {
             case 'saveContactUs':
                 $rules = [
                     'name' => 'required|max:150',
@@ -621,26 +617,30 @@ trait ValidationTrait
                 ];
                 break;
         }
-
-        if ($type == 'rule') {
-            return $rules;
-        } else {
-            return $messages;
-        }
+        return ['rules' => $rules, 'messages' => $messages];
     }
 
-    public function vRulesApp($input, $case = 'create', $id = 0, $type)
+    public function vRulesApp($data)
     {
         $rules = [];
         $messages = [];
 
-        switch ($case) {
-
-            case 'login':
-                $rules = [
-                    'phone' => 'required|digits:10',
-                    'password' => 'required',
-                ];
+        switch ($data['for']) {
+            case 'checkUser':
+                if ($data['checkBy'] == Config::get('constants.typeCheck.logRegBy.phone')) {
+                    $rules = [
+                        'phone' => 'required|digits:10',
+                    ];
+                } else if ($data['checkBy'] == Config::get('constants.typeCheck.logRegBy.email')) {
+                    $rules = [
+                        'email' => 'required|email',
+                    ];
+                } else {
+                    $rules = [
+                        'email' => 'required|email',
+                        'phone' => 'required|digits:10',
+                    ];
+                }
                 break;
 
             case 'login':
@@ -658,11 +658,7 @@ trait ValidationTrait
                 break;
         }
 
-        if ($type == 'rule') {
-            return $rules;
-        } else {
-            return $messages;
-        }
+        return ['rules' => $rules, 'messages' => $messages];
     }
 
     public function getVErrorMessages($vErrors)
@@ -672,11 +668,11 @@ trait ValidationTrait
         if (is_array($messages) && count($messages) > 0) {
             foreach ($messages as $k => $v) {
                 if (is_array($v) && array_key_exists(0, $v)) {
-                    //$ret[$k] = $v[0];
-                    return $v[0];
+                    $ret[$k] = $v[0];
+                    // return $v[0];
                 }
             }
         }
-        //return $ret;
+        return $ret;
     }
 }

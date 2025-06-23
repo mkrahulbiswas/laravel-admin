@@ -4410,7 +4410,7 @@
                                 hideModal: true,
                             },
                             resetForm: {
-                                inputField: {}
+                                inputField: {},
                             },
                             dataTable: {
                                 reload: {

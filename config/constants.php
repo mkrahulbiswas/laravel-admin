@@ -343,7 +343,11 @@ return [
             'child' => 'hasChild',
             'permission' => 'hasPermission',
             'variable' => 'variable',
-        ]
+        ],
+        'logRegBy' => [
+            'email' => 'email',
+            'phone' => 'phone',
+        ],
     ],
 
     'rolePermission' => [
@@ -397,6 +401,7 @@ return [
         '1' => '1',
         'active' => 'ACTIVE',
         'inactive' => 'INACTIVE',
+        'incomplete' => 'INCOMPLETE',
         'yes' => 'YES',
         'no' => 'NO',
         'default' => 'DEFAULT',
@@ -407,9 +412,17 @@ return [
         ]
     ],
 
+    //--OTP For
+    'otpFor' => [
+        'login' => 'LOGIN',
+        'register' => 'REGISTER',
+    ],
+
     //--User Type
     'userType' => [
         'admin' => 'ADMIN',
+        'agent' => 'AGENT',
+        'user' => 'USER',
         'na' => 'NA'
     ],
 
