@@ -594,13 +594,59 @@ trait ValidationTrait
         $rules = [];
         $messages = [];
         switch ($data['for']) {
-            case 'saveContactUs':
+            case 'checkUser':
+                if ($data['checkBy'] == 'phone') {
+                    $rules = [
+                        'phone' => 'required|digits:10',
+                    ];
+                } else if ($data['checkBy'] == 'email') {
+                    $rules = [
+                        'email' => 'required|email',
+                    ];
+                } else {
+                    $rules = [
+                        'checkBy' => 'required',
+                        'email' => 'required|email',
+                        'phone' => 'required|digits:10',
+                    ];
+                }
+                break;
+
+            case 'verifyUser':
                 $rules = [
-                    'name' => 'required|max:150',
-                    'email' => 'required|email|max:255',
-                    'phone' => 'required|digits:10',
-                    'message' => 'required|max:1000',
+                    'id' => 'required',
+                    'isUserFound' => 'required|boolean',
+                    'checkBy' => 'required',
+                    'otpFor' => 'required',
+                    'otp' => 'required|digits:6',
                 ];
+                break;
+
+            case 'registerUser':
+                $rules = [
+                    'id' => 'required',
+                    'name' => 'required|max:80',
+                    'dialCode' => 'required|integer',
+                    'phone' => 'required|integer',
+                    'email' => 'required|max:150',
+                    'password' => 'required|min:6',
+                    'confirmPassword' => 'required|same:password|min:6',
+                    'userType' => 'required',
+                    'checkBy' => 'required',
+                ];
+                break;
+
+            case 'loginUser':
+                $rules = [
+                    'password' => 'required|min:6',
+                    'checkBy' => 'required',
+                ];
+                if ($data['checkBy'] == 'phone') {
+                    $rules['dialCode'] = 'required|integer';
+                    $rules['phone'] = 'required|integer';
+                } else if ($data['checkBy'] == 'email') {
+                    $rules['email'] = 'required|email';
+                }
                 break;
 
             case 'emailLogin':
@@ -627,25 +673,58 @@ trait ValidationTrait
 
         switch ($data['for']) {
             case 'checkUser':
-                if ($data['checkBy'] == Config::get('constants.typeCheck.logRegBy.phone')) {
+                if ($data['checkBy'] == 'phone') {
                     $rules = [
                         'phone' => 'required|digits:10',
                     ];
-                } else if ($data['checkBy'] == Config::get('constants.typeCheck.logRegBy.email')) {
+                } else if ($data['checkBy'] == 'email') {
                     $rules = [
                         'email' => 'required|email',
                     ];
                 } else {
                     $rules = [
+                        'checkBy' => 'required',
                         'email' => 'required|email',
                         'phone' => 'required|digits:10',
                     ];
                 }
                 break;
+
             case 'verifyUser':
                 $rules = [
+                    'id' => 'required',
+                    'isUserFound' => 'required|boolean',
+                    'checkBy' => 'required',
+                    'otpFor' => 'required',
                     'otp' => 'required|digits:6',
                 ];
+                break;
+
+            case 'registerUser':
+                $rules = [
+                    'id' => 'required',
+                    'name' => 'required|max:80',
+                    'dialCode' => 'required|integer',
+                    'phone' => 'required|integer',
+                    'email' => 'required|max:150',
+                    'password' => 'required|min:6',
+                    'confirmPassword' => 'required|same:password|min:6',
+                    'userType' => 'required',
+                    'checkBy' => 'required',
+                ];
+                break;
+
+            case 'loginUser':
+                $rules = [
+                    'password' => 'required|min:6',
+                    'checkBy' => 'required',
+                ];
+                if ($data['checkBy'] == 'phone') {
+                    $rules['dialCode'] = 'required|integer';
+                    $rules['phone'] = 'required|integer';
+                } else if ($data['checkBy'] == 'email') {
+                    $rules['email'] = 'required|email';
+                }
                 break;
 
             case 'login':

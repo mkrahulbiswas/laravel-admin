@@ -12,11 +12,12 @@ Route::controller(AuthApiWebController::class)->middleware([
     VersionControlMiddleware::class
 ])->group(function () {
     Route::prefix('auth')->group(function () {
-        Route::post('check', 'checkUser')->name('web.auth.checkUser');
+        Route::post('check', 'checkUser')->name('app.auth.checkUser');
+        Route::post('verify', 'verifyUser')->name('app.auth.verifyUser');
+        Route::post('register', 'registerUser')->name('app.auth.registerUser');
+        Route::post('login', 'loginUser')->name('app.auth.loginUser');
     });
 
-    Route::post('auth/signup', [AuthApiWebController::class, 'register']);
-    Route::post('auth/login', [AuthApiWebController::class, 'login']);
     Route::post('sendRegOtp', [AuthApiWebController::class, 'sendRegOtp']);
     Route::post('forgotPassword', [AuthApiWebController::class, 'forgotPassword']);
     Route::post('resetPassword', [AuthApiWebController::class, 'resetPassword']);

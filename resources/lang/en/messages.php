@@ -15,6 +15,7 @@ return [
     'otpNotTypeMsg' => 'Oops!! its looks like you are trying to change other type of action.',
     'otpNotVerifiedMsg' => 'Its look you are not verified OTP but try to change something.',
     'checkUserInvalidInputMsg' => 'Note you can not send both email & phone empty or filled. You have to give any one of them.',
+    'alreadyUserCreateMsg' => 'User is already created, please login.',
 
     'fileUploadMsg' => [
         'fileDelete' => [

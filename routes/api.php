@@ -7,10 +7,6 @@ use App\Http\Middleware\VersionControlMiddleware;
 
 
 Route::controller(AuthApiController::class)->middleware(['logSiteVisitByMiddleware', SetLocaleMiddleware::class, VersionControlMiddleware::class])->group(function () {
-    Route::prefix('auth')->group(function () {
-        Route::post('check', 'checkUser')->name('app.auth.checkUser');
-    });
-
     Route::post('auth/signup', [AuthApiController::class, 'register']);
     Route::post('auth/login', [AuthApiController::class, 'login']);
     Route::post('sendRegOtp', [AuthApiController::class, 'sendRegOtp']);

@@ -344,10 +344,6 @@ return [
             'permission' => 'hasPermission',
             'variable' => 'variable',
         ],
-        'logRegBy' => [
-            'email' => 'email',
-            'phone' => 'phone',
-        ],
     ],
 
     'rolePermission' => [

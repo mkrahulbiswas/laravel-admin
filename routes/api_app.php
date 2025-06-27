@@ -14,10 +14,10 @@ Route::controller(AuthApiAppController::class)->middleware([
     Route::prefix('auth')->group(function () {
         Route::post('check', 'checkUser')->name('app.auth.checkUser');
         Route::post('verify', 'verifyUser')->name('app.auth.verifyUser');
+        Route::post('register', 'registerUser')->name('app.auth.registerUser');
+        Route::post('login', 'loginUser')->name('app.auth.loginUser');
     });
 
-    Route::post('auth/signup', [AuthApiAppController::class, 'register']);
-    Route::post('auth/login', [AuthApiAppController::class, 'login']);
     Route::post('sendRegOtp', [AuthApiAppController::class, 'sendRegOtp']);
     Route::post('forgotPassword', [AuthApiAppController::class, 'forgotPassword']);
     Route::post('resetPassword', [AuthApiAppController::class, 'resetPassword']);
