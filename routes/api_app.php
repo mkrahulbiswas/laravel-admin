@@ -18,34 +18,25 @@ Route::middleware([
         Route::post('register', 'registerUser')->name('app.auth.registerUser');
         Route::post('login', 'loginUser')->name('app.auth.loginUser');
         Route::get(
-            '/some_url',
+            '/un-authenticated',
             function () {
-                return "Token is wrong";
+                return [
+                    'status' => 0,
+                    'type' => "warning",
+                    'title' => "Un-Authenticated",
+                    'msg' => __('messages.unauthenticatedMsg'),
+                    'payload' => (object)[],
+                ];
             }
         )->name('login');
     });
-
-    // Route::post('sendRegOtp', [AuthApiAppController::class, 'sendRegOtp']);
-    // Route::post('forgotPassword', [AuthApiAppController::class, 'forgotPassword']);
-    // Route::post('resetPassword', [AuthApiAppController::class, 'resetPassword']);
-    // Route::post('sendOtp', [AuthApiAppController::class, 'sendOtp']);
-    // Route::get('getAppVersion', [AuthApiAppController::class, 'getAppVersion']);
-
     Route::middleware([
         'auth:sanctum',
         AppUserStatusMiddleware::class,
     ])->group(function () {
-
         Route::controller(AuthApiAppController::class)->prefix('auth')->group(function () {
-            Route::post('logout', 'logoutUser')->name('app.auth.logoutUser');
+            Route::get('logout', 'logoutUser')->name('app.auth.logoutUser');
             Route::get('profile', 'profileUser')->name('app.auth.profileUser');
         });
-
-        // Route::post('updateDeviceToken', [AuthApiAppController::class, 'updateDeviceToken']);
-        // Route::get('getProfile', [AuthApiAppController::class, 'getProfile']);
-        // Route::post('updateProfile', [AuthApiAppController::class, 'updateProfile']);
-        // Route::post('uploadProfilePic', [AuthApiAppController::class, 'uploadProfilePic']);
-        // Route::post('changePassword', [AuthApiAppController::class, 'changePassword']);
-        // Route::post('updateProfile', [AuthApiAppController::class, 'updateProfile']);
     });
 });

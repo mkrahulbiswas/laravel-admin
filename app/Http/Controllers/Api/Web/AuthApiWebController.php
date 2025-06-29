@@ -137,7 +137,7 @@ class AuthApiWebController extends Controller
                         } else {
                             if (Auth::loginUsingId($user->id)) {
                                 $user = Auth::user();
-                                $token = $user->createToken('user' . $user->id)->plainTextToken;
+                                $token = $user->createToken($user->userType . $user->id)->plainTextToken;
                                 if ($token) {
                                     $data = $this->getProfileInfo($user->id, $this->platform);
                                     if ($data === false) {
@@ -193,26 +193,26 @@ class AuthApiWebController extends Controller
                         $user->userType = $values['userType'];
                         $user->status = Config::get('constants.status.active');
                         if ($user->update()) {
-                            if ($values['checkBy'] == 'phone') {
-                                $credential = ['dialCode' => $values['dialCode'], 'phone' => $values['phone'], 'password' => $values['password']];
-                            } else {
-                                $credential = ['email' => $values['email'], 'password' => $values['password']];
-                            }
-                            if (Auth::attempt($credential)) {
-                                $token = $user->createToken('user' . $user->id)->plainTextToken;
-                                if ($token) {
-                                    $data = $this->getProfileInfo($user->id, $this->platform);
-                                    if ($data === false) {
-                                        return response()->json(['status' => 0, 'type' => "error", 'title' => "Register User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]],  config('constants.errorCode.ok'));
-                                    } else {
-                                        return response()->json(['status' => 1, 'type' => "error", 'title' => "Register User", 'msg' => __('messages.loginSuccess'), "payload" => ['tokenType' => 'Bearer', 'token' => $token, 'user' => $data]], config('constants.errorCode.ok'));
-                                    }
+                            // if ($values['checkBy'] == 'phone') {
+                            //     $credential = ['dialCode' => $values['dialCode'], 'phone' => $values['phone'], 'password' => $values['password']];
+                            // } else {
+                            //     $credential = ['email' => $values['email'], 'password' => $values['password']];
+                            // }
+                            // if (Auth::attempt($credential)) {
+                            $token = $user->createToken($user->userType . $user->id)->plainTextToken;
+                            if ($token) {
+                                $data = $this->getProfileInfo($user->id, $this->platform);
+                                if ($data === false) {
+                                    return response()->json(['status' => 0, 'type' => "error", 'title' => "Register User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]],  config('constants.errorCode.ok'));
                                 } else {
-                                    return response()->json(['status' => 0, 'type' => "error", 'title' => "Register User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], config('constants.errorCode.ok'));
+                                    return response()->json(['status' => 1, 'type' => "error", 'title' => "Register User", 'msg' => __('messages.loginSuccess'), "payload" => ['tokenType' => 'Bearer', 'token' => $token, 'user' => $data]], config('constants.errorCode.ok'));
                                 }
                             } else {
-                                return response()->json(['status' => 0, 'type' => "error", 'title' => "Register User", 'msg' => __('messages.loginErr'), 'payload' => (object)[]],  config('constants.errorCode.ok'));
+                                return response()->json(['status' => 0, 'type' => "error", 'title' => "Register User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], config('constants.errorCode.ok'));
                             }
+                            // } else {
+                            //     return response()->json(['status' => 0, 'type' => "error", 'title' => "Register User", 'msg' => __('messages.loginErr'), 'payload' => (object)[]],  config('constants.errorCode.ok'));
+                            // }
                         } else {
                             return response()->json(['status' => 0, 'type' => "warning", 'title' => "Register User", 'msg' => __('messages.createUserMsg.failed'), "payload" =>  (object)[]], config('constants.errorCode.ok'));
                         }
@@ -243,7 +243,8 @@ class AuthApiWebController extends Controller
                 }
                 if (Auth::attempt($credential)) {
                     $user = Auth::user();
-                    $token = $user->createToken('user' . $user->id)->plainTextToken;
+                    $user = User::findOrFail($user->id);
+                    $token = $user->createToken($user->userType . $user->id)->plainTextToken;
                     if ($token) {
                         $data = $this->getProfileInfo($user->id, $this->platform);
                         if ($data === false) {
@@ -260,6 +261,39 @@ class AuthApiWebController extends Controller
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Login User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], config('constants.serverErr'));
+        }
+    }
+
+    public function logoutUser(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            if ($user) {
+                if ($user->currentAccessToken()->delete()) {
+                    return response()->json(['status' => 1, 'msg' => __('messages.logoutSuccess'), 'payload' => (object)[]], config('constants.ok'));
+                } else {
+                    return response()->json(['status' => 0, 'msg' => __('messages.logoutSuccess'), 'payload' => (object)[]], config('constants.ok'));
+                }
+            } else {
+                return response()->json(['status' => 0, 'msg' => __('messages.logoutSuccess'), 'payload' => (object)[]], config('constants.ok'));
+            }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Login User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], config('constants.serverErr'));
+        }
+    }
+
+    public function profileUser()
+    {
+        try {
+            $user = Auth::user();
+            $data = $this->getProfileInfo($user->id, $this->platform);
+            if ($data === false) {
+                return response()->json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.noProfileDataMsg.failed'), 'payload' => (object)[]],  config('constants.errorCode.ok'));
+            } else {
+                return response()->json(['status' => 1, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.noProfileDataMsg.success'), "payload" => ['user' => $data]], config('constants.errorCode.ok'));
+            }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], config('constants.serverErr'));
         }
     }
 }

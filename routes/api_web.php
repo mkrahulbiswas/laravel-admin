@@ -1,37 +1,42 @@
 <?php
 
-use App\Http\Controllers\Api\Web\AuthApiWebController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\AppUserStatusMiddleware;
 use App\Http\Middleware\SetLocaleMiddleware;
 use App\Http\Middleware\VersionControlMiddleware;
+use App\Http\Controllers\Api\Web\AuthApiWebController;
 
 
-Route::controller(AuthApiWebController::class)->middleware([
-    'logSiteVisitByMiddleware:web',
+Route::middleware([
+    'logSiteVisitByMiddleware:app',
     SetLocaleMiddleware::class,
     VersionControlMiddleware::class
 ])->group(function () {
-    Route::prefix('auth')->group(function () {
+    Route::controller(AuthApiWebController::class)->prefix('auth')->group(function () {
         Route::post('check', 'checkUser')->name('app.auth.checkUser');
         Route::post('verify', 'verifyUser')->name('app.auth.verifyUser');
         Route::post('register', 'registerUser')->name('app.auth.registerUser');
         Route::post('login', 'loginUser')->name('app.auth.loginUser');
+        Route::get(
+            '/un-authenticated',
+            function () {
+                return [
+                    'status' => 0,
+                    'type' => "warning",
+                    'title' => "Un-Authenticated",
+                    'msg' => __('messages.unauthenticatedMsg'),
+                    'payload' => (object)[],
+                ];
+            }
+        )->name('login');
     });
-
-    Route::post('sendRegOtp', [AuthApiWebController::class, 'sendRegOtp']);
-    Route::post('forgotPassword', [AuthApiWebController::class, 'forgotPassword']);
-    Route::post('resetPassword', [AuthApiWebController::class, 'resetPassword']);
-    Route::post('sendOtp', [AuthApiWebController::class, 'sendOtp']);
-    Route::get('getAppVersion', [AuthApiWebController::class, 'getAppVersion']);
-    Route::group(['middleware' => ['auth:sanctum', 'userStatus']], function () {
-
-        /*======== (-- AuthController --) ========*/
-        Route::post('auth/logout', [AuthApiWebController::class, 'logout']);
-        Route::post('updateDeviceToken', [AuthApiWebController::class, 'updateDeviceToken']);
-        Route::get('getProfile', [AuthApiWebController::class, 'getProfile']);
-        Route::post('updateProfile', [AuthApiWebController::class, 'updateProfile']);
-        Route::post('uploadProfilePic', [AuthApiWebController::class, 'uploadProfilePic']);
-        Route::post('changePassword', [AuthApiWebController::class, 'changePassword']);
-        Route::post('updateProfile', [AuthApiWebController::class, 'updateProfile']);
+    Route::middleware([
+        'auth:sanctum',
+        AppUserStatusMiddleware::class,
+    ])->group(function () {
+        Route::controller(AuthApiWebController::class)->prefix('auth')->group(function () {
+            Route::get('logout', 'logoutUser')->name('app.auth.logoutUser');
+            Route::get('profile', 'profileUser')->name('app.auth.profileUser');
+        });
     });
 });

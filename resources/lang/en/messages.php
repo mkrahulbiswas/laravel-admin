@@ -91,13 +91,18 @@ return [
         'failed' => 'Failed to reset :type.',
     ],
     'createUserMsg' => [
-        'success' => 'Successfully create user to complete the registration process..',
+        'success' => 'Successfully create user to complete the registration process.',
         'failed' => 'Failed to create user to complete the registration process, please try again.',
+    ],
+    'noProfileDataMsg' => [
+        'success' => 'Successfully profile data fetched.',
+        'failed' => 'No profile data found.',
     ],
 
     'registerSuccess' => 'Successfully registered, just need to verify your OTP.',
     'loginSuccess' => 'Successfully logged in.',
     'logoutSuccess' => 'Successfully logged out.',
+    'unauthenticatedMsg' => 'You are not authorized. Please login with you credential to get access.',
 
     'requiredFiend' => '*',
 ];

@@ -243,6 +243,7 @@ class AuthApiAppController extends Controller
                 }
                 if (Auth::attempt($credential)) {
                     $user = Auth::user();
+                    $user = User::findOrFail($user->id);
                     $token = $user->createToken($user->userType . $user->id)->plainTextToken;
                     if ($token) {
                         $data = $this->getProfileInfo($user->id, $this->platform);
@@ -265,21 +266,20 @@ class AuthApiAppController extends Controller
 
     public function logoutUser(Request $request)
     {
-        // try {
-        $user = $request;
-        dd($user);
-        if ($user) {
-            if ($user->tokens()->delete()) {
-                return response()->json(['status' => 1, 'msg' => __('messages.logoutSuccess'), 'payload' => (object)[]], config('constants.ok'));
+        try {
+            $user = Auth::user();
+            if ($user) {
+                if ($user->currentAccessToken()->delete()) {
+                    return response()->json(['status' => 1, 'msg' => __('messages.logoutSuccess'), 'payload' => (object)[]], config('constants.ok'));
+                } else {
+                    return response()->json(['status' => 0, 'msg' => __('messages.logoutSuccess'), 'payload' => (object)[]], config('constants.ok'));
+                }
             } else {
                 return response()->json(['status' => 0, 'msg' => __('messages.logoutSuccess'), 'payload' => (object)[]], config('constants.ok'));
             }
-        } else {
-            return response()->json(['status' => 0, 'msg' => __('messages.logoutSuccess'), 'payload' => (object)[]], config('constants.ok'));
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Login User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], config('constants.serverErr'));
         }
-        // } catch (Exception $e) {
-        //     return response()->json(['status' => 0, 'type' => "error", 'title' => "Login User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], config('constants.serverErr'));
-        // }
     }
 
     public function profileUser()
@@ -288,12 +288,12 @@ class AuthApiAppController extends Controller
             $user = Auth::user();
             $data = $this->getProfileInfo($user->id, $this->platform);
             if ($data === false) {
-                return response()->json(['status' => 0, 'type' => "error", 'title' => "Login User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]],  config('constants.errorCode.ok'));
+                return response()->json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.noProfileDataMsg.failed'), 'payload' => (object)[]],  config('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 1, 'type' => "error", 'title' => "Login User", 'msg' => __('messages.loginSuccess'), "payload" => ['tokenType' => 'Bearer', 'token' => $token, 'user' => $data]], config('constants.errorCode.ok'));
+                return response()->json(['status' => 1, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.noProfileDataMsg.success'), "payload" => ['user' => $data]], config('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Login User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], config('constants.serverErr'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], config('constants.serverErr'));
         }
     }
 }

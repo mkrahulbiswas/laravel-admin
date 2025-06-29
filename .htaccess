@@ -1,20 +1,52 @@
 <IfModule mod_rewrite.c>
 
     <IfModule mod_negotiation.c>
-        Options -MultiViews
+        Options -MultiViews -Indexes
     </IfModule>
 
     RewriteEngine On
 
-    RewriteCond %{REQUEST_FILENAME} -d [OR]
-    RewriteCond %{REQUEST_FILENAME} -f
-    RewriteRule ^ ^$1 [N]
+    # Pass Authorization header to PHP
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 
-    RewriteCond %{REQUEST_URI} (\.\w+$) [NC]
-    RewriteRule ^(.*)$ public/$1
+    # Optional: Handle CSRF token header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ server.php
+    # Don't rewrite existing files or directories
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Redirect static file requests (like .css, .js, .png) to /public
+    RewriteCond %{REQUEST_URI} (\.\w+)$
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    # Fallback to server.php (your front controller)
+    RewriteRule ^ server.php [L]
 
 </IfModule>
+
+
+# <IfModule mod_rewrite.c>
+
+#     <IfModule mod_negotiation.c>
+#         Options -MultiViews
+#     </IfModule>
+
+#     RewriteEngine On
+
+#     RewriteCond %{REQUEST_FILENAME} -d [OR]
+#     RewriteCond %{REQUEST_FILENAME} -f
+#     RewriteRule ^ ^$1 [N]
+
+#     RewriteCond %{REQUEST_URI} (\.\w+$) [NC]
+#     RewriteRule ^(.*)$ public/$1
+
+#     RewriteCond %{REQUEST_FILENAME} !-d
+#     RewriteCond %{REQUEST_FILENAME} !-f
+#     RewriteRule ^ server.php
+
+# </IfModule>
