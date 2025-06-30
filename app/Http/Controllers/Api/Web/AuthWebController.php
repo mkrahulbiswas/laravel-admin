@@ -46,7 +46,7 @@ class AuthWebController extends Controller
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'checkUser', 'id' => 0, 'checkBy' => $values['checkBy'], 'platform' => $this->platform]);
             if ($validator->fails()) {
                 $vErrors = $this->getVErrorMessages($validator->errors());
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => 'Validation', 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => 'Validation', 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.validation'));
             } else {
                 $user = User::whereRaw($whereRaw)->first();
                 if ($user == null) {
@@ -125,7 +125,7 @@ class AuthWebController extends Controller
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'verifyUser', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 $vErrors = $this->getVErrorMessages($validator->errors());
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => 'Validation', 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => 'Validation', 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.validation'));
             } else {
                 $user = User::findOrFail($id);
                 if ($user->otp == $values['otp']) {
@@ -178,7 +178,7 @@ class AuthWebController extends Controller
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'registerUser', 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 $vErrors = $this->getVErrorMessages($validator->errors());
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => 'Validation', 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => 'Validation', 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.validation'));
             } else {
                 $user = User::findOrFail($id);
                 if ($user->status == Config::get('constants.status.incomplete')) {
@@ -234,7 +234,7 @@ class AuthWebController extends Controller
             $validator = $this->isValid(['input' => $request->all(), 'for' => 'loginUser', 'checkBy' => $values['checkBy'], 'id' => 0, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 $vErrors = $this->getVErrorMessages($validator->errors());
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => 'Validation', 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.ok'));
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => 'Validation', 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.validation'));
             } else {
                 if ($values['checkBy'] == 'phone') {
                     $credential = ['dialCode' => $values['dialCode'], 'phone' => $values['phone'], 'password' => $values['password']];
@@ -279,6 +279,55 @@ class AuthWebController extends Controller
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Login User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.server'));
+        }
+    }
+
+    public function changePassword(Request $request)
+    {
+        $values = $request->only('oldPassword', 'newPassword', 'confirmPassword');
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'changePassword', 'id' => 0, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                $vErrors = $this->getVErrorMessages($validator->errors());
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => 'Validation', 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.validation'));
+            } else {
+                if (Hash::check($values['oldPassword'], Auth::user()->password)) {
+                    $user = User::findOrFail(Auth::user()->id);
+                    $user->password = Hash::make($values['newPassword']);
+                    if ($user->update()) {
+                        return response()->json(['status' => 1, 'type' => "success", 'title' => "Change Password", 'msg' => __('messages.changeMsg', ['type' => 'Password'])['success'], 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
+                    } else {
+                        return response()->json(['status' => 0, 'type' => "warning", 'title' => "Change Password", 'msg' => __('messages.changeMsg', ['type' => 'Password'])['failed'], 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
+                    }
+                } else {
+                    return response()->json(['status' => 0, 'type' => "warning", 'title' => "Change Password", 'msg' => __('messages.oldPassPinNotMatchMsg', ['type' => 'Password']), 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
+                }
+            }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Change Password", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.server'));
+        }
+    }
+
+    public function updateDeviceToken(Request $request)
+    {
+        $values = $request->only('deviceType', 'deviceToken');
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateDeviceToken', 'id' => 0, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                $vErrors = $this->getVErrorMessages($validator->errors());
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => 'Validation', 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.validation'));
+            } else {
+                $user = User::findOrFail(Auth::user()->id);
+                $user->deviceType = $values['deviceType'];
+                $user->deviceToken = $values['deviceToken'];
+                if ($user->update()) {
+                    return response()->json(['status' => 1, 'type' => "success", 'title' => "Device Token", 'msg' => __('messages.updateMsg.success', ['type' => 'Device token']), 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
+                } else {
+                    return response()->json(['status' => 0, 'type' => "error", 'title' => "Device Token", 'msg' => __('messages.updateMsg.error', ['type' => 'Device token']), 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
+                }
+            }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Device Token", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.server'));
         }
     }
 

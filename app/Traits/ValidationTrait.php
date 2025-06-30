@@ -654,6 +654,13 @@ trait ValidationTrait
                     'deviceToken' => 'required',
                 ];
                 break;
+            case 'changePassword':
+                $rules = [
+                    'oldPassword' => 'required',
+                    'newPassword' => 'min:6|max:20|different:oldPassword|required_with:confirmPassword',
+                    'confirmPassword' => 'min:6|max:20|same:newPassword',
+                ];
+                break;
 
             case 'emailLogin':
             default:
@@ -736,6 +743,13 @@ trait ValidationTrait
                 $rules = [
                     'deviceType' => 'required',
                     'deviceToken' => 'required',
+                ];
+                break;
+            case 'changePassword':
+                $rules = [
+                    'oldPassword' => 'required',
+                    'newPassword' => 'min:6|max:20|different:oldPassword|required_with:confirmPassword',
+                    'confirmPassword' => 'min:6|max:20|same:newPassword',
                 ];
                 break;
 

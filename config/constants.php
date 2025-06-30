@@ -460,7 +460,7 @@ return [
     'errorCode' => [
         'ok' => 200,
         'server' => 500,
-        'validation' => 422,
+        'validation' => 400,
         'block' => 403,
     ],
 
