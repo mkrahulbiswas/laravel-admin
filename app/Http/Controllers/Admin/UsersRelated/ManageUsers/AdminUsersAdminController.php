@@ -284,7 +284,7 @@ class AdminUsersAdminController extends Controller
             }
         } catch (Exception $e) {
             DB::rollback();
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Save", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -353,7 +353,7 @@ class AdminUsersAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update Sub Admin", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update Sub Admin", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -423,7 +423,7 @@ class AdminUsersAdminController extends Controller
             }
         } catch (Exception $e) {
             DB::rollback();
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -432,7 +432,7 @@ class AdminUsersAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -448,7 +448,7 @@ class AdminUsersAdminController extends Controller
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Admin Users'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -457,7 +457,7 @@ class AdminUsersAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -479,7 +479,7 @@ class AdminUsersAdminController extends Controller
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Admin Users'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 }

@@ -648,6 +648,12 @@ trait ValidationTrait
                     $rules['email'] = 'required|email';
                 }
                 break;
+            case 'updateDeviceToken':
+                $rules = [
+                    'deviceType' => 'required',
+                    'deviceToken' => 'required',
+                ];
+                break;
 
             case 'emailLogin':
             default:
@@ -725,6 +731,12 @@ trait ValidationTrait
                 } else if ($data['checkBy'] == 'email') {
                     $rules['email'] = 'required|email';
                 }
+                break;
+            case 'updateDeviceToken':
+                $rules = [
+                    'deviceType' => 'required',
+                    'deviceToken' => 'required',
+                ];
                 break;
 
             case 'login':

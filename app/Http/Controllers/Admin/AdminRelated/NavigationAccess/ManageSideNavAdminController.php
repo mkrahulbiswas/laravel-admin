@@ -181,7 +181,7 @@ class ManageSideNavAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Type", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Type", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -192,7 +192,7 @@ class ManageSideNavAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Nav Type", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Nav Type", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -231,7 +231,7 @@ class ManageSideNavAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Type", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nav Type", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -240,7 +240,7 @@ class ManageSideNavAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -256,7 +256,7 @@ class ManageSideNavAdminController extends Controller
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Nav type'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -265,7 +265,7 @@ class ManageSideNavAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -297,7 +297,7 @@ class ManageSideNavAdminController extends Controller
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Nav type'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -487,7 +487,7 @@ class ManageSideNavAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -498,7 +498,7 @@ class ManageSideNavAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Main nav", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Main nav", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -538,7 +538,7 @@ class ManageSideNavAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -550,7 +550,7 @@ class ManageSideNavAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Main nav", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Main nav", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -597,7 +597,7 @@ class ManageSideNavAdminController extends Controller
                 return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Validation", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['validation']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -606,7 +606,7 @@ class ManageSideNavAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -622,7 +622,7 @@ class ManageSideNavAdminController extends Controller
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Main nav'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -631,7 +631,7 @@ class ManageSideNavAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -668,7 +668,7 @@ class ManageSideNavAdminController extends Controller
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Main nav'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -869,7 +869,7 @@ class ManageSideNavAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -880,7 +880,7 @@ class ManageSideNavAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Sub nav", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Sub nav", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -925,7 +925,7 @@ class ManageSideNavAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -937,7 +937,7 @@ class ManageSideNavAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Sub nav", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Sub nav", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -984,7 +984,7 @@ class ManageSideNavAdminController extends Controller
                 return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Validation", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['validation']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -993,7 +993,7 @@ class ManageSideNavAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -1009,7 +1009,7 @@ class ManageSideNavAdminController extends Controller
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Sub nav'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -1018,7 +1018,7 @@ class ManageSideNavAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -1048,7 +1048,7 @@ class ManageSideNavAdminController extends Controller
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Sub nav'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -1256,7 +1256,7 @@ class ManageSideNavAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nested nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nested nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -1267,7 +1267,7 @@ class ManageSideNavAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Nested nav", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Nested nav", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -1314,7 +1314,7 @@ class ManageSideNavAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nested nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nested nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -1326,7 +1326,7 @@ class ManageSideNavAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Nested nav", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Nested nav", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -1373,7 +1373,7 @@ class ManageSideNavAdminController extends Controller
                 return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Validation", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav access'])['validation']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nested nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nested nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -1382,7 +1382,7 @@ class ManageSideNavAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -1398,7 +1398,7 @@ class ManageSideNavAdminController extends Controller
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Nested nav'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -1407,7 +1407,7 @@ class ManageSideNavAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -1429,7 +1429,7 @@ class ManageSideNavAdminController extends Controller
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Nested nav'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 }

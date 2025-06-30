@@ -113,7 +113,7 @@ class AuthAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -147,7 +147,7 @@ class AuthAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -174,7 +174,7 @@ class AuthAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -280,7 +280,7 @@ class AuthAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -314,7 +314,7 @@ class AuthAdminController extends Controller
             }
         } catch (Exception $e) {
             DB::rollback();
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Update", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -325,7 +325,7 @@ class AuthAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -346,7 +346,7 @@ class AuthAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -358,7 +358,7 @@ class AuthAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -390,7 +390,7 @@ class AuthAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -401,7 +401,7 @@ class AuthAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -422,7 +422,7 @@ class AuthAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -433,7 +433,7 @@ class AuthAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -488,7 +488,7 @@ class AuthAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "OTP", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "OTP", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -499,7 +499,7 @@ class AuthAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -534,7 +534,7 @@ class AuthAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verification", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verification", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -545,7 +545,7 @@ class AuthAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -586,7 +586,7 @@ class AuthAdminController extends Controller
                 return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "OTP", 'msg' => __('messages.otpMsg')['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "OTP", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "OTP", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -597,7 +597,7 @@ class AuthAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -622,7 +622,7 @@ class AuthAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verification", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verification", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -633,7 +633,7 @@ class AuthAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -660,7 +660,7 @@ class AuthAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verification", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verification", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 }

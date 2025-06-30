@@ -107,7 +107,7 @@ class ArrangeSideNavAdminController extends Controller
             }
         } catch (Exception $e) {
             DB::roleBack();
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nested nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Nested nav", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 }

@@ -438,8 +438,12 @@ return [
     'subAdmin' => 2,
 
     //Device Type
-    'android' => 'Android',
-    'ios' => 'Ios',
+    'deviceType' => [
+        'android' => 'ANDROID',
+        'ios' => 'IOS',
+        'web' => 'WEB',
+    ],
+
 
     //Pagination Data Per Page
     'perPage1' => 1,

@@ -4,19 +4,20 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AppUserStatusMiddleware;
 use App\Http\Middleware\SetLocaleMiddleware;
 use App\Http\Middleware\VersionControlMiddleware;
-use App\Http\Controllers\Api\Web\AuthApiWebController;
+use App\Http\Controllers\Api\Web\AuthWebController;
 
 
 Route::middleware([
-    'logSiteVisitByMiddleware:app',
+    'logSiteVisitByMiddleware:web',
     SetLocaleMiddleware::class,
     VersionControlMiddleware::class
 ])->group(function () {
-    Route::controller(AuthApiWebController::class)->prefix('auth')->group(function () {
-        Route::post('check', 'checkUser')->name('app.auth.checkUser');
-        Route::post('verify', 'verifyUser')->name('app.auth.verifyUser');
-        Route::post('register', 'registerUser')->name('app.auth.registerUser');
-        Route::post('login', 'loginUser')->name('app.auth.loginUser');
+    Route::controller(AuthWebController::class)->prefix('auth')->group(function () {
+        Route::post('check', 'checkUser')->name('app.check.user');
+        Route::post('verify', 'verifyUser')->name('app.verify.user');
+        Route::post('register', 'registerUser')->name('app.register.user');
+        Route::post('login', 'loginUser')->name('app.login.user');
+
         Route::get(
             '/un-authenticated',
             function () {
@@ -34,9 +35,9 @@ Route::middleware([
         'auth:sanctum',
         AppUserStatusMiddleware::class,
     ])->group(function () {
-        Route::controller(AuthApiWebController::class)->prefix('auth')->group(function () {
-            Route::get('logout', 'logoutUser')->name('app.auth.logoutUser');
-            Route::get('profile', 'profileUser')->name('app.auth.profileUser');
+        Route::controller(AuthWebController::class)->prefix('auth')->group(function () {
+            Route::get('logout', 'logoutUser')->name('app.logout.user');
+            Route::get('get/profile', 'getProfile')->name('app.get.profile');
         });
     });
 });
