@@ -40,8 +40,9 @@ Route::middleware([
         Route::controller(AuthAppController::class)->prefix('auth')->group(function () {
             Route::get('logout', 'logoutUser')->name('app.logout.user');
             Route::get('get/profile', 'getProfile')->name('app.get.profile');
-            Route::post('change/password', 'changePassword')->name('app.change.password');
-            Route::post('update/device-token', 'updateDeviceToken')->name('app.update.deviceToken');
+            Route::post('update/profile-pic', 'updateProfilePic')->name('app.update.profilePic');
+            Route::patch('change/password', 'changePassword')->name('app.change.password');
+            Route::patch('update/device-token', 'updateDeviceToken')->name('app.update.deviceToken');
         });
     });
 });

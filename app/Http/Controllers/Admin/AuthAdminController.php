@@ -381,7 +381,7 @@ class AuthAdminController extends Controller
                 }
                 if ($adminUsers->update()) {
                     $getFile = FileTrait::getFile([
-                        'fileName' => AdminUsers::where('id', $id)->first()->image,
+                        'fileName' => $adminUsers->image,
                         'storage' => Config::get('constants.storage')['adminUsers']
                     ])['public']['fullPath']['asset'];
                     return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Change", 'data' => ['image' => $getFile], 'msg' => __('messages.changeMsg', ['type' => 'Profile pic'])['success']], Config::get('constants.errorCode.ok'));

@@ -661,6 +661,11 @@ trait ValidationTrait
                     'confirmPassword' => 'min:6|max:20|same:newPassword',
                 ];
                 break;
+            case 'updateProfilePic':
+                $rules = [
+                    'file' => 'image|mimes:jpeg,jpg,png'
+                ];
+                break;
 
             case 'emailLogin':
             default:
@@ -750,6 +755,11 @@ trait ValidationTrait
                     'oldPassword' => 'required',
                     'newPassword' => 'min:6|max:20|different:oldPassword|required_with:confirmPassword',
                     'confirmPassword' => 'min:6|max:20|same:newPassword',
+                ];
+                break;
+            case 'updateProfilePic':
+                $rules = [
+                    'file' => 'image|mimes:jpeg,jpg,png'
                 ];
                 break;
 

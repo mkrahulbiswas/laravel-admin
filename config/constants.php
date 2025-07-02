@@ -21,6 +21,11 @@ return [
             'for' => ['public'],
             'path' => 'media/image/admin/manage_users/admin_users/'
         ],
+        'appUsers' => [
+            'type' => 'appUsers',
+            'for' => ['public'],
+            'path' => 'media/image/admin/manage_users/app_users/'
+        ],
         'bigLogo' => [
             'type' => 'bigLogo',
             'for' => ['public'],

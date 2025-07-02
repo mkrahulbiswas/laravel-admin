@@ -8,11 +8,12 @@ use App\Helpers\CommonHelper;
 
 use App\Models\User;
 
-use App\Mail\resetAuthSendMail;
-use App\Models\VersionControl;
+use App\Mail\ResetAuthSendMail;
+
 use App\Traits\ValidationTrait;
 use App\Traits\ProfileTrait;
 use App\Traits\CommonTrait;
+use app\Traits\FileTrait;
 
 use Exception;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -24,7 +25,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthAppController extends Controller
 {
-    use ValidationTrait, ProfileTrait, CommonTrait;
+    use ValidationTrait, ProfileTrait, CommonTrait, FileTrait;
     public $platform = 'app';
 
 
@@ -89,7 +90,7 @@ class AuthAppController extends Controller
                         'subject' => $replaceVariableWithValue['heading'],
                         'content' => $replaceVariableWithValue['content'],
                     );
-                    Mail::to('biswas.rahul31@gmail.com')->send(new resetAuthSendMail($data));
+                    Mail::to('biswas.rahul31@gmail.com')->send(new ResetAuthSendMail($data));
                 } else {
                     $replaceVariableWithValue = CommonHelper::replaceVariableWithValue([
                         'replaceData' => [
@@ -102,7 +103,7 @@ class AuthAppController extends Controller
                         'subject' => $replaceVariableWithValue['heading'],
                         'content' => $replaceVariableWithValue['content'],
                     );
-                    Mail::to($values['email'])->send(new resetAuthSendMail($data));
+                    Mail::to($values['email'])->send(new ResetAuthSendMail($data));
                 }
                 return response()->json(['status' => 1, 'type' => "success", 'title' => "Check User", 'msg' => __('messages.loginSuccess'), "payload" => ['id' => encrypt($user->id), 'otp' => $otp, 'otpFor' => Config::get('constants.otpFor.register'), 'checkBy' => $values['checkBy'], 'isUserFound' => false]], Config::get('constants.errorCode.ok'));
             }
@@ -331,6 +332,42 @@ class AuthAppController extends Controller
                 return response()->json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.noProfileDataMsg.failed'), 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
             } else {
                 return response()->json(['status' => 1, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.noProfileDataMsg.success'), "payload" => ['data' => $data]], Config::get('constants.errorCode.ok'));
+            }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.server'));
+        }
+    }
+
+    public function updateProfilePic(Request $request)
+    {
+        $file = $request->file('file');
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateProfilePic', 'id' => 0, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'errors' => $validator->errors()], Config::get('constants.errorCode.ok'));
+            } else {
+                $user = User::find(Auth::user()->id);
+                if ($file) {
+                    $uploadFile = $this->uploadFile([
+                        'file' => ['current' => $file, 'previous' => $user->image],
+                        'platform' => $this->platform,
+                        'storage' => Config::get('constants.storage')['appUsers']
+                    ]);
+                    if ($uploadFile['type'] == false) {
+                        return Response()->Json(['status' => 0, 'type' => "error", 'title' => "File Upload", 'msg' => $uploadFile['msg']], Config::get('constants.errorCode.ok'));
+                    } else {
+                        $user->image = $uploadFile['name'];
+                    }
+                }
+                if ($user->update()) {
+                    $getFile = FileTrait::getFile([
+                        'fileName' => $user->image,
+                        'storage' => Config::get('constants.storage')['appUsers']
+                    ])['public']['fullPath']['asset'];
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Change", 'data' => ['image' => $getFile], 'msg' => __('messages.changeMsg', ['type' => 'Profile pic'])['success']], Config::get('constants.errorCode.ok'));
+                } else {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Change", 'msg' => __('messages.changeMsg', ['type' => 'Profile pic'])['failed']], Config::get('constants.errorCode.ok'));
+                }
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Profile", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.server'));
