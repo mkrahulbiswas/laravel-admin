@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\PropertyRelated\PropertyAttributeAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyCategoryAdminController;
 use App\Http\Controllers\Admin\PropertyRelated\PropertyTypeAdminController;
 use App\Http\Controllers\Admin\UsersRelated\ManageUsers\AdminUsersAdminController;
+use App\Http\Controllers\Admin\UsersRelated\ManageUsers\AppUsersAdminController;
 use App\Http\Middleware\CheckAdminMiddleware;
 use App\Http\Middleware\CheckPermissionMiddleware;
 
@@ -244,9 +245,17 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitByMiddle
                     Route::post('admin-users/add/save', 'saveAdminUsers')->name('admin.save.adminUsers');
                     Route::get('admin-users/edit/{id?}', 'editAdminUsers')->name('admin.edit.adminUsers');
                     Route::post('admin-users/edit/update', 'updateAdminUsers')->name('admin.update.adminUsers');
-                    // Route::post('admin-users/edit/update', 'updateAdminUsers')->name('admin.update.adminUsers');
+                    Route::get('admin-users/detail/{id?}', 'detailAdminUsers')->name('admin.detail.adminUsers');
                     Route::patch('admin-users/status/{id?}', 'statusAdminUsers')->name('admin.status.adminUsers');
                     Route::delete('admin-users/delete/{id?}', 'deleteAdminUsers')->name('admin.delete.adminUsers');
+                });
+
+                Route::controller(AppUsersAdminController::class)->group(function () {
+                    Route::get('app-users', 'showAppUsers')->name('admin.show.appUsers');
+                    Route::get('app-users/ajaxGetList', 'getAppUsers')->name('admin.get.appUsers');
+                    Route::get('app-users/detail/{id?}', 'detailAppUsers')->name('admin.detail.appUsers');
+                    Route::patch('app-users/status/{id?}', 'statusAppUsers')->name('admin.status.appUsers');
+                    Route::delete('app-users/delete/{id?}', 'deleteAppUsers')->name('admin.delete.appUsers');
                 });
             });
         });

@@ -187,6 +187,43 @@
                     }
                 }
 
+                .detailElementMain {
+                    &:hover {
+                        .cardBody {
+                            background-color: red;
+                        }
+                    }
+
+                    .detailElementSub {
+                        .cardForm {
+                            height: 100%;
+                            margin-bottom: 0;
+                        }
+
+                        .profile-foreground {
+                            margin-right: -1.00rem;
+                            margin-left: -1.00rem;
+                            margin-top: -17px !important;
+
+                            .profile-wid-bg {
+                                height: 280px;
+                            }
+
+                            @media (max-width:991px) {
+                                .profile-wid-bg {
+                                    height: 282px
+                                }
+                            }
+
+                            @media (max-width:448px) {
+                                .profile-wid-bg {
+                                    height: 355px
+                                }
+                            }
+                        }
+                    }
+                }
+
                 .tdContentMain {
                     .tdContentSub {
                         background-color: var(--vz-td-contentSub-bg);

@@ -1,22 +1,32 @@
 @extends('admin.layouts.app')
 @section('content')
     <div class="row">
-        <div class="col-sm-12">
-            <div class="btn-group pull-right m-t-15">
-                {{-- <a href="{{ route('admin.show.usersAdmin') }}" class="btn btn-info waves-effect waves-light">Back</a> --}}
-                <a href="#" onClick="javascript:window.close('','_parent','');" class="btn closeBtn waves-effect waves-light m-l-15"><i class="ti-close"></i> Close</a>
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <div class="mb-3 mb-sm-0">
+                    <h4>Admin Users Detail</h4>
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Users</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.show.adminUsers') }}">Admin Users</a></li>
+                            <li class="breadcrumb-item active">Admin Users Detail</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="d-sm-flex align-items-center justify-content-between">
+                    @if ($permission['back']['permission'] == true)
+                        <button type="button" onClick="javascript:window.close('','_parent','');" class="btn btn-danger btn-label waves-effect waves-light">
+                            <i class="las la-window-close label-icon align-middle fs-16 me-2"></i>
+                            <span>Close</span>
+                        </button>
+                    @endif
+                </div>
             </div>
-            <h4 class="page-title">Admin Details</h4>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item active">User's</li>
-                <li class="breadcrumb-item active"><a href="{{ route('admin.show.usersAdmin') }}">Admins</a></li>
-                <li class="breadcrumb-item active">Admin Details</li>
-            </ol>
         </div>
     </div>
 
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
                 <div class="row">
@@ -88,5 +98,5 @@
 
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection

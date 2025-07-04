@@ -15135,12 +15135,30 @@ span.flatpickr-weekday {
     left: 0;
     right: 0;
     top: 0;
-    height: 320px
+    height: 290px
 }
 
-@media (max-width:575.98px) {
+@media (max-width:1121px) {
     .profile-wid-bg {
-        height: 445px
+        height: 312px
+    }
+}
+
+@media (max-width:991px) {
+    .profile-wid-bg {
+        height: 293px
+    }
+}
+
+@media (max-width:661px) {
+    .profile-wid-bg {
+        height: 312px
+    }
+}
+
+@media (max-width:448px) {
+    .profile-wid-bg {
+        height: 400px
     }
 }
 

@@ -305,6 +305,9 @@ return [
             'adminUsers' => [
                 'type' => 'adminUsers'
             ],
+            'appUsers' => [
+                'type' => 'appUsers'
+            ],
         ],
         'helperCommon' => [
             'get' => [
@@ -348,6 +351,7 @@ return [
             'child' => 'hasChild',
             'permission' => 'hasPermission',
             'variable' => 'variable',
+            'userType' => 'userType',
         ],
     ],
 

@@ -16,6 +16,8 @@ return [
     'otpNotVerifiedMsg' => 'Its look you are not verified OTP but try to change something.',
     'checkUserInvalidInputMsg' => 'Note you can not send both email & phone empty or filled. You have to give any one of them.',
     'alreadyUserCreateMsg' => 'User is already created, please login.',
+    'inactiveUserMsg' => 'You account is blocked.',
+    'incompleteUserMsg' => 'You account is not complete yet for login.',
 
     'fileUploadMsg' => [
         'fileDelete' => [

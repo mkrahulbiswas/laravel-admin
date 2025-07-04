@@ -1086,14 +1086,54 @@
                 id.find('#name').val(data.name);
                 id.find('#icon').val(data.icon);
                 id.find('#description').val(data.description);
-            } else {
-                id = $('#con-info-modal');
+            } else {}
+        });
+
+
+        //---- ( App Users Status, Edit, Detail ) ----//
+        $('body').delegate('#manageUsers-appUsers .actionDatatable', 'click', function () {
+            var type = $(this).attr('data-type'),
+                action = $(this).attr('data-action'),
+                targetTableId = $('#manageUsers-appUsers'),
+                data = '';
+
+            if (type == 'status') {
+                window.commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'patch',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action the status wil change!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'delete') {
+                window.commonMethod({
+                    type: 'common',
+                    action: action,
+                    method: 'delete',
+                    targetTableId: targetTableId,
+                    swalData: {
+                        title: 'Are you sure?',
+                        text: 'By this action data will be deleted permanently!',
+                        icon: 'warning',
+                        confirmButtonText: 'Yes, do it!',
+                        cancelButtonText: 'No, cancel',
+                    }
+                })
+            } else if (type == 'edit') {
+                id = $('#con-edit-modal');
                 id.modal('show');
                 data = JSON.parse($(this).attr('data-array'));
-                id.find('#name').text(data.name);
-                id.find('#icon').html('<i class="' + data.icon + '"></i>');
-                id.find('#description').text(data.description);
-            }
+                id.find('#id').val(data.id);
+                id.find('#name').val(data.name);
+                id.find('#icon').val(data.icon);
+                id.find('#description').val(data.description);
+            } else {}
         });
         /*--========================= ( Manage Users END ) =========================--*/
 

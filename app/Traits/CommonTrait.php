@@ -575,6 +575,20 @@ trait CommonTrait
                         'type' => $temp['type'],
                     ];
                 }
+                if ($temp['type'] == Config::get('constants.typeCheck.customizeInText.userType')) {
+                    if ($temp['value'] == Config::get('constants.userType.admin')) {
+                        $custom = '<span class="badge bg-info">Admin</span>';
+                    } elseif ($temp['value'] == Config::get('constants.userType.agent')) {
+                        $custom = '<span class="badge bg-primary">Agent</span>';
+                    } else {
+                        $custom = '<span class="badge bg-primary bg-opacity-50">User</span>';
+                    }
+                    $return[Config::get('constants.typeCheck.customizeInText.userType')] = [
+                        'custom' => $custom,
+                        'raw' => $temp['value'],
+                        'type' => $temp['type'],
+                    ];
+                }
             }
             return $return;
         } catch (Exception $e) {

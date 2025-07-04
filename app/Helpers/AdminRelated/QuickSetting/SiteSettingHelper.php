@@ -125,7 +125,7 @@ class SiteSettingHelper
                                 'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $logo->uniqueId]),
                                 'customizeInText' => CommonTrait::customizeInText([
                                     [
-                                        'type' => 'default',
+                                        'type' => Config::get('constants.typeCheck.customizeInText.default'),
                                         'value' => $logo->default
                                     ],
                                 ]),

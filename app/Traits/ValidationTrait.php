@@ -9,6 +9,7 @@ use App\Models\PropertyRelated\PropertyType;
 use App\Models\PropertyRelated\ManageBroad\BroadType;
 use App\Models\PropertyRelated\PropertyCategory\ManageCategory;
 use App\Models\AdminRelated\QuickSetting\CustomizedAlert\AlertType;
+use App\Models\User;
 use App\Models\UsersRelated\ManageUsers\AdminUsers;
 
 use App\Rules\AdminRelated\NavigationAccess\ManageSideNavRules;
@@ -627,8 +628,8 @@ trait ValidationTrait
                     'id' => 'required',
                     'name' => 'required|max:80',
                     'dialCode' => 'required|integer',
-                    'phone' => 'required|integer',
-                    'email' => 'required|max:150',
+                    'phone' => 'required|integer|unique:' . User::class . ',phone,' . $data['id'],
+                    'email' => 'required|max:150|unique:' . User::class . ',email,' . $data['id'],
                     'password' => 'required|min:6',
                     'confirmPassword' => 'required|same:password|min:6',
                     'userType' => 'required',
@@ -723,8 +724,8 @@ trait ValidationTrait
                     'id' => 'required',
                     'name' => 'required|max:80',
                     'dialCode' => 'required|integer',
-                    'phone' => 'required|integer',
-                    'email' => 'required|max:150',
+                    'phone' => 'required|integer|unique:' . User::class . ',phone,' . $data['id'],
+                    'email' => 'required|max:150|unique:' . User::class . ',email,' . $data['id'],
                     'password' => 'required|min:6',
                     'confirmPassword' => 'required|same:password|min:6',
                     'userType' => 'required',

@@ -52,10 +52,10 @@ class AdminUsersAdminController extends Controller
                         ],
                     ],
                 ],
-            ]);
+            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $data = [
-                'mainRole' => $mainRole[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')],
+                'mainRole' => $mainRole,
             ];
 
             return view('admin.manage_users.admin_users.admin_users_list', ['data' => $data]);
@@ -76,6 +76,8 @@ class AdminUsersAdminController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => $request->status,
+                            'mainRoleId' => $request->mainRole,
+                            'subRoleId' => $request->subRole,
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -93,6 +95,14 @@ class AdminUsersAdminController extends Controller
 
             return Datatables::of($adminUsers)
                 ->addIndexColumn()
+                ->addColumn('role', function ($data) {
+                    if ($data['subRole'] == []) {
+                        $role = $data['mainRole']['name'];
+                    } else {
+                        $role = $data['subRole']['name'];
+                    }
+                    return $role;
+                })
                 ->addColumn('uniqueId', function ($data) {
                     $uniqueId = $data['uniqueId']['raw'];
                     return $uniqueId;
@@ -128,23 +138,23 @@ class AdminUsersAdminController extends Controller
                         $delete = '';
                     }
 
-                    if ($getPrivilege['info']['permission'] == true) {
-                        $info = '<a href="JavaScript:void(0);" data-type="info" data-array=\'' . json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) . '\' title="Info" class="btn btn-sm waves-effect waves-light actionDatatable"><i class="las la-info-circle"></i></a>';
+                    if ($getPrivilege['edit']['permission'] == true) {
+                        $detail = '<a href="' . route('admin.detail.adminUsers') . '/' . $data['id'] . '" target="_blank" data-type="edit" class="btn btn-sm waves-effect waves-light actionDatatable" title="Detail"><i class="mdi mdi-eye"></i></a>';
                     } else {
-                        $info = '';
+                        $detail = '';
                     }
 
                     return $this->dynamicHtmlPurse([
                         [
                             'type' => 'dtAction',
                             'data' => [
-                                'primary' => [$status, $edit, $delete, $info],
+                                'primary' => [$status, $edit, $delete, $detail],
                                 'secondary' => [],
                             ]
                         ]
                     ])['dtAction']['custom'];
                 })
-                ->rawColumns(['uniqueId', 'status', 'image', 'action'])
+                ->rawColumns(['uniqueId', 'status', 'image', 'role', 'action'])
                 ->make(true);
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong.');
@@ -424,6 +434,63 @@ class AdminUsersAdminController extends Controller
         } catch (Exception $e) {
             DB::rollback();
             return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Update", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
+        }
+    }
+
+    public function detailAdminUsers($id)
+    {
+        try {
+            $mainRole = ManageRoleHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status')['active'],
+                            'uniqueId' => Config::get('constants.superAdminCheck')['mainRole'],
+                        ],
+                    ],
+                ],
+            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+
+            $adminUsers = ManageUsersHelper::getDetail([
+                [
+                    'getDetail' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                        'for' => Config::get('constants.typeCheck.manageUsers.adminUsers.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'id' => $id
+                    ]
+                ],
+            ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+
+            $subRole = ManageRoleHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
+                        'for' => Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status')['active'],
+                            'mainRoleId' => $adminUsers['mainRole']['id']
+                        ],
+                    ],
+                ],
+            ])[Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.subRole.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+
+            $data = [
+                'mainRole' => $mainRole,
+                'subRole' => $subRole,
+                'adminUsers' => $adminUsers,
+            ];
+
+            return view('admin.manage_users.admin_users.admin_users_detail', ['data' => $data]);
+        } catch (DecryptException $e) {
+            return redirect()->back()->with('error', 'Something went wrong.');
         }
     }
 

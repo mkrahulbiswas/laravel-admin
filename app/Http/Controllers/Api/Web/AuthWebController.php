@@ -58,6 +58,15 @@ class AuthWebController extends Controller
                         $user->email = $values['email'];
                     }
                     $user->otp = $otp;
+                    $user->uniqueId = $this->generateYourChoice([
+                        [
+                            'preString' => 'APU',
+                            'length' => 6,
+                            'model' => User::class,
+                            'field' => '',
+                            'type' => Config::get('constants.generateType.uniqueId')
+                        ]
+                    ])[Config::get('constants.generateType.uniqueId')]['result'];
                     $user->otpFor = Config::get('constants.otpFor.register');
                     $user->status = Config::get('constants.status.incomplete');
                     if ($user->save()) {
@@ -175,7 +184,7 @@ class AuthWebController extends Controller
         }
 
         try {
-            $validator = $this->isValid(['input' => $request->all(), 'for' => 'registerUser', 'id' => 0, 'platform' => $this->platform]);
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'registerUser', 'id' => $id, 'platform' => $this->platform]);
             if ($validator->fails()) {
                 $vErrors = $this->getVErrorMessages($validator->errors());
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => 'Validation', 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.validation'));
@@ -238,25 +247,33 @@ class AuthWebController extends Controller
             } else {
                 if ($values['checkBy'] == 'phone') {
                     $credential = ['dialCode' => $values['dialCode'], 'phone' => $values['phone'], 'password' => $values['password']];
+                    $user = User::where('dialCode', $values['dialCode'])->where('phone', $values['phone'])->first();
                 } else {
                     $credential = ['email' => $values['email'], 'password' => $values['password']];
+                    $user = User::where('email', $values['email'])->first();
                 }
-                if (Auth::attempt($credential)) {
-                    $user = Auth::user();
-                    $user = User::findOrFail($user->id);
-                    $token = $user->createToken($user->userType . $user->id)->plainTextToken;
-                    if ($token) {
-                        $data = $this->getProfileInfo($user->id, $this->platform);
-                        if ($data === false) {
-                            return response()->json(['status' => 0, 'type' => "error", 'title' => "Login User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
+                if ($user->status == Config::get('constants.status.inactive')) {
+                    return response()->json(['status' => 0, 'type' => "warning", 'title' => "Login User", 'msg' => __('messages.inactiveUserMsg'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
+                } else if ($user->status == Config::get('constants.status.incomplete')) {
+                    return response()->json(['status' => 0, 'type' => "warning", 'title' => "Login User", 'msg' => __('messages.incompleteUserMsg'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
+                } else {
+                    if (Auth::attempt($credential)) {
+                        $user = Auth::user();
+                        $user = User::findOrFail($user->id);
+                        $token = $user->createToken($user->userType . $user->id)->plainTextToken;
+                        if ($token) {
+                            $data = $this->getProfileInfo($user->id, $this->platform);
+                            if ($data === false) {
+                                return response()->json(['status' => 0, 'type' => "error", 'title' => "Login User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
+                            } else {
+                                return response()->json(['status' => 1, 'type' => "error", 'title' => "Login User", 'msg' => __('messages.loginSuccess'), "payload" => ['tokenType' => 'Bearer', 'token' => $token, 'user' => $data]], Config::get('constants.errorCode.ok'));
+                            }
                         } else {
-                            return response()->json(['status' => 1, 'type' => "error", 'title' => "Login User", 'msg' => __('messages.loginSuccess'), "payload" => ['tokenType' => 'Bearer', 'token' => $token, 'user' => $data]], Config::get('constants.errorCode.ok'));
+                            return response()->json(['status' => 0, 'type' => "warning", 'title' => "Login User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
                         }
                     } else {
-                        return response()->json(['status' => 0, 'type' => "warning", 'title' => "Login User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
+                        return response()->json(['status' => 0, 'type' => "warning", 'title' => "Login User", 'msg' => __('messages.loginErr'), 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
                     }
-                } else {
-                    return response()->json(['status' => 0, 'type' => "warning", 'title' => "Login User", 'msg' => __('messages.loginErr'), 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
                 }
             }
         } catch (Exception $e) {

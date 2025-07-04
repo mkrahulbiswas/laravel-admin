@@ -965,7 +965,7 @@ class ManageSideNavHelper
                             'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $navType->uniqueId]),
                             'customizeInText' => CommonTrait::customizeInText([
                                 [
-                                    'type' => 'status',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
                                     'value' => $navType->status
                                 ]
                             ]),
@@ -1008,15 +1008,15 @@ class ManageSideNavHelper
                             'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $mainNav->uniqueId]),
                             'customizeInText' => CommonTrait::customizeInText([
                                 [
-                                    'type' => 'status',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
                                     'value' => $mainNav->status
                                 ],
                                 [
-                                    'type' => 'access',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.access'),
                                     'value' => json_decode($mainNav->access, true)
                                 ],
                                 [
-                                    'type' => 'hasChild',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.child'),
                                     'value' => $hasSubNav
                                 ]
                             ]),
@@ -1040,15 +1040,15 @@ class ManageSideNavHelper
                             'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $mainNav->uniqueId]),
                             'customizeInText' => CommonTrait::customizeInText([
                                 [
-                                    'type' => 'status',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
                                     'value' => $mainNav->status
                                 ],
                                 [
-                                    'type' => 'access',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.access'),
                                     'value' => json_decode($mainNav->access, true)
                                 ],
                                 [
-                                    'type' => 'hasChild',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.child'),
                                     'value' => $hasSubNav
                                 ]
                             ]),
@@ -1105,15 +1105,15 @@ class ManageSideNavHelper
                             'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $subNav->uniqueId]),
                             'customizeInText' => CommonTrait::customizeInText([
                                 [
-                                    'type' => 'status',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
                                     'value' => $subNav->status
                                 ],
                                 [
-                                    'type' => 'access',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.access'),
                                     'value' => json_decode($subNav->access, true)
                                 ],
                                 [
-                                    'type' => 'hasChild',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.child'),
                                     'value' => $hasNestedNav
                                 ]
                             ]),
@@ -1137,15 +1137,15 @@ class ManageSideNavHelper
                             'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $subNav->uniqueId]),
                             'customizeInText' => CommonTrait::customizeInText([
                                 [
-                                    'type' => 'status',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
                                     'value' => $subNav->status
                                 ],
                                 [
-                                    'type' => 'access',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.access'),
                                     'value' => json_decode($subNav->access, true)
                                 ],
                                 [
-                                    'type' => 'hasChild',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.child'),
                                     'value' => $hasNestedNav
                                 ]
                             ]),
@@ -1212,11 +1212,11 @@ class ManageSideNavHelper
                             'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $nestedNav->uniqueId]),
                             'customizeInText' => CommonTrait::customizeInText([
                                 [
-                                    'type' => 'status',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
                                     'value' => $nestedNav->status
                                 ],
                                 [
-                                    'type' => 'access',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.access'),
                                     'value' => json_decode($nestedNav->access, true)
                                 ]
                             ]),
@@ -1236,11 +1236,11 @@ class ManageSideNavHelper
                             'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $nestedNav->uniqueId]),
                             'customizeInText' => CommonTrait::customizeInText([
                                 [
-                                    'type' => 'status',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
                                     'value' => $nestedNav->status
                                 ],
                                 [
-                                    'type' => 'access',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.access'),
                                     'value' => json_decode($nestedNav->access, true)
                                 ]
                             ]),
