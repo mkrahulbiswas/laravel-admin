@@ -20,6 +20,11 @@ Route::middleware([
         Route::post('verify', 'verifyUser')->name('app.verify.user');
         Route::post('register', 'registerUser')->name('app.register.user');
         Route::post('login', 'loginUser')->name('app.login.user');
+        Route::prefix('reset')->group(function () {
+            Route::post('send-otp', 'resetSendOtp')->name('app.reset.sendOtp');
+            Route::post('verify-otp', 'resetVerifyOtp')->name('app.reset.verifyOtp');
+            Route::patch('change-password', 'resetChangePassword')->name('app.reset.changePassword');
+        });
         Route::get(
             '/un-authenticated',
             function () {

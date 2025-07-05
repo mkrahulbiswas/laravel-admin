@@ -485,7 +485,7 @@ class AdminUsersAdminController extends Controller
             $data = [
                 'mainRole' => $mainRole,
                 'subRole' => $subRole,
-                'adminUsers' => $adminUsers,
+                'detail' => $adminUsers,
             ];
 
             return view('admin.manage_users.admin_users.admin_users_detail', ['data' => $data]);

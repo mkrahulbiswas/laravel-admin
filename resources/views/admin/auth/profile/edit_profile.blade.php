@@ -378,7 +378,12 @@
                                                         <div class="form-element col-10">
                                                             <label for="otp" class="form-label">Please Put Your OTP <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                             <div class="form-icon set-validation">
-                                                                <input type="text" name="otp" class="form-control form-control-icon" id="otp" placeholder="Your OTP" value="">
+                                                                <div class="input-group">
+                                                                    <input type="text" name="otp" class="form-control form-control-icon" id="otp" placeholder="Your OTP" value="">
+                                                                    <button type="button" class="btn btn-light btn-icon waves-effect waves-light border-start-0 border-secondary-subtle changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="email" title="Resend new OTP">
+                                                                        <i class="mdi mdi-restore"></i>
+                                                                    </button>
+                                                                </div>
                                                                 <i class="bx bx-message-edit"></i>
                                                             </div>
                                                             <div class="validation-error" id="otpErr"></div>
@@ -556,7 +561,12 @@
                                                         <div class="form-element col-10">
                                                             <label for="otp" class="form-label">Please Put Your OTP <span class="text-danger">{{ __('messages.requiredFiend') }}</span></label>
                                                             <div class="form-icon set-validation">
-                                                                <input type="text" name="otp" class="form-control form-control-icon" id="otp" placeholder="Your OTP" value="">
+                                                                <div class="input-group">
+                                                                    <input type="text" name="otp" class="form-control form-control-icon" id="otp" placeholder="Your OTP" value="">
+                                                                    <button type="button" class="btn btn-light btn-icon waves-effect waves-light border-start-0 border-secondary-subtle changeModal" data-bs-toggle="modal" data-bs-target="#con-change-modal" data-type="email" title="Resend new OTP">
+                                                                        <i class="mdi mdi-restore"></i>
+                                                                    </button>
+                                                                </div>
                                                                 <i class="bx bx-message-edit"></i>
                                                             </div>
                                                             <div class="validation-error" id="otpErr"></div>

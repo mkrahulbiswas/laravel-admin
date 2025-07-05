@@ -596,11 +596,11 @@ trait ValidationTrait
         $messages = [];
         switch ($data['for']) {
             case 'checkUser':
-                if ($data['checkBy'] == 'phone') {
+                if ($data['input']['checkBy'] == 'phone') {
                     $rules = [
                         'phone' => 'required|digits:10',
                     ];
-                } else if ($data['checkBy'] == 'email') {
+                } else if ($data['input']['checkBy'] == 'email') {
                     $rules = [
                         'email' => 'required|email',
                     ];
@@ -638,15 +638,18 @@ trait ValidationTrait
                 break;
 
             case 'loginUser':
-                $rules = [
-                    'password' => 'required|min:6',
-                    'checkBy' => 'required',
-                ];
-                if ($data['checkBy'] == 'phone') {
-                    $rules['dialCode'] = 'required|integer';
-                    $rules['phone'] = 'required|integer';
-                } else if ($data['checkBy'] == 'email') {
-                    $rules['email'] = 'required|email';
+                if ($data['input']['checkBy'] == '') {
+                    $rules = [
+                        'password' => 'required|min:6',
+                        'checkBy' => 'required',
+                    ];
+                } else {
+                    if ($data['input']['checkBy'] == 'phone') {
+                        $rules['dialCode'] = 'required|integer';
+                        $rules['phone'] = 'required|integer';
+                    } else if ($data['input']['checkBy'] == 'email') {
+                        $rules['email'] = 'required|email';
+                    }
                 }
                 break;
             case 'updateDeviceToken':
@@ -665,6 +668,33 @@ trait ValidationTrait
             case 'updateProfilePic':
                 $rules = [
                     'file' => 'image|mimes:jpeg,jpg,png'
+                ];
+                break;
+            case 'resetSendOtp':
+                if ($data['input']['checkBy'] == '') {
+                    $rules = [
+                        'checkBy' => 'required',
+                    ];
+                } else {
+                    if ($data['input']['checkBy'] == 'phone') {
+                        $rules['dialCode'] = 'required|integer';
+                        $rules['phone'] = 'required|integer';
+                    } else if ($data['input']['checkBy'] == 'email') {
+                        $rules['email'] = 'required|email';
+                    }
+                }
+                break;
+            case 'resetVerifyOtp':
+                $rules = [
+                    'otp' => 'required|digits:6',
+                    'id' => 'required',
+                ];
+                break;
+            case 'resetChangePassword':
+                $rules = [
+                    'password' => 'min:6|max:20|required_with:confirmPassword',
+                    'confirmPassword' => 'min:6|max:20|same:password',
+                    'id' => 'required',
                 ];
                 break;
 
@@ -692,11 +722,11 @@ trait ValidationTrait
 
         switch ($data['for']) {
             case 'checkUser':
-                if ($data['checkBy'] == 'phone') {
+                if ($data['input']['checkBy'] == 'phone') {
                     $rules = [
                         'phone' => 'required|digits:10',
                     ];
-                } else if ($data['checkBy'] == 'email') {
+                } else if ($data['input']['checkBy'] == 'email') {
                     $rules = [
                         'email' => 'required|email',
                     ];
@@ -734,15 +764,18 @@ trait ValidationTrait
                 break;
 
             case 'loginUser':
-                $rules = [
-                    'password' => 'required|min:6',
-                    'checkBy' => 'required',
-                ];
-                if ($data['checkBy'] == 'phone') {
-                    $rules['dialCode'] = 'required|integer';
-                    $rules['phone'] = 'required|integer';
-                } else if ($data['checkBy'] == 'email') {
-                    $rules['email'] = 'required|email';
+                if ($data['input']['checkBy'] == '') {
+                    $rules = [
+                        'password' => 'required|min:6',
+                        'checkBy' => 'required',
+                    ];
+                } else {
+                    if ($data['input']['checkBy'] == 'phone') {
+                        $rules['dialCode'] = 'required|integer';
+                        $rules['phone'] = 'required|integer';
+                    } else if ($data['input']['checkBy'] == 'email') {
+                        $rules['email'] = 'required|email';
+                    }
                 }
                 break;
             case 'updateDeviceToken':
@@ -761,6 +794,33 @@ trait ValidationTrait
             case 'updateProfilePic':
                 $rules = [
                     'file' => 'image|mimes:jpeg,jpg,png'
+                ];
+                break;
+            case 'resetSendOtp':
+                if ($data['input']['checkBy'] == '') {
+                    $rules = [
+                        'checkBy' => 'required',
+                    ];
+                } else {
+                    if ($data['input']['checkBy'] == 'phone') {
+                        $rules['dialCode'] = 'required|integer';
+                        $rules['phone'] = 'required|integer';
+                    } else if ($data['input']['checkBy'] == 'email') {
+                        $rules['email'] = 'required|email';
+                    }
+                }
+                break;
+            case 'resetVerifyOtp':
+                $rules = [
+                    'otp' => 'required|digits:6',
+                    'id' => 'required',
+                ];
+                break;
+            case 'resetChangePassword':
+                $rules = [
+                    'password' => 'min:6|max:20|required_with:confirmPassword',
+                    'confirmPassword' => 'min:6|max:20|same:password',
+                    'id' => 'required',
                 ];
                 break;
 

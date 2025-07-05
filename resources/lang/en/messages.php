@@ -9,7 +9,7 @@ return [
     'serverErrMsg' => 'Something went wrong.',
     'successMsg' => 'Success.',
     'appVersionNotMatchMsg' => 'The app version is not match, please update the app.',
-    'noDataFound' => 'Oops!! No data found',
+    'noDataFoundMsg' => 'Oops!! No :type found',
     'oldPassPinNotMatchMsg' => 'Oops!! the old :type is not matched, please try again.',
     'otpNotMatchMsg' => 'Oops!! the provided otp is not matched, please check again.',
     'otpNotTypeMsg' => 'Oops!! its looks like you are trying to change other type of action.',
@@ -18,7 +18,6 @@ return [
     'alreadyUserCreateMsg' => 'User is already created, please login.',
     'inactiveUserMsg' => 'You account is blocked.',
     'incompleteUserMsg' => 'You account is not complete yet for login.',
-
     'fileUploadMsg' => [
         'fileDelete' => [
             'success' => 'Successfully file deleted.',
@@ -41,7 +40,6 @@ return [
             'failed' => 'Sorry, there no file found in :type storage folder in path of ":path"',
         ]
     ],
-
     'notAllowMsg' => 'You cannot create sub role by using super admin.',
     'saveMsg' => [
         'success' => ':type successfully saved.',
@@ -100,11 +98,9 @@ return [
         'success' => 'Successfully profile data fetched.',
         'failed' => 'No profile data found.',
     ],
-
     'registerSuccess' => 'Successfully registered, just need to verify your OTP.',
     'loginSuccess' => 'Successfully logged in.',
     'logoutSuccess' => 'Successfully logged out.',
     'unauthenticatedMsg' => 'You are not authorized. Please login with you credential to get access.',
-
     'requiredFiend' => '*',
 ];

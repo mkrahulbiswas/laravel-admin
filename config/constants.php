@@ -421,6 +421,7 @@ return [
     'otpFor' => [
         'login' => 'LOGIN',
         'register' => 'REGISTER',
+        'resetPass' => 'RESET PASSWORD',
     ],
 
     //--User Type
