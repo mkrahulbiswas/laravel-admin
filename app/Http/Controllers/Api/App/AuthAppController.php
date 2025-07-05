@@ -458,28 +458,28 @@ class AuthAppController extends Controller
     public function resetVerifyOtp(Request $request)
     {
         $values = $request->only('otp', 'id');
-        // try {
-        $validator = $this->isValid(['input' => $request->all(), 'for' => 'resetVerifyOtp', 'id' => 0, 'platform' => $this->platform]);
-        if ($validator->fails()) {
-            $vErrors = $this->getVErrorMessages($validator->errors());
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.ok'));
-        } else {
-            $user = User::findOrFail(decrypt($values['id']));
-            if ($user->otp == $values['otp']) {
-                $user->otp = null;
-                $user->otpFor = 'NA';
-                if ($user->update()) {
-                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Verify OTP", 'msg' => __('messages.otpVerifyMsg')['success'], 'payload' => ['id' => $values['id']]], Config::get('constants.errorCode.ok'));
-                } else {
-                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verify OTP", 'msg' => __('messages.otpVerifyMsg')['failed'], 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
-                }
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'resetVerifyOtp', 'id' => 0, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                $vErrors = $this->getVErrorMessages($validator->errors());
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.ok'));
             } else {
-                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Verify OTP", 'msg' => __('messages.otpVerifyMsg.failed'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
+                $user = User::findOrFail(decrypt($values['id']));
+                if ($user->otp == $values['otp']) {
+                    $user->otp = null;
+                    $user->otpFor = 'NA';
+                    if ($user->update()) {
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Verify OTP", 'msg' => __('messages.otpVerifyMsg')['success'], 'payload' => ['id' => $values['id']]], Config::get('constants.errorCode.ok'));
+                    } else {
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verify OTP", 'msg' => __('messages.otpVerifyMsg')['failed'], 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
+                    }
+                } else {
+                    return response()->json(['status' => 0, 'type' => "warning", 'title' => "Verify OTP", 'msg' => __('messages.otpVerifyMsg.failed'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
+                }
             }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Verify OTP", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.server'));
         }
-        // } catch (Exception $e) {
-        //     return response()->json(['status' => 0, 'type' => "error", 'title' => "Verify OTP", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.server'));
-        // }
     }
 
     public function resetChangePassword(Request $request)
