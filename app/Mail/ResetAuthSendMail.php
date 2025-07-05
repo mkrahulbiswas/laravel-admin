@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Headers;
 use Illuminate\Queue\SerializesModels;
 
-class resetAuthSendMail extends Mailable
+class ResetAuthSendMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $data;

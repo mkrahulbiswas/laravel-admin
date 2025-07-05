@@ -4,12 +4,12 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <div class="mb-3 mb-sm-0">
-                    <h4>Admin Users Detail</h4>
+                    <h4>App Users Detail</h4>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Manage Users</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('admin.show.adminUsers') }}">Admin Users</a></li>
-                            <li class="breadcrumb-item active">Admin Users Detail</li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.show.appUsers') }}">App Users</a></li>
+                            <li class="breadcrumb-item active">App Users Detail</li>
                         </ol>
                     </div>
                 </div>
@@ -24,7 +24,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="row main-page-content">
         <div class="col-lg-12">
@@ -57,9 +56,9 @@
                                         <div class="col">
                                             <div class="p-2">
                                                 <h3 class="text-white mb-1">{{ $data['detail']['name'] }}</h3>
-                                                <p class="text-white text-opacity-75">{{ $data['detail']['subRole'] == [] ? $data['detail']['mainRole']['name'] : $data['detail']['subRole']['name'] }}</p>
+                                                <p class="text-white text-opacity-75">{{ $data['detail']['customizeInText']['userType']['raw'] }}</p>
                                                 <div class="hstack text-white-50 gap-1">
-                                                    <div class="me-2"><i class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>{{ $data['detail']['address'] }}, {{ $data['detail']['state'] }}, {{ $data['detail']['country'] }}, {{ $data['detail']['pinCode'] }}</div>
+                                                    {{-- <div class="me-2"><i class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>{{ $data['detail']['address'] }}, {{ $data['detail']['state'] }}, {{ $data['detail']['country'] }}, {{ $data['detail']['pinCode'] }}</div> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -170,7 +169,7 @@
                                                             <div class="card">
                                                                 <div class="card-body">
                                                                     <h5 class="card-title mb-1">About myself</h5>
-                                                                    <p>{!! $data['detail']['about'] !!}</p>
+                                                                    {{-- <p>{!! $data['detail']['about'] !!}</p> --}}
                                                                     <div class="row">
                                                                         <div class="col-6 col-md-4">
                                                                             <div class="d-flex mt-4">

@@ -194,7 +194,7 @@ class ManageRoleAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -205,7 +205,7 @@ class ManageRoleAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Main role", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Main role", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -225,7 +225,7 @@ class ManageRoleAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -234,7 +234,7 @@ class ManageRoleAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Main role", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Main role", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -255,7 +255,7 @@ class ManageRoleAdminController extends Controller
                 return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Main nav", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Main role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -264,7 +264,7 @@ class ManageRoleAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -280,7 +280,7 @@ class ManageRoleAdminController extends Controller
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Main role'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -289,7 +289,7 @@ class ManageRoleAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -316,7 +316,7 @@ class ManageRoleAdminController extends Controller
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Main role'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -448,7 +448,7 @@ class ManageRoleAdminController extends Controller
             }
             return response()->json(['status' => 1, 'type' => "success", 'title' => "Update Permission", 'msg' => 'Permissions are successfully updated.'], Config::get('constants.errorCode.ok'));
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -619,7 +619,7 @@ class ManageRoleAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -630,7 +630,7 @@ class ManageRoleAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Sub role", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Sub role", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -651,7 +651,7 @@ class ManageRoleAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -660,30 +660,30 @@ class ManageRoleAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Sub role", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Sub role", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
-        // try {
-        $setPermission = ManagePermissionHelper::setPermission([
-            [
-                'checkFirst' => [
-                    'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
-                    'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
-                ],
-                'otherDataPasses' => [
-                    'mainRoleId' => SubRole::where('id', $id)->first()->mainRoleId,
-                    'subRoleId' => $id,
+        try {
+            $setPermission = ManagePermissionHelper::setPermission([
+                [
+                    'checkFirst' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.set.pfr')],
+                        'for' => Config::get('constants.typeCheck.helperCommon.privilege.sp'),
+                    ],
+                    'otherDataPasses' => [
+                        'mainRoleId' => SubRole::where('id', $id)->first()->mainRoleId,
+                        'subRoleId' => $id,
+                    ]
                 ]
-            ]
-        ]);
-        if ($setPermission) {
-            return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Sub nav", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], Config::get('constants.errorCode.ok'));
-        } else {
-            return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Sub nav", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
+            ]);
+            if ($setPermission) {
+                return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Sub nav", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['success']], Config::get('constants.errorCode.ok'));
+            } else {
+                return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Sub nav", 'msg' => __('messages.setAccessMsg', ['type' => 'Nav Permission'])['failed']], Config::get('constants.errorCode.ok'));
+            }
+        } catch (Exception $e) {
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
-        // } catch (Exception $e) {
-        //     return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
-        // }
     }
 
     public function statusSubRole($id)
@@ -691,7 +691,7 @@ class ManageRoleAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -707,7 +707,7 @@ class ManageRoleAdminController extends Controller
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => "Status", 'msg' => __('messages.statusMsg', ['type' => 'Sub role'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -716,7 +716,7 @@ class ManageRoleAdminController extends Controller
         try {
             $id = decrypt($id);
         } catch (DecryptException $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -738,7 +738,7 @@ class ManageRoleAdminController extends Controller
                 return response()->json(['status' => 0, 'type' => "warning", 'title' => "Delete", 'msg' => __('messages.deleteMsg', ['type' => 'Sub role'])['failed']], Config::get('constants.errorCode.ok'));
             }
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Delete", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -871,7 +871,7 @@ class ManageRoleAdminController extends Controller
             }
             return response()->json(['status' => 1, 'type' => "success", 'title' => "Update Permission", 'msg' => 'Permissions are successfully updated.'], Config::get('constants.errorCode.ok'));
         } catch (Exception $e) {
-            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Status", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 
@@ -991,7 +991,7 @@ class ManageRoleAdminController extends Controller
         try {
             $id = decrypt($values['id']);
         } catch (DecryptException $e) {
-            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Sub role", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0,  'type' => "error", 'title' => "Sub role", 'msg' => config('constants.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
 
         try {
@@ -1012,7 +1012,7 @@ class ManageRoleAdminController extends Controller
                 }
             }
         } catch (Exception $e) {
-            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.ok'));
+            return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Sub role", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
         }
     }
 }

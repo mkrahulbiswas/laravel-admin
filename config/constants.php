@@ -21,6 +21,11 @@ return [
             'for' => ['public'],
             'path' => 'media/image/admin/manage_users/admin_users/'
         ],
+        'appUsers' => [
+            'type' => 'appUsers',
+            'for' => ['public'],
+            'path' => 'media/image/admin/manage_users/app_users/'
+        ],
         'bigLogo' => [
             'type' => 'bigLogo',
             'for' => ['public'],
@@ -300,6 +305,9 @@ return [
             'adminUsers' => [
                 'type' => 'adminUsers'
             ],
+            'appUsers' => [
+                'type' => 'appUsers'
+            ],
         ],
         'helperCommon' => [
             'get' => [
@@ -343,10 +351,7 @@ return [
             'child' => 'hasChild',
             'permission' => 'hasPermission',
             'variable' => 'variable',
-        ],
-        'logRegBy' => [
-            'email' => 'email',
-            'phone' => 'phone',
+            'userType' => 'userType',
         ],
     ],
 
@@ -416,6 +421,7 @@ return [
     'otpFor' => [
         'login' => 'LOGIN',
         'register' => 'REGISTER',
+        'resetPass' => 'RESET PASSWORD',
     ],
 
     //--User Type
@@ -442,8 +448,12 @@ return [
     'subAdmin' => 2,
 
     //Device Type
-    'android' => 'Android',
-    'ios' => 'Ios',
+    'deviceType' => [
+        'android' => 'ANDROID',
+        'ios' => 'IOS',
+        'web' => 'WEB',
+    ],
+
 
     //Pagination Data Per Page
     'perPage1' => 1,
@@ -460,7 +470,7 @@ return [
     'errorCode' => [
         'ok' => 200,
         'server' => 500,
-        'validation' => 422,
+        'validation' => 400,
         'block' => 403,
     ],
 

@@ -17,8 +17,6 @@ class AdminServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        Schema::defaultStringLength(191);
-
         view()->composer('*', function ($view) {
             $url = explode("/", url()->current());
             if (in_array('admin', $url)) {

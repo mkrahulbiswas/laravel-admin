@@ -321,15 +321,15 @@ class ManageRoleHelper
                             'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $mainRole->uniqueId]),
                             'customizeInText' => CommonTrait::customizeInText([
                                 [
-                                    'type' => 'status',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
                                     'value' => $mainRole->status
                                 ],
                                 [
-                                    'type' => 'hasChild',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.child'),
                                     'value' => $hasSubRole
                                 ],
                                 [
-                                    'type' => 'hasPermission',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.permission'),
                                     'value' => $permission
                                 ]
                             ]),
@@ -358,7 +358,7 @@ class ManageRoleHelper
                             'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $subRole->uniqueId]),
                             'customizeInText' => CommonTrait::customizeInText([
                                 [
-                                    'type' => 'status',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
                                     'value' => $subRole->status
                                 ]
                             ]),
@@ -378,7 +378,7 @@ class ManageRoleHelper
                             'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $subRole->uniqueId]),
                             'customizeInText' => CommonTrait::customizeInText([
                                 [
-                                    'type' => 'status',
+                                    'type' => Config::get('constants.typeCheck.customizeInText.status'),
                                     'value' => $subRole->status
                                 ]
                             ]),

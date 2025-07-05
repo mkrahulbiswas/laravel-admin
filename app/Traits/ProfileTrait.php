@@ -20,6 +20,7 @@ trait ProfileTrait
                 'userId' => $user->id,
                 'email' => $user->email,
                 'phone' => $user->phone,
+                'dialCode' => $user->dialCode,
                 'name' => $user->name,
             );
             return $data;

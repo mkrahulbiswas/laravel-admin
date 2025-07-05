@@ -1,37 +1,53 @@
 <?php
 
-use App\Http\Controllers\Api\App\AuthApiAppController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\AppUserStatusMiddleware;
 use App\Http\Middleware\SetLocaleMiddleware;
 use App\Http\Middleware\VersionControlMiddleware;
+use App\Http\Controllers\Api\App\AuthAppController;
+use App\Http\Controllers\Api\App\CommonAppController;
 
-
-Route::controller(AuthApiAppController::class)->middleware([
+Route::middleware([
     'logSiteVisitByMiddleware:app',
     SetLocaleMiddleware::class,
     VersionControlMiddleware::class
 ])->group(function () {
-    Route::prefix('auth')->group(function () {
-        Route::post('check', 'checkUser')->name('app.auth.checkUser');
-        Route::post('verify', 'verifyUser')->name('app.auth.verifyUser');
+    Route::controller(CommonAppController::class)->prefix('common')->group(function () {
+        Route::get('app-version', 'getAppVersion')->name('app.common.getAppVersion')->withoutMiddleware([VersionControlMiddleware::class]);
     });
-
-    Route::post('auth/signup', [AuthApiAppController::class, 'register']);
-    Route::post('auth/login', [AuthApiAppController::class, 'login']);
-    Route::post('sendRegOtp', [AuthApiAppController::class, 'sendRegOtp']);
-    Route::post('forgotPassword', [AuthApiAppController::class, 'forgotPassword']);
-    Route::post('resetPassword', [AuthApiAppController::class, 'resetPassword']);
-    Route::post('sendOtp', [AuthApiAppController::class, 'sendOtp']);
-    Route::get('getAppVersion', [AuthApiAppController::class, 'getAppVersion']);
-    Route::group(['middleware' => ['auth:sanctum', 'userStatus']], function () {
-
-        /*======== (-- AuthController --) ========*/
-        Route::post('auth/logout', [AuthApiAppController::class, 'logout']);
-        Route::post('updateDeviceToken', [AuthApiAppController::class, 'updateDeviceToken']);
-        Route::get('getProfile', [AuthApiAppController::class, 'getProfile']);
-        Route::post('updateProfile', [AuthApiAppController::class, 'updateProfile']);
-        Route::post('uploadProfilePic', [AuthApiAppController::class, 'uploadProfilePic']);
-        Route::post('changePassword', [AuthApiAppController::class, 'changePassword']);
-        Route::post('updateProfile', [AuthApiAppController::class, 'updateProfile']);
+    Route::controller(AuthAppController::class)->prefix('auth')->group(function () {
+        Route::post('check', 'checkUser')->name('app.check.user');
+        Route::post('verify', 'verifyUser')->name('app.verify.user');
+        Route::post('register', 'registerUser')->name('app.register.user');
+        Route::post('login', 'loginUser')->name('app.login.user');
+        Route::prefix('reset')->group(function () {
+            Route::post('send-otp', 'resetSendOtp')->name('app.reset.sendOtp');
+            Route::post('verify-otp', 'resetVerifyOtp')->name('app.reset.verifyOtp');
+            Route::patch('change-password', 'resetChangePassword')->name('app.reset.changePassword');
+        });
+        Route::get(
+            '/un-authenticated',
+            function () {
+                return [
+                    'status' => 0,
+                    'type' => "warning",
+                    'title' => "Un-Authenticated",
+                    'msg' => __('messages.unauthenticatedMsg'),
+                    'payload' => (object)[],
+                ];
+            }
+        )->name('login');
+    });
+    Route::middleware([
+        'auth:sanctum',
+        AppUserStatusMiddleware::class,
+    ])->group(function () {
+        Route::controller(AuthAppController::class)->prefix('auth')->group(function () {
+            Route::get('logout', 'logoutUser')->name('app.logout.user');
+            Route::get('get/profile', 'getProfile')->name('app.get.profile');
+            Route::post('update/profile-pic', 'updateProfilePic')->name('app.update.profilePic');
+            Route::patch('change/password', 'changePassword')->name('app.change.password');
+            Route::patch('update/device-token', 'updateDeviceToken')->name('app.update.deviceToken');
+        });
     });
 });

@@ -42,6 +42,46 @@
                     "data": "image",
                 },
                 {
+                    "data": "role",
+                },
+                {
+                    "data": "status",
+                },
+                {
+                    data: 'action',
+                    name: 'actions',
+                    orderable: false,
+                    searchable: false
+                }
+            ]
+        });
+
+        /*------( Users App Listing )--------*/
+        $('#manageUsers-appUsers').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": "app-users/ajaxGetList",
+            "language": {
+                "searchPlaceholder": "None"
+            },
+            "columns": [{
+                    "data": "DT_RowIndex",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    "data": "uniqueId",
+                },
+                {
+                    "data": "name",
+                },
+                {
+                    "data": "image",
+                },
+                {
+                    "data": "userType",
+                },
+                {
                     "data": "status",
                 },
                 {

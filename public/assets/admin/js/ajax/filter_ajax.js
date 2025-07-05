@@ -3,14 +3,16 @@
     $(function () {
         /*--========================= ( Manage Users START ) =========================--*/
         //------ ( Admin Users )
-        $('#filterAdminUsersForm').find('#statusFilter, .filterAdminUsersBtn').on('change click', function () {
+        $('#filterAdminUsersForm').find('#statusFilter, #mainRoleFilter, #subRoleFilter, .filterAdminUsersBtn').on('change click', function () {
             var formId = $(this).closest('form'),
                 dataTableId = $('#manageUsers-adminUsers'),
 
                 status = formId.find("#statusFilter").val(),
+                mainRole = (formId.find("#mainRoleFilter").val() == '' || formId.find("#mainRoleFilter").val() == null) ? '' : formId.find("#mainRoleFilter").val(),
+                subRole = (formId.find("#subRoleFilter").val() == '' || formId.find("#subRoleFilter").val() == null) ? '' : formId.find("#subRoleFilter").val(),
 
                 action = $(this).closest('form').attr('action').split('/'),
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status;
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&mainRole=" + mainRole + "&subRole=" + subRole;
             if ($(this).attr('title') == 'Reload') {
                 window.commonAction({
                     targetId: {
@@ -23,7 +25,46 @@
                         }
                     }
                 })
-                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '';
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&mainRole=" + '' + "&subRole=" + '';
+            }
+            window.commonAction({
+                targetId: {
+                    submitForm: formId,
+                    actionType: $(this).attr('title'),
+                },
+                dataTable: {
+                    load: {
+                        targetId: dataTableId,
+                        url: newUrl,
+                    }
+                },
+                filterApply: {}
+            })
+        });
+
+        //------ ( App Users )
+        $('#filterAppUsersForm').find('#statusFilter, #userTypeFilter, .filterAppUsersBtn').on('change click', function () {
+            var formId = $(this).closest('form'),
+                dataTableId = $('#manageUsers-appUsers'),
+
+                status = formId.find("#statusFilter").val(),
+                userType = formId.find("#userTypeFilter").val(),
+
+                action = $(this).closest('form').attr('action').split('/'),
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + status + "&userType=" + userType;
+            if ($(this).attr('title') == 'Reload') {
+                window.commonAction({
+                    targetId: {
+                        submitForm: formId,
+                    },
+                    reset: {
+                        resetForm: {
+                            selectPicker: {},
+                            selectTwo: {},
+                        }
+                    }
+                })
+                newUrl = action[action.length - 2] + "/ajaxGetList?status=" + '' + "&userType=" + '';
             }
             window.commonAction({
                 targetId: {

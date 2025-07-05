@@ -9,13 +9,15 @@ return [
     'serverErrMsg' => 'Something went wrong.',
     'successMsg' => 'Success.',
     'appVersionNotMatchMsg' => 'The app version is not match, please update the app.',
-    'noDataFound' => 'Oops!! No data found',
+    'noDataFoundMsg' => 'Oops!! No :type found',
     'oldPassPinNotMatchMsg' => 'Oops!! the old :type is not matched, please try again.',
     'otpNotMatchMsg' => 'Oops!! the provided otp is not matched, please check again.',
     'otpNotTypeMsg' => 'Oops!! its looks like you are trying to change other type of action.',
     'otpNotVerifiedMsg' => 'Its look you are not verified OTP but try to change something.',
     'checkUserInvalidInputMsg' => 'Note you can not send both email & phone empty or filled. You have to give any one of them.',
-
+    'alreadyUserCreateMsg' => 'User is already created, please login.',
+    'inactiveUserMsg' => 'You account is blocked.',
+    'incompleteUserMsg' => 'You account is not complete yet for login.',
     'fileUploadMsg' => [
         'fileDelete' => [
             'success' => 'Successfully file deleted.',
@@ -38,7 +40,6 @@ return [
             'failed' => 'Sorry, there no file found in :type storage folder in path of ":path"',
         ]
     ],
-
     'notAllowMsg' => 'You cannot create sub role by using super admin.',
     'saveMsg' => [
         'success' => ':type successfully saved.',
@@ -90,13 +91,16 @@ return [
         'failed' => 'Failed to reset :type.',
     ],
     'createUserMsg' => [
-        'success' => 'Successfully create user to complete the registration process..',
+        'success' => 'Successfully create user to complete the registration process.',
         'failed' => 'Failed to create user to complete the registration process, please try again.',
     ],
-
+    'noProfileDataMsg' => [
+        'success' => 'Successfully profile data fetched.',
+        'failed' => 'No profile data found.',
+    ],
     'registerSuccess' => 'Successfully registered, just need to verify your OTP.',
     'loginSuccess' => 'Successfully logged in.',
     'logoutSuccess' => 'Successfully logged out.',
-
+    'unauthenticatedMsg' => 'You are not authorized. Please login with you credential to get access.',
     'requiredFiend' => '*',
 ];
