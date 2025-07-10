@@ -76,110 +76,110 @@ trait FileTrait
 
     public static function uploadFile($data)
     {
-        try {
-            [
-                'file' => $file,
-                'platform' => $platform,
-                'storage' => $storage,
-            ] = $data;
+        // try {
+        [
+            'file' => $file,
+            'platform' => $platform,
+            'storage' => $storage,
+        ] = $data;
 
-            if (!empty($storage['path'])) {
-                $image = $file['current'];
-                $fileName = time() . '_' . strtotime(date('y-m-d')) . '_' . mt_rand() . '.' . $image->getClientOriginalExtension();
-                foreach ($storage['for'] as $tempOne) {
-                    if (Storage::disk($tempOne)->makeDirectory($storage['path'], 0775, true)) {
-                        if ($platform == 'backend') {
-                            if ($storage['type'] == Config::get('constants.storage')['adminUsers']['type']) {
-                                // $largeWidth = '200';
-                                // $largeHeight = '200';
-                                // $storage = str_replace('public/', '', $storage['path']);
-                                // $storage = $storage['path'];
-                                // Image::make($image->getRealPath())->resize($largeWidth, $largeHeight)->save($storage . $fileName);
+        if (!empty($storage['path'])) {
+            $image = $file['current'];
+            $fileName = time() . '_' . strtotime(date('y-m-d')) . '_' . mt_rand() . '.' . $image->getClientOriginalExtension();
+            foreach ($storage['for'] as $tempOne) {
+                if (Storage::disk($tempOne)->makeDirectory($storage['path'], 0775, true)) {
+                    if ($platform == 'backend') {
+                        if ($storage['type'] == Config::get('constants.storage')['adminUsers']['type']) {
+                            // $largeWidth = '200';
+                            // $largeHeight = '200';
+                            // $storage = str_replace('public/', '', $storage['path']);
+                            // $storage = $storage['path'];
+                            // Image::make($image->getRealPath())->resize($largeWidth, $largeHeight)->save($storage . $fileName);
 
-                                // $image = ImageManager::imagick()->read($image);
-                                // $image->resize(200, 200);
-                                // dd($image);
+                            // $image = ImageManager::imagick()->read($image);
+                            // $image->resize(200, 200);
+                            // dd($image);
 
-                                // Storage::disk('public')->putFileAs($storage['path'], $image, $fileName);
+                            // Storage::disk('public')->putFileAs($storage['path'], $image, $fileName);
 
-                                // $uploadedFile = $request->file('avatar');
-                                // $path = Storage::disk($disk)->putFileAs('avatars', $uploadedFile, 'custom_avatar.jpg');
+                            // $uploadedFile = $request->file('avatar');
+                            // $path = Storage::disk($disk)->putFileAs('avatars', $uploadedFile, 'custom_avatar.jpg');
 
-                                // $storage = $storage['path'];
-                                // $image->move($storage, $fileName);
-                            } else {
-                            }
-                        } elseif ($platform == 'web') {
-                            // if ($imgType == 'customerPic') {
-                            //     $largeWidth = '300';
-                            //     $largeHeight = '300';
-                            //     $storage = config('constants.customerPic');
-                            //     Image::make($image->getRealPath())->resize($largeWidth, $largeHeight)->save($storage . $fileName);
-                            // } elseif ($imgType == 'clientPic') {
-                            //     $storage = config('constants.clientPic');
-                            //     $image->move($storage, $fileName);
-                            // }
-                        } elseif ($platform == 'app') {
-                            // $fileName = time() . '_' . mt_rand() . '_' . mt_rand() . '.png';
-                            // if ($imgType == 'customersPic') {
-                            //     // $storage = config('constants.employeePic');
-                            //     $storage = str_replace('public/', '', config('constants.customersPic'));
-                            // } else if ($imgType == 'degreeImagePic') {
-                            //     $storage = str_replace('public/', '', config('constants.degreeImagePic'));
-                            // }
-                            // file_put_contents(($storage . $fileName), base64_decode(str_replace(' ', '+', $image)));
+                            // $storage = $storage['path'];
+                            // $image->move($storage, $fileName);
+                        } else {
                         }
-                        if (Storage::disk($tempOne)->putFileAs($storage['path'], $image, $fileName)) {
-                            if (!empty($file['previous'])) {
-                                if ($file['previous'] == 'NA') {
+                    } elseif ($platform == 'web') {
+                        // if ($imgType == 'customerPic') {
+                        //     $largeWidth = '300';
+                        //     $largeHeight = '300';
+                        //     $storage = config('constants.customerPic');
+                        //     Image::make($image->getRealPath())->resize($largeWidth, $largeHeight)->save($storage . $fileName);
+                        // } elseif ($imgType == 'clientPic') {
+                        //     $storage = config('constants.clientPic');
+                        //     $image->move($storage, $fileName);
+                        // }
+                    } elseif ($platform == 'app') {
+                        // $fileName = time() . '_' . mt_rand() . '_' . mt_rand() . '.png';
+                        // if ($imgType == 'customersPic') {
+                        //     // $storage = config('constants.employeePic');
+                        //     $storage = str_replace('public/', '', config('constants.customersPic'));
+                        // } else if ($imgType == 'degreeImagePic') {
+                        //     $storage = str_replace('public/', '', config('constants.degreeImagePic'));
+                        // }
+                        // file_put_contents(($storage . $fileName), base64_decode(str_replace(' ', '+', $image)));
+                    }
+                    if (Storage::disk($tempOne)->putFileAs($storage['path'], $image, $fileName)) {
+                        if (!empty($file['previous'])) {
+                            if ($file['previous'] == 'NA') {
+                                $response = [
+                                    'type' => true,
+                                    'name' => $fileName
+                                ];
+                            } else {
+                                if (Storage::disk($tempOne)->delete($storage['path'] . $file['previous'])) {
                                     $response = [
                                         'type' => true,
                                         'name' => $fileName
                                     ];
                                 } else {
-                                    if (Storage::disk($tempOne)->delete($storage['path'] . $file['previous'])) {
-                                        $response = [
-                                            'type' => true,
-                                            'name' => $fileName
-                                        ];
-                                    } else {
-                                        $response = [
-                                            'type' => false,
-                                            'msg' => __('messages.fileUploadMsg.fileDelete.failed'),
-                                        ];
-                                    }
+                                    $response = [
+                                        'type' => false,
+                                        'msg' => __('messages.fileUploadMsg.fileDelete.failed'),
+                                    ];
                                 }
-                            } else {
-                                $response = [
-                                    'type' => true,
-                                    'name' => $fileName
-                                ];
                             }
                         } else {
                             $response = [
-                                'type' => false,
-                                'msg' => __('messages.fileUploadMsg.fileSave.failed'),
+                                'type' => true,
+                                'name' => $fileName
                             ];
                         }
                     } else {
                         $response = [
                             'type' => false,
-                            'msg' => __('messages.fileUploadMsg.createFolder.failed'),
+                            'msg' => __('messages.fileUploadMsg.fileSave.failed'),
                         ];
                     }
+                } else {
+                    $response = [
+                        'type' => false,
+                        'msg' => __('messages.fileUploadMsg.createFolder.failed'),
+                    ];
                 }
-            } else {
-                $response = [
-                    'type' => false,
-                    'msg' => __('messages.fileUploadMsg.folderPath.failed'),
-                ];
             }
-            return $response;
-        } catch (Exception $e) {
-            return [
+        } else {
+            $response = [
                 'type' => false,
-                'msg' => __('messages.serverErrMsg'),
+                'msg' => __('messages.fileUploadMsg.folderPath.failed'),
             ];
         }
+        return $response;
+        // } catch (Exception $e) {
+        //     return [
+        //         'type' => false,
+        //         'msg' => __('messages.serverErrMsg'),
+        //     ];
+        // }
     }
 }

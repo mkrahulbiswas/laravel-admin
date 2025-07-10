@@ -415,7 +415,7 @@ class AuthAppController extends Controller
                 } else {
                     $otp = $this->generateYourChoice([['length' => 6, 'type' => Config::get('constants.generateType.number')]])[Config::get('constants.generateType.number')]['result'];
                     $user->otp = $otp;
-                    $user->otpFor = Config::get('constants.otpFor.resetPass');
+                    $user->otpFor = Config::get('constants.otpFor.reset.password');
                     if ($user->update()) {
                         if ($values['checkBy'] == 'phone') {
                             $replaceVariableWithValue = CommonHelper::replaceVariableWithValue([
@@ -501,6 +501,103 @@ class AuthAppController extends Controller
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Change Password", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.server'));
+        }
+    }
+
+    public function changeSendOtp(Request $request)
+    {
+        $values = $request->only('checkBy', 'dialCode', 'phone', 'email');
+        $auth = Auth::user();
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'changeSendOtp', 'id' => $auth->id, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                $vErrors = $this->getVErrorMessages($validator->errors());
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.ok'));
+            } else {
+                $otp = $this->generateYourChoice([['length' => 6, 'type' => Config::get('constants.generateType.number')]])[Config::get('constants.generateType.number')]['result'];
+                $user = User::findOrFail($auth->id);
+                $user->otp = $otp;
+                if ($values['checkBy'] == 'phone') {
+                    $user->otpFor = Config::get('constants.otpFor.change.phone');
+                } else {
+                    $user->otpFor = Config::get('constants.otpFor.change.email');
+                }
+                if ($user->update()) {
+                    if ($values['checkBy'] == 'phone') {
+                        $passToResp = [
+                            'dialCode' => $values['dialCode'],
+                            'phone' => $values['phone'],
+                        ];
+                        $replaceVariableWithValue = CommonHelper::replaceVariableWithValue([
+                            'replaceData' => [
+                                ['key' => '[~otp~]', 'value' => $otp],
+                            ],
+                            'alertType' => 'ALTY-756816',
+                            'alertFor' => 'ALFO-909372',
+                        ]);
+                        $data = array(
+                            'subject' => $replaceVariableWithValue['heading'],
+                            'content' => $replaceVariableWithValue['content'],
+                        );
+                        Mail::to('biswas.rahul31@gmail.com')->send(new ResetAuthSendMail($data));
+                    } else {
+                        $passToResp = [
+                            'email' => $values['email'],
+                        ];
+                        $replaceVariableWithValue = CommonHelper::replaceVariableWithValue([
+                            'replaceData' => [
+                                ['key' => '[~otp~]', 'value' => $otp],
+                            ],
+                            'alertType' => 'ALTY-894165',
+                            'alertFor' => 'ALFO-562883',
+                        ]);
+                        $data = array(
+                            'subject' => $replaceVariableWithValue['heading'],
+                            'content' => $replaceVariableWithValue['content'],
+                        );
+                        Mail::to($values['email'])->send(new ResetAuthSendMail($data));
+                    }
+                    return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Send OTP", 'msg' => __('messages.otpMsg')['success'], "payload" => ['otp' => $otp, ...$passToResp]], Config::get('constants.errorCode.ok'));
+                } else {
+                    return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Send OTP", 'msg' => __('messages.otpMsg')['failed'], 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
+                }
+            }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Send OTP", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.server'));
+        }
+    }
+
+    public function changeVerifyOtp(Request $request)
+    {
+        $values = $request->only('otp', 'checkBy', 'dialCode', 'phone', 'email');
+        $auth = Auth::user();
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'changeVerifyOtp', 'id' => $auth->id, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                $vErrors = $this->getVErrorMessages($validator->errors());
+                return Response()->Json(['status' => 0, 'type' => "error", 'title' => "Validation", 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.ok'));
+            } else {
+                $user = User::findOrFail($auth->id);
+                if ($user->otp == $values['otp']) {
+                    $user->otp = null;
+                    $user->otpFor = 'NA';
+                    if ($values['checkBy'] == 'phone') {
+                        $user->phone = $values['dialCode'];
+                        $user->dialCode = $values['phone'];
+                    } else {
+                        $user->email = $values['email'];
+                    }
+                    if ($user->update()) {
+                        return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Verify OTP", 'msg' => __('messages.otpVerifyMsg')['success'], 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
+                    } else {
+                        return Response()->Json(['status' => 0, 'type' => "warning", 'title' => "Verify OTP", 'msg' => __('messages.otpVerifyMsg')['failed'], 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
+                    }
+                } else {
+                    return response()->json(['status' => 0, 'type' => "warning", 'title' => "Verify OTP", 'msg' => __('messages.otpVerifyMsg.failed'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
+                }
+            }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Verify OTP", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.server'));
         }
     }
 }

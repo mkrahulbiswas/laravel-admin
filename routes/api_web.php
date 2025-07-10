@@ -44,6 +44,10 @@ Route::middleware([
             Route::get('get/profile', 'getProfile')->name('app.get.profile');
             Route::post('change/password', 'changePassword')->name('app.change.password');
             Route::post('update/device-token', 'updateDeviceToken')->name('app.update.deviceToken');
+            Route::prefix('change')->group(function () {
+                Route::post('send-otp', 'changeSendOtp')->name('app.change.sendOtp');
+                Route::post('verify-otp', 'changeVerifyOtp')->name('app.change.verifyOtp');
+            });
         });
     });
 });

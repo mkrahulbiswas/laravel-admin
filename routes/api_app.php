@@ -48,6 +48,10 @@ Route::middleware([
             Route::post('update/profile-pic', 'updateProfilePic')->name('app.update.profilePic');
             Route::patch('change/password', 'changePassword')->name('app.change.password');
             Route::patch('update/device-token', 'updateDeviceToken')->name('app.update.deviceToken');
+            Route::prefix('change')->group(function () {
+                Route::post('send-otp', 'changeSendOtp')->name('app.change.sendOtp');
+                Route::post('verify-otp', 'changeVerifyOtp')->name('app.change.verifyOtp');
+            });
         });
     });
 });

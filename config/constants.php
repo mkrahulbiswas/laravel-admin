@@ -40,6 +40,11 @@ return [
             'type' => 'favicon',
             'for' => ['public'],
             'path' => 'media/image/admin/manage_panel/quick_settings/favicon/'
+        ],
+        'testFile' => [
+            'type' => 'testFile',
+            'for' => ['s3'],
+            'path' => 'media/image/admin/test/'
         ]
     ],
 
@@ -421,7 +426,13 @@ return [
     'otpFor' => [
         'login' => 'LOGIN',
         'register' => 'REGISTER',
-        'resetPass' => 'RESET PASSWORD',
+        'reset' => [
+            'password' => 'RESET PASSWORD'
+        ],
+        'change' => [
+            'phone' => 'CHANGE PHONE',
+            'email' => 'CHANGE EMAIL',
+        ],
     ],
 
     //--User Type
