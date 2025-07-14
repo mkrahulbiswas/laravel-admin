@@ -697,6 +697,34 @@ trait ValidationTrait
                     'id' => 'required',
                 ];
                 break;
+            case 'changeSendOtp':
+                if ($data['input']['checkBy'] == '') {
+                    $rules = [
+                        'checkBy' => 'required',
+                    ];
+                } else {
+                    if ($data['input']['checkBy'] == 'phone') {
+                        $rules['dialCode'] = 'required|integer';
+                        $rules['phone'] = 'required|integer|unique:' . User::class . ',phone,' . $data['id'];
+                    } else if ($data['input']['checkBy'] == 'email') {
+                        $rules['email'] = 'required|email|unique:' . User::class . ',email,' . $data['id'];
+                    }
+                }
+                break;
+            case 'changeVerifyOtp':
+                $rules = [
+                    'otp' => 'required|digits:6',
+                    'checkBy' => 'required',
+                ];
+                if ($data['input']['checkBy'] != '') {
+                    if ($data['input']['checkBy'] == 'phone') {
+                        $rules['dialCode'] = 'required|integer';
+                        $rules['phone'] = 'required|integer|unique:' . User::class . ',phone,' . $data['id'];
+                    } else if ($data['input']['checkBy'] == 'email') {
+                        $rules['email'] = 'required|email|unique:' . User::class . ',email,' . $data['id'];
+                    }
+                }
+                break;
 
             case 'emailLogin':
             default:
@@ -822,6 +850,34 @@ trait ValidationTrait
                     'confirmPassword' => 'min:6|max:20|same:password',
                     'id' => 'required',
                 ];
+                break;
+            case 'changeSendOtp':
+                if ($data['input']['checkBy'] == '') {
+                    $rules = [
+                        'checkBy' => 'required',
+                    ];
+                } else {
+                    if ($data['input']['checkBy'] == 'phone') {
+                        $rules['dialCode'] = 'required|integer';
+                        $rules['phone'] = 'required|integer|unique:' . User::class . ',phone,' . $data['id'];
+                    } else if ($data['input']['checkBy'] == 'email') {
+                        $rules['email'] = 'required|email|unique:' . User::class . ',email,' . $data['id'];
+                    }
+                }
+                break;
+            case 'changeVerifyOtp':
+                $rules = [
+                    'otp' => 'required|digits:6',
+                    'checkBy' => 'required',
+                ];
+                if ($data['input']['checkBy'] != '') {
+                    if ($data['input']['checkBy'] == 'phone') {
+                        $rules['dialCode'] = 'required|integer';
+                        $rules['phone'] = 'required|integer|unique:' . User::class . ',phone,' . $data['id'];
+                    } else if ($data['input']['checkBy'] == 'email') {
+                        $rules['email'] = 'required|email|unique:' . User::class . ',email,' . $data['id'];
+                    }
+                }
                 break;
 
             case 'login':

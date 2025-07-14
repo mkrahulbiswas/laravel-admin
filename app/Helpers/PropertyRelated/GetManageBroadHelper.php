@@ -122,6 +122,50 @@ class GetManageBroadHelper
                 if (Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type') == $tempOne['getList']['for']) {
                     $data = array();
 
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.iyf'), $tempOne['getList']['type'])) {
+                        $broadType = array();
+                        $whereRaw = "`created_at` is not null";
+                        $orderByRaw = "`id` DESC";
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
+                                $status = $tempOne['otherDataPasses']['filterData']['status'];
+                                if (!empty($status)) {
+                                    $whereRaw .= " and `status` = '" . $status . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'propertyTypeId')) {
+                                $propertyTypeId = $tempOne['otherDataPasses']['filterData']['propertyTypeId'];
+                                if (!empty($propertyTypeId)) {
+                                    $whereRaw .= " and `propertyTypeId` = " .  decrypt($propertyTypeId);
+                                }
+                            }
+                        }
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'id')) {
+                                $id = $tempOne['otherDataPasses']['orderBy']['id'];
+                                if (!empty($id)) {
+                                    $orderByRaw = "`id` " . $id;
+                                }
+                            }
+                        }
+
+                        foreach (AssignBroad::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
+                            $broadType[] = [
+                                'id' => encrypt($tempTwo->id),
+                                'broadTypeId' => encrypt($tempTwo->broadTypeId),
+                                'propertyTypeId' => encrypt($tempTwo->propertyTypeId),
+                                'name' => BroadType::where('id', $tempTwo->broadTypeId)->value('name'),
+                                'default' => $tempTwo->default,
+                            ];
+                        }
+
+                        $data[Config::get('constants.typeCheck.helperCommon.get.iyf')] = [
+                            'list' => $broadType
+                        ];
+                    }
+
                     if (in_array(Config::get('constants.typeCheck.helperCommon.get.dyf'), $tempOne['getList']['type'])) {
                         $assignBroad = array();
                         $whereRaw = "`created_at` is not null";

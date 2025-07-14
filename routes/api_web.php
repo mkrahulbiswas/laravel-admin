@@ -5,10 +5,10 @@ use App\Http\Middleware\AppUserStatusMiddleware;
 use App\Http\Middleware\SetLocaleMiddleware;
 use App\Http\Middleware\VersionControlMiddleware;
 use App\Http\Controllers\Api\Web\AuthWebController;
-
+use App\Http\Controllers\Api\Web\PropertyRelated\PropertyInstanceWebController;
 
 Route::middleware([
-    'logSiteVisitByMiddleware:web',
+    'logSiteVisitByMiddleware:api web',
     SetLocaleMiddleware::class,
     VersionControlMiddleware::class
 ])->group(function () {
@@ -44,6 +44,22 @@ Route::middleware([
             Route::get('get/profile', 'getProfile')->name('app.get.profile');
             Route::post('change/password', 'changePassword')->name('app.change.password');
             Route::post('update/device-token', 'updateDeviceToken')->name('app.update.deviceToken');
+            Route::prefix('change')->group(function () {
+                Route::post('send-otp', 'changeSendOtp')->name('app.change.sendOtp');
+                Route::post('verify-otp', 'changeVerifyOtp')->name('app.change.verifyOtp');
+            });
+        });
+        Route::controller(PropertyInstanceWebController::class)->prefix('property-related')->group(function () {
+            Route::get('property-type', 'getPropertyType')->name('app.get.propertyType');
+            Route::prefix('manage-broad')->group(function () {
+                Route::get('broad-type', 'getBroadType')->name('app.get.broadType');
+                Route::get('assign-broad/{propertyTypeId?}', 'getAssignBroad')->name('app.get.assignBroad');
+            });
+            Route::prefix('property-category')->group(function () {
+                Route::get('main-category', 'getMainCategory')->name('app.get.mainCategory');
+                Route::get('sub-category/{mainCategoryId?}', 'getSubCategory')->name('app.get.subCategory');
+                Route::get('nested-category/{mainCategoryId?}/{subCategoryId?}', 'getNestedCategory')->name('app.get.nestedCategory');
+            });
         });
     });
 });
