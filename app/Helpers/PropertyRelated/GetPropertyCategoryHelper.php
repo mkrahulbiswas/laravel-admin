@@ -71,7 +71,10 @@ class GetPropertyCategoryHelper
                         foreach (ManageCategory::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $manageCategory[] = [
                                 'id' => encrypt($tempTwo->id),
-                                'name' => $tempTwo->name
+                                'name' => $tempTwo->name,
+                                'type' => $tempTwo->type,
+                                'mainCategoryId' => ($tempTwo->mainCategoryId == null) ? null : encrypt($tempTwo->mainCategoryId),
+                                'subCategoryId' => ($tempTwo->subCategoryId == null) ? null : encrypt($tempTwo->subCategoryId),
                             ];
                         }
 
@@ -154,16 +157,16 @@ class GetPropertyCategoryHelper
                                     $whereRaw .= " and `type` = '" . $type . "'";
                                 }
                             }
-                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainCategory')) {
-                                $mainCategory = $tempOne['otherDataPasses']['filterData']['mainCategory'];
-                                if (!empty($mainCategory)) {
-                                    $whereRaw .= " and `mainCategoryId` = " . decrypt($mainCategory);
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainCategoryId')) {
+                                $mainCategoryId = $tempOne['otherDataPasses']['filterData']['mainCategoryId'];
+                                if (!empty($mainCategoryId)) {
+                                    $whereRaw .= " and `mainCategoryId` = " . decrypt($mainCategoryId);
                                 }
                             }
-                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'subCategory')) {
-                                $subCategory = $tempOne['otherDataPasses']['filterData']['subCategory'];
-                                if (!empty($subCategory)) {
-                                    $whereRaw .= " and `subCategoryId` = " . decrypt($subCategory);
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'subCategoryId')) {
+                                $subCategoryId = $tempOne['otherDataPasses']['filterData']['subCategoryId'];
+                                if (!empty($subCategoryId)) {
+                                    $whereRaw .= " and `subCategoryId` = " . decrypt($subCategoryId);
                                 }
                             }
                         }
@@ -228,10 +231,10 @@ class GetPropertyCategoryHelper
                                     $whereRaw .= " and `default` = '" . $default . "'";
                                 }
                             }
-                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainCategory')) {
-                                $mainCategory = $tempOne['otherDataPasses']['filterData']['mainCategory'];
-                                if (!empty($mainCategory)) {
-                                    $whereRaw .= " and `mainCategoryId` = " .  decrypt($mainCategory);
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainCategoryId')) {
+                                $mainCategoryId = $tempOne['otherDataPasses']['filterData']['mainCategoryId'];
+                                if (!empty($mainCategoryId)) {
+                                    $whereRaw .= " and `mainCategoryId` = " .  decrypt($mainCategoryId);
                                 }
                             }
                             if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'propertyType')) {

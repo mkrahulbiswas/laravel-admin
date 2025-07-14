@@ -69,8 +69,8 @@ class PropertyCategoryAdminController extends Controller
                         'filterData' => [
                             'status' => $request->status,
                             'type' => $request->type,
-                            'mainCategory' => $request->mainCategory,
-                            'subCategory' => $request->subCategory,
+                            'mainCategoryId' => $request->mainCategory,
+                            'subCategoryId' => $request->subCategory,
                         ],
                         'orderBy' => [
                             'id' => 'desc'
@@ -360,7 +360,7 @@ class PropertyCategoryAdminController extends Controller
                         'filterData' => [
                             'status' => $request->status,
                             'default' => $request->default,
-                            'manageCategory' => $request->manageCategory,
+                            'manageCategoryId' => $request->manageCategory,
                             'propertyType' => $request->propertyType,
                             'assignBroad' => $request->assignBroad,
                         ],
