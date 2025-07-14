@@ -4,13 +4,11 @@ $baseUrl = 'http://localhost/LARAVEL/AdminSetup/';
 
 return [
     'baseUrl' => $baseUrl,
+    'tempFilePath' => 'public/assets/media/temp',
 
     //Image
     'image' => 'public/assets/media/image/admin',
     'bannerPic' => 'public/assets/media/image/admin/banner/',
-    'bigLogoPic' => 'public/assets/media/image/admin/logo/big_logo/',
-    'smallLogoPic' => 'public/assets/media/image/admin/logo/small_logo/',
-    'favIconPic' => 'public/assets/media/image/admin/logo/fav_icon/',
     'avatar' => 'public/assets/media/image/admin/avatar/',
     'webIcon' => 'public/assets/media/image/admin/webIcon/',
     'cmsPagesPic' => 'public/assets/media/image/admin/cms_pages/',

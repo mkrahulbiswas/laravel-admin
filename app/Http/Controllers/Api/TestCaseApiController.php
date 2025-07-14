@@ -30,7 +30,7 @@ class TestCaseApiController extends Controller
         $getFile = FileTrait::getFile([
             'fileName' => $uploadFile['name'],
             'storage' => Config::get('constants.storage')['testFile']
-        ])['s3']['fullPath'];
+        ])['s3']['fullPath']['url'];
         return Response()->Json(['status' => 1, 'type' => "success", 'title' => "Profile pic", 'payload' => ['image' => $getFile], 'msg' => __('messages.changeMsg', ['type' => 'Profile pic'])['success']], Config::get('constants.errorCode.ok'));
     }
 }
