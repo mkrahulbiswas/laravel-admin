@@ -9,7 +9,6 @@ return [
     'serverErrMsg' => 'Something went wrong.',
     'successMsg' => 'Success.',
     'appVersionNotMatchMsg' => 'The app version is not match, please update the app.',
-    'noDataFoundMsg' => 'Oops!! No :type found',
     'oldPassPinNotMatchMsg' => 'Oops!! the old :type is not matched, please try again.',
     'otpNotMatchMsg' => 'Oops!! the provided otp is not matched, please check again.',
     'otpNotTypeMsg' => 'Oops!! its looks like you are trying to change other type of action.',
@@ -41,6 +40,10 @@ return [
         ]
     ],
     'notAllowMsg' => 'You cannot create sub role by using super admin.',
+    'dataFoundMsg' => [
+        'success' => 'List of :type found.',
+        'failed' => 'Oops!! No :type found.',
+    ],
     'saveMsg' => [
         'success' => ':type successfully saved.',
         'failed' => ':type failed to saved.',

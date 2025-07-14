@@ -50,7 +50,8 @@ class GetPropertyTypeHelper
                         foreach (PropertyType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $propertyType[] = [
                                 'id' => encrypt($tempTwo->id),
-                                'name' => $tempTwo->name
+                                'name' => $tempTwo->name,
+                                'default' => $tempTwo->default
                             ];
                         }
 

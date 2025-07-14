@@ -5,10 +5,10 @@ use App\Http\Middleware\AppUserStatusMiddleware;
 use App\Http\Middleware\SetLocaleMiddleware;
 use App\Http\Middleware\VersionControlMiddleware;
 use App\Http\Controllers\Api\Web\AuthWebController;
-
+use App\Http\Controllers\Api\Web\PropertyRelated\PropertyInstanceWebController;
 
 Route::middleware([
-    'logSiteVisitByMiddleware:web',
+    'logSiteVisitByMiddleware:api web',
     SetLocaleMiddleware::class,
     VersionControlMiddleware::class
 ])->group(function () {
@@ -48,6 +48,11 @@ Route::middleware([
                 Route::post('send-otp', 'changeSendOtp')->name('app.change.sendOtp');
                 Route::post('verify-otp', 'changeVerifyOtp')->name('app.change.verifyOtp');
             });
+        });
+        Route::controller(PropertyInstanceWebController::class)->prefix('property-related')->group(function () {
+            Route::get('property-type', 'getPropertyType')->name('app.get.propertyType');
+            Route::get('broad-type', 'getBroadType')->name('app.get.broadType');
+            Route::get('assign-broad/{propertyTypeId?}', 'getAssignBroad')->name('app.get.assignBroad');
         });
     });
 });

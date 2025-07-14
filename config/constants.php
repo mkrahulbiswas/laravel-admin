@@ -412,9 +412,9 @@ return [
         'active' => 'ACTIVE',
         'inactive' => 'INACTIVE',
         'incomplete' => 'INCOMPLETE',
+        'default' => 'DEFAULT',
         'yes' => 'YES',
         'no' => 'NO',
-        'default' => 'DEFAULT',
         'category' => [
             'main' => 'MAIN',
             'sub' => 'SUB',

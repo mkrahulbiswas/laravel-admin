@@ -411,7 +411,7 @@ class AuthAppController extends Controller
                 }
                 $user = User::whereRaw($whereRaw)->first();
                 if ($user == null) {
-                    return response()->json(['status' => 0, 'type' => "warning", 'title' => "Send OTP", 'msg' => __('messages.noDataFoundMsg', ['type' => 'user']), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
+                    return response()->json(['status' => 0, 'type' => "warning", 'title' => "Send OTP", 'msg' => __('messages.dataFoundMsg', ['type' => 'user']), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
                 } else {
                     $otp = $this->generateYourChoice([['length' => 6, 'type' => Config::get('constants.generateType.number')]])[Config::get('constants.generateType.number')]['result'];
                     $user->otp = $otp;
