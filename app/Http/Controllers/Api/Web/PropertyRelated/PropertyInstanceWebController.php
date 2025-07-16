@@ -218,4 +218,39 @@ class PropertyInstanceWebController extends Controller
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Nested Category", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.server'));
         }
     }
+
+    public function getAllCategory()
+    {
+        try {
+            $getList = GetPropertyCategoryHelper::getList([
+                [
+                    'getList' => [
+                        'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                    ],
+                    'otherDataPasses' => [
+                        'filterData' => [
+                            'status' => Config::get('constants.status.active'),
+                            'type' => Config::get('constants.status.category.nested'),
+                            'mainCategoryId' => $mainCategoryId,
+                            'subCategoryId' => $subCategoryId,
+                        ],
+                        'orderBy' => [
+                            'id' => 'desc'
+                        ],
+                    ],
+                ],
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            $data = [
+                'all' => $getList,
+            ];
+            if ($data === false) {
+                return response()->json(['status' => 0, 'type' => "error", 'title' => "Nested Category", 'msg' => __('messages.dataFoundMsg.failed', ['type' => 'nested category']), 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
+            } else {
+                return response()->json(['status' => 1, 'type' => "error", 'title' => "Nested Category", 'msg' => __('messages.dataFoundMsg.success', ['type' => 'nested category']), "payload" => ['data' => $data]], Config::get('constants.errorCode.ok'));
+            }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Nested Category", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.server'));
+        }
+    }
 }

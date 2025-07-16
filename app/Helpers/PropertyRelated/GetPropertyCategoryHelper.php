@@ -440,4 +440,71 @@ class GetPropertyCategoryHelper
             return false;
         }
     }
+
+    public static function getCompleteList($params, $platform = '')
+    {
+        try {
+            $finalData = array();
+            foreach ($params as $tempOne) {
+                if (Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type') == $tempOne['getList']['for']) {
+                    $manageCategory = array();
+                    $whereRaw = "`created_at` is not null";
+                    $orderByRaw = "`id` DESC";
+
+                    if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
+                            $status = $tempOne['otherDataPasses']['filterData']['status'];
+                            if (!empty($status)) {
+                                $whereRaw .= " and `status` = '" . $status . "'";
+                            }
+                        }
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'type')) {
+                            $type = $tempOne['otherDataPasses']['filterData']['type'];
+                            if (!empty($type)) {
+                                $whereRaw .= " and `type` = '" . $type . "'";
+                            }
+                        }
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainCategoryId')) {
+                            $mainCategoryId = $tempOne['otherDataPasses']['filterData']['mainCategoryId'];
+                            if (!empty($mainCategoryId)) {
+                                $whereRaw .= " and `mainCategoryId` = " . decrypt($mainCategoryId);
+                            }
+                        }
+                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'subCategoryId')) {
+                            $subCategoryId = $tempOne['otherDataPasses']['filterData']['subCategoryId'];
+                            if (!empty($subCategoryId)) {
+                                $whereRaw .= " and `subCategoryId` = " . decrypt($subCategoryId);
+                            }
+                        }
+                    }
+
+                    if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {
+                        if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'id')) {
+                            $id = $tempOne['otherDataPasses']['orderBy']['id'];
+                            if (!empty($id)) {
+                                $orderByRaw = "`id` " . $id;
+                            }
+                        }
+                    }
+
+                    foreach (ManageCategory::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
+                        $manageCategory[] = GetPropertyCategoryHelper::getDetail([
+                            [
+                                'getDetail' => [
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                                    'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                ],
+                                'otherDataPasses' => [
+                                    'id' => encrypt($tempTwo->id)
+                                ]
+                            ],
+                        ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+                    }
+                }
+            }
+            return $finalData;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 }
