@@ -16,7 +16,6 @@ class GetPropertyCategoryHelper
     use CommonTrait;
     public $platform = 'backend';
 
-
     public static function getList($params, $platform = '')
     {
         try {
@@ -213,6 +212,60 @@ class GetPropertyCategoryHelper
                 if (Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type') == $tempOne['getList']['for']) {
                     $data = array();
 
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.iyf'), $tempOne['getList']['type'])) {
+                        $assignCategory = array();
+                        $whereRaw = "`created_at` is not null";
+                        $orderByRaw = "`id` DESC";
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
+                                $status = $tempOne['otherDataPasses']['filterData']['status'];
+                                if (!empty($status)) {
+                                    $whereRaw .= " and `status` = '" . $status . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'propertyTypeId')) {
+                                $propertyTypeId = $tempOne['otherDataPasses']['filterData']['propertyTypeId'];
+                                if (!empty($propertyTypeId)) {
+                                    $whereRaw .= " and `propertyTypeId` = " . decrypt($propertyTypeId);
+                                }
+                            }
+                        }
+
+                        if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {
+                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'id')) {
+                                $id = $tempOne['otherDataPasses']['orderBy']['id'];
+                                if (!empty($id)) {
+                                    $orderByRaw = "`id` " . $id;
+                                }
+                            }
+                        }
+
+                        foreach (AssignCategory::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
+                            $assignCategory[] = [
+                                'id' => encrypt($tempTwo->id),
+                                'default' => $tempTwo->default,
+                                'name' => ManageCategory::where('id', $tempTwo->mainCategoryId)->value('name'),
+                                'assignBroadId' => encrypt($tempTwo->assignBroadId),
+                                'mainCategoryId' => encrypt($tempTwo->mainCategoryId),
+                                'broadTypeId' => encrypt($tempTwo->broadTypeId),
+                                'propertyTypeId' => encrypt($tempTwo->propertyTypeId)
+                            ];
+                        }
+
+                        $data[Config::get('constants.typeCheck.helperCommon.get.iyf')] = [
+                            'list' => $assignCategory
+                        ];
+
+                        if (isset($tempOne['otherDataPasses']['filterData'])) {
+                            $data[Config::get('constants.typeCheck.helperCommon.get.iyf')]['filterData'] = $tempOne['otherDataPasses']['filterData'];
+                        }
+
+                        if (isset($tempOne['otherDataPasses']['orderBy'])) {
+                            $data[Config::get('constants.typeCheck.helperCommon.get.iyf')]['orderBy'] = $tempOne['otherDataPasses']['orderBy'];
+                        }
+                    }
+
                     if (in_array(Config::get('constants.typeCheck.helperCommon.get.dyf'), $tempOne['getList']['type'])) {
                         $assignCategory = array();
                         $whereRaw = "`created_at` is not null";
@@ -234,19 +287,19 @@ class GetPropertyCategoryHelper
                             if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainCategoryId')) {
                                 $mainCategoryId = $tempOne['otherDataPasses']['filterData']['mainCategoryId'];
                                 if (!empty($mainCategoryId)) {
-                                    $whereRaw .= " and `mainCategoryId` = " .  decrypt($mainCategoryId);
+                                    $whereRaw .= " and `mainCategoryId` = " . decrypt($mainCategoryId);
                                 }
                             }
-                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'propertyType')) {
-                                $propertyType = $tempOne['otherDataPasses']['filterData']['propertyType'];
-                                if (!empty($propertyType)) {
-                                    $whereRaw .= " and `propertyTypeId` = " .  decrypt($propertyType);
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'propertyTypeId')) {
+                                $propertyTypeId = $tempOne['otherDataPasses']['filterData']['propertyTypeId'];
+                                if (!empty($propertyTypeId)) {
+                                    $whereRaw .= " and `propertyTypeId` = " . decrypt($propertyTypeId);
                                 }
                             }
                             if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'assignBroad')) {
                                 $assignBroad = $tempOne['otherDataPasses']['filterData']['assignBroad'];
                                 if (!empty($assignBroad)) {
-                                    $whereRaw .= " and `assignBroadId` = " .  decrypt($assignBroad);
+                                    $whereRaw .= " and `assignBroadId` = " . decrypt($assignBroad);
                                 }
                             }
                         }
@@ -319,8 +372,8 @@ class GetPropertyCategoryHelper
                             $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
                                 'id' => encrypt($manageCategory->id),
                                 'name' => $manageCategory->name,
-                                'about' =>  $manageCategory->about,
-                                'type' =>  $manageCategory->type,
+                                'about' => $manageCategory->about,
+                                'type' => $manageCategory->type,
                                 'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $manageCategory->uniqueId]),
                                 'customizeInText' => CommonTrait::customizeInText([
                                     [
@@ -340,8 +393,8 @@ class GetPropertyCategoryHelper
                             $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
                                 'id' => encrypt($manageCategory->id),
                                 'name' => $manageCategory->name,
-                                'about' =>  $manageCategory->about,
-                                'type' =>  $manageCategory->type,
+                                'about' => $manageCategory->about,
+                                'type' => $manageCategory->type,
                                 'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $manageCategory->uniqueId]),
                                 'customizeInText' => CommonTrait::customizeInText([
                                     [
@@ -447,59 +500,104 @@ class GetPropertyCategoryHelper
             $finalData = array();
             foreach ($params as $tempOne) {
                 if (Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type') == $tempOne['getList']['for']) {
-                    $manageCategory = array();
-                    $whereRaw = "`created_at` is not null";
-                    $orderByRaw = "`id` DESC";
+                    $data = array();
 
-                    if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
-                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
-                            $status = $tempOne['otherDataPasses']['filterData']['status'];
-                            if (!empty($status)) {
-                                $whereRaw .= " and `status` = '" . $status . "'";
-                            }
-                        }
-                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'type')) {
-                            $type = $tempOne['otherDataPasses']['filterData']['type'];
-                            if (!empty($type)) {
-                                $whereRaw .= " and `type` = '" . $type . "'";
-                            }
-                        }
-                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'mainCategoryId')) {
-                            $mainCategoryId = $tempOne['otherDataPasses']['filterData']['mainCategoryId'];
-                            if (!empty($mainCategoryId)) {
-                                $whereRaw .= " and `mainCategoryId` = " . decrypt($mainCategoryId);
-                            }
-                        }
-                        if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'subCategoryId')) {
-                            $subCategoryId = $tempOne['otherDataPasses']['filterData']['subCategoryId'];
-                            if (!empty($subCategoryId)) {
-                                $whereRaw .= " and `subCategoryId` = " . decrypt($subCategoryId);
-                            }
-                        }
-                    }
-
-                    if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {
-                        if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'id')) {
-                            $id = $tempOne['otherDataPasses']['orderBy']['id'];
-                            if (!empty($id)) {
-                                $orderByRaw = "`id` " . $id;
-                            }
-                        }
-                    }
-
-                    foreach (ManageCategory::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                        $manageCategory[] = GetPropertyCategoryHelper::getDetail([
+                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.iyf'), $tempOne['getList']['type'])) {
+                        $mainCategoryList = $subCategoryList = $nestedCategoryList = array();
+                        $mainCategory = self::getList([
                             [
-                                'getDetail' => [
-                                    'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                                'getList' => [
+                                    'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
                                     'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
                                 ],
                                 'otherDataPasses' => [
-                                    'id' => encrypt($tempTwo->id)
-                                ]
+                                    'filterData' => [
+                                        'status' => Config::get('constants.status.active'),
+                                        'type' => Config::get('constants.status.category.main'),
+                                    ],
+                                    'orderBy' => [
+                                        'id' => 'desc'
+                                    ],
+                                ],
                             ],
-                        ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+                        ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+                        foreach ($mainCategory as $tempTwo) {
+                            $subCategory = self::getList([
+                                [
+                                    'getList' => [
+                                        'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
+                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                    ],
+                                    'otherDataPasses' => [
+                                        'filterData' => [
+                                            'status' => Config::get('constants.status.active'),
+                                            'type' => Config::get('constants.status.category.sub'),
+                                            'mainCategoryId' => $tempTwo['id'],
+                                        ],
+                                        'orderBy' => [
+                                            'id' => 'desc'
+                                        ],
+                                    ],
+                                ],
+                            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+                            foreach ($subCategory as $tempThree) {
+                                $nestedCategory = self::getList([
+                                    [
+                                        'getList' => [
+                                            'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
+                                            'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                        ],
+                                        'otherDataPasses' => [
+                                            'filterData' => [
+                                                'status' => Config::get('constants.status.active'),
+                                                'type' => Config::get('constants.status.category.nested'),
+                                                'mainCategoryId' => $tempTwo['id'],
+                                                'subCategoryId' => $tempThree['id'],
+                                            ],
+                                            'orderBy' => [
+                                                'id' => 'desc'
+                                            ],
+                                        ],
+                                    ],
+                                ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+                                foreach ($nestedCategory as $tempFour) {
+                                    $nestedCategoryList[] = [
+                                        'id' => $tempFour['id'],
+                                        'name' => $tempFour['name'],
+                                        'type' => $tempFour['type'],
+                                    ];
+                                }
+                                $subCategoryList[] = [
+                                    'id' => $tempThree['id'],
+                                    'name' => $tempThree['name'],
+                                    'type' => $tempThree['type'],
+                                    'nestedCategory' => $nestedCategoryList,
+                                ];
+                                $nestedCategoryList = array();
+                            }
+                            $mainCategoryList[] = [
+                                'id' => $tempTwo['id'],
+                                'name' => $tempTwo['name'],
+                                'type' => $tempTwo['type'],
+                                'subCategory' => $subCategoryList,
+                            ];
+                            $subCategoryList = array();
+                        }
+
+                        $data[Config::get('constants.typeCheck.helperCommon.get.iyf')] = [
+                            'list' => $mainCategoryList
+                        ];
+
+                        if (isset($tempOne['otherDataPasses']['filterData'])) {
+                            $data[Config::get('constants.typeCheck.helperCommon.get.iyf')]['filterData'] = $tempOne['otherDataPasses']['filterData'];
+                        }
+
+                        if (isset($tempOne['otherDataPasses']['orderBy'])) {
+                            $data[Config::get('constants.typeCheck.helperCommon.get.iyf')]['orderBy'] = $tempOne['otherDataPasses']['orderBy'];
+                        }
                     }
+
+                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')] = $data;
                 }
             }
             return $finalData;

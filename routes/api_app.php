@@ -64,7 +64,10 @@ Route::middleware([
                 Route::get('main-category', 'getMainCategory')->name('app.get.mainCategory');
                 Route::get('sub-category/{mainCategoryId?}', 'getSubCategory')->name('app.get.subCategory');
                 Route::get('nested-category/{mainCategoryId?}/{subCategoryId?}', 'getNestedCategory')->name('app.get.nestedCategory');
+                Route::get('all-category', 'getAllCategory')->name('app.get.allCategory');
+                Route::get('assign-category/{propertyTypeId?}', 'getAssignCategory')->name('app.get.assignCategory');
             });
+            Route::get('assign-broad-category/{propertyTypeId?}', 'getAssignBroadCategory')->name('app.get.assignBroadCategory');
         });
     });
 });
