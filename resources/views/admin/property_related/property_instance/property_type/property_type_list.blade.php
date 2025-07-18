@@ -8,6 +8,7 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Property Related</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Property Instance</a></li>
                             <li class="breadcrumb-item active">Property Type</li>
                         </ol>
                     </div>
