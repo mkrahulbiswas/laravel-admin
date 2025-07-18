@@ -133,183 +133,190 @@ return [
         ],
         'propertyRelated' => [
             'type' => 'propertyRelated',
-            'propertyAttribute' => [
-                'type' => 'propertyAttribute',
-                'attributes' => [
-                    'amenities' => [
-                        'type' => 'amenities',
-                        'name' => 'Amenities'
+            'propertyInstance' => [
+                'type' => 'propertyInstance',
+                'propertyAttribute' => [
+                    'type' => 'propertyAttribute',
+                    'attributes' => [
+                        'amenities' => [
+                            'type' => 'amenities',
+                            'name' => 'Amenities'
+                        ],
+                        'propertyFeatures' => [
+                            'type' => 'propertyFeatures',
+                            'name' => 'Property Features'
+                        ],
+                        'societyFeatures' => [
+                            'type' => 'societyFeatures',
+                            'name' => 'Society Features'
+                        ],
+                        'typeOfFloorings' => [
+                            'type' => 'typeOfFloorings',
+                            'name' => 'Type Of Floorings'
+                        ],
+                        'parkingTypes' => [
+                            'type' => 'parkingTypes',
+                            'name' => 'Parking Types'
+                        ],
+                        'locatedNear' => [
+                            'type' => 'locatedNear',
+                            'name' => 'Located Near'
+                        ],
+                        'locationAdvantages' => [
+                            'type' => 'locationAdvantages',
+                            'name' => 'Location Advantages'
+                        ],
+                        'propertyFacing' => [
+                            'type' => 'propertyFacing',
+                            'name' => 'propertyFacing'
+                        ],
+                        'uploadedPhotoType' => [
+                            'type' => 'uploadedPhotoType',
+                            'name' => 'Uploaded Photo Type'
+                        ],
+                        'typesOfUsers' => [
+                            'type' => 'typesOfUsers',
+                            'name' => 'Types Of Users'
+                        ],
+                        'ownership' => [
+                            'type' => 'ownership',
+                            'name' => 'Ownership'
+                        ],
+                        'measurementsUnits' => [
+                            'type' => 'measurementsUnits',
+                            'name' => 'Measurements Units'
+                        ],
+                        'qualityRating' => [
+                            'type' => 'qualityRating',
+                            'name' => 'Quality Rating'
+                        ],
+                        'otherRooms' => [
+                            'type' => 'otherRooms',
+                            'name' => 'Other Rooms'
+                        ],
+                        'availabilityStatus' => [
+                            'type' => 'availabilityStatus',
+                            'name' => 'Availability Status'
+                        ],
+                        'furnishing' => [
+                            'type' => 'furnishing',
+                            'name' => 'Furnishing'
+                        ],
+                        'propertyProvided' => [
+                            'type' => 'propertyProvided',
+                            'name' => 'Property provided'
+                        ],
+                        'yourApartment' => [
+                            'type' => 'yourApartment',
+                            'name' => 'Your Apartment is'
+                        ],
+                        'additionalFeature' => [
+                            'type' => 'additionalFeature',
+                            'name' => 'Additional Feature'
+                        ],
+                        'suitableType' => [
+                            'type' => 'suitableType',
+                            'name' => 'Suitable type'
+                        ],
+                        'washroomDetails' => [
+                            'type' => 'washroomDetails',
+                            'name' => 'Washroom details'
+                        ],
+                        'facilityAvailable' => [
+                            'type' => 'facilityAvailable',
+                            'name' => 'Facility Available'
+                        ],
+                        'ageOfProperty' => [
+                            'type' => 'ageOfProperty',
+                            'name' => 'Age of property'
+                        ],
+                        'waterSource' => [
+                            'type' => 'waterSource',
+                            'name' => 'Water Source'
+                        ],
+                        'overlooking' => [
+                            'type' => 'overlooking',
+                            'name' => 'Overlooking'
+                        ],
+                        'otherFeature' => [
+                            'type' => 'otherFeature',
+                            'name' => 'Other Feature'
+                        ],
+                        'powerBackup' => [
+                            'type' => 'powerBackup',
+                            'name' => 'Power Backup'
+                        ],
+                        'constructionDone' => [
+                            'type' => 'constructionDone',
+                            'name' => 'construction done'
+                        ],
+                        'propertyApproved' => [
+                            'type' => 'propertyApproved',
+                            'name' => 'property approved'
+                        ],
+                        'locationInside' => [
+                            'type' => 'locationInside',
+                            'name' => 'Location Inside'
+                        ],
+                        'zoneType' => [
+                            'type' => 'zoneType',
+                            'name' => 'Zone Type'
+                        ],
+                        'constructionStatus' => [
+                            'type' => 'constructionStatus',
+                            'name' => 'Construction Status'
+                        ],
+                        'fireSafety' => [
+                            'type' => 'fireSafety',
+                            'name' => 'Fire safety'
+                        ],
+                        'previouslyUsed' => [
+                            'type' => 'previouslyUsed',
+                            'name' => 'Previously used for'
+                        ],
+                        'approvedType' => [
+                            'type' => 'approvedType',
+                            'name' => 'Approved type'
+                        ],
+                        'buildingFeature' => [
+                            'type' => 'buildingFeature',
+                            'name' => 'Building feature'
+                        ],
+                    ]
+                ],
+                'propertyType' => [
+                    'type' => 'propertyType',
+                ],
+                'manageBroad' => [
+                    'type' => 'manageBroad',
+                    'broadType' => [
+                        'type' => 'broadType'
                     ],
-                    'propertyFeatures' => [
-                        'type' => 'propertyFeatures',
-                        'name' => 'Property Features'
+                    'assignBroad' => [
+                        'type' => 'assignBroad'
+                    ]
+                ],
+                'propertyCategory' => [
+                    'type' => 'propertyCategory',
+                    'manageCategory' => [
+                        'type' => 'manageCategory'
                     ],
-                    'societyFeatures' => [
-                        'type' => 'societyFeatures',
-                        'name' => 'Society Features'
-                    ],
-                    'typeOfFloorings' => [
-                        'type' => 'typeOfFloorings',
-                        'name' => 'Type Of Floorings'
-                    ],
-                    'parkingTypes' => [
-                        'type' => 'parkingTypes',
-                        'name' => 'Parking Types'
-                    ],
-                    'locatedNear' => [
-                        'type' => 'locatedNear',
-                        'name' => 'Located Near'
-                    ],
-                    'locationAdvantages' => [
-                        'type' => 'locationAdvantages',
-                        'name' => 'Location Advantages'
-                    ],
-                    'propertyFacing' => [
-                        'type' => 'propertyFacing',
-                        'name' => 'propertyFacing'
-                    ],
-                    'uploadedPhotoType' => [
-                        'type' => 'uploadedPhotoType',
-                        'name' => 'Uploaded Photo Type'
-                    ],
-                    'typesOfUsers' => [
-                        'type' => 'typesOfUsers',
-                        'name' => 'Types Of Users'
-                    ],
-                    'ownership' => [
-                        'type' => 'ownership',
-                        'name' => 'Ownership'
-                    ],
-                    'measurementsUnits' => [
-                        'type' => 'measurementsUnits',
-                        'name' => 'Measurements Units'
-                    ],
-                    'qualityRating' => [
-                        'type' => 'qualityRating',
-                        'name' => 'Quality Rating'
-                    ],
-                    'otherRooms' => [
-                        'type' => 'otherRooms',
-                        'name' => 'Other Rooms'
-                    ],
-                    'availabilityStatus' => [
-                        'type' => 'availabilityStatus',
-                        'name' => 'Availability Status'
-                    ],
-                    'furnishing' => [
-                        'type' => 'furnishing',
-                        'name' => 'Furnishing'
-                    ],
-                    'propertyProvided' => [
-                        'type' => 'propertyProvided',
-                        'name' => 'Property provided'
-                    ],
-                    'yourApartment' => [
-                        'type' => 'yourApartment',
-                        'name' => 'Your Apartment is'
-                    ],
-                    'additionalFeature' => [
-                        'type' => 'additionalFeature',
-                        'name' => 'Additional Feature'
-                    ],
-                    'suitableType' => [
-                        'type' => 'suitableType',
-                        'name' => 'Suitable type'
-                    ],
-                    'washroomDetails' => [
-                        'type' => 'washroomDetails',
-                        'name' => 'Washroom details'
-                    ],
-                    'facilityAvailable' => [
-                        'type' => 'facilityAvailable',
-                        'name' => 'Facility Available'
-                    ],
-                    'ageOfProperty' => [
-                        'type' => 'ageOfProperty',
-                        'name' => 'Age of property'
-                    ],
-                    'waterSource' => [
-                        'type' => 'waterSource',
-                        'name' => 'Water Source'
-                    ],
-                    'overlooking' => [
-                        'type' => 'overlooking',
-                        'name' => 'Overlooking'
-                    ],
-                    'otherFeature' => [
-                        'type' => 'otherFeature',
-                        'name' => 'Other Feature'
-                    ],
-                    'powerBackup' => [
-                        'type' => 'powerBackup',
-                        'name' => 'Power Backup'
-                    ],
-                    'constructionDone' => [
-                        'type' => 'constructionDone',
-                        'name' => 'construction done'
-                    ],
-                    'propertyApproved' => [
-                        'type' => 'propertyApproved',
-                        'name' => 'property approved'
-                    ],
-                    'locationInside' => [
-                        'type' => 'locationInside',
-                        'name' => 'Location Inside'
-                    ],
-                    'zoneType' => [
-                        'type' => 'zoneType',
-                        'name' => 'Zone Type'
-                    ],
-                    'constructionStatus' => [
-                        'type' => 'constructionStatus',
-                        'name' => 'Construction Status'
-                    ],
-                    'fireSafety' => [
-                        'type' => 'fireSafety',
-                        'name' => 'Fire safety'
-                    ],
-                    'previouslyUsed' => [
-                        'type' => 'previouslyUsed',
-                        'name' => 'Previously used for'
-                    ],
-                    'approvedType' => [
-                        'type' => 'approvedType',
-                        'name' => 'Approved type'
-                    ],
-                    'buildingFeature' => [
-                        'type' => 'buildingFeature',
-                        'name' => 'Building feature'
+                    'assignCategory' => [
+                        'type' => 'assignCategory'
                     ],
                 ]
-            ],
-            'propertyType' => [
-                'type' => 'propertyType',
-            ],
-            'manageBroad' => [
-                'type' => 'manageBroad',
-                'broadType' => [
-                    'type' => 'broadType'
-                ],
-                'assignBroad' => [
-                    'type' => 'assignBroad'
-                ]
-            ],
-            'propertyCategory' => [
-                'type' => 'propertyCategory',
-                'manageCategory' => [
-                    'type' => 'manageCategory'
-                ],
-                'assignCategory' => [
-                    'type' => 'assignCategory'
-                ],
             ]
         ],
-        'manageUsers' => [
-            'adminUsers' => [
-                'type' => 'adminUsers'
-            ],
-            'appUsers' => [
-                'type' => 'appUsers'
+        'usersRelated' => [
+            'type' => 'usersRelated',
+            'manageUsers' => [
+                'type' => 'manageUsers',
+                'adminUsers' => [
+                    'type' => 'adminUsers'
+                ],
+                'appUsers' => [
+                    'type' => 'appUsers'
+                ],
             ],
         ],
         'helperCommon' => [

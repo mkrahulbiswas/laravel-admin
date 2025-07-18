@@ -3,7 +3,7 @@
 namespace App\Rules\PropertyRelated;
 
 use Closure;
-use App\Models\PropertyRelated\PropertyAttribute;
+use App\Models\PropertyRelated\PropertyInstance\PropertyAttribute;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 class UniquePropertyAttribute implements ValidationRule

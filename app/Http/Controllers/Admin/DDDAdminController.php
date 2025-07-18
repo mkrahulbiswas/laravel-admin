@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Helpers\AdminRelated\NavigationAccess\ManageSideNavHelper;
 use App\Helpers\AdminRelated\QuickSetting\CustomizedAlertHelper;
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
-use App\Helpers\PropertyRelated\GetManageBroadHelper;
-use App\Helpers\PropertyRelated\GetPropertyCategoryHelper;
+use App\Helpers\PropertyRelated\PropertyInstance\GetManageBroadHelper;
+use App\Helpers\PropertyRelated\PropertyInstance\GetPropertyCategoryHelper;
 
 use App\Traits\CommonTrait;
 use App\Traits\FileTrait;
@@ -139,7 +139,7 @@ class DDDAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.assignBroad.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -151,7 +151,7 @@ class DDDAdminController extends Controller
                         ]
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
             if ($assignBroad == []) {
                 return Response()->Json(['status' => 2, 'msg' => __('messages.serverErrMsg'), 'redirectTo' => route('admin.show.assignBroad'), 'data' => (object)[]], Config::get('constants.errorCode.ok'));
@@ -178,7 +178,7 @@ class DDDAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -189,7 +189,7 @@ class DDDAdminController extends Controller
                         'orderBy' => ['id' => 'desc'],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
 
             $data = [
                 'mainCategory' => $mainCategory

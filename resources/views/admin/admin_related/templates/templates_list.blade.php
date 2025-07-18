@@ -41,10 +41,10 @@
                 </ul>
                 <div class="tab-content text-muted">
                     <div class="tab-pane active show" id="arrow-overview" role="tabpanel">
-                        @include('admin.property_related.property_category.manage_category.main_category.main_category_list')
+                        @include('admin.property_related.property_instance.property_category.manage_category.main_category.main_category_list')
                     </div>
                     <div class="tab-pane" id="arrow-profile" role="tabpanel">
-                        @include('admin.property_related.property_category.manage_category.main_category.main_category_list')
+                        @include('admin.property_related.property_instance.property_category.manage_category.main_category.main_category_list')
                     </div>
                 </div>
             </div>

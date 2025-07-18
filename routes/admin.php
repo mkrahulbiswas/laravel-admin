@@ -9,10 +9,10 @@ use App\Http\Controllers\Admin\AdminRelated\RolePermission\ManageRoleAdminContro
 use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\DDDAdminController;
 use App\Http\Controllers\Admin\Dashboard\DashboardAdminController;
-use App\Http\Controllers\Admin\PropertyRelated\ManageBroadAdminController;
-use App\Http\Controllers\Admin\PropertyRelated\PropertyAttributeAdminController;
-use App\Http\Controllers\Admin\PropertyRelated\PropertyCategoryAdminController;
-use App\Http\Controllers\Admin\PropertyRelated\PropertyTypeAdminController;
+use App\Http\Controllers\Admin\PropertyRelated\PropertyInstance\ManageBroadAdminController;
+use App\Http\Controllers\Admin\PropertyRelated\PropertyInstance\PropertyAttributeAdminController;
+use App\Http\Controllers\Admin\PropertyRelated\PropertyInstance\PropertyCategoryAdminController;
+use App\Http\Controllers\Admin\PropertyRelated\PropertyInstance\PropertyTypeAdminController;
 use App\Http\Controllers\Admin\UsersRelated\ManageUsers\AdminUsersAdminController;
 use App\Http\Controllers\Admin\UsersRelated\ManageUsers\AppUsersAdminController;
 use App\Http\Middleware\CheckAdminMiddleware;

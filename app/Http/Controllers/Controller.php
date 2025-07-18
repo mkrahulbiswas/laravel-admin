@@ -82,13 +82,13 @@ abstract class Controller
                     [
                         'getDetail' => [
                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
-                            'for' => Config::get('constants.typeCheck.manageUsers.adminUsers.type'),
+                            'for' => Config::get('constants.typeCheck.usersRelated.manageUsers.adminUsers.type'),
                         ],
                         'otherDataPasses' => [
                             'id' => encrypt(Auth::guard('admin')->user()->id)
                         ]
                     ],
-                ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+                ])[Config::get('constants.typeCheck.usersRelated.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
             }
 
             $logo = Logo::where('default', Config::get('constants.status.yes'))->first();

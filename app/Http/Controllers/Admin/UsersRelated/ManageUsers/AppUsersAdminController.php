@@ -43,7 +43,7 @@ class AppUsersAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageUsers.appUsers.type'),
+                        'for' => Config::get('constants.typeCheck.usersRelated.manageUsers.appUsers.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -55,7 +55,7 @@ class AppUsersAdminController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageUsers.appUsers.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.usersRelated.manageUsers.appUsers.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
@@ -129,13 +129,13 @@ class AppUsersAdminController extends Controller
                 [
                     'getDetail' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                        'for' => Config::get('constants.typeCheck.manageUsers.appUsers.type'),
+                        'for' => Config::get('constants.typeCheck.usersRelated.manageUsers.appUsers.type'),
                     ],
                     'otherDataPasses' => [
                         'id' => $id
                     ]
                 ],
-            ])[Config::get('constants.typeCheck.manageUsers.appUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+            ])[Config::get('constants.typeCheck.usersRelated.manageUsers.appUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
 
             $data = [
                 'detail' => $appUsers,

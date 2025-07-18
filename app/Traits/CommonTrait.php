@@ -469,33 +469,33 @@ trait CommonTrait
             $return = array();
             foreach ($params as $temp) {
                 if ($temp['type'] == Config::get('constants.typeCheck.customizeInText.type')) {
-                    if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.amenities.type')) {
-                        $custom = '<span class="pa_amenities">' . Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.amenities.name') . '</span>';
-                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.amenities.name');
+                    if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.amenities.type')) {
+                        $custom = '<span class="pa_amenities">' . Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.amenities.name') . '</span>';
+                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.amenities.name');
                         $raw = $temp['value'];
-                    } else if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.propertyFeatures.type')) {
-                        $custom = '<span class="pa_propertyFeatures">' . Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.propertyFeatures.name') . '</span>';
-                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.propertyFeatures.name');
+                    } else if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.propertyFeatures.type')) {
+                        $custom = '<span class="pa_propertyFeatures">' . Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.propertyFeatures.name') . '</span>';
+                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.propertyFeatures.name');
                         $raw = $temp['value'];
-                    } else if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.societyFeatures.type')) {
-                        $custom = '<span class="pa_societyFeatures">' . Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.societyFeatures.name') . '</span>';
-                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.societyFeatures.name');
+                    } else if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.societyFeatures.type')) {
+                        $custom = '<span class="pa_societyFeatures">' . Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.societyFeatures.name') . '</span>';
+                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.societyFeatures.name');
                         $raw = $temp['value'];
-                    } else if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.typeOfFloorings.type')) {
-                        $custom = '<span class="pa_typeOfFloorings">' . Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.typeOfFloorings.name') . '</span>';
-                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.typeOfFloorings.name');
+                    } else if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.typeOfFloorings.type')) {
+                        $custom = '<span class="pa_typeOfFloorings">' . Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.typeOfFloorings.name') . '</span>';
+                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.typeOfFloorings.name');
                         $raw = $temp['value'];
-                    } else if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.parkingTypes.type')) {
-                        $custom = '<span class="pa_parkingTypes">' . Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.parkingTypes.name') . '</span>';
-                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.parkingTypes.name');
+                    } else if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.parkingTypes.type')) {
+                        $custom = '<span class="pa_parkingTypes">' . Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.parkingTypes.name') . '</span>';
+                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.parkingTypes.name');
                         $raw = $temp['value'];
-                    } else if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.locatedNear.type')) {
-                        $custom = '<span class="pa_locatedNear">' . Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.locatedNear.name') . '</span>';
-                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.locatedNear.name');
+                    } else if ($temp['value'] == Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.locatedNear.type')) {
+                        $custom = '<span class="pa_locatedNear">' . Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.locatedNear.name') . '</span>';
+                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.locatedNear.name');
                         $raw = $temp['value'];
                     } else {
-                        $custom = '<span class="pa_locationAdvantages">' . Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.locationAdvantages.name') . '</span>';
-                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes.locationAdvantages.name');
+                        $custom = '<span class="pa_locationAdvantages">' . Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.locationAdvantages.name') . '</span>';
+                        $formatted = Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes.locationAdvantages.name');
                         $raw = $temp['value'];
                     }
                     $return[Config::get('constants.typeCheck.customizeInText.type')] = [
