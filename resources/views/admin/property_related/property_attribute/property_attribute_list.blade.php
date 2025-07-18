@@ -75,7 +75,7 @@
                                                         <div class="form-icon set-validation">
                                                             <select name="type" id="typeFilter" class="selectTwo select2-type">
                                                                 <option value="">Select Property Attribute Type</option>
-                                                                @foreach (Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes') as $item)
+                                                                @foreach (Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes') as $item)
                                                                     <option value="{{ $item['type'] }}">{{ $item['name'] }}</option>
                                                                 @endforeach
                                                             </select>
@@ -174,7 +174,7 @@
                                 <div class="form-icon set-validation">
                                     <select name="type" id="type" class="selectTwo select2-type-addModal">
                                         <option value="">Select Type</option>
-                                        @foreach (Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes') as $item)
+                                        @foreach (Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes') as $item)
                                             <option value="{{ $item['type'] }}">{{ $item['name'] }}</option>
                                         @endforeach
                                     </select>
@@ -238,7 +238,7 @@
                                 <div class="form-icon set-validation">
                                     <select name="type" id="type2" class="selectTwo select2-type-editModal">
                                         <option value="">Select Type</option>
-                                        @foreach (Config::get('constants.typeCheck.propertyRelated.propertyAttribute.attributes') as $item)
+                                        @foreach (Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyAttribute.attributes') as $item)
                                             <option value="{{ $item['type'] }}">{{ $item['name'] }}</option>
                                         @endforeach
                                     </select>

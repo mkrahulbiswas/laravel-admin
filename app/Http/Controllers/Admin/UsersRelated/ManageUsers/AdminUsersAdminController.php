@@ -71,7 +71,7 @@ class AdminUsersAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.manageUsers.adminUsers.type'),
+                        'for' => Config::get('constants.typeCheck.usersRelated.manageUsers.adminUsers.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -84,7 +84,7 @@ class AdminUsersAdminController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.usersRelated.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
@@ -320,13 +320,13 @@ class AdminUsersAdminController extends Controller
                 [
                     'getDetail' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
-                        'for' => Config::get('constants.typeCheck.manageUsers.adminUsers.type'),
+                        'for' => Config::get('constants.typeCheck.usersRelated.manageUsers.adminUsers.type'),
                     ],
                     'otherDataPasses' => [
                         'id' => $id
                     ]
                 ],
-            ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+            ])[Config::get('constants.typeCheck.usersRelated.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
 
             $subRole = ManageRoleHelper::getList([
                 [
@@ -459,13 +459,13 @@ class AdminUsersAdminController extends Controller
                 [
                     'getDetail' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
-                        'for' => Config::get('constants.typeCheck.manageUsers.adminUsers.type'),
+                        'for' => Config::get('constants.typeCheck.usersRelated.manageUsers.adminUsers.type'),
                     ],
                     'otherDataPasses' => [
                         'id' => $id
                     ]
                 ],
-            ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+            ])[Config::get('constants.typeCheck.usersRelated.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
 
             $subRole = ManageRoleHelper::getList([
                 [

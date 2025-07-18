@@ -23,7 +23,7 @@ class CreatePostAppController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyType.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -34,7 +34,7 @@ class CreatePostAppController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyType.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
             $data = [
                 'all' => $getList,
                 'default' => collect($getList)->where('default', Config::get('constants.status.yes'))->values()->all(),

@@ -28,7 +28,7 @@ class ManageUsersHelper
         try {
             $finalData = array();
             foreach ($params as $tempOne) {
-                if (Config::get('constants.typeCheck.manageUsers.adminUsers.type') == $tempOne['getList']['for']) {
+                if (Config::get('constants.typeCheck.usersRelated.manageUsers.adminUsers.type') == $tempOne['getList']['for']) {
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.get.byf'), $tempOne['getList']['type'])) {
@@ -77,13 +77,13 @@ class ManageUsersHelper
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                        'for' => Config::get('constants.typeCheck.manageUsers.adminUsers.type'),
+                                        'for' => Config::get('constants.typeCheck.usersRelated.manageUsers.adminUsers.type'),
                                     ],
                                     'otherDataPasses' => [
                                         'id' => encrypt($tempTwo->id)
                                     ]
                                 ],
-                            ])[Config::get('constants.typeCheck.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            ])[Config::get('constants.typeCheck.usersRelated.manageUsers.adminUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                         }
 
                         $data[Config::get('constants.typeCheck.helperCommon.get.byf')] = [
@@ -99,10 +99,10 @@ class ManageUsersHelper
                         }
                     }
 
-                    $finalData[Config::get('constants.typeCheck.manageUsers.adminUsers.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.usersRelated.manageUsers.adminUsers.type')] = $data;
                 }
 
-                if (Config::get('constants.typeCheck.manageUsers.appUsers.type') == $tempOne['getList']['for']) {
+                if (Config::get('constants.typeCheck.usersRelated.manageUsers.appUsers.type') == $tempOne['getList']['for']) {
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.get.byf'), $tempOne['getList']['type'])) {
@@ -139,13 +139,13 @@ class ManageUsersHelper
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                        'for' => Config::get('constants.typeCheck.manageUsers.appUsers.type'),
+                                        'for' => Config::get('constants.typeCheck.usersRelated.manageUsers.appUsers.type'),
                                     ],
                                     'otherDataPasses' => [
                                         'id' => encrypt($tempTwo->id)
                                     ]
                                 ],
-                            ])[Config::get('constants.typeCheck.manageUsers.appUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            ])[Config::get('constants.typeCheck.usersRelated.manageUsers.appUsers.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                         }
 
                         $data[Config::get('constants.typeCheck.helperCommon.get.byf')] = [
@@ -161,7 +161,7 @@ class ManageUsersHelper
                         }
                     }
 
-                    $finalData[Config::get('constants.typeCheck.manageUsers.appUsers.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.usersRelated.manageUsers.appUsers.type')] = $data;
                 }
             }
             return $finalData;
@@ -183,7 +183,7 @@ class ManageUsersHelper
                     ]
                 ] = $tempOne;
 
-                if (Config::get('constants.typeCheck.manageUsers.adminUsers.type') == $for) {
+                if (Config::get('constants.typeCheck.usersRelated.manageUsers.adminUsers.type') == $for) {
                     $data = array();
                     $adminUsers = AdminUsers::where('id', decrypt($otherDataPasses['id']))->first();
                     $phone = new PhoneNumber('+' . $adminUsers->dialCode . $adminUsers->phone);
@@ -317,10 +317,10 @@ class ManageUsersHelper
                         }
                     }
 
-                    $finalData[Config::get('constants.typeCheck.manageUsers.adminUsers.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.usersRelated.manageUsers.adminUsers.type')] = $data;
                 }
 
-                if (Config::get('constants.typeCheck.manageUsers.appUsers.type') == $for) {
+                if (Config::get('constants.typeCheck.usersRelated.manageUsers.appUsers.type') == $for) {
                     $data = array();
                     $user = User::where('id', decrypt($otherDataPasses['id']))->first();
                     $phone = new PhoneNumber('+' . $user->dialCode . $user->phone);
@@ -362,7 +362,7 @@ class ManageUsersHelper
                         }
                     }
 
-                    $finalData[Config::get('constants.typeCheck.manageUsers.appUsers.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.usersRelated.manageUsers.appUsers.type')] = $data;
                 }
             }
             return $finalData;

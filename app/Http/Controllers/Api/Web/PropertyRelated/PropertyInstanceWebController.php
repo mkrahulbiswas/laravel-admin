@@ -25,7 +25,7 @@ class PropertyInstanceWebController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyType.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -36,7 +36,7 @@ class PropertyInstanceWebController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyType.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
             $data = [
                 'all' => $getList,
                 'default' => collect($getList)->where('default', Config::get('constants.status.yes'))->first(),
@@ -58,7 +58,7 @@ class PropertyInstanceWebController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.manageBroad.broadType.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.broadType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -69,7 +69,7 @@ class PropertyInstanceWebController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.broadType.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.broadType.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
             $data = [
                 'all' => $getList,
             ];
@@ -90,7 +90,7 @@ class PropertyInstanceWebController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.assignBroad.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -102,7 +102,7 @@ class PropertyInstanceWebController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
             $data = [
                 'all' => $getList,
                 'default' => collect($getList)->where('default', Config::get('constants.status.yes'))->values()->all(),
@@ -124,7 +124,7 @@ class PropertyInstanceWebController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -136,7 +136,7 @@ class PropertyInstanceWebController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
             $data = [
                 'all' => $getList,
             ];
@@ -157,7 +157,7 @@ class PropertyInstanceWebController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -170,7 +170,7 @@ class PropertyInstanceWebController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
             $data = [
                 'all' => $getList,
             ];
@@ -191,7 +191,7 @@ class PropertyInstanceWebController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -205,7 +205,7 @@ class PropertyInstanceWebController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
             $data = [
                 'all' => $getList,
             ];
@@ -226,11 +226,11 @@ class PropertyInstanceWebController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                     ],
                     'otherDataPasses' => [],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
             $data = [
                 'all' => $getList,
             ];
@@ -251,7 +251,7 @@ class PropertyInstanceWebController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.assignCategory.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -263,7 +263,7 @@ class PropertyInstanceWebController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.assignCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
             $data = [
                 'all' => $getList,
                 'default' => collect($getList)->where('default', Config::get('constants.status.yes'))->values()->all(),
@@ -285,7 +285,7 @@ class PropertyInstanceWebController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.assignCategory.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -297,12 +297,12 @@ class PropertyInstanceWebController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.assignCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
             $getListAssignBroad = GetManageBroadHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.assignBroad.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -314,7 +314,7 @@ class PropertyInstanceWebController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
             $data = [
                 'assignCategory' => [
                     'all' => $getListAssignCategory,

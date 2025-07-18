@@ -37,14 +37,14 @@ class PropertyCategoryAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => ['status' => Config::get('constants.status.active'), 'type' => Config::get('constants.status.category.main')],
                         'orderBy' => ['id' => 'desc'],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
 
             $data = [
                 'mainCategory' => $getList,
@@ -63,7 +63,7 @@ class PropertyCategoryAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -77,7 +77,7 @@ class PropertyCategoryAdminController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
             $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
@@ -311,20 +311,20 @@ class PropertyCategoryAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyType.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => ['status' => Config::get('constants.status.active')],
                         'orderBy' => ['id' => 'desc'],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyType.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
 
             $mainCategory = GetPropertyCategoryHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -334,7 +334,7 @@ class PropertyCategoryAdminController extends Controller
                         'orderBy' => ['id' => 'desc'],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
 
             $data = [
                 'propertyType' => $propertyType,
@@ -354,7 +354,7 @@ class PropertyCategoryAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.assignCategory.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -369,7 +369,7 @@ class PropertyCategoryAdminController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.assignCategory.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
             $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [

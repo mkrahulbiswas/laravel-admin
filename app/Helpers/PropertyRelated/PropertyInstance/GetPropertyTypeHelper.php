@@ -21,7 +21,7 @@ class GetPropertyTypeHelper
         try {
             $finalData = array();
             foreach ($params as $tempOne) {
-                if (Config::get('constants.typeCheck.propertyRelated.propertyType.type') == $tempOne['getList']['for']) {
+                if (Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type') == $tempOne['getList']['for']) {
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.get.iyf'), $tempOne['getList']['type'])) {
@@ -94,13 +94,13 @@ class GetPropertyTypeHelper
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyType.type'),
+                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type'),
                                     ],
                                     'otherDataPasses' => [
                                         'id' => encrypt($tempTwo->id)
                                     ]
                                 ],
-                            ])[Config::get('constants.typeCheck.propertyRelated.propertyType.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                         }
 
                         $data[Config::get('constants.typeCheck.helperCommon.get.byf')] = [
@@ -116,7 +116,7 @@ class GetPropertyTypeHelper
                         }
                     }
 
-                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyType.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type')] = $data;
                 }
             }
 
@@ -139,7 +139,7 @@ class GetPropertyTypeHelper
                     ]
                 ] = $tempOne;
 
-                if (Config::get('constants.typeCheck.propertyRelated.propertyType.type') == $for) {
+                if (Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type') == $for) {
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
@@ -165,7 +165,7 @@ class GetPropertyTypeHelper
                         $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [];
                     }
 
-                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyType.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type')] = $data;
                 }
             }
             return $finalData;

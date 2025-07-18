@@ -43,7 +43,7 @@ class PropertyTypeAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyType.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -55,7 +55,7 @@ class PropertyTypeAdminController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [

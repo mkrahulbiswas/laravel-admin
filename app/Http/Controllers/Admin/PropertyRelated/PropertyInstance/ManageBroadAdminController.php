@@ -45,7 +45,7 @@ class ManageBroadAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.byf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.manageBroad.broadType.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.broadType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -56,7 +56,7 @@ class ManageBroadAdminController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.broadType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.broadType.type')][Config::get('constants.typeCheck.helperCommon.get.byf')]['list'];
 
             $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [
@@ -246,27 +246,27 @@ class ManageBroadAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.manageBroad.broadType.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.broadType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => ['status' => Config::get('constants.status.active')],
                         'orderBy' => ['id' => 'desc'],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.broadType.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.broadType.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
 
             $propertyType = GetPropertyTypeHelper::getList([
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyType.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => ['status' => Config::get('constants.status.active')],
                         'orderBy' => ['id' => 'desc'],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.propertyType.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
 
             $data = [
                 'broadType' => $broadType,
@@ -286,7 +286,7 @@ class ManageBroadAdminController extends Controller
                 [
                     'getList' => [
                         'type' => [Config::get('constants.typeCheck.helperCommon.get.dyf')],
-                        'for' => Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type'),
+                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.assignBroad.type'),
                     ],
                     'otherDataPasses' => [
                         'filterData' => [
@@ -300,7 +300,7 @@ class ManageBroadAdminController extends Controller
                         ],
                     ],
                 ],
-            ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
+            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.get.dyf')]['list'];
 
             $getPrivilege = ManagePermissionHelper::getPrivilege([
                 [

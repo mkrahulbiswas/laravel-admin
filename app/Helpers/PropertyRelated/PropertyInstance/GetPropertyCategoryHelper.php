@@ -21,7 +21,7 @@ class GetPropertyCategoryHelper
         try {
             $finalData = array();
             foreach ($params as $tempOne) {
-                if (Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type') == $tempOne['getList']['for']) {
+                if (Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type') == $tempOne['getList']['for']) {
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.get.iyf'), $tempOne['getList']['type'])) {
@@ -116,13 +116,13 @@ class GetPropertyCategoryHelper
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                                     ],
                                     'otherDataPasses' => [
                                         'id' => encrypt($tempTwo->id)
                                     ]
                                 ],
-                            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                         }
 
                         $data[Config::get('constants.typeCheck.helperCommon.get.byf')] = [
@@ -184,13 +184,13 @@ class GetPropertyCategoryHelper
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
-                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                                     ],
                                     'otherDataPasses' => [
                                         'id' => encrypt($tempTwo->id)
                                     ]
                                 ],
-                            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+                            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
                         }
 
                         $data[Config::get('constants.typeCheck.helperCommon.get.dyf')] = [
@@ -206,10 +206,10 @@ class GetPropertyCategoryHelper
                         }
                     }
 
-                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')] = $data;
                 }
 
-                if (Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type') == $tempOne['getList']['for']) {
+                if (Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.assignCategory.type') == $tempOne['getList']['for']) {
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.get.iyf'), $tempOne['getList']['type'])) {
@@ -318,13 +318,13 @@ class GetPropertyCategoryHelper
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
-                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type'),
+                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.assignCategory.type'),
                                     ],
                                     'otherDataPasses' => [
                                         'id' => encrypt($tempTwo->id)
                                     ]
                                 ],
-                            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+                            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.assignCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
                         }
 
                         $data[Config::get('constants.typeCheck.helperCommon.get.dyf')] = [
@@ -340,7 +340,7 @@ class GetPropertyCategoryHelper
                         }
                     }
 
-                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.assignCategory.type')] = $data;
                 }
             }
 
@@ -363,7 +363,7 @@ class GetPropertyCategoryHelper
                     ]
                 ] = $tempOne;
 
-                if (Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type') == $for) {
+                if (Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type') == $for) {
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
@@ -408,36 +408,36 @@ class GetPropertyCategoryHelper
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                            'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                            'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                                         ],
                                         'otherDataPasses' => [
                                             'id' => encrypt($manageCategory->mainCategoryId)
                                         ]
                                     ],
-                                ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                                ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                             }
                             if ($manageCategory->subCategoryId != null) {
                                 $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail']['subCategory'] = GetPropertyCategoryHelper::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                            'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                            'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                                         ],
                                         'otherDataPasses' => [
                                             'id' => encrypt($manageCategory->subCategoryId)
                                         ]
                                     ],
-                                ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                                ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                             }
                         } else {
                             $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [];
                         }
                     }
 
-                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')] = $data;
                 }
 
-                if (Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type') == $for) {
+                if (Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.assignCategory.type') == $for) {
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.yd'), $type)) {
@@ -450,24 +450,24 @@ class GetPropertyCategoryHelper
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
-                                            'for' => Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type'),
+                                            'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.assignBroad.type'),
                                         ],
                                         'otherDataPasses' => [
                                             'id' => encrypt($assignCategory->assignBroadId)
                                         ]
                                     ],
-                                ])[Config::get('constants.typeCheck.propertyRelated.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'],
+                                ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'],
                                 'mainCategory' => GetPropertyCategoryHelper::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                            'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                            'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                                         ],
                                         'otherDataPasses' => [
                                             'id' => encrypt($assignCategory->mainCategoryId)
                                         ]
                                     ],
-                                ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
+                                ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
                                 'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $assignCategory->uniqueId]),
                                 'customizeInText' => CommonTrait::customizeInText([
                                     [
@@ -485,7 +485,7 @@ class GetPropertyCategoryHelper
                         }
                     }
 
-                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyCategory.assignCategory.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.assignCategory.type')] = $data;
                 }
             }
             return $finalData;
@@ -499,7 +499,7 @@ class GetPropertyCategoryHelper
         try {
             $finalData = array();
             foreach ($params as $tempOne) {
-                if (Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type') == $tempOne['getList']['for']) {
+                if (Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type') == $tempOne['getList']['for']) {
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.get.iyf'), $tempOne['getList']['type'])) {
@@ -508,7 +508,7 @@ class GetPropertyCategoryHelper
                             [
                                 'getList' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                                    'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                    'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                                 ],
                                 'otherDataPasses' => [
                                     'filterData' => [
@@ -520,13 +520,13 @@ class GetPropertyCategoryHelper
                                     ],
                                 ],
                             ],
-                        ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+                        ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
                         foreach ($mainCategory as $tempTwo) {
                             $subCategory = self::getList([
                                 [
                                     'getList' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                                     ],
                                     'otherDataPasses' => [
                                         'filterData' => [
@@ -539,13 +539,13 @@ class GetPropertyCategoryHelper
                                         ],
                                     ],
                                 ],
-                            ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+                            ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
                             foreach ($subCategory as $tempThree) {
                                 $nestedCategory = self::getList([
                                     [
                                         'getList' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.get.iyf')],
-                                            'for' => Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type'),
+                                            'for' => Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type'),
                                         ],
                                         'otherDataPasses' => [
                                             'filterData' => [
@@ -559,7 +559,7 @@ class GetPropertyCategoryHelper
                                             ],
                                         ],
                                     ],
-                                ])[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
+                                ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.get.iyf')]['list'];
                                 foreach ($nestedCategory as $tempFour) {
                                     $nestedCategoryList[] = [
                                         'id' => $tempFour['id'],
@@ -597,7 +597,7 @@ class GetPropertyCategoryHelper
                         }
                     }
 
-                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyCategory.manageCategory.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')] = $data;
                 }
             }
             return $finalData;
