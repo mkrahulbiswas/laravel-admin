@@ -4,7 +4,7 @@ namespace App\Helpers\PropertyRelated;
 
 use App\Traits\CommonTrait;
 
-use App\Models\PropertyRelated\PropertyAttribute;
+use App\Models\PropertyInstance\PropertyRelated\PropertyAttribute;
 
 use Exception;
 use Illuminate\Support\Arr;

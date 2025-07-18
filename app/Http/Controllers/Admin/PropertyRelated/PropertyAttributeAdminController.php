@@ -10,7 +10,7 @@ use App\Helpers\PropertyRelated\GetPropertyAttributeHelper;
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\PropertyRelated\PropertyAttribute;
+use App\Models\PropertyInstance\PropertyRelated\PropertyAttribute;
 
 use Exception;
 use Yajra\DataTables\DataTables;

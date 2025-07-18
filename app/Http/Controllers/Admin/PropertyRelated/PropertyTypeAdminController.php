@@ -11,7 +11,7 @@ use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\PropertyRelated\PropertyType;
+use App\Models\PropertyInstance\PropertyRelated\PropertyType;
 
 use Exception;
 use Yajra\DataTables\DataTables;

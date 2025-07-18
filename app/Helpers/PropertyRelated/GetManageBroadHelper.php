@@ -4,8 +4,8 @@ namespace App\Helpers\PropertyRelated;
 
 use App\Traits\CommonTrait;
 
-use App\Models\PropertyRelated\ManageBroad\AssignBroad;
-use App\Models\PropertyRelated\ManageBroad\BroadType;
+use App\Models\PropertyInstance\PropertyRelated\ManageBroad\AssignBroad;
+use App\Models\PropertyInstance\PropertyRelated\ManageBroad\BroadType;
 
 use Exception;
 use Illuminate\Support\Arr;

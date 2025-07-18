@@ -4,8 +4,8 @@ namespace App\Helpers\PropertyRelated;
 
 use App\Traits\CommonTrait;
 
-use App\Models\PropertyRelated\PropertyCategory\AssignCategory;
-use App\Models\PropertyRelated\PropertyCategory\ManageCategory;
+use App\Models\PropertyInstance\PropertyRelated\PropertyCategory\AssignCategory;
+use App\Models\PropertyInstance\PropertyRelated\PropertyCategory\ManageCategory;
 
 use Exception;
 use Illuminate\Support\Arr;

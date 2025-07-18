@@ -12,9 +12,9 @@ use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\PropertyRelated\ManageBroad\AssignBroad;
-use App\Models\PropertyRelated\PropertyCategory\AssignCategory;
-use App\Models\PropertyRelated\PropertyCategory\ManageCategory;
+use App\Models\PropertyInstance\PropertyRelated\ManageBroad\AssignBroad;
+use App\Models\PropertyInstance\PropertyRelated\PropertyCategory\AssignCategory;
+use App\Models\PropertyInstance\PropertyRelated\PropertyCategory\ManageCategory;
 
 use Exception;
 use Illuminate\Support\Facades\DB;

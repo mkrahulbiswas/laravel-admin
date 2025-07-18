@@ -12,8 +12,8 @@ use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\PropertyRelated\ManageBroad\BroadType;
-use App\Models\PropertyRelated\ManageBroad\AssignBroad;
+use App\Models\PropertyInstance\PropertyRelated\ManageBroad\BroadType;
+use App\Models\PropertyInstance\PropertyRelated\ManageBroad\AssignBroad;
 
 use Exception;
 use Yajra\DataTables\DataTables;
