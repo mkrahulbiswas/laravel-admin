@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Helpers\AdminRelated\NavigationAccess\ManageSideNavHelper;
 use App\Helpers\AdminRelated\QuickSetting\CustomizedAlertHelper;
 use App\Helpers\AdminRelated\RolePermission\ManageRoleHelper;
-use App\Helpers\PropertyRelated\GetManageBroadHelper;
-use App\Helpers\PropertyRelated\GetPropertyCategoryHelper;
+use App\Helpers\PropertyRelated\PropertyInstance\GetManageBroadHelper;
+use App\Helpers\PropertyRelated\PropertyInstance\GetPropertyCategoryHelper;
 
 use App\Traits\CommonTrait;
 use App\Traits\FileTrait;

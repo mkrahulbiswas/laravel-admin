@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Helpers\PropertyRelated;
+namespace App\Helpers\PropertyRelated\PropertyInstance;
 
 use App\Traits\CommonTrait;
 
-use App\Models\PropertyInstance\PropertyRelated\PropertyCategory\AssignCategory;
-use App\Models\PropertyInstance\PropertyRelated\PropertyCategory\ManageCategory;
+use App\Models\PropertyRelated\PropertyInstance\PropertyCategory\AssignCategory;
+use App\Models\PropertyRelated\PropertyInstance\PropertyCategory\ManageCategory;
 
 use Exception;
 use Illuminate\Support\Arr;

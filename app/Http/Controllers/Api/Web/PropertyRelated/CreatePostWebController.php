@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\App\PropertyRelated;
 
 use App\Http\Controllers\Controller;
 
-use App\Helpers\PropertyRelated\GetPropertyTypeHelper;
+use App\Helpers\PropertyRelated\PropertyInstance\GetPropertyTypeHelper;
 
 use App\Traits\CommonTrait;
 

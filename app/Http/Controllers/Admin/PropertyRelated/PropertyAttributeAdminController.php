@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Admin\PropertyRelated;
 use App\Http\Controllers\Controller;
 
 use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
-use App\Helpers\PropertyRelated\GetPropertyAttributeHelper;
+use App\Helpers\PropertyRelated\PropertyInstance\GetPropertyAttributeHelper;
 
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\PropertyInstance\PropertyRelated\PropertyAttribute;
+use App\Models\PropertyRelated\PropertyInstance\PropertyAttribute;
 
 use Exception;
 use Yajra\DataTables\DataTables;

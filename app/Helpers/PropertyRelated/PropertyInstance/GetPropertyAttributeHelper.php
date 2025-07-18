@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Helpers\PropertyRelated;
+namespace App\Helpers\PropertyRelated\PropertyInstance;
 
 use App\Traits\CommonTrait;
 
-use App\Models\PropertyInstance\PropertyRelated\PropertyType;
+use App\Models\PropertyRelated\PropertyInstance\PropertyAttribute;
 
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
-class GetPropertyTypeHelper
+class GetPropertyAttributeHelper
 {
     use CommonTrait;
     public $platform = 'backend';
@@ -21,47 +21,11 @@ class GetPropertyTypeHelper
         try {
             $finalData = array();
             foreach ($params as $tempOne) {
-                if (Config::get('constants.typeCheck.propertyRelated.propertyType.type') == $tempOne['getList']['for']) {
+                if (Config::get('constants.typeCheck.propertyRelated.propertyAttribute.type') == $tempOne['getList']['for']) {
                     $data = array();
 
-                    if (in_array(Config::get('constants.typeCheck.helperCommon.get.iyf'), $tempOne['getList']['type'])) {
-                        $propertyType = array();
-                        $whereRaw = "`created_at` is not null";
-                        $orderByRaw = "`id` DESC";
-
-                        if (Arr::exists($tempOne['otherDataPasses'], 'filterData')) {
-                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'status')) {
-                                $status = $tempOne['otherDataPasses']['filterData']['status'];
-                                if (!empty($status)) {
-                                    $whereRaw .= " and `status` = '" . $status . "'";
-                                }
-                            }
-                        }
-
-                        if (Arr::exists($tempOne['otherDataPasses'], 'orderBy')) {
-                            if (Arr::exists($tempOne['otherDataPasses']['orderBy'], 'id')) {
-                                $id = $tempOne['otherDataPasses']['orderBy']['id'];
-                                if (!empty($id)) {
-                                    $orderByRaw = "`id` " . $id;
-                                }
-                            }
-                        }
-
-                        foreach (PropertyType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $propertyType[] = [
-                                'id' => encrypt($tempTwo->id),
-                                'name' => $tempTwo->name,
-                                'default' => $tempTwo->default
-                            ];
-                        }
-
-                        $data[Config::get('constants.typeCheck.helperCommon.get.iyf')] = [
-                            'list' => $propertyType
-                        ];
-                    }
-
                     if (in_array(Config::get('constants.typeCheck.helperCommon.get.byf'), $tempOne['getList']['type'])) {
-                        $propertyType = array();
+                        $propertyAttribute = array();
                         $whereRaw = "`created_at` is not null";
                         $orderByRaw = "`id` DESC";
 
@@ -70,6 +34,12 @@ class GetPropertyTypeHelper
                                 $status = $tempOne['otherDataPasses']['filterData']['status'];
                                 if (!empty($status)) {
                                     $whereRaw .= " and `status` = '" . $status . "'";
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'type')) {
+                                $type = $tempOne['otherDataPasses']['filterData']['type'];
+                                if (!empty($type)) {
+                                    $whereRaw .= " and `type` = '" . $type . "'";
                                 }
                             }
                             if (Arr::exists($tempOne['otherDataPasses']['filterData'], 'default')) {
@@ -89,22 +59,22 @@ class GetPropertyTypeHelper
                             }
                         }
 
-                        foreach (PropertyType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $propertyType[] = GetpropertyTypeHelper::getDetail([
+                        foreach (PropertyAttribute::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
+                            $propertyAttribute[] = GetPropertyAttributeHelper::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
-                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyType.type'),
+                                        'for' => Config::get('constants.typeCheck.propertyRelated.propertyAttribute.type'),
                                     ],
                                     'otherDataPasses' => [
                                         'id' => encrypt($tempTwo->id)
                                     ]
                                 ],
-                            ])[Config::get('constants.typeCheck.propertyRelated.propertyType.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
+                            ])[Config::get('constants.typeCheck.propertyRelated.propertyAttribute.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                         }
 
                         $data[Config::get('constants.typeCheck.helperCommon.get.byf')] = [
-                            'list' => $propertyType
+                            'list' => $propertyAttribute
                         ];
 
                         if (isset($tempOne['otherDataPasses']['filterData'])) {
@@ -116,7 +86,7 @@ class GetPropertyTypeHelper
                         }
                     }
 
-                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyType.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyAttribute.type')] = $data;
                 }
             }
 
@@ -139,33 +109,38 @@ class GetPropertyTypeHelper
                     ]
                 ] = $tempOne;
 
-                if (Config::get('constants.typeCheck.propertyRelated.propertyType.type') == $for) {
+                if (Config::get('constants.typeCheck.propertyRelated.propertyAttribute.type') == $for) {
                     $data = array();
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
-                        $propertyType = PropertyType::where('id', decrypt($otherDataPasses['id']))->first();
-                        if ($propertyType != null)
+                        $propertyAttribute = PropertyAttribute::where('id', decrypt($otherDataPasses['id']))->first();
+                        if ($propertyAttribute != null) {
                             $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
-                                'id' => encrypt($propertyType->id),
-                                'name' => $propertyType->name,
-                                'about' =>  $propertyType->about,
-                                'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $propertyType->uniqueId]),
+                                'id' => encrypt($propertyAttribute->id),
+                                'name' => $propertyAttribute->name,
+                                'about' =>  $propertyAttribute->about,
+                                'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $propertyAttribute->uniqueId]),
                                 'customizeInText' => CommonTrait::customizeInText([
                                     [
                                         'type' => Config::get('constants.typeCheck.customizeInText.status'),
-                                        'value' => $propertyType->status
+                                        'value' => $propertyAttribute->status
                                     ],
                                     [
                                         'type' => Config::get('constants.typeCheck.customizeInText.default'),
-                                        'value' => $propertyType->default
+                                        'value' => $propertyAttribute->default
+                                    ],
+                                    [
+                                        'type' => Config::get('constants.typeCheck.customizeInText.type'),
+                                        'value' => $propertyAttribute->type
                                     ]
                                 ]),
                             ];
-                    } else {
-                        $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [];
+                        } else {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [];
+                        }
                     }
 
-                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyType.type')] = $data;
+                    $finalData[Config::get('constants.typeCheck.propertyRelated.propertyAttribute.type')] = $data;
                 }
             }
             return $finalData;

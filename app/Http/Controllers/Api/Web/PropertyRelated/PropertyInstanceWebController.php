@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Api\Web\PropertyRelated;
 
 use App\Http\Controllers\Controller;
 
-use App\Helpers\PropertyRelated\GetPropertyTypeHelper;
-use App\Helpers\PropertyRelated\GetManageBroadHelper;
-use App\Helpers\PropertyRelated\GetPropertyCategoryHelper;
+use App\Helpers\PropertyRelated\PropertyInstance\GetPropertyTypeHelper;
+use App\Helpers\PropertyRelated\PropertyInstance\GetManageBroadHelper;
+use App\Helpers\PropertyRelated\PropertyInstance\GetPropertyCategoryHelper;
 
 use App\Traits\CommonTrait;
 

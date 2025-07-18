@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Admin\PropertyRelated;
 use App\Http\Controllers\Controller;
 
 use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
-use App\Helpers\PropertyRelated\GetPropertyTypeHelper;
+use App\Helpers\PropertyRelated\PropertyInstance\GetPropertyTypeHelper;
 
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\PropertyInstance\PropertyRelated\PropertyType;
+use App\Models\PropertyRelated\PropertyInstance\PropertyType;
 
 use Exception;
 use Yajra\DataTables\DataTables;

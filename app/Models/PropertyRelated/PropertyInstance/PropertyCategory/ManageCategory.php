@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Models\PropertyInstance\PropertyRelated\ManageBroad;
+namespace App\Models\PropertyRelated\PropertyInstance\PropertyCategory;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class AssignBroad extends Authenticatable
+class ManageCategory extends Authenticatable
 {
     use Notifiable, SoftDeletes;
 
-    protected $table = 'assign_broad';
+    protected $table = 'manage_category';
     protected $fillable = ['status'];
 }

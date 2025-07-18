@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Helpers\PropertyRelated;
+namespace App\Helpers\PropertyRelated\PropertyInstance;
 
 use App\Traits\CommonTrait;
 
-use App\Models\PropertyInstance\PropertyRelated\ManageBroad\AssignBroad;
-use App\Models\PropertyInstance\PropertyRelated\ManageBroad\BroadType;
+use App\Models\PropertyRelated\PropertyInstance\ManageBroad\AssignBroad;
+use App\Models\PropertyRelated\PropertyInstance\ManageBroad\BroadType;
 
 use Exception;
 use Illuminate\Support\Arr;

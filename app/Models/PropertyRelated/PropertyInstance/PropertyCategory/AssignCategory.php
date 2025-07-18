@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\PropertyInstance\PropertyRelated\PropertyCategory;
+namespace App\Models\PropertyRelated\PropertyInstance\PropertyCategory;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;

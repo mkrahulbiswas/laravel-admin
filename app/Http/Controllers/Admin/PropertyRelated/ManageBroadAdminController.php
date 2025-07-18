@@ -5,15 +5,15 @@ namespace App\Http\Controllers\Admin\PropertyRelated;
 use App\Http\Controllers\Controller;
 
 use App\Helpers\AdminRelated\RolePermission\ManagePermissionHelper;
-use App\Helpers\PropertyRelated\GetManageBroadHelper;
-use App\Helpers\PropertyRelated\GetPropertyTypeHelper;
+use App\Helpers\PropertyRelated\PropertyInstance\GetManageBroadHelper;
+use App\Helpers\PropertyRelated\PropertyInstance\GetPropertyTypeHelper;
 
 use App\Traits\FileTrait;
 use App\Traits\CommonTrait;
 use App\Traits\ValidationTrait;
 
-use App\Models\PropertyInstance\PropertyRelated\ManageBroad\BroadType;
-use App\Models\PropertyInstance\PropertyRelated\ManageBroad\AssignBroad;
+use App\Models\PropertyRelated\PropertyInstance\ManageBroad\BroadType;
+use App\Models\PropertyRelated\PropertyInstance\ManageBroad\AssignBroad;
 
 use Exception;
 use Yajra\DataTables\DataTables;
