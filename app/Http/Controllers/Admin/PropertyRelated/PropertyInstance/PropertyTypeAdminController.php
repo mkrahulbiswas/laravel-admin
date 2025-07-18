@@ -30,7 +30,7 @@ class PropertyTypeAdminController extends Controller
     public function showPropertyType()
     {
         try {
-            return view('admin.property_related.property_type.property_type_list');
+            return view('admin.property_related.property_instance.property_type.property_type_list');
         } catch (Exception $e) {
             abort(500);
         }

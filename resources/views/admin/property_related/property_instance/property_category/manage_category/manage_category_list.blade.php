@@ -51,15 +51,15 @@
                 </ul>
                 <div class="tab-content text-muted">
                     <div class="tab-pane active show" id="main-category" role="tabpanel">
-                        @include('admin.property_related.property_category.manage_category.main_category.main_category_list')
+                        @include('admin.property_related.property_instance.property_category.manage_category.main_category.main_category_list')
                         {{-- @yield('mainCategory') --}}
                     </div>
                     <div class="tab-pane" id="sub-category" role="tabpanel">
-                        @include('admin.property_related.property_category.manage_category.sub_category.sub_category_list')
+                        @include('admin.property_related.property_instance.property_category.manage_category.sub_category.sub_category_list')
                         {{-- @yield('subCategory') --}}
                     </div>
                     <div class="tab-pane" id="nested-category" role="tabpanel">
-                        @include('admin.property_related.property_category.manage_category.nested_category.nested_category_list')
+                        @include('admin.property_related.property_instance.property_category.manage_category.nested_category.nested_category_list')
                         {{-- @yield('nestedCategory') --}}
                     </div>
                 </div>

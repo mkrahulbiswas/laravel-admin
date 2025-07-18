@@ -29,7 +29,7 @@ class PropertyAttributeAdminController extends Controller
     public function showPropertyAttribute()
     {
         try {
-            return view('admin.property_related.property_attribute.property_attribute_list');
+            return view('admin.property_related.property_instance.property_attribute.property_attribute_list');
         } catch (Exception $e) {
             abort(500);
         }

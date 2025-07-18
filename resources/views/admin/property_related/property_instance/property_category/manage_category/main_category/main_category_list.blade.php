@@ -1,4 +1,4 @@
-{{-- @extends('admin.property_related.property_category.manage_category.manage_category_list')
+{{-- @extends('admin.property_related.property_instance.property_category.manage_category.manage_category_list')
 @section('mainCategory') --}}
 <div class="row">
     <div class="col-lg-12">

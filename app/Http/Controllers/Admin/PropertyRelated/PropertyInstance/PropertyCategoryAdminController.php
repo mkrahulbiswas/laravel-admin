@@ -50,7 +50,7 @@ class PropertyCategoryAdminController extends Controller
                 'mainCategory' => $getList,
             ];
 
-            return view('admin.property_related.property_category.manage_category.manage_category_list', ['data' => $data]);
+            return view('admin.property_related.property_instance.property_category.manage_category.manage_category_list', ['data' => $data]);
         } catch (Exception $e) {
             abort(500);
         }
@@ -341,7 +341,7 @@ class PropertyCategoryAdminController extends Controller
                 'mainCategory' => $mainCategory,
             ];
 
-            return view('admin.property_related.property_category.assign_category.assign_category_list', ['data' => $data]);
+            return view('admin.property_related.property_instance.property_category.assign_category.assign_category_list', ['data' => $data]);
         } catch (Exception $e) {
             abort(500);
         }

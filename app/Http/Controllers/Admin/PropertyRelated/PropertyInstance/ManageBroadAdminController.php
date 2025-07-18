@@ -32,7 +32,7 @@ class ManageBroadAdminController extends Controller
     public function showBroadType()
     {
         try {
-            return view('admin.property_related.manage_broad.broad_type.broad_type_list');
+            return view('admin.property_related.property_instance.manage_broad.broad_type.broad_type_list');
         } catch (Exception $e) {
             abort(500);
         }
@@ -273,7 +273,7 @@ class ManageBroadAdminController extends Controller
                 'propertyType' => $propertyType,
             ];
 
-            return view('admin.property_related.manage_broad.assign_broad.assign_broad_list', ['data' => $data]);
+            return view('admin.property_related.property_instance.manage_broad.assign_broad.assign_broad_list', ['data' => $data]);
         } catch (Exception $e) {
             abort(500);
         }
