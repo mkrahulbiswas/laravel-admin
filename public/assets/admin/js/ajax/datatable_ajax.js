@@ -798,13 +798,13 @@
                 {
                     data: "assignBroad",
                     render: function (data, type, row) {
-                        return $('<div/>').html(data.broadType.name).text();
+                        return $('<div/>').html(data.propertyType.name).text();
                     }
                 },
                 {
                     data: "assignBroad",
                     render: function (data, type, row) {
-                        return $('<div/>').html(data.propertyType.name).text();
+                        return $('<div/>').html(data.broadType.name).text();
                     }
                 },
                 {

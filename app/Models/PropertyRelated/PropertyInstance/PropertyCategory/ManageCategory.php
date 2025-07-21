@@ -2,13 +2,12 @@
 
 namespace App\Models\PropertyRelated\PropertyInstance\PropertyCategory;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class ManageCategory extends Authenticatable
+class ManageCategory extends Model
 {
-    use Notifiable, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'manage_category';
     protected $fillable = ['status'];

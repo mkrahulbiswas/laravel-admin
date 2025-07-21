@@ -58,7 +58,7 @@ class ManageRoleHelper
                         }
 
                         foreach (MainRole::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $mainRole[] = ManageRoleHelper::getDetail([
+                            $mainRole[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -161,7 +161,7 @@ class ManageRoleHelper
                         }
 
                         foreach (SubRole::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $subRole[] = ManageRoleHelper::getDetail([
+                            $subRole[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -217,7 +217,7 @@ class ManageRoleHelper
                         }
 
                         foreach (SubRole::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $subRole[] = ManageRoleHelper::getDetail([
+                            $subRole[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
@@ -385,7 +385,7 @@ class ManageRoleHelper
                             'extraData' => [
                                 'hasPermission' => $permission,
                             ],
-                            Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type') => ManageRoleHelper::getDetail([
+                            Config::get('constants.typeCheck.adminRelated.rolePermission.manageRole.mainRole.type') => self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],

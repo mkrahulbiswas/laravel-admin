@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models\PropertyRelated\PropertyInstance\ManageBroad;
+namespace App\Models\PropertyRelated\ManagePost;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AssignBroad extends Model
+class MpMain extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'assign_broad';
+    protected $table = 'mp_main';
     protected $fillable = ['status'];
 }

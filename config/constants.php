@@ -133,6 +133,12 @@ return [
         ],
         'propertyRelated' => [
             'type' => 'propertyRelated',
+            'managePost'=>[
+                'type' => 'managePost',
+                'propertyPost'=>[
+                    'type'=>'propertyPost'
+                ]
+            ],
             'propertyInstance' => [
                 'type' => 'propertyInstance',
                 'propertyAttribute' => [
@@ -417,6 +423,7 @@ return [
         'active' => 'ACTIVE',
         'inactive' => 'INACTIVE',
         'incomplete' => 'INCOMPLETE',
+        'pending' => 'PENDING',
         'default' => 'DEFAULT',
         'yes' => 'YES',
         'no' => 'NO',

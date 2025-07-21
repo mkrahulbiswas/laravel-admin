@@ -72,7 +72,7 @@ class ManageSideNavHelper
                         }
 
                         foreach (NavType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $navType[] = ManageSideNavHelper::getDetail([
+                            $navType[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -209,7 +209,7 @@ class ManageSideNavHelper
 
                         foreach (MainNav::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $mainNav[] = [
-                                ...ManageSideNavHelper::getDetail([
+                                ...self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -279,7 +279,7 @@ class ManageSideNavHelper
 
                         foreach (MainNav::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $mainNav[] = [
-                                ...ManageSideNavHelper::getDetail([
+                                ...self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd'), Config::get('constants.typeCheck.helperCommon.detail.yd')],
@@ -290,7 +290,7 @@ class ManageSideNavHelper
                                         ],
                                     ],
                                 ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                                Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type') => ManageSideNavHelper::getDetail([
+                                Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type') => self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -446,7 +446,7 @@ class ManageSideNavHelper
 
                         foreach (SubNav::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $subNav[] = [
-                                ...ManageSideNavHelper::getDetail([
+                                ...self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -522,7 +522,7 @@ class ManageSideNavHelper
 
                         foreach (SubNav::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $subNav[] = [
-                                ...ManageSideNavHelper::getDetail([
+                                ...self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -533,7 +533,7 @@ class ManageSideNavHelper
                                         ],
                                     ],
                                 ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                                Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type') => ManageSideNavHelper::getDetail([
+                                Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type') => self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -544,7 +544,7 @@ class ManageSideNavHelper
                                         ],
                                     ],
                                 ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                                Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type') => ManageSideNavHelper::getDetail([
+                                Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type') => self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -712,7 +712,7 @@ class ManageSideNavHelper
 
                         foreach (NestedNav::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $nestedNav[] = [
-                                ...ManageSideNavHelper::getDetail([
+                                ...self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -794,7 +794,7 @@ class ManageSideNavHelper
 
                         foreach (NestedNav::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
                             $nestedNav[] = [
-                                ...ManageSideNavHelper::getDetail([
+                                ...self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -805,7 +805,7 @@ class ManageSideNavHelper
                                         ],
                                     ],
                                 ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.nestedNav.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                                Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type') => ManageSideNavHelper::getDetail([
+                                Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type') => self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -816,7 +816,7 @@ class ManageSideNavHelper
                                         ],
                                     ],
                                 ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                                Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type') => ManageSideNavHelper::getDetail([
+                                Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type') => self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -827,7 +827,7 @@ class ManageSideNavHelper
                                         ],
                                     ],
                                 ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                                Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type') => ManageSideNavHelper::getDetail([
+                                Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type') => self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -1052,7 +1052,7 @@ class ManageSideNavHelper
                                     'value' => $hasSubNav
                                 ]
                             ]),
-                            Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type') => ManageSideNavHelper::getDetail([
+                            Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type') => self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -1149,7 +1149,7 @@ class ManageSideNavHelper
                                     'value' => $hasNestedNav
                                 ]
                             ]),
-                            Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type') => ManageSideNavHelper::getDetail([
+                            Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type') => self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -1160,7 +1160,7 @@ class ManageSideNavHelper
                                     ],
                                 ]
                             ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                            Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type') => ManageSideNavHelper::getDetail([
+                            Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type') => self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -1244,7 +1244,7 @@ class ManageSideNavHelper
                                     'value' => json_decode($nestedNav->access, true)
                                 ]
                             ]),
-                            Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type') => ManageSideNavHelper::getDetail([
+                            Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type') => self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -1255,7 +1255,7 @@ class ManageSideNavHelper
                                     ],
                                 ]
                             ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                            Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type') => ManageSideNavHelper::getDetail([
+                            Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type') => self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -1266,7 +1266,7 @@ class ManageSideNavHelper
                                     ],
                                 ]
                             ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                            Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type') => ManageSideNavHelper::getDetail([
+                            Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type') => self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -1321,7 +1321,7 @@ class ManageSideNavHelper
                 if (in_array(Config::get('constants.typeCheck.helperCommon.nav.sn'), $type)) {
                     $navList = $nav1 = $nav2 = $nav3 = [];
 
-                    $navType = ManageSideNavHelper::getList([
+                    $navType = self::getList([
                         [
                             'getList' => [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.get.ryf')],
@@ -1339,7 +1339,7 @@ class ManageSideNavHelper
                     ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.ryf')]['list'];
 
                     foreach ($navType as $keyOne => $tempTwo) {
-                        $mainNav = ManageSideNavHelper::getList([
+                        $mainNav = self::getList([
                             [
                                 'getList' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.get.ryf')],
@@ -1359,7 +1359,7 @@ class ManageSideNavHelper
                         ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')][Config::get('constants.typeCheck.helperCommon.get.ryf')]['list'];
                         if (sizeof($mainNav) > 0) {
                             foreach ($mainNav as $keyTwo => $tempThree) {
-                                $subNav = ManageSideNavHelper::getList([
+                                $subNav = self::getList([
                                     [
                                         'getList' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.get.ryf')],
@@ -1379,7 +1379,7 @@ class ManageSideNavHelper
                                 ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')][Config::get('constants.typeCheck.helperCommon.get.ryf')]['list'];
                                 if (sizeof($subNav) > 0) {
                                     foreach ($subNav as $keyThree => $tempFour) {
-                                        $nestedNav = ManageSideNavHelper::getList([
+                                        $nestedNav = self::getList([
                                             [
                                                 'getList' => [
                                                     'type' => [Config::get('constants.typeCheck.helperCommon.get.ryf')],
@@ -1400,7 +1400,7 @@ class ManageSideNavHelper
                                         if (sizeof($nestedNav) > 0) {
                                             foreach ($nestedNav as $keyFour => $tempFive) {
                                                 $nav3[] = [
-                                                    ...ManageSideNavHelper::getDetail([
+                                                    ...self::getDetail([
                                                         [
                                                             'getDetail' => [
                                                                 'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
@@ -1417,7 +1417,7 @@ class ManageSideNavHelper
                                             $nav3 = [];
                                         }
                                         $nav2[] = [
-                                            ...ManageSideNavHelper::getDetail([
+                                            ...self::getDetail([
                                                 [
                                                     'getDetail' => [
                                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
@@ -1436,7 +1436,7 @@ class ManageSideNavHelper
                                     $nav2 = [];
                                 }
                                 $nav1[] = [
-                                    ...ManageSideNavHelper::getDetail([
+                                    ...self::getDetail([
                                         [
                                             'getDetail' => [
                                                 'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
@@ -1455,7 +1455,7 @@ class ManageSideNavHelper
                             $nav1 = [];
                         }
                         $navList[] = [
-                            ...ManageSideNavHelper::getDetail([
+                            ...self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.rnd')],
@@ -1503,7 +1503,7 @@ class ManageSideNavHelper
                     }
 
 
-                    $navType = ManageSideNavHelper::getList([
+                    $navType = self::getList([
                         [
                             'getList' => [
                                 'type' => [Config::get('constants.typeCheck.helperCommon.get.ryf')],
@@ -1521,7 +1521,7 @@ class ManageSideNavHelper
                         ],
                     ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.navType.type')][Config::get('constants.typeCheck.helperCommon.get.ryf')]['list'];
                     foreach ($navType as $keyOne => $tempTwo) {
-                        $mainNav = ManageSideNavHelper::getList([
+                        $mainNav = self::getList([
                             [
                                 'getList' => [
                                     'type' => [Config::get('constants.typeCheck.helperCommon.get.ryf')],
@@ -1542,7 +1542,7 @@ class ManageSideNavHelper
                         ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.mainNav.type')][Config::get('constants.typeCheck.helperCommon.get.ryf')]['list'];
                         if (sizeof($mainNav) > 0) {
                             foreach ($mainNav as $keyTwo => $tempThree) {
-                                $subNav = ManageSideNavHelper::getList([
+                                $subNav = self::getList([
                                     [
                                         'getList' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.get.ryf')],
@@ -1564,7 +1564,7 @@ class ManageSideNavHelper
                                 ])[Config::get('constants.typeCheck.adminRelated.navigationAccess.manageSideNav.subNav.type')][Config::get('constants.typeCheck.helperCommon.get.ryf')]['list'];
                                 if (sizeof($subNav) > 0) {
                                     foreach ($subNav as $keyThree => $tempFour) {
-                                        $nestedNav = ManageSideNavHelper::getList([
+                                        $nestedNav = self::getList([
                                             [
                                                 'getList' => [
                                                     'type' => [Config::get('constants.typeCheck.helperCommon.get.ryf')],
@@ -1588,7 +1588,7 @@ class ManageSideNavHelper
                                         if (sizeof($nestedNav) > 0) {
                                             foreach ($nestedNav as $keyFour => $tempFive) {
                                                 $nav3[] = [
-                                                    ...ManageSideNavHelper::getDetail([
+                                                    ...self::getDetail([
                                                         [
                                                             'getDetail' => [
                                                                 'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -1605,7 +1605,7 @@ class ManageSideNavHelper
                                             $nav3 = [];
                                         }
                                         $nav2[] = [
-                                            ...ManageSideNavHelper::getDetail([
+                                            ...self::getDetail([
                                                 [
                                                     'getDetail' => [
                                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -1624,7 +1624,7 @@ class ManageSideNavHelper
                                     $nav2 = [];
                                 }
                                 $nav1[] = [
-                                    ...ManageSideNavHelper::getDetail([
+                                    ...self::getDetail([
                                         [
                                             'getDetail' => [
                                                 'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -1643,7 +1643,7 @@ class ManageSideNavHelper
                             $nav1 = [];
                         }
                         $navList[] = [
-                            ...ManageSideNavHelper::getDetail([
+                            ...self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],

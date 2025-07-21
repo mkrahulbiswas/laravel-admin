@@ -69,7 +69,7 @@ class SiteSettingHelper
                             }
                         }
                         foreach (Logo::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $logo[] = SiteSettingHelper::getDetail([
+                            $logo[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],

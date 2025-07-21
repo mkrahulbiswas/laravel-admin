@@ -73,7 +73,7 @@ class ManageUsersHelper
                         }
 
                         foreach (AdminUsers::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $adminUsers[] = ManageUsersHelper::getDetail([
+                            $adminUsers[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -135,7 +135,7 @@ class ManageUsersHelper
                         }
 
                         foreach (User::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $appUsers[] = ManageUsersHelper::getDetail([
+                            $appUsers[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -172,7 +172,7 @@ class ManageUsersHelper
 
     public static function getDetail($params, $platform = '')
     {
-        try {
+        // try {
             $finalData = array();
             foreach ($params as $tempOne) {
                 [
@@ -366,8 +366,8 @@ class ManageUsersHelper
                 }
             }
             return $finalData;
-        } catch (Exception $e) {
-            return false;
-        }
+        // } catch (Exception $e) {
+        //     return false;
+        // }
     }
 }

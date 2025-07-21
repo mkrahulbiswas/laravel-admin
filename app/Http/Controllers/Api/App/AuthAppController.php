@@ -73,7 +73,7 @@ class AuthAppController extends Controller
                     if ($user->save()) {
                         goto next;
                     } else {
-                        return response()->json(['status' => 0, 'type' => "warning", 'title' => "Check User", 'msg' => __('messages.createUserMsg.failed'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
+                        return response()->json(['status' => 0, 'type' => "warning", 'title' => "Check User", 'msg' => __('messages.createMsg.user.failed'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
                     }
                 } else if ($user->status == Config::get('constants.status.incomplete')) {
                     $user->otpFor = Config::get('constants.otpFor.login');
@@ -81,7 +81,7 @@ class AuthAppController extends Controller
                     if ($user->update()) {
                         goto next;
                     } else {
-                        return response()->json(['status' => 0, 'type' => "warning", 'title' => "Check User", 'msg' => __('messages.createUserMsg.failed'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
+                        return response()->json(['status' => 0, 'type' => "warning", 'title' => "Check User", 'msg' => __('messages.createMsg.user.failed'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
                     }
                 } else {
                     return response()->json(['status' => 1, 'type' => "success", 'title' => "Check User", 'msg' => __('messages.loginSuccess') . '-> 2', "payload" =>  ['checkBy' => $values['checkBy'], 'isUserFound' => true, 'otpFor' => Config::get('constants.otpFor.login'),]], Config::get('constants.errorCode.ok'));
@@ -164,7 +164,7 @@ class AuthAppController extends Controller
                             }
                         }
                     } else {
-                        return response()->json(['status' => 0, 'type' => "warning", 'title' => "Verify User", 'msg' => __('messages.createUserMsg.failed'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
+                        return response()->json(['status' => 0, 'type' => "warning", 'title' => "Verify User", 'msg' => __('messages.createMsg.user.failed'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
                     }
                 } else {
                     return response()->json(['status' => 0, 'type' => "warning", 'title' => "Verify User", 'msg' => __('messages.otpVerifyMsg.failed'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
@@ -194,7 +194,7 @@ class AuthAppController extends Controller
                 $user = User::findOrFail($id);
                 if ($user->status == Config::get('constants.status.incomplete')) {
                     if ($user == null) {
-                        return response()->json(['status' => 0, 'type' => "warning", 'title' => "Register User", 'msg' => __('messages.createUserMsg.failed'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
+                        return response()->json(['status' => 0, 'type' => "warning", 'title' => "Register User", 'msg' => __('messages.createMsg.user.failed'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
                     } else {
                         $user->name = $values['name'];
                         $user->dialCode = $values['dialCode'];
@@ -216,7 +216,7 @@ class AuthAppController extends Controller
                                 return response()->json(['status' => 0, 'type' => "error", 'title' => "Register User", 'msg' => __('messages.serverErrMsg'), 'payload' => (object)[]], Config::get('constants.errorCode.ok'));
                             }
                         } else {
-                            return response()->json(['status' => 0, 'type' => "warning", 'title' => "Register User", 'msg' => __('messages.createUserMsg.failed'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
+                            return response()->json(['status' => 0, 'type' => "warning", 'title' => "Register User", 'msg' => __('messages.createMsg.user.failed'), "payload" =>  (object)[]], Config::get('constants.errorCode.ok'));
                         }
                     }
                 } else {

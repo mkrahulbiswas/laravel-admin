@@ -112,7 +112,7 @@ class GetPropertyCategoryHelper
                         }
 
                         foreach (ManageCategory::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $manageCategory[] = GetPropertyCategoryHelper::getDetail([
+                            $manageCategory[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -180,7 +180,7 @@ class GetPropertyCategoryHelper
                         }
 
                         foreach (ManageCategory::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $manageCategory[] = GetPropertyCategoryHelper::getDetail([
+                            $manageCategory[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
@@ -228,6 +228,12 @@ class GetPropertyCategoryHelper
                                 $propertyTypeId = $tempOne['otherDataPasses']['filterData']['propertyTypeId'];
                                 if (!empty($propertyTypeId)) {
                                     $whereRaw .= " and `propertyTypeId` = " . decrypt($propertyTypeId);
+                                }
+                            }
+                            if (Arr::exists($tempOne['otherDataPasses']['filterData'], key: 'broadTypeId')) {
+                                $broadTypeId = $tempOne['otherDataPasses']['filterData']['broadTypeId'];
+                                if (!empty($broadTypeId)) {
+                                    $whereRaw .= " and `broadTypeId` = " . decrypt($broadTypeId);
                                 }
                             }
                         }
@@ -314,7 +320,7 @@ class GetPropertyCategoryHelper
                         }
 
                         foreach (AssignCategory::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $assignCategory[] = GetPropertyCategoryHelper::getDetail([
+                            $assignCategory[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
@@ -404,7 +410,7 @@ class GetPropertyCategoryHelper
                                 ]),
                             ];
                             if ($manageCategory->mainCategoryId != null) {
-                                $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail']['mainCategory'] = GetPropertyCategoryHelper::getDetail([
+                                $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail']['mainCategory'] = self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -417,7 +423,7 @@ class GetPropertyCategoryHelper
                                 ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyCategory.manageCategory.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'];
                             }
                             if ($manageCategory->subCategoryId != null) {
-                                $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail']['subCategory'] = GetPropertyCategoryHelper::getDetail([
+                                $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail']['subCategory'] = self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -457,7 +463,7 @@ class GetPropertyCategoryHelper
                                         ]
                                     ],
                                 ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.manageBroad.assignBroad.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'],
-                                'mainCategory' => GetPropertyCategoryHelper::getDetail([
+                                'mainCategory' => self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],

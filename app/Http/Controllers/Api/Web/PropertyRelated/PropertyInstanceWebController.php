@@ -244,7 +244,7 @@ class PropertyInstanceWebController extends Controller
         }
     }
 
-    public function getAssignCategory($propertyTypeId)
+    public function getAssignCategory($propertyTypeId, $broadTypeId)
     {
         try {
             $getList = GetPropertyCategoryHelper::getList([
@@ -256,7 +256,8 @@ class PropertyInstanceWebController extends Controller
                     'otherDataPasses' => [
                         'filterData' => [
                             'status' => Config::get('constants.status.active'),
-                            'propertyTypeId' => $propertyTypeId
+                            'propertyTypeId' => $propertyTypeId,
+                            'broadTypeId' => $broadTypeId,
                         ],
                         'orderBy' => [
                             'id' => 'desc'

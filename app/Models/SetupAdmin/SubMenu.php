@@ -2,13 +2,10 @@
 
 namespace App\Models\SetupAdmin;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SubMenu extends Model
 {
-    use HasFactory;
-
     protected $table = 'sub_module';
     protected $fillable = array(
         'module_id',
