@@ -10,6 +10,7 @@ use App\Traits\CommonTrait;
 use App\Helpers\UsersRelated\ManageUsers\ManageUsersHelper;
 use App\Models\PropertyRelated\ManagePost\MpBasicDetails;
 use App\Models\PropertyRelated\ManagePost\MpMain;
+use App\Models\PropertyRelated\ManagePost\MpPropertyLocated;
 use App\Models\PropertyRelated\PropertyInstance\ManageBroad\BroadType;
 
 use Exception;
@@ -149,6 +150,7 @@ class GetPropertyPostHelper
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.yd'), $type)) {
                         $mpMain = MpMain::where('id', decrypt($otherDataPasses['id']))->first();
                         $mpBasicDetails = MpBasicDetails::where('mpMainId', $mpMain->id)->first();
+                        $mpPropertyLocated = MpPropertyLocated::where('mpMainId', $mpMain->id)->first();
                         if ($mpMain != null) {
                             $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
                                 'id' => encrypt($mpMain->id),
@@ -198,6 +200,13 @@ class GetPropertyPostHelper
                                             ],
                                         ],
                                     ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
+                                ],
+                                'mpPropertyLocated' => [
+                                    'id' => encrypt($mpPropertyLocated->id),
+                                    'city' => $mpPropertyLocated->city,
+                                    'locality' => $mpPropertyLocated->locality,
+                                    'subLocality' => $mpPropertyLocated->subLocality,
+                                    'address' => $mpPropertyLocated->address,
                                 ],
                                 'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $mpMain->uniqueId]),
                                 'customizeInText' => CommonTrait::customizeInText([

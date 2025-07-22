@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\App\PropertyRelated\CreatePostWebController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AppUserStatusMiddleware;
 use App\Http\Middleware\SetLocaleMiddleware;
@@ -63,6 +64,13 @@ Route::middleware([
                 Route::get('assign-category/{propertyTypeId?}/{broadTypeId?}', 'getAssignCategory')->name('app.get.assignCategory');
             });
             Route::get('assign-broad-category/{propertyTypeId?}', 'getAssignBroadCategory')->name('app.get.assignBroadCategory');
+        });
+        Route::controller(CreatePostWebController::class)->group(function () {
+            Route::prefix('manage-post')->group(function () {
+                Route::get('initiate', 'initiatePostDb')->name('app.initiate.postDb');
+                Route::patch('update/basic-details', 'updateBasicDetails')->name('app.update.basicDetails');
+                Route::patch('update/property-located', 'updatePropertyLocated')->name('app.update.propertyLocated');
+            });
         });
     });
 });
