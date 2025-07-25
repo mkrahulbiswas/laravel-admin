@@ -2,16 +2,18 @@
 
 namespace App\Helpers\PropertyRelated\ManagePost;
 
+
 use App\Helpers\PropertyRelated\PropertyInstance\GetManageBroadHelper;
 use App\Helpers\PropertyRelated\PropertyInstance\GetPropertyCategoryHelper;
 use App\Helpers\PropertyRelated\PropertyInstance\GetPropertyTypeHelper;
-use App\Traits\CommonTrait;
 
-use App\Helpers\UsersRelated\ManageUsers\ManageUsersHelper;
+use App\Models\PropertyRelated\ManagePost\MpAboutProperty;
 use App\Models\PropertyRelated\ManagePost\MpBasicDetails;
 use App\Models\PropertyRelated\ManagePost\MpMain;
 use App\Models\PropertyRelated\ManagePost\MpPropertyLocated;
 use App\Models\PropertyRelated\PropertyInstance\ManageBroad\BroadType;
+
+use App\Traits\CommonTrait;
 
 use Exception;
 use Illuminate\Support\Arr;
@@ -151,6 +153,7 @@ class GetPropertyPostHelper
                         $mpMain = MpMain::where('id', decrypt($otherDataPasses['id']))->first();
                         $mpBasicDetails = MpBasicDetails::where('mpMainId', $mpMain->id)->first();
                         $mpPropertyLocated = MpPropertyLocated::where('mpMainId', $mpMain->id)->first();
+                        $mpAboutProperty = MpAboutProperty::where('mpMainId', $mpMain->id)->first();
                         if ($mpMain != null) {
                             $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
                                 'id' => encrypt($mpMain->id),
@@ -207,6 +210,13 @@ class GetPropertyPostHelper
                                     'locality' => $mpPropertyLocated->locality,
                                     'subLocality' => $mpPropertyLocated->subLocality,
                                     'address' => $mpPropertyLocated->address,
+                                ],
+                                'mpAboutProperty' => [
+                                    'id' => encrypt($mpAboutProperty->id),
+                                    'numOfBedroom' => $mpAboutProperty->numOfBedroom,
+                                    'numOfBathroom' => $mpAboutProperty->numOfBathroom,
+                                    'numOfBalcony' => $mpAboutProperty->numOfBalcony,
+                                    'availabilityStatus' => $mpAboutProperty->availabilityStatus,
                                 ],
                                 'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $mpMain->uniqueId]),
                                 'customizeInText' => CommonTrait::customizeInText([

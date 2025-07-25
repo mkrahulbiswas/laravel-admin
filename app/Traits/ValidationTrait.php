@@ -752,6 +752,16 @@ trait ValidationTrait
                     'address' => 'required|max:75',
                 ];
                 break;
+            case 'updateAboutProperty':
+                $rules = [
+                    'id' => '',
+                    'mpMainId' => 'required',
+                    'numOfBedroom' => 'required|max:10',
+                    'numOfBathroom' => 'required|max:10',
+                    'numOfBalcony' => 'max:10',
+                    'availabilityStatus' => 'required',
+                ];
+                break;
 
             case 'emailLogin':
             default:
@@ -930,6 +940,16 @@ trait ValidationTrait
                     'locality' => 'required|max:75',
                     'subLocality' => 'max:75',
                     'address' => 'required|max:75',
+                ];
+                break;
+            case 'updateAboutProperty':
+                $rules = [
+                    'id' => '',
+                    'mpMainId' => 'required',
+                    'numOfBedroom' => 'required|max:10',
+                    'numOfBathroom' => 'required|max:10',
+                    'numOfBalcony' => 'max:10',
+                    'availabilityStatus' => 'required',
                 ];
                 break;
 

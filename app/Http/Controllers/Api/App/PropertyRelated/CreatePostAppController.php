@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\App\PropertyRelated;
 use App\Http\Controllers\Controller;
 
 use App\Helpers\PropertyRelated\ManagePost\GetPropertyPostHelper;
-
+use App\Models\PropertyRelated\ManagePost\MpAboutProperty;
 use App\Models\PropertyRelated\ManagePost\MpBasicDetails;
 use App\Models\PropertyRelated\ManagePost\MpMain;
 use App\Models\PropertyRelated\ManagePost\MpPropertyLocated;
@@ -68,19 +68,26 @@ class CreatePostAppController extends Controller
                         $mpPropertyLocated = new MpPropertyLocated();
                         $mpPropertyLocated->mpMainId = $mpMain->getKey();
                         if ($mpPropertyLocated->save()) {
-                            DB::commit();
-                            $getPropertyPostHelper = GetPropertyPostHelper::getDetail([
-                                [
-                                    'getDetail' => [
-                                        'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
-                                        'for' => Config::get('constants.typeCheck.propertyRelated.managePost.propertyPost.type'),
+                            $mpAboutProperty = new MpAboutProperty();
+                            $mpAboutProperty->mpMainId = $mpMain->getKey();
+                            if ($mpAboutProperty->save()) {
+                                DB::commit();
+                                $getPropertyPostHelper = GetPropertyPostHelper::getDetail([
+                                    [
+                                        'getDetail' => [
+                                            'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
+                                            'for' => Config::get('constants.typeCheck.propertyRelated.managePost.propertyPost.type'),
+                                        ],
+                                        'otherDataPasses' => [
+                                            'id' => encrypt($mpMain->getKey())
+                                        ],
                                     ],
-                                    'otherDataPasses' => [
-                                        'id' => encrypt($mpMain->getKey())
-                                    ],
-                                ],
-                            ])[Config::get('constants.typeCheck.propertyRelated.managePost.propertyPost.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
-                            return response()->json(['status' => 1, 'type' => "success", 'title' => "Initiate Post", 'msg' => __('messages.createMsg.post')['success'], 'payload' => ['data' => $getPropertyPostHelper]], Config::get('constants.errorCode.ok'));
+                                ])[Config::get('constants.typeCheck.propertyRelated.managePost.propertyPost.type')][Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'];
+                                return response()->json(['status' => 1, 'type' => "success", 'title' => "Initiate Post", 'msg' => __('messages.createMsg.post')['success'], 'payload' => ['data' => $getPropertyPostHelper]], Config::get('constants.errorCode.ok'));
+                            } else {
+                                DB::rollBack();
+                                return response()->json(['status' => 0, 'type' => "warning", 'title' => "Initiate Post", 'msg' => __('messages.createMsg.post')['failed'], 'payload' => (object) []], Config::get('constants.errorCode.ok'));
+                            }
                         } else {
                             DB::rollBack();
                             return response()->json(['status' => 0, 'type' => "warning", 'title' => "Initiate Post", 'msg' => __('messages.createMsg.post')['failed'], 'payload' => (object) []], Config::get('constants.errorCode.ok'));
@@ -177,6 +184,45 @@ class CreatePostAppController extends Controller
             }
         } catch (Exception $e) {
             return response()->json(['status' => 0, 'type' => "error", 'title' => "Property Located", 'msg' => __('messages.serverErrMsg'), 'payload' => (object) []], Config::get('constants.errorCode.server'));
+        }
+    }
+
+    public function updateAboutProperty(Request $request)
+    {
+        $values = $request->only('id', 'mpMainId', 'numOfBedroom', 'numOfBathroom', 'numOfBalcony', 'availabilityStatus');
+
+        try {
+            $id = decrypt($values['id']);
+        } catch (DecryptException $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "Verify User", 'msg' => __('messages.serverErrMsg')], Config::get('constants.errorCode.server'));
+        }
+
+        try {
+            $validator = $this->isValid(['input' => $request->all(), 'for' => 'updateAboutProperty', 'id' => $id, 'platform' => $this->platform]);
+            if ($validator->fails()) {
+                $vErrors = $this->getVErrorMessages($validator->errors());
+                return response()->json(['status' => 0, 'type' => "warning", 'title' => 'Validation', 'msg' => __('messages.vErrMsg'), 'payload' => ['errors' => $vErrors]], Config::get('constants.errorCode.validation'));
+            } else {
+                $mpAboutProperty = MpAboutProperty::where([
+                    ['id', $id],
+                    ['mpMainId', decrypt($values['mpMainId'])],
+                ])->first();
+                if ($mpAboutProperty == null) {
+                    return response()->json(['status' => 0, 'type' => "warning", 'title' => "About Property", 'msg' => __('messages.createMsg.post.noInstance'), 'payload' => (object) []], Config::get('constants.errorCode.ok'));
+                } else {
+                    $mpAboutProperty->numOfBedroom = $values['numOfBedroom'];
+                    $mpAboutProperty->numOfBathroom = $values['numOfBathroom'];
+                    $mpAboutProperty->numOfBalcony = $values['numOfBalcony'];
+                    $mpAboutProperty->availabilityStatus = $values['availabilityStatus'];
+                    if ($mpAboutProperty->update()) {
+                        return response()->json(['status' => 1, 'type' => "success", 'title' => "About Property", 'msg' => __('messages.updateMsg.success', ['type' => 'about property']), 'payload' => (object) []], Config::get('constants.errorCode.ok'));
+                    } else {
+                        return response()->json(['status' => 0, 'type' => "warning", 'title' => "About Property", 'msg' => __('messages.updateMsg.failed', ['type' => 'about property']), 'payload' => (object) []], Config::get('constants.errorCode.ok'));
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            return response()->json(['status' => 0, 'type' => "error", 'title' => "About Property", 'msg' => __('messages.serverErrMsg'), 'payload' => (object) []], Config::get('constants.errorCode.server'));
         }
     }
 }

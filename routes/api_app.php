@@ -76,6 +76,7 @@ Route::middleware([
                     Route::get('initiate', 'initiatePostDb')->name('app.initiate.postDb');
                     Route::patch('update/basic-details', 'updateBasicDetails')->name('app.update.basicDetails');
                     Route::patch('update/property-located', 'updatePropertyLocated')->name('app.update.propertyLocated');
+                    Route::patch('update/about-located', 'updateAboutProperty')->name('app.update.aboutProperty');
                 });
             });
         });
