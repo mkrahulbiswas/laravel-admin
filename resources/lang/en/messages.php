@@ -93,9 +93,17 @@ return [
         'success' => ':type reset successfully.',
         'failed' => 'Failed to reset :type.',
     ],
-    'createUserMsg' => [
-        'success' => 'Successfully create user to complete the registration process.',
-        'failed' => 'Failed to create user to complete the registration process, please try again.',
+    'createMsg' => [
+        'user' => [
+            'success' => 'Successfully create user to complete the registration process.',
+            'failed' => 'Failed to create user to complete the registration process, please try again.',
+        ],
+        'post' => [
+            'success' => 'Successfully instance is created, now please complete all steps to post a new PROPERTY.',
+            'failed' => 'Failed to initialize a new instance.',
+            'alreadyExists' => 'You already have a pending post, please complete it first.',
+            'noInstance' => 'No post found to update.',
+        ],
     ],
     'noProfileDataMsg' => [
         'success' => 'Successfully profile data fetched.',

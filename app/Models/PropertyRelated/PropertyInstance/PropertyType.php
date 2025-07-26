@@ -2,13 +2,12 @@
 
 namespace App\Models\PropertyRelated\PropertyInstance;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class PropertyType extends Authenticatable
+class PropertyType extends Model
 {
-    use Notifiable, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'property_type';
     protected $fillable = ['status'];

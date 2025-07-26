@@ -67,14 +67,16 @@ Route::middleware([
                     Route::get('sub-category/{mainCategoryId?}', 'getSubCategory')->name('app.get.subCategory');
                     Route::get('nested-category/{mainCategoryId?}/{subCategoryId?}', 'getNestedCategory')->name('app.get.nestedCategory');
                     Route::get('all-category', 'getAllCategory')->name('app.get.allCategory');
-                    Route::get('assign-category/{propertyTypeId?}', 'getAssignCategory')->name('app.get.assignCategory');
+                    Route::get('assign-category/{propertyTypeId?}/{broadTypeId?}', 'getAssignCategory')->name('app.get.assignCategory');
                 });
                 Route::get('assign-broad-category/{propertyTypeId?}', 'getAssignBroadCategory')->name('app.get.assignBroadCategory');
             });
             Route::controller(CreatePostAppController::class)->group(function () {
-                Route::prefix('create-post')->group(function () {
-                    Route::post('initiate', 'initiatePostDb')->name('app.initiate.postDb');
+                Route::prefix('manage-post')->group(function () {
+                    Route::get('initiate', 'initiatePostDb')->name('app.initiate.postDb');
                     Route::patch('update/basic-details', 'updateBasicDetails')->name('app.update.basicDetails');
+                    Route::patch('update/property-located', 'updatePropertyLocated')->name('app.update.propertyLocated');
+                    Route::patch('update/about-located', 'updateAboutProperty')->name('app.update.aboutProperty');
                 });
             });
         });

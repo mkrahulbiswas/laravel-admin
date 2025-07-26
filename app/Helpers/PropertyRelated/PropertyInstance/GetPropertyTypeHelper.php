@@ -90,7 +90,7 @@ class GetPropertyTypeHelper
                         }
 
                         foreach (PropertyType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $propertyType[] = GetpropertyTypeHelper::getDetail([
+                            $propertyType[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -144,11 +144,11 @@ class GetPropertyTypeHelper
 
                     if (in_array(Config::get('constants.typeCheck.helperCommon.detail.nd'), $type)) {
                         $propertyType = PropertyType::where('id', decrypt($otherDataPasses['id']))->first();
-                        if ($propertyType != null)
+                        if ($propertyType != null) {
                             $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [
                                 'id' => encrypt($propertyType->id),
                                 'name' => $propertyType->name,
-                                'about' =>  $propertyType->about,
+                                'about' => $propertyType->about,
                                 'uniqueId' => CommonTrait::hyperLinkInText(['type' => 'uniqueId', 'value' => $propertyType->uniqueId]),
                                 'customizeInText' => CommonTrait::customizeInText([
                                     [
@@ -161,8 +161,9 @@ class GetPropertyTypeHelper
                                     ]
                                 ]),
                             ];
-                    } else {
-                        $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [];
+                        } else {
+                            $data[Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'] = [];
+                        }
                     }
 
                     $finalData[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type')] = $data;

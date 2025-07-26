@@ -176,9 +176,9 @@ Route::controller(AuthAdminController::class)->middleware(['logSiteVisitByMiddle
             });
         });
 
-        /*======== (-- Category & Attributes & Types --) ========*/
-        Route::group(['prefix' => 'category-attributes-type'], function () {
-            Route::group(['prefix' => 'property-related'], function () {
+        /*======== (-- Property Related --) ========*/
+        Route::group(['prefix' => 'property-related'], function () {
+            Route::group(['prefix' => 'property-instance'], function () {
                 Route::controller(PropertyAttributeAdminController::class)->group(function () {
                     Route::get('property-attribute', 'showPropertyAttribute')->name('admin.show.propertyAttribute');
                     Route::get('property-attribute/ajaxGetList', 'getPropertyAttribute')->name('admin.get.propertyAttribute');

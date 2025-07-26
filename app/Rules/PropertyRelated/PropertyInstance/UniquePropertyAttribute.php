@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules\PropertyRelated;
+namespace App\Rules\PropertyRelated\PropertyInstance;
 
 use Closure;
 use App\Models\PropertyRelated\PropertyInstance\PropertyAttribute;

@@ -90,7 +90,7 @@ class GetManageBroadHelper
                         }
 
                         foreach (BroadType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $broadType[] = GetManageBroadHelper::getDetail([
+                            $broadType[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -214,7 +214,7 @@ class GetManageBroadHelper
                         }
 
                         foreach (AssignBroad::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $assignBroad[] = GetManageBroadHelper::getDetail([
+                            $assignBroad[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
@@ -309,7 +309,7 @@ class GetManageBroadHelper
                                         ]
                                     ],
                                 ])[Config::get('constants.typeCheck.propertyRelated.propertyInstance.propertyType.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                                'broadType' => GetManageBroadHelper::getDetail([
+                                'broadType' => self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],

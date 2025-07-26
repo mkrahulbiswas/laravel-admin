@@ -15,7 +15,8 @@ use App\Models\UsersRelated\ManageUsers\AdminUsers;
 use App\Rules\AdminRelated\NavigationAccess\ManageSideNavRules;
 use App\Rules\AdminRelated\QuickSetting\CustomizedAlertRules;
 use App\Rules\AdminRelated\RolePermission\ManageRoleRules;
-use App\Rules\PropertyRelated\UniquePropertyAttribute;
+use App\Rules\PropertyRelated\ManagePost\UniquePropertyPost;
+use App\Rules\PropertyRelated\PropertyInstance\UniquePropertyAttribute;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
@@ -612,7 +613,6 @@ trait ValidationTrait
                     ];
                 }
                 break;
-
             case 'verifyUser':
                 $rules = [
                     'id' => 'required',
@@ -622,7 +622,6 @@ trait ValidationTrait
                     'otp' => 'required|digits:6',
                 ];
                 break;
-
             case 'registerUser':
                 $rules = [
                     'id' => 'required',
@@ -636,7 +635,6 @@ trait ValidationTrait
                     'checkBy' => 'required',
                 ];
                 break;
-
             case 'loginUser':
                 if ($data['input']['checkBy'] == '') {
                     $rules = [
@@ -724,6 +722,45 @@ trait ValidationTrait
                         $rules['email'] = 'required|email|unique:' . User::class . ',email,' . $data['id'];
                     }
                 }
+                break;
+            case 'updateBasicDetails':
+                $rules = [
+                    'id' => '',
+                    'mpMainId' => 'required',
+                    'assignCategoryId' => 'required',
+                    'assignBroadId' => 'required',
+                    'propertyTypeId' => 'required',
+                    'mainCategoryId' => 'required',
+                    'subCategoryId' => [new UniquePropertyPost([
+                        'mainCategoryId' => $data['input']['mainCategoryId'],
+                        'type' => Config::get('constants.status.category.sub')
+                    ])],
+                    'nestedCategoryId' => [new UniquePropertyPost([
+                        'mainCategoryId' => $data['input']['mainCategoryId'],
+                        'subCategoryId' => $data['input']['subCategoryId'],
+                        'type' => Config::get('constants.status.category.nested')
+                    ])],
+                ];
+                break;
+            case 'updatePropertyLocated':
+                $rules = [
+                    'id' => '',
+                    'mpMainId' => 'required',
+                    'city' => 'required|max:75',
+                    'locality' => 'required|max:75',
+                    'subLocality' => 'max:75',
+                    'address' => 'required|max:75',
+                ];
+                break;
+            case 'updateAboutProperty':
+                $rules = [
+                    'id' => '',
+                    'mpMainId' => 'required',
+                    'numOfBedroom' => 'required|max:10',
+                    'numOfBathroom' => 'required|max:10',
+                    'numOfBalcony' => 'max:10',
+                    'availabilityStatus' => 'required',
+                ];
                 break;
 
             case 'emailLogin':
@@ -766,7 +803,6 @@ trait ValidationTrait
                     ];
                 }
                 break;
-
             case 'verifyUser':
                 $rules = [
                     'id' => 'required',
@@ -776,7 +812,6 @@ trait ValidationTrait
                     'otp' => 'required|digits:6',
                 ];
                 break;
-
             case 'registerUser':
                 $rules = [
                     'id' => 'required',
@@ -790,7 +825,6 @@ trait ValidationTrait
                     'checkBy' => 'required',
                 ];
                 break;
-
             case 'loginUser':
                 if ($data['input']['checkBy'] == '') {
                     $rules = [
@@ -878,6 +912,45 @@ trait ValidationTrait
                         $rules['email'] = 'required|email|unique:' . User::class . ',email,' . $data['id'];
                     }
                 }
+                break;
+            case 'updateBasicDetails':
+                $rules = [
+                    'id' => '',
+                    'mpMainId' => 'required',
+                    'assignCategoryId' => 'required',
+                    'assignBroadId' => 'required',
+                    'propertyTypeId' => 'required',
+                    'mainCategoryId' => 'required',
+                    'subCategoryId' => [new UniquePropertyPost([
+                        'mainCategoryId' => $data['input']['mainCategoryId'],
+                        'type' => Config::get('constants.status.category.sub')
+                    ])],
+                    'nestedCategoryId' => [new UniquePropertyPost([
+                        'mainCategoryId' => $data['input']['mainCategoryId'],
+                        'subCategoryId' => $data['input']['subCategoryId'],
+                        'type' => Config::get('constants.status.category.nested')
+                    ])],
+                ];
+                break;
+            case 'updatePropertyLocated':
+                $rules = [
+                    'id' => '',
+                    'mpMainId' => 'required',
+                    'city' => 'required|max:75',
+                    'locality' => 'required|max:75',
+                    'subLocality' => 'max:75',
+                    'address' => 'required|max:75',
+                ];
+                break;
+            case 'updateAboutProperty':
+                $rules = [
+                    'id' => '',
+                    'mpMainId' => 'required',
+                    'numOfBedroom' => 'required|max:10',
+                    'numOfBathroom' => 'required|max:10',
+                    'numOfBalcony' => 'max:10',
+                    'availabilityStatus' => 'required',
+                ];
                 break;
 
             case 'login':

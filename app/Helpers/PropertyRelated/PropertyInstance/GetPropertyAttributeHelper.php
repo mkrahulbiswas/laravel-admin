@@ -60,7 +60,7 @@ class GetPropertyAttributeHelper
                         }
 
                         foreach (PropertyAttribute::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $propertyAttribute[] = GetPropertyAttributeHelper::getDetail([
+                            $propertyAttribute[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],

@@ -2,13 +2,12 @@
 
 namespace App\Models\PropertyRelated\PropertyInstance\ManageBroad;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class BroadType extends Authenticatable
+class BroadType extends Model
 {
-    use Notifiable, SoftDeletes;
+    use SoftDeletes;
 
     protected $table = 'broad_type';
     protected $fillable = ['status'];

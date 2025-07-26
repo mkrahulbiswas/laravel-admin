@@ -49,7 +49,7 @@ class CustomizedAlertHelper
                         $orderByRaw = "`id` DESC";
 
                         foreach (AlertType::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $alertType[] = CustomizedAlertHelper::getDetail([
+                            $alertType[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -144,7 +144,7 @@ class CustomizedAlertHelper
                         }
 
                         foreach (AlertFor::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $alertFor[] = CustomizedAlertHelper::getDetail([
+                            $alertFor[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
@@ -253,7 +253,7 @@ class CustomizedAlertHelper
                         }
 
                         foreach (AlertTemplate::whereRaw($whereRaw)->orderByRaw($orderByRaw)->get() as $tempTwo) {
-                            $alertTemplate[] = CustomizedAlertHelper::getDetail([
+                            $alertTemplate[] = self::getDetail([
                                 [
                                     'getDetail' => [
                                         'type' => [Config::get('constants.typeCheck.helperCommon.detail.yd')],
@@ -354,7 +354,7 @@ class CustomizedAlertHelper
                             $data[Config::get('constants.typeCheck.helperCommon.detail.yd')]['detail'] = [
                                 'id' => encrypt($alertFor->id),
                                 'name' => $alertFor->name,
-                                'alertType' => CustomizedAlertHelper::getDetail([
+                                'alertType' => self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -392,7 +392,7 @@ class CustomizedAlertHelper
                                 'heading' => $alertTemplate->heading,
                                 'content' => $alertTemplate->content,
                                 'variable' => json_decode($alertTemplate->variable),
-                                'alertType' => CustomizedAlertHelper::getDetail([
+                                'alertType' => self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
@@ -403,7 +403,7 @@ class CustomizedAlertHelper
                                         ]
                                     ],
                                 ])[Config::get('constants.typeCheck.adminRelated.quickSetting.customizedAlert.alertType.type')][Config::get('constants.typeCheck.helperCommon.detail.nd')]['detail'],
-                                'alertFor' => CustomizedAlertHelper::getDetail([
+                                'alertFor' => self::getDetail([
                                     [
                                         'getDetail' => [
                                             'type' => [Config::get('constants.typeCheck.helperCommon.detail.nd')],
